@@ -2,11 +2,12 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-08-25 18:24:55
- * @LastEditors: zbin
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Descripttion: your project
 -->
 <template>
-  <div style="width:615px" class="tooltip">
+<!-- 阻止滚动冒泡 -->
+  <div style="width:615px" class="tooltip" @mousewheel.stop="''">
     <div class="flex-align-center">
       <img :src="supplier" alt="" width="40px">
       <div class="margin-left20">
@@ -47,12 +48,9 @@
 </template>
 
 <script>
-// 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
-// 例如：import 《组件名称》 from '《组件路径》';
 import supplier from "@/assets/images/supplyChainOverall/supplier.png";
 
 export default {
-  // import引入的组件需要注入到对象中才能使用
   components: {},
   props: {
     tableDataList: { type: Array, default: [] },
@@ -63,26 +61,6 @@ export default {
     return {
       supplier: supplier,
     }
-  },
-  // 监听属性 类似于data概念
-  computed: {},
-  // 监控data中的数据变化
-  watch: {
-    tableDataList(data) {
-      console.log(data);
-    }
-  },
-  // 方法集合
-  methods: {
-
-  },
-  // 生命周期 - 创建完成（可以访问当前this实例）
-  created() {
-
-  },
-  // 生命周期 - 挂载完成（可以访问DOM元素）
-  mounted() {
-
   },
 }
 </script>

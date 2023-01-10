@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-10-08 19:29:09
- * @LastEditors: Please set LastEditors
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Descripttion: your project
 -->
 <template>
@@ -18,7 +18,6 @@
             <el-cascader v-model="form.areaArray" :filter-method="filterZR"
                          :placeholder="language('GUOJIA_SHENGFEN_DIQU','国家-省份-地区')"
                          :options="areaList"
-                         @visible-change="visibleChange"
                          :props="{multiple:true}"
                          :clearable="true"
                          filterable
@@ -55,15 +54,6 @@
         </el-col>
         <el-col :span="4">
           <el-form-item :label="language('LINGJIANHAO/MINGCHEN','零件号/名称')">
-            <!-- <el-cascader filterable
-                         ref="cascader"
-                         :props="{multiple: true}"
-                         :placeholder="language('QINGSHURU_XUANZE','请输入/选择')"
-                         v-model="form.partNums"
-                         v-el-select-loadmore="loadmore"
-                         :options="formGroup.partNumberList"
-                         clearable
-                         collapse-tags></el-cascader> -->
             <iSelect filterable
                      v-el-select-loadmore="loadmore"
                      multiple
@@ -205,7 +195,6 @@
 // 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 // 例如：import 《组件名称》 from '《组件路径》';
 import { iDialog, iButton, iInput, icon, iPagination, iMessage, iSelect } from 'rise'
-import { dictByCode } from './data.js'
 import tableList from '@/components/commonTable'
 import { tableTitle } from './data'
 import { generalPageMixins } from "@/views/generalPage/commonFunMixins";
@@ -234,14 +223,7 @@ export default {
         // 获取element-ui定义好的scroll盒子
         const SELECTWRAP_DOM = el.querySelector('.el-select-dropdown .el-select-dropdown__wrap');
         SELECTWRAP_DOM.addEventListener('scroll', function () {
-          console.log('1111')
-          /**
-          * scrollHeight 获取元素内容高度(只读)
-          * scrollTop 获取或者设置元素的偏移值,常用于, 计算滚动条的位置, 当一个元素的容器没有产生垂直方向的滚动条, 那它的scrollTop的值默认为0.
-          * clientHeight 读取元素的可见高度(只读)
-          * 如果元素滚动到底, 下面等式返回true, 没有则返回false:
-          * ele.scrollHeight - ele.scrollTop === ele.clientHeight;
-          */
+
           const condition = this.scrollHeight - this.scrollTop <= this.clientHeight;
           if (condition) {
             binding.value();
@@ -273,7 +255,6 @@ export default {
         pageSize: 100
       },
       totalPage: 0,
-      areaList1: []
     }
   },
   // 监听属性 类似于data概念
@@ -283,20 +264,16 @@ export default {
     value: {
       handler (val) {
         if (val) {
-          this.dictByCode()
           this.queryPartNumber(this.pageForm)
-          // this.handleInitTable()
         }
       },
       immediate: true
     },
     'form.areaArray': {
       handler (val) {
-
         this.queryByParamsDropDownWithAuth(val)
       },
       deep: true,
-      immediate: true
     }
   },
   // 方法集合
@@ -314,11 +291,6 @@ export default {
       this.page.currPage = 1
       this.page.pageSize = 10
       this.queryUpDown()
-    },
-    visibleChange (val) {
-      if (val) {
-        this.areaList1 = _.cloneDeep(this.areaList)
-      }
     },
     loadmore () {
       this.pageForm.pageNo++;
@@ -409,19 +381,6 @@ export default {
       this.reset()
       this.$emit("input", false);
     },
-    async dictByCode () {
-      const res = await dictByCode('NTIER_CHAIN_PART_TYPE')
-      res.map(item => {
-        item.label = item.name
-        item.value = item.code
-        item.subDictResultVo && item.subDictResultVo.map(val => {
-          val.label = val.name
-          return val.value = val.code
-        })
-        return item.children = item.subDictResultVo
-      })
-      this.formGroup.partList = res
-    }
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
   created () {

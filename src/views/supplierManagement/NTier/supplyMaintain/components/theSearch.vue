@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-10-08 09:57:42
- * @LastEditors: Please set LastEditors
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Descripttion: your project
 -->
 <template>
@@ -17,7 +17,7 @@
     <el-form inline>
       <el-form-item :label="language('DIQU', '地区')">
         <el-cascader
-          @change="queryByParamsWithAuth" :filter-method="filterZR"
+          @change="queryByParamsDropDownWithAuth" :filter-method="filterZR"
           v-model="form.areaArray"
           :placeholder="language('QINGXUANZHE', '请选择')"
           :options="formGroup.areaList"
@@ -60,7 +60,7 @@
             v-for="(item, index) in partsOptions"
             :key="index"
             :value="item.partNum"
-            :label="item.partName + '/' + item.partNum"
+            :label="(item.partName ? item.partName + '/' : '') + item.partNum"
           >
           </el-option>
         </iSelect>
@@ -73,7 +73,6 @@
 // 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 // 例如：import 《组件名称》 from '《组件路径》';
 import { iSelect, iSearch, iMessage } from 'rise'
-import { getCity,getCityInfo } from '@/api/supplierManagement/supplyChainOverall/index.js'
 import {
   queryByParamsDropDownWithAuth,
   queryPart
@@ -83,6 +82,9 @@ export default {
   components: {
     iSelect,
     iSearch
+  },
+  props:{
+    areaList:Array
   },
   data() {
     // 这里存放数据
@@ -110,14 +112,12 @@ export default {
   computed: {
     partsOptions() {
       const supplierId = this.form.supplierId
-      console.log('supplierId', supplierId)
       if (supplierId) {
         const pageNo = this.pageForm.pageNo
         let source = this.partsOptionsMap[supplierId] || []
         if (this.partsQuery) {
           source = source.filter((e) => {
             const partNum = e.partNum || ''
-            // const partName = e.partName || ''
             return partNum.toLowerCase().includes(this.partsQuery.toLowerCase())
           })
         }
@@ -132,7 +132,15 @@ export default {
     }
   },
   // 监控data中的数据变化
-  watch: {},
+  watch:{
+    areaList: {
+      handler(val){
+        this.formGroup.areaList = _.cloneDeep(val)
+      },
+      deep:true,
+      immediate:true
+    }
+  },
   directives: {
     'el-select-loadmore': {
       bind(el, binding) {
@@ -159,147 +167,18 @@ export default {
   },
   // 方法集合
   methods: {
-    getCityInfo () {
-      var that = this;
-
-      var zhRule = /^[\u4e00-\u9fa5]+$/i;//中文
-      var enRule = /^[a-zA-Z]+$/;//英文
-      return new Promise((resolve, reject) => {
-        console.log(that.$i18n.locale);
-        getCityInfo().then(res=>{
-          if(res?.result){
-            let areaList = []
-            // 筛选国家
-            res.data.map((item) => {
-              if (item.locationType === 'Nation') {
-                if(that.$i18n.locale === "zh"){
-                  if(zhRule.test(item.cityNameCn)){
-                    areaList.push({
-                      value: item.cityNameCn,
-                      label: item.cityNameCn,
-                      cityId: item.cityId,
-                      children: []
-                    })
-                  }
-                }else{
-                  if(enRule.test(item.cityNameEn)){
-                    areaList.push({
-                      value: item.cityNameCn,
-                      label: item.cityNameEn,
-                      cityId: item.cityId,
-                      children: []
-                    })
-                  }
-                }
-              }
-            })
-            // 筛选省
-            res.data.forEach((item) => {
-              areaList.forEach((val, index) => {
-                if (
-                  item.locationType === 'Province' &&
-                  item.parentCityId === val.cityId
-                ) {
-                  if(that.$i18n.locale === "zh"){
-                    if(zhRule.test(item.cityNameCn)){
-                      areaList[index].children.push({
-                        value: item.cityNameCn,
-                        label: item.cityNameCn,
-                        cityId: item.cityId,
-                        parentCityId: item.parentCityId,
-                        children: []
-                      })
-                    }
-                  }else{
-                    if(enRule.test(item.cityNameEn)){
-                      areaList[index].children.push({
-                        value: item.cityNameCn,
-                        label: item.cityNameEn,
-                        cityId: item.cityId,
-                        parentCityId: item.parentCityId,
-                        children: []
-                      })
-                    }
-                  }
-                }
-              })
-            })
-            // 筛选市
-            res.data.forEach((item) => {
-              areaList.forEach((val, j) => {
-                val.children.forEach((i, index) => {
-                  if (item.locationType === 'City' && item.parentCityId === i.cityId) {
-                    if(that.$i18n.locale === "zh"){
-                      if(zhRule.test(item.cityNameCn)){
-                        areaList[j].children[index].children.push({
-                          value: item.cityNameCn,
-                          label: item.cityNameCn,
-                          cityId: item.cityId,
-                          parentCityId: item.parentCityId
-                        })
-                      }
-                    }else{
-                      if(enRule.test(item.cityNameEn)){
-                        areaList[j].children[index].children.push({
-                          value: item.cityNameCn,
-                          label: item.cityNameEn,
-                          cityId: item.cityId,
-                          parentCityId: item.parentCityId
-                        })
-                      }
-                    }
-                  }
-                })
-              })
-            })
-            // 删除空数组
-            console.log(areaList)
-            areaList.map((item) => {
-              if (item.children.length) {
-                item.children.map((val) => {
-                  if (item.children.length === 0) {
-                    delete val.children
-                  }
-                })
-              } else {
-                delete item.children
-              }
-            })
-            areaList.map((item) => {
-              return item.children && item.children
-            })
-            console.log(areaList)
-            resolve(areaList)
-          }
-        }).catch(res=>{
-          reject();
-        })
-      })
-    },
-    async getData(){
-      // const res = await this.getCityInfo()
-      this.getCityInfo().then(res=>{
-        this.formGroup.areaList = _.cloneDeep(res);
-        console.log(this.form)
-      })
-      // console.log(res);
-      // this.formGroup.areaList = res
-      // console.log(this.form)
-    },
     filterZR(vnode,val){
       if(vnode.text.toLowerCase().indexOf(val.toLowerCase()) > -1){
         return vnode.text;
       }
     },
-    // async getSelect() {
-    //   const res = await getCity()
-    //   this.formGroup.areaList = res
-    // },
     async queryByParamsDropDownWithAuth(val) {
       const res = await queryByParamsDropDownWithAuth({ areaArray: val })
       this.formGroup.supplierNameList = res.data
-      this.form.supplierId = res.data[0]?.id
-      this.pageForm.supplierId = res.data[0]?.id
+      this.$nextTick(()=>{
+        this.form.supplierId = res.data[0]?.id
+        this.pageForm.supplierId = res.data[0]?.id
+      })
     },
     async queryPart() {
       const supplierId = this.form.supplierId
@@ -332,7 +211,7 @@ export default {
         )
         return
       }
-      await this.$parent.$refs.view.getCardChain(this.form)
+      await this.$parent.$refs.view && this.$parent.$refs.view.getCardChain(this.form)
     },
     handleSearchReset() {
       this.form = {
@@ -365,11 +244,7 @@ export default {
   async created() {
     await this.queryByParamsDropDownWithAuth([])
     await this.queryPart(this.pageForm)
-    this.getTableList()
-    this.getData()
   },
-  // 生命周期 - 挂载完成（可以访问DOM元素）
-  mounted() {}
 }
 </script>
 <style lang="scss" scoped>
