@@ -29,6 +29,9 @@
         <mySelect
           :data="formGroup.carModelList"
           @change="handleCarType"
+          :searchValue="form.carTypeCodeList"
+          :placeholder="language('CHEXING','车型')"
+          :loading="loading"
           propLabel="carTypeName"
           propValue="carTypeCode"
           popperClass="carModelList"
@@ -39,6 +42,10 @@
         <mySelect
           :data="formGroup.categoryList"
           @change="handleCategory"
+          :searchValue="form.categoryCodeList"
+          :placeholder="language('CAILIAOZU','材料组')"
+          :loading="loading"
+          :disabled="disabled"
           propLabel="categoryName"
           propValue="categoryCode"
           popperClass="categoryList"
@@ -49,6 +56,8 @@
           :data="formGroup.supplierList"
           @change="handleSupplier"
           :searchValue="form.supplierIdList"
+          :placeholder="language('GONGYINGSHANG','供应商')"
+          :loading="loading"
           propLabel="supplierNameCn"
           propValue="supplierId"
           popperClass="supplierList"
@@ -59,6 +68,8 @@
           :data="formGroup.partList"
           @change="handlePart"
           :searchValue="form.partNumList"
+          :placeholder="language('LINGJIAN','零件')"
+          :loading="loading"
           propLabel="partNameCn"
           propLabelEn="partNameDe"
           subLabel="partNum"
@@ -157,11 +168,13 @@ export default {
           await this.getSelectList()
           this.disabled = true
           let arr = val.split(',')
+          console.log(this.formGroup.categoryList);
           this.formGroup.categoryList.forEach((item) => {
             if (arr.indexOf(item.categoryCode) > -1) {
               this.form.categoryCodeList.push(item)
             }
           })
+          console.log(this.form.categoryCodeList);
         } else {
           this.disabled = false
         }
@@ -394,33 +407,54 @@ export default {
       this.getSelectList('partNumList')
     },
     async getSelectList(flag) {
+      this.loading = true
       switch (flag) {
         case 'carTypeCodeList':
-          this.listSelectCategory()
-          this.listSelectSupplier()
-          this.listSelectPart()
+          Promise.all([
+            this.listSelectCategory(),
+            this.listSelectSupplier(),
+            this.listSelectPart()
+          ]).then(()=>{
+            this.loading = false
+          })
           break
         case 'categoryCodeList':
-          this.listSelectCarModel()
-          this.listSelectSupplier()
-          this.listSelectPart()
+          Promise.all([
+            this.listSelectCarModel(),
+            this.listSelectSupplier(),
+            this.listSelectPart()
+          ]).then(()=>{
+            this.loading = false
+          })
           break
         case 'supplierIdList':
-          this.listSelectCarModel()
-          this.listSelectCategory()
-          this.listSelectPart()
+          Promise.all([
+            this.listSelectCarModel(),
+            this.listSelectCategory(),
+            this.listSelectPart()
+          ]).then(()=>{
+            this.loading = false
+          })
           break
         case 'partNumList':
-          this.listSelectCarModel()
-          this.listSelectCategory()
-          this.listSelectSupplier()
+          Promise.all([
+            this.listSelectCarModel(),
+            this.listSelectCategory(),
+            this.listSelectSupplier()
+          ]).then(()=>{
+            this.loading = false
+          })
           break
 
         default:
-          this.listSelectCarModel()
-          this.listSelectCategory()
-          this.listSelectSupplier()
-          this.listSelectPart()
+          Promise.all([
+            this.listSelectCarModel(),
+            this.listSelectCategory(),
+            this.listSelectSupplier(),
+            this.listSelectPart()
+          ]).then(()=>{
+            this.loading = false
+          })
           break
       }
     },
@@ -459,7 +493,7 @@ export default {
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
   async created() {
-    this.getSelectList()
+    await this.getSelectList()
     this.getMapList()
     this.getCityInfo()
   }
