@@ -62,7 +62,6 @@ export default {
     },
     async getMapList (par) {
       this.tableLoading = true
-      console.time('this.object====>')
       const pms = {
         ...par
       }
@@ -70,8 +69,6 @@ export default {
       const res = await getNTierMap(pms)
       this.object = res.data
       this.tableLoading = false
-      console.timeEnd('this.object====>')
-      console.log('this.object====>',this.object);
     },
     async handleSave (params, id) {
       this.$refs.theSearch.saveButtonLoading = true;

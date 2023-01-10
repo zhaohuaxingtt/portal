@@ -168,13 +168,11 @@ export default {
           await this.getSelectList()
           this.disabled = true
           let arr = val.split(',')
-          console.log(this.formGroup.categoryList);
           this.formGroup.categoryList.forEach((item) => {
             if (arr.indexOf(item.categoryCode) > -1) {
-              this.form.categoryCodeList.push(item)
+              this.form.categoryCodeList.push(item.categoryCode)
             }
           })
-          console.log(this.form.categoryCodeList);
         } else {
           this.disabled = false
         }
@@ -377,7 +375,7 @@ export default {
       // }
       this.form = {
         carTypeCodeList: [],
-        categoryCodeList: [],
+        categoryCodeList: this.disabled?this.form.categoryCodeList:[],
         partNumList: [],
         supplierIdList: [],
         // 国家
@@ -407,93 +405,91 @@ export default {
       this.getSelectList('partNumList')
     },
     async getSelectList(flag) {
-      this.loading = true
-      switch (flag) {
-        case 'carTypeCodeList':
-          Promise.all([
-            this.listSelectCategory(),
-            this.listSelectSupplier(),
-            this.listSelectPart()
-          ]).then(()=>{
-            this.loading = false
-          })
-          break
-        case 'categoryCodeList':
-          Promise.all([
-            this.listSelectCarModel(),
-            this.listSelectSupplier(),
-            this.listSelectPart()
-          ]).then(()=>{
-            this.loading = false
-          })
-          break
-        case 'supplierIdList':
-          Promise.all([
-            this.listSelectCarModel(),
-            this.listSelectCategory(),
-            this.listSelectPart()
-          ]).then(()=>{
-            this.loading = false
-          })
-          break
-        case 'partNumList':
-          Promise.all([
-            this.listSelectCarModel(),
-            this.listSelectCategory(),
-            this.listSelectSupplier()
-          ]).then(()=>{
-            this.loading = false
-          })
-          break
-
-        default:
-          Promise.all([
-            this.listSelectCarModel(),
-            this.listSelectCategory(),
-            this.listSelectSupplier(),
-            this.listSelectPart()
-          ]).then(()=>{
-            this.loading = false
-          })
-          break
+      return new Promise((r,j)=>{
+        this.loading = true
+        switch (flag) {
+          case 'carTypeCodeList':
+            Promise.all([
+              this.listSelectCategory(),
+              this.listSelectSupplier(),
+              this.listSelectPart()
+            ]).then(res=>{
+              this.setFormGroup(null,res[0].data,res[1].data,res[2].data)
+              this.loading = false
+              r(this.formGroup)
+            })
+            break
+          case 'categoryCodeList':
+            Promise.all([
+              listSelectCarModel(this.form),
+              listSelectSupplier(this.form),
+              listSelectPart(this.form)
+            ]).then(res=>{
+              this.setFormGroup(res[0].data,null,res[1].data,res[2].data)
+              this.loading = false
+              r(this.formGroup)
+            })
+            break
+          case 'supplierIdList':
+            Promise.all([
+              listSelectCarModel(this.form),
+              listSelectCategory(this.form),
+              listSelectPart(this.form)
+            ]).then(res=>{
+              this.setFormGroup(res[0].data,res[1].data,null,res[2].data)
+              this.loading = false
+              r(this.formGroup)
+            })
+            break
+          case 'partNumList':
+            Promise.all([
+              listSelectCarModel(this.form),
+              listSelectCategory(this.form),
+              listSelectSupplier(this.form),
+            ]).then(res=>{
+              this.setFormGroup(res[0].data,res[1].data,res[2].data,null)
+              this.loading = false
+              r(this.formGroup)
+            })
+            break
+  
+          default:
+            Promise.all([
+              listSelectCarModel(this.form),
+              listSelectCategory(this.form),
+              listSelectSupplier(this.form),
+              listSelectPart(this.form)
+            ]).then(res=>{
+              this.setFormGroup(res[0].data,res[1].data,res[2].data,res[3].data,)
+              this.loading = false
+              r(this.formGroup)
+            })
+            break
+        }
+      })
+    },
+    setFormGroup(carModelList=[],categoryList=[],supplierList=[],partList=[]){
+      if(carModelList){
+        this.$set(this.formGroup, 'carModelList', carModelList)
+        this.$set(this.formGroupCopy, 'carModelList', carModelList)
+      }
+      if(categoryList){
+        this.$set(this.formGroup, 'categoryList', categoryList)
+        this.$set(this.formGroupCopy, 'categoryList', categoryList)
+      }
+      if(supplierList){
+          this.$set(this.formGroup, 'supplierList', supplierList)
+          this.$set(this.formGroupCopy, 'supplierList', supplierList)
+      }
+      if(partList){
+          this.$set(this.formGroup, 'partList', partList)
+          this.$set(this.formGroupCopy, 'partList', partList)
       }
     },
-    listSelectCarModel() {
-      listSelectCarModel(this.form).then((res) => {
-        if (res?.code == '200') {
-          this.$set(this.formGroup, 'carModelList', res.data || [])
-          this.$set(this.formGroupCopy, 'carModelList', res.data || [])
-        }
-      })
-    },
-    listSelectCategory() {
-      listSelectCategory(this.form).then((res) => {
-        if (res?.code == '200') {
-          this.$set(this.formGroup, 'categoryList', res.data || [])
-          this.$set(this.formGroupCopy, 'categoryList', res.data || [])
-        }
-      })
-    },
-    listSelectSupplier() {
-      listSelectSupplier(this.form).then((res) => {
-        if (res?.code == '200') {
-          this.$set(this.formGroup, 'supplierList', res.data || [])
-          this.$set(this.formGroupCopy, 'supplierList', res.data || [])
-        }
-      })
-    },
-    listSelectPart() {
-      listSelectPart(this.form).then((res) => {
-        if (res?.code == '200') {
-          this.$set(this.formGroup, 'partList', res.data || [])
-          this.$set(this.formGroupCopy, 'partList', res.data || [])
-        }
-      })
-    }
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
   async created() {
-    await this.getSelectList()
+    this.getSelectList()
     this.getMapList()
     this.getCityInfo()
   }
