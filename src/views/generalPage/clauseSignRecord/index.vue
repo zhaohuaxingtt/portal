@@ -1,6 +1,11 @@
 <template>
   <div>
-    <theSearch @getTableList="getTableList" />
+    <search 
+      @sure="getTableList"
+      @reset="handleSearchReset"
+      :searchFormData="searchFormData"
+      :searchForm="searchForm"
+      :options="options"/>
     <theTable
       ref="theTable"
       :page="page"
@@ -18,12 +23,12 @@
 
 <script>
 import { iPage, iNavMvp } from 'rise'
-import theSearch from './components/theSearch.vue'
+import search from './components/search.vue'
 import theTable from './components/theTable.vue'
 import { pageMixins } from '@/utils/pageMixins'
 import { findByPage } from '@/api/terms/terms'
 import { exportFile } from '@/utils/exportFileUtil'
-import { categoryManagementAssistantListkpi } from "../data";
+import { searchFormData,signStatusList } from "./components/data";
 import store from '@/store'
 
 export default {
@@ -31,21 +36,43 @@ export default {
   components: {
     iPage,
     iNavMvp,
-    theSearch,
+    search,
     theTable
   },
   data() {
     return {
-      categoryManagementAssistantListkpi,
+      searchFormData,
+      searchForm:{},
+      options:{
+        signStatusList:signStatusList
+      },
       tableLoading: false,
       tableListData: [],
       formData: {}
+    }
+  },
+  watch:{
+    'searchForm.signDate'(val) {
+      if (Array.isArray(val) && val.length) {
+        this.searchForm.approvalDateStart = val[0]
+        this.searchForm.approvalDateEnd = window
+          .moment(val[1])
+          .format('YYYY-MM-DD 23:59:59')
+      } else {
+        this.searchForm.approvalDateStart = ''
+        this.searchForm.approvalDateEnd = ''
+      }
     }
   },
   mounted() {
     this.getTableList()
   },
   methods: {
+    handleSearchReset() {
+      this.form = {}
+      this.resolutionPassTime = []
+      this.getTableList()
+    },
     getTableList(e) {
       this.formData = e
       this.page.currPage = 1
