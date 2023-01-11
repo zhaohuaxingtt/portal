@@ -195,18 +195,17 @@ export const supplierIdentityObj = {
 }
 
 export const searchFormData = [
-  { props: 'signSupplier', name: '签署供应商', key: '签署供应商', disabled:true },
-  { props: 'name', name: '条款名称', key: 'TM_TIAOKUANMINGCHENG' },
+  { props: 'supplier', name: '签署供应商', key: '签署供应商', disabled:true },
+  { props: 'termsName', name: '条款名称', key: 'TM_TIAOKUANMINGCHENG' },
   { props: 'signUser', name: '签署用户', key: '签署用户' },
   { props: 'signStatus', name: '签署状态', key: '签署状态', type: 'select', selectOption: 'signStatusList', multiple: true },
   { props: 'signDate', name: '签署日期起止', key: '签署日期起止', type: 'daterange' },
 ]
 
-// 字段对应prop尚未提供
 export const tableColumns = [
-  {
-    type: 'selection'
-  },
+  // {
+  //   type: 'selection'
+  // },
   {
     type: 'index',
     label: '#',
@@ -216,54 +215,50 @@ export const tableColumns = [
     i18n: '条款编号',
     prop: 'termsCode',
     sortable: true,
-    minWidth: 100
+    minWidth: 110
   },
   {
     i18n: '条款名称/版本',
-    prop: 'name',
-    emit: 'go-detail',
+    prop: 'termsName',
     sortable: true,
     minWidth: 200,
     customRender: (h, scope) => {
-      return <span class="link-text">{scope.row.name}/{scope.row.termsVersion}</span>
+      return <span>{scope.row.termsName}/{scope.row.version}</span>
     }
   },
   {
     i18n: '供应商名称',
-    prop: 'supplierName',
+    prop: 'shortNameZh',
     minWidth: 140,
     sortable: true
   },
   {
     i18n: '业务编码',
-    prop: 'publishDate',
+    prop: 'serviceCode',
     minWidth: 120,
     sortable: true
   },
   {
     i18n: '临时号',
-    prop: 'signNode',
+    prop: 'svwTempCode',
     sortable: true,
     minWidth: 120,
-    customRender: (h, scope, column, extraData) => {
-      return extraData.signNodeListObj[scope.row.signNode]
-    }
   },
   {
     i18n: 'SVW号',
-    prop: 'signResult',
+    prop: 'svwCode',
     sortable: true,
     minWidth: 100,
   },
   {
     i18n: 'SAP号',
-    prop: 'isPersonalTerms',
+    prop: 'sapCode',
     sortable: true,
     minWidth: 120,
   },
   {
     i18n: '供应商类型',
-    prop: 'supplierRange',
+    prop: 'supplierType',
     sortable: true,
     minWidth: 140,
     tooltip: true,
@@ -276,49 +271,47 @@ export const tableColumns = [
       }
 
       const res =
-        scope.row.supplierRange?.split(',').map((e) => language(map[e])) ||
+        scope.row.supplierType?.split(',').map((e) => language(map[e])) ||
         []
       return res.join(',')
     }
   },
   {
     i18n: '签署状态',
-    prop: 'state',
+    prop: 'signStatus',
     sortable: true,
     minWidth: 140,
     customRender: (h, scope) => {
-      const status =signStatusList.find(item=>item.value==scope.row.state) || {}
+      const status =signStatusList.find(item=>item.value==scope.row.signStatus) || {}
       return language(status.i18n)
     }
   },
   {
     i18n: '签署人',
-    prop: 'supplierContacts',
+    prop: 'signName',
     sortable: true,
     minWidth: 120,
-    customRender: (h, scope) => {
-      const map = {
-        '01': 'TM_QUANBU',
-        '02': 'TM_ZHULIANXIREN'
-      }
-      return language(map[scope.row.supplierContacts])
-    }
   },
   {
     i18n: '签署时间',
-    prop: 'chargeName',
+    prop: 'signDate',
     minWidth: 120,
     sortable: true
   },
   {
     i18n: '操作',
     prop: 'CAOZUO',
-    minWidth: 120,
+    emit: 'operation',
+    minWidth: 140,
     customRender: (h, scope) => {
-      if (scope.$index % 2) {
-        return <span class="link-text" onclick={() => this.handleGoDetail(scope.row)}>查看</span>
+      if (scope.row.signStatus=='03') {
+        return <span class="link-text">
+        <a
+          class="el-icon-paperclip open-link-text"
+          style="font-size: 16px; margin-right: 5px"
+        ></a>下载非标条款</span>
       } else {
-        return <span class="link-text">下载非标条款</span>
+        return <span class="link-text">查看</span>
       }
     }
   }
