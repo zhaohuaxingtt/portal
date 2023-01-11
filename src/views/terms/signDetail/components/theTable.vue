@@ -38,21 +38,24 @@
         :total="page.total"
       />
     </iCard>
-    <clauseDialog
-      v-if="openDialog"
-      :openDialog="openDialog"
-      @flushTable="flushTable"
-      @closeDialog="closeClauseDialog"
+    <attachmentDialog
+      @handleSignature="handleSignature"
+      @closeDialog="closeAttachmentDialog"
+      :detail="attachmentDetail"
+      :id="termsId"
+      :loading="attachmentLoading"
+      v-model="attachmentDialogVisible"
+      v-if="attachmentDialogVisible"
     />
     
-      <clauseDownloadDialog
-        v-if="openClauseDownloadDialog"
-        :openDialog="openClauseDownloadDialog"
-        :id="id"
-        :supplierId="supplierId"
-        @closeDialog="closeClauseDownloadDialog"
-        @getTableList="getTableList"
-      />
+    <clauseDownloadDialog
+      v-if="openClauseDownloadDialog"
+      :openDialog="openClauseDownloadDialog"
+      :id="termsId"
+      :supplierId="supplierId"
+      @closeDialog="closeClauseDownloadDialog"
+      @getTableList="getTableList"
+    />
   </div>
 </template>
 
@@ -63,6 +66,7 @@ import clauseDownloadDialog from '../../termsManagement/components/clauseDownloa
 import { iCard, iButton, iPagination } from 'rise'
 import { excelExport } from '@/utils/filedowLoad'
 import { getDictByCode } from '@/api/dictionary/index'
+import attachmentDialog from './attachmentDialog'
 import {
   tableTitle,
   isPersonalTermsObj,
@@ -80,6 +84,7 @@ export default {
     iButton,
     iPagination,
     iTableCustom,
+    attachmentDialog,
     clauseDownloadDialog
   },
   props: {
@@ -119,14 +124,14 @@ export default {
       signNodeList: [],
       signNodeListObj: {},
       openSignDetailDialog: false,
-      id: -1,
+      termsId: -1,
       termsCode: -1,
       state: '',
       approvalProcess: [],
       signTitle: {},
       extraData: { signNodeListObj: {} },
       tableColumns,
-      openDialog:false,
+      attachmentDialogVisible:false,
       openClauseDownloadDialog:false,
     }
   },
@@ -203,8 +208,8 @@ export default {
     getTableList(){
       this.$emit('getTableList')
     },
-    closeClauseDialog(bol){
-      this.openDialog = bol
+    closeAttachmentDialog(bol) {
+      this.attachmentDialogVisible = bol
     },
     closeClauseDownloadDialog(bol) {
       this.openClauseDownloadDialog = bol
@@ -291,16 +296,15 @@ export default {
         })
       }
     },
-    operation(row){
-      console.log(row);
-      if(row.signStatus=='04'){
-        this.id = row.termsId
+    operation(row) {
+      this.termsId = row.termsId
+      if (row.signStatus == '03') {
         this.supplierId = row.supplierId
         this.closeClauseDownloadDialog(true)
-      }else{
-        this.openDialog=true
+      } else {
+        this.attachmentDialogVisible = true
       }
-    }
+    },
   }
 }
 </script>

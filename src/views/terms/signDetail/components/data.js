@@ -220,11 +220,10 @@ export const tableColumns = [
   {
     i18n: '条款名称/版本',
     prop: 'termsName',
-    emit: 'go-detail',
     sortable: true,
     minWidth: 200,
     customRender: (h, scope) => {
-      return <span class="link-text">{scope.row.termsName}/{scope.row.version}</span>
+      return <span>{scope.row.termsName}/{scope.row.version}</span>
     }
   },
   {
@@ -303,9 +302,9 @@ export const tableColumns = [
     i18n: '操作',
     prop: 'CAOZUO',
     emit: 'operation',
-    minWidth: 120,
+    minWidth: 140,
     customRender: (h, scope) => {
-      if (scope.row.signStatus=='04') {
+      if (scope.row.signStatus=='03') {
         return <span class="link-text">
         <a
           class="el-icon-paperclip open-link-text"
