@@ -18,17 +18,20 @@
       <div class="left">
         <el-steps direction="vertical" :active="1">
           <template v-for="item in clauseList">
-            <el-step :title="item.label" :key="item.id" icon="el-icon-edit">
+            <el-step :key="item.id" icon="el-icon-edit">
               <template slot="icon">
-                <icon symbol :name="item.status==1?'iconshenpiliu-yishenpi':item.status==2?'iconshenpiliu-shenpizhong':'iconshenpiliu-daishenpi'" />
+                <icon symbol :name="item.signResult==1?'iconshenpiliu-yishenpi':item.signResult==2?'iconshenpiliu-shenpizhong':'iconshenpiliu-daishenpi'" />
+              </template>
+              <template slot="title">
+                <span @click='checkTerms(item.termsText)'>{{item.name}}</span>
               </template>
               <template slot="description">
                 <div class="description">
                   <p>说明：</p>
-                  <span>{{'这是一段说明这是一段说明这是一段说明'}}</span>
+                  <span>{{item.termsExplain}}</span>
                   <p>{{'条款附件'}}</p>
-                  <template v-for="child in item.attachment">
-                    <p class="link" :key="child.id">{{child.label}}</p>
+                  <template v-for="child in item.attachments">
+                    <p class="link" :key="child.id">{{child.attachmentName}}</p>
                   </template>
                 </div>
               </template>
@@ -37,7 +40,7 @@
         </el-steps>
       </div>
       <div class="right commitment" v-loading="loading">
-        <div v-if="content.length" class="content" v-html="content"></div>
+        <div v-if="termsText.length" class="content" v-html="termsText"></div>
         <div v-else class="blank">{{ language("ZANWUNEIRONG", "暂无内容") }}</div>
       </div>
     </div>
@@ -57,7 +60,7 @@
 
 <script>
 import { iDialog, iCard, iSelect, iFormItem, iLabel, iMessage, icon } from 'rise'
-import { nodeSetList } from '@/api/terms/terms'
+import { termList } from '@/api/terms/terms'
 export default {
   components: {
     iDialog,
@@ -77,26 +80,6 @@ export default {
       check: false,
       openUploadFileDialog: false,
       lastDate: '',
-      signNode: [
-        {
-          id: '1',
-          name: '询价承诺书',
-          confirm: '',
-          refuse: ''
-        },
-        {
-          id: '2',
-          name: '合规协议告知书',
-          confirm: '',
-          refuse: ''
-        },
-        {
-          id: '3',
-          name: '可再生能源使用承诺书',
-          confirm: '',
-          refuse: ''
-        }
-      ],
       value1: '',
       value2: '',
       list2: [
@@ -116,101 +99,26 @@ export default {
           value: 3
         }
       ],
-      clauseList:[
-        {
-          id:'1',
-          label:'<<询价承诺书>>',
-          status:1,
-          description:'这是一段说明这是一段说明这是一段说明',
-          attachment:[
-            {
-              id:"1",
-              label:'条款附件1'
-            },{
-              id:"2",
-              label:'条款附件2'
-            },{
-              id:"3",
-              label:'条款附件3'
-            },
-          ],
-          content:'',
-        },
-        {
-          id:'2',
-          label:'<<可再生能源使用承诺书>>',
-          status:2,
-          description:'这是一段说明这是一段说明这是一段说明',
-          attachment:[
-            {
-              id:"1",
-              label:'条款附件1'
-            },
-          ],
-          content:'',
-        },
-        {
-          id:'3',
-          label:'<<XXX条款>>',
-          status:2,
-          description:'这是一段说明这是一段说明这是一段说明',
-          attachment:[
-            {
-              id:"1",
-              label:'条款附件1'
-            },{
-              id:"2",
-              label:'条款附件2'
-            },{
-              id:"3",
-              label:'条款附件3'
-            },
-          ],
-          content:'',
-        },
-        {
-          id:'4',
-          label:'<<XXX条款>>',
-          status:2,
-          description:'这是一段说明这是一段说明这是一段说明',
-          attachment:[
-            {
-              id:"1",
-              label:'条款附件1'
-            },{
-              id:"2",
-              label:'条款附件2'
-            },{
-              id:"3",
-              label:'条款附件3'
-            },
-          ],
-          content:'',
-        },
-        {
-          id:'5',
-          label:'<<XXX条款>>',
-          status:3,
-          description:'这是一段说明这是一段说明这是一段说明',
-          attachment:[
-            {
-              id:"1",
-              label:'条款附件1'
-            },{
-              id:"2",
-              label:'条款附件2'
-            },{
-              id:"3",
-              label:'条款附件3'
-            },
-          ],
-          content:'',
-        },
-      ],
-      content:''
+      clauseList:[],
+      termsText:''
     }
   },
   methods: {
+    getTermList(){
+      let params = {
+        serverCode:'',
+        signNode:'',
+        supplierId:'',
+      }
+      termList(params).then(res=>{
+        if(res?.code=='200'){
+          this.clauseList = res.data.termsList
+        }
+      })
+    },
+    checkTerms(termsText){
+      this.termsText = termsText
+    },
     clearDiolog() {
       this.$emit('closeDialog', false)
     },

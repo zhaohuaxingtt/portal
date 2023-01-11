@@ -316,3 +316,12 @@ export function nodeSetList(params) {
     params,
   });
 }
+
+// 根据节点获取待签署条款信息
+export function termList(params) {
+  return requst({
+    url: `/termsQueryService/termList`,
+    method: "POST",
+    params,
+  });
+}
