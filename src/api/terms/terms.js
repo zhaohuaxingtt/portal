@@ -1,6 +1,8 @@
 import axios from '@/utils/axios'
 import store from '@/store'
+import axiosDownload from '@/utils/axios.download'
 const requst = axios(process.env.VUE_APP_NEWS)
+const requstDown = axiosDownload(process.env.VUE_APP_NEWS)
 const requstInvalidate = axios(process.env.VUE_APP_NEWS)
 const requstDIC = axios(process.env.VUE_APP_BASE_INFO)
 const requstUser = axios(process.env.VUE_APP_USER_CENTER)
@@ -290,7 +292,7 @@ export function signPageList(data) {
 }
 // /termsQueryService/signExport 导出签署分页信息
 export function signExport(data) {
-  return requst({
+  return requstDown({
     url: `/termsQueryService/signExport`,
     method: "POST",
     data,

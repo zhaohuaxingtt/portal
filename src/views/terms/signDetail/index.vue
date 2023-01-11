@@ -130,69 +130,7 @@ export default {
         pageNum: this.page.currPage,
         pageSize: this.page.pageSize
       }
-      signExport(param).then(res=>{
-        console.log(res);
-      })
-      if (this.searchForm?.signNode) {
-        this.searchForm.signNode = this.searchForm?.signNode
-          ?.map((i) => {
-            return i
-          })
-          .join(',')
-      }
-      if (this.searchForm?.supplierRange) {
-        this.searchForm.supplierRange = this.searchForm?.supplierRange
-          ?.map((i) => {
-            return i
-          })
-          .join(',')
-      }
-      if (this.searchForm?.supplierIdentity) {
-        this.searchForm.supplierIdentity = this.searchForm?.supplierIdentity
-          ?.map((i) => {
-            return i
-          })
-          .join(',')
-      }
-      if (this.searchForm?.state) {
-        this.searchForm.state = this.searchForm?.state
-          ?.map((i) => {
-            return i
-          })
-          .join(',')
-      }
-      exportFile({
-        url:
-          process.env.VUE_APP_NEWS +
-          `/termsQueryService/exportTerms?userId=` +
-          store.state.permission.userInfo.id,
-        data: {
-          ...this.searchForm,
-          pageNum: this.page.currPage,
-          pageSize: this.page.pageSize
-        },
-        callback: () => {
-          if (this.searchForm?.signNode) {
-            this.searchForm.signNode = this.searchForm?.signNode?.split(',')
-          }
-          if (this.searchForm?.supplierRange) {
-            this.searchForm.supplierRange =
-              this.searchForm?.supplierRange?.split(',')
-          }
-          if (this.searchForm?.supplierIdentity) {
-            this.searchForm.supplierIdentity =
-              this.searchForm?.supplierIdentity?.split(',')
-          }
-          if (this.searchForm?.state) {
-            this.searchForm.state = this.searchForm?.state?.split(',')
-          }
-          // if (e) {
-          //   iMessage.success('导出成功')
-          // } else {
-          //   iMessage.error("导出失败");
-          // }
-        }
-      })
+      signExport(param)
     }
   }
 }
