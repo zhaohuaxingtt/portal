@@ -9,34 +9,35 @@
   >
     <template slot="title">
       <div class="card-title">
-        <span>{{ $t('签署节点设置') + ':' + $t('报价') }}</span>
-        <span>最近设置时间：{{ lastDate }}</span>
+        <span class="title">{{ $t('签署节点设置') + ':' + $t('报价') }}</span>
+        <span>最近设置时间：{{ lastUpdateDate }}</span>
       </div>
     </template>
-    <el-form label-width="130px" label-position="left" inline>
+    <el-form label-width="160px" label-position="left" inline>
       <el-row :gutter="20" class="index-container" id="signNode">
         <el-col
           class="margin-bottom20"
           :span="24"
           :key="node.id"
-          v-for="(node, index) in signNode"
+          v-for="(node, index) in signNodeList"
         >
         <!-- 需要说明根据什么条件来判断是不是当前条款 -->
-          <i-card :class="index==0?'active':''">
+          <i-card :class="(node.id==id)?'active':''">
             <div class="card-content">
-              <div class="margin-right20">icon</div>
+              <div class="margin-right20">
+                <a class="el-icon-rank font-size50"></a>
+              </div>
               <div>
                 <p class="item-title">{{ node.name }}</p>
                 <el-form-item
-                  :label="$t('签署结果=同意')"
-                  class="margin-right20"
+                  :label="$t('签署结果=')+$t(signBtnList.find(item=>item.value==node.singButton||1).agreeKey)"
                 >
-                  <iSelect v-model="node['confirm']">
+                  <iSelect v-model="node['agree']">
                     <template v-for="item in list2">
                       <!-- value:1 // 对应下一个条款 -->
                       <el-option
                         :disabled="
-                          index == signNode.length - 1 && item.value == 1
+                          index == signNodeList.length - 1 && item.value == 1
                         "
                         :key="item.value"
                         :label="$t(item.label)"
@@ -46,13 +47,13 @@
                     </template>
                   </iSelect>
                 </el-form-item>
-                <el-form-item :label="$t('签署结果=拒绝')">
+                <el-form-item :label="$t('签署结果=')+$t(signBtnList.find(item=>item.value==node.singButton||1).refuseKey)">
                   <iSelect v-model="node['refuse']">
                     <template v-for="item in list2">
                       <!-- value:1 // 对应下一个条款 -->
                       <el-option
                         :disabled="
-                          index == signNode.length - 1 && item.value == 1
+                          index == signNodeList.length - 1 && item.value == 1
                         "
                         :key="item.value"
                         :label="$t(item.label)"
@@ -83,7 +84,8 @@
 <script>
 import { iDialog, iCard, iSelect, iFormItem, iLabel, iMessage } from 'rise'
 import iTableML from '@/components/iTableML'
-import { getUnStandard } from '@/api/terms/terms'
+import { nodeSet, nodeSetList } from '@/api/terms/terms'
+import { signBtnList } from "./data";
 import Sortable from 'sortablejs'
 export default {
   components: {
@@ -97,32 +99,14 @@ export default {
   props: {
     openDialog: { type: Boolean, default: false },
     id: { type: Number, default: -1 },
-    supplierId: { type: Number, default: -1 }
+    signNode: [String,Number]
   },
   data() {
     return {
+      signBtnList,
       openUploadFileDialog: false,
-      lastDate: '',
-      signNode: [
-        {
-          id: '1',
-          name: '询价承诺书',
-          confirm: '',
-          refuse: ''
-        },
-        {
-          id: '2',
-          name: '合规协议告知书',
-          confirm: '',
-          refuse: ''
-        },
-        {
-          id: '3',
-          name: '可再生能源使用承诺书',
-          confirm: '',
-          refuse: ''
-        }
-      ],
+      lastUpdateDate: '',
+      signNodeList: [],
       value1: '',
       value2: '',
       list2: [
@@ -144,14 +128,21 @@ export default {
       ]
     }
   },
+  created(){
+    nodeSetList({
+      signNode:this.signNode
+    }).then(res=>{
+      this.$set(this,'signNodeList',res.termsVoList || [])
+      this.lastUpdateDate = res.lastUpdateDate
+    })
+  },
   mounted() {
-    this.lastDate = window.moment(new Date()).format('YYYY-MM-DD HH:mm')
     this.$nextTick(() => {
       new Sortable(document.getElementById('signNode'), {
         ghostClass: 'sign-node-drop-ghost',
         animation: 150,
         onUpdate: (event) => {
-          const signNode = _.cloneDeep(this.signNode)
+          const signNode = _.cloneDeep(this.signNodeList)
           const item = _.cloneDeep(signNode[event.oldIndex])
           item.confirm = ''
           item.refuse = ''
@@ -159,8 +150,8 @@ export default {
           const index = signNode.findIndex((e) => e.id === endItem.id)
           const newNodes = signNode.filter((e) => e.id !== item.id)
           newNodes.splice(index, 0, item)
-          this.$set(this, 'signNode', newNodes)
-          console.log(this.signNode)
+          this.$set(this, 'signNodeList', newNodes)
+          console.log(this.signNodeList)
         }
       })
     })
@@ -171,7 +162,19 @@ export default {
       this.$emit('flushTable')
     },
     handleSubmit() {
-      console.log('handleSubmit:执行保存')
+      let params = {
+        termsVoList: this.signNodeList.map((item,index)=>{
+          item.sort = index
+          item.singButton = item.singButton || 1
+          return item
+        })
+      }
+      nodeSet(params).then(res=>{
+        console.log(res);
+        if(res?.code=='200'){
+          iMessage.success(res.message)
+        }
+      })
       this.clearDiolog()
     }
   }
@@ -183,6 +186,10 @@ export default {
   display: flex;
   justify-content: space-between;
   margin-right: 20px;
+  .title{
+    font-size: 16px;
+    font-weight: 600;
+  }
 }
 .active{
     ::v-deep .cardBody{
@@ -192,8 +199,13 @@ export default {
 .card-content {
   display: flex;
   align-items: center;
+  .font-size50{
+    font-size: 50px;
+  }
   .item-title {
     font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 10px;
   }
   .item-text {
     font-size: 14px;

@@ -39,15 +39,27 @@
       />
     </iCard>
     <clauseDialog
-    v-if="openDialog"
+      v-if="openDialog"
       :openDialog="openDialog"
+      @flushTable="flushTable"
+      @closeDialog="closeClauseDialog"
     />
+    
+      <clauseDownloadDialog
+        v-if="openClauseDownloadDialog"
+        :openDialog="openClauseDownloadDialog"
+        :id="id"
+        :supplierId="supplierId"
+        @closeDialog="closeClauseDownloadDialog"
+        @getTableList="getTableList"
+      />
   </div>
 </template>
 
 <script>
 import iTableCustom from '@/components/iTableCustom'
 import clauseDialog from './clauseDialog/single'
+import clauseDownloadDialog from '../../termsManagement/components/clauseDownloadDialog.vue'
 import { iCard, iButton, iPagination } from 'rise'
 import { excelExport } from '@/utils/filedowLoad'
 import { getDictByCode } from '@/api/dictionary/index'
@@ -67,7 +79,8 @@ export default {
     iCard,
     iButton,
     iPagination,
-    iTableCustom
+    iTableCustom,
+    clauseDownloadDialog
   },
   props: {
     tableListData: {
@@ -114,6 +127,7 @@ export default {
       extraData: { signNodeListObj: {} },
       tableColumns,
       openDialog:false,
+      openClauseDownloadDialog:false,
     }
   },
   watch: {
@@ -186,6 +200,15 @@ export default {
     }
   },
   methods: {
+    getTableList(){
+      this.$emit('getTableList')
+    },
+    closeClauseDialog(bol){
+      this.openDialog = bol
+    },
+    closeClauseDownloadDialog(bol) {
+      this.openClauseDownloadDialog = bol
+    },
     // 导出当前
     handleExport() {
       const tableArr = window._.cloneDeep(this.tableListData)
@@ -270,15 +293,13 @@ export default {
     },
     operation(row){
       console.log(row);
-      if(row.state=='04'){
-        this.openDialog=true
-        console.log('this.openDialog:',this.openDialog);
+      if(row.signStatus=='04'){
+        this.id = row.termsId
+        this.supplierId = row.supplierId
+        this.closeClauseDownloadDialog(true)
       }else{
-        console.log('下载非标条款');
+        this.openDialog=true
       }
-    },
-    closeSignDetailDialog(bol) {
-      this.openDialog = bol
     }
   }
 }

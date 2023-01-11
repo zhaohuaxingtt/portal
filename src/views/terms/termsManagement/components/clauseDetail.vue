@@ -417,20 +417,20 @@
                   ></iLabel>
                   <iInput
                     :disabled="ruleForm.isNewest == false"
-                    v-model="ruleForm.clauseRemark"
+                    v-model="ruleForm.explain"
                   ></iInput>
                 </iFormItem>
               </el-col>
               <el-col :span="6" class="form-item" id="editMode">
                 <iFormItem label="条款签署按钮" prop="editMode">
                   <iSelect
-                    v-model="ruleForm.signBtn"
+                    v-model="ruleForm.singButton"
                     :disabled="ruleForm.isNewest == false"
                   >
                     <el-option
                       v-for="item in signBtnList"
                       :key="item.value"
-                      :label="$t(item.i18n)"
+                      :label="$t(item.agreeKey)+'/'+$t(item.refuseKey)"
                       :value="item.value"
                     >
                     </el-option>
@@ -601,6 +601,8 @@
       />
       <signNodeSetting
         v-if="opensignNodeSettingDialog"
+        :id="id"
+        :signNode="ruleForm.signNode"
         :openDialog="opensignNodeSettingDialog"
         @closeDialog="closeSignNodeSettingDialog"
       />
@@ -633,7 +635,8 @@ import {
   // baseRules,
   statusList,
   supplierContactsList,
-  editModeList
+  editModeList,
+  signBtnList
 } from './data'
 import uploadIcon from '@/assets/images/upload-icon.svg'
 import { uploadFile } from '@/api/terms/uploadFile.js'
@@ -825,25 +828,8 @@ export default {
           i18n: 'TM_FOU'
         }
       ],
-      
       // 条款签署按钮
-      signBtnList: [
-        {
-          label: '签署/暂不签署',
-          value: 0,
-          i18n: '签署/暂不签署'
-        },
-        {
-          label: '同意/拒绝',
-          value: 1,
-          i18n: '同意/拒绝'
-        },
-        {
-          label: '确认/取消',
-          value: 2,
-          i18n: '确认/取消'
-        }
-      ],
+      signBtnList,
       uploadLoading: false,
       submitLoading: false,
       openSupplierListDialog: false,

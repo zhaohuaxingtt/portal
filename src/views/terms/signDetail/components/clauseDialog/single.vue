@@ -14,37 +14,50 @@
     top="5vh"
     @close="clearDiolog"
   >
-    <div>
-      <div>
+    <div class="dialog-content">
+      <div class="left">
         <el-steps direction="vertical" :active="1">
-          <el-step title="步骤 1"></el-step>
-          <el-step title="步骤 2"></el-step>
-          <el-step
-            title="步骤 3"
-            description="这是一段很长很长很长的描述性文字"
-          ></el-step>
+          <template v-for="item in clauseList">
+            <el-step :title="item.label" :key="item.id" icon="el-icon-edit">
+              <template slot="icon">
+                <icon symbol :name="item.status==1?'iconshenpiliu-yishenpi':item.status==2?'iconshenpiliu-shenpizhong':'iconshenpiliu-daishenpi'" />
+              </template>
+              <template slot="description">
+                <div class="description">
+                  <p>说明：</p>
+                  <span>{{'这是一段说明这是一段说明这是一段说明'}}</span>
+                  <p>{{'条款附件'}}</p>
+                  <template v-for="child in item.attachment">
+                    <p class="link" :key="child.id">{{child.label}}</p>
+                  </template>
+                </div>
+              </template>
+            </el-step>
+          </template>
         </el-steps>
       </div>
-      <div ref="editer" class="editer" id="editerPreview"></div>
+      <div class="right commitment" v-loading="loading">
+        <div v-if="content.length" class="content" v-html="content"></div>
+        <div v-else class="blank">{{ language("ZANWUNEIRONG", "暂无内容") }}</div>
+      </div>
     </div>
     <span slot="footer" class="dialog-footer">
       <el-checkbox class="check-box" v-model="check" slot="label"
-        ><span class="label-text">{{
+        ><span class="label-text margin-right10">{{
           language('我已仔细阅读并同意以上条款内容')
         }}</span></el-checkbox
       >
-      <el-button @click="clearDiolog">{{ $t('取消') }}</el-button>
       <el-button type="primary" @click="handleSubmit">{{
-        $t('保存')
+        $t('签署')
       }}</el-button>
+      <el-button @click="clearDiolog">{{ $t('暂不签署') }}</el-button>
     </span>
   </iDialog>
 </template>
 
 <script>
-import { iDialog, iCard, iSelect, iFormItem, iLabel, iMessage } from 'rise'
-import E from 'wangeditor'
-import UploadMenu from './UploadPanel'
+import { iDialog, iCard, iSelect, iFormItem, iLabel, iMessage, icon } from 'rise'
+import { nodeSetList } from '@/api/terms/terms'
 export default {
   components: {
     iDialog,
@@ -52,6 +65,7 @@ export default {
     iSelect,
     iFormItem,
     iLabel,
+    icon
   },
   props: {
     openDialog: { type: Boolean, default: false },
@@ -101,65 +115,108 @@ export default {
           label: '流程终止（False）',
           value: 3
         }
-      ]
+      ],
+      clauseList:[
+        {
+          id:'1',
+          label:'<<询价承诺书>>',
+          status:1,
+          description:'这是一段说明这是一段说明这是一段说明',
+          attachment:[
+            {
+              id:"1",
+              label:'条款附件1'
+            },{
+              id:"2",
+              label:'条款附件2'
+            },{
+              id:"3",
+              label:'条款附件3'
+            },
+          ],
+          content:'',
+        },
+        {
+          id:'2',
+          label:'<<可再生能源使用承诺书>>',
+          status:2,
+          description:'这是一段说明这是一段说明这是一段说明',
+          attachment:[
+            {
+              id:"1",
+              label:'条款附件1'
+            },
+          ],
+          content:'',
+        },
+        {
+          id:'3',
+          label:'<<XXX条款>>',
+          status:2,
+          description:'这是一段说明这是一段说明这是一段说明',
+          attachment:[
+            {
+              id:"1",
+              label:'条款附件1'
+            },{
+              id:"2",
+              label:'条款附件2'
+            },{
+              id:"3",
+              label:'条款附件3'
+            },
+          ],
+          content:'',
+        },
+        {
+          id:'4',
+          label:'<<XXX条款>>',
+          status:2,
+          description:'这是一段说明这是一段说明这是一段说明',
+          attachment:[
+            {
+              id:"1",
+              label:'条款附件1'
+            },{
+              id:"2",
+              label:'条款附件2'
+            },{
+              id:"3",
+              label:'条款附件3'
+            },
+          ],
+          content:'',
+        },
+        {
+          id:'5',
+          label:'<<XXX条款>>',
+          status:3,
+          description:'这是一段说明这是一段说明这是一段说明',
+          attachment:[
+            {
+              id:"1",
+              label:'条款附件1'
+            },{
+              id:"2",
+              label:'条款附件2'
+            },{
+              id:"3",
+              label:'条款附件3'
+            },
+          ],
+          content:'',
+        },
+      ],
+      content:''
     }
   },
-  mounted() {
-    this.createEditor()
-  },
   methods: {
-    createEditor() {
-      let that = this
-      this.editor = new E('#editerPreview')
-      // 配置菜单栏，设置不需要的菜单
-      this.editor.config.excludeMenus = [
-        // "list",
-        // "todo",
-        // "emoticon",
-        'image'
-        // "video",
-        // "table",
-        // "code",
-      ]
-      // 配置字体
-      this.editor.config.fontNames = [
-        // 字符串形式
-        '黑体',
-        '仿宋',
-        '楷体',
-        '标楷体',
-        '华文仿宋',
-        '华文楷体',
-        '宋体',
-        '微软雅黑',
-        'Arial',
-        'Tahoma',
-        'Verdana',
-        'Times New Roman',
-        'Courier New'
-      ]
-      this.editor.config.menus = this.editor.config.menus.concat('uploadMenu') // 配置菜单栏，删减菜单，调整顺序
-      this.editor.config.customUploadImg = async (files, callaback) => {
-        const urls = []
-        for (let i = 0; i < files.length; i++) {
-          const res = await this.upload(files[i])
-          urls.push(res)
-        }
-        callaback(urls)
-      }
-      this.editor.menus.extend('uploadMenu', UploadMenu) // 配置扩展的菜单
-      this.editor.config.onchange = function (newHtml) {
-        that.termsText = newHtml
-      }
-      this.editor.create()
-      this.editor.txt.html(this.termsText)
-    },
     clearDiolog() {
       this.$emit('closeDialog', false)
-      this.$emit('flushTable')
     },
     handleSubmit() {
       console.log('handleSubmit:执行保存')
+      this.$emit('flushTable')
       this.clearDiolog()
     }
   }
@@ -177,9 +234,25 @@ export default {
     background-color: rgb(237, 242, 252);
   }
 }
-.card-content {
+.dialog-content {
   display: flex;
-  align-items: center;
+  flex-flow: row;
+  .left{
+    width: 200px;
+    margin-right: 20px;
+    height: 600px;
+    overflow: auto;
+    .description{
+      color: #000;
+    }
+  }
+  .right{
+    width: calc(100% - 200px);
+  }
+  .commitment{
+    height: 600px;
+    overflow: auto;
+  }
   .item-title {
     font-size: 16px;
   }
