@@ -4,9 +4,7 @@
       <div class="margin-bottom20 clearFloat">
         <div class="floatright">
           <div class="">
-            <iButton @click="handleExportAll">{{
-              $t('DAOCHU')
-            }}</iButton>
+            <iButton @click="handleExportAll">{{ $t('DAOCHU') }}</iButton>
             <button-table-setting @click="$refs.termsTable.openSetting()" />
           </div>
         </div>
@@ -21,7 +19,7 @@
         permissionKey="ADMIN_TERMS"
         :extraData="extraData"
         @handle-selection-change="handleSelectionChange"
-        @go-detail="handleGoDetail"
+        @operation="operation"
       />
       <iPagination
         v-update
@@ -30,13 +28,28 @@
         background
         :page-sizes="page.pageSizes"
         :page-size="page.pageSize"
-        :prev-text="$t('TM_SHANGYIYE')"
-        :next-text="$t('TM_XIAYIYE')"
         :layout="page.layout"
         :current-page="page.currPage"
         :total="page.total"
       />
     </iCard>
+    <attachment-dialog
+      @handleSignature="handleSignature"
+      @closeDialog="closeAttachmentDialog"
+      :detail="attachmentDetail"
+      :id="currentTemplateId"
+      :loading="attachmentLoading"
+      v-model="attachmentDialogVisible"
+      v-if="attachmentDialogVisible"
+    />
+    <clauseDownloadDialog
+      v-if="openClauseDownloadDialog"
+      :openDialog="openClauseDownloadDialog"
+      :id="termsId"
+      :supplierId="supplierId"
+      @closeDialog="closeClauseDownloadDialog"
+      @getTableList="getTableList"
+    />
   </div>
 </template>
 
@@ -45,6 +58,9 @@ import iTableCustom from '@/components/iTableCustom'
 import { iCard, iButton, iPagination } from 'rise'
 import { excelExport } from '@/utils/filedowLoad'
 import { getDictByCode } from '@/api/dictionary/index'
+import { signatureAttachment } from '@/api/register/relevantAttachments'
+import attachmentDialog from './attachmentDialog'
+import clauseDownloadDialog from './clauseDownloadDialog'
 import {
   tableTitle,
   isPersonalTermsObj,
@@ -60,7 +76,9 @@ export default {
     iCard,
     iButton,
     iPagination,
-    iTableCustom
+    iTableCustom,
+    attachmentDialog,
+    clauseDownloadDialog
   },
   props: {
     tableListData: {
@@ -88,7 +106,7 @@ export default {
   },
   data() {
     return {
-      tableTitle,// 导出表格
+      tableTitle, // 导出表格
       isPersonalTermsObj,
       stateObj,
       supplierRangeObj,
@@ -99,13 +117,16 @@ export default {
       signNodeList: [],
       signNodeListObj: {},
       openSignDetailDialog: false,
-      id: -1,
+      termsId: -1,
       termsCode: -1,
       state: '',
       approvalProcess: [],
       signTitle: {},
       extraData: { signNodeListObj: {} },
-      tableColumns
+      tableColumns,
+      attachmentDialogVisible: false,
+      openClauseDownloadDialog: false,
+      currentTemplateId: ''
     }
   },
   watch: {
@@ -243,27 +264,48 @@ export default {
     handleSelectionChange(val) {
       this.selectedTableData = val
     },
-    handleGoDetail(e,a) {
-      console.log(e);
-      console.log(a);
-      if (e.state == '01' || e.state == '02') {
-        this.$router.push({
-          path: '/terms/management/addClause',
-          query: {
-            id: e.id
-          }
-        })
+    operation(row) {
+      if (row.signStatus == '03') {
+        this.termsId = row.termsId
+        this.supplierId = row.supplierId
+        this.closeClauseDownloadDialog(true)
       } else {
-        this.$router.push({
-          path: '/terms/management/clauseDetail',
-          query: {
-            id: e.id
-          }
-        })
+        this.currentTemplateId = row.termsId
+        this.attachmentDialogVisible = true
       }
     },
-    closeSignDetailDialog(bol) {
-      this.openSignDetailDialog = bol
+    closeAttachmentDialog(bol) {
+      this.attachmentDialogVisible = bol
+    },
+    closeClauseDownloadDialog(bol) {
+      this.openClauseDownloadDialog = bol
+    },
+    // 签署
+    async handleSignature(val) {
+      console.log(val)
+      this.attachmentLoading = true
+      const req = {
+        step: 'register',
+        id: this.id,
+        termsId: this.termsId || '',
+        termsVersion: val.termsVersion || '',
+        termsContent: val
+      }
+      if (this.supplierType > 3) {
+        req.step = 'submit'
+      }
+      const res = await signatureAttachment(req, this.supplierType)
+      if (res?.code === '200') {
+        this.attachmentLoading = false
+        res.moduleName = this.$t('SUPPLIER_FUJIANSHANGCHUAN')
+        this.attachmentDialog = false
+        this.flushTable()
+      } else {
+        iMessage.error(res.desZh)
+        this.attachmentLoading = false
+        res.moduleName = this.$t('SUPPLIER_FUJIANSHANGCHUAN')
+        this.attachmentDialog = false
+      }
     }
   }
 }
