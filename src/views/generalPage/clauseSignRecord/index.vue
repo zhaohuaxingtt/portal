@@ -14,6 +14,7 @@
       :tableListColumns="tableListClause"
       :tableLoading="tableLoading"
       @refTabList="refTabList"
+      @getTableList="getTableList"
       @handleChangePage="handleChangePage"
       @handleSizeChange="handleSizeChange"
       @handleExportAll="handleExportAll"
@@ -26,11 +27,9 @@ import { iPage, iNavMvp } from 'rise'
 import search from './components/search.vue'
 import theTable from './components/theTable.vue'
 import { pageMixins } from '@/utils/pageMixins'
-import { findByPage } from '@/api/terms/terms'
-import { exportFile } from '@/utils/exportFileUtil'
-import { searchFormData,signStatusList } from "./components/data";
-import store from '@/store'
-
+import { signPageList, signExport } from '@/api/terms/terms'
+import { supplierDetail } from '@/api/register/baseInfo'
+import { searchFormData, signStatusList } from "./components/data";
 export default {
   mixins: [pageMixins],
   components: {
@@ -44,40 +43,43 @@ export default {
       searchFormData,
       searchForm:{},
       options:{
-        signStatusList:signStatusList
+        signStatusList,
       },
       tableLoading: false,
       tableListData: [],
-      formData: {}
     }
   },
   watch:{
     'searchForm.signDate'(val) {
       if (Array.isArray(val) && val.length) {
-        this.searchForm.approvalDateStart = val[0]
-        this.searchForm.approvalDateEnd = window
+        this.searchForm.signDateBegin = val[0]
+        this.searchForm.signDateEnd = window
           .moment(val[1])
           .format('YYYY-MM-DD 23:59:59')
       } else {
-        this.searchForm.approvalDateStart = ''
-        this.searchForm.approvalDateEnd = ''
+        this.searchForm.signDateBegin = ''
+        this.searchForm.signDateEnd = ''
       }
     }
   },
   mounted() {
-    this.getTableList()
+    supplierDetail(this.supplierType).then(res=>{
+      if(res?.code=='200'){
+        this.searchForm.supplier = res.data.supplierInfoVo.nameZh
+        this.getTableList()
+      }
+    })
   },
   methods: {
     handleSearchReset() {
-      this.form = {}
       this.resolutionPassTime = []
+      this.searchForm = {}
       this.getTableList()
     },
-    getTableList(e) {
-      this.formData = e
+    getTableList() {
       this.page.currPage = 1
       let param = {
-        ...this.formData,
+        ...this.searchForm,
         pageNum: 1,
         pageSize: this.page.pageSize
       }
@@ -86,7 +88,7 @@ export default {
     refTabList() {
       this.page.currPage = 1
       let param = {
-        ...this.formData,
+        ...this.searchForm,
         pageNum: 1,
         pageSize: this.page.pageSize
       }
@@ -95,7 +97,7 @@ export default {
     handleChangePage(e) {
       this.page.currPage = e
       let param = {
-        ...this.formData,
+        ...this.searchForm,
         pageNum: this.page.currPage,
         pageSize: this.page.pageSize
       }
@@ -105,7 +107,7 @@ export default {
       this.page.currPage = 1
       this.page.pageSize = e
       let param = {
-        ...this.formData,
+        ...this.searchForm,
         pageNum: this.page.currPage,
         pageSize: this.page.pageSize
       }
@@ -113,59 +115,7 @@ export default {
     },
     query(e) {
       this.tableLoading = true
-      if (typeof e.isPersonalTerms != 'boolean') {
-        delete e.isPersonalTerms
-      }
-      if (
-        e.supplierRange == '' ||
-        e.supplierRange == null ||
-        e.supplierRange == undefined
-      ) {
-        delete e.supplierRange
-      } else {
-        let temp = []
-        e.supplierRange.includes('PP') ? temp.push('PP') : ''
-        e.supplierRange.includes('GP') ? temp.push('GP') : ''
-        e.supplierRange.includes('NT') ? temp.push('NT') : ''
-        e.supplierRange = temp
-          .map((i) => {
-            return i
-          })
-          .join(',')
-      }
-      if (
-        e.supplierIdentity == '' ||
-        e.supplierIdentity == null ||
-        e.supplierIdentity == undefined
-      ) {
-        delete e.supplierIdentity
-      } else {
-        e.supplierIdentity = e.supplierIdentity
-          .sort()
-          .map((i) => {
-            return i
-          })
-          .join(',')
-      }
-      if (e.state == '' || e.state == null || e.state == undefined) {
-        delete e.state
-      } else {
-        e.state = e.state
-          .map((i) => {
-            return i
-          })
-          .join(',')
-      }
-      if (e.signNode == '' || e.signNode == null || e.signNode == undefined) {
-        delete e.signNode
-      } else {
-        e.signNode = e.signNode
-          .map((i) => {
-            return i
-          })
-          .join(',')
-      }
-      findByPage(e)
+      signPageList(e)
         .then((res) => {
           this.tableListData = res.data
           this.page.total = res.total
@@ -176,66 +126,13 @@ export default {
         })
     },
     handleExportAll() {
-      if (this.formData?.signNode) {
-        this.formData.signNode = this.formData?.signNode
-          ?.map((i) => {
-            return i
-          })
-          .join(',')
+      this.page.currPage = 1
+      let param = {
+        ...this.searchForm,
+        pageNum: this.page.currPage,
+        pageSize: this.page.pageSize
       }
-      if (this.formData?.supplierRange) {
-        this.formData.supplierRange = this.formData?.supplierRange
-          ?.map((i) => {
-            return i
-          })
-          .join(',')
-      }
-      if (this.formData?.supplierIdentity) {
-        this.formData.supplierIdentity = this.formData?.supplierIdentity
-          ?.map((i) => {
-            return i
-          })
-          .join(',')
-      }
-      if (this.formData?.state) {
-        this.formData.state = this.formData?.state
-          ?.map((i) => {
-            return i
-          })
-          .join(',')
-      }
-      exportFile({
-        url:
-          process.env.VUE_APP_NEWS +
-          `/termsQueryService/exportTerms?userId=` +
-          store.state.permission.userInfo.id,
-        data: {
-          ...this.formData,
-          pageNum: this.page.currPage,
-          pageSize: this.page.pageSize
-        },
-        callback: () => {
-          if (this.formData?.signNode) {
-            this.formData.signNode = this.formData?.signNode?.split(',')
-          }
-          if (this.formData?.supplierRange) {
-            this.formData.supplierRange =
-              this.formData?.supplierRange?.split(',')
-          }
-          if (this.formData?.supplierIdentity) {
-            this.formData.supplierIdentity =
-              this.formData?.supplierIdentity?.split(',')
-          }
-          if (this.formData?.state) {
-            this.formData.state = this.formData?.state?.split(',')
-          }
-          // if (e) {
-          //   iMessage.success('导出成功')
-          // } else {
-          //   iMessage.error("导出失败");
-          // }
-        }
-      })
+      signExport(param)
     }
   }
 }
