@@ -33,3 +33,16 @@ export function downloadUdFile(params) {
     method: 'GET'
   })
 }
+export function downloadUdFileNews(params) {
+  return fileRequst({
+    url: `/udDown?${
+      Array.isArray(params)
+        ? serialize(
+            params.map((id) => ({ fileIds: id })),
+            Array
+          )
+        : 'fileIds=' + params
+    }`,
+    method: 'POST'
+  })
+}
