@@ -1,5 +1,5 @@
 <template>
-  <div v-loading="loading">
+  <div v-loading="loading" style="height:100%">
     <iPage>
       <div class="title">
         <div>
@@ -417,7 +417,7 @@
                   ></iLabel>
                   <iInput
                     :disabled="ruleForm.isNewest == false"
-                    v-model="ruleForm.explain"
+                    v-model="ruleForm.termsExplain"
                   ></iInput>
                 </iFormItem>
               </el-col>
