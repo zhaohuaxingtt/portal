@@ -1,18 +1,17 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-06 21:19:28
- * @LastEditTime: 2022-05-10 15:58:37
- * @LastEditors: zhaohuaxing 5359314+zhaohuaxing@user.noreply.gitee.com
+ * @LastEditTime: 2023-01-11 17:36:13
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
- * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\index.vue
+ * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipReplenishmentOverview\index.vue
 -->
 <template>
   <div>
     <search class="margin-bottom20"
             ref="searchBox"
             @materialCodes="handleMaterialCodes"></search>
-    <theTable ref="theTable"
-              @dialog="handleAdd"></theTable>
+    <theTable ref="theTable" @dialog="handleAdd"></theTable>
     <balancePaymentDialog @close="handleClose"
                           v-if="dialogVisible"
                           :dialogVisible="dialogVisible"

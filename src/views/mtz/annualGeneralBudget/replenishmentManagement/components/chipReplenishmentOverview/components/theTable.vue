@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2023-01-09 16:49:51
+ * @LastEditTime: 2023-01-11 18:00:17
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipReplenishmentOverview\components\theTable.vue
@@ -374,6 +374,7 @@ export default {
       if (command == 'Tier-2') {
         this.openDialogOfFrameworkport = true
       }
+      this.add()
     },
     formatterNumber(row, column, cellValue, index) {
       return VueUtil.formatNumber(cellValue)

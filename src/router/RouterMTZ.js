@@ -487,7 +487,7 @@ export default [
                 path: 'chipReplenishmentOverview',
                 name: 'chipReplenishmentOverview',
                 meta: {
-                  title: 'MTZ补差总览',
+                  title: '芯片补差总览',
                   showFooter: true
                 },
                 component: () =>
@@ -952,5 +952,17 @@ export default [
     },
     component: () =>
       import('@/views/mtz/dataBase/partsQuery/components/partsRelationship.vue')
-  }
+  },
+  {
+    path: 'chipCeated',
+    name: 'chipCeated',
+    meta: {
+      title: '芯片补差单列表',
+      showFooter: true
+    },
+    component: () =>
+      import(
+        '@/views/mtz/annualGeneralBudget/replenishmentManagement/components/created/index.vue'
+      )
+  },
 ]
