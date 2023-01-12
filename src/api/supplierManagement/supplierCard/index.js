@@ -11,8 +11,23 @@ import axios from '@/utils/axios'
 
 const requst = axios(process.env.VUE_APP_SUPPLIER + '/web')
 const requstEkl = axios(process.env.VUE_APP_EKL)
+const requstRfq = axios(process.env.VUE_APP_SOURCING)
 const requstEklPf = axios(process.env.VUE_APP_CHANGEPRICE)
 const requstCondition = axios(process.env.VUE_APP_MATERIEL)
+// 定点
+export function getSupplierRfqNominatedDis(id) {
+  return requstRfq({
+    url: '/purchasing-project-parts/getSupplierRfqNominatedDis/'+ id,
+    method: 'GET',
+  })
+}
+// 寻源
+export function getSupplierRfqLineDeptDis(id) {
+  return requstRfq({
+    url: '/purchasing-project-parts/getSupplierRfqLineDeptDis/'+ id,
+    method: 'GET',
+  })
+}
 // ekl卡片
 export function getSupplierCard(parmars) {
   return requstEkl({
