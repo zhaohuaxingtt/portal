@@ -498,17 +498,21 @@ export default {
         });
     },
     handleDownloadFile(url, name) {
-      createAnchorLink(
-        url, // 前端跨域问题，将api地址替换为反向代理地址
-        name
-      );
+      console.log(url);
+      return window.open(url)
+      // createAnchorLink(
+      //   url, // 前端跨域问题，将api地址替换为反向代理地址
+      //   name
+      // );
     },
     // 预览页-下载附件
     downloadEnclosure(url, name) {
-      createAnchorLink(
-        url,
-        name,
-      );
+      console.log(url);
+      return window.open(url)
+      // createAnchorLink(
+      //   url,
+      //   name,
+      // );
     },
     handleDeleteAccessory(id) {
       this.ruleForm.attachments = this.ruleForm.attachments.filter(
