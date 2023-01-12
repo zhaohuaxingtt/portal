@@ -1,11 +1,11 @@
 /*
  * @Author: your name
  * @Date: 2021-10-09 15:06:29
- * @LastEditTime: 2022-05-07 11:10:38
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-01-12 17:16:14
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
- * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\data.js
- */
+ * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipReplenishmentOverview\components\data.js
+ */import { language } from "@/utils/language";
 export const TABLE_COLUMS = [
   {
     type: 'selection',
@@ -129,7 +129,7 @@ export const TABLE_COLUMS = [
     minWidth: 120
   },
   {
-    
+
     prop: 'spartNo',
     label: '二次件零件号',
     minWidth: 120
@@ -223,4 +223,111 @@ export const tableTitle = [
   { props: 'startDate', name: '有效期起', key: 'YXQQ', width: 150 },
   { props: 'endDate', name: '有效期止', key: 'YXQZ', width: 150 },
   { props: 'updateDate', name: '更新时间', key: 'GENGXINSHIJIAN', width: 150 }
+]
+// 一次件供应商
+export const tableTitle1 = [
+  {
+    type: 'index',
+    label: '#',
+  }, {
+    prop: 'fsupplierName',
+    label: '一次件供应商',
+    i18n: 'YICIJIANGONGYINGSHANG',
+    align: 'center',
+    minWidth: 150
+  }, {
+    prop: 'waitLaunchedDocMoney',
+    label: '待发起凭证',
+    i18n: 'DAIFAQIPINZHENG',
+    align: 'center',
+    minWidth: 150,
+  }, {
+    prop: 'hasLaunchedDocMoney',
+    label: '已发起凭证',
+    i18n: 'YIFAQIPINZHENG',
+    align: 'center',
+    minWidth: 150
+  }, {
+    prop: 'trueCompMoney',
+    label: '实际补差金额',
+    i18n: 'SHIJIBUCHAJINE',
+    align: 'center',
+    minWidth: 150
+  }, {
+    prop: 'waitVerifyMoney',
+    label: '待确认金额',
+    i18n: 'DAIQUERENJINE',
+    align: 'center',
+    tooltip: true,
+    minWidth: 150
+  },
+  {
+    prop: 'hasVerifyMoney',
+    label: '已确认金额',
+    i18n: 'YIQUERENJINE',
+    align: 'center',
+    minWidth: 150
+  },
+  {
+    prop: 'hasRatifyMoney',
+    label: '已批准金额',
+    i18n: 'YIPIZHENGJINE',
+    align: 'center',
+    tooltip: true,
+    minWidth: 150
+  },
+  {
+    prop: 'hasPayMoney',
+    label: '已支付金额',
+    i18n: 'YIZHIFUJINE',
+    align: 'center',
+    minWidth: 100
+  },
+]
+// 散件供应商
+export const tableTitle2 = [
+  {
+    type: 'index',
+    label: '#',
+  }, {
+    prop: 'ssupplierName',
+    label: '散件供应商',
+    i18n: 'SHANJIANGONGYINGSHANG',
+    align: 'center',
+    minWidth: 150
+  }, {
+    prop: 'hasLaunchedDocMoney',
+    label: '已发起凭证',
+    i18n: 'YIFAQIPINZHENG',
+    align: 'center',
+    minWidth: 150
+  }, {
+    prop: 'trueCompMoney',
+    label: '实际补差金额',
+    i18n: 'SHIJIBUCHAJINE',
+    align: 'center',
+    minWidth: 150
+  }, {
+    prop: 'waitVerifyMoney',
+    label: '待确认金额',
+    i18n: 'DAIQUERENJINE',
+    align: 'center',
+    tooltip: true,
+    minWidth: 150
+  },
+  {
+    prop: 'hasVerifyMoney',
+    label: '已确认金额',
+    i18n: 'YIQUERENJINE',
+    align: 'center',
+    minWidth: 150
+  },
+  {
+    prop: 'hasRatifyMoney',
+    label: '已批准金额',
+    i18n: 'YIPIZHENGJINE',
+    align: 'center',
+    tooltip: true,
+    minWidth: 150
+  },
 ]

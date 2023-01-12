@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2023-01-12 14:15:49
+ * @LastEditTime: 2023-01-12 17:20:26
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipReplenishmentOverview\components\theTable.vue
@@ -21,8 +21,8 @@
           >
           </el-switch>
           <el-radio-group v-model="type" @change="change">
-            <el-radio-button label="1">{{$t('一次件补差')}}</el-radio-button>
-            <el-radio-button label="2">{{$t('散件补差')}}</el-radio-button>
+            <el-radio-button label="1">{{ $t('一次件补差') }}</el-radio-button>
+            <el-radio-button label="2">{{ $t('散件补差') }}</el-radio-button>
           </el-radio-group>
         </div>
         <el-dropdown
@@ -44,7 +44,7 @@
           </el-dropdown-menu>
         </el-dropdown>
       </template>
-      <el-table
+      <!-- <el-table
         :data="tableData"
         ref="moviesTable"
         tooltip-effect="light"
@@ -95,7 +95,6 @@
                 ></i>
               </el-tooltip>
             </div>
-            <!-- <div>{{language('DAIBUCHAJINE','（待补差金额）')}}</div> -->
           </template>
         </el-table-column>
         <el-table-column
@@ -197,7 +196,6 @@
                 ></i>
               </el-tooltip>
             </div>
-            <!-- <div>{{language('DENGDAIGONGYINGSHANGQUERENJINE','（等待供应商确认金额）')}}</div> -->
           </template>
         </el-table-column>
         <el-table-column
@@ -288,7 +286,13 @@
             </div>
           </template>
         </el-table-column>
-      </el-table>
+      </el-table> -->
+
+      <iTableCustom
+        :loading="loading"
+        :data="tableData"
+        :columns="tableTitle"
+      />
       <iPagination
         @size-change="handleSizeChange($event, getTableList)"
         @current-change="handleCurrentChange($event, getTableList)"
@@ -318,12 +322,13 @@
 </template>
 
 <script>
-import { iCard, iButton, iPagination, icon, iMessage } from 'rise'
+import { iCard, iButton, iPagination, icon, iTableCustom, iMessage } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import detailDialog from './detailDialog'
 import redeployDialog from './redeployDialog'
 import { pageMTZCompOverview } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
 import { fetchAssign } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzReplenishmentOverview/detail'
+import { tableTitle1, tableTitle2 } from './data'
 export default {
   name: 'Search',
   componentName: 'theTable',
@@ -332,6 +337,7 @@ export default {
     iButton,
     iPagination,
     icon,
+    iTableCustom,
     detailDialog,
     redeployDialog
   },
@@ -355,6 +361,11 @@ export default {
       loading: false
     }
   },
+  computed: {
+    tableTitle() {
+      return this.type == 1 ? tableTitle1 : tableTitle2
+    }
+  },
   created() {
     this.getTableList()
   },
@@ -368,21 +379,15 @@ export default {
     handleCommand(command) {
       // 一次件
       if (command == 'Tier-1') {
-        this.openDialogOfIntending = true
+        window.open('/portal/#/chipCeated?type=1')
       }
       // 二次件/散件
       if (command == 'Tier-2') {
-        this.openDialogOfFrameworkport = true
+        window.open('/portal/#/chipCeated?type=2')
       }
-      console.log();
-      window.open('/portal/#/chipCeated')
-      // this.add()
     },
     formatterNumber(row, column, cellValue, index) {
       return VueUtil.formatNumber(cellValue)
-    },
-    change(e){
-      console.log(e);
     },
     add() {
       let params = {

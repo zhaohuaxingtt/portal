@@ -14,7 +14,7 @@
     <div class="BtnTitle">
       <span>{{ language('GUIZEXIANGQING', '规则详情') }}</span>
       <div>
-        <iButton @click="save">{{ language('YANYONG', '沿用') }}</iButton>
+        <iButton @click="save">{{ language('XUANZE', '选择') }}</iButton>
       </div>
     </div>
     <tableList
@@ -72,6 +72,11 @@ export default {
     tableList
   },
   mixins: [pageMixins],
+  props: {
+    sapCode: String,
+    supplierName: String,
+    dateRange: Array
+  },
   data() {
     return {
       QueryFormData,
@@ -127,6 +132,10 @@ export default {
     }
   },
   created() {
+    this.searchForm.sapCode = this.sapCode
+    this.searchForm.supplierName = this.supplierName
+    this.searchForm.startDate = this.dateRange[0]
+    this.searchForm.endDate = this.dateRange[1]
     this.init()
   },
   mounted() {
@@ -196,13 +205,13 @@ export default {
         materialGroup: '',
         partNum: '',
         partName: '',
-        sapCode: '',
-        supplierName: '',
+        sapCode: this.sapCode,
+        supplierName: this.supplierName,
         deptCode: '',
         buyerName: '',
         effectFlag: '',
-        startDate: '',
-        endDate: ''
+        startDate: this.dateRange[0],
+        endDate: this.dateRange[1]
       }
       this.getTableList()
     },

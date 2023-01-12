@@ -8,48 +8,48 @@
 <template>
   <iPage>
     <div class="header">
-      <h1>一次件供应商芯片补差计算（草稿）</h1>
-      <iButton>计算</iButton>
+      <h1>{{type}}供应商芯片补差计算（草稿）</h1>
+      <iButton @click="computedData">计算</iButton>
     </div>
     <iCard>
       <p class="title">基本信息</p>
-      <iFormGroup :inline="true" :row="5" :model="searchForm">
-        <iFormItem
-          style="marginright: 68px"
-          :label="language('YICIJIANGONGYINGSHANG', '一次件供应商')"
-          required
-        >
-          <el-select
-            v-model="firstSuppliers"
-            multiple
-            clearable
-            collapse-tags
+      <iFormGroup :inline="true">
+        <iFormItem style="marginright: 68px" required>
+          <iLabel
+            class="label"
+            required
+            :label="type+language('GONGYINGSHANG', '供应商')"
+            slot="label"
+          ></iLabel>
+          <mySelect
+            style="width: 240px"
+            :data="fsupplierList"
             @change="handleChangeFsupplier"
+            :searchValue="searchForm.sapCode"
             :placeholder="language('QINGXUANZE', '请选择')"
-          >
-            <el-option
-              v-for="item in fsupplierList"
-              :key="item.code"
-              :label="item.message"
-              :value="item.code"
-            >
-            </el-option>
-          </el-select>
+            :loading="loading"
+            clearable
+            propLabel="message"
+            propValue="code"
+          />
         </iFormItem>
-        <iFormItem
-          style="marginright: 68px"
-          :label="language('BUCHASHIJIANDUAN', '补差时间段')"
-          :required='true'
-        >
+        <iFormItem style="marginright: 68px">
+          <iLabel
+            class="label"
+            required
+            :label="language('BUCHASHIJIANDUAN', '补差时间段')"
+            slot="label"
+          ></iLabel>
           <iDatePicker
-            v-model="value1"
+            v-model="searchForm.dateRange"
+            clearable
             type="daterange"
             format="yyyy-MM-dd"
             value-format="yyyy-MM-dd"
-            @change="handleChange"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
+            @change="handleChangeDate"
+            :range-separator="$t('至')"
+            :start-placeholder="$t('开始日期')"
+            :end-placeholder="$t('结束日期')"
           >
           </iDatePicker>
         </iFormItem>
@@ -64,12 +64,11 @@
       <div class="header">
         <p class="title">补差规则</p>
         <div>
-          <iButton>导出</iButton>
-          <iButton @click="openDialog">选择规则</iButton>
+          <iButton @click="exportExcel">导出</iButton>
+          <iButton :disabled="disabled" @click="openDialog">选择规则</iButton>
         </div>
       </div>
       <iTableCustom
-        ref="chipCreated"
         :loading="tableLoading"
         :data="tableData"
         :columns="tableTitle"
@@ -92,7 +91,12 @@
       width="90%"
       @close="closeDiolog"
     >
-      <continueBox @addDialogData="addDialogDataList"></continueBox>
+      <continueBox
+        @addDialogData="addDialogDataList"
+        :sapCode="searchForm.sapCode"
+        :supplierName="searchForm.supplierName"
+        :dateRange="searchForm.dateRange"
+      ></continueBox>
     </iDialog>
   </iPage>
 </template>
@@ -107,12 +111,14 @@ import {
   iCard,
   iFormGroup,
   iFormItem,
+  iLabel,
   iTableCustom,
   iDialog
 } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import { tableTitle } from './components/data'
-import continueBox from "./components/continueBox";
+import continueBox from './components/continueBox'
+import mySelect from './components/mySelect'
 import { getMtzSupplierList } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
 export default {
   mixins: [pageMixins],
@@ -126,33 +132,51 @@ export default {
     iFormGroup,
     iFormItem,
     iTableCustom,
+    iLabel,
     iDialog,
-    continueBox
+    continueBox,
+    mySelect
   },
   data() {
     return {
-      fsupplierList:[],
-      firstSuppliers: '',
+      fsupplierList: [],
+      searchForm: {
+        sapCode: '',
+        supplierName: '',
+        dateRange: []
+      },
       status: '草稿',
       tableLoading: false,
       tableTitle,
       tableData: [],
-      openDialogVisible:false,
-      value1: '',
-      value2: '',
-      value3: ''
+      openDialogVisible: false
     }
   },
-  created(){
+  computed: {
+    disabled() {
+      return !(this.searchForm.sapCode && (this.searchForm.dateRange || []).length)
+    }
+  },
+  created() {
+    this.type = this.$route.query.type == 1 ? '一次件' : '散件'
     this.getMtzSupplierList()
   },
-  methods:{
-    openDialog(){
+  methods: {
+    handleChangeFsupplier(val, item) {
+      this.searchForm.sapCode = val
+      this.searchForm.supplierName = item ? item.message : ''
+      this.tableData = []
+    },
+    handleChangeDate() {
+      this.tableData = []
+    },
+    openDialog() {
       this.openDialogVisible = true
     },
     closeDiolog() {
       this.openDialogVisible = false
     },
+    // 添加规则数据
     addDialogDataList(val) {
       this.newDataList = val.map((item) => {
         this.$set(item, 'supplier', item.sapCode + '-' + item.supplierName)
@@ -160,26 +184,25 @@ export default {
       })
       this.closeDiolog()
       this.tableData.unshift(...this.newDataList)
-      this.editType = true
-      this.$refs.moviesTable.clearSelection()
-      this.editId = this.newDataList.map((item) => {
-        this.$refs.moviesTable.toggleRowSelection(item, true)
-        return item.id
+    },
+    // 查询一次件供应商
+    getMtzSupplierList() {
+      getMtzSupplierList({}).then((res) => {
+        if (res.code === '200') {
+          this.fsupplierList = JSON.parse(JSON.stringify(res.data))
+        } else {
+          iMessage.error(res.desZh)
+        }
       })
     },
-    getMtzSupplierList(){
-        getMtzSupplierList({}).then(res => {
-            if (res.code === '200') {
-            this.fsupplierList = JSON.parse(JSON.stringify(res.data))
-            } else {
-                iMessage.error(res.desZh)
-            }
-        })
+    // 计算
+    computedData(){
+      console.log('exportExcel=>计算')
+      window.close()
     },
-    getTableList(){
-      getData().then(res=>{
-
-      })
+    // 导出
+    exportExcel() {
+      console.log('exportExcel=>导出')
     }
   }
 }

@@ -3,7 +3,7 @@
  * @Date: 2023-01-12 14:37:57
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
- * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\created\data.js
+ * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\created\components\data.js
  */
 
 export const tableTitle = [
@@ -194,13 +194,13 @@ export const QueryFormData = [
     { props: 'materialGroup', name: '材料组', key: 'LK_CAILIAOZHU' },
     { props: 'partNum', name: '零件号', key: 'LK_LINGJIANHAO', type: "iMultiLineInput" },
     { props: 'partName', name: '零件名称', key: 'LK_LINGJIANMINGCHENG' },
-    { props: 'sapCode', name: '供应商SAP号', key: 'GONGYINGSHANGSAPHAO' },
-    { props: 'supplierName', name: '供应商名称', key: 'GONGYINGSHANGMINGCHENG' },
+    { props: 'sapCode', name: '供应商SAP号', key: 'GONGYINGSHANGSAPHAO', disabled:true },
+    { props: 'supplierName', name: '供应商名称', key: 'GONGYINGSHANGMINGCHENG', disabled:true },
     { props: 'deptCode', name: '科室', key: '科室', type: 'select', selectOption: 'deptList', multiple: true },
     { props: 'buyerName', name: '采购员', key: 'CAIGOUYUAN' },
     { props: 'effectFlag', name: '是否生效', key: 'SHIFOUSHENGXIAO', type: 'select', selectOption: 'effectFlagList' },
-    { props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI', type: 'date' },
-    { props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI', type: 'date' },
+    { props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI', type: 'date', disabled:true },
+    { props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI', type: 'date', disabled:true },
   ]
   
   // 沿用表格
