@@ -2,16 +2,16 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-08-03 11:00:56
- * @LastEditors: zbin
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Descripttion: your project
 -->
 <template>
   <div class="right" width="4rem">
-    <region v-bind="$attrs" />
-    <carType v-bind="$attrs" class="margin-top5" />
-    <materials v-bind="$attrs" class="margin-top5" />
-    <part v-bind="$attrs" class="margin-top5" />
-    <supplier v-bind="$attrs" class="margin-top5" />
+    <region v-bind="$attrs" v-on="$listeners" />
+    <carType v-bind="$attrs" v-on="$listeners" class="margin-top5" />
+    <materials v-bind="$attrs" v-on="$listeners" class="margin-top5" />
+    <part v-bind="$attrs" v-on="$listeners" class="margin-top5" />
+    <supplier v-bind="$attrs" v-on="$listeners" class="margin-top5" />
   </div>
 </template>
 

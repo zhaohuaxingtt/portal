@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-05-21 10:18:28
- * @LastEditors: YoHo
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Descripttion: your project
 -->
 <template>
@@ -24,7 +24,7 @@
       <el-form-item :label="language('QUYU','区域')">
         <el-cascader v-model="form.area" :filter-method="filterZR"
                      :placeholder="language('QUYU','区域')"
-                     :options="formGoup.areaList"
+                     :options="formGroup.areaList"
                      :props="{multiple:true}"
                      :clearable="true"
                      collapse-tags
@@ -44,7 +44,7 @@
       <el-form-item :label="language('CHUANGJIANFANGSHI','创建方式')">
         <iSelect :placeholder="$t('LK_QINGSHURU')"
                  v-model="form.createType">
-          <el-option v-for="(item,index) in formGoup.createTypeList"
+          <el-option v-for="(item,index) in formGroup.createTypeList"
                      :key="index"
                      :value="item.value"
                      :label="$getLabel(item.labelZ,item.labelE)">
@@ -91,7 +91,7 @@ export default {
         occurrenceEndTime: '',
         createType: ''
       },
-      formGoup: {
+      formGroup: {
         areaList: [],
         createTypeList: []
       },
@@ -99,7 +99,7 @@ export default {
   },
   created () {
     this.getData()
-    this.formGoup.createTypeList = [
+    this.formGroup.createTypeList = [
       {
         value:"自动创建",
         labelZ:'自动创建',
@@ -119,9 +119,7 @@ export default {
     },
     getData(){
       this.getCityInfo().then(res=>{
-        console.log(res);
-        this.formGoup.areaList = _.cloneDeep(res);
-        console.log(this.form)
+        this.formGroup.areaList = _.cloneDeep(res);
       })
     },
     getCityInfo () {
@@ -130,7 +128,6 @@ export default {
       var zhRule = /^[\u4e00-\u9fa5]+$/i;//中文
       var enRule = /^[a-zA-Z]+$/;//英文
       return new Promise((resolve, reject) => {
-        console.log(that.$i18n.locale);
         getCityInfo().then(res=>{
           if(res?.result){
             let areaList = []
@@ -218,7 +215,6 @@ export default {
               })
             })
             // 删除空数组
-            console.log(areaList)
             areaList.map((item) => {
               if (item.children.length) {
                 item.children.map((val) => {
@@ -233,7 +229,6 @@ export default {
             areaList.map((item) => {
               return item.children && item.children
             })
-            console.log(areaList)
             resolve(areaList)
           }
         }).catch(res=>{

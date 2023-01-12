@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-08-02 20:01:05
- * @LastEditors: Please set LastEditors
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Descripttion: your project
 -->
 <template>
@@ -10,22 +10,22 @@
     <el-row style="width:80%" type="flex" align='bottom' :gutter="15">
       <el-col :span="6">
         <iInput :placeholder="language('GONGYINGSHANGBIANHAO','供应商编号')" v-model="form.sapCodes[0]"></iInput>
-        <!-- <iSelectCustom :placeholder="language('GONGYINGSHANGBIANHAO','供应商编号')" :data="formGoup.provinceList" label="cityNameCn" value="cityId" v-model="form.province" :multiple="true" :popoverClass="'popover-class'" /> -->
+        <!-- <iSelectCustom :placeholder="language('GONGYINGSHANGBIANHAO','供应商编号')" :data="formGroup.provinceList" label="cityNameCn" value="cityId" v-model="form.province" :multiple="true" :popoverClass="'popover-class'" /> -->
       </el-col>
       <!-- 材料组 -->
       <el-col :span="6">
         <iInput :placeholder="language('GONGYINGSHANGMINGCHENGQUANCHENG','供应商名称（全称）')" v-model="form.supplierNameList[0]"></iInput>
-        <!-- <iSelectCustom :placeholder="language('GONGYINGSHANGMINGCHENGQUANCHENG','供应商名称（全称）')" :data="formGoup.materialGroupList" label="categoryName" value="categoryCode" v-model="form.categoryCode" :multiple="true" :popoverClass="'popover-class'" /> -->
+        <!-- <iSelectCustom :placeholder="language('GONGYINGSHANGMINGCHENGQUANCHENG','供应商名称（全称）')" :data="formGroup.materialGroupList" label="categoryName" value="categoryCode" v-model="form.categoryCode" :multiple="true" :popoverClass="'popover-class'" /> -->
       </el-col>
       <el-col v-if="eventDetail.createType===language('ZIDONGCHUANGJIAN','自动创建')" :span="6">
         <iSelect :placeholder="language('SOUYINGXIANGCHENGDU','受影响程度')" v-model="form.impactLevelList[0]">
-          <el-option v-for="(item,index) in formGoup.impactLevelList" :key="index" :label="item.name" :value="item.code">
+          <el-option v-for="(item,index) in formGroup.impactLevelList" :key="index" :label="item.name" :value="item.code">
           </el-option>
         </iSelect>
       </el-col>
       <el-col :span="6">
         <iSelect collapse-tags multiple :placeholder="language('FANKUIZHUANGTAI1','反馈状态')" v-model="form.feedbackStatusList">
-          <el-option v-for="(item,index) in formGoup.statusList" :key="index" :label="item.label" :value="item.value">
+          <el-option v-for="(item,index) in formGroup.statusList" :key="index" :label="item.label" :value="item.value">
             <icon v-if="item.value==='黄'" name="iconbaojiapingfengenzong-jiedian-huang" symbol></icon>
             <icon v-if="item.value==='红'" name="iconbaojiapingfengenzong-jiedian-hong" symbol></icon>
             <icon v-if="item.value==='绿'" name="iconbaojiapingfengenzong-jiedian-lv" symbol></icon>
@@ -63,7 +63,7 @@ export default {
         feedbackStatusList: [],
         impactLevelList: [],
       },
-      formGoup: {
+      formGroup: {
         materialGroupList: [],
         provinceList: [],
         statusList: [
@@ -103,9 +103,9 @@ export default {
     // 获取材料组数据||地区数据
     async dictByCode() {
       const res = await dictByCode('NTIER_AFFECTED_DEGREE')
-      this.formGoup.impactLevelList = res
+      this.formGroup.impactLevelList = res
       const res1 = await getCityInfo()
-      this.formGoup.provinceList = res1.data
+      this.formGroup.provinceList = res1.data
     },
     // 返回
     handleBack() {

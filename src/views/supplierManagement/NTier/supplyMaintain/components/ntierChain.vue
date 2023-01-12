@@ -2,11 +2,11 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-10-08 09:52:17
- * @LastEditors: Please set LastEditors
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Descripttion: your project
 -->
 <template>
-  <iCard id="app"
+  <iCard
          v-loading="appLoading"
          loading-text="加载中......"
          style="width: 100%;height: 100%;">
@@ -197,12 +197,23 @@ import copySupplierDialog from "./copySupplierDialog.vue";
 import "./component.css";
 import { chain, deleteNode, change } from "@/api/supplierManagement/supplyMaintain/index.js";
 import { iCard, iDialog, iButton, iInput, iLabel, iFormGroup, iFormItem, icon, iSelect } from 'rise'
-import { getCity,getCityInfo } from "@/api/supplierManagement/supplyChainOverall/index.js";
 import resultMessageMixin from "@/mixins/resultMessageMixin.js";
 import { dictByCode } from "./data";
 export default {
   components: { nodeChain, iCard, iDialog, iButton, iInput, iLabel, iFormGroup, iFormItem, icon, iSelect, supplierInfoDialog, addSupplierDialog, copySupplierDialog },
   mixins: [resultMessageMixin],
+  props:{
+    areaList:Array
+  },
+  watch:{
+    areaList: {
+      handler(val){
+        this.formGroup.areaList = _.cloneDeep(val)
+      },
+      deep:true,
+      immediate:true
+    }
+  },
   data () {
     return {
       onDataLoading: false,
@@ -248,7 +259,7 @@ export default {
   },
   mounted () {
     this.getCardChain()
-    this.getData()
+    this.formGroup.areaList = _.cloneDeep(this.areaList)
     this.dictByCode()
     this.$nextTick(() => {
       this.outboxHeight = document.documentElement.getBoundingClientRect().height - this.$refs.nodeChain.$el.getBoundingClientRect().y - 60;
@@ -257,133 +268,6 @@ export default {
   created () {
   },
   methods: {
-    getCityInfo () {
-      var that = this;
-
-      var zhRule = /^[\u4e00-\u9fa5]+$/i;//中文
-      var enRule = /^[a-zA-Z]+$/;//英文
-      return new Promise((resolve, reject) => {
-        console.log(that.$i18n.locale);
-        getCityInfo().then(res=>{
-          if(res?.result){
-            let areaList = []
-            // 筛选国家
-            res.data.map((item) => {
-              if (item.locationType === 'Nation') {
-                if(that.$i18n.locale === "zh"){
-                  if(zhRule.test(item.cityNameCn)){
-                    areaList.push({
-                      value: item.cityNameCn,
-                      label: item.cityNameCn,
-                      cityId: item.cityId,
-                      children: []
-                    })
-                  }
-                }else{
-                  if(enRule.test(item.cityNameEn)){
-                    areaList.push({
-                      value: item.cityNameCn,
-                      label: item.cityNameEn,
-                      cityId: item.cityId,
-                      children: []
-                    })
-                  }
-                }
-              }
-            })
-            // 筛选省
-            res.data.forEach((item) => {
-              areaList.forEach((val, index) => {
-                if (
-                  item.locationType === 'Province' &&
-                  item.parentCityId === val.cityId
-                ) {
-                  if(that.$i18n.locale === "zh"){
-                    if(zhRule.test(item.cityNameCn)){
-                      areaList[index].children.push({
-                        value: item.cityNameCn,
-                        label: item.cityNameCn,
-                        cityId: item.cityId,
-                        parentCityId: item.parentCityId,
-                        children: []
-                      })
-                    }
-                  }else{
-                    if(enRule.test(item.cityNameEn)){
-                      areaList[index].children.push({
-                        value: item.cityNameCn,
-                        label: item.cityNameEn,
-                        cityId: item.cityId,
-                        parentCityId: item.parentCityId,
-                        children: []
-                      })
-                    }
-                  }
-                }
-              })
-            })
-            // 筛选市
-            res.data.forEach((item) => {
-              areaList.forEach((val, j) => {
-                val.children.forEach((i, index) => {
-                  if (item.locationType === 'City' && item.parentCityId === i.cityId) {
-                    if(that.$i18n.locale === "zh"){
-                      if(zhRule.test(item.cityNameCn)){
-                        areaList[j].children[index].children.push({
-                          value: item.cityNameCn,
-                          label: item.cityNameCn,
-                          cityId: item.cityId,
-                          parentCityId: item.parentCityId
-                        })
-                      }
-                    }else{
-                      if(enRule.test(item.cityNameEn)){
-                        areaList[j].children[index].children.push({
-                          value: item.cityNameCn,
-                          label: item.cityNameEn,
-                          cityId: item.cityId,
-                          parentCityId: item.parentCityId
-                        })
-                      }
-                    }
-                  }
-                })
-              })
-            })
-            // 删除空数组
-            console.log(areaList)
-            areaList.map((item) => {
-              if (item.children.length) {
-                item.children.map((val) => {
-                  if (item.children.length === 0) {
-                    delete val.children
-                  }
-                })
-              } else {
-                delete item.children
-              }
-            })
-            areaList.map((item) => {
-              return item.children && item.children
-            })
-            console.log(areaList)
-            resolve(areaList)
-          }
-        }).catch(res=>{
-          reject();
-        })
-      })
-    },
-    async getData(){
-      // const res = await this.getCityInfo()
-      this.getCityInfo().then(res=>{
-        this.formGroup.areaList = _.cloneDeep(res);
-        console.log(this.form)
-      })
-      // console.log(res);
-      // this.formGroup.areaList = res
-      // console.log(this.form)
-    },
     // 过去零件信息
     async dictByCode () {
       const res = await dictByCode('NTIER_CHAIN_PART_TYPE')
