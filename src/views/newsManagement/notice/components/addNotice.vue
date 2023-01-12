@@ -146,7 +146,7 @@
                 <a
                   class="el-upload-list__item-name"
                   @click="
-                    handleDownloadFile(item.attachmentUrl, item.attachmentTitle)
+                    handleDownloadFile(item.attachmentUrl, item.attachmentTitle, item.attachmentId)
                   "
                 >
                   <i class="el-icon-paperclip" style="color: #1763f7">
@@ -228,7 +228,7 @@
                 :key="item.id"
                 class="open-link-text enclosure-item"
                 @click="
-                  downloadEnclosure(item.attachmentUrl, item.attachmentTitle)
+                  downloadEnclosure(item.attachmentUrl, item.attachmentTitle, )
                 "
               >
                 <img :src="enclosure" alt="" srcset="" class="img" />
@@ -487,15 +487,17 @@ export default {
           this.uploadLoading = false;
         });
     },
-    handleDownloadFile(url, name) {
-      createAnchorLink(
-        url, // 前端跨域问题，将api地址替换为反向代理地址
-        name
-      );
+    handleDownloadFile(url) {
+        return window.open(url)
+      // createAnchorLink(
+      //   url, // 前端跨域问题，将api地址替换为反向代理地址
+      //   name
+      // );
     },
     // 预览页-下载附件
-    downloadEnclosure(url, name) {
-      createAnchorLink(url, name);
+    downloadEnclosure(url) {
+      return window.open(url)
+      // createAnchorLink(url, name);
     },
     handleDeleteAccessory(id) {
       this.ruleForm.attachments = this.ruleForm.attachments.filter(
