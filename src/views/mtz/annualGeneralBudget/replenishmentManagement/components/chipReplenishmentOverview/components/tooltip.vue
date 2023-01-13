@@ -2,9 +2,11 @@
   <div>
     <span>{{ content }}</span>
     <el-tooltip effect="light" placement="top" v-bind="$attrs">
-      <div slot="content">
-        {{ tip }}
-      </div>
+      <template slot="content">
+        <slot name="tip">
+          {{ tip }}
+        </slot>
+      </template>
       <i class="el-icon-warning-outline margin-left10" style="color: blue"></i>
     </el-tooltip>
   </div>

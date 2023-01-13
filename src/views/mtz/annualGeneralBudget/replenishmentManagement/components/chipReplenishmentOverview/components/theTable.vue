@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2023-01-13 09:43:37
+ * @LastEditTime: 2023-01-13 15:37:38
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipReplenishmentOverview\components\theTable.vue
@@ -20,9 +20,10 @@
             inactive-color="#cccccc"
           >
           </el-switch>
-          <el-radio-group v-model="type" @change="change">
-            <el-radio-button label="1">{{ $t('一次件补差') }}</el-radio-button>
-            <el-radio-button label="2">{{ $t('散件补差') }}</el-radio-button>
+          <el-radio-group v-model="supplierType" @change="change">
+            <template v-for="item in typeList">
+              <el-radio-button :label="item.label" :key="item.key">{{ $t(item.key) }}</el-radio-button>
+            </template>
           </el-radio-group>
         </div>
         <el-dropdown
@@ -44,249 +45,6 @@
           </el-dropdown-menu>
         </el-dropdown>
       </template>
-      <!-- <el-table
-        :data="tableData"
-        ref="moviesTable"
-        tooltip-effect="light"
-        v-loading="loading"
-        border
-        @selection-change="handleSelectionChange"
-      >
-        <el-table-column type="selection" fixed width="50"> </el-table-column>
-        <el-table-column label="#" fixed type="index" width="50">
-        </el-table-column>
-        <el-table-column
-          prop="fsupplierName"
-          align="center"
-          show-overflow-tooltip
-          minWidth="240"
-        >
-          <template slot="header">
-            <div>{{ language('YICIJIANGONGYINGSHANG', '一次件供应商') }}</div>
-          </template>
-          <template slot-scope="scope">
-            <p class="openPage" @click="handleClickFsupplierName(scope.row)">
-              {{ scope.row.firstSupplierName }}
-            </p>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="waitLaunchedDocMoney"
-          align="center"
-          show-overflow-tooltip
-          minWidth="180"
-          :formatter="formatterNumber"
-        >
-          <template slot="header">
-            <div>
-              <span>{{ language('DAIFAQIPINZHENG', '待发起凭证') }}</span>
-              <el-tooltip effect="light" placement="top">
-                <div slot="content">
-                  {{
-                    language(
-                      'BUCHAJINEJIESUANZHONGSHANGWEIFAQIPINZHENGDEJINE',
-                      '补差金额（结算）中尚未发起凭证的金额'
-                    )
-                  }}
-                </div>
-                <i
-                  class="el-icon-warning-outline margin-left10"
-                  style="color: blue"
-                ></i>
-              </el-tooltip>
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="hasLaunchedDocMoney"
-          align="center"
-          show-overflow-tooltip
-          minWidth="180"
-          :formatter="formatterNumber"
-        >
-          <template slot="header">
-            <div>
-              <span>{{ language('YIFAQIPINZHENG', '已发起凭证') }}</span>
-              <el-tooltip effect="light" placement="top">
-                <div slot="content">
-                  {{
-                    language(
-                      'BUCHAJINEJIESUANZHONGYIFAQIDEPINZHENGJINEZONGHE',
-                      '补差金额（结算）中已发起的凭证金额总和'
-                    )
-                  }}
-                </div>
-                <i
-                  class="el-icon-warning-outline margin-left10"
-                  style="color: blue"
-                ></i>
-              </el-tooltip>
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="trueCompMoney"
-          align="center"
-          show-overflow-tooltip
-          minWidth="180"
-          :formatter="formatterNumber"
-        >
-          <template slot="header">
-            <div>
-              <span>{{ language('SHIJIBUCHAJINE', '实际补差金额') }}</span>
-              <el-tooltip effect="light" placement="top">
-                <div slot="content">
-                  <p>
-                    {{
-                      language(
-                        'YIFAQIPINGZHENGZHONGSHIJIXIANGGONGYINGSHANGBUCHADEJINE',
-                        '已发起凭证中实际向供应商补差的金额；'
-                      )
-                    }}
-                  </p>
-                  <p>
-                    {{
-                      language(
-                        'SHIJIBUCHAJINEDAIQUERENJINEYIQUERENJINEYIPIZHUNJINEYIZHIFUJINE',
-                        '实际补差金额=待确认金额+已确认金额+ 已批准金额+已支付金额'
-                      )
-                    }}
-                  </p>
-                </div>
-                <i
-                  class="el-icon-warning-outline margin-left10"
-                  style="color: blue"
-                ></i>
-              </el-tooltip>
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="waitVerifyMoney"
-          align="center"
-          show-overflow-tooltip
-          minWidth="180"
-          :formatter="formatterNumber"
-        >
-          <template slot="header">
-            <div>
-              <span>{{ language('DAIQUERENJINE', '待确认金额') }}</span>
-              <el-tooltip effect="light" placement="top">
-                <div slot="content">
-                  <p>
-                    {{
-                      language(
-                        'CAIGONGYUANFAQIBUCHAPINZHENGZHONGGONGYINGSHANGSHANGWEIQUERENDEJINE',
-                        '采购员发起补差凭证中供应商尚未确认的金额'
-                      )
-                    }}
-                  </p>
-                  <p>
-                    {{
-                      language(
-                        'CAOGAOGONGYINGSHANGQUERENZHONGJINE',
-                        '（草稿+供应商确认中金额）'
-                      )
-                    }}
-                  </p>
-                </div>
-                <i
-                  class="el-icon-warning-outline margin-left10"
-                  style="color: blue"
-                ></i>
-              </el-tooltip>
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="hasVerifyMoney"
-          align="center"
-          show-overflow-tooltip
-          minWidth="140"
-          :formatter="formatterNumber"
-        >
-          <template slot="header">
-            <div>
-              <span>{{ language('YIQUERENJINE', '已确认金额 ') }}</span>
-              <el-tooltip effect="light" placement="top">
-                <div slot="content">
-                  <p>
-                    {{
-                      language(
-                        'GONGYINGSHANGYIQUERENDEBUCHAPINZHENG',
-                        '供应商已确认的补差凭证'
-                      )
-                    }}
-                  </p>
-                  <p>
-                    {{
-                      language(
-                        'JINEZONGHESHENPIZHONGJINE',
-                        '金额总和（审批中金额）'
-                      )
-                    }}
-                  </p>
-                </div>
-                <i
-                  class="el-icon-warning-outline margin-left10"
-                  style="color: blue"
-                ></i>
-              </el-tooltip>
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="hasRatifyMoney"
-          align="center"
-          show-overflow-tooltip
-          minWidth="140"
-          :formatter="formatterNumber"
-        >
-          <template slot="header">
-            <div>
-              <span>{{ language('YIPIZHENGJINE', '已批准金额 ') }}</span>
-              <el-tooltip effect="light" placement="top">
-                <div slot="content">
-                  {{
-                    language(
-                      'BUCHAPINZHENGSHENPITONGUOJINESHENPITONGGUOJINE',
-                      '补差凭证审批通过金额（审批通过金额）'
-                    )
-                  }}
-                </div>
-                <i
-                  class="el-icon-warning-outline margin-left10"
-                  style="color: blue"
-                ></i>
-              </el-tooltip>
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="hasPayMoney"
-          align="center"
-          show-overflow-tooltip
-          minWidth="140"
-          :formatter="formatterNumber"
-        >
-          <template slot="header">
-            <div>
-              <span>{{ language('YIZHIFUJINE', '已支付金额') }}</span>
-              <el-tooltip effect="light" placement="top">
-                <div slot="content">
-                  {{
-                    language('BUCHAPINZHENGYIZHIFUJINE', '补差凭证已支付金额')
-                  }}
-                </div>
-                <i
-                  class="el-icon-warning-outline margin-left10"
-                  style="color: blue"
-                ></i>
-              </el-tooltip>
-            </div>
-          </template>
-        </el-table-column>
-      </el-table> -->
 
       <iTableCustom
         :loading="loading"
@@ -310,6 +68,7 @@
       v-if="detailParams.visible"
       :key="detailParams.key"
       :params="detailParams.data"
+      :supplierType="supplierType"
       @handleCloseDialog="handleCloseDialog"
       @handleRedeploy="handleRedeploy"
     />
@@ -346,7 +105,16 @@ export default {
   mixins: [pageMixins],
   data() {
     return {
-      type: 1,
+      supplierType: '一次件供应商',
+      typeList:[
+        {
+          label:'一次件供应商',
+          key:'一次件补差',
+        },{
+          label:'散件供应商',
+          key:'散件补差',
+        },
+      ],
       detailParams: {
         key: 0,
         visible: false,
@@ -364,7 +132,7 @@ export default {
   },
   computed: {
     tableTitle() {
-      return this.type == 1 ? tableTitle1 : tableTitle2
+      return this.supplierType == '一次件供应商' ? tableTitle1 : tableTitle2
     }
   },
   created() {

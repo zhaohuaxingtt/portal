@@ -1,28 +1,24 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2023-01-13 09:45:12
+ * @LastEditTime: 2023-01-13 16:17:18
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipReplenishmentOverview\components\search.vue
 -->
 <template>
-  <div>
-    <iSearch @reset="handleSearchReset" @sure="handleSubmitSearch">
-      <iFormGroup :inline="true" :row="5" :model="searchForm">
+  <search
+    @reset="handleSearchReset"
+    @sure="handleSubmitSearch"
+    :searchFormData="searchFormData"
+    :searchForm="searchForm"
+    :options="options"
+  >
+    <!-- <iFormGroup :inline="true" :row="5" :model="searchForm">
         <iFormItem
           style="marginright: 68px"
           :label="language('YICIJIANGONGYINGSHANG', '一次件供应商')"
         >
-          <!-- <custom-select v-model="searchForm.firstSuppliers"
-                         :user-options="fsupplierList"
-                         multiple
-                         clearable
-                         :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                         display-member="codeMessage"
-                         value-member="code"
-                         value-key="code">
-          </custom-select> -->
           <el-select
             v-model="searchForm.firstSuppliers"
             multiple
@@ -56,21 +52,13 @@
             value-key="code"
           >
           </custom-select>
-          <!-- <el-select v-model="searchForm.secondSupplier"
-                     :placeholder="language('QINGXUANZE', '请选择')">
-            <el-option v-for="item in ssupplierList"
-                       :key="item.code"
-                       :label="item.message"
-                       :value="item.code">
-            </el-option>
-          </el-select> -->
         </iFormItem>
         <iFormItem
           style="marginright: 68px"
           :label="language('BUCHASHIJIANDUAN', '补差时间段')"
         >
           <iDatePicker
-            v-model="value1"
+            v-model="compDate"
             type="daterange"
             format="yyyy-MM-dd"
             value-format="yyyy-MM-dd"
@@ -81,13 +69,8 @@
           >
           </iDatePicker>
         </iFormItem>
-        <!-- <iFormItem class="searchButton">
-          <iButton @click="handleSubmitSearch">{{language('CX', '查询')}}</iButton>
-          <iButton @click="handleSearchReset">{{language('CZ', '重置')}}</iButton>
-        </iFormItem> -->
-      </iFormGroup>
-    </iSearch>
-  </div>
+      </iFormGroup> -->
+  </search>
 </template>
 
 <script>
@@ -101,10 +84,11 @@ import {
   iFormItem
 } from 'rise'
 import { getMtzSupplierList } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
+import search from '../../components/search'
 import { getNowFormatDate } from './util'
+import { searchFormData } from './data'
 
 export default {
-  name: 'Search',
   componentName: 'searchBox',
   components: {
     iCard,
@@ -112,30 +96,34 @@ export default {
     iSearch,
     iDatePicker,
     iFormGroup,
-    iFormItem
+    iFormItem,
+    search
   },
   data() {
     return {
+      searchForm: {},
+      searchFormData,
+      options: {
+        fsupplierList: [], //一次件供应商编号
+        ssupplierList: [] //二次件供应商编号
+      },
       searchForm: {
         secondSuppliers: [],
         firstSuppliers: [],
         compStartDate: '',
         compEndDate: ''
-      },
-      value1: [],
-      fsupplierList: [],
-      ssupplierList: []
+      }
     }
   },
   created() {
     this.init()
-    this.value1 = this.getTime()
+    this.searchForm.compDate = this.getTime()
 
     this.searchForm.compStartDate = window
-      .moment(this.value1[0])
+      .moment(this.searchForm.compDate[0])
       .format('yyyy-MM-DD')
     this.searchForm.compEndDate = window
-      .moment(this.value1[1])
+      .moment(this.searchForm.compDate[1])
       .format('yyyy-MM-DD')
   },
   mounted() {},
@@ -149,7 +137,7 @@ export default {
           : date.getMonth() + 1
       var day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate()
       return [
-        year-2 + '-01-01 00:00:00',
+        year - 2 + '-01-01 00:00:00',
         year + '-' + month + '-' + day + ' 00:00:00'
       ]
       // return window.moment(new Date()).format('yyyy-MM-DD')
@@ -157,16 +145,16 @@ export default {
     init() {
       getMtzSupplierList({}).then((res) => {
         if (res.code === '200') {
-          this.fsupplierList = JSON.parse(JSON.stringify(res.data))
-          this.ssupplierList = JSON.parse(JSON.stringify(res.data))
+          this.options.fsupplierList = JSON.parse(JSON.stringify(res.data))
+          this.options.ssupplierList = JSON.parse(JSON.stringify(res.data))
         } else {
           iMessage.error(res.desZh)
         }
       })
     },
-    handleMaterialCode(codes) {
-      this.$emit('materialCodes', codes)
-    },
+    // handleMaterialCode(codes) {
+    //   this.$emit('materialCodes', codes)
+    // },
     handleChange(val) {
       this.searchForm.compStartDate = window.moment(val[0]).format('yyyy-MM-DD')
       this.searchForm.compEndDate = window.moment(val[1]).format('yyyy-MM-DD')
@@ -183,7 +171,7 @@ export default {
         compStartDate: '',
         compEndDate: ''
       }
-      this.value1 = ''
+      this.compDate = []
       this.$parent.$refs.theTable.getTableList()
     }
   }
@@ -196,15 +184,4 @@ export default {
   float: right;
   z-index: 100;
 }
-// ::v-deep .el-date-editor .el-range-separator {
-//   width: 6%;
-//   line-height: 32px;
-// }
-// ::v-deep .el-date-editor .el-range__icon {
-//   line-height: 32px;
-// }
-// ::v-deep .el-range-editor.el-input__inner {
-//   padding: 0 10px;
-//   align-items: center;
-// }
 </style>
