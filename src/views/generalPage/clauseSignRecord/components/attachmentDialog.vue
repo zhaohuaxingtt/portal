@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-10 19:14:16
- * @LastEditTime: 2023-01-13 17:44:56
+ * @LastEditTime: 2023-01-13 18:06:06
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \front-portal\src\views\generalPage\clauseSignRecord\components\attachmentDialog.vue
@@ -16,10 +16,10 @@
     <div class="changeContent" v-loading="loading">
       <div v-html="termsText" ref="termsContent"></div>
     </div>
-    <!-- <span slot="footer" class="dialog-footer">
+    <span slot="footer" class="dialog-footer" v-if="info.state=='01'">
       <i-button @click="$emit('input', false)">{{ $t('LK_QUXIAO') }}</i-button>
       <i-button @click="handleSignature">{{ $t('SUPPLIER_QIANSHU') }}</i-button>
-    </span> -->
+    </span>
   </i-dialog>
 </template>
 
