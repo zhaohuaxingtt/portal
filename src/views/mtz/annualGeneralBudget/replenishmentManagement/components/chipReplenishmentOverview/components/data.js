@@ -1,11 +1,13 @@
 /*
  * @Author: your name
  * @Date: 2021-10-09 15:06:29
- * @LastEditTime: 2023-01-12 17:16:14
+ * @LastEditTime: 2023-01-13 10:25:09
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipReplenishmentOverview\components\data.js
- */import { language } from "@/utils/language";
+ */
+import language from "@/utils/language";
+import tooltip from "./tooltip";
 export const TABLE_COLUMS = [
   {
     type: 'selection',
@@ -230,59 +232,75 @@ export const tableTitle1 = [
     type: 'index',
     label: '#',
   }, {
-    prop: 'fsupplierName',
+    prop: 'firstSupplierName',
     label: '一次件供应商',
     i18n: 'YICIJIANGONGYINGSHANG',
     align: 'center',
-    minWidth: 150
+    minWidth: 150,
+    emit: 'handleClickFsupplierName',
+    customRender: (h, scope) => {
+      return <span class="link">{scope.row.firstSupplierName}</span>
+    }
   }, {
     prop: 'waitLaunchedDocMoney',
     label: '待发起凭证',
     i18n: 'DAIFAQIPINZHENG',
     align: 'center',
     minWidth: 150,
+    headerRender: (h) => {
+      return <tooltip  effect="light" placement="top" content={language('DAIFAQIPINZHENG', '待发起凭证')} tip= {language(
+        'BUCHAJINEJIESUANZHONGSHANGWEIFAQIPINZHENGDEJINE',
+        '补差金额（结算）中尚未发起凭证的金额'
+      )}></tooltip>
+    }
   }, {
-    prop: 'hasLaunchedDocMoney',
-    label: '已发起凭证',
-    i18n: 'YIFAQIPINZHENG',
-    align: 'center',
-    minWidth: 150
-  }, {
-    prop: 'trueCompMoney',
-    label: '实际补差金额',
-    i18n: 'SHIJIBUCHAJINE',
-    align: 'center',
-    minWidth: 150
-  }, {
-    prop: 'waitVerifyMoney',
-    label: '待确认金额',
-    i18n: 'DAIQUERENJINE',
-    align: 'center',
-    tooltip: true,
-    minWidth: 150
-  },
-  {
-    prop: 'hasVerifyMoney',
-    label: '已确认金额',
-    i18n: 'YIQUERENJINE',
-    align: 'center',
-    minWidth: 150
-  },
-  {
-    prop: 'hasRatifyMoney',
-    label: '已批准金额',
-    i18n: 'YIPIZHENGJINE',
-    align: 'center',
-    tooltip: true,
-    minWidth: 150
-  },
-  {
-    prop: 'hasPayMoney',
-    label: '已支付金额',
-    i18n: 'YIZHIFUJINE',
-    align: 'center',
-    minWidth: 100
-  },
+      prop: 'hasLaunchedDocMoney',
+      label: '已发起凭证',
+      i18n: 'YIFAQIPINZHENG',
+      align: 'center',
+      minWidth: 150,
+      headerRender: (h) => {
+        return <tooltip  effect="light" placement="top" content={language('YIFAQIPINZHENG', '已发起凭证')} tip= {language(
+          'BUCHAJINEJIESUANZHONGYIFAQIDEPINZHENGJINEZONGHE',
+          '补差金额（结算）中已发起的凭证金额总和'
+        )}></tooltip>
+      }
+    }, {
+      prop: 'trueCompMoney',
+      label: '实际补差金额',
+      i18n: 'SHIJIBUCHAJINE',
+      align: 'center',
+      minWidth: 150
+    }, {
+      prop: 'waitVerifyMoney',
+      label: '待确认金额',
+      i18n: 'DAIQUERENJINE',
+      align: 'center',
+      tooltip: true,
+      minWidth: 150
+    },
+      {
+        prop: 'hasVerifyMoney',
+        label: '已确认金额',
+        i18n: 'YIQUERENJINE',
+        align: 'center',
+        minWidth: 150
+      },
+      {
+        prop: 'hasRatifyMoney',
+        label: '已批准金额',
+        i18n: 'YIPIZHENGJINE',
+        align: 'center',
+        tooltip: true,
+        minWidth: 150
+      },
+      {
+        prop: 'hasPayMoney',
+        label: '已支付金额',
+        i18n: 'YIZHIFUJINE',
+        align: 'center',
+        minWidth: 100
+      },
 ]
 // 散件供应商
 export const tableTitle2 = [

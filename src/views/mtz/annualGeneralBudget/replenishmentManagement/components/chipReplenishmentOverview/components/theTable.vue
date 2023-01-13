@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2023-01-12 17:20:26
+ * @LastEditTime: 2023-01-13 09:43:37
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipReplenishmentOverview\components\theTable.vue
@@ -292,6 +292,7 @@
         :loading="loading"
         :data="tableData"
         :columns="tableTitle"
+        @handleClickFsupplierName="handleClickFsupplierName"
       />
       <iPagination
         @size-change="handleSizeChange($event, getTableList)"

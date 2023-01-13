@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2023-01-09 16:53:29
+ * @LastEditTime: 2023-01-13 09:45:12
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipReplenishmentOverview\components\search.vue
@@ -149,7 +149,7 @@ export default {
           : date.getMonth() + 1
       var day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate()
       return [
-        year + '-01-01 00:00:00',
+        year-2 + '-01-01 00:00:00',
         year + '-' + month + '-' + day + ' 00:00:00'
       ]
       // return window.moment(new Date()).format('yyyy-MM-DD')
