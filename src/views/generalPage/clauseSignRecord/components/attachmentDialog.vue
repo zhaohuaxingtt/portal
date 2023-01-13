@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-10 19:14:16
- * @LastEditTime: 2023-01-11 17:25:02
+ * @LastEditTime: 2023-01-13 17:44:56
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \front-portal\src\views\generalPage\clauseSignRecord\components\attachmentDialog.vue
@@ -16,10 +16,10 @@
     <div class="changeContent" v-loading="loading">
       <div v-html="termsText" ref="termsContent"></div>
     </div>
-    <span slot="footer" class="dialog-footer">
+    <!-- <span slot="footer" class="dialog-footer">
       <i-button @click="$emit('input', false)">{{ $t('LK_QUXIAO') }}</i-button>
       <i-button @click="handleSignature">{{ $t('SUPPLIER_QIANSHU') }}</i-button>
-    </span>
+    </span> -->
   </i-dialog>
 </template>
 
@@ -36,7 +36,6 @@ export default {
     title: { type: String, default: '' },
     value: { type: Boolean },
     detail: { type: String, default: '' },
-    loading: { type: Boolean, default: false },
     id: { type: String, default: '' }
   },
   data() {
@@ -44,6 +43,7 @@ export default {
       currentTemplateId: 0,
       termsText: '',
       info:{},
+      loading:false
     }
   },
   watch: {
@@ -56,10 +56,13 @@ export default {
   },
   methods: {
     findById() {
+      this.loading = true
       findById({ id: this.id }).then((res) => {
         this.info = res
         this.termsText = res.termsText || ''
-      })
+      }).finally(
+        () => (this.loading = false)
+      )
     },
     clearDiolog() {
       this.$emit('input', false)

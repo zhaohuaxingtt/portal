@@ -115,6 +115,7 @@ export default {
       this.query(param)
     },
     query(e) {
+      delete e.supplier
       this.tableLoading = true
       signPageList(e)
         .then((res) => {
