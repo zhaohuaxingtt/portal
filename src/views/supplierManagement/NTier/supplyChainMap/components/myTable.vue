@@ -62,7 +62,8 @@ export default {
       bind(el, binding) {
         const SELECTWRAP_DOM = el.querySelector('.el-table__body-wrapper')
         SELECTWRAP_DOM.addEventListener('scroll', function () {
-          if (this.scrollHeight - this.scrollTop <= this.clientHeight) {
+          // 加20提前触发数据加载,避免1px误差
+          if (this.scrollHeight - this.scrollTop <= this.clientHeight + 20) {
             binding.value()
           }
         })
@@ -87,7 +88,6 @@ export default {
   },
   methods: {
     loadmore() {
-      console.log('++++');
       if (this.page < this.pageData.length) {
         this.page++
         this.$nextTick(() => {

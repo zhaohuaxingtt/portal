@@ -1293,11 +1293,16 @@ export default {
       const filename = row.name
         ? row.name.split('/').join(' ') + '.' + suffix
         : ' ' + '.' + suffix
-
+      // pdf 格式要求在线预览，其余的下载
+      if(suffix=='pdf'){
+        let url = `${origin}/fileApi/fileud/getFileByFileId?fileId=${e.attachmentId}`
+        window.open(url)
+        return
+      }
       downloadAll({
         url:
           process.env.VUE_APP_FILEAPI +
-          '/fileud/udDown?isDown=true&fileIds=' +
+          '/fileud/udDown?fileIds=' +
           e.attachmentId,
         filename,
         callback: null,

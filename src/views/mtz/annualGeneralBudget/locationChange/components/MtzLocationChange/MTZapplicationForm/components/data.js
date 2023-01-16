@@ -29,6 +29,20 @@ export const TABLE_COLUMNS = [
     tooltip: true
   },
   {
+    prop: 'spartNum',
+    label: '二次零件号',
+    minWidth: 120,
+    tooltip: true
+
+  },
+  {
+    prop: 'ssupplierCodeName',
+    label: '二次供应商编号-名称',
+    minWidth: 160,
+    tooltip: true
+
+  },
+  {
     prop: 'materialCode',
     label: '原材料牌号',
     minWidth: 180
@@ -140,6 +154,8 @@ export const TABLE_COLUMNS = [
     label: '市场价来源',
     minWidth: 120
   },
+  
+
   {
     prop: 'compensationRatio',
     label: '补差系数',
