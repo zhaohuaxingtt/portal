@@ -103,7 +103,7 @@ export default {
        window.open(url)
     },
     init() {
-      getSupplierRfqLineDeptDis(this.route.query.subSupplierId).then((res) => {
+      getSupplierRfqLineDeptDis(this.$route.query.subSupplierId).then((res) => {
         if (res.data) {
           this.tablelist = res.data
         }

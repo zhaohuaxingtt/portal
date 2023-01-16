@@ -58,7 +58,7 @@ export default {
        window.open(url)
     },
     init() {
-      getSupplierRfqNominatedDis(this.route.query.subSupplierId).then((res) => {
+      getSupplierRfqNominatedDis(this.$route.query.subSupplierId).then((res) => {
         if (res.data) {
           this.datainfo = res.data
           let data = []
