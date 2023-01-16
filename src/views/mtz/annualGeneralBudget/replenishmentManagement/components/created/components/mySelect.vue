@@ -5,6 +5,7 @@
     v-el-select-loadmore="loadmore"
     @change="changeValue"
     filterable
+    :filter-method="filterData"
   >
     <el-option
       v-for="item in options"

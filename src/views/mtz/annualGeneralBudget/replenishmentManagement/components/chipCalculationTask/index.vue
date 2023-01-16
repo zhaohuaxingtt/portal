@@ -1,40 +1,12 @@
 <template>
   <div>
-    <iSearch @reset="reset"
-             @sure="sure">
-        <el-form class="margin-top10">
-            <el-form-item :label="$t('一次件供应商')">
-                <iSelect filterable clearable v-model="selectOptions.sapCode" :placeholder="language('QINGXUANZE','请选择')">
-                    <el-option
-                        v-for="(item,index) in fsupplierList"
-                        :key="index"
-                        :label="item.codeMessage"
-                        :value="item.code">
-                    </el-option>
-                </iSelect>
-            </el-form-item>
-            <el-form-item :label="$t('采购员')">
-                <iSelect filterable clearable v-model="selectOptions.operatorId" :placeholder="language('QINGXUANZE','请选择')" @change="buyusChange">
-                    <el-option
-                        v-for="(item,index) in operatorBuyus"
-                        :key="index"
-                        :label="item.name"
-                        :value="item.id">
-                    </el-option>
-                </iSelect>
-            </el-form-item>
-            <el-form-item :label="$t('任务状态')">
-                <iSelect filterable clearable v-model="selectOptions.status" :placeholder="language('QINGXUANZE','请选择')">
-                    <el-option
-                        v-for="(item,index) in taskTypeList"
-                        :key="index"
-                        :label="$getLabel(item.label,item.labelE)"
-                        :value="item.value">
-                    </el-option>
-                </iSelect>
-            </el-form-item>
-        </el-form>
-    </iSearch>
+        <search
+        @sure="sure"
+        @reset="reset"
+        :searchForm="searchForm"
+        :searchFormData="searchFormData"
+        :options="options"
+      />
     <iCard style="margin-top:20px;">
         <div>
             <span class="title-us">{{$t('LK_JINKANZIJI')}}</span>
@@ -100,11 +72,11 @@
 
 <script>
 import { iSearch,iSelect,iCard,iPagination } from 'rise'
+import search from '@/views/mtz/annualGeneralBudget/locationChange/components/components/search.vue'
 import tableList from '@/components/commonTable/index.vue'
-import { tableTitle } from "./data";
-import { getMtzSupplierList } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
+import { tableTitle, searchFormData } from "./data";
+import { getSupplierByuser, findCalculateTaskByPage } from '@/api/mtz/annualGeneralBudget/chipReplenishment'
 import {
-    pageMtzCalcuLateTasks,
     getBuyers
 } from '@/api/mtz/mtzCalculationTask'
 
@@ -117,17 +89,59 @@ export default {
         iCard,
         tableList,
         iPagination,
-        balancePaymentDialog
+        balancePaymentDialog,
+        search
     },
     data(){
         return{
             tableTitle,
             tableListData:[],
             tableLoading:false,
-            selectOptions:{
+            searchForm:{
                 sapCode:"",
                 operatorId:"",
                 status:"",
+            },
+            searchFormData,
+            options:{
+                fsupplierList:[],
+                ssupplierList:[],
+                deptList:[],
+                operatorBuyus:[],
+                taskTypeList:[
+                    {
+                        value:1,
+                        label:"一次件芯片补差",
+                        labelE:"一次件芯片补差"
+                    },{
+                        value:2,
+                        label:"散件芯片补差",
+                        labelE:"散件芯片补差"
+                    }
+                ],
+                taskStatusList:[
+                    {
+                        value:0,
+                        label:"准备中",
+                        labelE:"Preparing"
+                    },{
+                        value:1,
+                        label:"计算中",
+                        labelE:"In calculation"
+                    },{
+                        value:2,
+                        label:"计算完成",
+                        labelE:"Calculation completed"
+                    },{
+                        value:3,
+                        label:"计算失败",
+                        labelE:"Calculation failed"
+                    },{
+                        value:4,
+                        label:"已关闭",
+                        labelE:"Closed"
+                    },
+                ],
             },
             value:true,
 
@@ -182,14 +196,14 @@ export default {
         changeSwitch(val){
             this.value = val;
             if(val){
-                this.selectOptions.operatorId = "";
+                this.searchForm.operatorId = "";
                 this.page.currPage = 1;
                 this.page.pageSize = 10;
-                this.pageMtzCalcuLateTasks();
+                this.findCalculateTaskByPage();
             }else{
                 this.page.currPage = 1;
                 this.page.pageSize = 10;
-                this.pageMtzCalcuLateTasks();
+                this.findCalculateTaskByPage();
             }
         },
         handleSelectionChange(val) {
@@ -224,10 +238,10 @@ export default {
             this.dialogVisible = false
         },
         sure(){
-            this.pageMtzCalcuLateTasks();
+            this.findCalculateTaskByPage();
         },
         reset(){
-            this.selectOptions = {
+            this.searchForm = {
                 sapCode:"",
                 operatorId:"",
                 status:"",
@@ -235,24 +249,24 @@ export default {
             this.value = true;
             this.page.currPage = 1;
             this.page.pageSize = 10;
-            this.pageMtzCalcuLateTasks();
+            this.findCalculateTaskByPage();
         },
         async getData(){
-            this.getMtzSupplierList();
+            this.getSupplierByuser();
             await this.getBuyers();
-            this.pageMtzCalcuLateTasks();
+            this.findCalculateTaskByPage();
         },
-        pageMtzCalcuLateTasks(){
+        findCalculateTaskByPage(){
             var operatorId;
             if(this.value){
                 operatorId = JSON.parse(sessionStorage.getItem('userInfo')).id
             }else{
-                operatorId = this.selectOptions.operatorId
+                operatorId = this.searchForm.operatorId
             }
-            pageMtzCalcuLateTasks({
-                sapCode:this.selectOptions.sapCode,
+            findCalculateTaskByPage({
+                sapCode:this.searchForm.sapCode,
                 operatorId:operatorId,
-                status:this.selectOptions.status,
+                status:this.searchForm.status,
                 pageNo:this.page.currPage,
                 pageSize:this.page.pageSize,
             }).then(res=>{
@@ -292,8 +306,8 @@ export default {
                 })
             })
         },
-        getMtzSupplierList(){
-            getMtzSupplierList({}).then(res => {
+        getSupplierByuser(){
+            getSupplierByuser({}).then(res => {
                 if (res.code === '200') {
                 this.fsupplierList = JSON.parse(JSON.stringify(res.data))
                 } else {
@@ -307,11 +321,11 @@ export default {
         handleSizeChange(val){
             this.page.pageSize = val;
             this.page.currPage = 1;
-            this.pageMtzCalcuLateTasks();
+            this.findCalculateTaskByPage();
         },
         handleCurrentChange(val){
             this.page.currPage = val;
-            this.pageMtzCalcuLateTasks();
+            this.findCalculateTaskByPage();
         },
     }
 

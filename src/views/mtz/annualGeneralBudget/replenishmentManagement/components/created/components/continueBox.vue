@@ -185,6 +185,7 @@ export default {
         pageSize: this.page.pageSize,
         currentPage: this.page.currPage
       }
+      delete params.supplierName
       getAppRecordByCondition(params)
         .then((res) => {
           if (res?.code == 200) {

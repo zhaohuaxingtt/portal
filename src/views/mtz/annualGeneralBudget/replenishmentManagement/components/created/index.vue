@@ -8,7 +8,7 @@
 <template>
   <iPage>
     <div class="header">
-      <h1>{{type}}供应商芯片补差计算（草稿）</h1>
+      <h1>{{ type }}供应商芯片补差计算（草稿）</h1>
       <iButton @click="computedData">计算</iButton>
     </div>
     <iCard>
@@ -18,7 +18,7 @@
           <iLabel
             class="label"
             required
-            :label="type+language('GONGYINGSHANG', '供应商')"
+            :label="type + language('GONGYINGSHANG', '供应商')"
             slot="label"
           ></iLabel>
           <mySelect
@@ -29,7 +29,7 @@
             :placeholder="language('QINGXUANZE', '请选择')"
             :loading="loading"
             clearable
-            propLabel="message"
+            propLabel="codeMessage"
             propValue="code"
           />
         </iFormItem>
@@ -45,7 +45,7 @@
             clearable
             type="daterange"
             format="yyyy-MM-dd"
-            value-format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd HH:mm:ss"
             @change="handleChangeDate"
             :range-separator="$t('至')"
             :start-placeholder="$t('开始日期')"
@@ -119,7 +119,11 @@ import { pageMixins } from '@/utils/pageMixins'
 import { tableTitle } from './components/data'
 import continueBox from './components/continueBox'
 import mySelect from './components/mySelect'
-import { getMtzSupplierList } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
+import {
+  getSupplierByuser,
+  calculate,
+  saveBalance
+} from '@/api/mtz/annualGeneralBudget/chipReplenishment'
 export default {
   mixins: [pageMixins],
   components: {
@@ -154,12 +158,14 @@ export default {
   },
   computed: {
     disabled() {
-      return !(this.searchForm.sapCode && (this.searchForm.dateRange || []).length)
+      return !(
+        this.searchForm.sapCode && (this.searchForm.dateRange || []).length
+      )
     }
   },
   created() {
     this.type = this.$route.query.type == 1 ? '一次件' : '散件'
-    this.getMtzSupplierList()
+    this.getSupplierByuser()
   },
   methods: {
     handleChangeFsupplier(val, item) {
@@ -186,19 +192,42 @@ export default {
       this.tableData.unshift(...this.newDataList)
     },
     // 查询一次件供应商
-    getMtzSupplierList() {
-      getMtzSupplierList({}).then((res) => {
+    getSupplierByuser() {
+      getSupplierByuser({}).then((res) => {
         if (res.code === '200') {
           this.fsupplierList = JSON.parse(JSON.stringify(res.data))
+          console.log(this.fsupplierList)
         } else {
           iMessage.error(res.desZh)
         }
       })
     },
-    // 计算
-    computedData(){
-      console.log('exportExcel=>计算')
-      window.close()
+    // 计算,先保存再计算
+    computedData() {
+      let params = {
+        attachmentList: [],
+        balanceBase: {
+          supplierSapCode:this.searchForm.sapCode,
+          buyerId:this.$store.state.permission.userInfo.id,
+          balanceType: this.$route.query.type,
+          startFrom: window
+            .moment(this.searchForm.dateRange[0])
+            .format('YYYY-MM-DD 00:00:00'),
+          endTo: (this.searchForm.endDate = window
+            .moment(this.searchForm.dateRange[1])
+            .format('YYYY-MM-DD 23:59:59'))
+        },
+        balanceItemList: [],
+        balanceRuleList: this.tableData
+      }
+      saveBalance(params).then((res) => {
+        if (res?.code == '200') {
+          calculate({ balanceId: res.data }).then((res) => {
+            console.log(res);
+            // window.close()
+          })
+        }
+      })
     },
     // 导出
     exportExcel() {
