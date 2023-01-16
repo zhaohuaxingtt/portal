@@ -10,36 +10,36 @@
       <div>
         <iButton
           @click="cancel"
-          v-if="editType && (appStatus == '草稿' || appStatus == '未通过')"
+          v-if="editType && ((appStatus == '草稿' || appStatus == '未通过')||((flowType=='SIGN'||flowType=='FILING')&&appStatus=='已提交'))"
           >{{ language('QUXIAO', '取消') }}</iButton
         >
         <iButton
           @click="add"
           v-permission="PORTAL_MTZ_POINT_INFOR_ADD"
-          v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
+          v-if="!editType && ((appStatus == '草稿' || appStatus == '未通过')||((flowType=='SIGN'||flowType=='FILING')&&appStatus=='已提交'))"
           >{{ language('XINZENG', '新增') }}</iButton
         >
         <iButton
           @click="edit"
           v-permission="PORTAL_MTZ_POINT_INFOR_BIANJI"
-          v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
+          v-if="!editType && ((appStatus == '草稿' || appStatus == '未通过')||((flowType=='SIGN'||flowType=='FILING')&&appStatus=='已提交'))"
           >{{ language('BIANJI', '编辑') }}</iButton
         >
         <iButton
           @click="continueBtn"
           v-permission="PORTAL_MTZ_POINT_INFOR_GZ_YANYONG"
-          v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
+          v-if="!editType && ((appStatus == '草稿' || appStatus == '未通过')||((flowType=='SIGN'||flowType=='FILING')&&appStatus=='已提交'))"
           >{{ language('YANYONG', '沿用') }}</iButton
         >
         <iButton
           @click="delecte"
           v-permission="PORTAL_MTZ_POINT_INFOR_DEL"
-          v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
+          v-if="!editType && ((appStatus == '草稿' || appStatus == '未通过')||((flowType=='SIGN'||flowType=='FILING')&&appStatus=='已提交'))"
           >{{ language('SHANCHU', '删除') }}</iButton
         >
         <iButton
           @click="save"
-          v-if="editType && (appStatus == '草稿' || appStatus == '未通过')"
+          v-if="editType && ((appStatus == '草稿' || appStatus == '未通过')||((flowType=='SIGN'||flowType=='FILING')&&appStatus=='已提交'))"
           >{{ language('BAOCUN', '保存') }}</iButton
         >
       </div>
