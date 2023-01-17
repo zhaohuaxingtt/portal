@@ -1,6 +1,6 @@
 <template>
   <iDialog
-    :title="$t('签署节点设置') + ':' + $t('报价')"
+    :title="$t('签署节点设置') + ':' + nodeName"
     :visible.sync="openDialog"
     append-to-body="true"
     width="70%"
@@ -9,7 +9,7 @@
   >
     <template slot="title">
       <div class="card-title">
-        <span class="title">{{ $t('签署节点设置') + ':' + $t('报价') }}</span>
+        <span class="title">{{ $t('签署节点设置') + ':' + nodeName }}</span>
         <span>最近设置时间：{{ lastUpdateDate }}</span>
       </div>
     </template>
@@ -107,8 +107,7 @@ export default {
       openUploadFileDialog: false,
       lastUpdateDate: '',
       signNodeList: [],
-      value1: '',
-      value2: '',
+      nodeName:'',
       list2: [
         {
           id: '1',
@@ -133,7 +132,8 @@ export default {
       signNode:this.signNode
     }).then(res=>{
       this.$set(this,'signNodeList',res.termsVoList || [])
-      this.lastUpdateDate = res.lastUpdateDate
+      this.$set(this,'nodeName',res.nodeName || '-')
+      this.$set(this,'lastUpdateDate',res.lastUpdateDate || '-')
     })
   },
   mounted() {
