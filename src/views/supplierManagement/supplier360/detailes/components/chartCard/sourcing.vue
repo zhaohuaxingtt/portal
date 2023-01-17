@@ -99,7 +99,7 @@ export default {
     gotoUrl(){
       let url =
         process.env.VUE_APP_HOST +
-        `/sourcing/#/sourceinquirypoint/sourcing/partsrfq?supplierName=${this.infodata.nameZh}`
+        `/sourcing/#/sourceinquirypoint/sourcing/partsrfq?supplierName=${this.infodata.shortNameZh}`
        window.open(url)
     },
     init() {
