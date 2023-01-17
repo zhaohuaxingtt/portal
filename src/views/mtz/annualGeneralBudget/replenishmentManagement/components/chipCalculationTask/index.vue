@@ -67,6 +67,7 @@
         :loading="tableLoading"
         :data="tableListData"
         :columns="tableTitle"
+        @handleAdd="handleAdd"
       />
         <iPagination
             @size-change="handleSizeChange($event, findCalculateTaskByPage)"
@@ -79,22 +80,20 @@
         >
         </iPagination>
     </iCard>
-
-    <balancePaymentDialog
-      @close="handleClose"
+    <detailDialog
+      v-model="dialogVisible"
       v-if="dialogVisible"
-      :dialogVisible="dialogVisible"
-      :dateSearch="date"
-      :selectData="selectData"
-      :materialCodes="materialCodes"
-      :flag="flag"
-    ></balancePaymentDialog>
+      :params="selectData"
+      :supplierType="supplierType"
+      @handleCloseDialog="handleCloseDialog"
+      @handleRedeploy="handleRedeploy"></detailDialog>
   </div>
 </template>
 
 <script>
 import { iSearch, iSelect, iCard, iPagination, iTableCustom } from 'rise'
 import search from '@/views/mtz/annualGeneralBudget/locationChange/components/components/search.vue'
+import detailDialog from './detailDialog.vue'
 import tableList from '@/components/commonTable/index.vue'
 import { tableTitle, searchFormData } from './data'
 import {
@@ -114,7 +113,8 @@ export default {
     tableList,
     iPagination,
     balancePaymentDialog,
-    search
+    search,
+    detailDialog
   },
   data() {
     return {
@@ -180,38 +180,10 @@ export default {
 
       fsupplierList: [],
       operatorBuyus: [],
-      taskTypeList: [
-        {
-          value: 0,
-          label: '准备中',
-          labelE: 'Preparing'
-        },
-        {
-          value: 1,
-          label: '计算中',
-          labelE: 'In calculation'
-        },
-        {
-          value: 2,
-          label: '计算完成',
-          labelE: 'Calculation completed'
-        },
-        {
-          value: 3,
-          label: '计算失败',
-          labelE: 'Calculation failed'
-        },
-        {
-          value: 4,
-          label: '已关闭',
-          labelE: 'Closed'
-        }
-      ],
 
-      dialogVisible: false,
+      dialogVisible: true,
       selectData: [],
       flag: false,
-      date: [],
       materialCodes: []
     }
   },
@@ -246,21 +218,18 @@ export default {
       //     this.handleSelectArr = val
       // }
     },
-    handleAdd(val, num) {
-      if (num == 2 || num == 3) {
-        this.dialogVisible = true
-        const dataList = val
-
-        // const ttt = '{"balanceEndDate":"2021-12-31","balanceStartDate":"2021-01-01","deptId":50002000,"deptNameZh":"采购数字化","email":"TianYimeng@csvw.com","fPartNoList":["111","222"],"fSupplierId":50003027,"fSupplierName":"10097-上海汇众汽车制造有限公司","isDeptLead":false,"isEffAvg":false,"isManual":true,"loginUserNameZh":"田一萌","materialCodeList":["111"],"materialKindList":["02004"],"purchaseGroupList":["111"],"sPartNoList":["5QD505315D"],"sSupplierCodeList":["10488"],"sapOrderNoList":["111"],"userId":3000072,"userType":1}'
-
-        // dataList.params = ttt;
-        let obj = JSON.parse(val.params)
-        // let obj = JSON.parse(ttt)
-        this.date = [obj.balanceStartDate, obj.balanceEndDate]
-        dataList.echoShow = true
-        this.selectData = [dataList]
-        this.flag = true
-      }
+    handleAdd(val) {
+        console.log(val);
+        let num = val.taskStatus
+        if(num == 1){   // 计算中
+            window.open(`/portal/#/chipCeated?type=${val.balanceType}&taskStatus=${val.taskStatus}`)
+        }else if(num == "FINISHED"){  // 计算完成
+            this.dialogVisible = true
+            const dataList = val
+            dataList.echoShow = true
+            this.selectData = [dataList]
+            this.flag = true
+        }
     },
     handleClose() {
       this.dialogVisible = false
@@ -277,7 +246,8 @@ export default {
     },
     async getData() {
       this.getSupplierByuser()
-      await this.getBuyers()
+        this.getBuyers()
+    //   await this.getBuyers()
       this.findCalculateTaskByPage()
     },
     findCalculateTaskByPage() {
@@ -289,13 +259,14 @@ export default {
         pageSize: this.page.pageSize,
       }).then((res) => {
         if(res?.code=='200'){
-            this.tableListData = res?.data?.records || []
-            this.tableListData = this.tableListData.map(item=>{
+            let tableListData = res?.data?.records || []
+            this.tableListData = tableListData.map(item=>{
                 if(item.balanceType==1){
                     item.primarySupplier = item.supplierSapCode+'-'+item.supplierName
                 }else if(item.balanceType==2){
                     item.secondSupplier = item.supplierSapCode+'-'+item.supplierName
                 }
+                return item
             })
             this.page.totalCount = res.total
         }

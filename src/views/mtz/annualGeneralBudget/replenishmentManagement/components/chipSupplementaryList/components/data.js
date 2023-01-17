@@ -1,10 +1,10 @@
 /*
  * @Author: your name
  * @Date: 2021-10-09 15:06:29
- * @LastEditTime: 2022-05-10 17:07:32
- * @LastEditors: zhaohuaxing 5359314+zhaohuaxing@user.noreply.gitee.com
+ * @LastEditTime: 2023-01-17 16:40:46
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
- * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\data.js
+ * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\data.js
  */
 export const tabs3InforList = [
   {
@@ -398,4 +398,302 @@ export const tableTitleNegative = [
   { props: 'fileSize', name: '大小（MB）', key: 'DAXIAO' },
   { props: 'uploadDate', name: '上传日期', key: 'SHANGCHUANRIQI' },
   { props: 'uploadUser', name: '上传人', key: 'SHANGCHUANREN' }
+]
+
+
+// 计算弹窗补差规则列表
+export const tableTitleRule = [
+  {
+      type: 'index',
+      label: '#',
+  }, {
+      prop: 'ruleNo',
+      label: '规则编号',
+      i18n: 'GUIZEBIANHAO',
+      align: 'center',
+      width: 150
+  }, {
+      prop: 'method',
+      label: '补差方式',
+      i18n: '补差方式',
+      align: 'center',
+      width: 150,
+      customRender: (h, scope) => {
+          return <span>{scope.row.method == '1' ? '一次性补差' : '变价单补差'}</span>
+      }
+  }, {
+      //   prop: 'materialGroup',
+      //   label: '材料组',
+      //   i18n: '材料组',
+      //   align: 'center',
+      //   width: 150
+      // }, {
+      prop: 'materialName',
+      label: '原材料描述',
+      i18n: '原材料描述',
+      align: 'center',
+      width: 150
+  }, {
+      prop: 'partNum',
+      label: '一次零件号',
+      i18n: '一次零件号',
+      align: 'center',
+      width: 150
+  }, {
+      prop: 'partName',
+      label: '一次零件名称',
+      i18n: '一次零件名称',
+      align: 'center',
+      tooltip: true,
+      width: 150
+  },
+  {
+      prop: 'sapCode',
+      label: '一次件供应商编号',
+      i18n: '一次件供应商编号',
+      align: 'center',
+      width: 150
+  },
+  {
+      prop: 'supplierName',
+      label: '一次件供应商名称',
+      width: '100px',
+      align: 'center',
+      i18n: '一次件供应商名称',
+      tooltip: true,
+      width: 150
+  },
+  {
+      prop: 'buyerName',
+      label: '采购员',
+      width: '100px',
+      align: 'center',
+      i18n: 'CAIGOUYUAN',
+      width: 100
+  },
+  {
+      prop: 'deptCode',
+      label: '科室',
+      width: '100px',
+      align: 'center',
+      i18n: 'KESHI',
+      width: 100
+  }, {
+      prop: 'partNameSec',
+      label: '二次零件号',
+      i18n: '二次零件号',
+      align: 'center',
+      width: 150
+  }, {
+      prop: 'partNumSec',
+      label: '二次零件名称',
+      i18n: '二次零件名称',
+      align: 'center',
+      tooltip: true,
+      width: 150
+  },
+  {
+      prop: 'sapCodeSec',
+      label: '二次件供应商编号',
+      i18n: '二次件供应商编号',
+      align: 'center',
+      width: 150
+  },
+  {
+      prop: 'supplierNameSec',
+      label: '二次件供应商名称',
+      width: '100px',
+      align: 'center',
+      i18n: '二次件供应商名称',
+      tooltip: true,
+      width: 150
+  },
+  {
+      prop: 'secondPrimaryRatio',
+      label: '二次件与一次件比例',
+      width: '100px',
+      align: 'center',
+      i18n: '二次件与一次件比例',
+      width: 150
+  },
+  {
+      prop: 'amount',
+      label: '补差金额',
+      width: '100px',
+      align: 'center',
+      i18n: '补差金额',
+      width: 150
+  },
+  {
+      prop: 'currency',
+      label: '货币',
+      align: 'center',
+      i18n: 'HUOBI',
+      width: 150
+  },
+  { prop: 'exchangeRate', label: '汇率', align: 'center', i18n: 'HUILV' },
+  {
+      prop: 'startDate',
+      label: '有效期起',
+      align: 'center',
+      i18n: 'YOUXIAOQIQI',
+      tooltip: true,
+      width: 150
+  },
+  {
+      prop: 'endDate',
+      label: '有效期止',
+      align: 'center',
+      i18n: 'YOUXIAOQIZHI',
+      tooltip: true,
+      width: 150
+  },
+  {
+      prop: 'effectFlag',
+      label: '是否生效',
+      align: 'center',
+      i18n: 'SHIFOUSHENGXIAO',
+      width: 150,
+      customRender: (h, scope) => {
+          return <span>{scope.row.effectFlag ? '是' : '否'}</span>
+      }
+  },
+  {
+      prop: 'updateDate',
+      label: '更新时间',
+      align: 'center',
+      i18n: '更新时间',
+      width: 150,
+      tooltip: true,
+  },
+  {
+      prop: 'sourceCode',
+      label: '补差来源',
+      align: 'center',
+      i18n: '补差来源',
+      width: 150,
+      emit: 'go-detail',
+      customRender: (h, scope) => {
+          if (scope.row.sourceCode == "初始化") {
+              return <span>{scope.row?.sourceCode}</span>
+          } else {
+              return <span class="link-text">{scope.row?.sourceCode}</span>
+          }
+      }
+  },
+]
+
+// 计算弹窗补差规则列表
+export const tableTitleBE = [
+  {
+      type: 'selection',
+  }, {
+      type: 'index',
+      label: '#',
+  }, {
+      prop: 'partNum',
+      label: '一次零件号',
+      i18n: '一次零件号',
+      align: 'center',
+      width: 150
+  }, 
+  {
+      prop: 'supplierName',
+      label: '一次件供应商名称',
+      width: '100px',
+      align: 'center',
+      i18n: '一次件供应商名称',
+      tooltip: true,
+      width: 150
+  },
+  {
+        prop: 'materialGroup',
+        label: '材料组',
+        i18n: '材料组',
+        align: 'center',
+        width: 150
+      }, {
+      prop: 'materialName',
+      label: '原材料描述',
+      i18n: '原材料描述',
+      align: 'center',
+      width: 150
+  }, {
+      prop: 'partNameSec',
+      label: '二次零件号',
+      i18n: '二次零件号',
+      align: 'center',
+      width: 150
+  },
+  {
+      prop: 'supplierNameSec',
+      label: '二次件供应商名称',
+      width: '100px',
+      align: 'center',
+      i18n: '二次件供应商名称',
+      tooltip: true,
+      width: 150
+  },
+  {
+      prop: 'secondPrimaryRatio',
+      label: '二次件与一次件比例',
+      width: '100px',
+      align: 'center',
+      i18n: '二次件与一次件比例',
+      width: 150
+  }, {
+      prop: 'ruleNo',
+      label: '规则编号',
+      i18n: 'GUIZEBIANHAO',
+      align: 'center',
+      width: 150
+  },  {
+      prop: 'method',
+      label: '补差方式',
+      i18n: '补差方式',
+      align: 'center',
+      width: 150,
+      customRender: (h, scope) => {
+          return <span>{scope.row.method == '1' ? '一次性补差' : '变价单补差'}</span>
+      }
+  },
+  {
+      prop: 'amount',
+      label: '补差金额',
+      width: '100px',
+      align: 'center',
+      i18n: '补差金额',
+      width: 150
+  },
+  {
+      prop: 'currency',
+      label: '货币',
+      align: 'center',
+      i18n: 'HUOBI',
+      width: 150
+  },
+  { prop: 'exchangeRate', label: '汇率', align: 'center', i18n: 'HUILV' },
+  
+  {
+      prop: 'sourceCode',
+      label: '补差单编号',
+      align: 'center',
+      i18n: '补差单编号',
+      width: 150,
+  },{
+      prop: 'buyerName',
+      label: '采购员',
+      width: '100px',
+      align: 'center',
+      i18n: 'CAIGOUYUAN',
+      width: 100
+  },
+  {
+      prop: 'deptCode',
+      label: '科室',
+      width: '100px',
+      align: 'center',
+      i18n: 'KESHI',
+      width: 100
+  }
 ]
