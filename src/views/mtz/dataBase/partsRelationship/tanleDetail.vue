@@ -3,7 +3,7 @@
     <div class="export"><iButton @click="exportAll">导出</iButton></div>
     <tableList
       ref="commonTable"
-      :tableData="tableData"
+      :tableData="tableInfo"
       :tableTitle="tableDetail"
       :index="true"
     />
@@ -32,22 +32,22 @@ export default {
     tableList
   },
   props: {
-    bomInfo: {
+    tableInfo: {
       type: Object
     }
   },
   mixins: [pageMixins],
   data() {
     return {
-      tableDetail: tableDetail,
-      tableData: []
+
     }
   },
   mounted() {
     this.getList()
   },
   methods: {
-    getList() {},
+    getList() {
+    },
     exportAll() {}
   }
 }
