@@ -23,7 +23,7 @@
         <div class="opration">
           <iButton @click="edit"
                   v-permission="PORTAL_MTZ_POINT_INFOR_BIANJI"
-                   v-show="disabled && appIdType && (inforData.appStatus == '草稿' || inforData.appStatus == '未通过')">{{ language('BIANJI', '编辑') }}</iButton>
+                   v-show="disabled && appIdType && isEditNew">{{ language('BIANJI', '编辑') }}</iButton>
           <!-- v-show="disabled && appIdType && inforData.appStatus!=='草稿'">{{ language('BIANJI', '编辑') }}</iButton> -->
           <iButton @click="cancel"
                    v-show="!disabled">{{ language('QUXIAO', '取消') }}</iButton>
@@ -200,6 +200,9 @@ export default {
   computed: {
     mtzObject () {
       return this.$store.state.location.mtzObject;
+    },
+    isEditNew: function () {
+      return ((this.inforData.appStatus == '草稿' || this.inforData.appStatus == '未通过')||((this.inforData.flowType=='SIGN'||this.inforData.flowType=='FILING')&&this.inforData.appStatus=='已提交'))
     }
   },
   watch: {
@@ -228,7 +231,8 @@ export default {
         this.inforData.appStatus = res.data.appStatus
         this.inforData.meetingName = res.data.meetingName
         this.inforData.linieMeetingMemo = res.data.linieMeetingMemo
-
+        this.inforData.appName = res.data.appName
+        this.inforData.flowType = res.data.flowType
         if (res.data.ttNominateAppId == null) {
           this.applyNumber = "";
         } else {
@@ -240,14 +244,16 @@ export default {
           store.commit("submitBtnInfor", { ...res.data });
         }
         // NOTPASS
-        if (res.data.appStatus == "草稿" || res.data.appStatus == "未通过") {
+        if (this.isEditNew) {
           this.showType = true;
         } else {
           this.showType = false;
         }
+        console.log( this.showType)
+        console.log( this.applyNumber)
 
-        this.inforData.appName = res.data.appName
-        this.inforData.flowType = res.data.flowType
+        console.log( this.disabled)
+
 
       }).then(res=>{
         this.beforReturn = true;

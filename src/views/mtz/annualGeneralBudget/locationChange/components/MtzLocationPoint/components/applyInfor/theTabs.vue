@@ -10,36 +10,36 @@
       <div>
         <iButton
           @click="cancel"
-          v-if="editType && ((appStatus == '草稿' || appStatus == '未通过')||((flowType=='SIGN'||flowType=='FILING')&&appStatus=='已提交'))"
+          v-if="editType && isEditNew"
           >{{ language('QUXIAO', '取消') }}</iButton
         >
         <iButton
           @click="add"
           v-permission="PORTAL_MTZ_POINT_INFOR_ADD"
-          v-if="!editType && ((appStatus == '草稿' || appStatus == '未通过')||((flowType=='SIGN'||flowType=='FILING')&&appStatus=='已提交'))"
+          v-if="!editType && isEditNew"
           >{{ language('XINZENG', '新增') }}</iButton
         >
         <iButton
           @click="edit"
           v-permission="PORTAL_MTZ_POINT_INFOR_BIANJI"
-          v-if="!editType && ((appStatus == '草稿' || appStatus == '未通过')||((flowType=='SIGN'||flowType=='FILING')&&appStatus=='已提交'))"
+          v-if="!editType && isEditNew"
           >{{ language('BIANJI', '编辑') }}</iButton
         >
         <iButton
           @click="continueBtn"
           v-permission="PORTAL_MTZ_POINT_INFOR_GZ_YANYONG"
-          v-if="!editType && ((appStatus == '草稿' || appStatus == '未通过')||((flowType=='SIGN'||flowType=='FILING')&&appStatus=='已提交'))"
+          v-if="!editType && isEditNew"
           >{{ language('YANYONG', '沿用') }}</iButton
         >
         <iButton
           @click="delecte"
           v-permission="PORTAL_MTZ_POINT_INFOR_DEL"
-          v-if="!editType && ((appStatus == '草稿' || appStatus == '未通过')||((flowType=='SIGN'||flowType=='FILING')&&appStatus=='已提交'))"
+          v-if="!editType && isEditNew"
           >{{ language('SHANCHU', '删除') }}</iButton
         >
         <iButton
           @click="save"
-          v-if="editType && ((appStatus == '草稿' || appStatus == '未通过')||((flowType=='SIGN'||flowType=='FILING')&&appStatus=='已提交'))"
+          v-if="editType && isEditNew"
           >{{ language('BAOCUN', '保存') }}</iButton
         >
       </div>
@@ -1055,6 +1055,7 @@ import store from '@/store'
 // import {
 //   getMtzSupplierList,//获取原材料牌号
 // } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview';
+
 import {
   pageAppRule, //维护MTZ原材料规则-分页查询
   addBatchAppRule, //维护MTZ原材料规则-批量新增
@@ -1151,8 +1152,12 @@ export default {
   computed: {
     mtzObject() {
       return this.$store.state.location.mtzObject
+    },
+    isEditNew: function () {
+      return ((this.appStatus == '草稿' || this.appStatus == '未通过')||((this.flowType=='SIGN'||this.flowType=='FILING')&&this.appStatus=='已提交'))
     }
   },
+
   watch: {
     mtzObject(newVlue, oldValue) {
       // console.log(newVlue)

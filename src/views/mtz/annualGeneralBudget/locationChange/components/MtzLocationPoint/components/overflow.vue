@@ -18,7 +18,7 @@
         <div class="title_type">
           <div class="title_block">
             <span>申请单类型：</span>
-            <iSelect :disabled="(appStatus !== '草稿' && appStatus !== '未通过') || formInfor.ttNominateAppId !== ''"
+            <iSelect :disabled="!isEditNew || formInfor.ttNominateAppId !== ''"
                      :value="formInfor.flowType"
                      v-permission.edit="PORTAL_MTZ_POINT_INFOR_SHENQINGDANLEIXING"
                      :placeholder="language('QINGXUANZE','请选择')"
@@ -173,6 +173,9 @@ export default {
     submitInfor () {
       return this.$store.state.location.submitInfor;
     },
+    isEditNew: function () {
+      return ((this.appStatus == '草稿' || this.appStatus == '未通过')||((this.flowType=='SIGN'||this.flowType=='FILING')&&this.appStatus=='已提交'))
+    }
   },
 
   watch: {
