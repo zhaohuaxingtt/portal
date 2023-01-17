@@ -18,6 +18,7 @@
         <div class="title_type">
           <div class="title_block">
             <span>申请单类型：</span>
+            <!-- <iSelect :disabled="(appStatus !== '草稿' && appStatus !== '未通过') || formInfor.ttNominateAppId !== '' -->
             <iSelect :disabled="!isEditNew || formInfor.ttNominateAppId !== ''"
                      :value="formInfor.flowType"
                      v-permission.edit="PORTAL_MTZ_POINT_INFOR_SHENQINGDANLEIXING"
@@ -41,7 +42,8 @@
           <iButton @click="submit"
                    v-show="locationNow==3&&meetingNumber == 0"
                    v-permission="PORTAL_MTZ_POINT_INFOR_TIJIAO"
-                   :disabled="(appStatus !== '草稿' && appStatus !== '未通过') || ttNominateAppId !== ''">{{ language('TIJIAO', '提交') }}</iButton>
+                   :disabled="!isEditNew || ttNominateAppId !== ''">{{ language('TIJIAO', '提交') }}</iButton>
+                   <!-- (appStatus !== '草稿' && appStatus !== '未通过') -->
         </template>
         <iButton @click="downRS">{{ language('YULAN', '预览') }}</iButton>
       </div>

@@ -9,8 +9,8 @@
 <template>
   <div class="downPdfBox">
     <iNavMvp v-if="RsObject" lang :list="tabRouterList" class="margin-bottom20" :lev="3" @change="handleClickNav"/>
-    <mtz v-if="currentNav == 1" :RsType="RsType" :appStatus="appStatus" />
-    <accessoryUpload v-if="currentNav == 2" :appStatus="appStatus" />
+    <mtz v-if="currentNav == 1" :RsType="RsType" :appStatus="appStatus"  :flowType="flowType"/>
+    <accessoryUpload v-if="currentNav == 2" :appStatus="appStatus" :flowType="flowType" />
   </div>
 </template>
 
@@ -36,6 +36,7 @@ export default {
       formData: {},
       RsObject:true,
       appStatus:"",
+      flowType:""
     }
   },
   created() {
@@ -46,6 +47,7 @@ export default {
       mtzAppId:this.$route.query.mtzAppId || this.mtzObject.mtzAppId
     }).then(res=>{
       this.appStatus = res.data.appStatus;
+      this.flowType=res.data.flowType;
     })
   },
   methods: {
