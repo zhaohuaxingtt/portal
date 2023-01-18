@@ -19,6 +19,7 @@ import {
   partsRelationshipDetailTableSetting
 } from './data'
 import { pageMixins } from '@/utils/pageMixins'
+import { excelExport } from '@/utils/filedowLoad'
 import {
   partPageByBomInfoId,
   partExportByBomInfoId
@@ -48,7 +49,9 @@ export default {
   methods: {
     getList() {
     },
-    exportAll() {}
+    exportAll() {
+      excelExport(this.tableInfo, '错误列表')
+    }
   }
 }
 </script>
