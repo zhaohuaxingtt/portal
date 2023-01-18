@@ -205,9 +205,9 @@ export default {
       return this.$store.state.location.mtzObject;
     },
     isEditNew: function () {
-      return (this.inforData.appStatus == '草稿' || this.inforData.appStatus == '未通过')||(((this.inforData.flowType=='SIGN'||this.inforData.flowType=='FILING')||['02','03',null,'01'].includes(this.inforData.meetingStatus))&&this.inforData.appStatus=='已提交')
+      return (this.inforData.appStatus == '草稿' || this.inforData.appStatus == '未通过')||(((this.inforData.flowType=='SIGN'||this.inforData.flowType=='FILING')||(['02','03',null,'01'].includes(this.inforData.meetingStatus)&&this.inforData.flowType=="MEETING"))&&this.inforData.appStatus=='已提交')
 
-      // return ((this.inforData.appStatus == '草稿' || this.inforData.appStatus == '未通过')||((this.inforData.flowType=='SIGN'||this.inforData.flowType=='FILING')&&this.inforData.appStatus=='已提交'))
+      // return (this.appStatus == '草稿' || this.appStatus == '未通过')||(((this.flowType=='SIGN'||this.flowType=='FILING')||(['02','03',null,'01'].includes(this.meetingStatus)&&this.flowType=='MEETING'))&&this.appStatus=='已提交')
     }
   },
   watch: {
