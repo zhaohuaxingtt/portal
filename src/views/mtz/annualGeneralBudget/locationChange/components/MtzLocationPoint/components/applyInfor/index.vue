@@ -89,6 +89,7 @@
              @isNomiNumber="isNomiNum"
              @handleReset="handleReset"
              v-if="beforReturn"
+             :meetingStatus="inforData.meetingStatus"
              :appStatus='inforData.appStatus'
              :flowType="inforData.flowType">
     </theTabs>
@@ -96,6 +97,7 @@
                  v-if="beforReturn"
                  :appStatus='inforData.appStatus'
                  :flowType="inforData.flowType"
+                 :meetingStatus="inforData.meetingStatus"
                  :inforData="inforData"
                  :applyNumber="applyNumber"
                  >
@@ -157,6 +159,7 @@ export default {
         linieName: "",
         flowType: "",
         appStatus: "",
+        meetingStatus:'',
         meetingName: "",
         linieMeetingMemo: '',
       },
@@ -202,7 +205,9 @@ export default {
       return this.$store.state.location.mtzObject;
     },
     isEditNew: function () {
-      return ((this.inforData.appStatus == '草稿' || this.inforData.appStatus == '未通过')||((this.inforData.flowType=='SIGN'||this.inforData.flowType=='FILING')&&this.inforData.appStatus=='已提交'))
+      return (this.inforData.appStatus == '草稿' || this.inforData.appStatus == '未通过')||(((this.inforData.flowType=='SIGN'||this.inforData.flowType=='FILING')||['02','03',null,'01'].includes(this.inforData.meetingStatus))&&this.inforData.appStatus=='已提交')
+
+      // return ((this.inforData.appStatus == '草稿' || this.inforData.appStatus == '未通过')||((this.inforData.flowType=='SIGN'||this.inforData.flowType=='FILING')&&this.inforData.appStatus=='已提交'))
     }
   },
   watch: {
@@ -226,6 +231,7 @@ export default {
       getAppFormInfo({
         mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
       }).then(res => {
+        this.inforData.meetingStatus = res.data.meetingStatus
         this.inforData.mtzAppId = res.data.mtzAppId;
         this.inforData.linieName = res.data.linieName
         this.inforData.appStatus = res.data.appStatus

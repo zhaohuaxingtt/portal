@@ -516,7 +516,7 @@ export default {
         mtzAppId: this.mtzAppId || ''
       }).then(res => {
         if (res?.code === '200') {
-          if (((res.data.appStatus == '草稿' || res.data.appStatus == '未通过')||((res.data.flowType=='SIGN'||res.data.flowType=='FILING')&&res.data.appStatus=='已提交'))) {
+          if ((res.data.appStatus == '草稿' || res.data.appStatus == '未通过')||(((res.data.flowType=='SIGN'||res.data.flowType=='FILING')||['02','03',null,'01'].includes(res.data.meetingStatus))&&res.data.appStatus=='已提交')) {
             this.flag = false;
           } else {
             this.flag = true;

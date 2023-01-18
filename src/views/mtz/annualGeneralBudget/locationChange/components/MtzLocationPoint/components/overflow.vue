@@ -147,6 +147,7 @@ export default {
       beforReturn: true,
       flowType: "",
       appStatus: "",
+      meetingStatus:'',
       stepNum: 1,
       ttNominateAppId: "",
       NumberCESHI: 0,
@@ -176,7 +177,7 @@ export default {
       return this.$store.state.location.submitInfor;
     },
     isEditNew: function () {
-      return ((this.appStatus == '草稿' || this.appStatus == '未通过')||((this.flowType=='SIGN'||this.flowType=='FILING')&&this.appStatus=='已提交'))
+      return (this.appStatus == '草稿' || this.appStatus == '未通过')||(((this.flowType=='SIGN'||this.flowType=='FILING')||['02','03',null,'01'].includes(this.meetingStatus))&&this.appStatus=='已提交')
     }
   },
 
@@ -335,6 +336,7 @@ export default {
       getAppFormInfo({ mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId }).then(res => {
         this.formInfor = res.data;
         this.flowType = res.data.flowType;
+        this.meetingStatus=res.data.meetingStatus
         this.appStatus = res.data.appStatus;
         this.ttNominateAppId = res.data.ttNominateAppId;
         this.mtzAppName = res.data.appName;

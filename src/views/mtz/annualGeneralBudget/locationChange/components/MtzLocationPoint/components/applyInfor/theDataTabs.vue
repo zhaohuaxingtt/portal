@@ -926,7 +926,7 @@ import { getToken } from '@/utils'
 export default {
   name: 'Search',
   componentName: 'theDataTabs',
-  props: ['appStatus', 'inforData', 'applyNumber','flowType'],
+  props: ['appStatus', 'inforData', 'applyNumber','flowType','meetingStatus'],
   components: {
     iCard,
     iButton,
@@ -1013,7 +1013,7 @@ export default {
       return this.$store.state.location.mtzObject
     },
     isEditNew: function () {
-      return ((this.appStatus == '草稿' || this.appStatus == '未通过')||((this.flowType=='SIGN'||this.flowType=='FILING')&&this.appStatus=='已提交'))
+      return (this.appStatus == '草稿' || this.appStatus == '未通过')||(((this.flowType=='SIGN'||this.flowType=='FILING')||['02','03',null,'01'].includes(this.meetingStatus))&&this.appStatus=='已提交')
     }
   },
   watch: {
