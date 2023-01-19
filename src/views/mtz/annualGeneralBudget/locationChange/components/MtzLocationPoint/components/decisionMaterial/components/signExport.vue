@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-28 16:45:22
- * @LastEditTime: 2022-12-23 19:27:20
+ * @LastEditTime: 2023-01-17 18:49:41
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: mtz
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\signExport.vue
@@ -570,7 +570,10 @@ export default {
       pdfItemHeight: 0,
       remarkPageHeight: 0,
       percentageText: '下载中，请稍后',
-      remarkList: [[]]
+      remarkList: [[]],
+      partLoading: false,
+      ruleLoading: false,
+      remarkLoading: false,
     }
   },
   watch: {
@@ -615,6 +618,16 @@ export default {
       },
       deep:true,
       immediate:true
+    },
+    loadingAll:{
+      handler(val){
+        if(val){
+          this.$nextTick(() => {
+            this.$emit('changeStatus',false)
+          })
+        }
+      },
+      immediate:true
     }
   },
   computed: {
@@ -644,6 +657,9 @@ export default {
     },
     username() {
       return this.$store.state.permission.userInfo.userName
+    },
+    loadingAll(){
+      return this.partLoading && this.ruleLoading && this.remarkLoading
     }
   },
   filters: {
@@ -707,7 +723,12 @@ export default {
           this.appPage = true
         }
       }
-      this.remarkList = remarkList
+      console.log(remarkList);
+      // this.remarkList = remarkList
+      this.remarkList = remarkList.length? remarkList : [[]]
+      this.$nextTick(()=>{
+        this.remarkLoading = true
+      })
     },
     // 计算规则表高度
     computedRuleTableHeight() {
@@ -748,6 +769,9 @@ export default {
       })
       if (arr.length) tableList.push(arr)
       this.ruleTableList = tableList
+      this.$nextTick(()=>{
+        this.ruleLoading = true
+      })
     },
     // 计算零件表高度
     computedPartTableHeight() {
@@ -788,6 +812,9 @@ export default {
       })
       if (arr.length) tableList.push(arr)
       this.partTableList = tableList
+      this.$nextTick(()=>{
+        this.partLoading = true
+      })
     },
     // 导出pdf
     handleExportPdf(name) {
