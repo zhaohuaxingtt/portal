@@ -1,110 +1,61 @@
 <template>
-  <iCard style="height:16rem">
+  <iCard style="height: 16rem">
     <div class="title">
-      <p>{{language('XUNYUAN', '寻源')}}</p>
-      <el-dropdown v-permission="Card_Sourcing_More">
-
-        <span class="el-dropdown-link">
-          <i class="el-icon-more"></i>
-        </span>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>{{language('CHAKAN', '查看')}}</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
+      <p>{{ language('XUNYUAN', '寻源') }}</p>
+      <span class="el-dropdown-link" @click="gotoUrl">
+        <i class="el-icon-more"></i>
+      </span>
     </div>
     <div class="center">
-      <span style="font-size:16px;color:rgba(107, 121, 149, 0.56);">{{language('JINGQINGQIDAI', '敬请期待')}}</span>
-      <!-- <img :src="img"
-           class="imgIcon" />
+      <!-- <span style="font-size:16px;color:rgba(107, 121, 149, 0.56);">{{language('JINGQINGQIDAI', '敬请期待')}}</span> -->
+      <img :src="img" class="imgIcon" />
       <div class="float">
-
-        <table cellpadding='10'>
-          <tr class=" cardtableTitle">
-            <th>Group</th>
-            <th>{{language('RFQSHU', 'RFQ数')}}</th>
-            <th>{{language('DINGDIANSHU', '定点数')}}</th>
-            <th>{{language('ONGOINGXUNJIASHU', 'Ongoing询价数')}}</th>
+        <el-table style="width: 100%"  max-height="120" :data="tablelist">
+          <el-table-column
+          show-overflow-tooltip
+            prop="linieDeptName"
+            :label="'linie科室'"
+            align="center"
+          >
+          </el-table-column>
+          <el-table-column
+          width="60"
+            prop="totalNum"
+            :label="language('RFQSHU', 'RFQ数')"
+            align="center"
+          >
+          </el-table-column>
+          <el-table-column
+          width="60"
+            prop="nominatedNum"
+            :label="language('DINGDIANSHU', '定点数')"
+            align="center"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="onGoingNum"
+            :label="language('ONGOINGXUNJIASHU', 'Ongoing询价数')"
+            align="center"
+          >
+          </el-table-column>
+        </el-table>
+        <!-- <table cellpadding="10">
+          <tr class="cardtableTitle">
+            <th>linie科室</th>
+            <th>{{ language('RFQSHU', 'RFQ数') }}</th>
+            <th>{{ language('DINGDIANSHU', '定点数') }}</th>
+            <th>{{ language('ONGOINGXUNJIASHU', 'Ongoing询价数') }}</th>
           </tr>
-          <tr class="bgtr">
-            <td>100</td>
-            <td>$100</td>
-            <td>100</td>
-            <td>100</td>
+          <tr class="bgtr" v-for="item in tablelist" :key="item">
+            <td>{{item.linieDeptName}}</td>
+            <td>{{item.totalNum}}</td>
+            <td>{{item.nominatedNum}}</td>
+            <td>{{item.onGoingNum}}</td>
           </tr>
-          <tr class="bgtr">
-            <td>100</td>
-            <td>$100</td>
-            <td>100</td>
-            <td>100</td>
-          </tr>
-          <tr class="bgtr">
-            <td>100</td>
-            <td>$100</td>
-            <td>100</td>
-            <td>100</td>
-          </tr>
-        </table>
-      </div> -->
-
+         
+        </table> -->
+      </div>
     </div>
-    <iDialog @close="closeDiolog()"
-             :visible.sync="visible"
-             width="85%">
-      <el-tabs class="tabsHeader"
-               type="card"
-               style="margin-left:20px;"
-               v-model="tabVal"
-               @tab-click="changeTab">
-        <el-tab-pane name="1"
-                     :label="
-            language('SHISHICRATINGGONGYINGSHANGQINGDAN', '实时C-Rating供应商清单')
-          ">
-        </el-tab-pane>
-        <el-tab-pane name="2"
-                     :label="language('CRATINGGONGYINGSHANGXUNJIADINGDIANQINGKUANG', 'C-Rating供应商询价定点情况')">
-        </el-tab-pane>
-      </el-tabs>
-      <iSearch @reset="clickReset"
-               tabCard
-               @sure="sure"
-               :icon="true">
-        <el-form inline
-                 label-position="top">
-          <el-form-item :label="language('SAPHAO', 'SAP号')">
-            <iSelect collapse-tags
-                     filterable
-                     :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                     v-model.trim="form.purchaserIds">
-              <el-option v-for="item in purchaseList"
-                         :key="item.purchaserId"
-                         :label="item.purchaserName"
-                         :value="item.purchaserId">
-              </el-option>
-            </iSelect>
-
-          </el-form-item>
-        </el-form>
-      </iSearch>
-      <p class="tableTitle">
-        详情列表
-      </p>
-      <table-list v-if="tabVal == 1"
-                  style="margin-top:20px"
-                  :tableData="tableListData"
-                  :tableTitle="tableTitleMonitor"
-                  :tableLoading="tableLoading"
-                  :index="true"
-                  :selection="false">
-      </table-list>
-      <table-list v-if="tabVal == 2"
-                  style="margin-top:20px"
-                  :tableData="tableListData"
-                  :tableTitle="tableTitleMonitorRecord"
-                  :tableLoading="tableLoading"
-                  :index="true"
-                  :selection="false">
-      </table-list>
-    </iDialog>
   </iCard>
 </template>
 <script>
@@ -112,6 +63,8 @@ import { iCard, iDialog, iSearch, iSelect } from 'rise'
 import { tableTitleMonitor, tableTitleMonitorRecord } from './data'
 import tableList from '@/components/commonTable'
 import img from '@/assets/images/sourcing.svg'
+import { getSupplierRfqLineDeptDis } from '@/api/supplierManagement/supplierCard/index'
+
 export default {
   props: {},
   components: {
@@ -122,32 +75,60 @@ export default {
     iSelect,
     tableList
   },
-  data () {
+  props: {
+    infodata: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    }
+  },
+  data() {
     return {
-      visible: false,
-      form: {},
-      tabVal: '1',
-      tableTitleMonitor: tableTitleMonitor,
-      tableTitleMonitorRecord: tableTitleMonitorRecord,
+      tablelist: [],
       img: img
     }
   },
-  computed: {
-    style () {
-      return {}
-    }
-  },
+  computed: {},
   watch: {},
-  methods: {
-    sure () { },
-    clickReset () { },
-    changeTab () { }
+
+  mounted() {
+    this.init()
   },
-  mounted () { }
+  methods: {
+    gotoUrl(){
+      let url =
+        process.env.VUE_APP_HOST +
+        `/sourcing/#/sourceinquirypoint/sourcing/partsrfq?supplierName=${this.infodata.shortNameZh}`
+       window.open(url)
+    },
+    init() {
+      getSupplierRfqLineDeptDis(this.$route.query.subSupplierId).then((res) => {
+        if (res.data) {
+          this.tablelist = res.data
+        }
+      })
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
+th {
+  font-size: 12px;
+  font-family: Arial;
+  font-weight: 400;
+  color: #333;
+}
+td {
+  font-size: 10px;
+  font-family: Arial;
+  color: #41434a;
+}
+.bgtr {
+  background: #f8f9fa;
+  margin: 10px 0;
+}
 .title {
   display: flex;
   justify-content: space-between;
@@ -190,20 +171,6 @@ export default {
           padding: 8px 30px;
         }
         //   padding: 10px 40px;
-      }
-      .tableTitle {
-        th {
-          font-size: 12px;
-          font-family: Arial;
-          font-weight: 400;
-          color: #000000;
-        }
-      }
-      td {
-        font-size: 12px;
-        font-family: Arial;
-        font-weight: 400;
-        color: #41434a;
       }
     }
   }

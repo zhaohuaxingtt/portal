@@ -1,3 +1,10 @@
+/*
+ * @Author: YoHo
+ * @Date: 2022-04-29 14:10:29
+ * @LastEditors: YoHo && 917955345@qq.com
+ * @Description: In User Settings Edit
+ * @FilePath: \front-portal\src\i18n\zh\reportForm.js
+ */
 export default {
     类型名称:'类型名称',
     是否置顶:'是否置顶',
@@ -34,5 +41,7 @@ export default {
     请选择报表类型: '请选择报表类型',
     请输入报表标题: '请输入报表标题',
     请选择报表发布时期: '请选择报表发布时期',
-    请选择附件: '请选择附件'
+    请选择附件: '请选择附件',
+    '共{count}份':'共{count}份',
+    '共{count}门':'共{count}门'
 }
