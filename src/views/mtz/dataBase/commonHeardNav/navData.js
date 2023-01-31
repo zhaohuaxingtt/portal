@@ -43,7 +43,7 @@ export const tabRouterList2 = [
     url: '/mtz/dataBase/chipRulesQuery',
     activePath: '/mtz/dataBase/chipRulesQuery',
     key: '芯片补差规则查询',
-    permissionKey: "PORTAL_MTZ_SEARCH_MTZGUIZECHAXUN"
+    permissionKey: "PORTAL_DATABASE_SEARCH_CHIPGUIZECHAXUN"
   },
   {
     value: 4,
@@ -75,6 +75,6 @@ export const tabRouterList2 = [
     url: '/mtz/dataBase/partsRelationship',
     activePath: '/mtz/dataBase/partsRelationship',
     key: '一二次件关系查询',
-    permissionKey: "PORTAL_MTZ_SEARCH_GUIJINSHUSHICHANGJIACHAXUN"
+    permissionKey: "PORTAL_DATABASE_SEARCH_PARTSRELATIONSHIP"
   }
 ];
