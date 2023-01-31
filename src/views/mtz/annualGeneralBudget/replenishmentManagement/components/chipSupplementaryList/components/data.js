@@ -1,396 +1,234 @@
-/*
+/*补差单号
  * @Author: your name
  * @Date: 2021-10-09 15:06:29
- * @LastEditTime: 2023-01-17 16:40:46
+ * @LastEditTime: 2023-01-18 09:40:11
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\data.js
  */
-export const tabs3InforList = [
+import language from "@/utils/language";
+
+// 首页查询条件
+export const queryFormData = [
+  { props: 'balanceNo', name: '补差单号', key: '补差单号', type: 'input' },
+  { props: 'sapPayBalanceNo', name: '凭证Id', key: '凭证Id', type: 'input' },
+  { props: 'fsupplierIds', name: '一次件供应商', key: '一次件供应商', type: 'select', selectOption: 'fsupplierList',optionLabel: 'message',
+  optionValue: 'code', multiple: true, clearable: true, showAll: true },
+  { props: 'pieceSupplierSaps', name: '二次件供应商', key: 'ECJGYS', type: 'select', selectOption: 'ssupplierList',optionLabel: 'message',
+  optionValue: 'code', multiple: true, clearable: true, showAll: true },
+  { props: 'statuss', name: '单据状态', key: '单据状态', type: 'select', selectOption: 'approvalStatus',optionLabel: 'message',
+  optionValue: 'code', multiple: true, clearable: true, showAll: true },
+  { props: 'materialBrandList', name: '采购框架号', key: '采购框架号', type: 'input' }, // 字段待调整
+  
+  { props: 'compDate', name: '补差时间段', key: 'BUCHASHIJIANDUAN', type: 'daterange' },
   {
-    name: '凭证ID',
-    prop: 'id'
+    props: 'department', name: '科室', key: 'KESHI', type: 'select', selectOption: 'departmentDropDownData', optionLabel: 'departNameEn',
+    optionValue: 'departId'
   },
   {
-    name: '供应商',
-    prop: 'supplier'
+    props: 'linieList', name: '采购员', key: 'CAIGOUYUAN', type: 'select', selectOption: 'linieDropDownData', optionLabel: 'message',
+    optionValue: 'code'
   },
-  {
-    name: '补差时间段',
-    prop: 'monthFromTo'
-  },
-  {
-    name: '科室',
-    prop: 'department'
-  },
-  {
-    name: '申请人',
-    prop: 'applicantByName'
-  },
-  {
-    name: '申请日期',
-    prop: 'createDate'
-  },
-  {
-    name: '总金额 (RMB)',
-    prop: 'totalAmt'
-  },
-  {
-    name: '实补 (RMB)',
-    prop: 'actuallyTotalAmt'
-  }
+  { props: 'fpartNumList', name: '一次件零件号', key: 'YICIJIANLINGJIANHAO', type: 'iMultiLineInput' },
+  { props: 'spartNumList', name: '二次件零件号', key: 'ERCIJIANLINGJIANHAO', type: 'iMultiLineInput' },
 ]
-export const tabs2InforList = [
-  {
-    name: '凭证ID',
-    prop: 'id'
-  },
-  {
-    name: '供应商',
-    prop: 'supplier'
-  },
-  {
-    name: '补差时间段',
-    prop: 'monthFromTo'
-  },
-  {
-    name: '科室',
-    prop: 'department'
-  },
-  {
-    name: '申请人',
-    prop: 'applicantByName'
-  },
-  {
-    name: '申请日期',
-    prop: 'createDate'
-  },
-  {
-    name: '总金额 (RMB)',
-    prop: 'totalAmt'
-  },
-  {
-    name: '实补 (RMB)',
-    prop: 'actuallyTotalAmt'
-  }
-]
-export const tabsInforList = [
-  {
-    name: '凭证ID',
-    prop: 'id'
-  },
-  {
-    name: '供应商',
-    prop: 'supplier'
-  },
-  {
-    name: '补差时间段',
-    prop: 'monthFromTo'
-  },
-  {
-    name: '科室',
-    prop: 'department'
-  },
-  {
-    name: '申请人',
-    prop: 'applicantByName'
-  },
-  {
-    name: '申请日期',
-    prop: 'createDate'
-  },
-  {
-    name: '材料中类',
-    prop: 'mgroup'
-  },
-  {
-    name: '总金额 (RMB)',
-    prop: 'totalAmt'
-  },
-  {
-    name: '实补 (RMB)',
-    prop: 'actuallyTotalAmt'
-  }
-]
-export const TABLE_COLUMS = [
+
+// 一次件供应商
+export const tableTitle = [
   {
     type: 'selection',
-    width: '60px',
     label: '#'
   },
   {
     type: 'index',
-    width: '60px',
-    label: '#'
+    label: '#',
+  }, {
+    prop: 'balanceNo',
+    label: '补差单号',
+    i18n: 'BUCHADANHAO',
+    align: 'center',
+    minWidth: 150,
+    emit: 'openPage',
+    customRender: (h, scope) => {
+      return <span class="link">{scope.row.balanceNo}</span>
+    }
+  }, {
+    prop: 'id',
+    label: '凭证ID',
+    i18n: 'PINGZHENGID',
+    align: 'center',
+    minWidth: 120,
+  }, {
+    prop: 'supplierName',
+    label: '一次件供应商',
+    i18n: 'YICIJIANGONGYINGSHANG',
+    align: 'center',
+    minWidth: 150,
+    customRender: (h, scope) => {
+      return <span>{scope.row.supplierSapCode + '-' + scope.row.supplierName }</span>
+    }
+  }, {
+    prop: 'departmentCode',
+    label: '科室',
+    i18n: 'KESHI',
+    align: 'center',
+    minWidth: 150,
+  }, {
+    prop: 'buyerName',
+    label: '采购员',
+    i18n: 'CAIGOUYUAN',
+    align: 'center',
+    minWidth: 150
+  }, {
+    prop: 'monthFromTo',
+    label: '补差时间段',
+    i18n: '补差时间段',
+    align: 'center',
+    tooltip: true,
+    minWidth: 150,
+    customRender: (h, scope) => {
+      return (
+        <div>
+          <span>{window.moment(scope.row.startFrom).format('YYYY-MM-DD') || '-'}</span>
+          <br />
+          <span>{window.moment(scope.row.endTo).format('YYYY-MM-DD') || '-'}</span>
+        </div>
+      )
+    }
   },
   {
-    prop: 'saNo',
-    label: '采购框架',
-    minWidth: 120
+    prop: 'approvedAmount',
+    label: '实际补差金额',
+    i18n: '实际补差金额',
+    align: 'center',
+    minWidth: 150,
+    customRender: (h, scope) => {
+      return <span>{VueUtil.formatNumber(scope.row.approvedAmount)}</span>
+    }
   },
   {
-    prop: 'saItemNo',
-    label: '项目号',
-    minWidth: 120
+    prop: 'status',
+    label: '单据状态',
+    i18n: 'DANJUZHUANGTAI',
+    align: 'center',
+    tooltip: true,
+    minWidth: 150
+  },
+]
+// 补差单明细信息
+export const tabsInforList = [
+  {
+    name: '凭证ID',
+    key: 'PINGZHENGID',
+    prop: 'id'
   },
   {
-    prop: 'mtzDocMonth',
-    label: '补差期间',
-    minWidth: 120
+    name: '供应商',
+    key: 'GONGYINGSHANG',
+    prop: 'supplierName'
   },
   {
-    prop: 'logType',
-    label: '零件号',
-    minWidth: 120
+    name: '补差时间段',
+    key: 'BUCHASHIJIANDUAN',
+    prop: 'startFrom'
   },
   {
-    prop: 'materialNo',
-    label: '原材料牌号',
-    minWidth: 120
+    name: '科室',
+    key: 'KESHI',
+    prop: 'departmentCode'
   },
   {
-    prop: 'materialName',
-    label: '原材料名称',
-    minWidth: 120
+    name: '采购员',
+    key: 'CAIGOUYUAN',
+    prop: 'buyerName'
   },
   {
-    prop: 'materialCategory',
-    label: '材料中类',
-    minWidth: 120
+    name: '申请日期',
+    key: 'SHENQINGRIQI',
+    prop: 'createDate'
   },
   {
-    prop: 'basePrice',
-    label: '原材料基价',
-    minWidth: 120
+    name: '应补总额 (RMB)',
+    key: 'YINGBUZONGE',
+    prop: 'invoiceAmount'
   },
   {
-    prop: 'basePriceUnit',
-    label: '单位',
-    minWidth: 120
-  },
-  {
-    prop: 'bexchangeRate',
-    label: '基价汇率',
-    minWidth: 120
-  },
-  {
-    prop: 'calUsg',
-    label: '原材料用量',
-    minWidth: 120
-  },
-  {
-    prop: 'cond',
-    label: '阈值',
-    minWidth: 120
-  },
-  {
-    prop: 'thresholdCompensationLogic',
-    label: '阈值补差逻辑',
-    minWidth: 120
-  },
-  {
-    prop: 'rate',
-    label: '补差系数',
-    minWidth: 120
-  },
-  {
-    prop: 'effPrice',
-    label: '原材料市场价',
-    minWidth: 120
-  },
-  {
-    prop: 'effExchangeRate',
-    label: '市场价汇率',
-    minWidth: 120
-  },
-  {
-    prop: 'priceNo',
-    label: '零件数量',
-    minWidth: 120
-  },
-  {
-    prop: 'actAmt',
-    label: '补差额',
-    minWidth: 120
-  },
-  {
-    prop: 'rqTime',
-    label: '二次件零件号',
-    minWidth: 120
-  },
-  {
-    prop: 'rqTime',
-    label: '二次件供应商编号',
-    minWidth: 140
-  },
-  {
-    prop: 'rqTime',
-    label: '一二次件比例',
-    minWidth: 120
-  },
-  {
-    prop: 'isEffAvg',
-    label: '是否取市场价均值',
-    minWidth: 140
-  },
-  {
-    prop: 'effPriceFrom' + 'effPriceTo',
-    label: '市场价偏移区间',
-    minWidth: 140
+    name: '实补总额 (RMB)',
+    key: 'SHIBUZONGE',
+    prop: 'approvedAmount'
   }
 ]
-
-export const tableTitle = [
-  { props: 'saNo', name: '采购框架', key: 'CAIGOUKUANGJIA', width: 140 },
-  { props: 'saItemNo', name: '项目', key: 'XIANGMU', width: 70 },
-  { props: 'firstPartNo', name: '零件号', key: 'LINGJIANHAO', width: 140 },
-  // { props: 'price', name: '零件价格（RMB）', key: 'LINGJIANJIAGE' },
-  // { props: 'actAmt', name: '零件实价（RMB）', key: 'LINGJIANSHIJIA' },
-  { props: 'priceUnit', name: '价格单位', key: 'JIAGEDANWEI' },
+// 补差单汇总TAB
+export const tableTitleOverview = [
+  { props: 'saNo', name: '采购框架', key: 'CAIGOUKUANGJIA' },
+  { props: 'saItemNo', name: '项目', key: 'XIANGMU' },
+  { props: 'firstPartNo', name: '零件号', key: 'LINGJIANHAO' },
   { props: 'shippedQty', name: '零件数量', key: 'LINGJIANSHULIANG' },
-  { props: 'appAmt', name: '补差额（RMB）', key: 'BUCHAE' }
+  { props: 'appAmt', name: '补差金额', key: '补差金额' },
+  { props: 'priceUnit', name: '应补总额', key: '应补总额' },
+  { props: 'price', name: '实际补差总额', key: '实际补差总额' },
 ]
-export const tableTitle2 = [
-  { props: 'saNo', name: '采购框架', key: 'CAIGOUKUANGJIA', width: 140 },
-  { props: 'saItemNo', name: '项目号', key: 'XIANGMUHAO', width: 70 },
-  { props: 'mtzDocMonth', name: '补差期间', key: 'BUCHAQIJIAN', width: 140 },
-  { props: 'fPartNo', name: '零件号', key: 'LINGJIANHAO', width: 140 },
+// 补差单明细TAB
+export const tableTitleDetail = [
+  { props: 'primaryPartNum', name: '一次件零件号', key: 'YCJLJH', width: 120 },
   {
-    props: 'materialCode',
-    name: '原材料牌号',
-    key: 'YUANCAILIAOPAIHAO',
-    width: 150
-  },
-  {
-    props: 'material',
-    name: '原材料名称',
-    key: 'YUANCAILIAOMINGCHENG',
+    props: 'primarySupplierName',
+    name: '一次件供应商',
+    key: 'YICIJIANGONGYINGSHANG',
+    align: 'center',
+    minWidth: 220,
+  }, {
+  //   props: 'materialGroup',
+  //   name: '材料组',
+  //   key: 'CAILIAOZU',
+  //   align: 'center',
+  //   minWidth: 100,
+  // }, {
+    props: 'materialName',
+    name: '原材料描述',
+    key: '原材料描述',
+    align: 'center',
     width: 120
   },
+  { props: 'secondPartNum', name: '二次件零件号', key: 'ECJLJH', width: 120 },
   {
-    props: 'categoryName',
-    name: '材料中类',
-    key: 'CAILIAOZHONGLEI',
-    width: 120
-  },
-  {
-    props: 'basePrice',
-    name: '原材料基价',
-    key: 'YUANCAILIAOJIJIA',
-    width: 120
-  },
-  { props: 'basePriceUnit', name: '单位', key: 'DANWEI', width: 100 },
-  { props: 'bExchangeRate', name: '基价汇率', key: 'JIJIAHUILV', width: 100 },
-  {
-    props: 'calUsg',
-    name: '原材料用量',
-    key: 'YUANCAILIAOYONGLIANG',
-    width: 100
-  },
-  { props: 'cond', name: '阈值', key: 'YUZHI', width: 100 },
-  {
-    props: 'thresholdCompensationLogic',
-    name: '阈值补差逻辑',
-    key: 'YUZHIBUCHALUOJI',
-    width: 150
-  },
-  { props: 'rate', name: '补差系数', key: 'BUCHAXISHU', width: 100 },
-  {
-    props: 'effPrice',
-    name: '原材料市场价',
-    key: 'YUANCAILIAOSHICHANGJIA',
-    width: 120
-  },
-  {
-    props: 'effExchangeRate',
-    name: '市场价汇率',
-    key: 'SHICHANGJIAHUILV',
-    width: 120
-  },
-  { props: 'qty', name: '零件数量', key: 'LINGJIANSHULIANG', width: 100 },
-  { props: 'appAmt', name: '补差额', key: 'BUCHAE', width: 100 },
-  {
-    props: 'sPartNo',
-    name: '二次件零件号',
-    key: 'ERCIJIANLINGJIANHAO',
-    width: 150
-  },
-  {
-    props: 'pieceSupplierSap',
+    props: 'secondSupplierName',
     name: '二次件供应商',
     key: 'ERCIJIANGONGYINGSHANG',
-    width: 250,
-    tooltip: true
-  },
-  { props: 'factor', name: '一二次件比例', key: 'YIERCIJIANBILI', width: 150 },
-  {
-    props: 'isEffAvg',
-    name: '是否取市场价均值',
-    key: 'SHIFOUQUSHICHANGJIAJUNZHI',
-    width: 170
+    minWidth: 200
   },
   {
-    props: 'pianyiqujian',
-    name: '市场价偏移区间',
-    key: 'SHICHANGJIAPIANYIQUJIAN',
+    props: 'secondPrimaryRatio',
+    name: '二次件与一次件比例',
+    width: '100px',
+    align: 'center',
+    key: '二次件与一次件比例',
     width: 150
-  }
-]
-
-export const tableTitle3 = [
-  { props: 'saNo', name: '采购框架', key: 'CAIGOUKUANGJIA', width: 150 },
-  { props: 'saItemNo', name: '项目号', key: 'XIANGMUHAO', width: 150 },
-  { props: 'mtzDocMonth', name: '补差期间', key: 'BUCHAQIJIAN', width: 150 },
-  { props: 'fPartNo', name: '零件号', key: 'LINGJIANHAO', width: 150 },
-  { props: 'batchNo', name: '批次号', key: 'PICIHAO', width: 150 },
-  { props: 'pgmNo', name: '贵金属编号', key: 'GUIJINSHUBIANHAO', width: 150 },
-  {
-    props: 'pieceSupplierSap',
-    name: '二次件供应商',
-    key: 'ERCIJIANGONGYINGSHANG',
-    width: 250,
-    tooltip: true
-  },
-  { props: 'factor', name: '一二次件比例', key: 'YIERCIJIANBILI', width: 150 },
-  {
-    props: 'material',
-    name: '原材料名称',
-    key: 'YUANCAILIAOMINGCHENG',
+  }, {
+    props: 'ruleNo',
+    name: '规则编号',
+    key: 'GUIZEBIANHAO',
+    align: 'center',
+    width: 150
+  }, {
+    props: 'agreementNo',
+    name: '采购框架',
+    key: '采购框架',
+    align: 'center',
     width: 150
   },
-  { props: 'basePrice', name: '基价', key: 'JIJIA', width: 150 },
-  { props: 'basePriceUnit', name: '基价单位', key: 'JIJIADANWEI', width: 150 },
-  { props: 'bExchangeRate', name: '基价汇率', key: 'JIJIAHUILV', width: 150 },
+  { props: 'agreementItemNo', name: '项目号', key: 'XIANGMUHAO', width: 70 },
   {
-    props: 'dosage',
-    name: '原材料用量',
-    key: 'YUANCAILIAOYONGLIANG',
-    width: 150
+    props: 'makeAmount',
+    name: '补差金额',
+    width: '100px',
+    align: 'center',
+    key: '补差金额',
+    width: 120
   },
-  { props: 'threshold', name: '阈值', key: 'YUZHI', width: 150 },
-  {
-    props: 'thresholdCompensationLogic',
-    name: '阈值补差逻辑',
-    key: 'YUZHIBUCHALUOJI',
-    width: 150
-  },
-  { props: 'rate', name: '补差系数', key: 'BUCHAXISHU', width: 150 },
-  { props: 'price', name: '购买价', key: 'GOUMAIJIA', width: 150 },
-  {
-    props: 'exchangeRate',
-    name: '购买价汇率',
-    key: 'GOUMAIJIAHUILV',
-    width: 150
-  },
-  { props: 'partNumber', name: '购买数量', key: 'GOUMAISHULIANG', width: 150 },
-  {
-    props: 'balance',
-    name: '消耗数量',
-    key: 'XIAOHAOSHULIANG',
-    width: 150
-  },
-  { props: 'bulkPartsConsume', name: '余数', key: 'YUSHU', width: 150 },
-  { props: 'appAmt', name: '补差额', key: 'BUCHAE', width: 150 }
+  { props: 'receiveQuantity', name: '结算数量', key: '结算数量', width: 120 },
+  { props: 'requestAmount', name: '应补总额', key: '应补总额', width: 120 },
+  { props: 'approveAmount', name: '实补总额', key: '实补总额', width: 120 },
 ]
 
 export const tableTitleNegative = [
@@ -404,296 +242,308 @@ export const tableTitleNegative = [
 // 计算弹窗补差规则列表
 export const tableTitleRule = [
   {
-      type: 'index',
-      label: '#',
+    type: 'index',
+    label: '#',
   }, {
-      prop: 'ruleNo',
-      label: '规则编号',
-      i18n: 'GUIZEBIANHAO',
-      align: 'center',
-      width: 150
+    prop: 'ruleNo',
+    label: '规则编号',
+    i18n: 'GUIZEBIANHAO',
+    align: 'center',
+    width: 150
   }, {
-      prop: 'method',
-      label: '补差方式',
-      i18n: '补差方式',
-      align: 'center',
-      width: 150,
-      customRender: (h, scope) => {
-          return <span>{scope.row.method == '1' ? '一次性补差' : '变价单补差'}</span>
-      }
+    prop: 'method',
+    label: '补差方式',
+    i18n: '补差方式',
+    align: 'center',
+    width: 150,
+    customRender: (h, scope) => {
+      return <span>{scope.row.method == '1' ? '一次性补差' : '变价单补差'}</span>
+    }
   }, {
-      //   prop: 'materialGroup',
-      //   label: '材料组',
-      //   i18n: '材料组',
-      //   align: 'center',
-      //   width: 150
-      // }, {
-      prop: 'materialName',
-      label: '原材料描述',
-      i18n: '原材料描述',
-      align: 'center',
-      width: 150
+    //   prop: 'materialGroup',
+    //   label: '材料组',
+    //   i18n: '材料组',
+    //   align: 'center',
+    //   width: 150
+    // }, {
+    prop: 'materialName',
+    label: '原材料描述',
+    i18n: '原材料描述',
+    align: 'center',
+    width: 150
   }, {
-      prop: 'partNum',
-      label: '一次零件号',
-      i18n: '一次零件号',
-      align: 'center',
-      width: 150
+    prop: 'partNum',
+    label: '一次零件号',
+    i18n: '一次零件号',
+    align: 'center',
+    width: 150
   }, {
-      prop: 'partName',
-      label: '一次零件名称',
-      i18n: '一次零件名称',
-      align: 'center',
-      tooltip: true,
-      width: 150
+    prop: 'partName',
+    label: '一次零件名称',
+    i18n: '一次零件名称',
+    align: 'center',
+    tooltip: true,
+    width: 150
   },
   {
-      prop: 'sapCode',
-      label: '一次件供应商编号',
-      i18n: '一次件供应商编号',
-      align: 'center',
-      width: 150
+    prop: 'sapCode',
+    label: '一次件供应商编号',
+    i18n: '一次件供应商编号',
+    align: 'center',
+    width: 150
   },
   {
-      prop: 'supplierName',
-      label: '一次件供应商名称',
-      width: '100px',
-      align: 'center',
-      i18n: '一次件供应商名称',
-      tooltip: true,
-      width: 150
+    prop: 'supplierName',
+    label: '一次件供应商名称',
+    width: '100px',
+    align: 'center',
+    i18n: '一次件供应商名称',
+    tooltip: true,
+    width: 150
   },
   {
-      prop: 'buyerName',
-      label: '采购员',
-      width: '100px',
-      align: 'center',
-      i18n: 'CAIGOUYUAN',
-      width: 100
+    prop: 'buyerName',
+    label: '采购员',
+    width: '100px',
+    align: 'center',
+    i18n: 'CAIGOUYUAN',
+    width: 100
   },
   {
-      prop: 'deptCode',
-      label: '科室',
-      width: '100px',
-      align: 'center',
-      i18n: 'KESHI',
-      width: 100
+    prop: 'deptCode',
+    label: '科室',
+    width: '100px',
+    align: 'center',
+    i18n: 'KESHI',
+    width: 100
   }, {
-      prop: 'partNameSec',
-      label: '二次零件号',
-      i18n: '二次零件号',
-      align: 'center',
-      width: 150
+    prop: 'partNameSec',
+    label: '二次零件号',
+    i18n: '二次零件号',
+    align: 'center',
+    width: 150
   }, {
-      prop: 'partNumSec',
-      label: '二次零件名称',
-      i18n: '二次零件名称',
-      align: 'center',
-      tooltip: true,
-      width: 150
+    prop: 'partNumSec',
+    label: '二次零件名称',
+    i18n: '二次零件名称',
+    align: 'center',
+    tooltip: true,
+    width: 150
   },
   {
-      prop: 'sapCodeSec',
-      label: '二次件供应商编号',
-      i18n: '二次件供应商编号',
-      align: 'center',
-      width: 150
+    prop: 'sapCodeSec',
+    label: '二次件供应商编号',
+    i18n: '二次件供应商编号',
+    align: 'center',
+    width: 150
   },
   {
-      prop: 'supplierNameSec',
-      label: '二次件供应商名称',
-      width: '100px',
-      align: 'center',
-      i18n: '二次件供应商名称',
-      tooltip: true,
-      width: 150
+    prop: 'supplierNameSec',
+    label: '二次件供应商名称',
+    width: '100px',
+    align: 'center',
+    i18n: '二次件供应商名称',
+    tooltip: true,
+    width: 150
   },
   {
-      prop: 'secondPrimaryRatio',
-      label: '二次件与一次件比例',
-      width: '100px',
-      align: 'center',
-      i18n: '二次件与一次件比例',
-      width: 150
+    prop: 'secondPrimaryRatio',
+    label: '二次件与一次件比例',
+    width: '100px',
+    align: 'center',
+    i18n: '二次件与一次件比例',
+    width: 150
   },
   {
-      prop: 'amount',
-      label: '补差金额',
-      width: '100px',
-      align: 'center',
-      i18n: '补差金额',
-      width: 150
+    prop: 'amount',
+    label: '补差金额',
+    width: '100px',
+    align: 'center',
+    i18n: '补差金额',
+    width: 150
   },
   {
-      prop: 'currency',
-      label: '货币',
-      align: 'center',
-      i18n: 'HUOBI',
-      width: 150
+    prop: 'currency',
+    label: '货币',
+    align: 'center',
+    i18n: 'HUOBI',
+    width: 150
   },
   { prop: 'exchangeRate', label: '汇率', align: 'center', i18n: 'HUILV' },
   {
-      prop: 'startDate',
-      label: '有效期起',
-      align: 'center',
-      i18n: 'YOUXIAOQIQI',
-      tooltip: true,
-      width: 150
+    prop: 'startDate',
+    label: '有效期起',
+    align: 'center',
+    i18n: 'YOUXIAOQIQI',
+    tooltip: true,
+    width: 150
   },
   {
-      prop: 'endDate',
-      label: '有效期止',
-      align: 'center',
-      i18n: 'YOUXIAOQIZHI',
-      tooltip: true,
-      width: 150
+    prop: 'endDate',
+    label: '有效期止',
+    align: 'center',
+    i18n: 'YOUXIAOQIZHI',
+    tooltip: true,
+    width: 150
   },
   {
-      prop: 'effectFlag',
-      label: '是否生效',
-      align: 'center',
-      i18n: 'SHIFOUSHENGXIAO',
-      width: 150,
-      customRender: (h, scope) => {
-          return <span>{scope.row.effectFlag ? '是' : '否'}</span>
+    prop: 'effectFlag',
+    label: '是否生效',
+    align: 'center',
+    i18n: 'SHIFOUSHENGXIAO',
+    width: 150,
+    customRender: (h, scope) => {
+      return <span>{scope.row.effectFlag ? '是' : '否'}</span>
+    }
+  },
+  {
+    prop: 'updateDate',
+    label: '更新时间',
+    align: 'center',
+    i18n: '更新时间',
+    width: 150,
+    tooltip: true,
+  },
+  {
+    prop: 'sourceCode',
+    label: '补差来源',
+    align: 'center',
+    i18n: '补差来源',
+    width: 150,
+    emit: 'go-detail',
+    customRender: (h, scope) => {
+      if (scope.row.sourceCode == "初始化") {
+        return <span>{scope.row?.sourceCode}</span>
+      } else {
+        return <span class="link-text">{scope.row?.sourceCode}</span>
       }
-  },
-  {
-      prop: 'updateDate',
-      label: '更新时间',
-      align: 'center',
-      i18n: '更新时间',
-      width: 150,
-      tooltip: true,
-  },
-  {
-      prop: 'sourceCode',
-      label: '补差来源',
-      align: 'center',
-      i18n: '补差来源',
-      width: 150,
-      emit: 'go-detail',
-      customRender: (h, scope) => {
-          if (scope.row.sourceCode == "初始化") {
-              return <span>{scope.row?.sourceCode}</span>
-          } else {
-              return <span class="link-text">{scope.row?.sourceCode}</span>
-          }
-      }
+    }
   },
 ]
 
 // 计算弹窗补差规则列表
 export const tableTitleBE = [
   {
-      type: 'selection',
+    type: 'selection',
   }, {
-      type: 'index',
-      label: '#',
+    type: 'index',
+    label: '#',
   }, {
-      prop: 'partNum',
-      label: '一次零件号',
-      i18n: '一次零件号',
-      align: 'center',
-      width: 150
-  }, 
-  {
-      prop: 'supplierName',
-      label: '一次件供应商名称',
-      width: '100px',
-      align: 'center',
-      i18n: '一次件供应商名称',
-      tooltip: true,
-      width: 150
+    prop: 'partNum',
+    label: '一次零件号',
+    i18n: '一次零件号',
+    align: 'center',
+    width: 150
   },
   {
-        prop: 'materialGroup',
-        label: '材料组',
-        i18n: '材料组',
-        align: 'center',
-        width: 150
-      }, {
-      prop: 'materialName',
-      label: '原材料描述',
-      i18n: '原材料描述',
-      align: 'center',
-      width: 150
+    prop: 'supplierName',
+    label: '一次件供应商名称',
+    width: '100px',
+    align: 'center',
+    i18n: '一次件供应商名称',
+    tooltip: true,
+    width: 150
+  },
+  {
+    prop: 'materialGroup',
+    label: '材料组',
+    i18n: '材料组',
+    align: 'center',
+    width: 150
   }, {
-      prop: 'partNameSec',
-      label: '二次零件号',
-      i18n: '二次零件号',
-      align: 'center',
-      width: 150
-  },
-  {
-      prop: 'supplierNameSec',
-      label: '二次件供应商名称',
-      width: '100px',
-      align: 'center',
-      i18n: '二次件供应商名称',
-      tooltip: true,
-      width: 150
-  },
-  {
-      prop: 'secondPrimaryRatio',
-      label: '二次件与一次件比例',
-      width: '100px',
-      align: 'center',
-      i18n: '二次件与一次件比例',
-      width: 150
+    prop: 'materialName',
+    label: '原材料描述',
+    i18n: '原材料描述',
+    align: 'center',
+    width: 150
   }, {
-      prop: 'ruleNo',
-      label: '规则编号',
-      i18n: 'GUIZEBIANHAO',
-      align: 'center',
-      width: 150
-  },  {
-      prop: 'method',
-      label: '补差方式',
-      i18n: '补差方式',
-      align: 'center',
-      width: 150,
-      customRender: (h, scope) => {
-          return <span>{scope.row.method == '1' ? '一次性补差' : '变价单补差'}</span>
-      }
+    prop: 'partNameSec',
+    label: '二次零件号',
+    i18n: '二次零件号',
+    align: 'center',
+    width: 150
   },
   {
-      prop: 'amount',
-      label: '补差金额',
-      width: '100px',
-      align: 'center',
-      i18n: '补差金额',
-      width: 150
+    prop: 'supplierNameSec',
+    label: '二次件供应商名称',
+    width: '100px',
+    align: 'center',
+    i18n: '二次件供应商名称',
+    tooltip: true,
+    width: 150
   },
   {
-      prop: 'currency',
-      label: '货币',
-      align: 'center',
-      i18n: 'HUOBI',
-      width: 150
+    prop: 'secondPrimaryRatio',
+    label: '二次件与一次件比例',
+    width: '100px',
+    align: 'center',
+    i18n: '二次件与一次件比例',
+    width: 150
+  }, {
+    prop: 'ruleNo',
+    label: '规则编号',
+    i18n: 'GUIZEBIANHAO',
+    align: 'center',
+    width: 150
+  }, {
+    prop: 'method',
+    label: '补差方式',
+    i18n: '补差方式',
+    align: 'center',
+    width: 150,
+    customRender: (h, scope) => {
+      return <span>{scope.row.method == '1' ? '一次性补差' : '变价单补差'}</span>
+    }
+  },
+  {
+    prop: 'amount',
+    label: '补差金额',
+    width: '100px',
+    align: 'center',
+    i18n: '补差金额',
+    width: 150
+  },
+  {
+    prop: 'currency',
+    label: '货币',
+    align: 'center',
+    i18n: 'HUOBI',
+    width: 150
   },
   { prop: 'exchangeRate', label: '汇率', align: 'center', i18n: 'HUILV' },
-  
+
   {
-      prop: 'sourceCode',
-      label: '补差单编号',
-      align: 'center',
-      i18n: '补差单编号',
-      width: 150,
-  },{
-      prop: 'buyerName',
-      label: '采购员',
-      width: '100px',
-      align: 'center',
-      i18n: 'CAIGOUYUAN',
-      width: 100
+    prop: 'sourceCode',
+    label: '补差单编号',
+    align: 'center',
+    i18n: '补差单编号',
+    width: 150,
+  }, {
+    prop: 'buyerName',
+    label: '采购员',
+    width: '100px',
+    align: 'center',
+    i18n: 'CAIGOUYUAN',
+    width: 100
   },
   {
-      prop: 'deptCode',
-      label: '科室',
-      width: '100px',
-      align: 'center',
-      i18n: 'KESHI',
-      width: 100
+    prop: 'deptCode',
+    label: '科室',
+    width: '100px',
+    align: 'center',
+    i18n: 'KESHI',
+    width: 100
   }
+]
+// 弹窗查询条件
+export const searchFormData = [
+  {
+    props: 'saNos', name: '采购框架', key: 'CAIGOUKUANGJIA', type: 'input'
+  },
+  {
+    props: 'fpartNos', name: '一次件零件号', key: 'YICIJIANLINGJIANHAO', type: 'input'
+  },
+  { props: 'spartNos', name: '二次件零件号', key: 'ERCIJIANLINGJIANHAO', type: 'input' },
+  { props: 'pieceSupplierSaps', name: '二次件供应商', key: 'ECJGYS', type: 'select', selectOption: 'getSecondSupplierList', multiple: true, clearable: true, showAll: true },
+  { props: 'dateTime', name: '补差时间段', key: 'BUCHASHIJIANDUAN', type: 'daterange' },
 ]

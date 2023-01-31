@@ -8,8 +8,10 @@
 <template>
   <iPage>
     <div class="header">
-      <h1>{{ type }}供应商芯片补差计算（草稿）</h1>
-      <iButton @click="computedData">计算</iButton>
+      <h1>{{ supplierType }}供应商芯片补差计算（{{statusName}}）</h1>
+      <template v-if="showContent">
+        <iButton @click="computedData">计算</iButton>
+      </template>
     </div>
     <iCard>
       <p class="title">基本信息</p>
@@ -18,7 +20,7 @@
           <iLabel
             class="label"
             required
-            :label="type + language('GONGYINGSHANG', '供应商')"
+            :label="supplierType + language('GONGYINGSHANG', '供应商')"
             slot="label"
           ></iLabel>
           <mySelect
@@ -31,7 +33,9 @@
             clearable
             propLabel="codeMessage"
             propValue="code"
+            v-if="showContent"
           />
+          <i-input v-else disabled v-model="supplier"></i-input>
         </iFormItem>
         <iFormItem style="marginright: 68px">
           <iLabel
@@ -43,6 +47,7 @@
           <iDatePicker
             v-model="searchForm.dateRange"
             clearable
+            :disabled="!showContent"
             type="daterange"
             format="yyyy-MM-dd"
             value-format="yyyy-MM-dd HH:mm:ss"
@@ -65,7 +70,7 @@
         <p class="title">补差规则</p>
         <div>
           <iButton @click="exportExcel">导出</iButton>
-          <iButton :disabled="disabled" @click="openDialog">选择规则</iButton>
+          <iButton :disabled="disabled"  v-if="showContent" @click="openDialog">选择规则</iButton>
         </div>
       </div>
       <iTableCustom
@@ -113,7 +118,8 @@ import {
   iFormItem,
   iLabel,
   iTableCustom,
-  iDialog
+  iDialog,
+  iMessage
 } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import { tableTitle } from './components/data'
@@ -122,8 +128,13 @@ import mySelect from './components/mySelect'
 import {
   getSupplierByuser,
   calculate,
-  saveBalance
+  saveBalance,
+  findBalanceById
 } from '@/api/mtz/annualGeneralBudget/chipReplenishment'
+import {
+  exportAppRecordByCondition
+} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
+
 export default {
   mixins: [pageMixins],
   components: {
@@ -149,7 +160,8 @@ export default {
         supplierName: '',
         dateRange: []
       },
-      status: '草稿',
+      supplierType:'一次件',
+      statusName: '草稿',
       tableLoading: false,
       tableTitle,
       tableData: [],
@@ -161,13 +173,34 @@ export default {
       return !(
         this.searchForm.sapCode && (this.searchForm.dateRange || []).length
       )
+    },
+    showContent(){
+      return this.statusName == '草稿'
     }
   },
   created() {
-    this.type = this.$route.query.type == 1 ? '一次件' : '散件'
-    this.getSupplierByuser()
+    this.balanceId = this.$route.query.balanceId
+    this.supplierType = this.$route.query.type == 1 ? '一次件' : '散件'
+    if(this.balanceId){
+      this.findBalanceById()
+    }else{  // 新建
+      this.getSupplierByuser()
+    }
   },
   methods: {
+    findBalanceById(){
+      findBalanceById({balanceId:this.balanceId}).then(res=>{
+        console.log(res);
+        if(res?.code=='200'){
+          this.statusName = res.data.balanceBase.statusName
+          this.supplier = res.data.balanceBase.supplierSapCode+'-'+res.data.balanceBase.supplierName
+          this.searchForm.sapCode = res.data.balanceBase.supplierSapCode
+          this.searchForm.supplierName = res.data.balanceBase.supplierName
+          this.searchForm.dateRange = [res.data.balanceBase.startFrom,res.data.balanceBase.endTo]
+          this.tableData = res.data.balanceRuleList
+        }
+      })
+    },
     handleChangeFsupplier(val, item) {
       this.searchForm.sapCode = val
       this.searchForm.supplierName = item ? item.message : ''
@@ -196,7 +229,6 @@ export default {
       getSupplierByuser({}).then((res) => {
         if (res.code === '200') {
           this.fsupplierList = JSON.parse(JSON.stringify(res.data))
-          console.log(this.fsupplierList)
         } else {
           iMessage.error(res.desZh)
         }
@@ -204,34 +236,45 @@ export default {
     },
     // 计算,先保存再计算
     computedData() {
-      let params = {
-        attachmentList: [],
-        balanceBase: {
-          supplierSapCode:this.searchForm.sapCode,
-          buyerId:this.$store.state.permission.userInfo.id,
-          balanceType: this.$route.query.type,
-          startFrom: window
-            .moment(this.searchForm.dateRange[0])
-            .format('YYYY-MM-DD 00:00:00'),
-          endTo: (this.searchForm.endDate = window
-            .moment(this.searchForm.dateRange[1])
-            .format('YYYY-MM-DD 23:59:59'))
-        },
-        balanceItemList: [],
-        balanceRuleList: this.tableData
-      }
-      saveBalance(params).then((res) => {
-        if (res?.code == '200') {
-          calculate({ balanceId: res.data }).then((res) => {
-            console.log(res);
-            // window.close()
-          })
+      if(this.searchForm.sapCode&&this.$route.query.type&&this.searchForm.dateRange.length&&this.tableData.length){
+        let params = {
+          attachmentList: [],
+          balanceBase: {
+            supplierSapCode:this.searchForm.sapCode,
+            buyerId:this.$store.state.permission.userInfo.id,
+            balanceType: this.$route.query.type,
+            startFrom: window
+              .moment(this.searchForm.dateRange[0])
+              .format('YYYY-MM-DD 00:00:00'),
+            endTo: (this.searchForm.endDate = window
+              .moment(this.searchForm.dateRange[1])
+              .format('YYYY-MM-DD 23:59:59'))
+          },
+          balanceItemList: [],
+          balanceRuleList: this.tableData
         }
-      })
+        saveBalance(params).then((res) => {
+          if (res?.code == '200') {
+            calculate({ balanceId: res.data }).then((res) => {
+              if(res?.code==200){
+                iMessage.success('提交计算成功')
+                setTimeout(()=>{
+                  window.close()
+                },2000)
+              }
+            })
+          }
+        })
+      }else{
+        iMessage.warn('请填写必要信息')
+      }
     },
     // 导出
     exportExcel() {
       console.log('exportExcel=>导出')
+      exportAppRecordByCondition().then(res=>{
+        console.log(res);
+      })
     }
   }
 }

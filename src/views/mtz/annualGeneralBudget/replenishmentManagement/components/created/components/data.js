@@ -15,13 +15,13 @@ export const tableTitle = [
       label: '规则编号',
       i18n: 'GUIZEBIANHAO',
       align: 'center',
-      width: 150
+      width: 140
     }, {
       prop: 'method',
       label: '补差方式',
       i18n: '补差方式',
       align: 'center',
-      width: 150,
+      width: 120,
       customRender: (h, scope) => {
         return <span>{scope.row.method == '1' ? '一次性补差' : '变价单补差'}</span>
       }
@@ -42,7 +42,7 @@ export const tableTitle = [
       label: '一次零件号',
       i18n: '一次零件号',
       align: 'center',
-      width: 150
+      width: 120
     }, {
       prop: 'partName',
       label: '一次零件名称',
@@ -94,7 +94,7 @@ export const tableTitle = [
       i18n: '二次零件名称',
       align: 'center',
       tooltip: true,
-      width: 150
+      width: 120
     },
     {
       prop: 'sapCodeSec',
@@ -115,10 +115,9 @@ export const tableTitle = [
     {
       prop: 'secondPrimaryRatio',
       label: '二次件与一次件比例',
-      width: '100px',
       align: 'center',
       i18n: '二次件与一次件比例',
-      width: 150
+      width: 170
     },
     {
       prop: 'amount',
@@ -126,14 +125,13 @@ export const tableTitle = [
       width: '100px',
       align: 'center',
       i18n: '补差金额',
-      width: 150
+      width: 120
     },
     {
       prop: 'currency',
       label: '货币',
       align: 'center',
       i18n: 'HUOBI',
-      width: 150
     },
     { prop: 'exchangeRate', label: '汇率', align: 'center', i18n: 'HUILV' },
     {
@@ -142,7 +140,7 @@ export const tableTitle = [
       align: 'center',
       i18n: 'YOUXIAOQIQI',
       tooltip: true,
-      width: 150
+      width: 180
     },
     {
       prop: 'endDate',
@@ -150,14 +148,14 @@ export const tableTitle = [
       align: 'center',
       i18n: 'YOUXIAOQIZHI',
       tooltip: true,
-      width: 150
+      width: 180
     },
     {
       prop: 'effectFlag',
       label: '是否生效',
       align: 'center',
       i18n: 'SHIFOUSHENGXIAO',
-      width: 150,
+      width: 120,
       customRender: (h, scope) => {
         return <span>{scope.row.effectFlag ? '是' : '否'}</span>
       }
@@ -167,7 +165,7 @@ export const tableTitle = [
       label: '更新时间',
       align: 'center',
       i18n: '更新时间',
-      width: 150,
+      width: 180,
       tooltip: true,
     },
     {
@@ -331,7 +329,7 @@ export const QueryFormData = [
       align: 'center',
       key: 'YOUXIAOQIQI',
       tooltip: true,
-      width: 150
+      width: 180
     },
     {
       props: 'endDate',
@@ -339,14 +337,14 @@ export const QueryFormData = [
       align: 'center',
       key: 'YOUXIAOQIZHI',
       tooltip: true,
-      width: 150
+      width: 180
     },
     {
       props: 'effectFlag',
       name: '是否生效',
       align: 'center',
       key: 'SHIFOUSHENGXIAO',
-      width: 150,
+      width: 120,
       customRender: (h, scope) => {
         return <span>{scope.row.effectFlag ? '是' : '否'}</span>
       }
@@ -356,7 +354,7 @@ export const QueryFormData = [
       name: '更新时间',
       align: 'center',
       key: '更新时间',
-      width: 150,
+      width: 180,
       tooltip: true,
     },
     {
@@ -375,3 +373,27 @@ export const QueryFormData = [
       }
     },
   ]
+
+// 计算弹窗查询
+export const infoFormData = [
+  {
+      props: 'supplier', name: '供应商', key: 'GONGYINGSHANG', type: 'input', disabled: true
+  },
+  {
+      props: 'dateRange', name: '补差时间段', key: '补差时间段', type: 'daterange', disabled: true
+  },
+  { props: 'status', name: '状态', key: '状态', type: 'input', disabled: true },
+  { props: 'balanceNo', name: '补差单编号', key: '补差单编号', type: 'input', disabled: true },
+  { props: 'invoiceAmount', name: '补差金额（总计）', key: '补差金额（总计）', type: 'thousands', disabled: true },
+  { props: 'taskStatus', name: '已发起凭证', key: '已发起凭证', type: 'thousands', disabled: true },
+  { props: 'taskStatus', name: '待发起凭证', key: '待发起凭证', type: 'thousands', disabled: true },
+  { props: 'approvedAmount', name: '实补金额', key: '实补金额', type: 'thousands', required: true },
+]
+
+  export const computedFormData = [
+    { props: 'buyerName', name: '一次零件号', key: '一次零件号', type: 'input' },
+    { props: 'buyerName', name: '二次零件号', key: '二次零件号', type: 'input' },
+    {
+      props: 'sapCodeSec', name: '二次件供应商', key: '二次件供应商', type: 'select', selectOption: 'sSupplierDropDownData',
+    },
+]

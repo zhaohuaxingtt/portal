@@ -3,29 +3,20 @@
  * @Date: 2023-01-16 11:22:39
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
- * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipCalculationTask\data.js
+ * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\components\data.js
  */
-// 芯片补差计算任务列表
 export const tableTitle = [
     { type: 'index', i18n: '#', },
     {
         prop: 'taskNo', label: '任务编号', i18n: '任务编号',
-        emit: 'handleDetail',
+        emit: 'handleAdd',
         customRender: (h, scope) => {
             return <span class={scope.row.taskNo != 3 ? "link-text" : ''}>{scope.row.taskNo}</span>
         }
     },
     { prop: 'primarySupplier', label: '一次件供应商', i18n: 'YICIXINGGONGYINGSHANG', },
     { prop: 'secondSupplier', label: '散件供应商', i18n: '散件供应商', },
-    { prop: 'balanceType', label: '任务类型', i18n: '任务类型',
-        customRender: (h, scope) => {
-            if(scope.row.balanceType=='1'){
-                return <span>{'一次件补差'}</span>
-            }else{
-                return <span>{'散件补差'}</span>
-            }
-        } 
-    },
+    { prop: 'balanceType', label: '任务类型', i18n: '任务类型', },
     { prop: 'departmentCode', label: '科室', i18n: '科室', },
     { prop: 'buyerName', label: '采购员', i18n: 'CAIGOUYUAN', },
     { prop: 'createDate', label: '发起时间', i18n: 'LK_FQSJ', },
@@ -42,11 +33,9 @@ export const tableTitle = [
         }
     },
     { prop: 'taskStatusDesc', label: '任务状态', i18n: 'RENWUZHUANGTAI' },
-    { prop: 'errorMessage', label: '说明', i18n: '说明' },
-    
 ]
 
-// 芯片补差计算任务查询
+// 补差规则计算任务查询
 export const searchFormData = [
     {
         props: 'primarySupplierSapCode', name: '一次件供应商', key: 'YICIJIANGONGYINGSHANG', type: 'select', selectOption: 'fsupplierList', optionLabel: 'message',
@@ -62,6 +51,22 @@ export const searchFormData = [
     { props: 'departmentCode', name: '科室', key: '科室', type: 'select', selectOption: 'deptList', showAll: true },
     { props: 'buyerName', name: '采购员', key: '采购员', type: 'select', selectOption: 'operatorBuyus', showAll: true },
     { props: 'taskStatus', name: '任务状态', key: '任务状态', type: 'select', selectOption: 'taskStatusList', showAll: true },
+]
+
+// 计算弹窗查询
+export const infoFormData = [
+    {
+        props: 'primarySupplierSapCode', name: '一次件供应商', key: 'YICIJIANGONGYINGSHANG', type: 'input', disabled: true
+    },
+    {
+        props: 'secondSupplierSapCode', name: '补差时间段', key: '补差时间段', type: 'daterange', disabled: true
+    },
+    { props: 'balanceType', name: '状态', key: '状态', type: 'input', disabled: true },
+    { props: 'departmentCode', name: '补差单编号', key: '补差单编号', type: 'input', disabled: true },
+    { props: 'buyerName', name: '补差金额（总计）', key: '补差金额（总计）', type: 'input', disabled: true },
+    { props: 'taskStatus', name: '已发起凭证', key: '已发起凭证', type: 'input', disabled: true },
+    { props: 'taskStatus', name: '待发起凭证', key: '待发起凭证', type: 'input', disabled: true },
+    { props: 'taskStatus', name: '实补金额', key: '实补金额', type: 'input', required: true },
 ]
 
 // 计算弹窗补差规则列表
@@ -365,6 +370,7 @@ export const queryFormData = [
     { props: 'buyerName', name: '一次零件号', key: '一次零件号', type: 'input' },
     { props: 'buyerName', name: '二次零件号', key: '二次零件号', type: 'input' },
     {
-        props: 'primarySupplierSapCode', name: '一次件供应商', key: 'YICIJIANGONGYINGSHANG', type: 'sleect', selectOption: 'sSupplierDropDownData',
+        props: 'sapCodeSec', name: '二次件供应商', key: '二CIJIANGONGYINGSHANG', type: 'select', selectOption: 'sSupplierDropDownData',
     },
 ]
+

@@ -115,6 +115,7 @@ export default {
       loading: false,
       tableTitle: continueBox,
       tableData: [],
+      changeData:[],
       searchForm: {
         ruleNo: '',
         method: '',
@@ -226,7 +227,7 @@ export default {
     },
     save() {
       if (this.changeData.length == 0) {
-        iMessage.error(this.language('ZSXZYTSU', '请选择一条数据进行关联！'))
+        iMessage.error(this.language('QINGXUANZEYITIAOSHUJU', '请选择一条数据'))
         return false
       }
       this.$emit('addDialogData', this.changeData)

@@ -1,10 +1,10 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-14 14:44:54
- * @LastEditTime: 2023-01-18 18:44:03
+ * @LastEditTime: 2023-01-30 09:40:26
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
- * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\detailDialog.vue
+ * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\components\detailDialog.vue
 -->
 <template>
   <iDialog
@@ -13,6 +13,7 @@
     :visible.sync="value"
     width="85%"
     @close="closeDiolog"
+    append-to-body
   >
     <search
       :searchForm="detailInfo"
@@ -75,6 +76,10 @@
         <div class="tableOptionBox">
           <iButton
             @click="handleExportCurrent"
+            >{{ language('冲销', '冲销') }}</iButton
+          >
+          <iButton
+            @click="handleExportCurrent"
             v-permission="MTZ_REPORT_BUCHAGUANLI_MTZBUCHAZONGLAN_DAOCHUDANGYE"
             >{{ language('DAOCHU', '导出') }}</iButton
           >
@@ -114,14 +119,14 @@ import {
 } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import tableList from '@/components/commonTable/index.vue'
-import search from '../../components/search.vue'
+import search from './search.vue'
 import {
   tableTitleRule,
   tableTitleBE,
   searchFormData1,
   infoFormData,
   queryFormData
-} from './data'
+} from '../chipCalculationTask/data'
 import {
   fetchTableData,
   fetchCurrentUser,
@@ -321,18 +326,8 @@ export default {
 }
 .contentBox {
   .tableOptionBox {
-    .tableTitle {
-      display: inline;
-      font-weight: bold;
-      font-size: 16px;
-      color: #000;
-      margin: 0 10px;
-    }
-    button {
-      float: right;
-      z-index: 100;
-      margin-left: 10px;
-    }
+    text-align: right;
+    margin-bottom: 10px;
   }
 }
 .leftBox {

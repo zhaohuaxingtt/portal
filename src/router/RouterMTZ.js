@@ -965,4 +965,17 @@ export default [
         '@/views/mtz/annualGeneralBudget/replenishmentManagement/components/created/index.vue'
       )
   },
+  {
+    path: 'chipComputed',
+    name: 'chipComputed',
+    meta: {
+      title: '芯片补差单计算',
+      showFooter: true
+    },
+    component: () =>
+      import(
+        '@/views/mtz/annualGeneralBudget/replenishmentManagement/components/created/computePage.vue'
+      )
+  },
+  
 ]

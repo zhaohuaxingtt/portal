@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2023-01-13 15:37:38
+ * @LastEditTime: 2023-01-30 15:17:29
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipReplenishmentOverview\components\theTable.vue
@@ -86,7 +86,9 @@ import { iCard, iButton, iPagination, icon, iTableCustom, iMessage } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import detailDialog from './detailDialog'
 import redeployDialog from './redeployDialog'
-import { pageMTZCompOverview } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
+import {
+  findBalanceSummaryByPage
+} from '@/api/mtz/annualGeneralBudget/chipReplenishment'
 import { fetchAssign } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzReplenishmentOverview/detail'
 import { tableTitle1, tableTitle2 } from './data'
 export default {
@@ -176,12 +178,10 @@ export default {
         pageSize: this.page.pageSize,
         ...search
       }
-      pageMTZCompOverview(params).then((res) => {
+      findBalanceSummaryByPage(params).then((res) => {
         if (res.code === '200') {
-          this.tableData = res.data
-          this.page.currPage = res.pageNum
-          this.page.pageSize = res.pageSize
-          this.page.totalCount = res.total
+          this.tableData = res.data || []
+          this.page.totalCount = res.data?.total ||0
           this.loading = false
         } else {
           this.loading = false

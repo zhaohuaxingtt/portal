@@ -87,6 +87,9 @@ export default {
     changeValue(val){
       let item = this.options.find(item=>item[this.propValue]==val)
       this.$emit('change',val, item)
+      if(!val){
+        this.filterData("")
+      }
     },
     load() {
       // 如果新一页还有数据的话，拼接当前数据和新一页数据
@@ -96,7 +99,7 @@ export default {
     // 数据筛选，筛选后查询第一页的数据
     filterData(input) {
       this.dataAll = this.initData.filter(
-        (item) => item[this.propLabel].toLowerCase().indexOf(input.toLowerCase()) > -1
+        (item) => item[this.propLabel]?.toLowerCase().indexOf(input.toLowerCase()) > -1
       );
       this.$nextTick(() => {
         this.options = [];

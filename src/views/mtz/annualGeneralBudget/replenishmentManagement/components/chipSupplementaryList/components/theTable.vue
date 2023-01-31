@@ -1,16 +1,35 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-18 18:52:11
- * @LastEditTime: 2022-03-09 11:21:22
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-01-30 14:33:15
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
- * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\supplementaryList\components\theTable1.vue
+ * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\theTable.vue
 -->
 <template>
   <iCard>
     <div slot="header" class="flex-between-center" style="width: 100%">
-      <span>补差列表</span>
+        <div class="showMe">
+          <span>{{ language('只看自己 ') }}</span>
+          <el-switch
+            v-model="onlySeeMySelf"
+            class="margin-right10"
+            @change="showOnlyMyselfData($event)"
+            active-color="#1660F1"
+            inactive-color="#cccccc"
+          >
+          </el-switch>
+          <el-radio-group v-model="supplierType" @change="change">
+            <template v-for="item in typeList">
+              <el-radio-button :label="item.label" :key="item.key">{{ $t(item.key) }}</el-radio-button>
+            </template>
+          </el-radio-group>
+        </div>
       <div class="opration">
+        <iButton
+          @click="deleteBalance"
+          >{{ language('SHANCHU', '删除') }}</iButton
+        >
         <iButton
           @click="sendSupplier"
           v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_FAQIGONGINGSHANG"
@@ -38,176 +57,13 @@
         >
       </div>
     </div>
-    <el-table
-      ref="moviesTable"
-      :data="tableData"
-      v-loading="loading"
-      tooltip-effect="light"
-      style="width: 100%"
-      border
-      @selection-change="handleSelectionChange"
-    >
-      <el-table-column type="selection" width="50" fixed> </el-table-column>
-      <el-table-column type="index" label="#" width="50" fixed>
-      </el-table-column>
-      <el-table-column
-        prop="bizNo"
-        :label="language('BUCHADANHAO', '补差单号')"
-        width="180"
-        header-align="center"
-        show-overflow-tooltip
-      >
-        <template slot-scope="scope">
-          <span class="openPage" @click="openPage(scope.row)">
-            {{ scope.row.bizNo }}
-          </span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="id"
-        align="center"
-        show-overflow-tooltip
-        :label="language('PINGZHENGID', '凭证Id')"
-        min-width="140"
-      >
-      </el-table-column>
-      <el-table-column
-        prop="mgroup"
-        :label="language('CAILIAOZHONGLEI', '材料中类')"
-        min-width="180"
-        align="center"
-        show-overflow-tooltip
-      >
-      </el-table-column>
-      <el-table-column
-        prop="department"
-        :label="language('KESHI', '科室')"
-        width="80"
-        align="center"
-        header-align="center"
-        show-overflow-tooltip
-      >
-      </el-table-column>
-      <el-table-column
-        prop="applicantBy"
-        :label="language('SHENQINGREN', '申请人')"
-        width="140"
-        align="center"
-        header-align="center"
-        show-overflow-tooltip
-      >
-      </el-table-column>
-      <el-table-column
-        prop="supplier"
-        show-overflow-tooltip
-        align="center"
-        header-align="center"
-        :label="language('GONGYINGSHANG', '供应商')"
-        width="180"
-      >
-        <template slot-scope="scope">
-          <p>
-            {{ scope.row.supplier ? scope.row.supplier.split('-')[0] : '' }}
-          </p>
-          <p>
-            {{ scope.row.supplier ? scope.row.supplier.split('-')[1] : '' }}
-          </p>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="approvedAmt"
-        show-overflow-tooltip
-        align="center"
-        :label="
-          language('SHIJIBUCHAJINEPINGZHENGJINE', '实际补差金额（凭证金额）')
-        "
-        width="210"
-      >
-        <template slot-scope="scope">
-          <span>{{ scope.row.approvedAmt | format }}</span>
-        </template>
-      </el-table-column>
-      <!-- <el-table-column prop="paidAmt"
-                       show-overflow-tooltip
-                       align="right"
-                       header-align="center"
-                       :label="language('YIZHIFUJINE','已支付金额')"
-                       width="140">
-        <template slot-scope="scope">
-          <span>{{scope.row.approvedAmt|format}}</span>
-        </template>
-      </el-table-column> -->
-      <el-table-column
-        prop="monthFromTo"
-        show-overflow-tooltip
-        header-align="center"
-        :label="language('BUCHASHIJIANDUAN', '补差时间段')"
-        width="140"
-        align="center"
-      >
-      </el-table-column>
-      <el-table-column
-        prop="status"
-        header-align="center"
-        align="center"
-        show-overflow-tooltip
-        :label="language('DANJUZHUANGTAI', '单据状态')"
-        width="140"
-      >
-        <template slot-scope="scope">
-          <!-- <div v-if="scope.row.status=='审批中'||scope.row.status=='审批通过'||scope.row.status=='审批不通过'"> -->
-          <div v-if="allowClickStatusList.indexOf(scope.row.status) > -1">
-            <el-popover placement="right" trigger="click">
-              <process-vertical :instanceId="scope.row.riseId" />
-              <process-vertical :epmsId="scope.row.id" />
-              <el-button type="text" slot="reference">
-                {{ scope.row.status }}
-              </el-button>
-            </el-popover>
-          </div>
-          <div v-else>
-            <span> {{ scope.row.status }}</span>
-          </div>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="remark"
-        header-align="center"
-        show-overflow-tooltip
-        align="center"
-        :label="('BEIZHU', '备注')"
-        width="140"
-      >
-        <template slot-scope="scope">
-          <el-tooltip
-            class="item"
-            effect="light"
-            :content="scope.row.rejectReason"
-            v-if="scope.row.rejectReason"
-            placement="top"
-          >
-            <el-button type="text">{{
-              language('JUPEILIYOU', '拒赔理由')
-            }}</el-button>
-          </el-tooltip>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="fileList"
-        width="140"
-        header-align="center"
-        :label="language('FUJIANQINGDAN', '附件清单')"
-      >
-        <template slot-scope="scope">
-          <iButton
-            type="text"
-            v-if="scope.row.fileList.length !== 0"
-            @click="openFile(scope.row.fileList)"
-            >{{ language('FUJIANQINGDAN', '附件清单') }}</iButton
-          >
-        </template>
-      </el-table-column>
-    </el-table>
+    <iTableCustom
+        :loading="loading"
+        :data="tableData"
+        :columns="tableTitle"
+		    @handle-selection-change="handleSelectionChange"
+        @openPage="openPage"
+      />
     <iPagination
       v-update
       @size-change="handleSizeChange($event, getmakeUpPageList)"
@@ -219,13 +75,17 @@
       :current-page="page.currPage"
       :total="page.totalCount"
     />
-    <editDetailDialog
-      :key="editModalParams.key"
-      v-if="editModalParams.key"
-      :dialogVisible="editModalParams.visible"
-      :flag="editModalParams.flag"
+    <detailDialog
+      :v-model="editModalParams.visible"
+      v-if="editModalParams.visible"
+      :params="editModalParams.data"
+      :supplierType="supplierType"
       @close="editDetalClose"
-      :selectData="editModalParams.data"
+    />
+    <search
+      :detailObj="detailObj"
+      v-if="dialogShow"
+      v-on:dialogShowFun="dialogShowFun"
     />
     <el-dialog
       :title="language('FUJIANQINGDAN', '附件清单')"
@@ -250,28 +110,32 @@
 
 <script>
 import {
-  makeUpPageList,
-  sendSupplier,
-  recall,
-  payBalanceSubmit,
-  approvalStatus,
-  exportFile
-} from '@/api/mtz/annualGeneralBudget/supplementaryList'
-import { iCard, iButton, iPagination, iMessage } from 'rise'
+  findBalanceByPage,
+  sendSupplierConfirm,
+  exportBalanceList,
+  recallBalance,
+  deleteBalance,
+} from '@/api/mtz/annualGeneralBudget/chipReplenishment'
+import { iCard, iButton, iPagination, iMessage, iTableCustom } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import processVertical from './processVertical'
-import editDetailDialog from '@/views/mtz/annualGeneralBudget/replenishmentManagement/components/mtzReplenishmentOverview/components/balancePaymentDialogEdit'
+import detailDialog from '../../components/detailDialog'
+import search from './search'
+import { tableTitle } from "./data"
 export default {
   components: {
     iCard,
     iButton,
     iPagination,
-    editDetailDialog,
-    processVertical
+    detailDialog,
+    search,
+    processVertical,
+    iTableCustom
   },
   mixins: [pageMixins],
   data() {
     return {
+      tableTitle,
       totalPrice: [],
       searchForm: {},
       tableData: [],
@@ -292,13 +156,23 @@ export default {
         'EPMS退回',
         'EPMS审批通过',
         '关闭'
-      ]
+      ],
+      detailObj:{},
+      dialogShow:false,
+      supplierType: '一次件供应商',
+      typeList:[
+        {
+          label:'一次件供应商',
+          key:'一次件补差单',
+        },{
+          label:'散件供应商',
+          key:'散件补差单',
+        },
+      ],
     }
   },
   created() {
-    console.log(this.$parent)
     this.init()
-    this.getStatus()
   },
   methods: {
     init() {
@@ -312,22 +186,52 @@ export default {
       })
       this.searchForm = search[0].searchForm
       const req = {
-        pageNo: this.page.currPage,
+        currentPage: this.page.currPage,
         pageSize: this.page.pageSize,
+        isOnlyMyself:this.isOnlyMyself,
+        isPrimary:true, //是否一次性补差
+        primarySupplier:'',
+        secondSupplier:'',
         ...this.searchForm
       }
-      makeUpPageList(req).then((res) => {
+      findBalanceByPage(req).then((res) => {
         if (res.code === '200') {
-          this.tableData = res.data
-          this.page.currPage = res.pageNum
-          this.page.pageSize = res.pageSize
-          this.page.totalCount = res.total || 0
+          this.tableData = res.data.records
+          this.page.totalCount = res.data.total || 0
           this.loading = false
         }
       })
+      this.loading = false
     },
     openPage(val) {
-      this.$emit('detail', val)
+      this.detailObj = val
+      this.$nextTick(()=>{
+        this.dialogShow = true
+      })
+    },
+    dialogShowFun(){
+        this.dialogShow = false
+    },
+    deleteBalance(){
+      if (this.muiltSelectList.length === 0) {
+        iMessage.error('请选择数据')
+      }
+      if (
+        this.muiltSelectList[0].status === '草稿' ||
+        this.muiltSelectList[0].status === '撤回'
+      ) {
+        deleteBalance(this.muiltSelectList.map(item=>item.id)).then((res) => {
+          if (res.code === '200') {
+            this.getmakeUpPageList()
+            iMessage.success(res.desZh)
+          } else {
+            iMessage.error(res.desZh)
+          }
+        })
+      } else {
+        iMessage.error("'草稿和撤回状态下才可以删除")
+      }
+
     },
     sendSupplier() {
       if (this.muiltSelectList.length === 0) {
@@ -339,11 +243,7 @@ export default {
         this.muiltSelectList[0].status === '供应商拒绝' ||
         this.muiltSelectList[0].status === '审批不通过'
       ) {
-        let params = []
-        this.muiltSelectList.forEach((item) => {
-          params.push(item.id)
-        })
-        sendSupplier(params).then((res) => {
+        sendSupplierConfirm(this.muiltSelectList.map(item=>item.id)).then((res) => {
           if (res.code === '200') {
             this.getmakeUpPageList()
             iMessage.success(res.desZh)
@@ -365,13 +265,18 @@ export default {
         this.muiltSelectList[0].status == '审批不通过' ||
         this.muiltSelectList[0].status == '审批退回' ||
         this.muiltSelectList[0].status == 'RISE审批通过' ||
-        this.muiltSelectList[0].status == '供应商确认'
+        this.muiltSelectList[0].status == '供应商确认' || true
       ) {
-        this.editModalParams = {
-          ...this.editModalParams,
-          key: Math.random(),
-          visible: true,
-          data: this.muiltSelectList
+        // 一次件
+        let balanceId = this.muiltSelectList[0].id || ''
+        
+        // 一次件
+        if (this.supplierType == '一次件供应商') {
+          window.open(`/portal/#/chipComputed?type=1&balanceId=${balanceId}`)
+        }
+        // 二次件/散件
+        if (this.supplierType == '散件供应商') {
+          window.open(`/portal/#/chipComputed?type=2&balanceId=${balanceId}`)
         }
       } else {
         iMessage.error(
@@ -392,7 +297,7 @@ export default {
         this.muiltSelectList.forEach((item) => {
           params.push(item.id)
         })
-        payBalanceSubmit(params).then((res) => {
+        submitBalance(params).then((res) => {
           if (res.code === '200') {
             this.getmakeUpPageList()
             iMessage.success(res.desZh)
@@ -418,7 +323,7 @@ export default {
         this.muiltSelectList.forEach((item) => {
           params.push(item.id)
         })
-        recall(params).then((res) => {
+        recallBalance(params).then((res) => {
           if (res.code === '200') {
             this.getmakeUpPageList()
             iMessage.success(res.desZh)
@@ -438,7 +343,6 @@ export default {
       }
     },
     handleSelectionChange(val) {
-      console.log(val)
       if (val.length > 1) {
         var duoxuans = val.pop()
         this.muiltSelectList = val.pop()
@@ -452,14 +356,6 @@ export default {
     },
     editDetalClose(val) {
       this.editModalParams.visible = val
-    },
-    getStatus(val) {
-      approvalStatus({ id: '1000000002', isDeptLead: true }).then((res) => {
-        if (res.code === '200') {
-          let data = res.data
-          // this.epmsList= data.
-        }
-      })
     },
     openFile(val) {
       this.fileList = val
@@ -475,9 +371,15 @@ export default {
       })
       this.searchForm = search[0].searchForm
       const req = {
+        currentPage: this.page.currPage,
+        pageSize: this.page.pageSize,
+        isOnlyMyself:this.isOnlyMyself,
+        isPrimary:true, //是否一次性补差
+        primarySupplier:'',
+        secondSupplier:'',
         ...this.searchForm
       }
-      exportFile(req).then((res) => {
+      exportBalanceList(req).then((res) => {
         if (res?.code === '200') {
           iMessage.success(res.desZh)
         } else {
