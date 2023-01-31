@@ -1,5 +1,5 @@
 <template>
-  <iSearch v-on="$listeners">
+  <iSearch v-on="$listeners" v-bind="$attrs">
     <iFormGroup>
       <iFormItem
         v-for="(item, index) in searchFormData"
@@ -15,28 +15,22 @@
           :title="language('LK_LINGJIANHAO', '零件号')"
           v-model="searchForm[item.props]"
         ></iMultiLineInput>
-        <i-select
+        <mySelect
           v-else-if="item.type == 'select'"
-          v-model="searchForm[item.props]"
+          :value.sync="searchForm[item.props]"
+          :data="options[item.selectOption]"
+          :optionLabel="item.optionLabel"
+          :optionValue="item.optionValue"
+          :optionLabelEn="item.optionLabelEn"
           :multiple="item.multiple || false"
+          :clearable="item.clearable || false"
           :disabled="item.disabled"
           style="width: 100%"
           filterable
           collapse-tags
           :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
         >
-          <el-option
-            :label="language('all', '全部')"
-            :value="''"
-            v-if="item.showAll"
-          ></el-option>
-          <el-option
-            :key="index"
-            v-for="(item, index) in options[item.selectOption]"
-            :label="$getLabel(item.label, item.labelEn)"
-            :value="item.value"
-          ></el-option>
-        </i-select>
+        </mySelect>
         <iDatePicker
           v-model="searchForm[item.props]"
           v-else-if="item.type == 'date'"
@@ -56,6 +50,14 @@
           :end-placeholder="$t('结束日期')"
         >
         </iDatePicker>
+        <thousandsFilterInput
+          v-else-if="item.type == 'thousands'"
+          @handleInput="handleInput"
+          :inputValue.sync="searchForm[item.props]"
+          :numberProcessor="item.numberProcessor || 2"
+          :handleArg="[item.props]"
+          :filterDisabled="item.disabled"
+        />
         <iInput
           v-else
           :disabled="item.disabled"
@@ -64,6 +66,9 @@
         ></iInput>
       </iFormItem>
     </iFormGroup>
+    <template #button>
+      <slot name="button"></slot>
+    </template>
   </iSearch>
 </template>
 
@@ -77,6 +82,8 @@ import {
   iFormGroup,
   iFormItem
 } from 'rise'
+import mySelect from '@/components/mySelect'
+import thousandsFilterInput from './thousandsFilterInput'
 export default {
   components: {
     iInput,
@@ -85,7 +92,9 @@ export default {
     iDatePicker,
     iMultiLineInput,
     iFormGroup,
-    iFormItem
+    iFormItem,
+    mySelect,
+    thousandsFilterInput
   },
   props: {
     searchFormData: {
@@ -99,6 +108,11 @@ export default {
     options: {
       type: Object,
       default: () => ({})
+    }
+  },
+  methods: {
+    handleInput(val, prop) {
+      this.$set(this.searchForm, prop, val)
     }
   }
 }
