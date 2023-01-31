@@ -449,7 +449,13 @@ export default [
             name: 'supplierPoint',
             component: () =>
               import('@/views/supplierManagement/supplierKPI/supplierPoint')
-          }
+          },
+          {
+            path: 'supplierIndexManage',
+            name: 'supplierIndexManage',
+            component: () =>
+              import('@/views/supplierManagement/supplierKPI/supplierIndexManage')
+          },
         ]
       },
       {

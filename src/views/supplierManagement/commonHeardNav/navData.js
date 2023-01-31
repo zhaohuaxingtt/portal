@@ -117,6 +117,14 @@ export const categoryManagementAssistantList = [
     activePath: '/supplier/spiIndex/supplierList',
     key: 'BANNIANBAOHUIGU',
     permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_BANNIANBAOHUIGU'
+  },
+  {
+    value: 5,
+    name: '指标管理',
+    url: '/supplier/spiIndex/supplierIndexManage',
+    activePath: '/supplier/spiIndex/supplierIndexManage',
+    key: 'ZHIBIAOGUANLI',
+    permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_BANNIANBAOHUIGU'
   }
 ]
 
