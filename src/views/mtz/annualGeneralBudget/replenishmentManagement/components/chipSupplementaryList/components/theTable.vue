@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-18 18:52:11
- * @LastEditTime: 2023-01-30 14:33:15
+ * @LastEditTime: 2023-01-31 16:10:13
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\theTable.vue
@@ -172,12 +172,9 @@ export default {
     }
   },
   created() {
-    this.init()
+    this.getmakeUpPageList()
   },
   methods: {
-    init() {
-      this.getmakeUpPageList()
-    },
     getmakeUpPageList() {
       this.loading = true
       let search = []
@@ -189,7 +186,7 @@ export default {
         currentPage: this.page.currPage,
         pageSize: this.page.pageSize,
         isOnlyMyself:this.isOnlyMyself,
-        isPrimary:true, //是否一次性补差
+        isPrimary:this.supplierType == '一次件供应商' ? true : false, //是否一次性补差
         primarySupplier:'',
         secondSupplier:'',
         ...this.searchForm
@@ -254,6 +251,9 @@ export default {
       } else {
         iMessage.error("'草稿、供应商拒绝、审批不通过状态可以提交")
       }
+    },
+    change(){
+      this.getmakeUpPageList()
     },
     handleClickEdit() {
       if (this.muiltSelectList.length == 0) {

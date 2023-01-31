@@ -107,7 +107,7 @@ export const tableTitle = [
     }
   },
   {
-    prop: 'status',
+    prop: 'statusName',
     label: '单据状态',
     i18n: 'DANJUZHUANGTAI',
     align: 'center',
@@ -160,13 +160,13 @@ export const tabsInforList = [
 ]
 // 补差单汇总TAB
 export const tableTitleOverview = [
-  { props: 'saNo', name: '采购框架', key: 'CAIGOUKUANGJIA' },
-  { props: 'saItemNo', name: '项目', key: 'XIANGMU' },
-  { props: 'firstPartNo', name: '零件号', key: 'LINGJIANHAO' },
-  { props: 'shippedQty', name: '零件数量', key: 'LINGJIANSHULIANG' },
-  { props: 'appAmt', name: '补差金额', key: '补差金额' },
-  { props: 'priceUnit', name: '应补总额', key: '应补总额' },
-  { props: 'price', name: '实际补差总额', key: '实际补差总额' },
+  { props: 'agreementNo', name: '采购框架', key: 'CAIGOUKUANGJIA' },
+  { props: 'agreementItemNo', name: '项目', key: 'XIANGMU' },
+  { props: 'partNum', name: '零件号', key: 'LINGJIANHAO' },
+  { props: 'invoiceQuantity', name: '零件数量', key: 'LINGJIANSHULIANG' },
+  { props: 'makeAmount', name: '补差金额', key: '补差金额' },
+  { props: 'requestAmount', name: '应补总额', key: '应补总额' },
+  { props: 'approveAmount', name: '实际补差总额', key: '实际补差总额' },
 ]
 // 补差单明细TAB
 export const tableTitleDetail = [

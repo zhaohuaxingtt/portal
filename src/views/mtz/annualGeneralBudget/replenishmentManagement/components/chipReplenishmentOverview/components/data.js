@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-09 15:06:29
- * @LastEditTime: 2023-01-13 16:19:25
+ * @LastEditTime: 2023-01-31 16:52:00
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipReplenishmentOverview\components\data.js
@@ -159,13 +159,13 @@ export const TABLE_COLUMS = [
 // 芯片补差总览页查询
 export const searchFormData = [
   {
-    props: 'firstSuppliers', name: '一次件供应商', key: 'YICIJIANGONGYINGSHANG', type: 'select', selectOption: 'fsupplierList', optionLabel: 'message',
-    optionValue: 'code', multiple: true,
+    props: 'primarySupplier', name: '一次件供应商', key: 'YICIJIANGONGYINGSHANG', type: 'select', selectOption: 'fsupplierList', optionLabel: 'message',
+    optionValue: 'code',
     clearable: true,
     'collapse- tags': true,
   },
 {
-  props: 'ssupplierList', name: '二次件供应商', key: 'ERCIJIANGONGYINGSHANG', type: 'select', selectOption: 'ssupplierList', optionLabel: 'message',
+  props: 'secondSupplier', name: '二次件供应商', key: 'ERCIJIANGONGYINGSHANG', type: 'select', selectOption: 'ssupplierList', optionLabel: 'message',
     optionValue: 'code'
 },
 { props: 'compDate', name: '补差时间段', key: 'BUCHASHIJIANDUAN', type: 'daterange' },

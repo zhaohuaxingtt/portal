@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2023-01-13 16:17:18
+ * @LastEditTime: 2023-01-31 16:53:53
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipReplenishmentOverview\components\search.vue
@@ -107,24 +107,18 @@ export default {
         fsupplierList: [], //一次件供应商编号
         ssupplierList: [] //二次件供应商编号
       },
-      searchForm: {
-        secondSuppliers: [],
-        firstSuppliers: [],
-        compStartDate: '',
-        compEndDate: ''
-      }
     }
   },
   created() {
     this.init()
     this.searchForm.compDate = this.getTime()
 
-    this.searchForm.compStartDate = window
+    this.searchForm.makeStartDate = window
       .moment(this.searchForm.compDate[0])
-      .format('yyyy-MM-DD')
-    this.searchForm.compEndDate = window
+      .format('yyyy-MM-DD 00:00:00')
+    this.searchForm.makeEndDate = window
       .moment(this.searchForm.compDate[1])
-      .format('yyyy-MM-DD')
+      .format('yyyy-MM-DD 23:59:59')
   },
   mounted() {},
   methods: {
@@ -165,12 +159,7 @@ export default {
       this.$parent.$refs.theTable.getTableList()
     },
     handleSearchReset() {
-      this.searchForm = {
-        secondSuppliers: [],
-        firstSuppliers: [],
-        compStartDate: '',
-        compEndDate: ''
-      }
+      this.searchForm = {}
       this.compDate = []
       this.$parent.$refs.theTable.getTableList()
     }

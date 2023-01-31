@@ -13,7 +13,7 @@
       :tableData="tableListData"
       :tableTitle="tableTitle"
       :tableLoading="loading"
-      height="400px"
+      max-height="400px"
       :index="true"
     >
       <template #primarySupplierName="scope">

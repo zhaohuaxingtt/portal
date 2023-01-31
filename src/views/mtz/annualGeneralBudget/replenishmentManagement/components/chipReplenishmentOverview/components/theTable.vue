@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2023-01-30 15:17:29
+ * @LastEditTime: 2023-01-31 17:05:58
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipReplenishmentOverview\components\theTable.vue
@@ -20,7 +20,7 @@
             inactive-color="#cccccc"
           >
           </el-switch>
-          <el-radio-group v-model="supplierType" @change="change">
+          <el-radio-group v-model="supplierType" @change="getTableList">
             <template v-for="item in typeList">
               <el-radio-button :label="item.label" :key="item.key">{{ $t(item.key) }}</el-radio-button>
             </template>
@@ -129,7 +129,8 @@ export default {
       handleSelectArr: [],
       detailIdList: [],
       tableData: [],
-      loading: false
+      loading: false,
+      onlySeeMySelf:true
     }
   },
   computed: {
@@ -174,14 +175,16 @@ export default {
       let search = []
       search = this.$parent.$refs.searchBox.searchForm
       const params = {
-        pageNo: this.page.currPage,
+        currentPage: this.page.currPage,
         pageSize: this.page.pageSize,
+        isPrimary: this.supplierType == '一次件供应商' ? true : false,
+        onlySeeMySelf:this.onlySeeMySelf,
         ...search
       }
       findBalanceSummaryByPage(params).then((res) => {
-        if (res.code === '200') {
-          this.tableData = res.data || []
-          this.page.totalCount = res.data?.total ||0
+        if (res?.code == '200') {
+          this.tableData = res.data.records || []
+          this.page.totalCount = res.data?.total || 0
           this.loading = false
         } else {
           this.loading = false

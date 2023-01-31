@@ -1,7 +1,7 @@
 <!--
  * @Author: tanmou
  * @Date: 2021-08-27 16:29:54
- * @LastEditTime: 2023-01-31 12:18:57
+ * @LastEditTime: 2023-01-31 17:10:27
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\search.vue
@@ -87,10 +87,9 @@
       <div class="BtnTitle">
         <span>{{ tabsValue == 1 ? '汇总列表' : '明细列表' }}</span>
         <div>
-          <!-- v-if="detailObj.status == '供应商确认中'" -->
           <iButton
             @click="supplierConfirm"
-            v-if="tabsValue == 1"
+            v-if="tabsValue == 1 && inforData.status == 'SUPPLIER_CONFIRMING'"
             v-permission="
               PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_DAIGONGYINGSHANGQUEREN
             "
@@ -116,7 +115,7 @@
       <tabs1
         :searchFormList="seachWather"
         :dataObject="detailObj"
-        :tableListData="detailTableData"
+        :tableListData="agreementSummaryList"
         v-if="tabsValue == 1"
         @componentHidden="btnHidden1"
       ></tabs1>
@@ -161,7 +160,10 @@ import {
 } from '@/api/mtz/annualGeneralBudget/chipReplenishment'
 import tabs1 from './tabs1'
 import tabs2 from './tabs2'
-import { NewMessageBox, NewMessageBoxClose } from '@/components/newMessageBox/dialogReset.js'
+import {
+  NewMessageBox,
+  NewMessageBoxClose
+} from '@/components/newMessageBox/dialogReset.js'
 
 export default {
   components: {
@@ -204,7 +206,8 @@ export default {
       tabsValue: 1,
       balanceId: '',
       dialogTitle: '',
-      detailTableData: []
+      detailTableData: [],
+      agreementSummaryList: []
     }
   },
   watch: {
@@ -249,6 +252,7 @@ export default {
           if (res?.code == '200') {
             this.inforData = _.cloneDeep(res.data.balanceBase)
             this.detailTableData = res.data.balanceItemList || []
+            this.agreementSummaryList = res.data.agreementSummaryList || []
           } else {
             this.inforData = {}
           }
@@ -322,10 +326,10 @@ export default {
       })
         .then(() => {
           let data = [that.balanceId]
-            // 代供应商确认:采购员只能同意,不能拒绝
-          supplierConfirm({ approveFlag:true }, data).then((res) => {
+          // 代供应商确认:采购员只能同意,不能拒绝
+          supplierConfirm({ approveFlag: true }, data).then((res) => {
             iMessage.success('提交确认成功！')
-            that.$emit('closeDiolog1', '')
+            that.closeDiolog()
           })
         })
         .catch((err) => {
@@ -394,8 +398,8 @@ export default {
       })
     }
   },
-  destroyed () {
-    // NewMessageBoxClose();
+  destroyed() {
+    NewMessageBoxClose();
   }
 }
 </script>
@@ -415,15 +419,8 @@ $tabsInforHeight: 35px;
     z-index: 100;
   }
 }
-  .iTabsList {
-    background-color: #ffffff;
-  }
-::v-deep .cardBody {
-  margin: 0 !important;
-  padding: 0 !important;
-}
-::v-deep .card {
-  box-shadow: 0 0 0px rgb(27 29 33 / 0%);
+.iTabsList {
+  background-color: #ffffff;
 }
 
 .BtnTitle {
