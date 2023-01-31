@@ -11,7 +11,7 @@
     <div class="pageTitle">
       <span>采购条款</span>
       <div v-if="!isOrder && !readOnly" class="btn-box">
-        <uploadButton class="margin-right10" button-text="上传其它采购条款" :supplierId="supplierId" :userId="userId" :upload="termsUpload" :accept="'.doc, .docx'" />
+        <uploadButton :uploadButtonLoading="loadingFile" class="margin-right10" button-text="上传其它采购条款" :supplierId="supplierId" :userId="userId" :upload="termsUpload" :accept="'.doc, .docx'" />
         <iButton @click="updataApply" :disabled="signWay=='off_line'">发起审批</iButton>
       </div>
     </div>
@@ -125,6 +125,7 @@ export default {
   },
   data() {
     return {
+      loadingFile:false,
       show:false,
       baseInfo:{},
       tipInfo:{
@@ -326,18 +327,21 @@ export default {
     },
     // 上传其它采购条款
     termsUpload(content){
+      this.loadingFile=true
       const formData = new FormData();
       formData.append('file', content.file);
       formData.append('supplierId', this.supplierId);
       formData.append('userId', this.userId);
       termsUpload(formData).then(res=>{
         if(res?.code=="200"){
+          this.loadingFile=false
           iMessage.success(this.$i18n.locale === 'zh' ? res.desZh : res.desEn)
           // 上传之后直接查询其它条款
           this.termsTypeById()
           this.termsType = 'Terms_OTHERCG'
           this.getProcurementInfo()
         }else{
+          this.loadingFile=false
           iMessage.error(this.$i18n.locale === 'zh' ? res.desZh : res.desEn)
         }
       })
