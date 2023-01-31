@@ -1,10 +1,10 @@
 /*
  * @Author: youyuan
  * @Date: 2021-09-09 14:02:54
- * @LastEditTime: 2021-11-03 11:17:25
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-01-16 14:42:07
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 年度预算编辑
- * @FilePath: \重庆软维科技\front-portal\src\api\mtz\annualGeneralBudget\annualBudgetEdit.js
+ * @FilePath: \front-portal\src\api\mtz\annualGeneralBudget\mtzReplenishmentOverview.js
  */
 import axios from '@/utils/axios'
 const request = axios(process.env.VUE_APP_MTZ + '/web/mtz')
