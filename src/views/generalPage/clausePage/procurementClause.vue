@@ -11,7 +11,7 @@
     <div class="pageTitle">
       <span>采购条款</span>
       <div v-if="!isOrder && !readOnly" class="btn-box">
-        <uploadButton :uploadButtonLoading="loadingFile" class="margin-right10" button-text="上传其它采购条款" :supplierId="supplierId" :userId="userId" :upload="termsUpload" :accept="'.doc, .docx'" />
+        <uploadButton  :uploadButtonLoading="loadingFile" class="margin-right10" button-text="上传其它采购条款" :supplierId="supplierId" :userId="userId" :upload="termsUpload" :accept="'.doc, .docx'" />
         <iButton @click="updataApply" :disabled="signWay=='off_line'">发起审批</iButton>
       </div>
     </div>
@@ -94,6 +94,9 @@
         </el-table>
       </div>
     </i-dialog>
+    <div v-if="loadingFile" v-loading="loadingFile" class="mask">
+
+    </div>
   </div>
 </template>
 
@@ -412,6 +415,16 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.mask {
+ background-color: rgb(0, 0, 0);
+ opacity: 0.5;
+ position: fixed;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ z-index: 1
+}
 .query{
   width: 100%;
   display: inline-flex;
@@ -460,4 +473,3 @@ export default {
   }
 }
 </style>
-\ No newline at end of file
