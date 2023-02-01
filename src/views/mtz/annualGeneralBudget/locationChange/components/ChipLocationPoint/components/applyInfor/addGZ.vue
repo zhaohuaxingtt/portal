@@ -290,7 +290,7 @@ export default {
         {
           code: '1',
           message: '一次性补差',
-          disabled: true
+          // disabled: true
         },
         {
           code: '2',
