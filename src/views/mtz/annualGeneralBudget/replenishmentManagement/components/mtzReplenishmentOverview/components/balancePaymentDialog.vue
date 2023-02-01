@@ -159,6 +159,7 @@
           <el-col :span="3">
             <div class="flex">
               <iButton v-if="flag"
+                      v-loading="tableLoading"
                        class="margin-top45"
                        style="float: right"
                        @click="search">{{ language('CHAXUN', '查询') }}</iButton>
