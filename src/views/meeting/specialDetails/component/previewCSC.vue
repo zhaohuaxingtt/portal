@@ -116,7 +116,7 @@ export default {
         this.click(item, index)
       }
     })
-    setInterval(() => {
+    let timer = setInterval(() => {
       this.time += 1000
     }, 1000)
   },
@@ -134,18 +134,22 @@ export default {
     },
     click(item, index) {
       if (index == this.index) return
+      this.time = 0
       this.index = index
       let local = 'http://localhost:8080/sourcing/#'
       if (item.type === 'FS+MTZ') {
         this.src =
           (local || process.env.VUE_APP_POINT) +
-          `/desinatepreview/mtz?route=force&desinateId=${item.fixedPointApplyId}&isPreview=1`
+          `/previewCSC/mtz?route=force&desinateId=${item.fixedPointApplyId}&isPreview=1`
       } else {
         this.src =
           (local || process.env.VUE_APP_POINT) +
-          `/desinatepreview/title?route=force&desinateId=${item.fixedPointApplyId}&isPreview=1`
+          `/previewCSC/title?route=force&desinateId=${item.fixedPointApplyId}&isPreview=1`
       }
     }
+  },
+  destroyed(){
+    if(this.timer) clearInterval(this.timer)
   },
   filters: {
     handleTransTime(longTime) {
