@@ -201,6 +201,7 @@ export default {
 
       .icon {
         margin: 0 4px;
+        cursor: pointer;
         // display: inline-block;
       }
       .red {

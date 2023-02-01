@@ -2,25 +2,31 @@
   <div>
     <iCard>
       <div class="imgkpi-head">
-        <el-form>
-          <el-form-item class="SearchOption">
-            <iSelect v-model="selectValue">
-              <el-option
-                v-for="(x, index) in dropDownOptions"
-                :key="index"
-                :label="x.value"
-                :value="x.key"
-              ></el-option>
-            </iSelect>
-          </el-form-item>
-        </el-form>
         <div>
-          <iButton @click="newData" v-permission="KPI_INFOR_WEIHU_ADD"
-            >新增</iButton
-          >
-          <iButton @click="handleChange" v-permission="KPI_INFOR_WEIHU_QUEREN"
-            >确认</iButton
-          >
+          <el-form>
+            <el-form-item class="SearchOption">
+              <iSelect v-model="selectValue">
+                <el-option
+                  v-for="(x, index) in dropDownOptions"
+                  :key="index"
+                  :label="x.value"
+                  :value="x.key"
+                ></el-option>
+              </iSelect>
+              
+            </el-form-item>
+          </el-form>
+          <div class="titleinof">
+            <span>2022年度供应商绩效打分指南_V1.0.pptx</span>
+            <i class="el-icon-upload icon blue"></i
+            ><i class="el-icon-delete icon red"></i>
+          </div>
+        </div>
+
+        <div>
+          <iButton @click="canel">取消</iButton>
+          <iButton @click="save">暂存</iButton>
+          <iButton @click="submit">提交生效</iButton>
         </div>
       </div>
     </iCard>
@@ -38,7 +44,7 @@
 
 <script>
 import { iButton, iPage, iCard, iInput, iSelect } from 'rise'
-import kpiStructure from './components/kpiStructure'
+import kpiStructure from './components/kpiStructure2'
 import indexManage from './components/indexManage'
 import {
   kpiDetail,
@@ -92,13 +98,6 @@ export default {
     }
   },
   methods: {
-    handleleftClick(tab, event) {
-      this.$router.push(tab.name)
-    },
-    handlerightClick(tab) {
-      //this.activeName='/supplier/kpiList'
-      this.$router.push(tab.name)
-    },
     saveVersion() {
       this.getSelectKpiList({
         deptCode: this.$store.state.permission.userInfo.deptDTO.deptNum
@@ -122,25 +121,45 @@ export default {
     changeSaveData(data) {},
     handleChange() {
       this.getDetail(this.selectValue)
-
       this.dropDownOptions.forEach((x) => {
         if (x.key == this.selectValue) {
           this.templateName = x.value
         }
       })
-    },
-    newData() {
-      this.selectValue = ''
-      this.temId = ''
-      this.templateName = ''
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.icon {
+  margin: 0 8px;
+  display: inline-block;
+  cursor: pointer;
+}
+.red {
+  color: #e30d0d;
+}
+.blue {
+  // color: #1763f7;
+}
 .imgkpi-head {
+  .titleinof {
+    margin-bottom: 20px;
+    margin-left: 20px;
+    span {
+      cursor: pointer;
+      color: #1763f7;
+    }
+  }
+  > div {
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
   display: flex;
+  align-items: center;
   justify-content: space-between;
 }
 ::v-deep.navBox {
