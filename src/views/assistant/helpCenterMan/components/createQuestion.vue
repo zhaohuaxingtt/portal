@@ -12,7 +12,7 @@
                 <div class="flex">
                     <el-form-item class="flex" :label="language('问题模块')" prop="questionModuleId">
                         <iSelect class="input" v-model="form.questionModuleId" filterable @change="change">
-                            <el-option v-for="m in moduleList" :key="m.id" :value='m.id' :label='m.menuName'></el-option>
+                            <el-option v-for="m in moduleList" :key="m.id" :value='m.id' :label='m.menuName' :disabled="disabled"></el-option>
                         </iSelect>
                     </el-form-item>
                     <el-form-item class="flex" :label="language('问题标签')" prop="questionLableId" style="margin-left:30px">
@@ -94,15 +94,20 @@
                     questionTitle:{required:'true',message: this.language("请输入问题描述"),trigger:'blur'},
                     answerContent:{required:'true',message: this.language("请输入回复内容"),trigger:'change'},
                 },
+                disabled:false
             }
         },
         methods: {
             change(id){
                 this.form.questionLableId = ""
                 if(id){
+                    if(this.disabled) return
+                    this.disabled = true
                     getCurrLabelList(id).then(res => {
                         this.labelList = res.data
                         this.$forceUpdate()
+                    }).finally(()=>{
+                        this.disabled = false
                     })
                 }
             },

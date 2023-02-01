@@ -58,6 +58,7 @@
           @change="changeCountry()"
         >
           <el-option
+            :disabled="countryDisabled"
             :value="item.sapLocationCode"
             :label="item.cityNameCn"
             v-for="(item, index) in country"
@@ -80,6 +81,7 @@
           @change="changeProvince()"
         >
           <el-option
+            :disabled="provinceDisabled"
             :value="item.sapLocationCode"
             :label="item.cityNameCn"
             v-for="(item, index) in province"
@@ -293,7 +295,9 @@ export default {
       },
       parentCityId: [],
       province: [],
-      city: []
+      city: [],
+      countryDisabled:false,
+      provinceDisabled:false,
     }
   },
   mounted(){
@@ -321,12 +325,18 @@ export default {
           }
           getCityInfo(req).then((result) => {
             this.city = result.data
+          }).finally(()=>{
+            this.provinceDisabled = false
           })
+        }else{
+          this.provinceDisabled = false
         }
       })
     },
     // 省市切换 获取市级信息
     changeProvince() {
+      if(this.provinceDisabled) return
+      this.provinceDisabled = true
       this.supplierData.address.cityCode = ''
       this.city = []
 
@@ -334,6 +344,8 @@ export default {
     },
     // 国家切换 获取省信息
     changeCountry() {
+      if(this.countryDisabled) return
+      this.countryDisabled = true
       this.supplierData.address.provinceCode = ''
       this.supplierData.address.cityCode = ''
       this.province = []
@@ -370,7 +382,11 @@ export default {
           }
           getCityInfo(req).then((result) => {
             this.province = result.data
+          }).finally(()=>{
+            this.countryDisabled = false
           })
+        }else{
+          this.countryDisabled = false
         }
       })
     }

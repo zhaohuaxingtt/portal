@@ -31,6 +31,7 @@
           <iSelect v-model="supplierComplete.supplierDTO.countryCode"
                   @change="changeCountry($event)">
             <el-option :value="item.sapLocationCode"
+                      :disabled="countryDisabled"
                       :label="item.cityNameCn"
                       v-for="(item, index) in country"
                       :key="index"></el-option>
@@ -43,6 +44,7 @@
           <iSelect v-model="supplierComplete.supplierDTO.provinceCode"
                   @change="changeProvince($event)">
             <el-option :value="item.sapLocationCode"
+                      :disabled="provinceDisabled"
                       :label="item.cityNameCn"
                       v-for="(item, index) in province"
                       :key="index"></el-option>
@@ -132,6 +134,8 @@ export default {
       fromGroup:[],
       number:0,
       loadingType:false,
+      countryDisabled:false,
+      provinceDisabled:false,
     }
   },
   created(){
@@ -218,7 +222,11 @@ export default {
           }
           getCityInfo(req).then((result) => {
             this.province = result.data
+          }).finally(()=>{
+            this.countryDisabled = false
           })
+        }else{
+          this.countryDisabled = false
         }
       })
     },
@@ -234,12 +242,18 @@ export default {
           }
           getCityInfo(req).then((result) => {
             this.city = result.data
+          }).finally(()=>{
+            this.provinceDisabled = false
           })
+        }else{
+          this.provinceDisabled = false
         }
       })
     },
     // 国家切换 获取省信息
     changeCountry (val) {
+      if(this.countryDisabled) return
+      this.countryDisabled = true
       for(let i=0;i<this.country.length;i++){
         if(this.country[i].sapLocationCode == val){
           this.supplierComplete.supplierDTO.country = this.country[i].cityNameCn
@@ -255,6 +269,8 @@ export default {
     },
     // 省市切换 获取市级信息
     changeProvince (val) {
+      if(this.provinceDisabled) return
+      this.provinceDisabled = true
       for(let i=0;i<this.province.length;i++){
         if(this.province[i].sapLocationCode == val){
           this.supplierComplete.supplierDTO.province = this.province[i].cityNameCn
