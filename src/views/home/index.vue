@@ -1,7 +1,7 @@
 <!--
  * @Author: yuszhou
  * @Date: 2021-02-19 15:12:20
- * @LastEditTime: 2023-02-01 20:26:41
+ * @LastEditTime: 2023-02-02 00:13:19
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 首页
  * @FilePath: \front-portal\src\views\home\index.vue
@@ -46,9 +46,6 @@
               <span class="title">
                 {{ 'iFact' }}
               </span>
-              <div class="more">
-                待审批 | 已申请
-              </div>
             </div>
             <el-carousel trigger="click" class="carousel" height="100%">
               <el-carousel-item v-for="card in cards" :key="card.id">
