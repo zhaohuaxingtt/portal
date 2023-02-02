@@ -41,7 +41,7 @@
                   <label>等于</label>
                   <iInput class="kpi-input2" v-model="form.name"></iInput>
                 </div>
-                <div class="line bottomcard">
+                <!-- <div class="line bottomcard">
                   <div style="border-right: 1px solid #909091">
                     <iButton
                       v-if="!modeAll"
@@ -67,7 +67,7 @@
                       >提交</iButton
                     >
                   </div>
-                </div>
+                </div> -->
                 <i
                   class="el-icon-circle-plus-outline iconbtn"
                   @click="addCell"
@@ -121,33 +121,7 @@
                   <label>等于</label>
                   <iInput class="kpi-input2" v-model="form.name"></iInput>
                 </div>
-                <div class="line bottomcard">
-                  <div style="border-right: 1px solid #909091">
-                    <iButton
-                      v-if="!modeAll"
-                      @click="deleteTemplate"
-                      icon="el-icon-delete"
-                      >删除</iButton
-                    >
-                    <iButton v-else @click="canelAll" icon="el-icon-delete"
-                      >取消</iButton
-                    >
-                  </div>
-                  <div>
-                    <iButton
-                      v-if="!modeAll"
-                      @click="modeAll = true"
-                      icon="el-icon-edit-outline"
-                      >编辑</iButton
-                    >
-                    <iButton
-                      v-else
-                      @click="modeAll = false"
-                      icon="el-icon-edit-outline"
-                      >提交</iButton
-                    >
-                  </div>
-                </div>
+
                 <i
                   class="add el-icon-circle-plus-outline"
                   @click="handleAdd(index, '', '2')"
@@ -193,33 +167,7 @@
                       <label>等于</label>
                       <iInput class="kpi-input2" v-model="form.name"></iInput>
                     </div>
-                    <div class="line bottomcard">
-                      <div style="border-right: 1px solid #909091">
-                        <iButton
-                          v-if="!modeAll"
-                          @click="deleteTemplate"
-                          icon="el-icon-delete"
-                          >删除</iButton
-                        >
-                        <iButton v-else @click="canelAll" icon="el-icon-delete"
-                          >取消</iButton
-                        >
-                      </div>
-                      <div>
-                        <iButton
-                          v-if="!modeAll"
-                          @click="modeAll = true"
-                          icon="el-icon-edit-outline"
-                          >编辑</iButton
-                        >
-                        <iButton
-                          v-else
-                          @click="modeAll = false"
-                          icon="el-icon-edit-outline"
-                          >提交</iButton
-                        >
-                      </div>
-                    </div>
+
                     <i
                       class="add el-icon-circle-plus-outline"
                       @click="handleAdd(index, index3, '3')"
@@ -231,128 +179,89 @@
                   </div>
                 </div>
                 <div
-                  class="cell cell2 third-cell cente-cell cloum-before1"
+                  class="cell cell2 third-cell cente-cell"
+                  :class="
+                    index3 < lev3.children.length - 1 ? 'cloum-before1' : ''
+                  "
                   :key="index3 + 'lev3'"
                 >
                   <div
                     v-for="(lev4, index4) in lev3.children"
                     :key="index4 + 'lev4'"
+                    class="box2"
                   >
-                    <div class="content kpi-module last-border">
-                      <div class="titleCard">
-                        <span v-if="!modeAll">总分</span>
-                        <iInput
-                          v-else
-                          class="kpi-input2 kpi-input3"
-                          v-model="form.name"
-                        ></iInput>
-                      </div>
-                      <div class="line">
-                        <label>权重</label>
-                        <iInput class="kpi-input2" v-model="form.name"></iInput>
-                      </div>
-                      <div>
-                        <label>等于</label>
-                        <iInput class="kpi-input2" v-model="form.name"></iInput>
-                      </div>
-                      <div class="line bottomcard">
-                        <div style="border-right: 1px solid #909091">
-                          <iButton
-                            v-if="!modeAll"
-                            @click="deleteTemplate"
-                            icon="el-icon-delete"
-                            >删除</iButton
-                          >
-                          <iButton
-                            v-else
-                            @click="canelAll"
-                            icon="el-icon-delete"
-                            >取消</iButton
-                          >
-                        </div>
-                        <div>
-                          <iButton
-                            v-if="!modeAll"
-                            @click="modeAll = true"
-                            icon="el-icon-edit-outline"
-                            >编辑</iButton
-                          >
-                          <iButton
-                            v-else
-                            @click="modeAll = false"
-                            icon="el-icon-edit-outline"
-                            >提交</iButton
-                          >
-                        </div>
-                      </div>
-                      <i
-                        class="add el-icon-circle-plus-outline"
-                        @click="handleAdd(index, index3, '4')"
-                      ></i>
-                      <i
-                        class="less el-icon-remove-outline"
-                        @click="handleLess(index, index3, '', '4')"
-                      ></i>
-                    </div>
-                    <div class="cell last-cell" :key="index4+'lev4'">
-
                     <div
-                      class="content kpi-module last-border"
-                      v-for="(lev5, index5) in lev4.children"
-                      :key="index5 + 'lev5'"
+                      :class="index4 < lev4.children.length - 1 ? 'lev4 ' : ' '"
                     >
-                      <div class="titleCard">
-                        <span v-if="!modeAll">总分</span>
-                        <iInput
-                          v-else
-                          class="kpi-input2 kpi-input3"
-                          v-model="form.name"
-                        ></iInput>
-                      </div>
-                      <div class="line">
-                        <label>权重</label>
-                        <iInput class="kpi-input2" v-model="form.name"></iInput>
-                      </div>
-                      <div>
-                        <label>等于</label>
-                        <iInput class="kpi-input2" v-model="form.name"></iInput>
-                      </div>
-                      <div class="line bottomcard">
-                        <div style="border-right: 1px solid #909091">
-                          <iButton
-                            v-if="!modeAll"
-                            @click="deleteTemplate"
-                            icon="el-icon-delete"
-                            >删除</iButton
-                          >
-                          <iButton
+                      <div class="content kpi-module kpi-module1 last-border">
+                        <div class="titleCard">
+                          <span v-if="!modeAll">总分</span>
+                          <iInput
                             v-else
-                            @click="canelAll"
-                            icon="el-icon-delete"
-                            >取消</iButton
-                          >
+                            class="kpi-input2 kpi-input3"
+                            v-model="form.name"
+                          ></iInput>
+                        </div>
+                        <div class="line">
+                          <label>权重</label>
+                          <iInput
+                            class="kpi-input2"
+                            v-model="form.name"
+                          ></iInput>
                         </div>
                         <div>
-                          <iButton
-                            v-if="!modeAll"
-                            @click="modeAll = true"
-                            icon="el-icon-edit-outline"
-                            >编辑</iButton
-                          >
-                          <iButton
-                            v-else
-                            @click="modeAll = false"
-                            icon="el-icon-edit-outline"
-                            >提交</iButton
-                          >
+                          <label>等于</label>
+                          <iInput
+                            class="kpi-input2"
+                            v-model="form.name"
+                          ></iInput>
                         </div>
+
+                        <i
+                          class="add el-icon-circle-plus-outline"
+                          @click="handleAdd(index, index3, '4', index4)"
+                        ></i>
+                        <i
+                          class="less el-icon-remove-outline"
+                          @click="handleLess(index, index3, '', '4', index4)"
+                        ></i>
                       </div>
-                      <i
-                        class="less el-icon-remove-outline"
-                        @click="handleLess(index, index4, index, '5')"
-                      ></i>
                     </div>
-                </div>
+                    <div :key="index4 + 'lev4'" class="lev5brfore">
+                      <div
+                        class="content kpi-module kpi-module2 last-border"
+                        v-for="(lev5, index5) in lev4.children"
+                        :key="index5 + 'lev5'"
+                      >
+                        <div class="titleCard">
+                          <span v-if="!modeAll">总分</span>
+                          <iInput
+                            v-else
+                            class="kpi-input2 kpi-input3"
+                            v-model="form.name"
+                          ></iInput>
+                        </div>
+                        <div class="line">
+                          <label>权重</label>
+                          <iInput
+                            class="kpi-input2"
+                            v-model="form.name"
+                          ></iInput>
+                        </div>
+                        <div>
+                          <label>等于</label>
+                          <iInput
+                            class="kpi-input2"
+                            v-model="form.name"
+                          ></iInput>
+                        </div>
+
+                        <i
+                          class="less el-icon-remove-outline"
+                          @click="handleLess(index, index4, index, '5')"
+                        ></i>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -428,8 +337,10 @@ export default {
         })
       this.formDataLevel2.push({ id: '', name: '', weight: '', children: [] })
     },
-    handleAdd(index, idx3, str) {
-      console.log(index + '-------' + idx3 + '---------' + str)
+    handleAdd(index, idx3, str, idx4) {
+      console.log(
+        index + '-------' + idx3 + '---------' + idx4 + '---------' + str
+      )
       console.log(this.formDataLevel2)
       console.log(this.formDataLevel2[index].children)
       if (str === '2') {
@@ -461,14 +372,17 @@ export default {
           children: []
         })
       } else if (str === '4') {
-        if (this.formDataLevel2[index].children[idx3].children.length == 5)
+        if (
+          this.formDataLevel2[index].children[idx3].children[idx4].children
+            .length == 5
+        )
           return this.$message({
             type: 'error',
             message: '每层最多5个分支',
             duration: 10000, // error 错误提示显示10秒
             showClose: true
           })
-        this.formDataLevel2[index].children[idx3].children[idx3].children.push({
+        this.formDataLevel2[index].children[idx3].children[idx4].children.push({
           id: '',
           name: '',
           weight: '',
@@ -718,7 +632,7 @@ export default {
         left: 50%;
         transform: translateX(-50%);
         width: 244px;
-        height: 180px;
+        height: 140px;
         text-align: center;
 
         border-radius: 10px;
@@ -729,9 +643,9 @@ export default {
           content: '';
           position: absolute;
           border-top: 1px solid #2297f3;
-          top: 30px;
-          right: -79px;
-          width: 79px;
+          top: 34px;
+          right: -65px;
+          width: 60px;
           height: 1px;
         }
         .iconbtn {
@@ -806,7 +720,7 @@ export default {
   overflow-y: auto;
 }
 .list2 {
-  margin-top: -260.5px;
+  margin-top: -230.5px;
   min-height: 120px;
   position: relative;
 }
@@ -814,26 +728,24 @@ export default {
   content: '';
   position: absolute;
   border-left: 1px solid #2297f3;
-  top: 62px;
+  top: 65px;
   left: 0;
-  height: calc(100%);
+  height: calc(100% + 10px);
 }
 .list {
   width: 80%;
   margin-left: 20%;
   position: relative;
   display: flex;
+  margin-top: 10px;
   justify-content: flex-start;
   .cell {
     width: 25%;
     position: relative;
-    // display: flex;
-    // justify-content: center;
-    // align-items: center;
     margin-top: 30px;
     .total {
       width: 244px;
-      height: 180px;
+      height: 140px;
       line-height: 60px;
       text-align: center;
       border-radius: 10px;
@@ -889,9 +801,9 @@ export default {
     content: '';
     position: absolute;
     border-top: 1px solid #2297f3;
-    top: 30px;
-    left: -54px;
-    width: 54px;
+    top: 34px;
+    left: -43px;
+    width: 43px;
     height: 1px;
   }
   .second-after::after {
@@ -907,7 +819,7 @@ export default {
 .kpi-module {
   margin-bottom: 20px;
   width: 244px;
-  height: 180px;
+  height: 140px;
   border-radius: 10px;
   border: 1px solid #1a75d1;
   position: relative;
@@ -1007,9 +919,28 @@ export default {
         position: relative;
       }
     }
-    // .cell2 {
-    //     width: 66.66%;
-    // }
+    .cell2 {
+      .box2 {
+        width: 100%;
+        display: flex;
+        > div {
+          width: 50%;
+        }
+      }
+      width: 66.66%;
+      .kpi-module1 {
+        // width: 50%;
+        left: 10%;
+        transform: translateX(10%);
+      }
+      .kpi-module2 {
+        // position: absolute;
+        left: 10%;
+        transform: translateX(10%);
+      }
+      .lev4 {
+      }
+    }
     .cloum-before::before {
       content: '';
       position: absolute;
@@ -1024,18 +955,46 @@ export default {
       border-left: 1px solid #2297f3;
       top: 32px;
       left: 0;
-      height: calc(100% + -200px);
+      height: calc(100% + -160px);
     }
     .cente-cell {
       position: relative;
     }
     .last-cell {
-    //   position: absolute;
-    //   top: 0px;
-    //   left: 600px;
-    //   > div {
-    //     display: block;
-    //   }
+      // width: 50%;
+      //   position: absolute;
+      //   top: 0px;
+      //   left: 600px;
+      //   > div {
+      //     display: block;
+      //   }
+    }
+    .lev5::after {
+      content: '';
+      position: absolute;
+      border-left: 1px solid #2297f3;
+      top: 32px;
+      left: -64px;
+      height: calc(100% + 20px);
+    }
+    .lev5brfore{
+      position: relative;
+    }
+    .lev5brfore::before {
+      content: '';
+      position: absolute;
+      border-left: 1px solid #2297f3;
+      top: 32px;
+      height: calc(100% - 160px);
+    }
+    .lev4::after {
+      content: '';
+      position: absolute;
+      border-top: 1px solid #2297f3;
+      top: 31px;
+      left: 304px;
+      width: 78px;
+      height: 1px;
     }
     .last-cell::before {
       content: '';
@@ -1043,7 +1002,7 @@ export default {
       border-left: 1px solid #2297f3;
       top: 32px;
       left: 0;
-      height: calc(100% - 80px);
+      height: calc(100% - 160px);
     }
     .last-border::before {
       content: '';
@@ -1081,7 +1040,7 @@ export default {
   .kpi-module {
     margin-bottom: 20px;
     width: 244px;
-    height: 180px;
+    height: 140px;
     border-radius: 10px;
     border: 1px solid #1a75d1;
     position: relative;
