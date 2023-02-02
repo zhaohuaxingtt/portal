@@ -161,7 +161,7 @@ export default {
         dateRange: []
       },
       supplierType:'一次件',
-      statusName: '草稿',
+      statusName: '-',
       tableLoading: false,
       tableTitle,
       tableData: [],
@@ -175,7 +175,7 @@ export default {
       )
     },
     showContent(){
-      return this.statusName == '草稿'
+      return !this.balanceId // 有id就意味不能再修改 
     }
   },
   created() {
@@ -217,9 +217,14 @@ export default {
     },
     // 添加规则数据
     addDialogDataList(val) {
-      this.newDataList = val.map((item) => {
-        this.$set(item, 'supplier', item.sapCode + '-' + item.supplierName)
-        return item
+      let ruleNoList = this.tableData.map(item=>item.ruleNo)
+      this.newDataList = []
+      val.map((item) => {
+        const el = JSON.parse(JSON.stringify(item))
+        if(!ruleNoList.includes(el.ruleNo)){
+          this.$set(el, 'supplier', el.sapCode + '-' + el.supplierName)
+          this.newDataList.push(el)
+        }
       })
       this.closeDiolog()
       this.tableData.unshift(...this.newDataList)
@@ -258,9 +263,13 @@ export default {
             calculate({ balanceId: res.data }).then((res) => {
               if(res?.code==200){
                 iMessage.success('提交计算成功')
-                setTimeout(()=>{
-                  window.close()
-                },2000)
+                this.$router.replace({
+                  path:'/mtz/annualGeneralBudget/replenishmentManagement/chipCalculationTask'
+                })
+                // 不关闭窗口,跳转到任务页面
+                // setTimeout(()=>{
+                //   window.close()
+                // },2000)
               }
             })
           }

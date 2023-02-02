@@ -7,6 +7,12 @@
     filterable
   >
     <el-option
+      v-if="showAll"
+      value=""
+      :disabled="loading"
+      :label="$t('ALL')"
+    ></el-option>
+    <el-option
       v-for="item in options"
       :value="item[optionValue]"
       :key="item[optionValue]"
@@ -33,6 +39,7 @@ export default {
     optionLabelEn:String,
     optionSubLabel:String,
     value:[Array,String],
+    showAll:Boolean,// 是否显示"全部"项
     loading:Boolean, // 接口调用时，禁止修改下拉数据
   },
   directives: {
@@ -95,6 +102,7 @@ export default {
       // 如果新一页还有数据的话，拼接当前数据和新一页数据
       if (this.pageData[this.page])
         this.options = [...this.options, ...this.pageData[this.page]];
+        console.log(this.options);
     },
     // 数据筛选，筛选后查询第一页的数据
     filterData(input) {
