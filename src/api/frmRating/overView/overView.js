@@ -59,7 +59,8 @@ export function termsUpload(data) {
   return requst({
     url: `/attachment/purchase/terms/other/upload`,
     method: 'POST',
-    data: data
+    data: data,
+    timeout: 6000000,
   })
 }
 
