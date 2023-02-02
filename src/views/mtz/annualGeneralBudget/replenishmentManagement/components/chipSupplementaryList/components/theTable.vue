@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-18 18:52:11
- * @LastEditTime: 2023-01-31 16:10:13
+ * @LastEditTime: 2023-02-02 14:14:56
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\theTable.vue
@@ -12,14 +12,14 @@
         <div class="showMe">
           <span>{{ language('只看自己 ') }}</span>
           <el-switch
-            v-model="onlySeeMySelf"
+            v-model="isOnlyMyself"
             class="margin-right10"
-            @change="showOnlyMyselfData($event)"
+            @change="getmakeUpPageList"
             active-color="#1660F1"
             inactive-color="#cccccc"
           >
           </el-switch>
-          <el-radio-group v-model="supplierType" @change="change">
+          <el-radio-group v-model="supplierType" @change="getmakeUpPageList">
             <template v-for="item in typeList">
               <el-radio-button :label="item.label" :key="item.key">{{ $t(item.key) }}</el-radio-button>
             </template>
@@ -169,6 +169,7 @@ export default {
           key:'散件补差单',
         },
       ],
+      isOnlyMyself:false,
     }
   },
   created() {
@@ -251,9 +252,6 @@ export default {
       } else {
         iMessage.error("'草稿、供应商拒绝、审批不通过状态可以提交")
       }
-    },
-    change(){
-      this.getmakeUpPageList()
     },
     handleClickEdit() {
       if (this.muiltSelectList.length == 0) {

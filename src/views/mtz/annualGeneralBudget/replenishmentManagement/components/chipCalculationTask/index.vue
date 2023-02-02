@@ -38,7 +38,8 @@ import search from '../components/search.vue'
 import { tableTitle, searchFormData } from './data'
 import {
   getSupplierByuser,
-  findCalculateTaskByPage
+  findCalculateTaskByPage,
+  getBalanceTaskStatusList
 } from '@/api/mtz/annualGeneralBudget/chipReplenishment'
 import { getBuyers } from '@/api/mtz/mtzCalculationTask'
 import { pageMixins } from '@/utils/pageMixins'
@@ -69,23 +70,23 @@ export default {
           {
             value: 1,
             label: '一次件芯片补差',
-            labelE: '一次件芯片补差'
+            labelEn: '一次件芯片补差'
           },
           {
             value: 2,
             label: '散件芯片补差',
-            labelE: '散件芯片补差'
+            labelEn: '散件芯片补差'
           }
         ],
         taskStatusList: [
           {
-            value: 0,
-            label: '准备中',
+            code: 0,
+            message: '准备中',
             labelE: 'Preparing'
           },
           {
-            value: 1,
-            label: '计算中',
+            code: 1,
+            message: '计算中',
             labelE: 'In calculation'
           },
           {
@@ -106,8 +107,6 @@ export default {
         ]
       },
       isOnlyMyself: true,
-      fsupplierList: [],
-      operatorBuyus: [],
 
       selectData: [],
       flag: false,
@@ -116,6 +115,9 @@ export default {
   },
   created() {
     this.getData()
+    getBalanceTaskStatusList().then((res)=>{
+      this.$set(this.options,'taskStatusList',res.data)
+    })
   },
   methods: {
     changeSwitch(val) {
@@ -184,7 +186,7 @@ export default {
       return new Promise((resole, reject) => {
         getBuyers({}).then((res) => {
           if (res.code === '200') {
-            this.operatorBuyus = res.data
+            this.options.operatorBuyus = res.data
             resole()
           } else {
             reject()
@@ -196,7 +198,8 @@ export default {
     getSupplierByuser() {
       getSupplierByuser({}).then((res) => {
         if (res.code === '200') {
-          this.fsupplierList = JSON.parse(JSON.stringify(res.data))
+          this.options.fsupplierList = JSON.parse(JSON.stringify(res.data))
+          this.options.ssupplierList = JSON.parse(JSON.stringify(res.data))
         } else {
           iMessage.error(res.desZh)
         }

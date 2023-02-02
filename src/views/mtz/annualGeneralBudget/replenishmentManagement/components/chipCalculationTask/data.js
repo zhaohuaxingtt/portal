@@ -17,14 +17,15 @@ export const tableTitle = [
     },
     { prop: 'primarySupplier', label: '一次件供应商', i18n: 'YICIXINGGONGYINGSHANG', },
     { prop: 'secondSupplier', label: '散件供应商', i18n: '散件供应商', },
-    { prop: 'balanceType', label: '任务类型', i18n: '任务类型',
+    {
+        prop: 'balanceType', label: '任务类型', i18n: '任务类型',
         customRender: (h, scope) => {
-            if(scope.row.balanceType=='1'){
+            if (scope.row.balanceType == '1') {
                 return <span>{'一次件补差'}</span>
-            }else{
+            } else {
                 return <span>{'散件补差'}</span>
             }
-        } 
+        }
     },
     { prop: 'departmentCode', label: '科室', i18n: '科室', },
     { prop: 'buyerName', label: '采购员', i18n: 'CAIGOUYUAN', },
@@ -43,7 +44,7 @@ export const tableTitle = [
     },
     { prop: 'taskStatusDesc', label: '任务状态', i18n: 'RENWUZHUANGTAI' },
     { prop: 'errorMessage', label: '说明', i18n: '说明' },
-    
+
 ]
 
 // 芯片补差计算任务查询
@@ -58,10 +59,20 @@ export const searchFormData = [
         optionValue: 'code',
         clearable: true,
     },
-    { props: 'balanceType', name: '任务类型', key: '任务类型', type: 'select', selectOption: 'taskTypeList', showAll: true },
-    { props: 'departmentCode', name: '科室', key: '科室', type: 'select', selectOption: 'deptList', showAll: true },
-    { props: 'buyerName', name: '采购员', key: '采购员', type: 'select', selectOption: 'operatorBuyus', showAll: true },
-    { props: 'taskStatus', name: '任务状态', key: '任务状态', type: 'select', selectOption: 'taskStatusList', showAll: true },
+    // , showAll: true
+    { props: 'balanceType', name: '任务类型', key: '任务类型', type: 'select', selectOption: 'taskTypeList' },
+    {
+        props: 'departmentCode', name: '科室', key: '科室', type: 'select', selectOption: 'deptList', optionLabel: 'name',
+        optionValue: 'code',
+    },
+    {
+        props: 'buyerName', name: '采购员', key: '采购员', type: 'select', selectOption: 'operatorBuyus', optionLabel: 'name',
+        optionValue: 'id',
+    },
+    {
+        props: 'taskStatus', name: '任务状态', key: '任务状态', type: 'select', selectOption: 'taskStatusList', optionLabel: 'message',
+        optionValue: 'code',
+    },
 ]
 
 // 计算弹窗补差规则列表

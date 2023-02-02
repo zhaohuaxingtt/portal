@@ -19,12 +19,13 @@
           v-else-if="item.type == 'select'"
           :value.sync="searchForm[item.props]"
           :data="options[item.selectOption]"
-          :optionLabel="item.optionLabel"
-          :optionValue="item.optionValue"
-          :optionLabelEn="item.optionLabelEn"
+          :optionLabel="item.optionLabel || 'label'"
+          :optionValue="item.optionValue || 'value'"
+          :optionLabelEn="item.optionLabelEn || 'labelEn'"
           :multiple="item.multiple || false"
           :clearable="item.clearable || false"
           :disabled="item.disabled"
+          :showAll="item.showAll||false"
           style="width: 100%"
           filterable
           collapse-tags

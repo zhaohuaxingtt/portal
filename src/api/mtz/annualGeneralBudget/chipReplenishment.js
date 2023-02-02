@@ -1,7 +1,7 @@
 /*
  * @Author: youyuan
  * @Date: 2021-09-09 14:02:54
- * @LastEditTime: 2023-01-30 15:15:29
+ * @LastEditTime: 2023-02-02 14:06:21
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 年度预算编辑
  * @FilePath: \front-portal\src\api\mtz\annualGeneralBudget\chipReplenishment.js
@@ -39,11 +39,11 @@ export function chipBalanceJob(params) {
 }
 
 // 获取单个补差单-明细
-export function findBalanceById(params) {
+export function findBalanceById(data) {
   return requestChip({
     url: '/findBalanceById',
     method: 'POST',
-    params
+    data
   })
 }
 
@@ -93,14 +93,6 @@ export function findCalculateTaskByPage(params) {
   })
 }
 
-// 补差单列表导出
-export function exportBalanceList(data) {
-  return downloadChip({
-    url: `/exportBalanceList`,
-    method: 'POST',
-    data
-  })
-}
 // 补差单列表分页查询
 export function findBalanceByPage(params) {
   return requestChip({
@@ -164,5 +156,49 @@ export function deleteBalanceItem( data ) {
     url: '/deleteBalanceItem',
     method: 'POST',
     data,
+  })
+}
+// 获取任务状态下拉列表
+export function getBalanceTaskStatusList(params) {
+  return request({
+    url: '/common/getBalanceTaskStatusList',
+    method: 'POST',
+  })
+}
+
+// 获取芯片补差单状态下拉列表
+export function getBalanceStatusList(params) {
+  return request({
+    url: '/common/getBalanceStatusList',
+    method: 'POST',
+  })
+}
+
+// 计算中补差规则导出
+export function exportBalanceRuleList(params) {
+  return downloadChip({
+    url: '/exportBalanceRuleList',
+    method: 'POST',
+    params,
+    responseType: 'blob'
+  })
+}
+
+// 补差单列表导出
+export function exportBalanceList(data) {
+  return downloadChip({
+    url: '/exportBalanceList',
+    method: 'POST',
+    data,
+    responseType: 'blob'
+  })
+}
+// 凭证列表导出
+export function exportBalanceItemList(data) {
+  return downloadChip({
+    url: '/exportBalanceItemList',
+    method: 'POST',
+    data,
+    responseType: 'blob'
   })
 }
