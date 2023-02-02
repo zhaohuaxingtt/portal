@@ -8,6 +8,12 @@
     :filter-method="filterData"
   >
     <el-option
+      v-if="showAll"
+      value=""
+      :disabled="loading"
+      :label="$t('ALL')"
+    ></el-option>
+    <el-option
       v-for="item in options"
       :value="item[propValue]"
       :key="item[propValue]"
@@ -35,6 +41,7 @@ export default {
     subLabel:String,
     popperClass:String,
     searchValue:[Array,String],
+    showAll:Boolean,// 是否显示"全部"项
     loading:Boolean, // 接口调用时，禁止修改下拉数据
   },
   directives: {

@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-14 14:44:54
- * @LastEditTime: 2023-01-31 14:51:29
+ * @LastEditTime: 2023-02-02 14:04:43
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\created\computePage.vue
@@ -22,7 +22,7 @@
       <div class="contentBox" slot="header-control">
         <div class="tableOptionBox">
           <iButton
-            @click="handleExportCurrent"
+            @click="exportBalanceRuleList"
             v-permission="MTZ_REPORT_BUCHAGUANLI_MTZBUCHAZONGLAN_DAOCHUDANGYE"
             >{{ language('DAOCHU', '导出') }}</iButton
           >
@@ -68,35 +68,55 @@
         :label="language('已发起凭证', '已发起凭证')"
       ></el-tab-pane>
     </iTabsList>
-
+    <!-- 待发起 -->
     <iCard>
       <div class="contentBox">
         <div class="tableOptionBox">
-          <iButton @click="deleteBalanceItem">{{
+          <iButton @click="deleteBalanceItem" v-if="tabsValue == 1">{{
             language('冲销', '冲销')
           }}</iButton>
           <iButton
-            @click="handleExportCurrent"
+            @click="exportBalanceItemList"
             v-permission="MTZ_REPORT_BUCHAGUANLI_MTZBUCHAZONGLAN_DAOCHUDANGYE"
             >{{ language('DAOCHU', '导出') }}</iButton
           >
         </div>
       </div>
-      <iTableCustom
-        :data="tableData"
-        :columns="tableTitle"
-        :tableLoading="loading"
-      />
-      <iPagination
-        @size-change="handleSizeChange($event, getTableList)"
-        @current-change="handleCurrentChange($event, getTableList)"
-        :page-sizes="page.pageSizes"
-        :page-size="page.pageSize"
-        :current-page="page.currPage"
-        :total="page.totalCount"
-        :layout="page.layout"
-      >
-      </iPagination>
+      <div v-if="tabsValue == 1">
+        <iTableCustom
+          :data="balanceItemList"
+          :columns="tableTitleBE"
+          :tableLoading="loading"
+        />
+        <iPagination
+          @size-change="handleSizeChange($event, getTableList)"
+          @current-change="handleCurrentChange($event, getTableList)"
+          :page-sizes="page.pageSizes"
+          :page-size="page.pageSize"
+          :current-page="page.currPage"
+          :total="page.totalCount"
+          :layout="page.layout"
+        >
+        </iPagination>
+      </div>
+      <div v-else>
+        <!-- 已发起 -->
+        <iTableCustom
+          :data="savedBalanceItemList"
+          :columns="tableTitle"
+          :tableLoading="loading"
+        />
+        <iPagination
+          @size-change="handleSizeChange($event, getTableList)"
+          @current-change="handleCurrentChange($event, getTableList)"
+          :page-sizes="page.pageSizes"
+          :page-size="page.pageSize"
+          :current-page="page.currPage"
+          :total="page.totalCount"
+          :layout="page.layout"
+        >
+        </iPagination>
+      </div>
     </iCard>
   </iPage>
 </template>
@@ -122,20 +142,24 @@ import {
   findBalanceById,
   updateBalance,
   sendSupplierConfirm,
-  deleteBalanceItem
+  deleteBalanceItem,
+  exportBalanceRuleList,
+  exportBalanceItemList
 } from '@/api/mtz/annualGeneralBudget/chipReplenishment'
-import { tableTitleBE, searchFormData1 } from '../chipCalculationTask/data'
-import { infoFormData, computedFormData, tableTitle } from './components/data'
 import {
-  fetchTableData,
+  infoFormData,
+  tableTitle,
+  tableTitleBE1,
+  tableTitleBE2,
+  tableTitleComplete1,
+  computedFormData
+} from './components/data'
+import {
   fetchCurrentUser,
-  pageMtzDetailExport
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzReplenishmentOverview/detail'
 import { queryDeptSectionForCompItem } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
 import { getMtzSupplierList } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
-import {
-  exportAppRecordByCondition
-} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
+import { exportAppRecordByCondition } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
 export default {
   mixins: [pageMixins],
   components: {
@@ -174,33 +198,29 @@ export default {
       searchForm: {},
       computedFormData,
       tableTitleRule: tableTitle,
-      tableTitleBE,
       options: {
         sSupplierDropDownData: [], //二次件供应商编号
         departmentDropDownData: [], //科室
         linieDropDownData: [] //采购员
       },
       loading: false,
-      tableTitle: [],
+      tableTitleBE: [],
       tableListData: [],
-      selection: []
+      selection: [],
+      savedBalanceItemList: [],
+      balanceItemList: []
     }
   },
   watch: {
     tabsValue: {
       handler(val) {
         if (val == 1) {
-          // 总览
-          this.searchFormData = searchFormData1
-          this.tableTitle =
-            this.supplierType == '一次件供应商' ? tableTitleBE : tableTitleBE
+          // 待发起
+          this.tableTitleBE =
+            this.supplierType == '一次件供应商' ? tableTitleBE1 : tableTitleBE2
         } else {
-          // 明细
-          this.tableTitle = tableTitleBE
-          this.searchFormData =
-            this.supplierType == '一次件供应商'
-              ? searchFormData1
-              : searchFormData1
+          // 已发起
+          this.tableTitle = tableTitleComplete1
         }
         this.getTableData()
       },
@@ -224,7 +244,7 @@ export default {
   },
   methods: {
     findBalanceById() {
-      findBalanceById({ balanceId: this.balanceId }).then((res) => {
+      findBalanceById({ balanceId: this.balanceId,isExisted: this.tabsValue=='2', ...this.searchForm }).then((res) => {
         console.log(res)
         if (res?.code == '200') {
           this.info = res.data
@@ -239,15 +259,19 @@ export default {
             res.data.balanceBase.endTo
           ]
           // 又实补显示实补,没有的话默认填充待补差凭证
-          detailInfo.approvedAmount = res.data.balanceBase.approvedAmount || res.data.balanceBase.approvedAmount
-          this.$set(this,'detailInfo',detailInfo)
+          detailInfo.approvedAmount =
+            res.data.balanceBase.approvedAmount ||
+            res.data.balanceBase.approvedAmount
+          this.$set(this, 'detailInfo', detailInfo)
           this.tableData = res.data.balanceRuleList
+          this.savedBalanceItemList = res.data.savedBalanceItemList || [] // 已发起凭证
+          this.balanceItemList = res.data.balanceItemList || [] // 待发起凭证
         }
       })
     },
     // 保存
     updateBalance() {
-      if(!this.detailInfo.approvedAmount){
+      if (!this.detailInfo.approvedAmount) {
         return iMessage.warn('请填写实补金额')
       }
       updateBalance(this.info).then((res) => {
@@ -261,27 +285,32 @@ export default {
     submit() {
       updateBalance(this.info).then((res) => {
         if (res?.code == '200') {
-          sendSupplierConfirm([this.balanceId]).then(res1=>{
-            if(res?.code=='200'){
-              iMessage.success(this.$i18n.locale == 'zh' ? res1.desZh : res1.desEn)
+          sendSupplierConfirm([this.balanceId]).then((res1) => {
+            if (res?.code == '200') {
+              iMessage.success(
+                this.$i18n.locale == 'zh' ? res1.desZh : res1.desEn
+              )
             }
           })
         }
       })
     },
     // 冲销
-    deleteBalanceItem(){
-      if(!this.selection.length) return iMessage.warn('请选择数据')
-      deleteBalanceItem(this.selection.map(item=>item.balanceItemId)).then(res=>{
-        console.log(res);
-      })
+    deleteBalanceItem() {
+      if (!this.selection.length) return iMessage.warn('请选择数据')
+      deleteBalanceItem(this.selection.map((item) => item.balanceItemId)).then(
+        (res) => {
+          console.log(res)
+        }
+      )
     },
     tableChange(val) {
       if (val.name !== this.tabsValue) {
         this.tabsValue = val.name
       }
+      this.findBalanceById()
     },
-    // 获取列表数据
+    // 获取待审批,已审批列表数据
     getTableData() {
       // this.loading = true
       console.log(this.searchForm)
@@ -332,7 +361,8 @@ export default {
     // 查询
     handleSubmitSearch() {
       this.page.currPage = 1
-      this.getTableData()
+      this.findBalanceById()  // 从中筛选待发起,已发起凭证
+      // this.getTableData()
     },
     // 重置
     handleSearchReset() {
@@ -352,12 +382,16 @@ export default {
     lookUs() {
       this.handleSubmitSearch()
     },
-    // 导出当页
-    handleExportCurrent() {
-    // 导出
-      console.log('exportExcel=>导出')
-      exportAppRecordByCondition().then(res=>{
-        console.log(res);
+      // 导出规则
+    exportBalanceRuleList(){
+      exportBalanceRuleList({balanceId: this.balanceId}).then((res) => {
+        console.log(res)
+      })
+    },
+    // 导出凭证
+    exportBalanceItemList() {
+      exportBalanceItemList({ balanceId: this.balanceId, isExisted: this.tabsValue=='2', ...this.searchForm }).then((res)=>{
+        console.log(res)
       })
     }
   }
