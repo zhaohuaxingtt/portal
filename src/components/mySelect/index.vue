@@ -17,7 +17,7 @@
       :value="item[optionValue]"
       :key="item[optionValue]"
       :disabled="loading"
-      :label="$getLabel(item[optionLabel],item[optionLabelEn])+ (optionSubLabel ? '-'+item[optionSubLabel] : '')"
+      :label="$getLabel(item[optionLabel],item[optionLabelEn])+ (optionSubLabel ? ('-'+item[optionSubLabel]) : '')"
     ></el-option>
   </iSelect>
 </template>

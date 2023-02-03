@@ -394,7 +394,7 @@ export const computedFormData = [
   { props: 'primaryPartNum', name: '一次零件号', key: '一次零件号', type: 'input' },
   { props: 'secondPartNum', name: '二次零件号', key: '二次零件号', type: 'input' },
   {
-    props: 'secondSupplierSapCode', name: '二次件供应商', key: '二次件供应商', type: 'select', selectOption: 'sSupplierDropDownData', optionLabel: 'message',
+    props: 'secondSupplierSapCode', name: '二次件供应商', key: '二次件供应商', type: 'select', selectOption: 'sSupplierDropDownData', optionLabel: 'code', optionSubLabel:'message',
     optionValue: 'code',
     clearable: true,
   },
