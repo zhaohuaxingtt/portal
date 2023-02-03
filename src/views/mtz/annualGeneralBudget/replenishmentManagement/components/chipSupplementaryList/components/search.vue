@@ -1,7 +1,7 @@
 <!--
  * @Author: tanmou
  * @Date: 2021-08-27 16:29:54
- * @LastEditTime: 2023-01-31 17:10:27
+ * @LastEditTime: 2023-02-04 00:23:31
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\search.vue
@@ -16,7 +16,7 @@
       @close="closeDiolog"
     >
       <search
-        @sure="handleSubmitSearch"
+        @sure="getInforData"
         @reset="handleSearchReset"
         :searchForm="searchForm"
         :searchFormData="searchFormData"
@@ -106,7 +106,7 @@
             >{{ language('PINGZHENGDAOCHU', '凭证导出') }}</iButton
           >
           <iButton
-            @click="upload"
+            @click="exportSupplierBalance"
             v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_DAOCHU"
             >{{ language('DAOCHU', '导出') }}</iButton
           >
@@ -156,7 +156,9 @@ import {
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details'
 import {
   findBalanceById,
-  supplierConfirm
+  supplierConfirm,
+  exportSupplierBalanceSummary,
+  exportSupplierBalanceSummaryDetail,
 } from '@/api/mtz/annualGeneralBudget/chipReplenishment'
 import tabs1 from './tabs1'
 import tabs2 from './tabs2'
@@ -247,7 +249,7 @@ export default {
     // 获取明细
     getInforData() {
       this.BoxLoading = true
-      findBalanceById({ balanceId: this.detailObj.id })
+      findBalanceById({ balanceId: this.detailObj.id, isExisted: false, ...this.searchForm })
         .then((res) => {
           if (res?.code == '200') {
             this.inforData = _.cloneDeep(res.data.balanceBase)
@@ -280,34 +282,6 @@ export default {
       this.searchForm = {}
       this.searchForm = {}
       this.seachWather = {}
-    },
-    // 确定
-    handleSubmitSearch() {
-      let searchFictitious = _.cloneDeep(this.searchForm)
-      if (this.searchForm.dateTime) {
-        var tt = Object.keys(searchFictitious)
-        for (var i = 0; i < tt.length; i++) {
-          if (searchFictitious[tt[i]] == '') {
-            delete searchFictitious[tt[i]]
-          }
-        }
-        delete searchFictitious.dateTime
-        this.seachWather = {
-          ...searchFictitious,
-          mtzDocMonthBegin: this.searchForm.dateTime[0],
-          mtzDocMonthEnd: this.searchForm.dateTime[1]
-        }
-      } else {
-        var tt = Object.keys(searchFictitious)
-        for (var i = 0; i < tt.length; i++) {
-          if (searchFictitious[tt[i]] == '') {
-            delete searchFictitious[tt[i]]
-          }
-        }
-        this.seachWather = {
-          ...searchFictitious
-        }
-      }
     },
     btnHidden1(val) {
       this.btnShow1 = val
@@ -370,7 +344,7 @@ export default {
           console.log(err)
         })
     },
-    upload() {
+    exportSupplierBalance() {
       NewMessageBox({
         title: this.language('LK_WENXINTISHI', '温馨提示'),
         Tips: this.language('SHIFOUDAOCHU', '是否导出？'),
@@ -378,9 +352,13 @@ export default {
         confirmButtonText: this.language('QUEREN', '确认')
       })
         .then(() => {
-          mtzCompDetailOverviewExport({
-            ...this.serchList,
-            balanceId: this.balanceId
+          let exportFun = this.tabsValue == 1 ? exportSupplierBalanceSummary : exportSupplierBalanceSummaryDetail
+          exportFun({
+            ...this.detailObj,
+            ...this.searchForm,
+            isPrimary:this.detailObj.balanceType=='1',
+            isOnlyMyself:true,
+            agreementNo:this.detailObj.id
           }).then((res) => {
             console.log(res)
           })

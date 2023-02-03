@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-14 14:44:54
- * @LastEditTime: 2023-02-02 14:04:43
+ * @LastEditTime: 2023-02-03 23:52:05
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\created\computePage.vue
@@ -87,6 +87,7 @@
           :data="balanceItemList"
           :columns="tableTitleBE"
           :tableLoading="loading"
+          @handle-selection-change="handleSelectionChange"
         />
         <iPagination
           @size-change="handleSizeChange($event, getTableList)"
@@ -154,9 +155,7 @@ import {
   tableTitleComplete1,
   computedFormData
 } from './components/data'
-import {
-  fetchCurrentUser,
-} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzReplenishmentOverview/detail'
+import { fetchCurrentUser } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzReplenishmentOverview/detail'
 import { queryDeptSectionForCompItem } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
 import { getMtzSupplierList } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
 import { exportAppRecordByCondition } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
@@ -230,13 +229,13 @@ export default {
   created() {
     this.supplierType = this.$route.query.type == '1' ? '一次件' : '散件'
     this.balanceId = this.$route.query.balanceId
+    this.getSecondSupplier()
     if (this.balanceId) {
       this.findBalanceById()
     } else {
       // 新建
       this.$nextTick((_) => {
         this.getDeptList()
-        this.getSecondSupplier()
         this.getTableData()
         this.getCurrentUser()
       })
@@ -244,7 +243,11 @@ export default {
   },
   methods: {
     findBalanceById() {
-      findBalanceById({ balanceId: this.balanceId,isExisted: this.tabsValue=='2', ...this.searchForm }).then((res) => {
+      findBalanceById({
+        balanceId: this.balanceId,
+        isExisted: this.tabsValue == '2',
+        ...this.searchForm
+      }).then((res) => {
         console.log(res)
         if (res?.code == '200') {
           this.info = res.data
@@ -298,11 +301,14 @@ export default {
     // 冲销
     deleteBalanceItem() {
       if (!this.selection.length) return iMessage.warn('请选择数据')
-      deleteBalanceItem(this.selection.map((item) => item.balanceItemId)).then(
-        (res) => {
-          console.log(res)
+      deleteBalanceItem(this.selection.map((item) => item.id)).then(res => {
+        if (res?.code == '200') {
+          iMessage.success(this.$i18n.locale == 'zh' ? res.desZh : res.desEn)
+          this.findBalanceById()
+        } else {
+          iMessage.error(this.$i18n.locale == 'zh' ? res.desZh : res.desEn)
         }
-      )
+      })
     },
     tableChange(val) {
       if (val.name !== this.tabsValue) {
@@ -361,15 +367,16 @@ export default {
     // 查询
     handleSubmitSearch() {
       this.page.currPage = 1
-      this.findBalanceById()  // 从中筛选待发起,已发起凭证
+      this.findBalanceById() // 从中筛选待发起,已发起凭证
       // this.getTableData()
     },
     // 重置
     handleSearchReset() {
       this.page.currPage = 1
       this.page.pageSize = 10
-      this.initSeachData('clear')
-      this.getTableData()
+      this.searchForm = {}
+      this.findBalanceById()
+      // this.getTableData()
     },
     // 选中项改变
     handleSelectionChange(val) {
@@ -382,15 +389,19 @@ export default {
     lookUs() {
       this.handleSubmitSearch()
     },
-      // 导出规则
-    exportBalanceRuleList(){
-      exportBalanceRuleList({balanceId: this.balanceId}).then((res) => {
+    // 导出规则
+    exportBalanceRuleList() {
+      exportBalanceRuleList({ balanceId: this.balanceId }).then((res) => {
         console.log(res)
       })
     },
     // 导出凭证
     exportBalanceItemList() {
-      exportBalanceItemList({ balanceId: this.balanceId, isExisted: this.tabsValue=='2', ...this.searchForm }).then((res)=>{
+      exportBalanceItemList({
+        balanceId: this.balanceId,
+        isExisted: this.tabsValue == '2',
+        ...this.searchForm
+      }).then((res) => {
         console.log(res)
       })
     }

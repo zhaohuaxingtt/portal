@@ -69,7 +69,7 @@
       <div class="header">
         <p class="title">补差规则</p>
         <div>
-          <iButton @click="exportExcel">导出</iButton>
+          <iButton @click="exportBalanceRuleList">导出</iButton>
           <iButton :disabled="disabled"  v-if="showContent" @click="openDialog">选择规则</iButton>
         </div>
       </div>
@@ -129,7 +129,8 @@ import {
   getSupplierByuser,
   calculate,
   saveBalance,
-  findBalanceById
+  findBalanceById,
+  exportBalanceRuleList,
 } from '@/api/mtz/annualGeneralBudget/chipReplenishment'
 import {
   exportAppRecordByCondition
@@ -279,9 +280,9 @@ export default {
       }
     },
     // 导出
-    exportExcel() {
-      console.log('exportExcel=>导出')
-      exportAppRecordByCondition().then(res=>{
+    exportBalanceRuleList() {
+      if(!this.balanceId) return iMessage.warn('请先保存信息')
+      exportBalanceRuleList({ balanceId: this.balanceId }).then(res=>{
         console.log(res);
       })
     }

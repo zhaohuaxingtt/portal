@@ -541,9 +541,9 @@ export const searchFormData = [
     props: 'saNos', name: '采购框架', key: 'CAIGOUKUANGJIA', type: 'input'
   },
   {
-    props: 'fpartNos', name: '一次件零件号', key: 'YICIJIANLINGJIANHAO', type: 'input'
+    props: 'primaryPartNum', name: '一次件零件号', key: 'YICIJIANLINGJIANHAO', type: 'input'
   },
-  { props: 'spartNos', name: '二次件零件号', key: 'ERCIJIANLINGJIANHAO', type: 'input' },
-  { props: 'pieceSupplierSaps', name: '二次件供应商', key: 'ECJGYS', type: 'select', selectOption: 'getSecondSupplierList', multiple: true, clearable: true, showAll: true },
+  { props: 'secondPartNum', name: '二次件零件号', key: 'ERCIJIANLINGJIANHAO', type: 'input' },
+  { props: 'secondSupplier', name: '二次件供应商', key: 'ECJGYS', type: 'select', selectOption: 'getSecondSupplierList', multiple: true, clearable: true, showAll: true },
   { props: 'dateTime', name: '补差时间段', key: 'BUCHASHIJIANDUAN', type: 'daterange' },
 ]
