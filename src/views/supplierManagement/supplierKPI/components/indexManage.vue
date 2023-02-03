@@ -71,7 +71,7 @@
           <i-input
             style="width: 200px"
             :placeholder="$t('partsprocure.PLEENTER')"
-            v-model="form.nameEn"
+            v-model="form.nameZh"
           >
           </i-input>
         </el-form-item>
@@ -79,7 +79,7 @@
           <i-input
             style="width: 200px"
             :placeholder="$t('partsprocure.PLEENTER')"
-            v-model="form.nameZh"
+            v-model="form.nameEn"
           >
           </i-input>
         </el-form-item>
@@ -167,7 +167,7 @@ export default {
   },
   watch: {},
   methods: {
-    async getInfo() {
+     getInfo() {
       getIndicatorList().then((res) => {
         this.infoList = res.data
       })
