@@ -305,6 +305,14 @@ export default {
       name: 'suppliersDetails',
       component: SuppliersDetails
     },
+    {
+      path: '/meeting/previewCSC',
+      name: 'previewCSC',
+      meta: {
+        title: '会议详情管理'
+      },
+      component: () => import('@/views/meeting/specialDetails/component/previewCSC.vue')
+    },
     ...RouterView,
     { path: '*', name: 'notFound', component: NotFound }
   ],
