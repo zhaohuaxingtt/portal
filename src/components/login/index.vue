@@ -1,10 +1,10 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-10 15:22:16
- * @LastEditTime: 2021-03-29 18:23:29
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-02-03 18:15:28
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
- * @FilePath: \rise\src\views\login\index.vue
+ * @FilePath: \front-portal\src\components\login\index.vue
 -->
 <template>
   <div v-if="ssoLogin" class="eidp-login">
@@ -111,7 +111,7 @@ export default {
           process.env.VUE_APP_LOGOUT_URL || process.env.VUE_APP_LOGIN_URL
       } else {
         redirectUrl =
-          process.env.VUE_APP_LOGIN_URL || process.env.VUE_APP_LOGOUT_URL
+          process.env.VUE_APP_LOGIN_URL+`?state=${this.$route.query.state}` || process.env.VUE_APP_LOGOUT_URL
       }
       if (redirectUrl && redirectUrl !== '/portal/#/login') {
         this.ssoLogin = true

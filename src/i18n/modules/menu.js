@@ -7,6 +7,8 @@ export default {
   审批中心: 'Approval Center',
   下载中心: 'Download Center',
   项目管理: 'Project Management',
+  送样管理: 'Sample Management',
+  产能维护及报警信: 'Capacity & Alarm',
   模具投资: 'Tooling Investment',
   寻源与定点: 'Sourcing & Nomination',
   财务管理: 'Finance Management',

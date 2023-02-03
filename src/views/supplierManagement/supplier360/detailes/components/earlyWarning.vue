@@ -49,7 +49,7 @@
               :span="8"
               class="margin-bottom20">
         <!-- 寻源 -->
-        <sourcing></sourcing>
+        <sourcing :infodata="infodata"></sourcing>
       </el-col>
       <el-col v-permission="PORTAL_SUPPLIER_CARD_PRODUCTIVITY"
               :span="8"

@@ -69,10 +69,11 @@ import {
   saveAttachment
 } from '../../../../api/register/relevantAttachments'
 import attachmentDialog from './attachmentDialog'
-import { downloadUdFile } from '@/api/file'
+import { downloadUdFile,downloadUdFileNews } from '@/api/file'
 import { cloneDeep } from 'lodash'
 import clauseDialog from "@/views/generalPage/clausePage/clauseDialog.vue";
 import { purchaseTerms } from '@/api/frmRating/overView/overView.js'
+// import { getFileId } from '@/api/assistant/uploadFile'
 
 export default {
   mixins: [generalPageMixins],
@@ -270,7 +271,10 @@ export default {
         //   applicationName: 'rise',
         //   fileList: [row.fileName]
         // }
-        await downloadUdFile(row.fileId)
+        
+        await downloadUdFileNews(row.fileId)
+
+        // await downloadUdFile(row.fileId)
       } else {
         return false
       }

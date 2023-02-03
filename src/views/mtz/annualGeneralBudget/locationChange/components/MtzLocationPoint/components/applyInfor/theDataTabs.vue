@@ -1038,6 +1038,7 @@ export default {
   methods: {
     getToken,
     init() {
+      console.log(this.$route.query.item)
       if (this.$route.query.item == undefined) {
         this.getTableList()
       } else {
@@ -1538,7 +1539,8 @@ export default {
           list[index].assemblyPartnum = item.assemblyPartnum
           list[index].id = ''
           list[index].supplierName = item.assemblySupplierName
-          list[index].supplierId = item.assemblySupplierSap
+          list[index].supplierId = item.supplierId?item.supplierId:''
+          list[index].sapCode = item.assemblySupplierSap
           list[index].ruleNo = item.ruleNo
           list[index].materialCode = item.materialCode
           list[index].materialName = item.material
@@ -1568,7 +1570,7 @@ export default {
           list[index].dosage = item.dosage
         }
       })
-      // console.log(list);
+      console.log(list);
       this.newDataList = list
       this.tableData.unshift(...list)
       this.editType = true

@@ -18,7 +18,7 @@
       <el-option
         v-for="item in userOptions"
         :key="item.id"
-        :label="item.nameZh"
+        :label="item.nameZh+'-'+item.userName"
         :value="item.id"
       >
       </el-option>

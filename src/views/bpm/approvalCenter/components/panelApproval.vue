@@ -74,6 +74,11 @@ export default {
       return [this.data[this.activeIndex]]
     }
   },
+  watch:{
+    '$i18n.locale'(val){
+      this.getOverview()
+    }
+  },
   created() {
     this.getOverview()
   },
@@ -96,7 +101,8 @@ export default {
     async getOverview() {
       this.loading = true
       const { data = [] } = await queryApprovalOverview({
-        userID: this.$store.state.permission.userInfo.id
+        userID: this.$store.state.permission.userInfo.id,
+        language: this.$i18n.locale == 'zh' ? 'CN' : 'EN'
       }).finally(() => (this.loading = false))
 
       let totalNum = 0

@@ -1,12 +1,13 @@
 <!--
  * @Author: YoHo
  * @Date: 2021-06-21 10:50:37
- * @LastEditTime: 2023-01-06 18:49:48
+ * @LastEditTime: 2023-01-10 10:47:40
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 
 -->
 <template>
   <el-select
+    v-bind="$attrs"
     :popper-class="popperClass"
     v-model="searchValue"
     v-el-select-loadmore="loadmore"
@@ -19,6 +20,7 @@
       v-for="item in options"
       :value="item[propValue]"
       :key="item[propValue]"
+      :disabled="loading"
       :label="$getLabel(item[propLabel],item[propLabelEn])+ (subLabel ? '-'+item[subLabel] : '')"
     ></el-option>
   </el-select>
@@ -37,7 +39,8 @@ export default {
     propLabelEn:String,
     subLabel:String,
     popperClass:String,
-    searchValue:[Array,String]
+    searchValue:[Array,String],
+    loading:Boolean, // 接口调用时，禁止修改下拉数据
   },
   directives: {
     'el-select-loadmore': {
@@ -55,7 +58,6 @@ export default {
   },
   watch:{
     data(val){
-      console.log('init:data',this.searchValue);
       this.init()
     }
   },

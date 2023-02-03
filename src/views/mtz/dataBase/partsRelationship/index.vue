@@ -53,10 +53,10 @@
     </i-search>
     <iCard class="OrganizationTable">
       <div class="export">
-        <iButton @click="handleExportCurrent" v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_XZMB">下载模板</iButton>
+        <iButton @click="handleExportCurrent" v-permission="PORTAL_DATABASE_SEARCH_PARTSRELATIONSHIP_XZMB">下载模板</iButton>
         <uploadButton
           ref="uploadButton"
-          v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_SCYECJLJGX"
+          v-permission="PORTAL_DATABASE_SEARCH_PARTSRELATIONSHIP_SHANGCHUAN"
           :buttonText="language('LK_SHANGCHUAN', '上传')"
           :uploadByBusiness="true"
           @uploadedCallback="handleUpload($event)"
@@ -64,7 +64,7 @@
         />
         <iButton
           @click="handleExportAll"
-          v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_CKYECJLJGX_XIAZAI"
+          v-permission="PORTAL_DATABASE_SEARCH_PARTSRELATIONSHIP_XIAZAI"
           >下载</iButton
         >
         <button-table-setting
@@ -75,6 +75,7 @@
         <iTableCustom
           ref="testTable"
           class="customClass"
+          permissionKey="partsRelationship-database-query"
           :loading="tableLoading"
           :data="tableListData"
           :columns="partsRelationshipTableSetting"
