@@ -22,11 +22,11 @@
           <div class="top">
             <img class="img" :src="fileFmt(l.cover)" alt="" />
             <div class="info">
-              <span>共{{ l.knowlegeCount }}门</span>
+              <span>{{$t('共{count}门',{count:l.knowlegeCount||'0'})}}</span>
               <span class="new" v-if="isNew(l.createdAt)">NEW</span>
             </div>
           </div>
-          <div class="title" v-text="l.name"></div>
+          <div class="title">{{$getLabel(l.name,l.enName)}}</div>
         </el-col>
       </el-row>
     </div>
