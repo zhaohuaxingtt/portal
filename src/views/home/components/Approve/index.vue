@@ -1,59 +1,28 @@
 <template>
-  <!-- iAgree -->
-  <div class="task-wrap">
-    <div class="task-container">
-      <!-- <div v-for="item in moduleData" :key="item.id" class="task-card">
-        <div class="left">
-          <div class="name single-ellipsis">{{ item.value }}</div>
-          <div class="abs single-ellipsis">{{ getAbs(item.typeName) }}</div>
-        </div>
-        <div class="right">
-          <div class="overdue" @click="handleToApply(item)">
-            <div :class="item.overdue">
-              {{ getLaunchNum(item.subType) | overNum }}
-              <span v-if="getLaunchNum(item.subType) > 99">+</span>
-            </div>
-            <div class="numName flex-align-center">
-              <div>{{ $t('HOME_CARD.MY_APPLICATION') }}</div>
-            </div>
+  <div class="task-container">
+    <div v-for="item in moduleData" :key="item.id" class="task-card">
+      <div class="left">
+        <div class="name single-ellipsis">{{ item.value }}</div>
+        <div class="abs single-ellipsis">{{ getAbs(item.typeName) }}</div>
+      </div>
+      <div class="right">
+        <div class="overdue" @click="handleToApply(item)">
+          <div :class="item.overdue">
+            {{ getLaunchNum(item.subType) | overNum }}
+            <span v-if="getLaunchNum(item.subType) > 99">+</span>
           </div>
-          <div class="line">/</div>
-          <div class="approval" @click="handleToApproval(item)">
-            <div>
-              {{ getTodoNum(item.subType) | overNum }}
-              <span v-if="getTodoNum(item.subType) > 99">+</span>
-            </div>
-            <div class="numName flex-align-center">
-              <div>{{ $t('HOME_CARD.MY_APPROVAL') }}</div>
-            </div>
+          <div class="numName flex-align-center">
+            <div>{{ $t('HOME_CARD.MY_APPLICATION') }}</div>
           </div>
         </div>
-      </div> -->
-
-      <div v-for="item in dataListNow" :key="item.id" class="task-card">
-        <div class="left">
-          <div class="name single-ellipsis">{{ item.title }}</div>
-          <div class="abs single-ellipsis">{{ item.name }}</div>
-        </div>
-        <div class="right">
-          <div class="overdue" @click="handleToApply(item)">
-            <div :class="item.overdue">
-              {{ getLaunchNum(item.applyNumber)}}
-              <span v-if="item.applyNumber > 99">+</span>
-            </div>
-            <div class="numName flex-align-center">
-              <div>{{ $t('HOME_CARD.MY_APPLICATION') }}</div>
-            </div>
+        <div class="line">/</div>
+        <div class="approval" @click="handleToApproval(item)">
+          <div>
+            {{ getTodoNum(item.subType) | overNum }}
+            <span v-if="getTodoNum(item.subType) > 99">+</span>
           </div>
-          <div class="line">/</div>
-          <div class="approval" @click="handleToApproval(item)">
-            <div>
-              {{ getTodoNum(item.approvalNumber)}}
-              <span v-if="item.approvalNumber > 99">+</span>
-            </div>
-            <div class="numName flex-align-center">
-              <div>{{ $t('HOME_CARD.MY_APPROVAL') }}</div>
-            </div>
+          <div class="numName flex-align-center">
+            <div>{{ $t('HOME_CARD.MY_APPROVAL') }}</div>
           </div>
         </div>
       </div>
@@ -167,7 +136,7 @@ export default {
     },
     initModuleData() {
       const data = JSON.parse(this.data.moduleData)
-      console.log(data);
+      console.log('data=>',data);
       if (data.length <= 5) {
         this.moduleData = data
       }
@@ -175,6 +144,7 @@ export default {
     },
     async queryAllData() {
       const result = await getApprovalList({ userID: this.userInfo.id })
+      console.log('result=>',result);
       const data = result?.data || []
       data.forEach(item => {
         this.absMap[item.typeName] = item.typeValue
