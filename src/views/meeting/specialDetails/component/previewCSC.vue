@@ -136,7 +136,8 @@ export default {
       if (index == this.index) return
       this.time = 0
       this.index = index
-      let local = 'http://localhost:8080/sourcing/#'
+      let local
+      // let local = 'http://localhost:8080/sourcing/#'
       if (item.type === 'FS+MTZ') {
         this.src =
           (local || process.env.VUE_APP_POINT) +
