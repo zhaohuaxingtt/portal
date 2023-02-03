@@ -12,7 +12,6 @@
             <span v-if="getLaunchNum(item.subType) > 99">+</span>
           </div>
           <div class="numName flex-align-center">
-            <!-- <icon symbol class="icon" name="icona-MyApplication" /> -->
             <div>{{ $t('HOME_CARD.MY_APPLICATION') }}</div>
           </div>
         </div>
@@ -23,7 +22,6 @@
             <span v-if="getTodoNum(item.subType) > 99">+</span>
           </div>
           <div class="numName flex-align-center">
-            <!-- <icon symbol class="icon" name="icona-MyApproval" /> -->
             <div>{{ $t('HOME_CARD.MY_APPROVAL') }}</div>
           </div>
         </div>
@@ -76,6 +74,7 @@ export default {
   methods: {
     initModuleData() {
       const data = JSON.parse(this.data.moduleData)
+      console.log('data=>',data);
       if (data.length <= 5) {
         this.moduleData = data
       }
@@ -83,6 +82,7 @@ export default {
     },
     async queryAllData() {
       const result = await getApprovalList({ userID: this.userInfo.id })
+      console.log('result=>',result);
       const data = result?.data || []
       data.forEach(item => {
         this.absMap[item.typeName] = item.typeValue
