@@ -1,7 +1,7 @@
 /*
  * @Author: youyuan
  * @Date: 2021-09-09 14:02:54
- * @LastEditTime: 2023-02-02 14:06:21
+ * @LastEditTime: 2023-02-04 00:02:58
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 年度预算编辑
  * @FilePath: \front-portal\src\api\mtz\annualGeneralBudget\chipReplenishment.js
@@ -197,6 +197,26 @@ export function exportBalanceList(data) {
 export function exportBalanceItemList(data) {
   return downloadChip({
     url: '/exportBalanceItemList',
+    method: 'POST',
+    data,
+    responseType: 'blob'
+  })
+}
+
+// 补差汇总列表分页查询-一次零件,二次零件,二次供应商维度-导出
+export function exportSupplierBalanceSummary(data) {
+  return downloadChip({
+    url: '/exportSupplierBalanceSummary',
+    method: 'POST',
+    data,
+    responseType: 'blob'
+  })
+}
+
+// 补差汇总列表明细查询-一次零件,二次零件,二次供应商维度-导出
+export function exportSupplierBalanceSummaryDetail(data) {
+  return downloadChip({
+    url: '/exportSupplierBalanceSummaryDetail',
     method: 'POST',
     data,
     responseType: 'blob'

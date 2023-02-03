@@ -22,6 +22,7 @@
           :optionLabel="item.optionLabel || 'label'"
           :optionValue="item.optionValue || 'value'"
           :optionLabelEn="item.optionLabelEn || 'labelEn'"
+          :optionSubLabel="item.optionSubLabel || ''"
           :multiple="item.multiple || false"
           :clearable="item.clearable || false"
           :disabled="item.disabled"
