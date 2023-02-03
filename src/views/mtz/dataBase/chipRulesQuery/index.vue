@@ -6,13 +6,13 @@
       <div class="table-header">
         <el-switch v-model="onlySeeMySelf" @change="changeSwitch" :inactive-text="language('ZHIKANZIJI', '只看自己')" />
         <div>
-          <iButton @click="takeEffect(true)" v-permission="PORTAL_MTZ_SEARCH_MTZGUIZECHAXUN_SHENGXIAO">{{
+          <iButton @click="takeEffect(true)" v-permission="PORTAL_DATABASE_SEARCH_CHIPGUIZECHAXUN_SHENGXIAO">{{
               language('SHENGXIAO', '生效')
           }}</iButton>
-          <iButton @click="takeEffect(false)" v-permission="PORTAL_MTZ_SEARCH_MTZGUIZECHAXUN_SHIXIAO">{{
+          <iButton @click="takeEffect(false)" v-permission="PORTAL_DATABASE_SEARCH_CHIPGUIZECHAXUN_SHIXIAO">{{
               language('SHIXIAO', '失效')
           }}</iButton>
-          <iButton @click="handleExportAll" v-permission="PORTAL_MTZ_SEARCH_MTZGUIZECHAXUN_DAOCHU">{{ language('DAOCHU',
+          <iButton @click="handleExportAll" v-permission="PORTAL_DATABASE_SEARCH_CHIPGUIZECHAXUN_DAOCHU">{{ language('DAOCHU',
               '导出')
           }}</iButton>
           <button-table-setting @click="$refs.testTable.openSetting()"></button-table-setting>

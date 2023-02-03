@@ -56,9 +56,9 @@
         <dt
           class="info-header"
           v-if="
-            themen.state === '01' ||
+            (themen.state === '01' ||
               themen.state === '02' ||
-              themen.state === '03'
+              themen.state === '03') && Number(day)>=0
           "
         >
           <div class="time-info">

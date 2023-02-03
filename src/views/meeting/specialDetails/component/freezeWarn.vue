@@ -10,7 +10,7 @@
     <span>
       <img src="@/assets/images/icon/warning.svg" class="img-icon"
     /></span>
-    <span>{{$t("MT_YOUDINGDIANYITIWEIDONGJIERSDAN_QINGQUERENSHIFOUGUANBIHUIYI")}}</span>
+    <span>{{$t("MT_YOUDINGDIANYITIWEIDONGJIERSDAN_HUIYIWUFAGUANBI")}}</span>
     <iTableML :data="warnTableData" class="table-content">
       <el-table-column
         show-overflow-tooltip
@@ -54,8 +54,8 @@
       </el-table-column>
     </iTableML>
     <div class="button-area">
-      <iButton @click="clearDiolog">{{$t('MT_FOU')}}</iButton>
-      <iButton @click="handleYes">{{$t('MT_SHI')}}</iButton>
+      <iButton @click="clearDiolog">{{$t('MT_GUANBI')}}</iButton>
+      <!-- <iButton @click="handleYes">{{$t('MT_SHI')}}</iButton> -->
     </div>
   </iDialog>
 </template>

@@ -1,3 +1,10 @@
+/*
+ * @Author: YoHo
+ * @Date: 2022-04-29 14:10:29
+ * @LastEditors: YoHo && 917955345@qq.com
+ * @Description: In User Settings Edit
+ * @FilePath: \front-portal\src\i18n\en\reportForm.js
+ */
 export default {
     类型名称:'Type Name',
     是否置顶:'Top Or Not',
@@ -35,5 +42,7 @@ export default {
     请选择报表类型: 'Please Select Report Type',
     请输入报表标题: 'Please Input Report Title',
     请选择报表发布时期: 'Please Select Report Published Time',
-    请选择附件: 'Please Select Attachment'
+    请选择附件: 'Please Select Attachment',
+    '共{count}份':'{count} copies in total',
+    '共{count}门':'{count} items in total'
 }

@@ -2423,6 +2423,8 @@
     "请选择需删除的内容":"Please select the content to be deleted",
     "添加舆情供应商":"Add public opinion supplier",
     "请填写完以下信息":"Please complete the following information",
+    '审批数量':"Approval quantity",
+    "申请数量":"Number of applications",
   }
   i18n.setLocaleMessage('en', oldLanguage)
 })

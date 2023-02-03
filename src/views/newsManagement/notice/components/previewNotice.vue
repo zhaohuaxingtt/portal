@@ -25,7 +25,7 @@
               :key="item.id"
               class="open-link-text enclosure-item margin-bottom20"
               @click="
-                downloadEnclosure(item.attachmentUrl, item.attachmentTitle)
+                downloadEnclosure(item.attachmentUrl)
               "
             >
               <img :src="enclosure" alt="" srcset="" class="img" />
@@ -83,11 +83,8 @@ export default {
       this.$router.go(-1)
     },
     // 预览页-下载附件
-    downloadEnclosure(url, name) {
-      createAnchorLink(
-        url, // 前端跨域问题，将api地址替换为反向代理地址
-        name
-      )
+    downloadEnclosure(url) {
+        return window.open(url)
     }
   }
 }
