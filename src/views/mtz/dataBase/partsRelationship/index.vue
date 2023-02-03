@@ -53,24 +53,10 @@
     </i-search>
     <iCard class="OrganizationTable">
       <div class="export">
-        <el-dropdown class="el-dropdownbtn" size="small" @command="dowloadFile">
-            <iButton v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_XZMB" class="el-dropdownbtn">
-              <div @click="openorclose = true" @mouseleave="openorclose = false">
-                <span>下载模板</span>
-                <i v-if="!openorclose" class="el-icon-caret-bottom icon margin-left10 cursor"></i>
-                <i v-if="openorclose" class="el-icon-caret-top icon margin-left10 cursor"></i>
-              </div>
-            </iButton>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="dowloadFileOne" >下载模板</el-dropdown-item>
-              <el-dropdown-item command="dowloadFileTwo" >二次件多点模板下载</el-dropdown-item>
-
-            </el-dropdown-menu>
-        </el-dropdown>
-        <!-- <iButton @click="handleExportCurrent" v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_XZMB">下载模板</iButton> -->
+        <iButton @click="handleExportCurrent" v-permission="PORTAL_DATABASE_SEARCH_PARTSRELATIONSHIP_XZMB">下载模板</iButton>
         <uploadButton
           ref="uploadButton"
-          v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_SCYECJLJGX"
+          v-permission="PORTAL_DATABASE_SEARCH_PARTSRELATIONSHIP_SHANGCHUAN"
           :buttonText="language('LK_SHANGCHUAN', '上传')"
           :uploadByBusiness="true"
           @uploadedCallback="handleUpload($event)"
@@ -86,7 +72,7 @@
         />
         <iButton
           @click="handleExportAll"
-          v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_CKYECJLJGX_XIAZAI"
+          v-permission="PORTAL_DATABASE_SEARCH_PARTSRELATIONSHIP_XIAZAI"
           >下载</iButton
         >
         <button-table-setting
@@ -97,6 +83,7 @@
         <iTableCustom
           ref="testTable"
           class="customClass"
+          permissionKey="partsRelationship-database-query"
           :loading="tableLoading"
           :data="tableListData"
           :columns="partsRelationshipTableSetting"

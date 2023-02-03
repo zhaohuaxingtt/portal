@@ -85,6 +85,11 @@ export default {
       return res
     }
   },
+  watch:{
+    '$i18n.locale'(val){
+      this.getOverview()
+    }
+  },
   created() {
     this.activeData = this.data
     this.getOverview()
@@ -101,7 +106,8 @@ export default {
       this.loading = true
       const res = await fetchTaskCenter({
         userId: this.userId,
-        userTye: this.userType == 1 ? 2 : 1
+        userTye: this.userType == 1 ? 2 : 1,
+        language: this.$i18n.locale == 'zh' ? 'CN' : 'EN'
       }).finally(() => (this.loading = false))
       const data = res || {}
       const titles = Object.keys(data)

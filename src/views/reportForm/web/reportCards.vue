@@ -37,11 +37,11 @@
               </div>
               <img class="img" :src="item.cover" alt="" />
               <div class="info">
-                <span>共{{ item.reportCount }}份</span>
+                <span>{{$t('共{count}份',{count:item.reportCount||'0'})}}</span>
                 <span class="new" v-if="item.isNew">NEW</span>
               </div>
             </div>
-            <div class="title">{{ item.name }}</div>
+            <div class="title">{{ $getLabel(item.name,item.enName) }}</div>
           </el-col>
         </el-row>
       </div>

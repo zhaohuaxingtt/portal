@@ -1,8 +1,8 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-28 16:45:22
- * @LastEditTime: 2022-12-19 22:00:59
- * @LastEditors: 余继鹏 917955345@qq.com
+ * @LastEditTime: 2023-01-17 18:47:19
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: mtz
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\mtz.vue
 -->
@@ -43,6 +43,7 @@
                   formData.appStatus == '未通过'
                 )
               "
+              :loading="exportLoading"
               @click="handleToSignPreview"
               >{{
                 language('DAOCHUHUIWAILIUZHUANDAN', '导出会外流转单')
@@ -880,6 +881,7 @@
       :applayDateData="applayDateDataAll"
       :ruleTableListData="ruleTableListData"
       :partTableListData="partTableListData"
+      @changeStatus="changeStatus"
       ref="signExport"
       style="overflow: hidden; height: 0"
     />
@@ -948,7 +950,8 @@ export default {
       pdfItemHeight: 0,
       remarkPageHeight: 0,
       percentageText: '下载中，请稍后',
-      remarkList: [[]]
+      remarkList: [[]],
+      exportLoading:true
     }
   },
   watch: {
@@ -1336,9 +1339,11 @@ export default {
         } else iMessage.error(res.desZh)
       })
     },
+    changeStatus(val){
+      this.exportLoading = val
+    },
     // 导出会外流转单
     handleToSignPreview() {
-      console.log(this.$refs);
       this.$refs.signExport.downPdf()
       // const { href } = this.$router.resolve({
       //   path: '/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/signPreview',
