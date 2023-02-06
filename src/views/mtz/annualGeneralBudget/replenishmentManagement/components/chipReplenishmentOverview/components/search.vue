@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2023-01-31 16:53:53
+ * @LastEditTime: 2023-02-06 20:10:15
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipReplenishmentOverview\components\search.vue
@@ -83,7 +83,10 @@ import {
   iFormGroup,
   iFormItem
 } from 'rise'
-import { getMtzSupplierList } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
+import {
+  getTaskPrimarySupplierList,
+  getTaskSecondSupplierList
+} from '@/api/mtz/annualGeneralBudget/chipReplenishment'
 import search from '../../components/search'
 import { getNowFormatDate } from './util'
 import { searchFormData } from './data'
@@ -137,9 +140,24 @@ export default {
       // return window.moment(new Date()).format('yyyy-MM-DD')
     },
     init() {
-      getMtzSupplierList({}).then((res) => {
-        if (res.code === '200') {
+      this.getTaskPrimarySupplierList()
+      this.getTaskSecondSupplierList()
+    },
+    
+    // 获取芯片一次件供应商
+    getTaskPrimarySupplierList() {
+      getTaskPrimarySupplierList().then((res) => {
+        if (res?.code == 200) {
           this.options.fsupplierList = JSON.parse(JSON.stringify(res.data))
+        } else {
+          iMessage.error(res.desZh)
+        }
+      })
+    },
+    // 获取芯片二次件供应商
+    getTaskSecondSupplierList() {
+      getTaskSecondSupplierList().then((res) => {
+        if (res?.code == 200) {
           this.options.ssupplierList = JSON.parse(JSON.stringify(res.data))
         } else {
           iMessage.error(res.desZh)

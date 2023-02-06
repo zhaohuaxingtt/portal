@@ -1,7 +1,7 @@
 /*
  * @Author: youyuan
  * @Date: 2021-09-09 14:02:54
- * @LastEditTime: 2023-02-04 00:02:58
+ * @LastEditTime: 2023-02-06 20:01:42
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 年度预算编辑
  * @FilePath: \front-portal\src\api\mtz\annualGeneralBudget\chipReplenishment.js
@@ -12,11 +12,25 @@ const request = axios(process.env.VUE_APP_MTZ + '/web/chip')
 const requestChip = axios(process.env.VUE_APP_MTZ + '/web/balance')
 const downloadChip = axiosDownLoad(process.env.VUE_APP_MTZ + '/web/balance')
 // 获取一次件供应商
-export function getSupplierByuser(params) {
+export function getSupplierByUser(params) {
   return request({
-    url: '/common/getSupplierByUser',
+    url: '/commonDropDown/getSupplierByUser',
     method: 'POST',
     data: params
+  })
+}
+// 获取芯片一次件供应商
+export function getTaskPrimarySupplierList() {
+  return request({
+    url: '/common/getTaskPrimarySupplierList',
+    method: 'POST',
+  })
+}
+// 获取芯片二次件供应商
+export function getTaskSecondSupplierList() {
+  return request({
+    url: '/common/getTaskSecondSupplierList',
+    method: 'POST',
   })
 }
 
@@ -167,7 +181,7 @@ export function getBalanceTaskStatusList(params) {
 }
 
 // 获取芯片补差单状态下拉列表
-export function getBalanceStatusList(params) {
+export function getBalanceStatusList() {
   return request({
     url: '/common/getBalanceStatusList',
     method: 'POST',
