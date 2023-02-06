@@ -15,10 +15,10 @@
             v-model="formData.businessType"
           >
             <el-option
-              v-for="(j, index) in infoList"
+              v-for="(j, index) in typeList"
               :key="index"
-              :value="j.id"
-              :label="j.nameZh"
+              :value="j.code"
+              :label="j.name"
             >
             </el-option>
           </iSelect>
@@ -29,13 +29,13 @@
             :placeholder="$t('partsprocure.PLEENTER')"
             v-model="formData.status"
           >
-            <el-option
-              v-for="(j, index) in infoList"
+            <!-- <el-option
+              v-for="(j, index) in statusList"
               :key="index"
-              :value="j.id"
-              :label="j.nameZh"
+              :value="j.code"
+              :label="j.name"
             >
-            </el-option>
+            </el-option> -->
           </iSelect>
         </el-form-item>
       </el-form>
@@ -53,6 +53,12 @@
         :tableTitle="tableTitle"
         :tableLoading="tableLoading"
       >
+      <template #modelType="scope">
+          <span>{{ scope.row.modelType?typeList.find(val=>val.code==scope.row.modelType).name:'' }}</span>
+        </template>
+        <template #status="scope">
+          <span>{{ scope.row.status?typeList.find(val=>val.code==scope.row.status).name:'' }}</span>
+        </template>
       </tableList>
       <iPagination
         v-update
@@ -98,7 +104,7 @@
           :label="$t('数据日期：')"
         >
           <el-date-picker
-            value-format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd 00:00:00"
             v-model="form.dataTime"
             type="date"
             placeholder="选择日期"
@@ -142,7 +148,7 @@
             type="daterange"
             align="right"
             unlink-panels
-            value-format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd 00:00:00"
             range-separator="至"
             start-placeholder="开始日期"
             end-placeholder="结束日期"
@@ -227,6 +233,7 @@ export default {
   data() {
     return {
       typeList: [],
+      statusList:[],
       supplierDiolog: false,
       pickerOptions: pickerOptions,
       dataTime: [],
@@ -257,6 +264,13 @@ export default {
           }
         })
         .catch(() => {})
+        // getDictByCode('SUPPLIER_PERFORMANCE_MODEL_TYPE')
+        // .then((res) => {
+        //   if (res.data) {
+        //     this.statusList = res?.data[0]?.subDictResultVo
+        //   }
+        // })
+        // .catch(() => {})
     },
     openPreDetail(item) {
       let routeUrl = this.$router.resolve({
@@ -292,8 +306,6 @@ export default {
     //点击创建版本下一步
     submit(v) {
       if (v == 'to' && this.active != 3) {
-        this.active = this.active + 1
-
         if (this.active == 1) {
           this.form.statisticsStartDate = this.dataTime[0]
           this.form.statisticsEndDate = this.dataTime[1]
@@ -301,7 +313,7 @@ export default {
             if (res.code == '200') {
               this.tableLoading2 = true
               iMessage.success(this.$t('LK_CAOZUOCHENGGONG'))
-              addSupplierPerforManceModelRelation({ modelId: res.data }).then(
+              addSupplierPerforManceModelRelation({ modelId: res.data.id }).then(
                 (val) => {
                   if (res.code == '200') {
                     this.tableLoading2 = false
@@ -317,6 +329,7 @@ export default {
             }
           })
         } else {
+          this.active = this.active + 1
         }
       } else if (v == 'back' && this.active != 0) {
         this.active = this.active - 1
@@ -327,6 +340,8 @@ export default {
       this.tableListData2 = [...this.tableListData2, ...v]
     },
     clearDiolog() {
+      this.active = 0
+      this.addVersionDiolog = false
       this.form = {}
     },
 
@@ -340,8 +355,8 @@ export default {
       getSupplierPerforManceModelPage(parms).then((res) => {
         if (res.code == '200') {
           this.tableLoading = false
-          this.tableListData = res.data.data
-          this.page.totalCount = res.data.total
+          this.tableListData = res.data
+          this.page.totalCount = res.total
         } else {
           this.tableLoading = false
         }
