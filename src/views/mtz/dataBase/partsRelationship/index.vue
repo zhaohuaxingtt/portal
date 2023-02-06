@@ -53,13 +53,35 @@
     </i-search>
     <iCard class="OrganizationTable">
       <div class="export">
-        <iButton @click="handleExportCurrent" v-permission="PORTAL_DATABASE_SEARCH_PARTSRELATIONSHIP_XZMB">下载模板</iButton>
+        <!-- <iButton @click="handleExportCurrent" v-permission="PORTAL_DATABASE_SEARCH_PARTSRELATIONSHIP_XZMB">下载模板</iButton> -->
+        <el-dropdown class="el-dropdownbtn" size="small" @command="dowloadFile">
+            <iButton v-permission="PORTAL_DATABASE_SEARCH_PARTSRELATIONSHIP_XZMB" class="el-dropdownbtn">
+              <div @click="openorclose = true" @mouseleave="openorclose = false">
+                <span>下载模板</span>
+                <i v-if="!openorclose" class="el-icon-caret-bottom icon margin-left10 cursor"></i>
+                <i v-if="openorclose" class="el-icon-caret-top icon margin-left10 cursor"></i>
+              </div>
+            </iButton>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="dowloadFileOne" >下载模板</el-dropdown-item>
+              <el-dropdown-item command="dowloadFileTwo" >二次件多点模板下载</el-dropdown-item>
+
+            </el-dropdown-menu>
+        </el-dropdown>
         <uploadButton
           ref="uploadButton"
           v-permission="PORTAL_DATABASE_SEARCH_PARTSRELATIONSHIP_SHANGCHUAN"
           :buttonText="language('LK_SHANGCHUAN', '上传')"
           :uploadByBusiness="true"
           @uploadedCallback="handleUpload($event)"
+          class="margin-left10 margin-right10"
+        />
+        <uploadButton
+          ref="uploadButton"
+          v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_SCYECJLJGX"
+          :buttonText="'二次件多点模板上传'"
+          :uploadByBusiness="true"
+          @uploadedCallback="handleUploadTwo($event)"
           class="margin-left10 margin-right10"
         />
         <iButton
@@ -104,6 +126,14 @@
     >
       <Detail :bomInfo="bomInfo" />
     </iDialog>
+    <iDialog
+      :visible.sync="isShowMsg"
+      v-if="isShowMsg"
+      :title="language('MINGXILIEBIAO', '明细列表')"
+      width="80%"
+    >
+      <tanleDetail :tableInfo="tableInfo" />
+    </iDialog>
   </div>
 </template>
 
@@ -124,13 +154,16 @@ import {
 import iTableCustom from '@/components/iTableCustom'
 import { pageMixins } from '@/utils/pageMixins'
 import { partsRelationship, partsRelationshipTableSetting } from './data'
+import tanleDetail from './tanleDetail'
+
 import Detail from './partsRelationshipDetail'
-import { infoPage, uploadPartExcel, feignDownload } from '@/api/mtz/database/partsQuery'
+import { infoPage, uploadPartExcel, feignDownload,uploadSecPartExcel } from '@/api/mtz/database/partsQuery'
 import { downloadUdFile } from '@/api/file'
 import uploadButton from '@/components/uploadButton'
 import buttonTableSetting from '@/components/buttonTableSetting'
 export default {
   components: {
+    tanleDetail,
     iSearch,
     iInput,
     iSelect,
@@ -149,6 +182,8 @@ export default {
   mixins: [pageMixins],
   data() {
     return {
+      tableInfo:[],
+      isShowMsg:false,
       isShow: false,
       formData: {}, //表单数据
       tableListData: [], //表格数据
@@ -158,17 +193,42 @@ export default {
       importDateStart: null,
       startDateStart: null,
       bomInfo: {},
-      selection: []
+      selection: [],
+      openorclose:false,
     }
   },
   mounted() {
     this.getList()
   },
   methods: {
-    handleExportCurrent () {
-      feignDownload('1491338755962384386').then(res => {
+    dowloadFile(code){
+      if(code=='dowloadFileOne'){
+        this.handleExportCurrent('1491338755962384386')
+      }else{
+        this.handleExportCurrent('1491338755962384387')
+      }
+
+    },
+    
+    handleExportCurrent (val) {
+      feignDownload(val).then(res => {
         if (res.data) {
           downloadUdFile(res.data)
+        }
+      })
+    },
+    handleUploadTwo(content) {
+      let formdata = new FormData()
+      formdata.append('file', content.file)
+      uploadSecPartExcel(formdata).then((res) => {
+        this.files = null
+        if(res.data){
+          iMessage.success(res.desZh)
+        }else if(res.data==false){
+          this.tableInfo=JSON.parse(res.desZh)
+          this.isShowMsg=true 
+        }else{
+          iMessage.warn(res.desZh)
         }
       })
     },
