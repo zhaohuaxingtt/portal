@@ -3,70 +3,86 @@ import axios from '@/utils/axios'
 const requst = axios(process.env.VUE_APP_SUPPLIER + '/web')
 
 export function getIndicator(id) {
-    return requst({
-      url: '/indicatorLibrary/getIndicator/?indicatorId='+ id,
-      method: 'GET',
-    })
-  }
-  // 获取指标集合
+  return requst({
+    url: '/indicatorLibrary/getIndicator/?indicatorId=' + id,
+    method: 'GET',
+  })
+}
+// 获取指标集合
 export function getIndicatorList() {
-    return requst({
-      url: '/indicatorLibrary/getIndicatorList',
-      method: 'GET',
-    })
-  }
-  // 添加手工指标
-  export function addIndicator(parmars) {
-    return requst({
-      url: '/indicatorLibrary/addIndicator',
-      method: 'POST',
-      data: parmars
-    })
-  }
-   // 删除手工指标
-   export function delIndicator(parmars) {
-    return requst({
-      url: '/indicatorLibrary/delIndicator',
-      method: 'POST',
-      data: parmars
-    })
-  }
-   // 修改手工指标
-   export function updateIndicator(parmars) {
-    return requst({
-      url: '/indicatorLibrary/updateIndicator',
-      method: 'POST',
-      data: parmars
-    })
-  }
-   // 根据模板id获取指标树
-   export function getModelTree(id) {
-    return requst({
-      url: '/performanceModel/getModelTree?modelId='+id,
-      method: 'GET',
-    })
-  }
-   // 添加模型指标
-   export function addModelTree(parmars) {
-    return requst({
-      url: '/performanceModel/addModelTree',
-      method: 'POST',
-      data: parmars
-    })
-  }
-     // 绩效版本列表
-     export function getSupplierPerforManceModelPage(parmars) {
-      return requst({
-        url: '/supplierPerformanceTask/getSupplierPerforManceModelPage',
-        method: 'POST',
-        data: parmars
-      })
-    }
-       // 上传绩效打分指南
-   export function uploadPerformanceModelFile(parmars) {
-    return requst({
-      url: '/supplierPerformanceTask/uploadPerformanceModelFile',
-      method: 'POST',
-      data: parmars
-    })
-  } 
+  return requst({
+    url: '/indicatorLibrary/getIndicatorList',
+    method: 'GET',
+  })
+}
+// 添加手工指标
+export function addIndicator(parmars) {
+  return requst({
+    url: '/indicatorLibrary/addIndicator',
+    method: 'POST',
+    data: parmars
+  })
+}
+// 删除手工指标
+export function delIndicator(parmars) {
+  return requst({
+    url: '/indicatorLibrary/delIndicator',
+    method: 'POST',
+    data: parmars
+  })
+}
+// 修改手工指标
+export function updateIndicator(parmars) {
+  return requst({
+    url: '/indicatorLibrary/updateIndicator',
+    method: 'POST',
+    data: parmars
+  })
+}
+// 根据模板id获取指标树
+export function getModelTree(id) {
+  return requst({
+    url: '/performanceModel/getModelTree?modelId=' + id,
+    method: 'GET',
+  })
+}
+// 添加模型指标
+export function addModelTree(parmars) {
+  return requst({
+    url: '/performanceModel/addModelTree',
+    method: 'POST',
+    data: parmars
+  })
+}
+// 绩效版本列表
+export function getSupplierPerforManceModelPage(parmars) {
+  return requst({
+    url: '/supplierPerformanceTask/getSupplierPerforManceModelPage',
+    method: 'POST',
+    data: parmars
+  })
+}
+// 上传绩效打分指南
+export function uploadPerformanceModelFile(parmars) {
+  return requst({
+    url: '/supplierPerformanceTask/uploadPerformanceModelFile',
+    method: 'POST',
+    data: parmars
+  })
+} 
+// 创建绩效版本模型
+export function addSupplierPerforManceModel(parmars) {
+  return requst({
+    url: '/supplierPerformanceTask/addSupplierPerforManceModel',
+    method: 'POST',
+    data: parmars
+  })
+} 
+// 创建供应商和模型关系
+export function addSupplierPerforManceModelRelation(parmars) {
+  return requst({
+    url: '/supplierPerformanceTask/addSupplierPerforManceModelRelation',
+    method: 'POST',
+    data: parmars
+  })
+} 

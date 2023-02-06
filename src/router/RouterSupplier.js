@@ -456,6 +456,12 @@ export default [
             component: () =>
               import('@/views/supplierManagement/supplierKPI/supplierIndexManage')
           },
+          {
+            path: 'supplierVersion',
+            name: 'supplierVersion',
+            component: () =>
+              import('@/views/supplierManagement/supplierKPI/supplierVersion')
+          },
         ]
       },
       {
