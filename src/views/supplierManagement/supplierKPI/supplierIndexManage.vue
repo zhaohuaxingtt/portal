@@ -5,15 +5,14 @@
         <div>
           <el-form>
             <el-form-item class="SearchOption">
-              <iSelect v-model="selectValue">
+              <iSelect @change="changVersion" v-model="selectValue">
                 <el-option
                   v-for="(x, index) in dropDownOptions"
                   :key="index"
-                  :label="x.value"
-                  :value="x.key"
+                  :label="x.modelVersion"
+                  :value="x.id"
                 ></el-option>
               </iSelect>
-              
             </el-form-item>
           </el-form>
           <div class="titleinof">
@@ -74,56 +73,34 @@ export default {
         deptId: ''
       },
       dropDownOptions: [],
-      allData: [],
+      allData: {
+        treeVO: [],
+        indicatorLibraryId: '',
+        title: '',
+        weight: ''
+      },
       saveData: [],
       selectValue: '',
       templateName: ''
     }
   },
   created() {
-    this.getSelectKpiList({
-      deptCode: this.$store.state.permission.userInfo.deptDTO.deptNum
-    })
+    this.getDetail()
   },
-  mounted() {
-    // this.getDetail("1")
-  },
-  watch: {
-    dropDownOptions() {
-      if (this.dropDownOptions.length > 0) {
-        let leg = this.dropDownOptions.length - 1
-        this.selectValue = this.dropDownOptions[leg].key
-        this.handleChange()
-      }
-    }
-  },
+  mounted() {},
+  watch: {},
   methods: {
-    saveVersion() {
-      this.getSelectKpiList({
-        deptCode: this.$store.state.permission.userInfo.deptDTO.deptNum
-      })
-    },
-    getSelectKpiList(params) {
-      slelectkpiList(params).then((res) => {
-        this.dropDownOptions = res.data
+    changVersion(v) {
+      getModelTree(v).then((res) => {
+        if (res.code == '200') {
+          this.allData = res.data
+        }
       })
     },
     getDetail(x) {
-      templateDetail({ pageNo: 1, pageSize: 100, templateId: x }).then(
-        (res) => {
-          if (res.code == '200') {
-            console.log(res.data)
-            this.allData = JSON.parse(JSON.stringify(res.data))
-          }
-        }
-      )
-    },
-    changeSaveData(data) {},
-    handleChange() {
-      this.getDetail(this.selectValue)
-      this.dropDownOptions.forEach((x) => {
-        if (x.key == this.selectValue) {
-          this.templateName = x.value
+      getModelTree().then((res) => {
+        if (res.code == '200') {
+          this.dropDownOptions = res.data
         }
       })
     }

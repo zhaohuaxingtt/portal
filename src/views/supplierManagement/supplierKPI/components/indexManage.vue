@@ -67,7 +67,7 @@
         :rules="rules"
         ref="ruleForm"
       >
-        <el-form-item :label="$t('指标名称（CN)')" prop="nameEn">
+        <el-form-item :label="$t('指标名称（CN)')" prop="nameZh">
           <i-input
             style="width: 200px"
             :placeholder="$t('partsprocure.PLEENTER')"
@@ -75,7 +75,7 @@
           >
           </i-input>
         </el-form-item>
-        <el-form-item :label="$t('指标名称（EN)')" prop="nameZh">
+        <el-form-item :label="$t('指标名称（EN)')" prop="nameEn">
           <i-input
             style="width: 200px"
             :placeholder="$t('partsprocure.PLEENTER')"

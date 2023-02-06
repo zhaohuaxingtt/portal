@@ -39,3 +39,34 @@ export function getIndicatorList() {
       data: parmars
     })
   }
+   // 根据模板id获取指标树
+   export function getModelTree(id) {
+    return requst({
+      url: '/performanceModel/getModelTree?modelId='+id,
+      method: 'GET',
+    })
+  }
+   // 添加模型指标
+   export function addModelTree(parmars) {
+    return requst({
+      url: '/performanceModel/addModelTree',
+      method: 'POST',
+      data: parmars
+    })
+  }
+     // 绩效版本列表
+     export function getSupplierPerforManceModelPage(parmars) {
+      return requst({
+        url: '/supplierPerformanceTask/getSupplierPerforManceModelPage',
+        method: 'POST',
+        data: parmars
+      })
+    }
+       // 上传绩效打分指南
+   export function uploadPerformanceModelFile(parmars) {
+    return requst({
+      url: '/supplierPerformanceTask/uploadPerformanceModelFile',
+      method: 'POST',
+      data: parmars
+    })
+  } 
