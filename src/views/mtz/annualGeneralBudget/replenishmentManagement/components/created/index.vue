@@ -25,7 +25,7 @@
           ></iLabel>
           <mySelect
             style="width: 240px"
-            :data="fsupplierList"
+            :data="supplierList"
             @change="handleChangeFsupplier"
             :searchValue="searchForm.sapCode"
             :placeholder="language('QINGXUANZE', '请选择')"
@@ -62,7 +62,7 @@
           style="marginright: 68px"
           :label="language('ZHUANGTAI', '状态')"
         >
-          <iInput v-model="status" disabled> </iInput>
+          <iInput v-model="statusName" disabled> </iInput>
         </iFormItem>
       </iFormGroup>
       <el-divider></el-divider>
@@ -126,7 +126,7 @@ import { tableTitle } from './components/data'
 import continueBox from './components/continueBox'
 import mySelect from './components/mySelect'
 import {
-  getSupplierByuser,
+  getSupplierByUser,
   calculate,
   saveBalance,
   findBalanceById,
@@ -155,7 +155,7 @@ export default {
   },
   data() {
     return {
-      fsupplierList: [],
+      supplierList: [],
       searchForm: {
         sapCode: '',
         supplierName: '',
@@ -193,7 +193,7 @@ export default {
       findBalanceById({balanceId:this.balanceId}).then(res=>{
         console.log(res);
         if(res?.code=='200'){
-          this.statusName = res.data.balanceBase.statusName
+          this.statusName = res.data.balanceTaskBase.taskStatusName
           this.supplier = res.data.balanceBase.supplierSapCode+'-'+res.data.balanceBase.supplierName
           this.searchForm.sapCode = res.data.balanceBase.supplierSapCode
           this.searchForm.supplierName = res.data.balanceBase.supplierName
@@ -232,9 +232,9 @@ export default {
     },
     // 查询一次件供应商
     getSupplierByuser() {
-      getSupplierByuser({}).then((res) => {
+      getSupplierByUser({}).then((res) => {
         if (res.code === '200') {
-          this.fsupplierList = JSON.parse(JSON.stringify(res.data))
+          this.supplierList = JSON.parse(JSON.stringify(res.data))
         } else {
           iMessage.error(res.desZh)
         }

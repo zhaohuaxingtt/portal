@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-17 13:17:43
- * @LastEditTime: 2023-01-31 13:37:26
+ * @LastEditTime: 2023-02-06 20:17:13
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\theSearch.vue
@@ -25,8 +25,10 @@ import {
   getApprovalStatus
 } from '@/api/mtz/annualGeneralBudget/supplementaryList'
 import {
-  getMtzSupplierList
-} from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
+  getBalanceStatusList,
+  getTaskPrimarySupplierList,
+  getTaskSecondSupplierList
+} from '@/api/mtz/annualGeneralBudget/chipReplenishment'
 import { fetchRemoteDept } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
 import search from '../../components/search.vue'
 import { queryFormData } from './data'
@@ -58,16 +60,24 @@ export default {
       this.getDeptData()
       this.getApplicants()
       this.getApprovalStatus()
-      getMtzSupplierList({}).then((res) => {
-        if (res.code === '200') {
-          this.options.fsupplierList = res.data
+      this.getTaskPrimarySupplierList()
+      this.getTaskSecondSupplierList()
+    },
+    // 获取芯片一次件供应商
+    getTaskPrimarySupplierList() {
+      getTaskPrimarySupplierList().then((res) => {
+        if (res?.code == 200) {
+          this.options.fsupplierList = JSON.parse(JSON.stringify(res.data))
         } else {
           iMessage.error(res.desZh)
         }
       })
-      getMtzSupplierList({}).then((res) => {
-        if (res.code === '200') {
-          this.options.ssupplierList = res.data
+    },
+    // 获取芯片二次件供应商
+    getTaskSecondSupplierList() {
+      getTaskSecondSupplierList().then((res) => {
+        if (res?.code == 200) {
+          this.options.ssupplierList = JSON.parse(JSON.stringify(res.data))
         } else {
           iMessage.error(res.desZh)
         }
@@ -83,9 +93,7 @@ export default {
     },
     //单据状态下拉选择
     getApprovalStatus(key) {
-      getApprovalStatus({
-        keyWords: key
-      }).then((res) => {
+      getBalanceStatusList().then((res) => {
         this.options.approvalStatus = res.data
       })
     },

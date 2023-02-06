@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-14 14:44:54
- * @LastEditTime: 2023-02-03 23:52:05
+ * @LastEditTime: 2023-02-06 20:05:35
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\created\computePage.vue
@@ -140,6 +140,7 @@ import { pageMixins } from '@/utils/pageMixins'
 import tableList from '@/components/commonTable/index.vue'
 import search from '../components/search.vue'
 import {
+  getSupplierByUser,
   findBalanceById,
   updateBalance,
   sendSupplierConfirm,
@@ -229,7 +230,7 @@ export default {
   created() {
     this.supplierType = this.$route.query.type == '1' ? '一次件' : '散件'
     this.balanceId = this.$route.query.balanceId
-    this.getSecondSupplier()
+    this.getSupplierByUser()
     if (this.balanceId) {
       this.findBalanceById()
     } else {
@@ -251,7 +252,7 @@ export default {
         console.log(res)
         if (res?.code == '200') {
           this.info = res.data
-          this.statusName = res.data.balanceBase.statusName
+          this.statusName = res.data.balanceTaskBase.taskStatusName
           let detailInfo = res.data.balanceBase
           detailInfo.supplier =
             res.data.balanceBase.supplierSapCode +
@@ -265,6 +266,8 @@ export default {
           detailInfo.approvedAmount =
             res.data.balanceBase.approvedAmount ||
             res.data.balanceBase.approvedAmount
+            
+          detailInfo.statusName = res.data.balanceTaskBase.taskStatusName
           this.$set(this, 'detailInfo', detailInfo)
           this.tableData = res.data.balanceRuleList
           this.savedBalanceItemList = res.data.savedBalanceItemList || [] // 已发起凭证
@@ -341,8 +344,8 @@ export default {
       // })
     },
     // 获取二次件供应商编号-名称
-    getSecondSupplier() {
-      getMtzSupplierList({}).then((res) => {
+    getSupplierByUser() {
+      getSupplierByUser().then((res) => {
         if (res && res.code == 200) {
           this.options.sSupplierDropDownData = res.data
         } else iMessage.error(res.desZh)
