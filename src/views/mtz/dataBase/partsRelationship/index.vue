@@ -53,7 +53,21 @@
     </i-search>
     <iCard class="OrganizationTable">
       <div class="export">
-        <iButton @click="handleExportCurrent" v-permission="PORTAL_DATABASE_SEARCH_PARTSRELATIONSHIP_XZMB">下载模板</iButton>
+        <!-- <iButton @click="handleExportCurrent" v-permission="PORTAL_DATABASE_SEARCH_PARTSRELATIONSHIP_XZMB">下载模板</iButton> -->
+        <el-dropdown class="el-dropdownbtn" size="small" @command="dowloadFile">
+            <iButton v-permission="PORTAL_DATABASE_SEARCH_PARTSRELATIONSHIP_XZMB" class="el-dropdownbtn">
+              <div @click="openorclose = true" @mouseleave="openorclose = false">
+                <span>下载模板</span>
+                <i v-if="!openorclose" class="el-icon-caret-bottom icon margin-left10 cursor"></i>
+                <i v-if="openorclose" class="el-icon-caret-top icon margin-left10 cursor"></i>
+              </div>
+            </iButton>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="dowloadFileOne" >下载模板</el-dropdown-item>
+              <el-dropdown-item command="dowloadFileTwo" >二次件多点模板下载</el-dropdown-item>
+
+            </el-dropdown-menu>
+        </el-dropdown>
         <uploadButton
           ref="uploadButton"
           v-permission="PORTAL_DATABASE_SEARCH_PARTSRELATIONSHIP_SHANGCHUAN"
