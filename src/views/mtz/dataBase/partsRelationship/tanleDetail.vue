@@ -4,7 +4,7 @@
     <tableList
       ref="commonTable"
       :tableData="tableInfo"
-      :tableTitle="tableDetail"
+      :tableTitle="tableTitle"
       :index="true"
     />
   </div>
@@ -13,17 +13,7 @@
 <script>
 import { iInput, iButton, iPagination } from 'rise'
 import { tableDetail } from './data'
-
-import {
-  partsRelationshipDetailFormData,
-  partsRelationshipDetailTableSetting
-} from './data'
-import { pageMixins } from '@/utils/pageMixins'
 import { excelExport } from '@/utils/filedowLoad'
-import {
-  partPageByBomInfoId,
-  partExportByBomInfoId
-} from '@/api/mtz/database/partsQuery'
 import tableList from '@/components/commonTable'
 export default {
   components: {
@@ -34,13 +24,13 @@ export default {
   },
   props: {
     tableInfo: {
-      type: Object
+      type: Array,
+      default: () => []
     }
   },
-  mixins: [pageMixins],
   data() {
     return {
-
+      tableTitle:tableDetail,
     }
   },
   mounted() {
@@ -48,9 +38,10 @@ export default {
   },
   methods: {
     getList() {
+      console.log(this.tableInfo)
     },
     exportAll() {
-      excelExport(this.tableInfo, '错误列表')
+      excelExport(this.tableInfo, this.tableTitle,'错误列表')
     }
   }
 }

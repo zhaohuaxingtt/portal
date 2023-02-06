@@ -129,7 +129,7 @@
     <iDialog
       :visible.sync="isShowMsg"
       v-if="isShowMsg"
-      :title="language('MINGXILIEBIAO', '明细列表')"
+      :title="'错误信息'"
       width="80%"
     >
       <tanleDetail :tableInfo="tableInfo" />
@@ -226,6 +226,8 @@ export default {
           iMessage.success(res.desZh)
         }else if(res.data==false){
           this.tableInfo=JSON.parse(res.desZh)
+          console.log(this.tableInfo)
+
           this.isShowMsg=true 
         }else{
           iMessage.warn(res.desZh)

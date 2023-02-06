@@ -6,13 +6,13 @@ export const partsRelationship = [
   { props: 'carType', name: '车  型', key: 'CHEXING' }
 ]
 export const tableDetail = [
-  { props: 'firPartNo', name: '一次件', key: '一次件' },
-  { props: 'firSupSapCode', name: '一次件供应商', key: '一次件供应商' },
-  { props: 'secPartNo', name: '二次件', key: '二次件' },
-  { props: 'secSupSapCode', name: '二次件供应商', key: '二次件供应商' },
-  { props: 'dosage', name: '用量', key: '用量' },
-  { props: 'unit', name: '单位', key: '单位' },
-  { props: 'scale', name: '比例', key: '比例' },
+  // { props: 'firPartNo', name: '一次件', key: '一次件' },
+  // { props: 'firSupSapCode', name: '一次件供应商', key: '一次件供应商' },
+  // { props: 'secPartNo', name: '二次件', key: '二次件' },
+  // { props: 'secSupSapCode', name: '二次件供应商', key: '二次件供应商' },
+  // { props: 'dosage', name: '用量', key: '用量' },
+  // { props: 'unit', name: '单位', key: '单位' },
+  { props: 'msg', name: '错误信息', key: '错误信息'},
 ]
 
 // 查看一二次零件表头
