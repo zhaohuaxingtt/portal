@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-10 15:22:16
- * @LastEditTime: 2023-02-06 14:36:00
+ * @LastEditTime: 2023-02-06 16:59:55
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\components\login\index.vue
@@ -101,7 +101,7 @@ export default {
     }
   },
   created() {
-    if (this.$route.path.indexOf('superLogin') > -1) {
+    if (this.$route.path.indexOf('superLogin') > -1 || this.$route.path.indexOf('login') > -1) {
       //nothing to do
     } else {
       const token = getToken()
