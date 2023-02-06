@@ -43,8 +43,8 @@
     <iCard style="margin-top: 20px">
       <template #header-control>
         <iButton @click="initiate">供应商导入模板下载</iButton>
-        <iButton @click="update">CS科室打分权重设置</iButton>
-        <iButton @click="exportFile">定时规则设置</iButton>
+        <!-- <iButton @click="update">CS科室打分权重设置</iButton>
+        <iButton @click="exportFile">定时规则设置</iButton> -->
         <iButton @click="addVersion">创建版本</iButton>
       </template>
       <tableList
@@ -53,11 +53,19 @@
         :tableTitle="tableTitle"
         :tableLoading="tableLoading"
       >
-      <template #modelType="scope">
-          <span>{{ scope.row.modelType?typeList.find(val=>val.code==scope.row.modelType).name:'' }}</span>
+        <template #modelType="scope">
+          <span>{{
+            scope.row.modelType
+              ? typeList.find((val) => val.code == scope.row.modelType).name
+              : ''
+          }}</span>
         </template>
         <template #status="scope">
-          <span>{{ scope.row.status?typeList.find(val=>val.code==scope.row.status).name:'' }}</span>
+          <span>{{
+            scope.row.status
+              ? typeList.find((val) => val.code == scope.row.status).name
+              : ''
+          }}</span>
         </template>
       </tableList>
       <iPagination
@@ -79,7 +87,7 @@
       width="60%"
       @close="clearDiolog"
     >
-      <el-steps align-center :active="active">
+      <el-steps finish-status="success" align-center :active="active">
         <el-step title="基本信息"></el-step>
         <el-step title="确认统计周期"></el-step>
         <el-step title="确认供应商范围"></el-step>
@@ -104,7 +112,7 @@
           :label="$t('数据日期：')"
         >
           <el-date-picker
-            value-format="yyyy-MM-dd 00:00:00"
+            value-format="yyyy-MM-dd"
             v-model="form.dataTime"
             type="date"
             placeholder="选择日期"
@@ -160,7 +168,7 @@
       <div v-if="active == 2">
         <div class="dialogButon">
           <iButton @click="addSupplier">添加</iButton>
-          <iButton @click="update">移除</iButton>
+          <iButton @click="delSupplier">移除</iButton>
           <iButton @click="exportFile">模板下载</iButton>
           <iButton @click="addVersion">批量导入</iButton>
         </div>
@@ -169,17 +177,21 @@
           border
           :tableData="tableListData2"
           :tableTitle="tableTitle2"
-          :tableLoading="tableLoading2"
-          @handle-selection-change="handleSelectionChange"
+          @handleSelectionChange="handleSelectionChange"
         >
         </tableList>
       </div>
 
       <span slot="footer" class="dialog-footer">
-        <iButton @click="submit('back')">{{
-          $t('SUPPLIER_SHANGYIBU')
+        <iButton v-if="active != 3" @click="submit('canle')">{{
+          $t('LK_QUXIAO')
         }}</iButton>
-        <iButton @click="submit('to')">{{ $t('SUPPLIER_XIAYIBU') }}</iButton>
+        <iButton v-if="active != 3" @click="submit('to')">{{
+          $t('SUPPLIER_XIAYIBU')
+        }}</iButton>
+        <iButton v-if="active == 3" @click="submit('finish')">{{
+          '完成'
+        }}</iButton>
       </span>
     </iDialog>
     <supplier
@@ -233,7 +245,7 @@ export default {
   data() {
     return {
       typeList: [],
-      statusList:[],
+      statusList: [],
       supplierDiolog: false,
       pickerOptions: pickerOptions,
       dataTime: [],
@@ -241,9 +253,8 @@ export default {
       dateTime: ['2023-1-1', '2023-12-31'],
       form: {},
       addVersionDiolog: false,
-      tableLoading2: false,
       tableListData2: [],
-      tableTitle2: cloneDeep(tableTitle),
+      tableTitle2: cloneDeep(tableTitle2),
       tableLoading: false,
       tableListData: [],
       tableTitle: cloneDeep(tableTitle),
@@ -264,13 +275,13 @@ export default {
           }
         })
         .catch(() => {})
-        // getDictByCode('SUPPLIER_PERFORMANCE_MODEL_TYPE')
-        // .then((res) => {
-        //   if (res.data) {
-        //     this.statusList = res?.data[0]?.subDictResultVo
-        //   }
-        // })
-        // .catch(() => {})
+      // getDictByCode('SUPPLIER_PERFORMANCE_MODEL_TYPE')
+      // .then((res) => {
+      //   if (res.data) {
+      //     this.statusList = res?.data[0]?.subDictResultVo
+      //   }
+      // })
+      // .catch(() => {})
     },
     openPreDetail(item) {
       let routeUrl = this.$router.resolve({
@@ -305,25 +316,23 @@ export default {
     },
     //点击创建版本下一步
     submit(v) {
-      if (v == 'to' && this.active != 3) {
-        if (this.active == 1) {
+      if (v == 'to' && this.active != 4) {
+        if (this.active == 2) {
           this.form.statisticsStartDate = this.dataTime[0]
           this.form.statisticsEndDate = this.dataTime[1]
           addSupplierPerforManceModel(this.form).then((res) => {
             if (res.code == '200') {
-              this.tableLoading2 = true
-              iMessage.success(this.$t('LK_CAOZUOCHENGGONG'))
-              addSupplierPerforManceModelRelation({ modelId: res.data.id }).then(
-                (val) => {
-                  if (res.code == '200') {
-                    this.tableLoading2 = false
-                    this.tableListData2 = val.data
-                  } else {
-                    this.tableLoading2 = false
-                    iMessage.error(res.desZh)
-                  }
+              this.active = 3
+
+              addSupplierPerforManceModelRelation({
+                modelId: res.data.id,
+                relationAddList: this.tableListData2
+              }).then((val) => {
+                if (val.code == '200') {
+                } else {
+                  iMessage.error(val.desZh)
                 }
-              )
+              })
             } else {
               iMessage.error(res.desZh)
             }
@@ -333,11 +342,25 @@ export default {
         }
       } else if (v == 'back' && this.active != 0) {
         this.active = this.active - 1
+      } else if (v == 'canle' || v == 'finish') {
+        this.clearDiolog()
+        this.getTableList()
       }
     },
     //点击创建绩效版本供应商
     addsupplier(v) {
-      this.tableListData2 = [...this.tableListData2, ...v]
+      this.tableListData2 = v
+    },
+    delSupplier() {
+      if (this.selectTableData.length == 0) return iMessage.warn('未选择记录')
+
+      this.selectTableData.forEach((item, j) => {
+        this.tableListData2.forEach((val, i) => {
+          if (val.index == item.index) {
+            this.tableListData2.splice(i, 1)
+          }
+        })
+      })
     },
     clearDiolog() {
       this.active = 0

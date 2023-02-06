@@ -6,7 +6,7 @@
 -->
 <!-- 版本对比弹窗 -->
 <template>
-    <iDialog :title="$t('GLGYS')" :visible.sync="value" width="60%" @close="clearDiolog">
+    <iDialog :title="'供应商列表'" :visible.sync="value" width="60%" @close="clearDiolog">
       <iSearch @sure="sure" @reset="handleSearchReset">
         <el-form>
           <el-form-item :label="$t('供应商名称')">
@@ -17,7 +17,7 @@
           </el-form-item>
         </el-form>
       </iSearch>
-      <tableList :tableLoading="tableLoading" ref="table" @handle-selection-change="handleSelectionChange" style="margin: 20px 0" border :tableData="tableListData" :tableTitle="tableTitle"> </tableList>
+      <tableList    :tableLoading="tableLoading" ref="table" @handleSelectionChange="handleSelectionChange" style="margin: 20px 0" border :tableData="tableListData" :tableTitle="tableTitle"> </tableList>
       <iPagination v-update @size-change="handleSizeChange($event, getTableList)" @current-change="handleCurrentChange($event, getTableList)" background :page-sizes="page.pageSizes" :page-size="page.pageSize" :layout="page.layout" :current-page="page.currPage" :total="page.totalCount" />
   
       <div class="footer" style="padding: 20px 0">
@@ -70,6 +70,7 @@
     methods: {
       handleSelectionChange(val) {
         this.selectTableData = val
+        console.log(this.selectTableData)
       },
       getTableList() {
         this.tableLoading = true
@@ -101,9 +102,8 @@
       },
   
       submit() {
-        if (this.selectTableData.length == 0) return iMessage.warn(this.$t('WEIXUANZHONGJILU'))
-        if (this.selectTableData.length > 1) return iMessage.warn('请选择一条记录')
-  
+        if (this.selectTableData.length == 0) return iMessage.warn('未选择记录')
+        this.clearDiolog()
         this.$emit('addsupplier',this.selectTableData)
       },
       // 关闭弹窗
