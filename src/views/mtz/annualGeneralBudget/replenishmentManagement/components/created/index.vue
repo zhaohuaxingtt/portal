@@ -62,7 +62,7 @@
           style="marginright: 68px"
           :label="language('ZHUANGTAI', '状态')"
         >
-          <iInput v-model="status" disabled> </iInput>
+          <iInput v-model="statusName" disabled> </iInput>
         </iFormItem>
       </iFormGroup>
       <el-divider></el-divider>
@@ -193,7 +193,7 @@ export default {
       findBalanceById({balanceId:this.balanceId}).then(res=>{
         console.log(res);
         if(res?.code=='200'){
-          this.statusName = res.data.balanceBase.statusName
+          this.statusName = res.data.balanceTaskBase.taskStatusName
           this.supplier = res.data.balanceBase.supplierSapCode+'-'+res.data.balanceBase.supplierName
           this.searchForm.sapCode = res.data.balanceBase.supplierSapCode
           this.searchForm.supplierName = res.data.balanceBase.supplierName
