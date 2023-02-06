@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-10 15:22:16
- * @LastEditTime: 2023-02-03 18:15:28
+ * @LastEditTime: 2023-02-06 14:36:00
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\components\login\index.vue
@@ -111,7 +111,7 @@ export default {
           process.env.VUE_APP_LOGOUT_URL || process.env.VUE_APP_LOGIN_URL
       } else {
         redirectUrl =
-          process.env.VUE_APP_LOGIN_URL+`?state=${this.$route.query.state}` || process.env.VUE_APP_LOGOUT_URL
+          process.env.VUE_APP_LOGIN_URL+`?state=${encodeURIComponent(this.$route.query.state)}` || process.env.VUE_APP_LOGOUT_URL
       }
       if (redirectUrl && redirectUrl !== '/portal/#/login') {
         this.ssoLogin = true
