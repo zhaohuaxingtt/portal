@@ -70,9 +70,9 @@ export default {
   ::v-deep .el-badge {
     .el-badge__content {
       background: #e30d0d;
-      top: calc(-16px * 1.5);
+      top: calc(-16px * 2);
       //bottom: -3px;
-      left: calc(16px * 1.8);
+      left: calc(16px * 1.5);
       min-width: 25px;
       height: 25px;
       padding: 0;
