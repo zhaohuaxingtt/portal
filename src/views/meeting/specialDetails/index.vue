@@ -1407,9 +1407,13 @@ export default {
         if (themen.source === '04') {
           if (themen.type === 'FS+MTZ') {
             window.open(
-              `${this.processUrl}/desinatepreview/mtz?route=force&desinateId=${themen.fixedPointApplyId}&isPreview=1`,
+              `/portal/#/meeting/previewCSC?route=force&desinateId=${themen.fixedPointApplyId}&isPreview=1&type=${themen.type}&id=${this.$route.query.id}`,
               '_blank'
             )
+            // window.open(
+            //   `${this.processUrl}/desinatepreview/mtz?route=force&desinateId=${themen.fixedPointApplyId}&isPreview=1`,
+            //   '_blank'
+            // )
           } else if (themen.type === 'MTZ') {
             window.open(
               `${this.processUrlPortal}/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/decisionMaterial?meeting=1&currentStep=3&mtzAppId=${themen.fixedPointApplyId}`,
@@ -1427,9 +1431,13 @@ export default {
           )
         } else {
             window.open(
-              `${this.processUrl}/desinatepreview/title?route=force&desinateId=${themen.fixedPointApplyId}&isPreview=1`,
+              `/portal/#/meeting/previewCSC?route=force&desinateId=${themen.fixedPointApplyId}&isPreview=1&type=${themen.type}&id=${this.$route.query.id}`,
               '_blank'
             )
+            // window.open(
+            //   `${this.processUrl}/desinatepreview/title?route=force&desinateId=${themen.fixedPointApplyId}&isPreview=1&type=${themen.type}`,
+            //   '_blank'
+            // )
           }
         } else {
           this.openDialog('openAddTopicNewDialog')

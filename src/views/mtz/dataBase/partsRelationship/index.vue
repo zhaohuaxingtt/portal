@@ -53,8 +53,9 @@
     </i-search>
     <iCard class="OrganizationTable">
       <div class="export">
+        <!-- <iButton @click="handleExportCurrent" v-permission="PORTAL_DATABASE_SEARCH_PARTSRELATIONSHIP_XZMB">下载模板</iButton> -->
         <el-dropdown class="el-dropdownbtn" size="small" @command="dowloadFile">
-            <iButton v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_XZMB" class="el-dropdownbtn">
+            <iButton v-permission="PORTAL_DATABASE_SEARCH_PARTSRELATIONSHIP_XZMB" class="el-dropdownbtn">
               <div @click="openorclose = true" @mouseleave="openorclose = false">
                 <span>下载模板</span>
                 <i v-if="!openorclose" class="el-icon-caret-bottom icon margin-left10 cursor"></i>
@@ -67,10 +68,9 @@
 
             </el-dropdown-menu>
         </el-dropdown>
-        <!-- <iButton @click="handleExportCurrent" v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_XZMB">下载模板</iButton> -->
         <uploadButton
           ref="uploadButton"
-          v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_SCYECJLJGX"
+          v-permission="PORTAL_DATABASE_SEARCH_PARTSRELATIONSHIP_SHANGCHUAN"
           :buttonText="language('LK_SHANGCHUAN', '上传')"
           :uploadByBusiness="true"
           @uploadedCallback="handleUpload($event)"
@@ -86,7 +86,7 @@
         />
         <iButton
           @click="handleExportAll"
-          v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_CKYECJLJGX_XIAZAI"
+          v-permission="PORTAL_DATABASE_SEARCH_PARTSRELATIONSHIP_XIAZAI"
           >下载</iButton
         >
         <button-table-setting
@@ -97,6 +97,7 @@
         <iTableCustom
           ref="testTable"
           class="customClass"
+          permissionKey="partsRelationship-database-query"
           :loading="tableLoading"
           :data="tableListData"
           :columns="partsRelationshipTableSetting"
@@ -128,7 +129,7 @@
     <iDialog
       :visible.sync="isShowMsg"
       v-if="isShowMsg"
-      :title="language('MINGXILIEBIAO', '明细列表')"
+      :title="'错误信息'"
       width="80%"
     >
       <tanleDetail :tableInfo="tableInfo" />
@@ -225,6 +226,8 @@ export default {
           iMessage.success(res.desZh)
         }else if(res.data==false){
           this.tableInfo=JSON.parse(res.desZh)
+          console.log(this.tableInfo)
+
           this.isShowMsg=true 
         }else{
           iMessage.warn(res.desZh)

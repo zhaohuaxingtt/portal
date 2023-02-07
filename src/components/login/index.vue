@@ -1,10 +1,10 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-10 15:22:16
- * @LastEditTime: 2021-03-29 18:23:29
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-02-06 16:59:55
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
- * @FilePath: \rise\src\views\login\index.vue
+ * @FilePath: \front-portal\src\components\login\index.vue
 -->
 <template>
   <div v-if="ssoLogin" class="eidp-login">
@@ -101,7 +101,7 @@ export default {
     }
   },
   created() {
-    if (this.$route.path.indexOf('superLogin') > -1) {
+    if (this.$route.path.indexOf('superLogin') > -1 || this.$route.path.indexOf('login') > -1) {
       //nothing to do
     } else {
       const token = getToken()
@@ -111,7 +111,7 @@ export default {
           process.env.VUE_APP_LOGOUT_URL || process.env.VUE_APP_LOGIN_URL
       } else {
         redirectUrl =
-          process.env.VUE_APP_LOGIN_URL || process.env.VUE_APP_LOGOUT_URL
+          process.env.VUE_APP_LOGIN_URL+`?state=${encodeURIComponent(this.$route.query.state)}` || process.env.VUE_APP_LOGOUT_URL
       }
       if (redirectUrl && redirectUrl !== '/portal/#/login') {
         this.ssoLogin = true
