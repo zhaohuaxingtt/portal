@@ -55,18 +55,18 @@ export default {
       let cards = this.cardList.filter((li) => !li.value)
       return cards
       // return this.cardList.filter(li => li.name ==`EKL`)
-    }
+    },
   },
   mounted() {
-    this.$nextTick(() => {
-      new Sortable(document.getElementById('myModules'), {
-        group: { name: 'myModules' }, // set both lists to same group
-        ghostClass: 'my-modules-drop-ghost',
-        animation: 150,
-        onUpdate: (event) => this.handleDragUpdate(event),
-        onRemove: (event) => this.handleDragEnd(event)
-      })
-    })
+    // this.$nextTick(() => {
+    //   new Sortable(document.getElementById('myModules'), {
+    //     group: { name: 'myModules' }, // set both lists to same group
+    //     ghostClass: 'my-modules-drop-ghost',
+    //     animation: 150,
+    //     onUpdate: (event) => this.handleDragUpdate(event),
+    //     onRemove: (event) => this.handleDragEnd(event)
+    //   })
+    // })
   },
   methods: {
     handleDragEnd(event) {

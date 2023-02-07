@@ -1,5 +1,5 @@
 <template>
-  <el-card class="module-card">
+  <el-card class="module-card" :class="getHeaderBgColorClass(card)">
     <!-- :class="
         !['EKL', 'EKLAffix'].includes(card.component)
           ? 'flex-between-center-center'
@@ -17,35 +17,36 @@
       </span>
 
       <eklHeader v-if="card.component === 'EKL'" @tab-click="handleEklClick" />
+      <approveHeader v-if="card.component === 'Approve'" @tab-click="handleApproveHeaderClick" />
       <eklAffixHeader
         v-if="card.component === 'EKLAffix'"
         @tab-click="handleEklAffixClick"
       />
       <!-- 更多2 -->
-      <div class="more">
-        <span class="el-dropdown-link" @click.stop="show = !show">
-          <i class="el-icon-more"></i>
-        </span>
-        <div class="more-content" style="top: 17px" v-show="show">
-          <div
-            v-if="['Task', 'Approve'].includes(card.component)"
-            class="more-item"
-            @click="handleMore"
-          >
-            更多
-          </div>
-          <div
-            class="more-item"
-            :class="
-              ['Task', 'Approve'].includes(card.component) ? 'bottom' : 'all'
-            "
-            @click="handleDel"
-          >
-            删除
-          </div>
-          <i class="arrow" style="width: 8px; height: 8px; top: -4px"></i>
-        </div>
-      </div>
+<!--      <div class="more">-->
+<!--        <span class="el-dropdown-link" @click.stop="show = !show">-->
+<!--          <i class="el-icon-more"></i>-->
+<!--        </span>-->
+<!--        <div class="more-content" style="top: 17px" v-show="show">-->
+<!--          <div-->
+<!--            v-if="['Task', 'Approve'].includes(card.component)"-->
+<!--            class="more-item"-->
+<!--            @click="handleMore"-->
+<!--          >-->
+<!--            更多-->
+<!--          </div>-->
+<!--          <div-->
+<!--            class="more-item"-->
+<!--            :class="-->
+<!--              ['Task', 'Approve'].includes(card.component) ? 'bottom' : 'all'-->
+<!--            "-->
+<!--            @click="handleDel"-->
+<!--          >-->
+<!--            删除-->
+<!--          </div>-->
+<!--          <i class="arrow" style="width: 8px; height: 8px; top: -4px"></i>-->
+<!--        </div>-->
+<!--      </div>-->
     </div>
     <div class="module-content">
       <component
@@ -54,6 +55,7 @@
         ref="parent"
         :eklTabItem="eklTabItem"
         :eklAffixTabItem="eklAffixTabItem"
+        :approveTabItem="approveTabItem"
       ></component>
     </div>
     <moreDialog
@@ -77,6 +79,7 @@ import Sponser from '../Sponser/index.vue'
 import Delivery from '../Delivery/index.vue'
 import EKL from '../EKL/index.vue'
 import eklHeader from '../EKL/header'
+import approveHeader from '../Approve/header'
 import EKLAffix from '../EKLAffix/index.vue'
 import eklAffixHeader from '../EKLAffix/header'
 
@@ -89,6 +92,7 @@ export default {
       modalTitle: '',
       show: false,
       eklTabItem: null,
+      approveTabItem: null,
       eklAffixTabItem: null
     }
   },
@@ -105,6 +109,7 @@ export default {
     EKL,
     EKLAffix,
     eklHeader,
+    approveHeader,
     eklAffixHeader
   },
   props: {
@@ -142,6 +147,11 @@ export default {
     })
   },
   methods: {
+    getHeaderBgColorClass(card) {
+      if (card.component === 'Approve') {
+        return 'deep-blue-header'
+      }
+    },
     handleClickTitle(card) {
       console.log(card, '111111111')
       if (card.component === 'Approve') {
@@ -182,6 +192,9 @@ export default {
     },
     handleEklClick(item) {
       this.eklTabItem = item
+    },
+    handleApproveHeaderClick(item) {
+      this.approveTabItem = item
     },
     handleEklAffixClick(item) {
       this.eklAffixTabItem = item
@@ -284,6 +297,14 @@ export default {
 <style scope lang="scss">
 .module-card {
   margin-bottom: 20px;
+  &.deep-blue-header {
+    .el-card__header {
+      background-color: rgb(29, 51, 88);
+      .title {
+        color: rgb(255, 255, 255);
+      }
+    }
+  }
   .el-dropdown {
     z-index: 999;
   }
