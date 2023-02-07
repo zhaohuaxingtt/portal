@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-17 13:17:43
- * @LastEditTime: 2023-02-06 20:17:13
+ * @LastEditTime: 2023-02-07 09:43:55
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\theSearch.vue
@@ -21,13 +21,11 @@
 <script>
 import { iSearch, iMessage, iDatePicker } from 'rise'
 import {
-  getApplicants,
-  getApprovalStatus
-} from '@/api/mtz/annualGeneralBudget/supplementaryList'
-import {
   getBalanceStatusList,
   getTaskPrimarySupplierList,
-  getTaskSecondSupplierList
+  getTaskSecondSupplierList,
+  getTaskBuyerList,
+  getTaskDepartmentList
 } from '@/api/mtz/annualGeneralBudget/chipReplenishment'
 import { fetchRemoteDept } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
 import search from '../../components/search.vue'
@@ -44,7 +42,7 @@ export default {
       searchForm: {},
       searchFormData: queryFormData,
       options: {
-        applicants: [], //申请人下拉
+        linieDropDownData: [], //采购员下拉
         departmentDropDownData: [], //部门数据
         approvalStatus: [], //单据状态下拉
         fsupplierList: [], //一次供应商
@@ -57,8 +55,8 @@ export default {
   },
   methods: {
     init() {
-      this.getDeptData()
-      this.getApplicants()
+      this.getTaskBuyerList()
+      this.getTaskDepartmentList()
       this.getApprovalStatus()
       this.getTaskPrimarySupplierList()
       this.getTaskSecondSupplierList()
@@ -83,14 +81,6 @@ export default {
         }
       })
     },
-    //申请人下拉选择
-    getApplicants(key) {
-      getApplicants({
-        keyWords: key
-      }).then((res) => {
-        this.options.applicants = res.data
-      })
-    },
     //单据状态下拉选择
     getApprovalStatus(key) {
       getBalanceStatusList().then((res) => {
@@ -98,13 +88,22 @@ export default {
       })
     },
     // 获取部门数据
-    getDeptData() {
-      fetchRemoteDept({}).then((res) => {
-        if (res && res.code == 200) {
+    getTaskDepartmentList() {
+      getTaskDepartmentList({}).then((res) => {
+        if (res?.code == 200) {
           this.options.departmentDropDownData = res.data
         } else iMessage.error(res.desZh)
       })
     },
+    // 获取采购员
+    getTaskBuyerList() {
+      getTaskBuyerList({}).then((res) => {
+        if (res?.code == 200) {
+          this.options.linieDropDownData = res.data
+        } else iMessage.error(res.desZh)
+      })
+    },
+    
     handleChange(val) {
       this.searchForm.monthFrom = window.moment(val[0]).format('yyyy-MM-DD')
       this.searchForm.monthTo = window.moment(val[1]).format('yyyy-MM-DD')

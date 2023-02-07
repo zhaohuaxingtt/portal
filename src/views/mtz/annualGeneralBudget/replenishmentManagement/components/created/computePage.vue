@@ -1,13 +1,13 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-14 14:44:54
- * @LastEditTime: 2023-02-06 20:05:35
+ * @LastEditTime: 2023-02-07 17:44:37
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\created\computePage.vue
 -->
 <template>
-  <iPage>
+  <iPage :loading="loading">
     <div class="header">
       <h1>{{ supplierType }}供应商芯片补差计算（{{ statusName }}）</h1>
       <div>
@@ -29,7 +29,7 @@
         </div>
       </div>
       <iTableCustom
-        :data="tableData"
+        :data="ruleTableData"
         :columns="tableTitleRule"
         :tableLoading="loading"
       />
@@ -90,13 +90,13 @@
           @handle-selection-change="handleSelectionChange"
         />
         <iPagination
-          @size-change="handleSizeChange($event, getTableList)"
-          @current-change="handleCurrentChange($event, getTableList)"
-          :page-sizes="page.pageSizes"
-          :page-size="page.pageSize"
-          :current-page="page.currPage"
-          :total="page.totalCount"
-          :layout="page.layout"
+          @size-change="balanceSizeChange"
+          @current-change="balanceCurrentChange"
+          :page-sizes="balancePage.pageSizes"
+          :page-size="balancePage.pageSize"
+          :current-page="balancePage.currPage"
+          :total="balancePage.totalCount"
+          :layout="balancePage.layout"
         >
         </iPagination>
       </div>
@@ -108,13 +108,13 @@
           :tableLoading="loading"
         />
         <iPagination
-          @size-change="handleSizeChange($event, getTableList)"
-          @current-change="handleCurrentChange($event, getTableList)"
-          :page-sizes="page.pageSizes"
-          :page-size="page.pageSize"
-          :current-page="page.currPage"
-          :total="page.totalCount"
-          :layout="page.layout"
+          @size-change="saveBalanceSizeChange"
+          @current-change="saveBalanceCurrentChange"
+          :page-sizes="saveBalancePage.pageSizes"
+          :page-size="saveBalancePage.pageSize"
+          :current-page="saveBalancePage.currPage"
+          :total="saveBalancePage.totalCount"
+          :layout="saveBalancePage.layout"
         >
         </iPagination>
       </div>
@@ -136,7 +136,6 @@ import {
   iTableCustom,
   iMessageBox
 } from 'rise'
-import { pageMixins } from '@/utils/pageMixins'
 import tableList from '@/components/commonTable/index.vue'
 import search from '../components/search.vue'
 import {
@@ -161,7 +160,6 @@ import { queryDeptSectionForCompItem } from '@/api/mtz/annualGeneralBudget/annua
 import { getMtzSupplierList } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
 import { exportAppRecordByCondition } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
 export default {
-  mixins: [pageMixins],
   components: {
     iPage,
     iDialog,
@@ -191,6 +189,30 @@ export default {
   },
   data() {
     return {
+      // 规则表分页
+      page: {
+        totalCount: 0, //总条数
+        pageSize: 10, //每页多少条
+        pageSizes: [10, 20, 50, 100], //每页条数切换
+        currPage: 1, //当前页
+        layout: 'sizes, prev, pager, next, jumper'
+      },
+      // 待发起表格分页
+      balancePage: {
+        totalCount: 0, //总条数
+        pageSize: 10, //每页多少条
+        pageSizes: [10, 20, 50, 100], //每页条数切换
+        currPage: 1, //当前页
+        layout: 'sizes, prev, pager, next, jumper'
+      },
+      // 已发起表格分页
+      saveBalancePage: {
+        totalCount: 0, //总条数
+        pageSize: 10, //每页多少条
+        pageSizes: [10, 20, 50, 100], //每页条数切换
+        currPage: 1, //当前页
+        layout: 'sizes, prev, pager, next, jumper'
+      },
       detailInfo: {},
       infoFormData,
       tabsValue: '1',
@@ -207,8 +229,9 @@ export default {
       tableTitleBE: [],
       tableListData: [],
       selection: [],
-      savedBalanceItemList: [],
-      balanceItemList: []
+      ruleDataAll: [],
+      balanceDataAll: [],
+      saveBalanceDataAll: []
     }
   },
   watch: {
@@ -222,9 +245,31 @@ export default {
           // 已发起
           this.tableTitle = tableTitleComplete1
         }
-        this.getTableData()
       },
       immediate: true
+    }
+  },
+  computed: {
+    // 规则表
+    rulePageData() {
+      return _.chunk(this.ruleDataAll, this.page.pageSize)
+    },
+    ruleTableData() {
+      return this.rulePageData[this.page.currPage - 1] || []
+    },
+    // 已发起，待发起凭证
+    balancePageData() {
+      return _.chunk(this.balanceDataAll, this.balancePage.pageSize)
+    },
+    balanceItemList() {
+      return this.balancePageData[this.balancePage.currPage - 1] || []
+    },
+    // 已发送凭证
+    saveBalancePageData() {
+      return _.chunk(this.saveBalanceDataAll, this.saveBalancePage.pageSize)
+    },
+    savedBalanceItemList() {
+      return this.saveBalancePageData[this.saveBalancePage.currPage - 1] || []
     }
   },
   created() {
@@ -237,63 +282,119 @@ export default {
       // 新建
       this.$nextTick((_) => {
         this.getDeptList()
-        this.getTableData()
         this.getCurrentUser()
       })
     }
   },
   methods: {
+    // 规则
+    handleSizeChange(val) {
+      this.page.currPage = 1
+      this.page.pageSize = val
+    },
+    handleCurrentChange(val) {
+      this.page.currPage = val
+    },
+    // 待发起
+    balanceSizeChange(val) {
+      this.balancePage.currPage = 1
+      this.balancePage.pageSize = val
+    },
+    balanceCurrentChange(val) {
+      this.balancePage.currPage = val
+    },
+    // 已发起
+    saveBalanceSizeChange(val) {
+      this.saveBalancePage.currPage = 1
+      this.saveBalancePage.pageSize = val
+    },
+    saveBalanceCurrentChange(val) {
+      this.saveBalancePage.currPage = val
+    },
+    // 获取数据
     findBalanceById() {
+      this.loading = true
       findBalanceById({
         balanceId: this.balanceId,
         isExisted: this.tabsValue == '2',
         ...this.searchForm
-      }).then((res) => {
-        console.log(res)
-        if (res?.code == '200') {
-          this.info = res.data
-          this.statusName = res.data.balanceTaskBase.taskStatusName
-          let detailInfo = res.data.balanceBase
-          detailInfo.supplier =
-            res.data.balanceBase.supplierSapCode +
-            '-' +
-            res.data.balanceBase.supplierName
-          detailInfo.dateRange = [
-            res.data.balanceBase.startFrom,
-            res.data.balanceBase.endTo
-          ]
-          // 又实补显示实补,没有的话默认填充待补差凭证
-          detailInfo.approvedAmount =
-            res.data.balanceBase.approvedAmount ||
-            res.data.balanceBase.approvedAmount
-            
-          detailInfo.statusName = res.data.balanceTaskBase.taskStatusName
-          this.$set(this, 'detailInfo', detailInfo)
-          this.tableData = res.data.balanceRuleList
-          this.savedBalanceItemList = res.data.savedBalanceItemList || [] // 已发起凭证
-          this.balanceItemList = res.data.balanceItemList || [] // 待发起凭证
-        }
       })
+        .then((res) => {
+          if (res?.code == '200') {
+            this.info = res.data
+            this.statusName = res.data.balanceTaskBase.taskStatusName
+            let detailInfo = res.data.balanceBase
+            detailInfo.supplier =
+              res.data.balanceBase.supplierSapCode +
+              '-' +
+              res.data.balanceBase.supplierName
+            detailInfo.dateRange = [
+              res.data.balanceBase.startFrom,
+              res.data.balanceBase.endTo
+            ]
+            // totalAmount 补差总额
+            detailInfo.totalAmount = res.data.totalAmount
+            // 有实补显示实补,没有的话默认填充待发起凭证
+            detailInfo.actualMakeAmount =
+              res.data.balanceBase.actualMakeAmount ||
+              res.data.balanceBase.toBeSubmitAmount
+
+            detailInfo.statusName = res.data.balanceTaskBase.taskStatusName
+            detailInfo.submittedAmount = res.data.submittedAmount
+            detailInfo.toBeSubmitAmount = res.data.toBeSubmitAmount
+            this.$set(this, 'detailInfo', detailInfo)
+            // 规则表
+            this.ruleDataAll = res.data.balanceRuleList
+            this.page.totalCount = res.data.balanceRuleList.length
+            // 待发起凭证
+            this.balanceDataAll = res.data.balanceItemList
+            this.balancePage.totalCount = res.data.balanceItemList.length
+            // 已发起凭证
+            this.saveBalanceDataAll = res.data.savedBalanceItemList
+            this.saveBalancePage.totalCount =
+              res.data.savedBalanceItemList.length
+            console.log(this.saveBalancePage.totalCount)
+          }
+        })
+        .finally(() => {
+          this.loading = false
+        })
     },
     // 保存
     updateBalance() {
-      if (!this.detailInfo.approvedAmount) {
+      if (!this.detailInfo.actualMakeAmount) {
         return iMessage.warn('请填写实补金额')
       }
+      if (this.detailInfo.actualMakeAmount > this.detailInfo.toBeSubmitAmount) {
+        return iMessage.warn('实补金额不能超出待发起凭证金额')
+      }
       updateBalance(this.info).then((res) => {
-        console.log(res)
         if (res?.code == '200') {
           iMessage.success(this.$i18n.locale == 'zh' ? res.desZh : res.desEn)
+          this.findBalanceById()
+        } else {
+          iMessage.error(this.$i18n.locale == 'zh' ? res1.desZh : res1.desEn)
         }
       })
     },
     // 提交
     submit() {
+      if (!this.detailInfo.actualMakeAmount) {
+        return iMessage.warn('请填写实补金额')
+      }
+      if (this.detailInfo.actualMakeAmount > this.detailInfo.toBeSubmitAmount) {
+        return iMessage.warn('实补金额不能超出待发起凭证金额')
+      }
       updateBalance(this.info).then((res) => {
         if (res?.code == '200') {
           sendSupplierConfirm([this.balanceId]).then((res1) => {
             if (res?.code == '200') {
               iMessage.success(
+                this.$i18n.locale == 'zh' ? res1.desZh : res1.desEn
+              )
+              this.findBalanceById()
+            } else {
+              iMessage.error(
                 this.$i18n.locale == 'zh' ? res1.desZh : res1.desEn
               )
             }
@@ -304,7 +405,7 @@ export default {
     // 冲销
     deleteBalanceItem() {
       if (!this.selection.length) return iMessage.warn('请选择数据')
-      deleteBalanceItem(this.selection.map((item) => item.id)).then(res => {
+      deleteBalanceItem(this.selection.map((item) => item.id)).then((res) => {
         if (res?.code == '200') {
           iMessage.success(this.$i18n.locale == 'zh' ? res.desZh : res.desEn)
           this.findBalanceById()
@@ -317,31 +418,7 @@ export default {
       if (val.name !== this.tabsValue) {
         this.tabsValue = val.name
       }
-      this.findBalanceById()
-    },
-    // 获取待审批,已审批列表数据
-    getTableData() {
-      // this.loading = true
-      console.log(this.searchForm)
-      // fetchTableData({
-      //   ...this.searchForm,
-      //   pageNo: this.page.currPage,
-      //   pageSize: this.page.pageSize,
-      //   fsupplier: this.params.firstSupplierId || null,
-      //   compStartDate: this.searchForm.compDate
-      //     ? this.searchForm.compDate[0]
-      //     : null,
-      //   compEndDate: this.searchForm.compDate
-      //     ? this.searchForm.compDate[1]
-      //     : null
-      // }).then((res) => {
-      //   console.log('res', res)
-      //   if (res && res.code == 200) {
-      //     this.loading = false
-      //     this.page.totalCount = res.total
-      //     this.tableListData = res.data
-      //   } else iMessage.error(res.desZh)
-      // })
+      // this.findBalanceById()
     },
     // 获取二次件供应商编号-名称
     getSupplierByUser() {
@@ -369,17 +446,16 @@ export default {
     },
     // 查询
     handleSubmitSearch() {
-      this.page.currPage = 1
+      this.balancePage.currPage = 1
+      this.saveBalancePage.currPage = 1
       this.findBalanceById() // 从中筛选待发起,已发起凭证
-      // this.getTableData()
     },
     // 重置
     handleSearchReset() {
-      this.page.currPage = 1
-      this.page.pageSize = 10
+      this.balancePage.currPage = 1
+      this.saveBalancePage.currPage = 1
       this.searchForm = {}
       this.findBalanceById()
-      // this.getTableData()
     },
     // 选中项改变
     handleSelectionChange(val) {
@@ -389,14 +465,9 @@ export default {
     closeDiolog() {
       this.$emit('handleCloseDialog')
     },
-    lookUs() {
-      this.handleSubmitSearch()
-    },
     // 导出规则
     exportBalanceRuleList() {
-      exportBalanceRuleList({ balanceId: this.balanceId }).then((res) => {
-        console.log(res)
-      })
+      exportBalanceRuleList({ balanceId: this.balanceId })
     },
     // 导出凭证
     exportBalanceItemList() {
@@ -404,8 +475,6 @@ export default {
         balanceId: this.balanceId,
         isExisted: this.tabsValue == '2',
         ...this.searchForm
-      }).then((res) => {
-        console.log(res)
       })
     }
   }
