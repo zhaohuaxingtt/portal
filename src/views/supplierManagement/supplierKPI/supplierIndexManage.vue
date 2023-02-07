@@ -23,6 +23,7 @@
         </div>
 
         <div>
+          <iButton @click="edit">编辑</iButton>
           <iButton @click="canel">取消</iButton>
           <iButton @click="save">暂存</iButton>
           <iButton @click="submit">提交生效</iButton>
@@ -31,6 +32,8 @@
     </iCard>
     <indexManage />
     <kpiStructure
+    ref="model"
+      :idEdit="idEdit"
       style="margin-top: 20px"
       :treeData="allData"
       :temId="selectValue"
@@ -81,7 +84,8 @@ export default {
       },
       saveData: [],
       selectValue: '',
-      templateName: ''
+      templateName: '',
+      idEdit:false,
     }
   },
   created() {
@@ -90,6 +94,15 @@ export default {
   mounted() {},
   watch: {},
   methods: {
+    save(){
+      this.$refs.model.save()
+    },
+    canel(){
+      this.idEdit=false
+    },
+    edit(){
+      this.idEdit=true
+    },
     changVersion(v) {
       getModelTree(v).then((res) => {
         if (res.code == '200') {

@@ -1,22 +1,10 @@
 <template>
   <div>
     <iCard>
-      <div class="imgkpi-head">
-        <el-form label-position="left" label-width="60px">
-          <el-form-item label="版本：" class="SearchOption">
-            <iInput v-model="childTemplateName"></iInput>
-          </el-form-item>
-        </el-form>
-        <div>
-          <iButton @click="deleteTemplate">删除</iButton>
-          <!-- <iButton @click="downloadTeplate">下载</iButton> -->
-          <iButton @click="save">保存</iButton>
-        </div>
-      </div>
       <div class="scoll-y">
         <div class="kpi-chart">
           <div class="tab1">
-            <div class="head">总体</div>
+            <!-- <div class="head">总体</div> -->
             <div class="cell">
               <div :class="
                 formDataLevel2.treeVO.length > 0
@@ -25,6 +13,7 @@
               ">
                 <div class="titleCard">
                   <!-- <span v-if="!modeAll">总分</span> -->
+                  <label>标题</label>
                   <iInput class="kpi-input2 kpi-input3" v-model="formDataLevel2.title"></iInput>
                 </div>
                 <div class="line">
@@ -33,7 +22,7 @@
                 </div>
                 <div>
                   <label>等于</label>
-                  <iSelect clearable :placeholder="$t('partsprocure.PLEENTER')"
+                  <iSelect class="kpi-input2" clearable :placeholder="$t('partsprocure.PLEENTER')"
                     v-model="formDataLevel2.indicatorLibraryId">
                     <el-option v-for="(j, index) in infoList" :key="index" :value="j.id" :label="j.nameZh">
                     </el-option>
@@ -70,7 +59,7 @@
               </div>
             </div>
           </div>
-          <div class="tab2">
+          <!-- <div class="tab2">
             <div class="head">
               <p class="border-class">指标1</p>
             </div>
@@ -89,7 +78,7 @@
             <div class="head">
               <p class="border-class">指标4</p>
             </div>
-          </div>
+          </div> -->
         </div>
         <div class="list2">
           <div class="list" v-for="(item, index) in formDataLevel2.treeVO" :key="index" :class="
@@ -105,6 +94,8 @@
               ">
                 <div class="titleCard">
                   <!-- <span v-if="!modeAll">总分</span> -->
+                  <label>标题</label>
+
                   <iInput class="kpi-input2 kpi-input3" v-model="item.title"></iInput>
                 </div>
                 <div class="line">
@@ -113,7 +104,8 @@
                 </div>
                 <div>
                   <label>等于</label>
-                  <iSelect clearable :placeholder="$t('partsprocure.PLEENTER')" v-model="item.indicatorLibraryId">
+                  <iSelect class="kpi-input2" clearable :placeholder="$t('partsprocure.PLEENTER')"
+                    v-model="item.indicatorLibraryId">
                     <el-option v-for="(j, index) in infoList" :key="index" :value="j.id" :label="j.nameZh">
                     </el-option>
                   </iSelect>
@@ -135,6 +127,8 @@
                   ">
                     <div class="titleCard">
                       <!-- <span v-if="!modeAll">总分</span> -->
+                      <label>标题</label>
+
                       <iInput class="kpi-input2 kpi-input3" v-model="form.title"></iInput>
                     </div>
                     <div class="line">
@@ -144,7 +138,8 @@
                     <div>
                       <label>等于</label>
 
-                      <iSelect clearable :placeholder="$t('partsprocure.PLEENTER')" v-model="lev3.indicatorLibraryId">
+                      <iSelect class="kpi-input2" clearable :placeholder="$t('partsprocure.PLEENTER')"
+                        v-model="lev3.indicatorLibraryId">
                         <el-option v-for="(j, index) in infoList" :key="index" :value="j.id" :label="j.nameZh">
                         </el-option>
                       </iSelect>
@@ -162,6 +157,8 @@
                       <div class="content kpi-module kpi-module1 last-border">
                         <div class="titleCard">
                           <!-- <span v-if="!modeAll">总分</span> -->
+                          <label>标题</label>
+
                           <iInput class="kpi-input2 kpi-input3" v-model="lev4.title"></iInput>
                         </div>
                         <div class="line">
@@ -170,7 +167,7 @@
                         </div>
                         <div>
                           <label>等于</label>
-                          <iSelect clearable :placeholder="$t('partsprocure.PLEENTER')"
+                          <iSelect class="kpi-input2" clearable :placeholder="$t('partsprocure.PLEENTER')"
                             v-model="lev4.indicatorLibraryId">
                             <el-option v-for="(j, index) in infoList" :key="index" :value="j.id" :label="j.nameZh">
                             </el-option>
@@ -186,6 +183,8 @@
                         :key="index5 + 'lev5'">
                         <div class="titleCard">
                           <!-- <span v-if="!modeAll">总分</span> -->
+                          <label>标题</label>
+
                           <iInput class="kpi-input2 kpi-input3" v-model="lev5.title"></iInput>
                         </div>
                         <div class="line">
@@ -194,7 +193,7 @@
                         </div>
                         <div>
                           <label>等于</label>
-                          <iSelect clearable :placeholder="$t('partsprocure.PLEENTER')"
+                          <iSelect class="kpi-input2" clearable :placeholder="$t('partsprocure.PLEENTER')"
                             v-model="lev5.indicatorLibraryId">
                             <el-option v-for="(j, index) in infoList" :key="index" :value="j.id" :label="j.nameZh">
                             </el-option>
@@ -239,6 +238,9 @@ export default {
     },
     templateName: {
       type: String
+    },
+    idEdit: {
+      type: Boolean
     }
   },
   components: {
@@ -250,7 +252,7 @@ export default {
   data() {
     return {
       formDataLevel2: {
-        modelId:'1',
+        modelId: '1',
         indicatorLibraryId: '',
         title: '',
         weight: ''
@@ -326,9 +328,7 @@ export default {
           childVo: []
         })
       } else if (str === '3') {
-        if (
-          this.formDataLevel2.treeVO[index].childVo[idx3].childVo.length == 5
-        )
+        if (this.formDataLevel2.treeVO[index].childVo[idx3].childVo.length == 5)
           return this.$message({
             type: 'error',
             message: '每层最多5个分支',
@@ -343,8 +343,8 @@ export default {
         })
       } else if (str === '4') {
         if (
-          this.formDataLevel2.treeVO[index].childVo[idx3].childVo[idx4]
-            .childVo.length == 5
+          this.formDataLevel2.treeVO[index].childVo[idx3].childVo[idx4].childVo
+            .length == 5
         )
           return this.$message({
             type: 'error',
@@ -472,7 +472,7 @@ export default {
       // })
 
       // 保存执行
-      this.formDataLevel2.modelId=1
+      this.formDataLevel2.modelId = 1
       addModelTree({
         ...this.formDataLevel2
       })
@@ -591,7 +591,7 @@ export default {
           }
 
           .kpi-input3 {
-            width: 150px;
+            width: 140px;
           }
 
           margin-top: 10px;
