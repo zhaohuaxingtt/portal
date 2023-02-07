@@ -22,8 +22,8 @@ export const queryFormData = [
   
   { props: 'compDate', name: '补差时间段', key: 'BUCHASHIJIANDUAN', type: 'daterange' },
   {
-    props: 'department', name: '科室', key: 'KESHI', type: 'select', selectOption: 'departmentDropDownData', optionLabel: 'departNameEn',
-    optionValue: 'departId'
+    props: 'department', name: '科室', key: 'KESHI', type: 'select', selectOption: 'departmentDropDownData', optionLabel: 'message',
+    optionValue: 'code'
   },
   {
     props: 'linieList', name: '采购员', key: 'CAIGOUYUAN', type: 'select', selectOption: 'linieDropDownData', optionLabel: 'message',
@@ -53,7 +53,7 @@ export const tableTitle = [
       return <span class="link">{scope.row.balanceNo}</span>
     }
   }, {
-    prop: 'id',
+    prop: 'balanceSapCode',
     label: '凭证ID',
     i18n: 'PINGZHENGID',
     align: 'center',

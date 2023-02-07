@@ -41,7 +41,9 @@ import {
   findCalculateTaskByPage,
   getBalanceTaskStatusList,
   getTaskPrimarySupplierList,
-  getTaskSecondSupplierList
+  getTaskSecondSupplierList,
+  getTaskBuyerList,
+  getTaskDepartmentList
 } from '@/api/mtz/annualGeneralBudget/chipReplenishment'
 import { getBuyers } from '@/api/mtz/mtzCalculationTask'
 import { pageMixins } from '@/utils/pageMixins'
@@ -153,8 +155,9 @@ export default {
     async getData() {
       this.getTaskPrimarySupplierList()
       this.getTaskSecondSupplierList()
-      this.getBuyers()
-      //   await this.getBuyers()
+      this.getTaskDepartmentList()
+      this.getTaskBuyerList()
+      //   await this.getTaskBuyerList()
       this.findCalculateTaskByPage()
     },
     findCalculateTaskByPage() {
@@ -185,18 +188,25 @@ export default {
           this.tableLoading = false
         })
     },
-    getBuyers() {
-      return new Promise((resole, reject) => {
-        getBuyers({}).then((res) => {
-          if (res.code === '200') {
+    // 获取科室
+    getTaskDepartmentList() {
+      getTaskDepartmentList().then((res) => {
+        if (res?.code == 200) {
+          this.options.deptList = JSON.parse(JSON.stringify(res.data))
+        } else {
+          iMessage.error(res.desZh)
+        }
+      })
+    },
+    // 获取采购员
+    getTaskBuyerList() {
+        getTaskBuyerList().then((res) => {
+          if (res?.code == '200') {
             this.options.operatorBuyus = res.data
-            resole()
           } else {
-            reject()
             iMessage.error(res.desZh)
           }
         })
-      })
     },
     // 获取芯片一次件供应商
     getTaskPrimarySupplierList() {
