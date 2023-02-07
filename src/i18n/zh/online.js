@@ -3212,6 +3212,11 @@ export default {
   是否为主用户: '是否为主用户',
   区号: '区号',
   联系人类型: '联系人类型',
+  早上好: '早上好',
+  中午好: '中午好',
+  下午好: '下午好',
+  晚上好: '晚上好',
+  欢迎登录RiSE: '欢迎登录RiSE',
   LIANXIRENDEXINGMINGDIANHUADIANZIYOUJIANBITIAN:
     '联系人的姓名，电话，电子邮件必填！',
   任务中心: '任务中心',

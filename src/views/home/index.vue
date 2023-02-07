@@ -9,6 +9,16 @@
 <template>
   <iPage>
     <div class="index-wrapper">
+      <el-row :gutter="20" class="index-container greet-container" id="greetModules">
+        <el-col
+          :xs="24"
+          :sm="24"
+          :md="24"
+          :lg="24"
+          :xl="24">
+          <greet-card />
+        </el-col>
+      </el-row>
       <el-row :gutter="20" class="index-container" id="myModules">
         <el-col
           :xs="24"
@@ -17,9 +27,9 @@
           :lg="6"
           :xl="6"
           :key="card.id"
-          v-for="card in cards"
+          v-for="(card,index) in cards"
         >
-          <module-card :card="card" @del="handleDelete" />
+          <module-card v-if='index < 4' :card="card" @del="handleDelete" />
         </el-col>
       </el-row>
     </div>
@@ -27,11 +37,12 @@
 </template>
 <script>
 import moduleCard from './components/moduleCard'
+import greetCard from './components/greetCard'
 import { iPage } from 'rise'
 import Sortable from 'sortablejs'
 import { updateBatchModules } from '@/api/home'
 export default {
-  components: { moduleCard, iPage },
+  components: { moduleCard, greetCard, iPage },
   data() {
     return {}
   },
@@ -104,5 +115,20 @@ export default {
   }
   width: 100%;
   min-height: 600px;
+}
+.greet-container {
+  > div {
+    height: 250px;
+  }
+  min-height: 250px;
+
+  ::v-deep .el-card {
+    border-color: rgb(234, 240, 249);
+  }
+  ::v-deep .module-card .el-card__body {
+    height: 230px;
+    background-color: rgb(234, 240, 249);
+    border-color: rgb(234, 240, 249);
+  }
 }
 </style>

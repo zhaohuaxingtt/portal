@@ -1750,6 +1750,9 @@
       HOME_MODULE_SPONSER: '供应商财务风险评级',
       HOME_MODULE_SCHEDULE: 'Schedule',
       HOME_MODULE_APPROVE: 'iAgree',
+      HOME_MODULE_I_TASK: 'iTask',
+      HOME_MODULE_I_MEETING: 'iMeeting',
+      HOME_MODULE_I_FACT: 'iFact',
       HOME_MODULE_VOLUME: 'Volume Pricing',
       HOME_MODULE_NEWS: 'News',
       HOME_MODULE_PROVIDER_RATE: '配附件供货率'
@@ -2781,7 +2784,7 @@
 
 
 
-    
+
 
     APPROVAL: {
       ADD: '新增',
