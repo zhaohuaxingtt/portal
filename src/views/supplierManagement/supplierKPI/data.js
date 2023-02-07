@@ -6,13 +6,13 @@
  */
 export const tableTitle2 = [
     {
-        props: 'supplierShortNameZh',
+        props: 'sapCode',
         name: '供应商SAP号',
         key: '供应商SAP号',
         align: 'center',
     },
     {
-        props: '供应商名称',
+        props: 'shortNameZh',
         name: '供应商名称',
         key: '供应商名称',
         align: 'center',
