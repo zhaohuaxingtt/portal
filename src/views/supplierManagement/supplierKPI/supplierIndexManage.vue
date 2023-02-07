@@ -5,18 +5,18 @@
         <div>
           <el-form>
             <el-form-item class="SearchOption">
-              <iSelect @change="changVersion" v-model="selectValue">
+              <iSelect @change="changVersion" v-model="allData.modelId">
                 <el-option
                   v-for="(x, index) in dropDownOptions"
                   :key="index"
-                  :label="x.modelVersion"
+                  :label="x.versionName"
                   :value="x.id"
                 ></el-option>
               </iSelect>
             </el-form-item>
           </el-form>
           <div class="titleinof">
-            <span>2022年度供应商绩效打分指南_V1.0.pptx</span>
+            <span @click="dowload(info.fileId)">{{ info.fileName }}</span>
             <i class="el-icon-upload icon blue"></i
             ><i class="el-icon-delete icon red"></i>
           </div>
@@ -25,14 +25,14 @@
         <div>
           <iButton @click="edit">编辑</iButton>
           <iButton @click="canel">取消</iButton>
-          <iButton @click="save">暂存</iButton>
-          <iButton @click="submit">提交生效</iButton>
+          <!-- <iButton @click="save">暂存</iButton> -->
+          <iButton @click="save">提交生效</iButton>
         </div>
       </div>
     </iCard>
     <indexManage />
     <kpiStructure
-    ref="model"
+      ref="model"
       :idEdit="idEdit"
       style="margin-top: 20px"
       :treeData="allData"
@@ -54,6 +54,13 @@ import {
   dowbloadAPI,
   templateDetail
 } from '@/api/kpiChart'
+import {
+  downloadFileWithName,
+} from '@/api/common'
+import {
+  getSupplierPerforManceModelPage,
+  getModelTree
+} from '@/api/supplierManagement/supplierIndexManage/index'
 import { iNavMvp } from 'rise'
 import logButton from '@/components/logButton'
 export default {
@@ -77,45 +84,71 @@ export default {
       },
       dropDownOptions: [],
       allData: {
-        treeVO: [],
-        indicatorLibraryId: '',
-        title: '',
-        weight: ''
+        modelId: '',
+        childVo: {
+          childVo:[]
+        },
       },
       saveData: [],
-      selectValue: '',
       templateName: '',
-      idEdit:false,
+      idEdit: false,
+      info:{}
     }
   },
-  created() {
-    this.getDetail()
+  created() {},
+  mounted() {
+    this.init()
   },
-  mounted() {},
   watch: {},
   methods: {
-    save(){
-      this.$refs.model.save()
-    },
-    canel(){
-      this.idEdit=false
-    },
-    edit(){
-      this.idEdit=true
-    },
-    changVersion(v) {
-      getModelTree(v).then((res) => {
-        if (res.code == '200') {
-          this.allData = res.data
-        }
-      })
-    },
-    getDetail(x) {
-      getModelTree().then((res) => {
+    init() {
+      const parms = {
+        pageNo: 1,
+        pageSize: 10000
+      }
+      getSupplierPerforManceModelPage(parms).then((res) => {
         if (res.code == '200') {
           this.dropDownOptions = res.data
+          this.allData.modelId = this.dropDownOptions[0].id
+          this.info=this.dropDownOptions.find(val=>val.id==this.dropDownOptions[0].id)
+          console.log(this.dropDownOptions[0].id)
+          getModelTree(this.allData.modelId).then((res) => {
+            if (res.code == '200') {
+              if (res.data.id != null) {
+                this.allData = res.data
+              }
+            }
+          })
+        } else {
         }
       })
+    },
+    save() {
+      this.$refs.model.save()
+    },
+    canel() {
+      this.idEdit = false
+    },
+    edit() {
+      this.idEdit = true
+    },
+    changVersion(v) {
+      this.info=this.dropDownOptions.find(val=>val.id==v)
+      getModelTree(this.allData.modelId).then((res) => {
+        if (res.code == '200') {
+          if (res.data.id != null) {
+
+          this.allData = res.data
+          }
+        }
+      })
+    },
+    dowload(v){
+      const params = {
+        fileIds: v,
+        fileName:info.fileName
+      }
+      downloadFileWithName(params)
     }
   }
 }

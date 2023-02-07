@@ -28,7 +28,13 @@ export const tableTitle2 = [
 ]
 export const tableTitle = [
     {
-        props: 'supplierShortNameZh',
+        props: 'versionName',
+        name: '版本名称',
+        key: '版本名称',
+        align: 'center',
+    },
+    {
+        props: 'dataTime',
         name: '版本数据日期',
         key: '版本数据日期',
         align: 'center',
@@ -46,26 +52,26 @@ export const tableTitle = [
         key: '状态',
         align: 'center',
     },
+    // {
+    //     props: 'tracedPrice',
+    //     name: 'SPI-系统计算状态',
+    //     key: 'SPI-系统计算状态',
+    //     align: 'center',
+    // },
+    // {
+    //     props: 'actualTracedPrice',
+    //     name: 'CS主观打分状态',
+    //     key: 'CS主观打分状态',
+    //     align: 'center',
+    // },
+    // {
+    //     props: 'updateDate',
+    //     name: '其他部门打分状态',
+    //     key: '其他部门打分状态',
+    //     align: 'center',
+    // },
     {
-        props: 'tracedPrice',
-        name: 'SPI-系统计算状态',
-        key: 'SPI-系统计算状态',
-        align: 'center',
-    },
-    {
-        props: 'actualTracedPrice',
-        name: 'CS主观打分状态',
-        key: 'CS主观打分状态',
-        align: 'center',
-    },
-    {
-        props: 'updateDate',
-        name: '其他部门打分状态',
-        key: '其他部门打分状态',
-        align: 'center',
-    },
-    {
-        props: 'updateDate',
+        props: 'createName',
         name: '版本创建人',
         key: '版本创建人',
         align: 'center',

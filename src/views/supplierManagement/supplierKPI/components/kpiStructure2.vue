@@ -6,25 +6,42 @@
           <div class="tab1">
             <!-- <div class="head">总体</div> -->
             <div class="cell">
-              <div :class="
-                formDataLevel2.treeVO.length > 0
-                  ? 'total first-cloum-after'
-                  : 'total'
-              ">
+              <div
+                :class="
+                  formDataLevel2.childVo.length > 0
+                    ? 'total first-cloum-after'
+                    : 'total'
+                "
+              >
                 <div class="titleCard">
                   <!-- <span v-if="!modeAll">总分</span> -->
                   <label>标题</label>
-                  <iInput class="kpi-input2 kpi-input3" v-model="formDataLevel2.title"></iInput>
+                  <iInput
+                    class="kpi-input2 kpi-input3"
+                    v-model="formDataLevel2.childVo.title"
+                  ></iInput>
                 </div>
                 <div class="line">
                   <label>权重</label>
-                  <iInput class="kpi-input2" v-model="formDataLevel2.weight"></iInput>
+                  <iInput
+                    class="kpi-input2"
+                    v-model="formDataLevel2.childVo.weight"
+                  ></iInput>
                 </div>
                 <div>
                   <label>等于</label>
-                  <iSelect class="kpi-input2" clearable :placeholder="$t('partsprocure.PLEENTER')"
-                    v-model="formDataLevel2.indicatorLibraryId">
-                    <el-option v-for="(j, index) in infoList" :key="index" :value="j.id" :label="j.nameZh">
+                  <iSelect
+                    class="kpi-input2"
+                    clearable
+                    :placeholder="$t('partsprocure.PLEENTER')"
+                    v-model="formDataLevel2.childVo.indicatorLibraryId"
+                  >
+                    <el-option
+                      v-for="(j, index) in infoList"
+                      :key="index"
+                      :value="j.id"
+                      :label="j.nameZh"
+                    >
                     </el-option>
                   </iSelect>
                 </div>
@@ -55,7 +72,10 @@
                     >
                   </div>
                 </div> -->
-                <i class="el-icon-circle-plus-outline iconbtn" @click="addCell"></i>
+                <i
+                  class="el-icon-circle-plus-outline iconbtn"
+                  @click="addCell"
+                ></i>
               </div>
             </div>
           </div>
@@ -81,22 +101,28 @@
           </div> -->
         </div>
         <div class="list2">
-          <div class="list" v-for="(item, index) in formDataLevel2.treeVO" :key="index" :class="
-            index < formDataLevel2.treeVO.length - 1
-              ? 'second-cloum-before'
-              : ''
-          ">
+          <div
+            class="list"
+            v-for="(item, index) in formDataLevel2.childVo.childVo"
+            :key="index"
+            :class="index < formDataLevel2.childVo.childVo.length - 1 ? 'second-cloum-before' : ''"
+          >
             <div class="cell">
-              <div :class="
-                item.childVo.length > 0
-                  ? 'content kpi-module second-before second-after'
-                  : 'content kpi-module second-before'
-              ">
+              <div
+                :class="
+                  item.childVo.length > 0
+                    ? 'content kpi-module second-before second-after'
+                    : 'content kpi-module second-before'
+                "
+              >
                 <div class="titleCard">
                   <!-- <span v-if="!modeAll">总分</span> -->
                   <label>标题</label>
 
-                  <iInput class="kpi-input2 kpi-input3" v-model="item.title"></iInput>
+                  <iInput
+                    class="kpi-input2 kpi-input3"
+                    v-model="item.title"
+                  ></iInput>
                 </div>
                 <div class="line">
                   <label>权重</label>
@@ -104,32 +130,59 @@
                 </div>
                 <div>
                   <label>等于</label>
-                  <iSelect class="kpi-input2" clearable :placeholder="$t('partsprocure.PLEENTER')"
-                    v-model="item.indicatorLibraryId">
-                    <el-option v-for="(j, index) in infoList" :key="index" :value="j.id" :label="j.nameZh">
+                  <iSelect
+                    class="kpi-input2"
+                    clearable
+                    :placeholder="$t('partsprocure.PLEENTER')"
+                    v-model="item.indicatorLibraryId"
+                  >
+                    <el-option
+                      v-for="(j, index) in infoList"
+                      :key="index"
+                      :value="j.id"
+                      :label="j.nameZh"
+                    >
                     </el-option>
                   </iSelect>
                 </div>
 
-                <i class="add el-icon-circle-plus-outline" @click="handleAdd(index, '', '2')"></i>
-                <i class="less el-icon-remove-outline" @click="handleLess(index, '', '', '2')"></i>
+                <i
+                  class="add el-icon-circle-plus-outline"
+                  @click="handleAdd(index, '', '2')"
+                ></i>
+                <i
+                  class="less el-icon-remove-outline"
+                  @click="handleLess(index, '', '', '2')"
+                ></i>
               </div>
             </div>
             <div class="part2">
-              <div class="itemList" v-for="(lev3, index3) in item.childVo" :key="index3">
-                <div class="cell third-cell" :class="
-                  index3 < item.childVo.length - 1 ? 'cloum-before' : ''
-                ">
-                  <div :class="
-                    lev3.childVo.length > 0
-                      ? 'content kpi-module third-border-before third-border-after'
-                      : 'content kpi-module third-border-before'
-                  ">
+              <div
+                class="itemList"
+                v-for="(lev3, index3) in item.childVo"
+                :key="index3"
+              >
+                <div
+                  class="cell third-cell"
+                  :class="
+                    index3 < item.childVo.length - 1 ? 'cloum-before' : ''
+                  "
+                >
+                  <div
+                    :class="
+                      lev3.childVo.length > 0
+                        ? 'content kpi-module third-border-before third-border-after'
+                        : 'content kpi-module third-border-before'
+                    "
+                  >
                     <div class="titleCard">
                       <!-- <span v-if="!modeAll">总分</span> -->
                       <label>标题</label>
 
-                      <iInput class="kpi-input2 kpi-input3" v-model="form.title"></iInput>
+                      <iInput
+                        class="kpi-input2 kpi-input3"
+                        v-model="form.title"
+                      ></iInput>
                     </div>
                     <div class="line">
                       <label>权重</label>
@@ -138,69 +191,136 @@
                     <div>
                       <label>等于</label>
 
-                      <iSelect class="kpi-input2" clearable :placeholder="$t('partsprocure.PLEENTER')"
-                        v-model="lev3.indicatorLibraryId">
-                        <el-option v-for="(j, index) in infoList" :key="index" :value="j.id" :label="j.nameZh">
+                      <iSelect
+                        class="kpi-input2"
+                        clearable
+                        :placeholder="$t('partsprocure.PLEENTER')"
+                        v-model="lev3.indicatorLibraryId"
+                      >
+                        <el-option
+                          v-for="(j, index) in infoList"
+                          :key="index"
+                          :value="j.id"
+                          :label="j.nameZh"
+                        >
                         </el-option>
                       </iSelect>
                     </div>
 
-                    <i class="add el-icon-circle-plus-outline" @click="handleAdd(index, index3, '3')"></i>
-                    <i class="less el-icon-remove-outline" @click="handleLess(index, index3, '', '3')"></i>
+                    <i
+                      class="add el-icon-circle-plus-outline"
+                      @click="handleAdd(index, index3, '3')"
+                    ></i>
+                    <i
+                      class="less el-icon-remove-outline"
+                      @click="handleLess(index, index3, '', '3')"
+                    ></i>
                   </div>
                 </div>
-                <div class="cell cell2 third-cell cente-cell" :class="
-                  index3 < lev3.childVo.length - 1 ? 'cloum-before1' : ''
-                " :key="index3 + 'lev3'">
-                  <div v-for="(lev4, index4) in lev3.childVo" :key="index4 + 'lev4'" class="box2">
-                    <div :class="index4 < lev4.childVo.length - 1 ? 'lev4 ' : ' '">
+                <div
+                  class="cell cell2 third-cell cente-cell"
+                  :class="
+                    index3 < lev3.childVo.length - 1 ? 'cloum-before1' : ''
+                  "
+                  :key="index3 + 'lev3'"
+                >
+                  <div
+                    v-for="(lev4, index4) in lev3.childVo"
+                    :key="index4 + 'lev4'"
+                    class="box2"
+                  >
+                    <div
+                      :class="index4 < lev4.childVo.length - 1 ? 'lev4 ' : ' '"
+                    >
                       <div class="content kpi-module kpi-module1 last-border">
                         <div class="titleCard">
                           <!-- <span v-if="!modeAll">总分</span> -->
                           <label>标题</label>
 
-                          <iInput class="kpi-input2 kpi-input3" v-model="lev4.title"></iInput>
+                          <iInput
+                            class="kpi-input2 kpi-input3"
+                            v-model="lev4.title"
+                          ></iInput>
                         </div>
                         <div class="line">
                           <label>权重</label>
-                          <iInput class="kpi-input2" v-model="lev4.weight"></iInput>
+                          <iInput
+                            class="kpi-input2"
+                            v-model="lev4.weight"
+                          ></iInput>
                         </div>
                         <div>
                           <label>等于</label>
-                          <iSelect class="kpi-input2" clearable :placeholder="$t('partsprocure.PLEENTER')"
-                            v-model="lev4.indicatorLibraryId">
-                            <el-option v-for="(j, index) in infoList" :key="index" :value="j.id" :label="j.nameZh">
+                          <iSelect
+                            class="kpi-input2"
+                            clearable
+                            :placeholder="$t('partsprocure.PLEENTER')"
+                            v-model="lev4.indicatorLibraryId"
+                          >
+                            <el-option
+                              v-for="(j, index) in infoList"
+                              :key="index"
+                              :value="j.id"
+                              :label="j.nameZh"
+                            >
                             </el-option>
                           </iSelect>
                         </div>
 
-                        <i class="add el-icon-circle-plus-outline" @click="handleAdd(index, index3, '4', index4)"></i>
-                        <i class="less el-icon-remove-outline" @click="handleLess(index, index3, '', '4', index4)"></i>
+                        <i
+                          class="add el-icon-circle-plus-outline"
+                          @click="handleAdd(index, index3, '4', index4)"
+                        ></i>
+                        <i
+                          class="less el-icon-remove-outline"
+                          @click="handleLess(index, index3, '', '4', index4)"
+                        ></i>
                       </div>
                     </div>
                     <div :key="index4 + 'lev4'" class="lev5brfore">
-                      <div class="content kpi-module kpi-module2 last-border" v-for="(lev5, index5) in lev4.childVo"
-                        :key="index5 + 'lev5'">
+                      <div
+                        class="content kpi-module kpi-module2 last-border"
+                        v-for="(lev5, index5) in lev4.childVo"
+                        :key="index5 + 'lev5'"
+                      >
                         <div class="titleCard">
                           <!-- <span v-if="!modeAll">总分</span> -->
                           <label>标题</label>
 
-                          <iInput class="kpi-input2 kpi-input3" v-model="lev5.title"></iInput>
+                          <iInput
+                            class="kpi-input2 kpi-input3"
+                            v-model="lev5.title"
+                          ></iInput>
                         </div>
                         <div class="line">
                           <label>权重</label>
-                          <iInput class="kpi-input2" v-model="lev5.weight"></iInput>
+                          <iInput
+                            class="kpi-input2"
+                            v-model="lev5.weight"
+                          ></iInput>
                         </div>
                         <div>
                           <label>等于</label>
-                          <iSelect class="kpi-input2" clearable :placeholder="$t('partsprocure.PLEENTER')"
-                            v-model="lev5.indicatorLibraryId">
-                            <el-option v-for="(j, index) in infoList" :key="index" :value="j.id" :label="j.nameZh">
+                          <iSelect
+                            class="kpi-input2"
+                            clearable
+                            :placeholder="$t('partsprocure.PLEENTER')"
+                            v-model="lev5.indicatorLibraryId"
+                          >
+                            <el-option
+                              v-for="(j, index) in infoList"
+                              :key="index"
+                              :value="j.id"
+                              :label="j.nameZh"
+                            >
                             </el-option>
                           </iSelect>
                         </div>
 
-                        <i class="less el-icon-remove-outline" @click="handleLess(index, index4, index, '5')"></i>
+                        <i
+                          class="less el-icon-remove-outline"
+                          @click="handleLess(index, index4, index, '5')"
+                        ></i>
                       </div>
                     </div>
                   </div>
@@ -251,13 +371,7 @@ export default {
   },
   data() {
     return {
-      formDataLevel2: {
-        modelId: '1',
-        indicatorLibraryId: '',
-        title: '',
-        weight: ''
-      },
-      childTemplateName: '',
+      formDataLevel2: {},
       form: {},
       modeAll: false,
       infoList: []
@@ -266,20 +380,14 @@ export default {
   mounted() {
     this.getInfo()
     this.formDataLevel2 = this.treeData
-    console.log(this.formDataLevel2.treeVO)
   },
   watch: {
     treeData: {
       handler(curVal, oldVal) {
         this.formDataLevel2 = this.treeData
-        this.childTemplateName = this.templateName
       },
       immediate: true,
       deep: true
-    },
-    templateName() {
-      this.childTemplateName = this.templateName
-      this.formDataLevel2.treeVO = []
     }
   },
   methods: {
@@ -293,16 +401,17 @@ export default {
       this.modeAll = true
     },
     addCell() {
-      if (this.formDataLevel2.treeVO.length == 5)
+      console.log(this.formDataLevel2)
+      if (this.formDataLevel2.childVo.childVo.length == 5)
         return this.$message({
           type: 'error',
           message: '每层最多5个分支',
           duration: 10000, // error 错误提示显示10秒
           showClose: true
         })
-      this.formDataLevel2.treeVO.push({
-        id: '',
-        name: '',
+      this.formDataLevel2.childVo.childVo.push({
+        indicatorLibraryId: '',
+        title: '',
         weight: '',
         childVo: []
       })
@@ -311,39 +420,39 @@ export default {
       console.log(
         index + '-------' + idx3 + '---------' + idx4 + '---------' + str
       )
-      console.log(this.formDataLevel2.treeVO)
-      console.log(this.formDataLevel2.treeVO[index].childVo)
+      console.log(this.formDataLevel2.childVo)
+      console.log(this.formDataLevel2.childVo.childVo[index].childVo)
       if (str === '2') {
-        if (this.formDataLevel2.treeVO[index].childVo.length == 5)
+        if (this.formDataLevel2.childVo.childVo[index].childVo.length == 5)
           return this.$message({
             type: 'error',
             message: '每层最多5个分支',
             duration: 10000, // error 错误提示显示10秒
             showClose: true
           })
-        this.formDataLevel2.treeVO[index].childVo.push({
-          id: '',
-          name: '',
+        this.formDataLevel2.childVo.childVo[index].childVo.push({
+          indicatorLibraryId: '',
+          title: '',
           weight: '',
           childVo: []
         })
       } else if (str === '3') {
-        if (this.formDataLevel2.treeVO[index].childVo[idx3].childVo.length == 5)
+        if (this.formDataLevel2.childVo.childVo[index].childVo[idx3].childVo.length == 5)
           return this.$message({
             type: 'error',
             message: '每层最多5个分支',
             duration: 10000, // error 错误提示显示10秒
             showClose: true
           })
-        this.formDataLevel2.treeVO[index].childVo[idx3].childVo.push({
-          id: '',
-          name: '',
+        this.formDataLevel2.childVo.childVo[index].childVo[idx3].childVo.push({
+          indicatorLibraryId: '',
+          title: '',
           weight: '',
           childVo: []
         })
       } else if (str === '4') {
         if (
-          this.formDataLevel2.treeVO[index].childVo[idx3].childVo[idx4].childVo
+          this.formDataLevel2.childVo.childVo[index].childVo[idx3].childVo[idx4].childVo
             .length == 5
         )
           return this.$message({
@@ -352,11 +461,11 @@ export default {
             duration: 10000, // error 错误提示显示10秒
             showClose: true
           })
-        this.formDataLevel2.treeVO[index].childVo[idx3].childVo[
+        this.formDataLevel2.childVo.childVo[index].childVo[idx3].childVo[
           idx4
         ].childVo.push({
-          id: '',
-          name: '',
+          indicatorLibraryId: '',
+          title: '',
           weight: '',
           childVo: []
         })
@@ -364,16 +473,16 @@ export default {
     },
     handleLess(index, index3, index4, str) {
       if (str === '2') {
-        this.formDataLevel2.treeVO.splice(index, 1)
+        this.formDataLevel2.childVo.childVo.splice(index, 1)
       } else if (str === '3') {
-        this.formDataLevel2.treeVO[index].childVo.splice(index3, 1)
+        this.formDataLevel2.childVo.childVo[index].childVo.splice(index3, 1)
       } else if (str === '4') {
-        this.formDataLevel2.treeVO[index].childVo[index3].childVo.splice(
+        this.formDataLevel2.childVo.childVo[index].childVo[index3].childVo.splice(
           index4,
           1
         )
       } else {
-        this.formDataLevel2.treeVO[index].childVo[index4].childVo[
+        this.formDataLevel2.childVo.childVo[index].childVo[index4].childVo[
           index4
         ].childVo.splice(index5, 1)
       }
@@ -472,7 +581,6 @@ export default {
       // })
 
       // 保存执行
-      this.formDataLevel2.modelId = 1
       addModelTree({
         ...this.formDataLevel2
       })
@@ -575,7 +683,7 @@ export default {
       padding-bottom: 50px;
 
       .total {
-        >div {
+        > div {
           height: 30px;
           font-size: 16px;
           margin: 0 20px;
@@ -606,7 +714,7 @@ export default {
         .bottomcard {
           height: 40px;
 
-          >div {
+          > div {
             height: 34px;
             width: 50%;
           }
@@ -760,7 +868,7 @@ export default {
       border: 1px solid #1a75d1;
       position: relative;
 
-      >div {
+      > div {
         height: 30px;
         font-size: 16px;
         margin: 0 20px;
@@ -791,7 +899,7 @@ export default {
       .bottomcard {
         height: 40px;
 
-        >div {
+        > div {
           height: 34px;
           width: 50%;
         }
@@ -847,7 +955,7 @@ export default {
   left: 50%;
   transform: translateX(-50%);
 
-  >div {
+  > div {
     height: 30px;
     font-size: 16px;
     margin: 0 20px;
@@ -878,7 +986,7 @@ export default {
   .bottomcard {
     height: 40px;
 
-    >div {
+    > div {
       height: 34px;
       width: 50%;
     }
@@ -965,7 +1073,7 @@ export default {
         width: 100%;
         display: flex;
 
-        >div {
+        > div {
           width: 50%;
         }
       }
@@ -984,7 +1092,8 @@ export default {
         transform: translateX(10%);
       }
 
-      .lev4 {}
+      .lev4 {
+      }
     }
 
     .cloum-before::before {

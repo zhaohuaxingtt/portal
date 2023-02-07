@@ -29,13 +29,13 @@
             :placeholder="$t('partsprocure.PLEENTER')"
             v-model="formData.status"
           >
-            <!-- <el-option
+            <el-option
               v-for="(j, index) in statusList"
               :key="index"
               :value="j.code"
               :label="j.name"
             >
-            </el-option> -->
+            </el-option>
           </iSelect>
         </el-form-item>
       </el-form>
@@ -63,7 +63,7 @@
         <template #status="scope">
           <span>{{
             scope.row.status
-              ? typeList.find((val) => val.code == scope.row.status).name
+              ? statusList.find((val) => val.code == scope.row.status).name
               : ''
           }}</span>
         </template>
@@ -275,13 +275,13 @@ export default {
           }
         })
         .catch(() => {})
-      // getDictByCode('SUPPLIER_PERFORMANCE_MODEL_TYPE')
-      // .then((res) => {
-      //   if (res.data) {
-      //     this.statusList = res?.data[0]?.subDictResultVo
-      //   }
-      // })
-      // .catch(() => {})
+      getDictByCode('SUPPLIER_PERFORMANCE_MODEL_STATUS')
+      .then((res) => {
+        if (res.data) {
+          this.statusList = res?.data[0]?.subDictResultVo
+        }
+      })
+      .catch(() => {})
     },
     openPreDetail(item) {
       let routeUrl = this.$router.resolve({
