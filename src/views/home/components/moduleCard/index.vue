@@ -18,6 +18,7 @@
 
       <eklHeader v-if="card.component === 'EKL'" @tab-click="handleEklClick" />
       <approveHeader v-if="card.component === 'Approve'" @tab-click="handleApproveHeaderClick" />
+      <taskHeader v-if="card.component === 'Task'" @tab-click="handleTaskHeaderClick" />
       <eklAffixHeader
         v-if="card.component === 'EKLAffix'"
         @tab-click="handleEklAffixClick"
@@ -80,6 +81,7 @@ import Delivery from '../Delivery/index.vue'
 import EKL from '../EKL/index.vue'
 import eklHeader from '../EKL/header'
 import approveHeader from '../Approve/header'
+import taskHeader from '../Task/header'
 import EKLAffix from '../EKLAffix/index.vue'
 import eklAffixHeader from '../EKLAffix/header'
 
@@ -110,6 +112,7 @@ export default {
     EKLAffix,
     eklHeader,
     approveHeader,
+    taskHeader,
     eklAffixHeader
   },
   props: {
@@ -138,6 +141,9 @@ export default {
       // } else {
       //   return this.$t('HOME_CARD.' + this.card.permissionKey)
       // }
+      if(this.card.component === 'Task') {
+        return this.$t('HOME_CARD.HOME_MODULE_I_TASK')
+      }
       return this.$t('HOME_CARD.' + this.card.permissionKey)
     }
   },
@@ -150,6 +156,8 @@ export default {
     getHeaderBgColorClass(card) {
       if (card.component === 'Approve') {
         return 'deep-blue-header'
+      } else if(card.component === 'Task') {
+        return 'blue-header'
       }
     },
     handleClickTitle(card) {
@@ -195,6 +203,9 @@ export default {
     },
     handleApproveHeaderClick(item) {
       this.approveTabItem = item
+    },
+    handleTaskHeaderClick() {
+
     },
     handleEklAffixClick(item) {
       this.eklAffixTabItem = item
@@ -305,12 +316,22 @@ export default {
       }
     }
   }
+  &.blue-header {
+    .el-card__header {
+      background-color: rgb(15, 66, 145);
+      .title {
+        color: rgb(255, 255, 255);
+      }
+    }
+  }
   .el-dropdown {
     z-index: 999;
   }
   .el-card__header {
     height: 50px;
     border-bottom: none;
+    padding-top: 4px;
+    padding-bottom: 4px;
   }
   .el-card__body {
     height: 570px;

@@ -1747,6 +1747,8 @@
       MY_APPROVAL: '我的审批',
       OVERDUE: '逾期待办',
       IN_PROGRESS: '今日待办',
+      OVERDUE_TEXT: '逾期',
+      IN_PROGRESS_TEXT: '待办',
       HOME_MODULE_SPONSER: '供应商财务风险评级',
       HOME_MODULE_SCHEDULE: 'Schedule',
       HOME_MODULE_APPROVE: 'iAgree',

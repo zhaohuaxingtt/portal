@@ -66,11 +66,13 @@ export default {
     width: 100%;
     // overflow-x: auto;
     // overflow-y: hidden;
+    height: 42px;
+    line-height: 42px;
   }
   ::v-deep .el-badge {
     .el-badge__content {
       background: #e30d0d;
-      top: calc(-16px * 2);
+      top: calc(-16px * 3);
       //bottom: -3px;
       left: calc(16px * 1.5);
       min-width: 25px;
