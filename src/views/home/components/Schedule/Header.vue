@@ -104,8 +104,10 @@ import moment from 'moment'
           cursor: pointer;
         }
         .meeting-week-value {
-          font-size: 20px;
+          font-size: 16px;
           min-width: 105px;
+          height: 24px;
+          line-height: 24px;
           //width: 24px;
           text-align: center;
           color: rgb(255, 255, 255);
