@@ -19,6 +19,7 @@
       <eklHeader v-if="card.component === 'EKL'" @tab-click="handleEklClick" />
       <approveHeader v-if="card.component === 'Approve'" @tab-click="handleApproveHeaderClick" />
       <taskHeader v-if="card.component === 'Task'" @tab-click="handleTaskHeaderClick" />
+      <meetingHeader v-if="card.component === 'Schedule'" @tab-click="handleTaskHeaderClick" />
       <eklAffixHeader
         v-if="card.component === 'EKLAffix'"
         @tab-click="handleEklAffixClick"
@@ -82,6 +83,7 @@ import EKL from '../EKL/index.vue'
 import eklHeader from '../EKL/header'
 import approveHeader from '../Approve/header'
 import taskHeader from '../Task/header'
+import meetingHeader from  '../Schedule/Header'
 import EKLAffix from '../EKLAffix/index.vue'
 import eklAffixHeader from '../EKLAffix/header'
 
@@ -113,6 +115,7 @@ export default {
     eklHeader,
     approveHeader,
     taskHeader,
+    meetingHeader,
     eklAffixHeader
   },
   props: {

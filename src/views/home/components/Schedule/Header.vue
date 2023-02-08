@@ -2,15 +2,13 @@
   <div class="flex-between-center-center ekl-header">
     <div class="tab-tabs">
       <div style="width: 100%">
-        <div class="task-value-div">
-          <div>
-            <span class="task-value overdue-task-value">100</span>
-            <span class="task-value-title">{{ $t('HOME_CARD.OVERDUE_TEXT') }}</span>
-          </div>
-          <div class="task-value-divide-line">/</div>
+        <div class="meeting-week-value-div">
           <div class='tab-title'>
-            <span class="task-value">90</span>
-            <span class="task-value-title">{{ $t('HOME_CARD.IN_PROGRESS_TEXT') }}</span>
+            <i class="el-icon-arrow-left" @click="handleClickPre"></i>
+          </div>
+          <div class="meeting-week-value">{{ curWeekInfo }}</div>
+          <div class='tab-title'>
+            <i class="el-icon-arrow-right" @click="handleClickNext"></i>
           </div>
         </div>
       </div>
@@ -19,32 +17,69 @@
 </template>
 
 <script>
+import moment from 'moment'
   export default {
-    name: 'taskHeader',
+    name: 'meetingHeader',
     data() {
       return {
-        activeName: 0,
-        messageCount: 8,
-        tabList: [
-          { name: this.$t('HOME_CARD.OVERDUE_TEXT'), id: 0 },
-          { name: this.$t('HOME_CARD.IN_PROGRESS_TEXT'), id: 1 },
-        ]
+        startDate: null,
+        endDate: null
       }
+    },
+    computed: {
+      curWeekInfo() {
+        if(this.startDate) {
+          return this.startDate.format("YYYY") + '-CW' + this.startDate.week()
+        } else {
+          return ''
+        }
+      },
     },
     created() {
-      this.setActiveName()
-    },
-    watch: {
-      eklTabList() {
-        this.setActiveName()
-      }
+      const dateArray = this.getCurrentWeekdays()
+      this.startDate = dateArray[0]
+      this.endDate = dateArray[1]
     },
     methods: {
-      setActiveName() {
-        this.activeName = this.$t('APPROVAL.APPROVAL_TODO')
+      // 获取当周的开始结束时间，周日至周一
+      getCurrentWeekdays() {
+        const startDate = moment().startOf("weeks");
+        const endDate = moment().endOf("weeks");
+        return [startDate, endDate];
       },
-      handleClick(item) {
-        this.$emit('tab-click', item === 1)
+      /**
+       * 获取上一周的开始结束时间
+       * @returns {*[]}
+       */
+      getLastWeekdays() {
+        const startDateMoment = moment(this.startDate)
+        const endDateMoment = moment(this.endDate)
+        const startDate = startDateMoment.week(startDateMoment.week() - 1).startOf("weeks");
+        const endDate = endDateMoment.week(endDateMoment.week() - 1).endOf("weeks");
+        return [startDate, endDate];
+      },
+      /**
+       * 获取下一周的开始结束时间
+       * @returns {*[]}
+       */
+      getNextWeekdays() {
+        const startDateMoment = moment(this.startDate)
+        const endDateMoment = moment(this.endDate)
+        const startDate = startDateMoment.week(startDateMoment.week() + 1).startOf("weeks");
+        const endDate = endDateMoment.week(endDateMoment.week() + 1).endOf("weeks");
+        return [startDate, endDate];
+      },
+      handleClickPre() {
+        const dateArray = this.getLastWeekdays()
+        this.startDate = dateArray[0]
+        this.endDate = dateArray[1]
+        this.$emit('tab-click', dateArray)
+      },
+      handleClickNext() {
+        const dateArray = this.getNextWeekdays()
+        this.startDate = dateArray[0]
+        this.endDate = dateArray[1]
+        this.$emit('tab-click', dateArray)
       }
     }
   }
@@ -52,41 +87,29 @@
 
 <style lang="scss" scoped>
   .ekl-header {
-    //flex-grow: 1;
     margin-right: 10px;
-    //align-items: center;
     max-width: calc(100% - 60px);
 
     .tab-tabs {
       width: 100%;
-      // overflow-x: auto;
-      // overflow-y: hidden;
-      .task-value-div {
+      .meeting-week-value-div {
         display: flex;
         justify-content: space-between;
-        > div {
-          display: flex;
-          flex-direction: column;
-          .task-value {
-            color: rgb(255, 255, 255);
-            font-weight: bold;
-            font-size: 16px;
-            &.overdue-task-value {
-              color: rgb(235, 103, 105)
-            }
-          }
-          .task-value-title {
-            color: rgb(255, 255, 255);
-            font-weight: normal;
-            font-size: 16px;
-          }
+        .tab-title {
+          color: hsl(0deg 0% 53%);
+          font-size: 20px;
+          font-weight: 900;
         }
-        .task-value-divide-line {
+        .tab-title:hover {
+          cursor: pointer;
+        }
+        .meeting-week-value {
+          font-size: 20px;
+          min-width: 105px;
+          //width: 24px;
+          text-align: center;
           color: rgb(255, 255, 255);
-          padding-left: 5px;
-          padding-right: 5px;
-          font-size: 16px;
-          font-weight: bold;
+          font-weight: normal;
         }
       }
     }
