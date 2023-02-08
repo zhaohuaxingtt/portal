@@ -152,10 +152,10 @@ export default {
   // display: flex;
   // flex-wrap: wrap;
   > div {
-    height: 650px;
+    height: 570px;
   }
   width: 100%;
-  min-height: 600px;
+  //min-height: 530px;
 }
 .greet-container {
   > div {
