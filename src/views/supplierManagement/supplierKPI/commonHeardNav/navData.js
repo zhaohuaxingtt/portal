@@ -99,6 +99,14 @@ export const categoryManagementAssistantList = [
     activePath: '/supplier/spiIndex/supplierVersion',
     key: '绩效版本管理',
     permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_BANNIANBAOHUIGU'
+  },
+  {
+    value: 6,
+    name: 'KPI',
+    url: '/supplier/spiIndex/kpi',
+    activePath: '/supplier/spiIndex/kpi',
+    key: 'KPI',
+    permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_BANNIANBAOHUIGU'
   }
 ]
 
