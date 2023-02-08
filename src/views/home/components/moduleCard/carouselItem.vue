@@ -214,7 +214,7 @@ export default {
     z-index: 999;
   }
   .el-card__header {
-    height: 50px;
+    height: 65px;
     border-bottom: none;
   }
   .el-card__body {
