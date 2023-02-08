@@ -143,6 +143,8 @@ export default {
       // }
       if(this.card.component === 'Task') {
         return this.$t('HOME_CARD.HOME_MODULE_I_TASK')
+      } else if(this.card.component === 'Schedule') {
+        return this.$t('HOME_CARD.HOME_MODULE_I_MEETING')
       }
       return this.$t('HOME_CARD.' + this.card.permissionKey)
     }
