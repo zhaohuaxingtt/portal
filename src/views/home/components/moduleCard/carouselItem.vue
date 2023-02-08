@@ -1,12 +1,6 @@
 <template>
-  <el-card class="module-card" :class="getHeaderBgColorClass(card)">
-    <!-- :class="
-        !['EKL', 'EKLAffix'].includes(card.component)
-          ? 'flex-between-center-center'
-          : 'flex-end-center'
-      " -->
-    <div slot="header" class="card-header flex-between-center-center">
-      <span
+  <div class="module-card">
+    <span
         class="title"
         @click="handleClickTitle(card)"
         v-if="!['EKL', 'EKLAffix'].includes(card.component)"
@@ -17,38 +11,10 @@
       </span>
 
       <eklHeader v-if="card.component === 'EKL'" @tab-click="handleEklClick" />
-      <approveHeader v-if="card.component === 'Approve'" @tab-click="handleApproveHeaderClick" />
-      <taskHeader v-if="card.component === 'Task'" @tab-click="handleTaskHeaderClick" />
       <eklAffixHeader
         v-if="card.component === 'EKLAffix'"
         @tab-click="handleEklAffixClick"
       />
-      <!-- 更多2 -->
-<!--      <div class="more">-->
-<!--        <span class="el-dropdown-link" @click.stop="show = !show">-->
-<!--          <i class="el-icon-more"></i>-->
-<!--        </span>-->
-<!--        <div class="more-content" style="top: 17px" v-show="show">-->
-<!--          <div-->
-<!--            v-if="['Task', 'Approve'].includes(card.component)"-->
-<!--            class="more-item"-->
-<!--            @click="handleMore"-->
-<!--          >-->
-<!--            更多-->
-<!--          </div>-->
-<!--          <div-->
-<!--            class="more-item"-->
-<!--            :class="-->
-<!--              ['Task', 'Approve'].includes(card.component) ? 'bottom' : 'all'-->
-<!--            "-->
-<!--            @click="handleDel"-->
-<!--          >-->
-<!--            删除-->
-<!--          </div>-->
-<!--          <i class="arrow" style="width: 8px; height: 8px; top: -4px"></i>-->
-<!--        </div>-->
-<!--      </div>-->
-    </div>
     <div class="module-content">
       <component
         :is="card.component"
@@ -56,7 +22,6 @@
         ref="parent"
         :eklTabItem="eklTabItem"
         :eklAffixTabItem="eklAffixTabItem"
-        :approveTabItem="approveTabItem"
       ></component>
     </div>
     <moreDialog
@@ -65,7 +30,7 @@
       :type="card.component"
       :data="card"
     />
-  </el-card>
+  </div>
 </template>
 
 <script>
@@ -80,8 +45,6 @@ import Sponser from '../Sponser/index.vue'
 import Delivery from '../Delivery/index.vue'
 import EKL from '../EKL/index.vue'
 import eklHeader from '../EKL/header'
-import approveHeader from '../Approve/header'
-import taskHeader from '../Task/header'
 import EKLAffix from '../EKLAffix/index.vue'
 import eklAffixHeader from '../EKLAffix/header'
 
@@ -94,7 +57,6 @@ export default {
       modalTitle: '',
       show: false,
       eklTabItem: null,
-      approveTabItem: null,
       eklAffixTabItem: null
     }
   },
@@ -111,8 +73,6 @@ export default {
     EKL,
     EKLAffix,
     eklHeader,
-    approveHeader,
-    taskHeader,
     eklAffixHeader
   },
   props: {
@@ -131,19 +91,6 @@ export default {
       return this.$i18n.locale
     },
     newTitle() {
-      // if (this.$i18n.locale === 'zh') {
-      //   return this.$t('HOME_CARD.' + this.card.permissionKey)
-      // } else if (
-      //   this.$i18n.locale === 'en' &&
-      //   this.card.permissionKey === 'HOME_MODULE_PROVIDER_RATE'
-      // ) {
-      //   return this.card.permissionKey
-      // } else {
-      //   return this.$t('HOME_CARD.' + this.card.permissionKey)
-      // }
-      if(this.card.component === 'Task') {
-        return this.$t('HOME_CARD.HOME_MODULE_I_TASK')
-      }
       return this.$t('HOME_CARD.' + this.card.permissionKey)
     }
   },
@@ -153,34 +100,7 @@ export default {
     })
   },
   methods: {
-    getHeaderBgColorClass(card) {
-      if (card.component === 'Approve') {
-        return 'deep-blue-header'
-      } else if(card.component === 'Task') {
-        return 'blue-header'
-      } else if(card.component === 'Schedule') {
-        return 'deep-blue-header'
-      } else {
-        return 'blue-header'
-      }
-    },
-    handleClickTitle(card) {
-      console.log(card, '111111111')
-      if (card.component === 'Approve') {
-        window.open(process.env.VUE_APP_HOST + '/portal/#/bpm/approval/center')
-      } else if (card.component === 'Task') {
-        window.open(process.env.VUE_APP_HOST + '/portal/#/task/center')
-      } else if (card.component === 'Sourcing') {
-        window.location.href = this.$refs.parent.url.uri
-      } else if (card.component === 'News') {
-        window.location.href = `/portal/news/#/news/news?id=${this.id}`
-      } else if (card.component === 'Schedule') {
-        window.location.href = '/portal/#/meeting/hall'
-      }
-    },
     handleMore() {
-      /* this.modalTitle = `Select ${this.card.name}`
-      this.showDialog = true */
       if (this.card.permissionKey === 'HOME_MODULE_APPROVE') {
         this.$router.push({ path: '/setting', query: { module: 'iAgree' } })
       }
@@ -188,28 +108,8 @@ export default {
         this.$router.push({ path: '/setting', query: { module: 'task' } })
       }
     },
-    handleDel() {
-      this.$confirm(`确认删除该卡片吗`, {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(async () => {
-        /* this.card.value = true
-        const result = await updateModules(this.card)
-        if (result.code === '200' && result.data) {
-          this.$store.dispatch('getModules')
-        } */
-        this.$emit('del', this.card)
-      })
-    },
     handleEklClick(item) {
       this.eklTabItem = item
-    },
-    handleApproveHeaderClick(item) {
-      this.approveTabItem = item
-    },
-    handleTaskHeaderClick() {
-
     },
     handleEklAffixClick(item) {
       this.eklAffixTabItem = item
@@ -227,11 +127,10 @@ export default {
   }
 }
 .module-card {
-  border-radius: 20px;
   position: relative;
   // min-height: 635px;
   .title {
-    font-size: 20px;
+    font-size: 16px;
     color: #222222;
     font-weight: bold;
     cursor: pointer;
@@ -240,9 +139,6 @@ export default {
   .card-header {
     position: relative;
     z-index: 10;
-  }
-  .flex-between-center-center {
-    align-items: start;
   }
   .module-card-btn {
     color: #4d4d4d;
@@ -314,31 +210,12 @@ export default {
 </style>
 <style scope lang="scss">
 .module-card {
-  margin-bottom: 20px;
-  &.deep-blue-header {
-    .el-card__header {
-      background-color: rgb(29, 51, 88);
-      .title {
-        color: rgb(255, 255, 255);
-      }
-    }
-  }
-  &.blue-header {
-    .el-card__header {
-      background-color: rgb(15, 66, 145);
-      .title {
-        color: rgb(255, 255, 255);
-      }
-    }
-  }
   .el-dropdown {
     z-index: 999;
   }
   .el-card__header {
-    height: 65px;
+    height: 50px;
     border-bottom: none;
-    //padding-top: 4px;
-    //padding-bottom: 4px;
   }
   .el-card__body {
     height: 570px;
@@ -357,6 +234,7 @@ export default {
   }
   .module-content {
     height: 100%;
+    overflow: auto;
   }
 }
 </style>

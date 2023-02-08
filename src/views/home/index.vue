@@ -10,27 +10,39 @@
   <iPage>
     <div class="index-wrapper">
       <el-row :gutter="20" class="index-container greet-container" id="greetModules">
-        <el-col
-          :xs="24"
-          :sm="24"
-          :md="24"
-          :lg="24"
-          :xl="24">
+        <el-col :xs="24" :sm="24" :md="24" :lg="24" xl="24">
           <greet-card />
         </el-col>
       </el-row>
       <el-row :gutter="20" class="index-container" id="myModules">
-        <el-col
-          :xs="24"
-          :sm="12"
-          :md="8"
-          :lg="6"
-          :xl="6"
-          :key="card.id"
-          v-for="(card,index) in cards"
-        >
-          <module-card v-if='index < 4' :card="card" @del="handleDelete" />
+        <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6" :key="card.id" v-for="(card,index) in fixedCards">
+          <module-card :card="card"/>
         </el-col>
+        <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6" class="blue-header-div">
+          <el-card class="carousel-card">
+            <div slot="header" class="card-header flex-between-center-center blue-header">
+              <span class="title">
+                {{ $t('iFact') }}
+              </span>
+            </div>
+            <el-carousel trigger="click" class="carousel" direction="horizontal" arrow="'never'" height="100%" type="'card'">
+              <el-carousel-item v-for="card in cards" :key="card.id">
+                <carouselItem :card="card" @del="handleDelete" />
+              </el-carousel-item>
+            </el-carousel>
+          </el-card>
+        </el-col>
+<!--        <el-col-->
+<!--          :xs="24"-->
+<!--          :sm="12"-->
+<!--          :md="8"-->
+<!--          :lg="6"-->
+<!--          :xl="6"-->
+<!--          :key="card.id"-->
+<!--          v-for="(card,index) in cards"-->
+<!--        >-->
+<!--          <module-card :card="cards" @del="handleDelete" />-->
+<!--        </el-col>-->
       </el-row>
     </div>
   </iPage>
@@ -38,11 +50,12 @@
 <script>
 import moduleCard from './components/moduleCard'
 import greetCard from './components/greetCard'
+import carouselItem from './components/moduleCard/carouselItem'
 import { iPage } from 'rise'
 import Sortable from 'sortablejs'
 import { updateBatchModules } from '@/api/home'
 export default {
-  components: { moduleCard, greetCard, iPage },
+  components: { moduleCard, greetCard, iPage, carouselItem },
   data() {
     return {}
   },
@@ -52,10 +65,19 @@ export default {
       cardList: (state) => state.permission.cardList
     }),
     cards() {
-      let cards = this.cardList.filter((li) => !li.value)
+      // console.log("cardList", this.cardList[1])
+      let cards = this.cardList.filter(
+        (li) =>
+          !li.value && !['Approve', 'Task', 'Schedule'].includes(li.component)
+      )
       return cards
-      // return this.cardList.filter(li => li.name ==`EKL`)
     },
+    fixedCards() {
+      let cards = this.cardList.filter((li) =>
+        ['Approve', 'Task', 'Schedule'].includes(li.component)
+      )
+      return cards
+    }
   },
   mounted() {
     // this.$nextTick(() => {
@@ -107,6 +129,25 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.carousel-card {
+  height: 620px;
+  margin-bottom: 20px;
+  border-radius: 20px;
+  .title {
+    font-size: 20px;
+    color: #222222;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  ::v-deep .el-card__body{
+    height: 570px;
+    overflow: auto;
+    padding-right: 0px;
+    .carousel{
+      height: 100%;
+    }
+  }
+}
 .index-container {
   // display: flex;
   // flex-wrap: wrap;
@@ -131,4 +172,16 @@ export default {
     border-color: rgb(234, 240, 249);
   }
 }
+.blue-header-div {
+  //.blue-header {
+  .is-always-shadow {
+    ::v-deep .el-card__header {
+      background-color: rgb(15, 66, 145);
+      .title {
+        color: rgb(255, 255, 255);
+      }
+    }
+  }
+}
+
 </style>
