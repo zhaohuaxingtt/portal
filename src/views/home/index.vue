@@ -130,7 +130,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .carousel-card {
-  height: 620px;
+  height: 565px;
   margin-bottom: 20px;
   border-radius: 20px;
   .title {
