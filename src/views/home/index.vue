@@ -25,7 +25,7 @@
                 {{ $t('iFact') }}
               </span>
             </div>
-            <el-carousel trigger="click" class="carousel" direction="horizontal" arrow="'never'" height="100%" type="'card'">
+            <el-carousel trigger="click" class="carousel cus-carousel" direction="horizontal" arrow="'never'" height="100%" type="'card'">
               <el-carousel-item v-for="card in cards" :key="card.id">
                 <carouselItem :card="card" @del="handleDelete" />
               </el-carousel-item>
@@ -129,6 +129,28 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+  .cus-carousel {
+    ::v-deep .el-carousel__arrow.el-carousel__arrow--left, ::v-deep .el-carousel__arrow.el-carousel__arrow--right {
+      display: none !important;
+    }
+    ::v-deep .el-carousel__indicators.el-carousel__indicators--horizontal {
+      background-color: transparent;
+      z-index: 30;
+      bottom: 60px;
+      .el-carousel__button {
+        background-color: rgb(192,192,192) !important;
+        border-radius: 50% !important;
+        height: 8px !important;
+        width: 8px !important;
+      }
+    }
+
+    ::v-deep .el-carousel__indicator.el-carousel__indicator--horizontal.is-active {
+      .el-carousel__button {
+        background-color: rgb(21, 119, 203) !important;
+      }
+    }
+  }
 .carousel-card {
   height: 565px;
   margin-bottom: 20px;
