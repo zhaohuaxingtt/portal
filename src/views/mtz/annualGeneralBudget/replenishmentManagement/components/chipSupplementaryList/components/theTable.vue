@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-18 18:52:11
- * @LastEditTime: 2023-02-02 14:14:56
+ * @LastEditTime: 2023-02-09 11:02:01
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\theTable.vue
@@ -115,6 +115,7 @@ import {
   exportBalanceList,
   recallBalance,
   deleteBalance,
+  submitBalance,
 } from '@/api/mtz/annualGeneralBudget/chipReplenishment'
 import { iCard, iButton, iPagination, iMessage, iTableCustom } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
@@ -215,8 +216,8 @@ export default {
         iMessage.error('请选择数据')
       }
       if (
-        this.muiltSelectList[0].status === '草稿' ||
-        this.muiltSelectList[0].status === '撤回'
+        this.muiltSelectList[0].statusName === '草稿' ||
+        this.muiltSelectList[0].statusName === '撤回'
       ) {
         deleteBalance(this.muiltSelectList.map(item=>item.id)).then((res) => {
           if (res.code === '200') {
@@ -235,11 +236,11 @@ export default {
       if (this.muiltSelectList.length === 0) {
         iMessage.error('请选择数据')
       }
-      console.log(this.muiltSelectList[0].status)
+      console.log(this.muiltSelectList[0].statusName)
       if (
-        this.muiltSelectList[0].status === '草稿' ||
-        this.muiltSelectList[0].status === '供应商拒绝' ||
-        this.muiltSelectList[0].status === '审批不通过'
+        this.muiltSelectList[0].statusName === '草稿' ||
+        this.muiltSelectList[0].statusName === '供应商拒绝' ||
+        this.muiltSelectList[0].statusName === '审批不通过'
       ) {
         sendSupplierConfirm(this.muiltSelectList.map(item=>item.id)).then((res) => {
           if (res.code === '200') {
@@ -258,12 +259,12 @@ export default {
         return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
       }
       if (
-        this.muiltSelectList[0].status === '草稿' ||
-        this.muiltSelectList[0].status === '供应商拒绝' ||
-        this.muiltSelectList[0].status == '审批不通过' ||
-        this.muiltSelectList[0].status == '审批退回' ||
-        this.muiltSelectList[0].status == 'RISE审批通过' ||
-        this.muiltSelectList[0].status == '供应商确认' || true
+        this.muiltSelectList[0].statusName === '草稿' ||
+        this.muiltSelectList[0].statusName === '供应商拒绝' ||
+        this.muiltSelectList[0].statusName == '审批不通过' ||
+        this.muiltSelectList[0].statusName == '审批退回' ||
+        this.muiltSelectList[0].statusName == 'RISE审批通过' ||
+        this.muiltSelectList[0].statusName == '供应商确认'
       ) {
         // 一次件
         let balanceId = this.muiltSelectList[0].id || ''
@@ -287,9 +288,9 @@ export default {
         iMessage.error('请选择数据')
       }
       if (
-        this.muiltSelectList[0].status === '供应商确认' ||
-        this.muiltSelectList[0].status === '审批退回' ||
-        this.muiltSelectList[0].status === 'RISE审批通过'
+        this.muiltSelectList[0].statusName === '供应商确认' ||
+        this.muiltSelectList[0].statusName === '审批退回' ||
+        this.muiltSelectList[0].statusName === 'RISE审批通过'
       ) {
         let params = []
         this.muiltSelectList.forEach((item) => {
@@ -312,10 +313,10 @@ export default {
         iMessage.error('请选择数据')
       }
       if (
-        this.muiltSelectList[0].status === '草稿' ||
-        this.muiltSelectList[0].status === '供应商确认中' ||
-        this.muiltSelectList[0].status === '供应商拒绝' ||
-        this.muiltSelectList[0].status === '审批不通过'
+        this.muiltSelectList[0].statusName === '草稿' ||
+        this.muiltSelectList[0].statusName === '供应商确认中' ||
+        this.muiltSelectList[0].statusName === '供应商拒绝' ||
+        this.muiltSelectList[0].statusName === '审批不通过'
       ) {
         let params = []
         this.muiltSelectList.forEach((item) => {
