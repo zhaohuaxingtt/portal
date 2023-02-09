@@ -236,5 +236,8 @@ export default {
     height: 100%;
     overflow: auto;
   }
+  .module-content::-webkit-scrollbar {
+    width: calc(1.25rem / 2);
+  }
 }
 </style>

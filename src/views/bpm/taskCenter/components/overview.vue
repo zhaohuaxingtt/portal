@@ -72,7 +72,7 @@ $color-blue-3: #2d539b;
     position: relative;
     min-height: 62px;
     .name {
-      font-size: 16px;
+      font-size: 14px;
       color: $color-blue-1;
       font-weight: bold;
       margin: 20px 0 0 20px;

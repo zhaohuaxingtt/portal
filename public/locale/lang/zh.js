@@ -1775,7 +1775,7 @@
     THURSDAY_TEXT: '星期四',
     FRIDAY_TEXT: '星期五',
     SATURDAY_TEXT: '星期六',
-    SUNDAY_TEXT: '星期七',
+    SUNDAY_TEXT: '星期日',
     // 以下ekl中文
     LK_WDYJ: '我的业绩',
     LK_YJJC: '业绩基础',

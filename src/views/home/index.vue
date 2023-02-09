@@ -162,7 +162,7 @@ export default {
     cursor: pointer;
   }
   ::v-deep .el-card__body{
-    height: 570px;
+    height: 550px;
     overflow: auto;
     padding-right: 0px;
     .carousel{
@@ -174,7 +174,7 @@ export default {
   // display: flex;
   // flex-wrap: wrap;
   > div {
-    height: 570px;
+    height: 550px;
   }
   width: 100%;
   //min-height: 530px;
