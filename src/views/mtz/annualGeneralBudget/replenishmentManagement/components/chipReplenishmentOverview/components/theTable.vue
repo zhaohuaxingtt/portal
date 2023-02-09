@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2023-01-31 17:05:58
+ * @LastEditTime: 2023-02-09 11:16:53
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipReplenishmentOverview\components\theTable.vue
@@ -181,6 +181,7 @@ export default {
         onlySeeMySelf:this.onlySeeMySelf,
         ...search
       }
+      delete params.compDate
       findBalanceSummaryByPage(params).then((res) => {
         if (res?.code == '200') {
           this.tableData = res.data.records || []

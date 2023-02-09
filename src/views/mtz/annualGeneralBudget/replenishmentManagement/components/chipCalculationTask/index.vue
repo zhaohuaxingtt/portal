@@ -150,6 +150,9 @@ export default {
     },
     reset() {
       this.searchForm = {}
+      this.searchFormData.forEach(item=>{
+        if(item.showAll) this.searchForm[item.props] = ''
+      })
       this.sure()
     },
     async getData() {
