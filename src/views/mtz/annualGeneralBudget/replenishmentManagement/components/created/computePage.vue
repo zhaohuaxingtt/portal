@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-14 14:44:54
- * @LastEditTime: 2023-02-07 17:44:37
+ * @LastEditTime: 2023-02-09 10:59:06
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\created\computePage.vue
@@ -139,7 +139,7 @@ import {
 import tableList from '@/components/commonTable/index.vue'
 import search from '../components/search.vue'
 import {
-  getSupplierByUser,
+  getTaskSecondSupplierList,
   findBalanceById,
   updateBalance,
   sendSupplierConfirm,
@@ -155,10 +155,6 @@ import {
   tableTitleComplete1,
   computedFormData
 } from './components/data'
-import { fetchCurrentUser } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzReplenishmentOverview/detail'
-import { queryDeptSectionForCompItem } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
-import { getMtzSupplierList } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
-import { exportAppRecordByCondition } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
 export default {
   components: {
     iPage,
@@ -222,8 +218,6 @@ export default {
       tableTitleRule: tableTitle,
       options: {
         sSupplierDropDownData: [], //二次件供应商编号
-        departmentDropDownData: [], //科室
-        linieDropDownData: [] //采购员
       },
       loading: false,
       tableTitleBE: [],
@@ -275,15 +269,9 @@ export default {
   created() {
     this.supplierType = this.$route.query.type == '1' ? '一次件' : '散件'
     this.balanceId = this.$route.query.balanceId
-    this.getSupplierByUser()
+    this.getTaskSecondSupplierList()
     if (this.balanceId) {
       this.findBalanceById()
-    } else {
-      // 新建
-      this.$nextTick((_) => {
-        this.getDeptList()
-        this.getCurrentUser()
-      })
     }
   },
   methods: {
@@ -311,6 +299,8 @@ export default {
     saveBalanceCurrentChange(val) {
       this.saveBalancePage.currPage = val
     },
+
+
     // 获取数据
     findBalanceById() {
       this.loading = true
@@ -421,26 +411,10 @@ export default {
       // this.findBalanceById()
     },
     // 获取二次件供应商编号-名称
-    getSupplierByUser() {
-      getSupplierByUser().then((res) => {
+    getTaskSecondSupplierList() {
+      getTaskSecondSupplierList().then((res) => {
         if (res && res.code == 200) {
           this.options.sSupplierDropDownData = res.data
-        } else iMessage.error(res.desZh)
-      })
-    },
-    // 获取部门数据
-    getDeptList() {
-      queryDeptSectionForCompItem({}).then((res) => {
-        if (res && res.code == 200) {
-          this.options.departmentDropDownData = res.data
-        } else iMessage.error(res.desZh)
-      })
-    },
-    // 获取采购员
-    getCurrentUser() {
-      fetchCurrentUser({}).then((res) => {
-        if (res && res.code == 200) {
-          this.options.linieDropDownData = res.data
         } else iMessage.error(res.desZh)
       })
     },
@@ -452,6 +426,7 @@ export default {
     },
     // 重置
     handleSearchReset() {
+      this.page.currPage = 1
       this.balancePage.currPage = 1
       this.saveBalancePage.currPage = 1
       this.searchForm = {}
@@ -461,15 +436,11 @@ export default {
     handleSelectionChange(val) {
       this.selection = val
     },
-    // 关闭弹窗
-    closeDiolog() {
-      this.$emit('handleCloseDialog')
-    },
     // 导出规则
     exportBalanceRuleList() {
       exportBalanceRuleList({ balanceId: this.balanceId })
     },
-    // 导出凭证
+    // 导出凭证列表
     exportBalanceItemList() {
       exportBalanceItemList({
         balanceId: this.balanceId,

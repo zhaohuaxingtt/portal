@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-17 13:17:43
- * @LastEditTime: 2023-02-07 09:43:55
+ * @LastEditTime: 2023-02-09 13:35:20
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\theSearch.vue
@@ -27,7 +27,6 @@ import {
   getTaskBuyerList,
   getTaskDepartmentList
 } from '@/api/mtz/annualGeneralBudget/chipReplenishment'
-import { fetchRemoteDept } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
 import search from '../../components/search.vue'
 import { queryFormData } from './data'
 export default {
@@ -119,20 +118,10 @@ export default {
       })
     },
     reset() {
-      // this.$refs.searchForm.resetFields()
-      this.searchForm = {
-        idList: [],
-        sapPayBalanceNo: [],
-        mgroups: [],
-        materialNos: [],
-        createBys: [],
-        fsupplierIds: [],
-        ssupplierIds: [],
-        departments: [],
-        statuss: [],
-        monthFrom: '',
-        monthTo: ''
-      }
+      this.searchForm = {}
+      this.searchFormData.forEach(item=>{
+        if(item.showAll) this.searchForm[item.props] = ''
+      })
       this.$parent.$children.forEach((item) => {
         if (item.$options._componentTag === 'theTable') {
           item.getmakeUpPageList()
