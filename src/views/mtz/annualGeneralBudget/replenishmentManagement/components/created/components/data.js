@@ -384,10 +384,10 @@ export const infoFormData = [
   },
   { props: 'statusName', name: '状态', key: '状态', type: 'input', disabled: true },
   { props: 'balanceNo', name: '补差单编号', key: '补差单编号', type: 'input', disabled: true },
-  { props: 'invoiceAmount', name: '补差金额（总计）', key: '补差金额（总计）', type: 'thousands', disabled: true },
-  { props: 'taskStatus', name: '已发起凭证', key: '已发起凭证', type: 'thousands', disabled: true },
-  { props: 'taskStatus', name: '待发起凭证', key: '待发起凭证', type: 'thousands', disabled: true },
-  { props: 'approvedAmount', name: '实补金额', key: '实补金额', type: 'thousands', required: true },
+  { props: 'totalAmount', name: '补差金额（总计）', key: '补差金额（总计）', type: 'thousands', disabled: true },
+  { props: 'submittedAmount', name: '已发起凭证', key: '已发起凭证', type: 'thousands', disabled: true },
+  { props: 'toBeSubmitAmount', name: '待发起凭证', key: '待发起凭证', type: 'thousands', disabled: true },
+  { props: 'actualMakeAmount', name: '实补金额', key: '实补金额', type: 'thousands', required: true },
 ]
 
 export const computedFormData = [
@@ -484,7 +484,7 @@ export const tableTitleBE1 = [
 
   { prop: 'receiveQuantity', label: '结算数量', i18n: '结算数量', width: 120 },
   { prop: 'requestAmount', label: '应补总额', i18n: '应补总额', width: 120 },
-  { prop: 'approveAmount', label: '实补总额', i18n: '实补总额', width: 120 },
+  { prop: 'actualMakeAmount', label: '实补总额', i18n: '实补总额', width: 120 },
   {
     prop: 'buyerName',
     label: '采购员',

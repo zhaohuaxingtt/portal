@@ -1,7 +1,7 @@
 /*
  * @Author: youyuan
  * @Date: 2021-09-09 14:02:54
- * @LastEditTime: 2023-02-04 00:02:58
+ * @LastEditTime: 2023-02-07 09:50:22
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 年度预算编辑
  * @FilePath: \front-portal\src\api\mtz\annualGeneralBudget\chipReplenishment.js
@@ -11,12 +11,40 @@ import axiosDownLoad from '@/utils/axios.download'
 const request = axios(process.env.VUE_APP_MTZ + '/web/chip')
 const requestChip = axios(process.env.VUE_APP_MTZ + '/web/balance')
 const downloadChip = axiosDownLoad(process.env.VUE_APP_MTZ + '/web/balance')
-// 获取一次件供应商
-export function getSupplierByuser(params) {
+// 获取供应商下拉选择(当前用户权限)
+export function getSupplierByUser(params) {
   return request({
     url: '/common/getSupplierByUser',
     method: 'POST',
     data: params
+  })
+}
+// 获取芯片一次件供应商
+export function getTaskPrimarySupplierList() {
+  return request({
+    url: '/common/getTaskPrimarySupplierList',
+    method: 'POST',
+  })
+}
+// 获取芯片二次件供应商
+export function getTaskSecondSupplierList() {
+  return request({
+    url: '/common/getTaskSecondSupplierList',
+    method: 'POST',
+  })
+}
+// 任务:采购员列表
+export function getTaskBuyerList() {
+  return request({
+    url: '/common/getTaskBuyerList',
+    method: 'POST',
+  })
+}
+// 任务:科室列表
+export function getTaskDepartmentList() {
+  return request({
+    url: '/common/getTaskDepartmentList',
+    method: 'POST',
   })
 }
 
@@ -167,7 +195,7 @@ export function getBalanceTaskStatusList(params) {
 }
 
 // 获取芯片补差单状态下拉列表
-export function getBalanceStatusList(params) {
+export function getBalanceStatusList() {
   return request({
     url: '/common/getBalanceStatusList',
     method: 'POST',

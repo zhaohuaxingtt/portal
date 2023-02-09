@@ -38,6 +38,7 @@
           v-else-if="item.type == 'date'"
           :disabled="item.disabled"
           valueFormat="yyyy-MM-dd"
+          :clearable="item.clearable || false"
           type="date"
           :placeholder="language('QINGXUANZE', '请选择')"
         />
@@ -47,6 +48,7 @@
           v-model="searchForm[item.props]"
           :disabled="item.disabled"
           type="daterange"
+          :clearable="item.clearable || false"
           :range-separator="$t('至')"
           :start-placeholder="$t('开始日期')"
           :end-placeholder="$t('结束日期')"
@@ -111,6 +113,11 @@ export default {
       type: Object,
       default: () => ({})
     }
+  },
+  created(){
+    this.searchFormData.forEach(item=>{
+      if(item.showAll) this.searchForm[item.props] = ''
+    })
   },
   methods: {
     handleInput(val, prop) {

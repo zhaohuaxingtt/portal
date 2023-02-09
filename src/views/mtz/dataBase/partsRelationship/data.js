@@ -13,6 +13,7 @@ export const tableDetail = [
   { props: 'dosage', name: '用量', key: '用量' },
   { props: 'unit', name: '单位', key: '单位' },
   { props: 'scale', name: '比例', key: '比例' },
+  { props: 'msg', name: '错误信息', key: '错误信息'},
 ]
 
 // 查看一二次零件表头

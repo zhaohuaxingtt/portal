@@ -39,20 +39,24 @@ import { tableTitle, searchFormData } from './data'
 import {
   getSupplierByuser,
   findCalculateTaskByPage,
-  getBalanceTaskStatusList
+  getBalanceTaskStatusList,
+  getTaskPrimarySupplierList,
+  getTaskSecondSupplierList,
+  getTaskBuyerList,
+  getTaskDepartmentList
 } from '@/api/mtz/annualGeneralBudget/chipReplenishment'
 import { getBuyers } from '@/api/mtz/mtzCalculationTask'
 import { pageMixins } from '@/utils/pageMixins'
 
 export default {
-  mixins:[pageMixins],
+  mixins: [pageMixins],
   components: {
     iSearch,
     iSelect,
     iCard,
     iTableCustom,
     iPagination,
-    search,
+    search
   },
   data() {
     return {
@@ -115,8 +119,8 @@ export default {
   },
   created() {
     this.getData()
-    getBalanceTaskStatusList().then((res)=>{
-      this.$set(this.options,'taskStatusList',res.data)
+    getBalanceTaskStatusList().then((res) => {
+      this.$set(this.options, 'taskStatusList', res.data)
     })
   },
   methods: {
@@ -131,9 +135,9 @@ export default {
         window.open(
           `/portal/#/chipComputed?type=${val.balanceType}&balanceId=${val.balanceId}`
         )
-      } else
+      }
       //  if (num == 1)
-        {
+      else {
         // 计算中
         window.open(
           `/portal/#/chipCeated?type=${val.balanceType}&taskStatus=${val.taskStatus}&balanceId=${val.balanceId}`
@@ -146,12 +150,17 @@ export default {
     },
     reset() {
       this.searchForm = {}
+      this.searchFormData.forEach(item=>{
+        if(item.showAll) this.searchForm[item.props] = ''
+      })
       this.sure()
     },
     async getData() {
-      this.getSupplierByuser()
-      this.getBuyers()
-      //   await this.getBuyers()
+      this.getTaskPrimarySupplierList()
+      this.getTaskSecondSupplierList()
+      this.getTaskDepartmentList()
+      this.getTaskBuyerList()
+      //   await this.getTaskBuyerList()
       this.findCalculateTaskByPage()
     },
     findCalculateTaskByPage() {
@@ -182,17 +191,44 @@ export default {
           this.tableLoading = false
         })
     },
-    getBuyers() {
-      return new Promise((resole, reject) => {
-        getBuyers({}).then((res) => {
-          if (res.code === '200') {
+    // 获取科室
+    getTaskDepartmentList() {
+      getTaskDepartmentList().then((res) => {
+        if (res?.code == 200) {
+          this.options.deptList = JSON.parse(JSON.stringify(res.data))
+        } else {
+          iMessage.error(res.desZh)
+        }
+      })
+    },
+    // 获取采购员
+    getTaskBuyerList() {
+        getTaskBuyerList().then((res) => {
+          if (res?.code == '200') {
             this.options.operatorBuyus = res.data
-            resole()
           } else {
-            reject()
             iMessage.error(res.desZh)
           }
         })
+    },
+    // 获取芯片一次件供应商
+    getTaskPrimarySupplierList() {
+      getTaskPrimarySupplierList().then((res) => {
+        if (res?.code == 200) {
+          this.options.fsupplierList = JSON.parse(JSON.stringify(res.data))
+        } else {
+          iMessage.error(res.desZh)
+        }
+      })
+    },
+    // 获取芯片二次件供应商
+    getTaskSecondSupplierList() {
+      getTaskSecondSupplierList().then((res) => {
+        if (res?.code == 200) {
+          this.options.ssupplierList = JSON.parse(JSON.stringify(res.data))
+        } else {
+          iMessage.error(res.desZh)
+        }
       })
     },
     getSupplierByuser() {

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-17 13:17:43
- * @LastEditTime: 2023-01-31 13:37:26
+ * @LastEditTime: 2023-02-09 13:35:20
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\theSearch.vue
@@ -21,13 +21,12 @@
 <script>
 import { iSearch, iMessage, iDatePicker } from 'rise'
 import {
-  getApplicants,
-  getApprovalStatus
-} from '@/api/mtz/annualGeneralBudget/supplementaryList'
-import {
-  getMtzSupplierList
-} from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
-import { fetchRemoteDept } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
+  getBalanceStatusList,
+  getTaskPrimarySupplierList,
+  getTaskSecondSupplierList,
+  getTaskBuyerList,
+  getTaskDepartmentList
+} from '@/api/mtz/annualGeneralBudget/chipReplenishment'
 import search from '../../components/search.vue'
 import { queryFormData } from './data'
 export default {
@@ -42,7 +41,7 @@ export default {
       searchForm: {},
       searchFormData: queryFormData,
       options: {
-        applicants: [], //申请人下拉
+        linieDropDownData: [], //采购员下拉
         departmentDropDownData: [], //部门数据
         approvalStatus: [], //单据状态下拉
         fsupplierList: [], //一次供应商
@@ -55,48 +54,55 @@ export default {
   },
   methods: {
     init() {
-      this.getDeptData()
-      this.getApplicants()
+      this.getTaskBuyerList()
+      this.getTaskDepartmentList()
       this.getApprovalStatus()
-      getMtzSupplierList({}).then((res) => {
-        if (res.code === '200') {
-          this.options.fsupplierList = res.data
-        } else {
-          iMessage.error(res.desZh)
-        }
-      })
-      getMtzSupplierList({}).then((res) => {
-        if (res.code === '200') {
-          this.options.ssupplierList = res.data
+      this.getTaskPrimarySupplierList()
+      this.getTaskSecondSupplierList()
+    },
+    // 获取芯片一次件供应商
+    getTaskPrimarySupplierList() {
+      getTaskPrimarySupplierList().then((res) => {
+        if (res?.code == 200) {
+          this.options.fsupplierList = JSON.parse(JSON.stringify(res.data))
         } else {
           iMessage.error(res.desZh)
         }
       })
     },
-    //申请人下拉选择
-    getApplicants(key) {
-      getApplicants({
-        keyWords: key
-      }).then((res) => {
-        this.options.applicants = res.data
+    // 获取芯片二次件供应商
+    getTaskSecondSupplierList() {
+      getTaskSecondSupplierList().then((res) => {
+        if (res?.code == 200) {
+          this.options.ssupplierList = JSON.parse(JSON.stringify(res.data))
+        } else {
+          iMessage.error(res.desZh)
+        }
       })
     },
     //单据状态下拉选择
     getApprovalStatus(key) {
-      getApprovalStatus({
-        keyWords: key
-      }).then((res) => {
+      getBalanceStatusList().then((res) => {
         this.options.approvalStatus = res.data
       })
     },
     // 获取部门数据
-    getDeptData() {
-      fetchRemoteDept({}).then((res) => {
-        if (res && res.code == 200) {
+    getTaskDepartmentList() {
+      getTaskDepartmentList({}).then((res) => {
+        if (res?.code == 200) {
           this.options.departmentDropDownData = res.data
         } else iMessage.error(res.desZh)
       })
     },
+    // 获取采购员
+    getTaskBuyerList() {
+      getTaskBuyerList({}).then((res) => {
+        if (res?.code == 200) {
+          this.options.linieDropDownData = res.data
+        } else iMessage.error(res.desZh)
+      })
+    },
+    
     handleChange(val) {
       this.searchForm.monthFrom = window.moment(val[0]).format('yyyy-MM-DD')
       this.searchForm.monthTo = window.moment(val[1]).format('yyyy-MM-DD')
@@ -112,20 +118,10 @@ export default {
       })
     },
     reset() {
-      // this.$refs.searchForm.resetFields()
-      this.searchForm = {
-        idList: [],
-        sapPayBalanceNo: [],
-        mgroups: [],
-        materialNos: [],
-        createBys: [],
-        fsupplierIds: [],
-        ssupplierIds: [],
-        departments: [],
-        statuss: [],
-        monthFrom: '',
-        monthTo: ''
-      }
+      this.searchForm = {}
+      this.searchFormData.forEach(item=>{
+        if(item.showAll) this.searchForm[item.props] = ''
+      })
       this.$parent.$children.forEach((item) => {
         if (item.$options._componentTag === 'theTable') {
           item.getmakeUpPageList()

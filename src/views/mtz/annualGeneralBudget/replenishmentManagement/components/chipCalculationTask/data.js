@@ -62,12 +62,12 @@ export const searchFormData = [
     // , showAll: true
     { props: 'balanceType', name: '任务类型', key: '任务类型', type: 'select', selectOption: 'taskTypeList' },
     {
-        props: 'departmentCode', name: '科室', key: '科室', type: 'select', selectOption: 'deptList', optionLabel: 'name',
+        props: 'departmentCode', name: '科室', key: '科室', type: 'select', selectOption: 'deptList', optionLabel: 'message',
         optionValue: 'code',
     },
     {
-        props: 'buyerName', name: '采购员', key: '采购员', type: 'select', selectOption: 'operatorBuyus', optionLabel: 'name',
-        optionValue: 'id',
+        props: 'buyerName', name: '采购员', key: '采购员', type: 'select', selectOption: 'operatorBuyus', optionLabel: 'message',
+        optionValue: 'message',
     },
     {
         props: 'taskStatus', name: '任务状态', key: '任务状态', type: 'select', selectOption: 'taskStatusList', optionLabel: 'message',
