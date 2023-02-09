@@ -6,17 +6,26 @@
 -->
 <template>
   <div class="page">
-    <div class="title">
+    <div class="title" v-if="isShow">
       <div class="left">
         <p>数据版本日期：2022-12-20</p>
-        <p>CS科室打分状态：待上传手工指标（2/4）</p>
-        <p>其他科室打分状态：进行中（2/4）</p>
+        <!-- <p>CS科室打分状态：待上传手工指标（2/4）</p>
+        <p>其他科室打分状态：进行中（2/4）</p> -->
       </div>
       <div>
         <iButton @click="canel">查看进度 </iButton>
       </div>
     </div>
-    <el-table style="margin-top:20px" border :data="tableData" >
+    <div class="title2" v-else>
+      <iButton @click="canel"
+        >{{ active == 1 ? '下载手工指标' : '导出Excel' }}
+      </iButton>
+      <iButton @click="canel"
+        >{{ active == 1 ? '上传手工指标' : '上传主观打分' }}
+      </iButton>
+      <iButton @click="canel">确认并提交 </iButton>
+    </div>
+    <el-table style="margin-top: 20px" border :data="tableData">
       <column
         v-for="(item, index) in tableTitle"
         :key="index"
@@ -28,7 +37,7 @@
 
 <script>
 import column from './column'
-import {} from '@/api/supplierManagement/supplierIndexManage/index'
+import {getPerformanceEdition} from '@/api/supplierManagement/supplierIndexManage/index'
 import { pageMixins } from '@/utils/pageMixins'
 import tableList from '@/components/commonTable'
 import { cloneDeep } from 'lodash'
@@ -61,52 +70,74 @@ export default {
     tableList,
     iDialog
   },
+  props: {
+    isShow: { type: Boolean, default: true },
+    active: { type: Number, default: 1 }
+  },
   data() {
     return {
       tableTitle: [
         {
-          name: '指标',
-          children: [
-            {
-              name: '进出口类型',
-              children: [{ name: '(时间)/(measures)', prop: 'time' }]
-            }
-          ]
+          name: 'SAP号-供应商名称',
         },
         {
-          name: '总体',
-          children: [
-            {
-              name: '进口',
-              children: [
-                { name: '初值', prop: 'istarter' },
-                { name: '终值', prop: 'iinal' }
-              ]
-            },
-            {
-              name: '出口',
-              children: [
-                { name: '初值', prop: 'estarter' },
-                { name: '终值', prop: 'einal' }
-              ]
-            }
-          ]
-        }
+          name: '总计',
+        },
+        // {
+        //   name: '总体',
+        //   children: [
+        //     {
+        //       name: '进口',
+        //       children: [
+        //         {
+        //           name: '初值',
+        //           prop: 'istarter',
+        //           children: [
+        //             { name: '初值', prop: 'istarter' },
+        //             { name: '终值', prop: 'iinal' }
+        //           ]
+        //         },
+        //         { name: '终值', prop: 'iinal' }
+        //       ]
+        //     },
+        //     {
+        //       name: '出口',
+        //       children: [
+        //         { name: '初值', prop: 'estarter' },
+        //         { name: '终值', prop: 'einal' }
+        //       ]
+        //     }
+        //   ]
+        // }
       ],
       tableData: []
     }
   },
   created() {
     this.init()
+    this.getTableList()
   },
   methods: {
-    init() {}
+    init() {},
+    getTableList(){
+      getPerformanceEdition(this.$route.query.id).then(res=>{
+        
+      })
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
 .page {
+    ::v-deep .el-table th{
+        border:0.5px solid #999;
+    }
+  .title2 {
+    width: 100%;
+    display: inline-block;
+    text-align: right;
+  }
   background: white;
   padding: 20px;
   .title {

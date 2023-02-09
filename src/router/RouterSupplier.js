@@ -474,6 +474,12 @@ export default [
             component: () =>
               import('@/views/supplierManagement/supplierKPI/module/supplierVersionTable')
           },
+          {
+            path: 'supplierVersionUp',
+            name: 'supplierVersionUp',
+            component: () =>
+              import('@/views/supplierManagement/supplierKPI/module/supplierVersionUp')
+          },
         ]
       },
       {

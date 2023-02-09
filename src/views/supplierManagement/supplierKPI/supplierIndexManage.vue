@@ -1,70 +1,59 @@
 <template>
   <div>
-    <iCard>
+    <iCard v-if="isShow">
       <div class="imgkpi-head">
         <div>
           <el-form>
             <el-form-item class="SearchOption">
               <iSelect @change="changVersion" v-model="allData.modelId">
-                <el-option
-                  v-for="(x, index) in dropDownOptions"
-                  :key="index"
-                  :label="x.versionName"
-                  :value="x.id"
-                ></el-option>
+                <el-option v-for="(x, index) in dropDownOptions" :key="index" :label="x.version"
+                  :value="x.modelId"></el-option>
               </iSelect>
             </el-form-item>
           </el-form>
-          <div class="titleinof">
-            <span @click="dowload(info.fileId)">{{ info.fileName }}</span>
-            <i class="el-icon-upload icon blue"></i
-            ><i class="el-icon-delete icon red"></i>
+          <div class="titleinfo">
+            <span style="margin-right:20px" :class="info.status ? 'blue' : info.status == false ? 'red' : ''">{{
+              info.status ? '有效' :
+                info.status == false ? '无效' : ''
+            }}</span>
+
+            <span v-if="isShowFile" class="link" @click="dowload(allData.fileId)">{{ allData.fileName }}</span>
+            <uploadButton style="margin-right:20px" :accept="'.pdf,.xlsx,.xls,.docx'" uploadClass="uploadButton"
+              :beforeUpload="beforeUpload" @success="uploadSuccess" @error="uploadError">
+              <iButton :disabled="!isEdit " :loading="uploadLoading">{{ '上传' }}</iButton>
+            </uploadButton>
+            <iButton :disabled="!isEdit " @click="del">{{ '删除' }}</iButton>
           </div>
         </div>
-
         <div>
-          <iButton @click="edit">编辑</iButton>
-          <iButton @click="canel">取消</iButton>
+          <iButton @click="edit" v-if="!isEdit">编辑</iButton>
+          <iButton @click="canel" v-if="isEdit">取消</iButton>
           <!-- <iButton @click="save">暂存</iButton> -->
-          <iButton @click="save">提交生效</iButton>
+          <iButton @click="save" v-if="isEdit">提交生效</iButton>
         </div>
       </div>
     </iCard>
     <indexManage />
-    <kpiStructure
-      ref="model"
-      :idEdit="idEdit"
-      style="margin-top: 20px"
-      :treeData="allData"
-      :temId="selectValue"
-      :templateName="templateName"
-      @click="changeSaveData"
-      @saveVersion="saveVersion"
-    ></kpiStructure>
+    <kpiStructure ref="model" :isEdit="isEdit" style="margin-top: 20px" :treeData="allData" :temId="selectValue"
+      :templateName="templateName" @click="changeSaveData" @init="init" :isShow="isShow"></kpiStructure>
   </div>
 </template>
 
 <script>
-import { iButton, iPage, iCard, iInput, iSelect } from 'rise'
+import uploadButton from "./uploadButton"
+import { iButton, iPage, iCard, iInput, iSelect, iMessage } from 'rise'
 import kpiStructure from './components/kpiStructure2'
 import indexManage from './components/indexManage'
+import { downloadFileWithName } from '@/api/common'
 import {
-  kpiDetail,
-  slelectkpiList,
-  dowbloadAPI,
-  templateDetail
-} from '@/api/kpiChart'
-import {
-  downloadFileWithName,
-} from '@/api/common'
-import {
-  getSupplierPerforManceModelPage,
-  getModelTree
+  getModelTree,
+  modelList
 } from '@/api/supplierManagement/supplierIndexManage/index'
 import { iNavMvp } from 'rise'
 import logButton from '@/components/logButton'
 export default {
   components: {
+    uploadButton,
     indexManage,
     iButton,
     iPage,
@@ -75,8 +64,12 @@ export default {
     iNavMvp,
     logButton
   },
+  props: {
+    isShow: { type: Boolean, default: true }
+  },
   data() {
     return {
+      uploadLoading: false,
       activeName: '/supplier/kpiList',
       activeRightName: '/supplier/imgKpi',
       formData: {
@@ -86,36 +79,40 @@ export default {
       allData: {
         modelId: '',
         childVo: {
-          childVo:[]
-        },
+          childVo: []
+        }
       },
       saveData: [],
       templateName: '',
-      idEdit: false,
-      info:{}
+      isEdit: false,
+      info: {},
+      isShowFile:true
     }
   },
-  created() {},
+  created() { },
   mounted() {
     this.init()
   },
   watch: {},
   methods: {
     init() {
-      const parms = {
-        pageNo: 1,
-        pageSize: 10000
-      }
-      getSupplierPerforManceModelPage(parms).then((res) => {
+      this.isEdit = false
+      modelList(false).then((res) => {
         if (res.code == '200') {
           this.dropDownOptions = res.data
-          this.allData.modelId = this.dropDownOptions[0].id
-          this.info=this.dropDownOptions.find(val=>val.id==this.dropDownOptions[0].id)
-          console.log(this.dropDownOptions[0].id)
+          if (this.dropDownOptions.length > 0) {
+            this.allData.modelId = this.dropDownOptions[this.dropDownOptions.length - 1].modelId
+            this.allData.fileId = this.dropDownOptions[this.dropDownOptions.length - 1].fileId
+            this.allData.fileName = this.dropDownOptions[this.dropDownOptions.length - 1].fileName
+            this.info = this.dropDownOptions.find(
+              (val) => val.modelId == this.allData.modelId
+            )
+          }
           getModelTree(this.allData.modelId).then((res) => {
             if (res.code == '200') {
               if (res.data.id != null) {
-                this.allData = res.data
+                this.allData.modelId = res.data.modelId
+                this.allData.childVo = res.data
               }
             }
           })
@@ -123,30 +120,57 @@ export default {
         }
       })
     },
+    del() {
+      this.$nextTick(() => {
+        this.allData.fileId = ''
+        this.allData.fileName = ''
+        this.isShowFile=false
+      })
+    },
     save() {
       this.$refs.model.save()
     },
     canel() {
-      this.idEdit = false
+      this.isEdit = false
+      this.init()
+    },
+    beforeUpload() {
+      this.uploadLoading = true
+    },
+    uploadSuccess(res, file) {
+      console.log(res)
+      if (res.code == 200) {
+        this.allData.fileId = res.data.data[0].id
+        this.allData.fileName = res.data.data[0].name
+        this.isShowFile=true
+        iMessage.success(file.name + "上传成功")
+      } else {
+        iMessage.error(`${this.$i18n.locale === "zh" ? res.desZh : res.desEn}`)
+
+      }
+      this.uploadLoading = false
+
     },
     edit() {
-      this.idEdit = true
+      this.isEdit = true
     },
     changVersion(v) {
-      this.info=this.dropDownOptions.find(val=>val.id==v)
+      this.info = this.dropDownOptions.find((val) => val.modelId == v)
+      this.allData.fileId = this.dropDownOptions[0].fileId
+      this.allData.fileName = this.dropDownOptions[0].fileName
       getModelTree(this.allData.modelId).then((res) => {
         if (res.code == '200') {
           if (res.data.id != null) {
-
-          this.allData = res.data
+            this.allData.modelId = res.data.modelId
+            this.allData.childVo = res.data
           }
         }
       })
     },
-    dowload(v){
+    dowload(v) {
       const params = {
         fileIds: v,
-        fileName:info.fileName
+        fileName: this.allData.fileName
       }
       downloadFileWithName(params)
     }
@@ -160,56 +184,71 @@ export default {
   display: inline-block;
   cursor: pointer;
 }
-.red {
-  color: #e30d0d;
-}
-.blue {
-  // color: #1763f7;
-}
+
+
 .imgkpi-head {
-  .titleinof {
+  .titleinfo {
     margin-bottom: 20px;
     margin-left: 20px;
-    span {
+    display: flex;
+    align-items: center;
+
+    .link {
+      position: relative;
+      display: inline-block;
       cursor: pointer;
       color: #1763f7;
+      margin-right: 20px;
     }
   }
-  > div {
+
+
+  >div {
     font-size: 16px;
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
+
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
+
 ::v-deep.navBox {
   position: relative;
+
   // border-bottom: 1px solid #E3E3E3;
-  .logButton .icon + span {
+  .logButton .icon+span {
     vertical-align: top;
   }
+
   margin-bottom: 20px;
+
   div {
     font-size: 20px;
   }
+
   .el-tabs__nav-wrap::after {
     width: 0;
   }
+
   .el-tabs__item {
     line-height: 24px;
   }
+
   .el-tabs__item.is-active {
     font-weight: Bold;
   }
+
   .leftNav {
     float: left;
   }
+
   .rightNav {
     float: right;
     margin-right: 110px;
+
     .el-tabs__active-bar {
       background-color: transparent !important;
     }
@@ -221,6 +260,7 @@ export default {
     right: 0;
   }
 }
+
 .clearfix:after {
   content: '020';
   display: block;
@@ -232,5 +272,13 @@ export default {
 .clearfix {
   /* 触发 hasLayout */
   zoom: 1;
+}
+
+.red {
+  color: #e30d0d;
+}
+
+.blue {
+  color: #1763f7;
 }
 </style>
