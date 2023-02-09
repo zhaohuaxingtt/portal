@@ -1,10 +1,10 @@
 /*
  * @Author: yuszhou
  * @Date: 2021-02-19 14:29:06
- * @LastEditTime: 2021-12-16 11:03:37
- * @LastEditors: caopeng
+ * @LastEditTime: 2023-02-03 18:12:56
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 项目中登录时候获取整个项目的权限以及token.
- * @FilePath: \front-portal-new\src\permission.js
+ * @FilePath: \front-portal\src\permission.js
  */
 import router from './router'
 import store from '@/store'
@@ -77,7 +77,7 @@ router.beforeEach((to, from, next) => {
       //当前没token，并且路由满足白名单，则按照当前路由来控制。
       next()
     } else {
-      next('/login')
+      next('/login'+`?state=${encodeURIComponent(window.location.href)}`)
     }
   }
 })

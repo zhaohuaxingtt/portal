@@ -1,8 +1,8 @@
 /*
  * @Author: 舒杰
  * @Date: 2021-05-17 21:11:42
- * @LastEditTime: 2021-07-19 15:24:53
- * @LastEditors: 舒杰
+ * @LastEditTime: 2023-02-03 17:16:06
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\generalPage\components\baseInfoCard\data.js
  */
@@ -81,7 +81,7 @@ export const baseInfoTitle = [
     },
     {
         key: 'svwCode',
-        name: 'SUPPLIER_ZHENGSHIHAO',
+        name: 'ZHENGSHIHAO',
         required: false,
         icons: "",
         tip: "",

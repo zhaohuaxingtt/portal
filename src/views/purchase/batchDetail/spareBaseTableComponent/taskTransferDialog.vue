@@ -17,6 +17,7 @@
                         >
                             <!--<el-option value="" :label="$t('all')"></el-option>-->
                             <el-option
+                                    :disabled="disabled"
                                     :value="item.id"
                                     :label="item.deptNum"
                                     v-for="item in ksList"
@@ -74,6 +75,7 @@
                 allSelectObject:{},
                 ksList: [], // 科室
                 linieList:[],   // 采购员
+                disabled:false
             };
         },
         created() {
@@ -146,7 +148,10 @@
             },
             // 获取采购员
             async changeValue(id) {
+                if(this.disabled) return
+                this.disabled = true
                 this.linieList = await this.getLinieByDeptIdList(id)
+                this.disabled = false
             },
         }
     };

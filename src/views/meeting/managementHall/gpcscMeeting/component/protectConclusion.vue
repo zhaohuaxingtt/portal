@@ -644,7 +644,7 @@ export default {
       findGpInfoByThemenId(params).then((res) => {
         console.log(res)
         this.fromData=res
-        this.thousands=toThousands(this.fromData.price)
+        this.thousands=toThousands(this.fromData.price?this.fromData.price:'0')
         this.getRelateCommon()
         //判断是否显示图标
         //判断图标

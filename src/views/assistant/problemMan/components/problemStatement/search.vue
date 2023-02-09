@@ -16,7 +16,7 @@
             <el-col :span="6">
               <iFormItem :label="language('问题模块')">
                 <iSelect v-model="searchForm.questionModuleId" filterable :placeholder="language('问题模块')" :disabled="!searchForm.source"  clearable="true" @change="questionModuleHandle" @clear="clearable('questionModuleId')">
-                  <el-option v-for="item in problemModuleList" :key="item.id" :label="item.menuName" :value="item.id"></el-option>
+                  <el-option v-for="item in problemModuleList" :key="item.id" :label="item.menuName" :value="item.id" :disabled="disabled"></el-option>
                 </iSelect>
               </iFormItem>
             </el-col>
@@ -89,6 +89,7 @@ export default {
       createDate:null,
       problemModuleList: [],
       labelList: [],
+      disabled:false,
       startTimeOptions: {
         disabledDate (time) {
           return (
@@ -119,7 +120,10 @@ export default {
     },
     async questionModuleHandle (val) {
       if (!val) return;
+      if(this.disabled) return
+      this.disabled = true
       const response = await getCurrLabelList(val);
+      this.disabled = false
       if (response?.code === '200') {
         console.log(response.data);
         this.labelList = response.data;
