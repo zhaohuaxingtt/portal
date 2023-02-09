@@ -1,40 +1,10 @@
 <template>
-  <div
-    class="meeting-card"
-    @click="handleGoMeetingDetail(item.id)"
-    ref="meetingCard"
-  >
-    <!-- 背景 -->
-    <div class="meeting-card-head">
-      <div
-        class="start-time"
-        :class="{ 'fs-color': ['05', '06'].includes(item.state) }"
-      >
-        {{ item.strStartTime }}
-      </div>
-      <div v-if="progressBarVisible" class="progress-bar-container">
-        <div class="progress-bar" :style="progressStyle" ref="progressBar">
-          <p class="circle"></p>
-          <p class="twim_item"></p>
-        </div>
-      </div>
-    </div>
-    <!-- 信息 -->
-    <div class="meeting_info" :class="meetingInfoClass">
-      <!-- icon -->
-      <div class="avatar">
-        <icon symbol :name="avatarIconName" />
-      </div>
-      <div class="info">
-        <div class="name f-family" :title="item.name">
-          {{ item.name }}
-        </div>
-        <div class="time" style="Arial, 'PingFang SC'">
-          {{ item.strStartTime }}
-          {{ item.strStartTime && item.strEndTime ? `-` : '' }}
-          {{ item.strEndTime }}
-        </div>
-      </div>
+  <div class='i-meeting-item'>
+    <div class='i-meeting-item-date'>{{ item.beginHour }}</div>
+    <div class='i-meeting-item-content-div'>
+      <div class='i-meeting-item-divide-line'></div>
+      <div class='i-meeting-item-title'>{{ item.title }}</div>
+      <div class='i-meeting-item-location'><i class="el-icon-map-location"></i>{{ item.location }}</div>
     </div>
   </div>
 </template>
@@ -100,6 +70,7 @@
       }
     },
     mounted() {
+      console.log("into iMeeting item mounted")
       this.$nextTick(() => {
         if (this.progressBarVisible) {
           this.handleListenProgressBar()
@@ -150,6 +121,49 @@
 </script>
 
 <style lang="scss" scoped>
+  .i-meeting-item {
+    display: flex;
+    height: 32px;
+    line-height: 32px;
+    align-items: center;
+    .i-meeting-item-date {
+      color: rgb(129, 129, 129);
+      height: 100%;
+      width: 35px;
+    }
+    .i-meeting-item-content-div {
+      display: flex;
+      width: calc(100% - 35px);
+      color: rgb(0, 0, 0);
+      .i-meeting-item-divide-line {
+        background-color: rgb(210, 216, 224);
+        height: 22px;
+        line-height: 22px;
+        width: 4px;
+        margin-left: 5px;
+        margin-right: 5px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+      }
+      .i-meeting-item-title {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: calc(100% - 9px - 35px);
+      }
+      .i-meeting-item-location {
+        width: 50px;
+      }
+      margin-bottom: 5px;
+    }
+    .i-meeting-item-content-div:hover {
+      color: rgb(0, 85, 232);
+      cursor: pointer;
+      .i-meeting-item-divide-line {
+        background-color: rgb(0, 85, 232);
+      }
+    }
+  }
   .start-time {
     font-weight: 500;
     font-family: Arial, 'PingFang SC';

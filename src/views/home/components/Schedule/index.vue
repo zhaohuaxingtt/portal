@@ -34,9 +34,12 @@
     <div class="iMeeting-div">
       <div v-for="(item, index) in meetingListThisWeek" class="iMeeting-day-item-div">
         <div class='week-day-title'>{{ item.weekDayTitle }}</div>
-        <div v-if="item.meetingList.length === 0" class="empty-meeting">
-          {{ language('今日无会议安排') }}
-        </div>
+          <div v-if="item.meetingList.length === 0" class="empty-i-meeting">
+            {{ language('今日无会议安排') }}
+          </div>
+          <div v-else>
+            <iMeetingItem v-for="(meetingItem, meetingItemIndex) in item.meetingList" :item="meetingItem"/>
+          </div>
         <div>
         </div>
       </div>
@@ -74,7 +77,8 @@ export default {
   },
   components: {
     VCalendar,
-    meetingItem
+    meetingItem,
+    iMeetingItem
   },
   data() {
     return {
@@ -124,12 +128,14 @@ export default {
         console.log("genMeetingListThisWeek", beginMoment)
         for(let i=0; i < 7; i++) {
           let meetingList = []
-          for(let j=0; j<=i; j++) {
-            meetingList.push({
-              location: 'M303',
-              title: 'CW 36/2022 小会(50万<=CSC的会议',
-              beginHour: '09:00'
-            })
+          if(i > 0) {
+            for(let j=0; j<=i; j++) {
+              meetingList.push({
+                location: 'M303',
+                title: 'CW 36/2022 小会(50万<=CSC的会议xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+                beginHour: '09:00'
+              })
+            }
           }
           const meetingListItem = {
             weekDayTitle: this.WEEKS_TEXT[i] + ' ' + beginMoment.format('MM月DD日'),
@@ -359,6 +365,11 @@ export default {
   }
   .empty-meeting {
     margin-top: 10px;
+    height: 100%;
+  }
+  .empty-i-meeting {
+    margin-top: 10px;
+    margin-bottom: 10px;
     height: 100%;
   }
   .info_container {
