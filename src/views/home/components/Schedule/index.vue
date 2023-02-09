@@ -85,8 +85,15 @@ export default {
       attrs: [],
       holiday: [],
       expectMeeting: [],
-      meetingListThisWeek: [],
-      WEEKS_TEXT: [
+      meetingListThisWeek: []
+    }
+  },
+  computed: {
+    ...mapState({
+      userId: (userId) => userId.permission.userInfo
+    }),
+    WEEKS_TEXT() {
+      return [
         this.$t('MONDAY_TEXT'),
         this.$t('TUESDAY_TEXT'),
         this.$t('WEDNESDAY_TEXT'),
@@ -95,14 +102,6 @@ export default {
         this.$t('SATURDAY_TEXT'),
         this.$t('SUNDAY_TEXT')
       ]
-    }
-  },
-  computed: {
-    ...mapState({
-      userId: (userId) => userId.permission.userInfo
-    }),
-    curDataInfo() {
-      return this.meetingTabItems && this.meetingTabItems.length > 0 ? this.meetingTabItems[0].format('YYYY-MM-DD') + '~' + this.meetingTabItems[1].format('YYYY-MM-DD') : ''
     }
   },
   async mounted() {

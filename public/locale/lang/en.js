@@ -2048,6 +2048,8 @@
       MY_APPROVAL: 'My Approval',
       OVERDUE: 'Overdue',
       IN_PROGRESS: 'In Progress',
+      OVERDUE_TEXT: 'Overdue',
+      IN_PROGRESS_TEXT: 'In Progress',
       HOME_MODULE_SPONSER: 'FRM',
       HOME_MODULE_SCHEDULE: 'Schedule',
       HOME_MODULE_APPROVE: 'iAgree',
