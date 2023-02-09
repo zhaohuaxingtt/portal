@@ -1827,7 +1827,13 @@
     SPR_FRM_FXXH_YTJDFXXHSJBKSC: 'Submitted risk signal data cannot be deleted', //已提交的风险信号数据不可删除
     SPR_FRM_FXXH_SFQRTJ: 'Confirm submission', //是否确认提交
     // -----------------------ws3 供应商 end -------------------------------------------
-
+    MONDAY_TEXT: 'Monday',
+    TUESDAY_TEXT: 'Tuesday',
+    WEDNESDAY_TEXT: 'Wednesday',
+    THURSDAY_TEXT: 'Thursday',
+    FRIDAY_TEXT: 'Friday',
+    SATURDAY_TEXT: 'Saturday',
+    SUNDAY_TEXT: 'Sunday',
     LK_WDYJ: 'my performance',
     LK_YJJC: 'performance basis',
     LK_MIAOSHU: 'describe',

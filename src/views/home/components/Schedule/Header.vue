@@ -6,7 +6,7 @@
           <div class='tab-title'>
             <i class="el-icon-arrow-left" @click="handleClickPre"></i>
           </div>
-          <div class="meeting-week-value">{{ curWeekInfo }}</div>
+          <div class="meeting-week-value">{{ startDate.format("YYYY") + '-CW' + this.startDate.week() }}</div>
           <div class='tab-title'>
             <i class="el-icon-arrow-right" @click="handleClickNext"></i>
           </div>
@@ -26,25 +26,23 @@ import moment from 'moment'
         endDate: null
       }
     },
-    computed: {
-      curWeekInfo() {
-        if(this.startDate) {
-          return this.startDate.format("YYYY") + '-CW' + this.startDate.week()
-        } else {
-          return ''
-        }
-      },
-    },
     created() {
       const dateArray = this.getCurrentWeekdays()
       this.startDate = dateArray[0]
       this.endDate = dateArray[1]
+      this.emitTabClick()
     },
     methods: {
-      // 获取当周的开始结束时间，周日至周一
+      emitTabClick() {
+        const startDateMoment = moment(this.startDate.format('YYYY-MM-DD'), 'YYYY-MM-DD')
+        const endDateMoment = moment(this.endDate.format('YYYY-MM-DD'), 'YYYY-MM-DD')
+        this.$emit('tab-click', [startDateMoment, endDateMoment])
+        this.$forceUpdate()
+      },
+      // 获取当周的开始结束时间，星期1至星期7
       getCurrentWeekdays() {
-        const startDate = moment().startOf("weeks");
-        const endDate = moment().endOf("weeks");
+        const startDate = moment().weekday(0)
+        const endDate = moment().weekday(6)
         return [startDate, endDate];
       },
       /**
@@ -52,10 +50,8 @@ import moment from 'moment'
        * @returns {*[]}
        */
       getLastWeekdays() {
-        const startDateMoment = moment(this.startDate)
-        const endDateMoment = moment(this.endDate)
-        const startDate = startDateMoment.week(startDateMoment.week() - 1).startOf("weeks");
-        const endDate = endDateMoment.week(endDateMoment.week() - 1).endOf("weeks");
+        const startDate = this.startDate.subtract(7, 'days');
+        const endDate = this.endDate.subtract(7, 'days');
         return [startDate, endDate];
       },
       /**
@@ -63,23 +59,21 @@ import moment from 'moment'
        * @returns {*[]}
        */
       getNextWeekdays() {
-        const startDateMoment = moment(this.startDate)
-        const endDateMoment = moment(this.endDate)
-        const startDate = startDateMoment.week(startDateMoment.week() + 1).startOf("weeks");
-        const endDate = endDateMoment.week(endDateMoment.week() + 1).endOf("weeks");
+        const startDate = this.startDate.add(7, 'days');
+        const endDate = this.endDate.add(7, 'days');
         return [startDate, endDate];
       },
       handleClickPre() {
         const dateArray = this.getLastWeekdays()
         this.startDate = dateArray[0]
         this.endDate = dateArray[1]
-        this.$emit('tab-click', dateArray)
+        this.emitTabClick()
       },
       handleClickNext() {
         const dateArray = this.getNextWeekdays()
         this.startDate = dateArray[0]
         this.endDate = dateArray[1]
-        this.$emit('tab-click', dateArray)
+        this.emitTabClick()
       }
     }
   }

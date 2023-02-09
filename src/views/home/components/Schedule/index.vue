@@ -1,35 +1,45 @@
 <template>
   <div class="schedule-container">
-    <div class="calendar">
-      <v-calendar
-        :attributes="attrs"
-        :mask="{
-          title: 'YYYY MMM',
-          weekdays: 'WWW'
-        }"
-        :disabledDates="holiday"
-        :firstDayOfWeek="2"
-        @handleDayClick="handleDayClick"
-        @dayfocusout="handleDayFocusOut"
-        @handleToPage="handleToPage"
-        ref="calendar"
-      />
-    </div>
+<!--    <div class="calendar">-->
+<!--      <v-calendar-->
+<!--        :attributes="attrs"-->
+<!--        :mask="{-->
+<!--          title: 'YYYY MMM',-->
+<!--          weekdays: 'WWW'-->
+<!--        }"-->
+<!--        :disabledDates="holiday"-->
+<!--        :firstDayOfWeek="2"-->
+<!--        @handleDayClick="handleDayClick"-->
+<!--        @dayfocusout="handleDayFocusOut"-->
+<!--        @handleToPage="handleToPage"-->
+<!--        ref="calendar"-->
+<!--      />-->
+<!--    </div>-->
     <!-- flex-center-center -->
     <!-- <div class="trangle"></div> -->
-    <div v-if="meetingList.length == 0" class="empty-meeting">
-      {{ language('今日无会议安排') }}
-    </div>
-    <div class="meeting-container" v-if="meetingList.length > 0">
-      <template>
-        <div class="info_container">
-          <meetingItem
-            v-for="(item, index) in meetingList"
-            :key="index"
-            :item="item"
-          />
+<!--    <div v-if="meetingList.length == 0" class="empty-meeting">-->
+<!--      {{ language('今日无会议安排') }}-->
+<!--    </div>-->
+<!--    <div class="meeting-container" v-if="meetingList.length > 0">-->
+<!--      <template>-->
+<!--        <div class="info_container">-->
+<!--          <meetingItem-->
+<!--            v-for="(item, index) in meetingList"-->
+<!--            :key="index"-->
+<!--            :item="item"-->
+<!--          />-->
+<!--        </div>-->
+<!--      </template>-->
+<!--    </div>-->
+    <div class="iMeeting-div">
+      <div v-for="(item, index) in meetingListThisWeek" class="iMeeting-day-item-div">
+        <div class='week-day-title'>{{ item.weekDayTitle }}</div>
+        <div v-if="item.meetingList.length === 0" class="empty-meeting">
+          {{ language('今日无会议安排') }}
         </div>
-      </template>
+        <div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -38,7 +48,7 @@
 // import VCalendar from 'v-calendar/lib/components/calendar.umd'
 import VCalendar from './iCalendar.vue'
 import meetingItem from './meetingItem'
-
+import iMeetingItem from './iMeetingItem'
 import moment from 'moment'
 import { getSchedule, queryCalendar } from '@/api/home'
 import { mapState } from 'vuex'
@@ -50,6 +60,12 @@ export default {
   },
   props: {
     data: {
+      type: Array,
+      default: () => {
+        return []
+      }
+    },
+    meetingTabItems: {
       type: Array,
       default: () => {
         return []
@@ -68,19 +84,64 @@ export default {
       currentMonth: new Date().getMonth() + 1,
       attrs: [],
       holiday: [],
-      expectMeeting: []
+      expectMeeting: [],
+      meetingListThisWeek: [],
+      WEEKS_TEXT: [
+        this.$t('MONDAY_TEXT'),
+        this.$t('TUESDAY_TEXT'),
+        this.$t('WEDNESDAY_TEXT'),
+        this.$t('THURSDAY_TEXT'),
+        this.$t('FRIDAY_TEXT'),
+        this.$t('SATURDAY_TEXT'),
+        this.$t('SUNDAY_TEXT')
+      ]
     }
   },
   computed: {
     ...mapState({
       userId: (userId) => userId.permission.userInfo
-    })
+    }),
+    curDataInfo() {
+      return this.meetingTabItems && this.meetingTabItems.length > 0 ? this.meetingTabItems[0].format('YYYY-MM-DD') + '~' + this.meetingTabItems[1].format('YYYY-MM-DD') : ''
+    }
   },
   async mounted() {
     // 1
     this.getCalendar()
   },
+  watch: {
+    meetingTabItems: {
+      handler: function (val) {
+        this.genMeetingListThisWeek(val)
+      },
+      immediate: true
+    },
+  },
   methods: {
+    genMeetingListThisWeek(val) {
+      let meetingListThisWeek = []
+      if(val) {
+        let beginMoment = val[0]
+        console.log("genMeetingListThisWeek", beginMoment)
+        for(let i=0; i < 7; i++) {
+          let meetingList = []
+          for(let j=0; j<=i; j++) {
+            meetingList.push({
+              location: 'M303',
+              title: 'CW 36/2022 小会(50万<=CSC的会议',
+              beginHour: '09:00'
+            })
+          }
+          const meetingListItem = {
+            weekDayTitle: this.WEEKS_TEXT[i] + ' ' + beginMoment.format('MM月DD日'),
+            meetingList
+          }
+          meetingListThisWeek.push(meetingListItem)
+          beginMoment.add(1, 'days')
+        }
+      }
+      this.meetingListThisWeek = meetingListThisWeek
+    },
     checkYear(year) {
       if ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) {
         this.days = 366
@@ -314,6 +375,16 @@ export default {
     box-sizing: border-box;
     background-color: #fff;
     padding-top: 5px;
+  }
+}
+.iMeeting-div {
+  .iMeeting-day-item-div {
+    border-bottom: 2px dashed rgb(214, 214, 214);
+  }
+  .week-day-title {
+    text-align: left;
+    font-size: 16px;
+    font-weight: bold;
   }
 }
 </style>

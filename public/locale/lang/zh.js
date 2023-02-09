@@ -1769,6 +1769,13 @@
       BANJIAJIAN: '(半价/件)', //（半价/件）
       CHANLIANG: '产量'
     },
+    MONDAY_TEXT: '星期一',
+    TUESDAY_TEXT: '星期二',
+    WEDNESDAY_TEXT: '星期三',
+    THURSDAY_TEXT: '星期四',
+    FRIDAY_TEXT: '星期五',
+    SATURDAY_TEXT: '星期六',
+    SUNDAY_TEXT: '星期七',
     // 以下ekl中文
     LK_WDYJ: '我的业绩',
     LK_YJJC: '业绩基础',

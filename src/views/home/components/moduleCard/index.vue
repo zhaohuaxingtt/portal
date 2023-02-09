@@ -19,7 +19,7 @@
       <eklHeader v-if="card.component === 'EKL'" @tab-click="handleEklClick" />
       <approveHeader v-if="card.component === 'Approve'" @tab-click="handleApproveHeaderClick" />
       <taskHeader v-if="card.component === 'Task'" @tab-click="handleTaskHeaderClick" />
-      <meetingHeader v-if="card.component === 'Schedule'" @tab-click="handleTaskHeaderClick" />
+      <meetingHeader v-if="card.component === 'Schedule'" @tab-click="handleMeetingHeaderClick" />
       <eklAffixHeader
         v-if="card.component === 'EKLAffix'"
         @tab-click="handleEklAffixClick"
@@ -58,6 +58,7 @@
         :eklTabItem="eklTabItem"
         :eklAffixTabItem="eklAffixTabItem"
         :approveTabItem="approveTabItem"
+        :meetingTabItems="meetingTabItems"
       ></component>
     </div>
     <moreDialog
@@ -97,7 +98,8 @@ export default {
       show: false,
       eklTabItem: null,
       approveTabItem: null,
-      eklAffixTabItem: null
+      eklAffixTabItem: null,
+      meetingTabItems: null
     }
   },
   components: {
@@ -215,6 +217,9 @@ export default {
     },
     handleTaskHeaderClick() {
 
+    },
+    handleMeetingHeaderClick(meetingTabItems) {
+      this.meetingTabItems = meetingTabItems
     },
     handleEklAffixClick(item) {
       this.eklAffixTabItem = item
