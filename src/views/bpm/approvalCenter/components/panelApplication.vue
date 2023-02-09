@@ -85,6 +85,9 @@ export default {
             return wf.todoNum
           })
           if (wfList.length) {
+            wfList.forEach(item => {
+              item['typeValue'] = e.typeValue
+            })
             e.wfCategoryList = wfList
             return true
           }
@@ -101,6 +104,7 @@ export default {
         console.log('activeDataList...', activeDataList)
         return activeDataList
       } else {
+        console.log('activeDataList...', this.data[this.activeIndex])
         return [this.data[this.activeIndex]]
       }
     },
