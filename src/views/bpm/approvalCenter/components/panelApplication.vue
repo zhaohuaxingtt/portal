@@ -101,10 +101,10 @@ export default {
             }
           })
         }
-        console.log('activeDataList...', activeDataList)
+        // console.log('activeDataList...', activeDataList)
         return activeDataList
       } else {
-        console.log('activeDataList...', this.data[this.activeIndex])
+        // console.log('activeDataList...', this.data[this.activeIndex])
         return [this.data[this.activeIndex]]
       }
     },
