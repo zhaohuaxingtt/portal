@@ -449,7 +449,37 @@ export default [
             name: 'supplierPoint',
             component: () =>
               import('@/views/supplierManagement/supplierKPI/supplierPoint')
-          }
+          },
+          {
+            path: 'supplierIndexManage',
+            name: 'supplierIndexManage',
+            component: () =>
+              import('@/views/supplierManagement/supplierKPI/supplierIndexManage')
+          },
+          {
+            path: 'supplierVersion',
+            name: 'supplierVersion',
+            component: () =>
+              import('@/views/supplierManagement/supplierKPI/supplierVersion')
+          },
+          {
+            path: 'kpi',
+            name: 'kpi',
+            component: () =>
+              import('@/views/supplierManagement/supplierKPI/kpi/scoringTask')
+          },
+          {
+            path: 'supplierVersionTable',
+            name: 'supplierVersionTable',
+            component: () =>
+              import('@/views/supplierManagement/supplierKPI/module/supplierVersionTable')
+          },
+          {
+            path: 'supplierVersionUp',
+            name: 'supplierVersionUp',
+            component: () =>
+              import('@/views/supplierManagement/supplierKPI/module/supplierVersionUp')
+          },
         ]
       },
       {
