@@ -69,6 +69,7 @@
 							:label="item.value"
 							:value="item.code"
 							:key="item.code"
+							:disabled="disabled"
 						/>
 					</iSelect>
 				</div>
@@ -160,7 +161,8 @@ export default {
             moduleMenu:[],
 			apiList:[],
             show:false,
-			params:{}
+			params:{},
+			disabled:false
 		}
 	},
     created(){
@@ -266,7 +268,10 @@ export default {
 		async sysChange(v){
 			// 获取接口名称
 			this.form.interfaceCode = ""
+			if(this.disabled) return
+			this.disabled = true
 			let res = await listInterface(v)
+			this.disabled = false
 			this.apiList = res.data
 		}
 	}

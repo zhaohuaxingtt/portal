@@ -22,7 +22,7 @@
             <div class="flex flex-column qs-params">
                 <iLabel class="label" :label="language('问题模块')" slot="label"></iLabel>
                 <iSelect class="input" :disabled="type == 'detail'" v-model="form.questionModuleId" @change="moduleChange">
-                    <el-option v-for="m in moduleList" :key="m.id" :value='m.id' :label='m.menuName'></el-option>
+                    <el-option v-for="m in moduleList" :key="m.id" :value='m.id' :label='m.menuName' :disabled="disabled"></el-option>
                 </iSelect>
             </div>
             <div class="flex flex-column qs-params">
@@ -112,7 +112,8 @@
                 moduleList:[],
                 labelList:[],
                 loading:false,
-                tempContent:""
+                tempContent:"",
+                disabled:false,
             }
         },
         async created(){
@@ -135,10 +136,14 @@
             moduleChange(v){
                 console.log(v, '123')
                 if(v){
+                    if(this.disabled) return
+                    this.disabled = true
                     this.form.questionLableId = ''
                     getCurrLabelList(v).then(res => {
                         this.labelList = res.data
                         this.$forceUpdate()
+                    }).finally(()=>{
+                        this.disabled = false
                     })
                 }
             },
