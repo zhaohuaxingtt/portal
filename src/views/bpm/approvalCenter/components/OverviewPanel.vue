@@ -55,7 +55,8 @@ $color-blue-1: #001847;
 $color-blue-2: #3a5280;
 $color-blue-3: #2d539b;
 .approval-overview-panel {
-  width: 320px;
+  //width: 320px;
+  width: calc((100% - 70px - 35px*6)/6);
   height: 180px;
   position: relative;
   background: #fff;
