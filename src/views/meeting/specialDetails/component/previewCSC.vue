@@ -10,27 +10,29 @@
     <div class="content">
       <div class="header">
         <div>
-          <p class="title">{{detail.meetingName||'-'}}</p>
+          <p class="title">{{ meetingInfo.name || '-' }}</p>
           <p class="subTitle">
-            {{detail.topic}}
+            {{ detail.topic || '-' }}
           </p>
         </div>
         <div class="infos">
           <div class="item">
-            <div class="name">Agenda No:</div>
+            <div class="name">Agenda No.:</div>
             <div class="value">
-              <icon
+              <img
                 @click.native="prev"
-                class="list-icon"
-                symbol
-                name="iconfilterquyukuaijiantoushouqi"
+                class="margin-right5"
+                :src="upAllow"
+                alt="上箭头"
               />
-              <span> {{ 1 + index }}/{{ themens.length }} </span>
-              <icon
+              <span class="count margin-right5">
+                {{ 1 + index }}/{{ themens.length }}
+              </span>
+              <img
                 @click.native="next"
-                class="list-icon"
-                symbol
-                name="iconfilterquyukuaijiantouzhankai"
+                class="margin-right5"
+                :src="downAllow"
+                alt="下箭头"
               />
               <el-popover
                 placement="top-end"
@@ -41,6 +43,7 @@
                 审批清单
                 <ul class="item-list margin-top10">
                   <li
+                   class="cursor"
                     @click="click(item, index)"
                     v-for="(item, index) in themens || []"
                     :key="index"
@@ -55,11 +58,11 @@
                     <el-divider></el-divider>
                   </li>
                 </ul>
-                <icon
+                <img
                   class="list-icon"
                   slot="reference"
-                  symbol
-                  name="iconxiaoxi"
+                  :src="menu"
+                  alt="数据列表"
                 />
               </el-popover>
             </div>
@@ -83,16 +86,11 @@
 
 <script>
 import { iPage, icon } from 'rise'
+import upAllow from '@/assets/images/icon/up.png'
+import downAllow from '@/assets/images/icon/down.png'
+import menu from '@/assets/images/icon/menu.png'
 import {
   findThemenById,
-  endThemen,
-  startThemen,
-  // recallThemen,
-  passThemenRecall,
-  rejectThemenRecall,
-  deleteThemen,
-  resortThemen,
-  spiltThemen
 } from '@/api/meeting/details'
 export default {
   components: {
@@ -101,29 +99,32 @@ export default {
   },
   data() {
     return {
+      upAllow,
+      downAllow,
+      menu,
       time: 0,
       index: -1,
       meetingInfo: {},
       themens: [],
-      detail:{}
+      detail: {},
+      timer:null
     }
   },
   async created() {
     let query = this.$route.query
     this.meetingInfo = await findThemenById({ id: query.id })
-    this.themens = this.meetingInfo.themens
+    this.themens = this.meetingInfo?.themens
     this.meetingInfo.themens.forEach((item, index) => {
       if (item.fixedPointApplyId == query.desinateId) {
         this.click(item, index)
       }
     })
-    let timer = setInterval(() => {
+    this.timer = setInterval(() => {
       this.time += 1000
     }, 1000)
   },
   methods: {
     prev() {
-      console.log(this.index)
       if (this.index > 0) {
         this.click(this.themens[this.index - 1], this.index - 1)
       }
@@ -135,11 +136,11 @@ export default {
     },
     click(item, index) {
       if (index == this.index) return
-      this.detail = item
       this.time = 0
+      this.detail = item
       this.index = index
       let local
-      // let local = 'http://localhost:8081/sourcing/#'
+      // let local = 'http://localhost:8080/sourcing/#'
       if (item.type === 'FS+MTZ') {
         this.src =
           (local || process.env.VUE_APP_POINT) +
@@ -151,8 +152,8 @@ export default {
       }
     }
   },
-  destroyed(){
-    if(this.timer) clearInterval(this.timer)
+  destroyed() {
+    if (this.timer) clearInterval(this.timer)
   },
   filters: {
     handleTransTime(longTime) {
@@ -176,6 +177,9 @@ export default {
   height: 100%;
   padding: 30px 80px 20px;
   background: #fff;
+  * {
+    font-family: 'Arial', 'Helvetica', 'sans-serif';
+  }
 }
 .content {
   height: 100%;
@@ -208,7 +212,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border: 1px solid #666;
+    border: 1px solid #d9d9d9;
     line-height: 30px;
     font-weight: bold;
     &:first-child {
@@ -220,10 +224,16 @@ export default {
       font-size: 16px;
     }
     .value {
-      width: 200px;
+      padding-left: 10px;
       text-align: center;
       font-size: 16px;
       align-items: center;
+      justify-content: center;
+      display: flex;
+      flex: 1;
+      .count {
+        width: 50px;
+      }
     }
   }
 }
@@ -239,6 +249,7 @@ export default {
 }
 .list-icon {
   font-size: 18px;
-  margin: 0 10px;
+  margin: 0 5px;
+  vertical-align: middle;
 }
 </style>
