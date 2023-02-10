@@ -6,13 +6,13 @@
  * @FilePath: \front-portal\src\views\meeting\specialDetails\component\previewCSC.vue
 -->
 <template>
-  <i-page class="page">
+  <div class="page">
     <div class="content">
       <div class="header">
         <div>
-          <p class="title">CSC Nomination Recommendation</p>
+          <p class="title">{{detail.meetingName||'-'}}</p>
           <p class="subTitle">
-            1.5JA83156-GSCHARNIWEVERSTAERK-前盖铰链加强板总成
+            {{detail.topic}}
           </p>
         </div>
         <div class="infos">
@@ -78,7 +78,7 @@
         class="iframe margin-top20"
       ></iframe>
     </div>
-  </i-page>
+  </div>
 </template>
 
 <script>
@@ -104,7 +104,8 @@ export default {
       time: 0,
       index: -1,
       meetingInfo: {},
-      themens: []
+      themens: [],
+      detail:{}
     }
   },
   async created() {
@@ -134,10 +135,11 @@ export default {
     },
     click(item, index) {
       if (index == this.index) return
+      this.detail = item
       this.time = 0
       this.index = index
       let local
-      // let local = 'http://localhost:8080/sourcing/#'
+      // let local = 'http://localhost:8081/sourcing/#'
       if (item.type === 'FS+MTZ') {
         this.src =
           (local || process.env.VUE_APP_POINT) +
@@ -171,7 +173,9 @@ export default {
 
 <style lang="scss" scoped>
 .page {
-  overflow-y: auto;
+  height: 100%;
+  padding: 30px 80px 20px;
+  background: #fff;
 }
 .content {
   height: 100%;
