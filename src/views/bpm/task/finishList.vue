@@ -10,7 +10,7 @@
 <!--        />-->
 <!--      </div>-->
     </pageHeader>
-    <searchForm is-finished @search="search" />
+    <searchForm is-finished :isSourceFindingPoint="true" @search="search" />
     <iCard>
       <div class="operation-btn">
         <iButton @click="exportTemplate">

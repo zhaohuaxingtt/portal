@@ -10,7 +10,7 @@
 <!--        />-->
 <!--      </div>-->
     </pageHeader>
-    <searchForm @search="search" />
+    <searchForm :isSourceFindingPoint="true" @search="search" />
     <iCard>
       <div class="cus-action-header">
         <actionHeader
