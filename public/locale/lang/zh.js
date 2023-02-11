@@ -1776,6 +1776,12 @@
     FRIDAY_TEXT: '星期五',
     SATURDAY_TEXT: '星期六',
     SUNDAY_TEXT: '星期日',
+    APPROVAL_TODO_LIST: '审批清单',
+    APPROVAL_INSTRUCTIONS: '审批说明',
+    APPROVAL_ATTACHMENTS: '审批附件',
+    APPROVAL_DETAILS: '审批详情',
+    APPROVAL_FLOW: '审批流',
+    APPROVAL_RECORDS: '审批记录',
     // 以下ekl中文
     LK_WDYJ: '我的业绩',
     LK_YJJC: '业绩基础',

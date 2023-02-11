@@ -1,37 +1,87 @@
 <template>
-  <iCard class="margin-bottom20">
-    <div class="base-form">
-      <div class="name">
-        {{ language('审批备注与附件') }}
-      </div>
-      <div class="content">
-        <div class="remark">
-          <div class="multi-ellipsis">
-            {{ form.remark || '无审批备注' }}
+  <div>
+    <el-row v-if="divideToTow" :gutter="20" class="margin-bottom20 divide-to-two">
+      <el-col id="APPROVAL_INSTRUCTIONS" :span="18">
+        <iCard>
+          <div class="base-form">
+            <div class="name">
+              {{ language('审批备注与附件') }}
+            </div>
+            <div class="content">
+              <div class="remark">
+                <div class="multi-ellipsis">
+                  {{ form.remark || '无审批备注' }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </iCard>
+      </el-col>
+      <el-col id="APPROVAL_ATTACHMENTS" :span="6">
+        <iCard>
+          <div class="base-form">
+          <div class="name">
+            {{ language('附件') }}
+          </div>
+          <div class="content">
+            <div class="attachments">
+              <div
+                v-if="!form.procAttachments || form.procAttachments.length === 0"
+              >
+                无审批附件
+              </div>
+              <div v-else class="attach-area">
+                <attachmentList :data="attaches" icon />
+                <div
+                  v-show="
+                  attaches.length !== allAttachs.length && allAttachs.length > 2
+                "
+                  class="more-attach"
+                  @click="handleExpandAttachments"
+                >
+                  更多
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="attachments">
-          <div
-            v-if="!form.procAttachments || form.procAttachments.length === 0"
-          >
-            无审批附件
+        </iCard>
+      </el-col>
+    </el-row>
+    <iCard v-else class="margin-bottom20">
+      <div class="base-form">
+        <div class="name">
+          {{ language('审批备注与附件') }}
+        </div>
+        <div class="content">
+          <div class="remark">
+            <div class="multi-ellipsis">
+              {{ form.remark || '无审批备注' }}
+            </div>
           </div>
-          <div v-else class="attach-area">
-            <attachmentList :data="attaches" icon />
+          <div class="attachments">
             <div
-              v-show="
-                attaches.length !== allAttachs.length && allAttachs.length > 2
-              "
-              class="more-attach"
-              @click="handleExpandAttachments"
+              v-if="!form.procAttachments || form.procAttachments.length === 0"
             >
-              更多
+              无审批附件
+            </div>
+            <div v-else class="attach-area">
+              <attachmentList :data="attaches" icon />
+              <div
+                v-show="
+                  attaches.length !== allAttachs.length && allAttachs.length > 2
+                "
+                class="more-attach"
+                @click="handleExpandAttachments"
+              >
+                更多
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </iCard>
+    </iCard>
+  </div>
 </template>
 
 <script>
@@ -46,6 +96,10 @@ export default {
       default: function () {
         return {}
       }
+    },
+    divideToTow: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -111,6 +165,9 @@ export default {
       width: 45%;
       font-weight: inherit;
     }
+  }
+  &.divide-to-two {
+
   }
 }
 .multi-ellipsis {

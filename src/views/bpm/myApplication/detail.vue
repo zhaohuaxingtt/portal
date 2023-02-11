@@ -1,5 +1,12 @@
 <template>
   <iPage class="approval-detail" v-loading="loading">
+    <div class="page-header">
+      <div class="font18 font-weight">
+        {{ form.itemName }}
+        <span class="business-id">{{ form.businessId }}</span>
+        ({{ form.stateMsg }})
+      </div>
+    </div>
     <div class="page-header margin-bottom20">
       <div class="font18 font-weight">
         {{ form.itemName }}
