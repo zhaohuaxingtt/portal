@@ -11,17 +11,15 @@
       <div class="header">
         <div>
           <p class="title">{{ meetingInfo.name || '-' }}</p>
-          <p class="subTitle">
-            {{ detail.topic || '-' }}
-          </p>
+          <p class="subTitle">{{ 1 + index }}.{{ detail.topic || '-' }}</p>
         </div>
         <div class="infos">
           <div class="item">
             <div class="name">Agenda No.:</div>
             <div class="value">
               <img
-                @click.native="prev"
-                class="margin-right5"
+                @click="prev"
+                class="margin-right5 cursor"
                 :src="upAllow"
                 alt="上箭头"
               />
@@ -29,12 +27,13 @@
                 {{ 1 + index }}/{{ themens.length }}
               </span>
               <img
-                @click.native="next"
-                class="margin-right5"
+                @click="next"
+                class="margin-right5 cursor"
                 :src="downAllow"
                 alt="下箭头"
               />
               <el-popover
+                popper-class="meeting-list"
                 placement="top-end"
                 :visible-arrow="false"
                 width="300"
@@ -43,10 +42,15 @@
                 审批清单
                 <ul class="item-list margin-top10">
                   <li
-                   class="cursor"
+                    class="cursor"
                     @click="click(item, index)"
                     v-for="(item, index) in themens || []"
                     :key="index"
+                    :class="{
+                      'is-disabled':
+                        item.source !== '04' ||
+                        ['MTZ', 'CSF', 'CHIP'].includes(item.type)
+                    }"
                   >
                     <p>{{ item.topic }}</p>
                     <p class="text">
@@ -59,7 +63,7 @@
                   </li>
                 </ul>
                 <img
-                  class="list-icon"
+                  class="list-icon cursor"
                   slot="reference"
                   :src="menu"
                   alt="数据列表"
@@ -89,9 +93,7 @@ import { iPage, icon } from 'rise'
 import upAllow from '@/assets/images/icon/up.png'
 import downAllow from '@/assets/images/icon/down.png'
 import menu from '@/assets/images/icon/menu.png'
-import {
-  findThemenById,
-} from '@/api/meeting/details'
+import { findThemenById } from '@/api/meeting/details'
 export default {
   components: {
     iPage,
@@ -107,7 +109,7 @@ export default {
       meetingInfo: {},
       themens: [],
       detail: {},
-      timer:null
+      timer: null
     }
   },
   async created() {
@@ -136,6 +138,8 @@ export default {
     },
     click(item, index) {
       if (index == this.index) return
+      if (item.source !== '04' || ['MTZ', 'CSF', 'CHIP'].includes(item.type))
+        return
       this.time = 0
       this.detail = item
       this.index = index
@@ -171,7 +175,6 @@ export default {
   }
 }
 </script>
-
 <style lang="scss" scoped>
 .page {
   height: 100%;
@@ -179,6 +182,7 @@ export default {
   background: #fff;
   * {
     font-family: 'Arial', 'Helvetica', 'sans-serif';
+    letter-spacing: 0;
   }
 }
 .content {
@@ -246,10 +250,26 @@ export default {
     display: flex;
     justify-content: space-between;
   }
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    min-height: 8px;
+    min-width: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    width: 8px;
+  }
 }
 .list-icon {
   font-size: 18px;
   margin: 0 5px;
   vertical-align: middle;
+}
+.is-disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
 }
 </style>
