@@ -1,7 +1,7 @@
 /*
  * @Author: youyuan
  * @Date: 2021-09-09 14:02:54
- * @LastEditTime: 2023-02-07 09:50:22
+ * @LastEditTime: 2023-02-13 10:58:08
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 年度预算编辑
  * @FilePath: \front-portal\src\api\mtz\annualGeneralBudget\chipReplenishment.js
@@ -203,11 +203,11 @@ export function getBalanceStatusList() {
 }
 
 // 计算中补差规则导出
-export function exportBalanceRuleList(params) {
+export function exportBalanceRuleList(data) {
   return downloadChip({
     url: '/exportBalanceRuleList',
     method: 'POST',
-    params,
+    data,
     responseType: 'blob'
   })
 }
@@ -231,7 +231,27 @@ export function exportBalanceItemList(data) {
   })
 }
 
-// 补差汇总列表分页查询-一次零件,二次零件,二次供应商维度-导出
+// 凭证PDF导出
+export function balanceDetailPdfExport(params) {
+  return requestChip({
+    url: '/balanceDetailPdfExport',
+    method: 'POST',
+    params,
+    responseType: 'blob'
+  })
+}
+
+// 单个补差单明细凭证Excel导出
+export function balanceDetailExport(params) {
+  return downloadChip({
+    url: '/balanceDetailExport',
+    method: 'POST',
+    params,
+    responseType: 'blob'
+  })
+}
+
+// 补差汇总列表分页查询-一次零件,二次零件,二次供应商维度-导出 汇总EXCEL
 export function exportSupplierBalanceSummary(data) {
   return downloadChip({
     url: '/exportSupplierBalanceSummary',
@@ -241,7 +261,7 @@ export function exportSupplierBalanceSummary(data) {
   })
 }
 
-// 补差汇总列表明细查询-一次零件,二次零件,二次供应商维度-导出
+// 补差汇总列表明细查询-一次零件,二次零件,二次供应商维度-导出 明细EXCEL
 export function exportSupplierBalanceSummaryDetail(data) {
   return downloadChip({
     url: '/exportSupplierBalanceSummaryDetail',

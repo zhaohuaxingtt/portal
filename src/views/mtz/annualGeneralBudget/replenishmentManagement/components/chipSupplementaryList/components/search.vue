@@ -1,7 +1,7 @@
 <!--
  * @Author: tanmou
  * @Date: 2021-08-27 16:29:54
- * @LastEditTime: 2023-02-09 13:36:21
+ * @LastEditTime: 2023-02-13 11:07:28
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\search.vue
@@ -101,7 +101,7 @@
             >{{ language('BAOCUNBEIZHU', '保存备注') }}</iButton
           >
           <iButton
-            @click="uploadPZ"
+            @click="balanceDetailPdfExport"
             v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_PINGZHENGDAOCHU"
             >{{ language('PINGZHENGDAOCHU', '凭证导出') }}</iButton
           >
@@ -140,15 +140,13 @@ import {
 import search from '@/views/mtz/annualGeneralBudget/locationChange/components/components/search.vue'
 import { searchFormData, tabsInforList } from './data.js'
 import {
-  mtzBalanceDetailsExport,
-} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details'
-import {
   findBalanceById,
   supplierConfirm,
   exportSupplierBalanceSummary,
   exportSupplierBalanceSummaryDetail,
   updateBalance,
-  getTaskSecondSupplierList
+  getTaskSecondSupplierList,
+  balanceDetailPdfExport
 } from '@/api/mtz/annualGeneralBudget/chipReplenishment'
 import tabs1 from './tabs1'
 import tabs2 from './tabs2'
@@ -232,7 +230,7 @@ export default {
     // 获取明细
     getInforData() {
       this.BoxLoading = true
-      findBalanceById({ balanceId: this.detailObj.id, isExisted: false, ...this.searchForm })
+      findBalanceById({ balanceId: this.detailObj.id, ...this.searchForm })
         .then((res) => {
           if (res?.code == '200') {
             this.detail = res.data
@@ -301,7 +299,7 @@ export default {
       })
     },
     // 导出凭证
-    uploadPZ() {
+    balanceDetailPdfExport() {
       NewMessageBox({
         title: this.language('LK_WENXINTISHI', '温馨提示'),
         Tips: this.language('SHIFOUDAOCHU', '是否导出？'),
@@ -309,9 +307,10 @@ export default {
         confirmButtonText: this.language('QUEREN', '确认')
       })
         .then(() => {
-          mtzBalanceDetailsExport({
+          balanceDetailPdfExport({
             balanceId: this.balanceId
           }).then((res) => {
+            console.log(res);
             if (res.type === 'application/json') {
               iMessage.error(this.language('LK_ZANWUSHUJU', '暂无数据'))
             } else {
@@ -348,7 +347,11 @@ export default {
             ...this.searchForm,
             isPrimary:this.detailObj.balanceType=='1',
             isOnlyMyself:true,
-            agreementNo:this.detailObj.id
+            makeEndDate:this.detailObj.endTo,
+            makeStartDate:this.detailObj.startFrom,
+            ...this.page,
+            balanceSapCode:this.detailObj.id,
+            agreementNo:this.detailObj.id,
           }).then((res) => {
             console.log(res)
           })
