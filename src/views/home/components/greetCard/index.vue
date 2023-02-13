@@ -27,7 +27,8 @@ export default {
       userInfo: (state) => state.permission.userInfo
     }),
     userGreetInfoStr: function() {
-      return this.getGreetingStr() + ',' + this.userInfo.nameZh + ',' + this.language('欢迎登录RiSE')
+      const name = this.$i18n.locale === "zh" ? this.userInfo.nameZh : this.userInfo.nameEn
+      return this.getGreetingStr() + ',' + name + ',' + this.language('欢迎登录RiSE')
     },
     greetingsInfo() {
       return '过去一年辛苦了！❤️辞旧迎新之际，记得给自己充电哦'
@@ -72,6 +73,8 @@ export default {
         color: #003595;
         font-size: 20px;
         font-weight: bold;
+        line-height: 30px;
+        height: 30px;
       }
       .greetings-info {
         margin-top: 20px;
