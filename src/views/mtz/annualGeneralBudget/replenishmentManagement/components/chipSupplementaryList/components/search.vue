@@ -1,7 +1,7 @@
 <!--
  * @Author: tanmou
  * @Date: 2021-08-27 16:29:54
- * @LastEditTime: 2023-02-13 11:07:28
+ * @LastEditTime: 2023-02-13 18:04:51
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\search.vue
@@ -146,7 +146,8 @@ import {
   exportSupplierBalanceSummaryDetail,
   updateBalance,
   getTaskSecondSupplierList,
-  balanceDetailPdfExport
+  balanceDetailPdfExport,
+  balanceDetailExport,
 } from '@/api/mtz/annualGeneralBudget/chipReplenishment'
 import tabs1 from './tabs1'
 import tabs2 from './tabs2'
@@ -341,7 +342,7 @@ export default {
         confirmButtonText: this.language('QUEREN', '确认')
       })
         .then(() => {
-          let exportFun = this.tabsValue == 1 ? exportSupplierBalanceSummary : exportSupplierBalanceSummaryDetail
+          let exportFun = this.tabsValue == 1 ? exportSupplierBalanceSummary : balanceDetailExport
           exportFun({
             ...this.detailObj,
             ...this.searchForm,
