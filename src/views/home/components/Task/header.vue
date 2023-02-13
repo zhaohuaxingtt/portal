@@ -71,6 +71,7 @@
           color: rgb(255, 255, 255);
           font-weight: bold;
           font-size: 16px;
+          text-align: center;
           &.overdue-task-value {
             color: rgb(235, 103, 105)
           }
@@ -79,6 +80,7 @@
           color: rgb(255, 255, 255);
           font-weight: normal;
           font-size: 16px;
+          text-align: center;
         }
       }
       .task-value-divide-line {
