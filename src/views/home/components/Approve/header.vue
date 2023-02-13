@@ -2,18 +2,25 @@
   <div class="flex-between-center-center ekl-header">
     <div class="tab-tabs">
       <div style="width: 100%">
-        <el-tabs v-model="activeName" class="ekl-tabs" @tab-click="handleClick">
+        <el-tabs v-model="activeName" class="ekl-tabs" :class="has-message-count" @tab-click="handleClick">
           <el-tab-pane
             v-for="(item, index) in tabList"
             :key="item.id"
-            :label="item.name"
+            :label="item.label"
             :name="item.name"
           >
+            <template v-if="index === 0 && messageCount" slot="label">
+              <span class="to-approval-span-info-label">
+                <span class="to-approval-span-info-label-title">
+                  {{ item.label }}
+                </span>
+                <el-badge :value="messageCount" :hidden="!messageCount" :max="99" >
+  <!--                <span></span>-->
+                </el-badge>
+              </span>
+            </template>
           </el-tab-pane>
         </el-tabs>
-        <el-badge :value="messageCount" :hidden="!messageCount" :max="99">
-          <icon symbol class="icon" />
-        </el-badge>
       </div>
     </div>
   </div>
@@ -25,10 +32,14 @@ export default {
   data() {
     return {
       activeName: 0,
-      messageCount: 8,
-      tabList: [
-        { name: this.$t('APPROVAL.APPROVAL_TODO'), id: 0 },
-        { name: this.$t('HOME_CARD.MY_APPLICATION'), id: 1 },
+      messageCount: 100
+    }
+  },
+  computed: {
+    tabList() {
+      return [
+        { name: 'todo', label: this.$t('APPROVAL.APPROVAL_TODO'), id: 0 },
+        { name: 'myApplication', label: this.$t('HOME_CARD.MY_APPLICATION'), id: 1 },
       ]
     }
   },
@@ -42,7 +53,7 @@ export default {
   },
   methods: {
     setActiveName() {
-      this.activeName = this.$t('APPROVAL.APPROVAL_TODO')
+      this.activeName = 'todo'
     },
     handleClick(item) {
       this.$emit('tab-click', item === 1)
@@ -56,6 +67,14 @@ export default {
     line-height: 97px;
     font-size: 25px;
     cursor: pointer;
+  }
+  .to-approval-span-info-label {
+    ::v-deep .el-badge {
+      top: -33%;
+    }
+    .to-approval-span-info-label-title {
+       margin-right: -10px;
+    }
   }
 .ekl-header {
   //flex-grow: 1;
@@ -89,7 +108,7 @@ export default {
     height: 28px;
     padding-bottom: 6px;
     font-size: 16px;
-    font-weight: bold;
+    font-weight: normal;
     color: rgb(153, 163, 173);
   }
   .el-tabs__item:hover, .el-tabs__item.is-active {
@@ -105,6 +124,15 @@ export default {
   .el-tabs__nav-wrap::after {
     background-color: transparent;
     display: none;
+  }
+  .el-tabs__active-bar.is-top {
+    display: none;
+  }
+  .el-tabs__item:nth-child(2) {
+    padding-right: 5px !important;
+  }
+  .el-tabs__item:last-child {
+    padding-left: 5px !important;
   }
 }
 ::v-deep .el-tabs__nav-prev {
