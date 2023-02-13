@@ -32,6 +32,12 @@
           >{{ language('YANYONG', '沿用') }}</iButton
         >
         <iButton
+          @click="upRuleBtn"
+          v-permission="PORTAL_MTZ_POINT_INFOR_GZ_YANYONG"
+          v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
+          >{{ language('升版', '升版') }}</iButton
+        >
+        <iButton
           @click="delecte"
           v-permission="PORTAL_MTZ_POINT_INFOR_DEL"
           v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
@@ -81,6 +87,23 @@
             >
               <!-- <iInput v-model="scope.row.ruleNo" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
               <span>{{ scope.row.ruleNo }}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="ruleVersion"
+          align="center"
+          show-overflow-tooltip
+          width="130"
+          :label="language('版本编号')"
+        >
+          <template slot-scope="scope">
+            <el-form-item
+              :prop="'tableData.' + scope.$index + '.' + 'ruleVersion'"
+              :rules="formRules.ruleVersion ? formRules.ruleVersion : ''"
+            >
+              <!-- <iInput v-model="scope.row.ruleNo" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
+              <span>{{ scope.row.ruleVersion }}</span>
             </el-form-item>
           </template>
         </el-table-column>
@@ -1058,6 +1081,7 @@ import store from '@/store'
 import {
   pageAppRule, //维护MTZ原材料规则-分页查询
   addBatchAppRule, //维护MTZ原材料规则-批量新增
+  upAppRule,
   deleteAppRule, //列表删除,
   modifyAppRule,
   // checkPreciousMetal,
@@ -1091,6 +1115,7 @@ export default {
   //   mixins: [pageMixins],
   data() {
     return {
+      mtzAddShowNum:'0',
       tcCurrence: [],
       formRules: formRulesGZ,
       // dataObject: [],
@@ -1300,7 +1325,31 @@ export default {
               }
             )
               .then((res) => {
-                addBatchAppRule({
+                if(this.mtzAddShowNum=='1'){
+                  upAppRule({
+                  mtzAppId:
+                    this.$route.query.mtzAppId ||
+                    JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+                  mtzAppNomiAppRuleList: this.newDataList
+                }).then((res) => {
+                  if (res.code == 200) {
+                    iMessage.success(this.language(res.desEn, res.desZh))
+                    this.editId = ''
+                    this.editType = false
+                    setTimeout(() => {
+                      this.$parent.$refs.theDataTabs.pageAppRequest()
+                      if (!this.$parent.$refs.theDataTabs.editType) {
+                        this.$parent.$refs.theDataTabs.getTableList()
+                      }
+                    }, 500)
+
+                    this.getTableList()
+                  } else {
+                    iMessage.error(this.language(res.desEn, res.desZh))
+                  }
+                })
+                }else{
+                  addBatchAppRule({
                   mtzAppId:
                     this.$route.query.mtzAppId ||
                     JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
@@ -1327,7 +1376,9 @@ export default {
                     //     item.endDate = item.endDate.split(" ")[0];
                     // })
                   }
-                })
+                })                  
+                }
+
               })
               .catch((res) => {
                 // this.newDataList.forEach(item=>{
@@ -1438,10 +1489,16 @@ export default {
     },
     continueBtn() {
       //沿用
+      this.mtzAddShowNum='0'
+      this.mtzAddShow = true
+    },
+    upRuleBtn(){
+      this.mtzAddShowNum='1'
       this.mtzAddShow = true
     },
     addDialogDataList(val) {
       //沿用
+      console.log(val)
       val.forEach((item) => {
         // item.source = item.sourceType;
         this.$set(item, 'source', item.sourceType)
@@ -1463,6 +1520,7 @@ export default {
       this.newDataList = val
       this.closeDiolog()
       this.tableData.unshift(...this.newDataList)
+      console.log(this.tableData)
       this.editType = true
       var changeArrayList = []
       this.$refs.moviesTable.clearSelection()
@@ -1470,7 +1528,7 @@ export default {
         changeArrayList.push(item.id)
         this.$refs.moviesTable.toggleRowSelection(item, true)
       })
-      this.editId = changeArrayList
+      // this.editId = changeArrayList
       this.dialogEditType = true
     },
     delecte() {

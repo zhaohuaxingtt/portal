@@ -301,7 +301,14 @@ export function addBatchAppRule(params) {
     data: params
   })
 }
-
+export function upAppRule(params) {
+  //维护MTZ原材料规则-批量升版
+  return request({
+    url: '/mtzAppNomi/upAppRule',
+    method: 'POST',
+    data: params
+  })
+}
 export function addBatchPartMasterData(params) {
   //维护MTZ零件主数据-新增多条
   return request({
