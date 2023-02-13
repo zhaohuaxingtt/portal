@@ -1,7 +1,7 @@
 <!--
  * @Author: tanmou
  * @Date: 2021-08-27 16:29:54
- * @LastEditTime: 2023-02-13 18:04:51
+ * @LastEditTime: 2023-02-13 23:45:20
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\search.vue
@@ -343,7 +343,7 @@ export default {
       })
         .then(() => {
           let exportFun = this.tabsValue == 1 ? exportSupplierBalanceSummary : balanceDetailExport
-          exportFun({
+          let params = this.tabsValue == 1 ? {
             ...this.detailObj,
             ...this.searchForm,
             isPrimary:this.detailObj.balanceType=='1',
@@ -353,7 +353,10 @@ export default {
             ...this.page,
             balanceSapCode:this.detailObj.id,
             agreementNo:this.detailObj.id,
-          }).then((res) => {
+          } : {
+            balanceId:this.balanceId,
+          }
+          exportFun(params).then((res) => {
             console.log(res)
           })
         })
