@@ -44,9 +44,7 @@
                     v-for="(item, i) in themens || []"
                     :key="i"
                     :class="{
-                      'is-disabled':
-                        item.source !== '04' ||
-                        ['MTZ', 'CSF', 'CHIP'].includes(item.type),
+                      'is-disabled': ['MTZ', 'CSF', 'CHIP'].includes(item.type),
                       'is-active': i == index
                     }"
                   >
@@ -76,13 +74,17 @@
           </div>
         </div>
       </div>
+      <attch v-if="detail.type=='MANUAL'" :key="detail.id" :attachments="detail.attachments"/>
       <iframe
+        v-else-if="detail.source=='04'"
+        :key="detail.id"
         :src="src"
         frameborder="0"
         width="100%"
         height="100%"
         class="iframe margin-top20"
       ></iframe>
+      <div v-else>-</div>
     </div>
   </div>
 </template>
@@ -92,11 +94,13 @@ import { iPage, icon } from 'rise'
 import upAllow from '@/assets/images/icon/up.png'
 import downAllow from '@/assets/images/icon/down.png'
 import menu from '@/assets/images/icon/menu.png'
+import attch from './attch.vue'
 import { findThemenById } from '@/api/meeting/details'
 export default {
   components: {
     iPage,
-    icon
+    icon,
+    attch
   },
   data() {
     return {
@@ -108,7 +112,8 @@ export default {
       meetingInfo: {},
       themens: [],
       detail: {},
-      timer: null
+      timer: null,
+      
     }
   },
   async created() {
@@ -137,21 +142,22 @@ export default {
     },
     click(item, index) {
       if (index == this.index) return
-      if (item.source !== '04' || ['MTZ', 'CSF', 'CHIP'].includes(item.type))
-        return
+      if (['MTZ', 'CSF', 'CHIP'].includes(item.type)) return
       this.time = 0
       this.detail = item
       this.index = index
       let local
       // let local = 'http://localhost:8080/sourcing/#'
-      if (item.type === 'FS+MTZ') {
-        this.src =
-          (local || process.env.VUE_APP_POINT) +
-          `/previewCSC/mtz?route=force&desinateId=${item.fixedPointApplyId}&isPreview=1`
-      } else {
-        this.src =
-          (local || process.env.VUE_APP_POINT) +
-          `/previewCSC/title?route=force&desinateId=${item.fixedPointApplyId}&isPreview=1`
+      if(item.source == '04'){
+        if (item.type === 'FS+MTZ') {
+          this.src =
+            (local || process.env.VUE_APP_POINT) +
+            `/previewCSC/mtz?route=force&desinateId=${item.fixedPointApplyId}&isPreview=1`
+        } else {
+          this.src =
+            (local || process.env.VUE_APP_POINT) +
+            `/previewCSC/title?route=force&desinateId=${item.fixedPointApplyId}&isPreview=1`
+        }
       }
     }
   },
