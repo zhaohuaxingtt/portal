@@ -19,7 +19,7 @@
               </el-option>
             </iSelect>
         </el-col>
-        <el-col :span="14">
+        <el-col :span="19">
           <taskPanelCategory
             :data="titles"
             @toggle-active="toggleActive"
@@ -106,7 +106,7 @@
               />
             </iFormItem>
           </el-col>
-          <el-col :span="14">
+          <el-col :span="!isSourceFindingPoint ? 14 : 9">
             <iFormItem :label="language('任务起止日期')" style="width: 80%">
               <div class="flex-between-center-center">
                 <iDatePicker
@@ -120,7 +120,7 @@
                   format="yyyy-MM-dd"
                 >
                 </iDatePicker>
-                <el-checkbox v-model="form.reApprove" v-if="isTodoPage">
+                <el-checkbox v-model="form.reApprove" style="margin-left: 10px;" v-if="isTodoPage">
                   {{ language('复核中单据') }}
                   <el-tooltip
                     effect="light"
