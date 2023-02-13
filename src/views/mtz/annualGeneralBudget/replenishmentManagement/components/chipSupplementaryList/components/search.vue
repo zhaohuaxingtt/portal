@@ -230,7 +230,7 @@ export default {
     // 获取明细
     getInforData() {
       this.BoxLoading = true
-      findBalanceById({ balanceId: this.detailObj.id, isExisted: false, ...this.searchForm })
+      findBalanceById({ balanceId: this.detailObj.id, ...this.searchForm })
         .then((res) => {
           if (res?.code == '200') {
             this.detail = res.data

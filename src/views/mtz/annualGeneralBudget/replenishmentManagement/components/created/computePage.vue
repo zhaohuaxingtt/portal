@@ -306,7 +306,6 @@ export default {
       this.loading = true
       findBalanceById({
         balanceId: this.balanceId,
-        isExisted: this.tabsValue == '2',
         ...this.searchForm
       })
         .then((res) => {
