@@ -261,6 +261,10 @@ export default {
   .is-active {
     background: #364d6e;
     color: #fff;
+    .content{
+      padding: 12px 0;
+      border-bottom: 0px;
+    }
     &:hover{
       background: #364d6e;
       color: #fff;
