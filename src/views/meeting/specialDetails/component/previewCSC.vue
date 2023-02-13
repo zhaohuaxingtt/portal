@@ -19,47 +19,46 @@
             <div class="value">
               <img
                 @click="prev"
-                class="margin-right5 cursor"
+                class="list-icon cursor"
                 :src="upAllow"
                 alt="上箭头"
               />
-              <span class="count margin-right5">
-                {{ 1 + index }}/{{ themens.length }}
-              </span>
+              <span class="count"> {{ 1 + index }}/{{ themens.length }} </span>
               <img
                 @click="next"
-                class="margin-right5 cursor"
+                class="list-icon cursor"
                 :src="downAllow"
                 alt="下箭头"
               />
               <el-popover
                 popper-class="meeting-list"
-                placement="top-end"
+                placement="bottom-end"
                 :visible-arrow="false"
-                width="300"
+                width="330"
                 trigger="click"
               >
-                审批清单
-                <ul class="item-list margin-top10">
+                <ul class="item-list">
                   <li
-                    class="cursor"
-                    @click="click(item, index)"
-                    v-for="(item, index) in themens || []"
-                    :key="index"
+                    class="list-item cursor"
+                    @click="click(item, i)"
+                    v-for="(item, i) in themens || []"
+                    :key="i"
                     :class="{
                       'is-disabled':
                         item.source !== '04' ||
-                        ['MTZ', 'CSF', 'CHIP'].includes(item.type)
+                        ['MTZ', 'CSF', 'CHIP'].includes(item.type),
+                      'is-active': i == index
                     }"
                   >
-                    <p>{{ item.topic }}</p>
-                    <p class="text">
-                      <span>No:{{ item.fixedPointApplyId }}</span
+                  <div class="content">
+                    <p class="text margin-bottom5">
+                      <span>{{ 1 + i }}</span
                       ><span
                         >{{ item.presenterDept }} {{ item.presenterEn }}</span
                       >
                     </p>
-                    <el-divider></el-divider>
+                    <p>{{ item.topic }}</p>
+                  </div>
                   </li>
                 </ul>
                 <img
@@ -231,7 +230,7 @@ export default {
       padding-left: 10px;
       text-align: center;
       font-size: 16px;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
       display: flex;
       flex: 1;
@@ -245,10 +244,28 @@ export default {
   max-height: 500px;
   overflow: auto;
   padding-right: 20px;
+  padding: 0;
+  color: #4f4f4f;
+  .list-item {
+    padding: 0 18px;
+    .content{
+      padding: 12px 0;
+      border-bottom: 1px solid #efefef;
+    }
+  }
   .text {
     width: 100%;
     display: flex;
     justify-content: space-between;
+  }
+  .is-active {
+    background: #364d6e;
+    color: #fff;
+    &:hover{
+      background: #364d6e;
+      color: #fff;
+      opacity: 1;
+    }
   }
 
   &::-webkit-scrollbar {
@@ -264,12 +281,20 @@ export default {
   }
 }
 .list-icon {
-  font-size: 18px;
   margin: 0 5px;
-  vertical-align: middle;
+  vertical-align: top;
+  width: 30px;
 }
 .is-disabled {
   cursor: not-allowed;
   opacity: 0.7;
+}
+</style>
+<style lang="scss">
+.meeting-list {
+  margin-top: 40px !important;
+  padding: 0;
+  border: 0;
+  font-size: 16px;
 }
 </style>
