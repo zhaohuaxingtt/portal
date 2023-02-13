@@ -33,16 +33,13 @@
                 </iSelect>
             </iFormItem>
             <iFormItem prop="ruleVersion">
-                <iLabel :label="language('版本编号','版本编号')" slot="label" :required="true"></iLabel>
-                <iSelect v-model="contractForm.ruleVersion"
-                   clearable
-                   value-key="code"
-                   :placeholder="language('QINGXUANZE','请选择')">
-                    <el-option v-for="item in ruleVersion"
-                            :key="item.id"
-                            :value="item.id"
-                            :label="item.ruleVersion"></el-option>
-                </iSelect>
+                <iLabel :label="language('版本编号','版本编号')" slot="label"></iLabel>
+                <iInput
+                    type="text"
+                    :value="'规则版本'"
+                    :disabled="true"
+                    >
+                </iInput>
             </iFormItem>
             <iFormItem prop="sapCode">
                 <iLabel :label="language('GONGYINGSHANGBIANHAOMINGCHENG','供应商编号/名称')" slot="label"></iLabel>
@@ -460,6 +457,7 @@ export default {components: {
             assemblyPartnum:"",
             partUnit:"PC",
             priceUnit:1,
+            ruleVersion:'1',
             dosageMeasureUnit:'KG'
         },
         dosageMeasureUnit:[],

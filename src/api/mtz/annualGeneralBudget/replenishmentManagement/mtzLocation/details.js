@@ -110,13 +110,20 @@ export function getAppFormInfo(parmars) {
     data: parmars
   })
 }
+export function getFirstRuleByNos(data) {
+  //根据规则编号查询版本为1的规则信息
+  return request({
+    url: '/mtzAppNomi/getFirstRuleByNos',
+    method: 'POST',
+    data
+  })
+}
 
 export function modifyAppFormInfo(parmars) {
   //mtz申请单信息-编辑
   return request({
-    url: '/mtzAppNomi/modifyAppFormInfo',
+    url: '/mtzAppNomi/modifyAppFormInfo/'+parmars,
     method: 'POST',
-    data: parmars
   })
 }
 
