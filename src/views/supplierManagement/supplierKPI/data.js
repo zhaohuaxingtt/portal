@@ -34,7 +34,7 @@ export const tableTitle = [
         align: 'center',
     },
     {
-        props: 'modelType',
+        props: 'editionType',
         name: '类型',
         key: '类型',
         align: 'center',

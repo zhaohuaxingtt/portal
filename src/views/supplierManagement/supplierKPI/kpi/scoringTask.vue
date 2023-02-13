@@ -6,22 +6,29 @@
 -->
 <template>
   <div class="page">
-    <p class="title">{{ $t('LK_KESHI') }}：{{}}</p>
+    <p class="title">
+      {{ $t('LK_KESHI') }}：{{
+      $store.state.permission.userInfo.parentDeptList[0].deptNum
+      }}
+    </p>
     <div class="cardbox">
-      <div class="card">
+      <div class="card" v-for="(item, index) in infoList">
         <div class="div1">
-          <span class="cardtitle">2022下半年绩效打分</span>
-          <span class="cardstate">待处理</span>
+          <span class="cardtitle">{{item.nameZh}}</span>
+          <span class="cardstate">{{statusList.find((val) => val.code == item.executeStatus).name}}</span>
           <span class="cardstause">进行中</span>
         </div>
         <div class="div2">
           <span class="label">统计周期</span>
-          <span>2022.07.01~2022.12.31</span>
+          <div>
+            <p>{{ item.statisticsStartDate }}</p>
+            <p>{{ item.statisticsEndDate }}</p>
+          </div>
         </div>
         <div class="div3">
           <span class="label">截至时间</span>
           <div>
-            <p>2023.01.23 23:59:59</p>
+            <p>{{ item.statisticsEndDate }}</p>
             <p>(距离截止日期还有13天）</p>
           </div>
         </div>
@@ -31,26 +38,29 @@
         </div>
       </div>
     </div>
-    <el-divider class="line ">
+    <el-divider class="line">
       <span>已结束任务</span>
       <el-button type="text">展开</el-button></el-divider
     >
 
     <div class="cardbox">
-      <div class="card">
+      <div class="card" v-for="(item, index) in infoList2">
         <div class="div1">
-          <span class="cardtitle">2022下半年绩效打分</span>
-          <span class="cardstate">待处理</span>
-          <span class="cardstause">进行中</span>
+          <span class="cardtitle">{{item.nameZh}}</span>
+          <span class="cardstate">{{statusList.find((val) => val.code == item.executeStatus).name}}</span>
+          <span class="cardstause gread">已结束</span>
         </div>
         <div class="div2">
           <span class="label">统计周期</span>
-          <span>2022.07.01~2022.12.31</span>
+          <div>
+            <p>{{ item.statisticsStartDate }}</p>
+            <p>{{ item.statisticsEndDate }}</p>
+          </div>
         </div>
         <div class="div3">
           <span class="label">截至时间</span>
           <div>
-            <p>2023.01.23 23:59:59</p>
+            <p>{{ item.statisticsEndDate }}</p>
             <p>(距离截止日期还有13天）</p>
           </div>
         </div>
@@ -63,7 +73,10 @@
 </template>
 
 <script>
-import {} from '@/api/supplierManagement/supplierIndexManage/index'
+import {
+  getSupplierPerforManceScorePage,
+  getSupplierPerforManceTaskList
+} from '@/api/supplierManagement/supplierIndexManage/index'
 import { pageMixins } from '@/utils/pageMixins'
 import tableList from '@/components/commonTable'
 import { cloneDeep } from 'lodash'
@@ -96,13 +109,37 @@ export default {
     iDialog
   },
   data() {
-    return {}
+    return {
+      statusList:[],
+      infoList: [],
+      infoList2:[]
+    }
   },
   created() {
+    getDictByCode('SUPPLIER_PERFORMANCE_TASK_EXECUTE_STATUS')
+        .then((res) => {
+          if (res.data) {
+            this.statusList = res?.data[0]?.subDictResultVo
+          }
+        })
+        .catch(() => {})
     this.init()
   },
   methods: {
-    init() {}
+    init() {
+      const req = {
+          deptCode:'CSM',
+            // this.$store.state.permission.userInfo.parentDeptList[0].deptNum,
+      }
+      getSupplierPerforManceTaskList(req).then((res) => {
+        this.infoList=res.data.filter(val=>{
+          return val.status==0
+        })
+        this.infoList2=res.data.filter(val=>{
+          return val.status==1
+        })
+      })
+    }
   }
 }
 </script>
@@ -117,7 +154,7 @@ export default {
     box-shadow: 0 0 1.25rem rgb(27 29 33 / 8%);
     border-radius: 12px;
     padding: 20px 20px 10px 20px;
-    width: 20%;
+    width: 22%;
     > div {
       display: flex;
     }
@@ -136,7 +173,7 @@ export default {
       .cardstause {
         color: white;
         background: #1763f7;
-        padding: 10px;
+        padding: 5px 10px;
         border-radius: 20px;
       }
     }
@@ -161,13 +198,13 @@ export default {
   }
 }
 .line {
-    span {
+  span {
     display: inline-block;
     font-size: 16px;
     margin-right: 20px;
   }
-  ::v-deep .el-divider__text{
-    background: #F8F9FA;
+  ::v-deep .el-divider__text {
+    background: #f8f9fa;
   }
 }
 .title {
@@ -178,5 +215,9 @@ export default {
 .link {
   color: #1763f7;
   cursor: pointer;
+}
+.gread{
+  background: #f8f9fa;
+
 }
 </style>

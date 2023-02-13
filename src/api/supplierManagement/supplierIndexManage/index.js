@@ -125,3 +125,28 @@ export function getPerformanceEdition(parmars) {
     data: parmars
   })
 }
+// 获取供应商绩效版本信息
+export function sendPerformanceTask(id) {
+  return requst({
+    url: '/supplierPerformanceTask/sendPerformanceTask?id='+id,
+    method: 'GET',
+  })
+}
+// 供应商评分列表
+export function getSupplierPerforManceScorePage(parmars) {
+  return requst({
+    url: '/supplierPerformanceScore/getSupplierPerforManceScorePage',
+    method: 'POST',
+    data: parmars
+
+  })
+}
+// 供应商评分列表
+export function getSupplierPerforManceTaskList(parmars) {
+  return requst({
+    url: '/supplierPerformanceTask/getSupplierPerforManceTaskList',
+    method: 'POST',
+    data: parmars
+
+  })
+}
