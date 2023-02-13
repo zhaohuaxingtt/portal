@@ -191,7 +191,7 @@ export default {
       })
       const req = {
         ...this.ipagnation,
-        editionId: this.$route.query.id
+        editionId: this.$route.query.editionId
       }
       getSupplierPerforManceScorePage(req).then((res) => {
         this.allData = JSON.parse(JSON.stringify(res.data))

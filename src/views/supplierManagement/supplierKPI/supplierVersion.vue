@@ -329,7 +329,7 @@ export default {
       let routeUrl = this.$router.resolve({
         path: '/supplier/spiIndex/supplierVersionTable',
         query: {
-          id: item.id,
+          editionId: item.id,
           dataTime: item.dataTime,
 
           modelId:item.modelId

@@ -178,7 +178,7 @@ export function exportL2SupplierPerforManceScoreExcel(parmars) {
 }
 //  导入手工指标excel2
 export function saveSystemPerformance(parmars) {
-  return requestDownload({
+  return requst({
     url: '/supplierPerformanceScore/saveSystemPerformance',
     method: 'POST',
     data: parmars
@@ -187,7 +187,7 @@ export function saveSystemPerformance(parmars) {
 }
 //  导入手工指标excel
 export function saveManualPerformance(parmars) {
-  return requestDownload({
+  return requst({
     url: '/supplierPerformanceScore/saveManualPerformance',
     method: 'POST',
     data: parmars
