@@ -20,9 +20,9 @@
             <span v-if="isShowFile" class="link" @click="dowload(allData.fileId)">{{ allData.fileName }}</span>
             <uploadButton style="margin-right:20px" :accept="'.pdf,.xlsx,.xls,.docx'" uploadClass="uploadButton"
               :beforeUpload="beforeUpload" @success="uploadSuccess" @error="uploadError">
-              <iButton :disabled="!isEdit " :loading="uploadLoading">{{ '上传' }}</iButton>
+              <iButton :disabled="!isEdit" :loading="uploadLoading">{{ '上传' }}</iButton>
             </uploadButton>
-            <iButton :disabled="!isEdit " @click="del">{{ '删除' }}</iButton>
+            <iButton :disabled="!isEdit" @click="del">{{ '删除' }}</iButton>
           </div>
         </div>
         <div>
@@ -33,9 +33,10 @@
         </div>
       </div>
     </iCard>
-    <indexManage />
-    <kpiStructure ref="model" :isEdit="isEdit" style="margin-top: 20px" :treeData="allData" :temId="selectValue"
-      :templateName="templateName" @click="changeSaveData" @init="init" :isShow="isShow"></kpiStructure>
+    <indexManage v-if="isShow" />
+    <kpiStructure :infoData="infoData" @submit0="submit0" ref="model" :isEdit="isEdit" style="margin-top: 20px"
+      :treeData="allData" :temId="selectValue" :templateName="templateName" @click="changeSaveData" @init="init"
+      :isShow="isShow"></kpiStructure>
   </div>
 </template>
 
@@ -65,7 +66,8 @@ export default {
     logButton
   },
   props: {
-    isShow: { type: Boolean, default: true }
+    isShow: { type: Boolean, default: true },
+    infoData: { type: Object }
   },
   data() {
     return {
@@ -86,7 +88,7 @@ export default {
       templateName: '',
       isEdit: false,
       info: {},
-      isShowFile:true
+      isShowFile: true
     }
   },
   created() { },
@@ -95,7 +97,7 @@ export default {
   },
   watch: {},
   methods: {
-    init() {
+    init(val) {
       this.isEdit = false
       modelList(false).then((res) => {
         if (res.code == '200') {
@@ -104,10 +106,23 @@ export default {
             this.allData.modelId = this.dropDownOptions[this.dropDownOptions.length - 1].modelId
             this.allData.fileId = this.dropDownOptions[this.dropDownOptions.length - 1].fileId
             this.allData.fileName = this.dropDownOptions[this.dropDownOptions.length - 1].fileName
-            this.info = this.dropDownOptions.find(
-              (val) => val.modelId == this.allData.modelId
-            )
+            if (this.isShow || val == 'updata') {
+              this.info = this.dropDownOptions.find(
+                (val) => val.modelId == this.allData.modelId
+              )
+              if (val == 'updata') {
+                let newQuery = JSON.parse(JSON.stringify(this.$route.query));
+                newQuery.modelId = this.allData.modelId;
+                this.$router.replace({
+                  query: newQuery
+                })
+              }
+            } else {
+              this.allData.modelId = this.$route.query.modelId
+            }
+
           }
+          this.$emit('getallData', this.allData)
           getModelTree(this.allData.modelId).then((res) => {
             if (res.code == '200') {
               if (res.data.id != null) {
@@ -120,11 +135,14 @@ export default {
         }
       })
     },
+    submit0() {
+      this.$emit('submit0')
+    },
     del() {
       this.$nextTick(() => {
         this.allData.fileId = ''
         this.allData.fileName = ''
-        this.isShowFile=false
+        this.isShowFile = false
       })
     },
     save() {
@@ -142,7 +160,7 @@ export default {
       if (res.code == 200) {
         this.allData.fileId = res.data.data[0].id
         this.allData.fileName = res.data.data[0].name
-        this.isShowFile=true
+        this.isShowFile = true
         iMessage.success(file.name + "上传成功")
       } else {
         iMessage.error(`${this.$i18n.locale === "zh" ? res.desZh : res.desEn}`)

@@ -209,6 +209,7 @@
         <iButton v-if="active != 3" @click="submit('to')">{{
           $t('SUPPLIER_XIAYIBU')
         }}</iButton>
+        
         <iButton v-if="active == 3" @click="submit('finish')">{{
           '完成'
         }}</iButton>
@@ -436,10 +437,10 @@ export default {
       } else {
         if (v == 'godept') {
           sendPerformanceTask(this.editionId).then((res) => {
-            if (val.code == '200') {
+            if (res.code == '200') {
               iMessage.success('发送成功')
             } else {
-              iMessage.error(val.desZh)
+              iMessage.error(res.desZh)
             }
           })
         }

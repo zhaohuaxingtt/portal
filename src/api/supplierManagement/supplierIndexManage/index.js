@@ -120,9 +120,8 @@ export function delEditionTask(id) {
 // 获取供应商绩效版本信息
 export function getPerformanceEdition(parmars) {
   return requst({
-    url: '/supplierPerformanceTask/getPerformanceEdition',
-    method: 'POST',
-    data: parmars
+    url: '/supplierPerformanceTask/getPerformanceEdition?id='+parmars,
+    method: 'GET',
   })
 }
 // 获取供应商绩效版本信息
@@ -145,6 +144,51 @@ export function getSupplierPerforManceScorePage(parmars) {
 export function getSupplierPerforManceTaskList(parmars) {
   return requst({
     url: '/supplierPerformanceTask/getSupplierPerforManceTaskList',
+    method: 'POST',
+    data: parmars
+
+  })
+}
+//  修改绩效版本模型
+export function updateSupplierPerforManceModel(parmars) {
+  return requst({
+    url: '/supplierPerformanceTask/updateSupplierPerforManceModel',
+    method: 'POST',
+    data: parmars
+
+  })
+}
+//  导出手工指标excel
+export function exportManualSupplierPerforManceScoreExcel(parmars) {
+  return requestDownload({
+    url: '/supplierPerformanceScore/exportManualSupplierPerforManceScoreExcel',
+    method: 'POST',
+    data: parmars
+
+  })
+}
+//  导出手工指标excel2
+export function exportL2SupplierPerforManceScoreExcel(parmars) {
+  return requestDownload({
+    url: '/supplierPerformanceScore/exportL2SupplierPerforManceScoreExcel',
+    method: 'POST',
+    data: parmars
+
+  })
+}
+//  导入手工指标excel2
+export function saveSystemPerformance(parmars) {
+  return requestDownload({
+    url: '/supplierPerformanceScore/saveSystemPerformance',
+    method: 'POST',
+    data: parmars
+
+  })
+}
+//  导入手工指标excel
+export function saveManualPerformance(parmars) {
+  return requestDownload({
+    url: '/supplierPerformanceScore/saveManualPerformance',
     method: 'POST',
     data: parmars
 

@@ -4,12 +4,14 @@
       <div v-if="isShow == false" class="imgkpi-head">
         <el-form label-position="left" label-width="60px">
           <el-form-item label="版本：" class="SearchOption">
-            <span></span>
+            <span>{{ infoData.modelVersion }}</span>
           </el-form-item>
         </el-form>
         <div>
-          <iButton @click="edit">编辑</iButton>
-          <iButton @click="save">确认</iButton>
+          <iButton v-if="!isEdit" @click="edit">编辑</iButton>
+          <iButton v-if="isEdit" @click="canel">取消</iButton>
+          <iButton v-if="isEdit" @click="save">保存</iButton>
+          <iButton v-if="!isEdit" @click="submit">下一步</iButton>
         </div>
       </div>
       <div class="scoll-y">
@@ -18,7 +20,7 @@
             <!-- <div class="head">总体</div> -->
             <div class="cell">
               <div :class="
-                formDataLevel2.childVo.length > 0
+                formDataLevel2.childVo.childVo.length > 0
                   ? 'total first-cloum-after'
                   : 'total'
               ">
@@ -167,7 +169,7 @@
                   index3 < lev3.childVo.length - 1 ? 'cloum-before1' : ''
                 " :key="index3 + 'lev3'">
                   <div v-for="(lev4, index4) in lev3.childVo" :key="index4 + 'lev4'" class="box2">
-                    <div :class="index4 < lev4.childVo.length - 1 ? 'lev4 ' : ' '">
+                    <div :class="index4 < lev4.childVo.length ? 'lev4 ' : ' '">
                       <div class="content kpi-module kpi-module1 last-border">
                         <div class="titleCard">
                           <span v-if="!isEdit">{{ lev4.title }}</span>
@@ -260,6 +262,9 @@ export default {
     },
     isEdit: {
       type: Boolean, default: false
+    },
+    infoData: {
+      type: Object
     }
   },
   components: {
@@ -298,6 +303,14 @@ export default {
     },
     edit() {
       this.isEdit = true
+    },
+    canel() {
+      this.isEdit = false
+      this.$parent.init()
+    },
+
+    submit() {
+      this.$emit('submit0')
     },
     addCell() {
       const tableChild = this.formDataLevel2.childVo.childVo
@@ -505,7 +518,14 @@ export default {
         .then((res) => {
           if (res.code == '200' && res.result) {
             this.$message('操作成功')
-            this.$emit('init')
+            this.isEdit = false
+            if (this.isShow) {
+              this.$emit('init')
+            } else {
+
+              this.$emit('init', 'updata')
+            }
+
           } else {
             this.$message.error(res.desZh)
           }

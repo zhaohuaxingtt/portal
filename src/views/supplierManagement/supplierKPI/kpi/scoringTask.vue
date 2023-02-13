@@ -15,7 +15,7 @@
       <div class="card" v-for="(item, index) in infoList">
         <div class="div1">
           <span class="cardtitle">{{item.nameZh}}</span>
-          <span class="cardstate">{{statusList.find((val) => val.code == item.executeStatus).name}}</span>
+          <span :class="item.executeStatus==0?'orgin':item.executeStatus==1?'link':''" class="cardstate">{{statusList.find((val) => val.code == item.executeStatus).name}}</span>
           <span class="cardstause">进行中</span>
         </div>
         <div class="div2">
@@ -33,8 +33,8 @@
           </div>
         </div>
         <div class="div4">
-          <el-button type="text">{{ $t('LK_CHAKAN') }}</el-button>
-          <el-button type="text">{{ $t('LK_BIANJI') }}</el-button>
+          <el-button v-if="item.executeStatus==0" @click="goDetail(item,'add')" type="text">{{ $t('LK_CHAKAN') }}</el-button>
+          <el-button v-if="item.executeStatus==1" type="text">{{ $t('LK_BIANJI') }}</el-button>
         </div>
       </div>
     </div>
@@ -81,6 +81,7 @@ import { pageMixins } from '@/utils/pageMixins'
 import tableList from '@/components/commonTable'
 import { cloneDeep } from 'lodash'
 import { getDictByCode } from '@/api/dictionary'
+import {getPerformanceEdition} from '@/api/supplierManagement/supplierIndexManage/index'
 
 import {
   iMessage,
@@ -128,8 +129,8 @@ export default {
   methods: {
     init() {
       const req = {
-          deptCode:'CSM',
-            // this.$store.state.permission.userInfo.parentDeptList[0].deptNum,
+          // deptCode:'CSS',
+          deptCode: this.$store.state.permission.userInfo.parentDeptList[0].deptNum,
       }
       getSupplierPerforManceTaskList(req).then((res) => {
         this.infoList=res.data.filter(val=>{
@@ -139,6 +140,16 @@ export default {
           return val.status==1
         })
       })
+    },
+    goDetail(item){
+      let routeUrl = this.$router.resolve({
+        path: '/supplier/spiIndex/supplierVersionUp',
+        query: {
+          modelId:item.modelId,
+          editionId:item.editionId,
+        }
+      })
+      window.open(routeUrl.href, '_blank')
     }
   }
 }
@@ -148,8 +159,9 @@ export default {
 .cardbox {
   margin: 20px 0;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   .card {
+    margin-right: 1%;
     // display: flex;
     box-shadow: 0 0 1.25rem rgb(27 29 33 / 8%);
     border-radius: 12px;
@@ -218,6 +230,8 @@ export default {
 }
 .gread{
   background: #f8f9fa;
-
+}
+.orgin{
+  color: #E6A23C;
 }
 </style>
