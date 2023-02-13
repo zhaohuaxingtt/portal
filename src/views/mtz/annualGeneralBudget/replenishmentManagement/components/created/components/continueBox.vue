@@ -184,7 +184,8 @@ export default {
       let params = {
         ...searchForm,
         pageSize: this.page.pageSize,
-        currentPage: this.page.currPage
+        currentPage: this.page.currPage,
+        isPrimary:this.$route.query.type == 1
       }
       delete params.supplierName
       getAppRecordByCondition(params)
