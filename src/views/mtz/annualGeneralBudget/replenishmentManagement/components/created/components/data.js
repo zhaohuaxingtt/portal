@@ -408,6 +408,12 @@ export const tableTitleBE1 = [
     type: 'index',
     label: '#',
   }, {
+    prop: 'itemNo',
+    label: '项次',
+    i18n: '项次',
+    align: 'center',
+    width: 80
+  },{
     prop: 'primaryPartNum',
     label: '一次零件号',
     i18n: '一次零件号',
@@ -618,6 +624,12 @@ export const tableTitleBE2 = [
   }, {
     type: 'index',
     label: '#',
+  }, {
+    prop: 'itemNo',
+    label: '项次',
+    i18n: '项次',
+    align: 'center',
+    width: 80
   }, {
     prop: 'primaryPartNum',
     label: '一次零件号',
