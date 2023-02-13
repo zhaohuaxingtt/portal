@@ -66,10 +66,24 @@ export default {
     }),
     cards() {
       // console.log("cardList", this.cardList[1])
+      let newsIndex = -1
       let cards = this.cardList.filter(
         (li) =>
           !li.value && !['Approve', 'Task', 'Schedule'].includes(li.component)
       )
+      let newsCard = cards.find((item, index) => {
+        if(item.component === 'News') {
+          newsIndex = index
+          return true
+        } else {
+          return false
+        }
+      })
+      if(newsCard && newsIndex > 0) {
+        let zeroIndexCard = cards[0]
+        cards[0] = newsCard
+        cards[newsIndex] = zeroIndexCard
+      }
       return cards
     },
     fixedCards() {
@@ -164,7 +178,7 @@ export default {
   ::v-deep .el-card__body{
     height: 550px;
     overflow: auto;
-    padding-right: 0px;
+    //padding-right: 0px;
     .carousel{
       height: 100%;
     }
