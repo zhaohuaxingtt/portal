@@ -126,6 +126,8 @@
     height: 32px;
     line-height: 32px;
     align-items: center;
+    padding-left: 10px;
+    padding-right: 10px;
     .i-meeting-item-date {
       color: rgb(129, 129, 129);
       height: 100%;
@@ -135,6 +137,7 @@
       display: flex;
       width: calc(100% - 35px);
       color: rgb(0, 0, 0);
+      justify-content: space-between;
       .i-meeting-item-divide-line {
         background-color: rgb(210, 216, 224);
         height: 22px;
@@ -149,7 +152,7 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        width: calc(100% - 9px - 35px);
+        width: calc(100% - 9px - 35px - 30px);
       }
       .i-meeting-item-location {
         width: 50px;
@@ -158,6 +161,7 @@
     }
     .i-meeting-item-content-div:hover {
       color: rgb(0, 85, 232);
+      background-color: rgb(228, 237, 253);
       cursor: pointer;
       .i-meeting-item-divide-line {
         background-color: rgb(0, 85, 232);

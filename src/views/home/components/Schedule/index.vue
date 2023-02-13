@@ -32,13 +32,13 @@
 <!--      </template>-->
 <!--    </div>-->
     <div class="iMeeting-div">
-      <div v-for="(item, index) in meetingListThisWeek" class="iMeeting-day-item-div">
-        <div class='week-day-title'>{{ item.weekDayTitle }}</div>
+      <div v-for="(item, index) in meetingListThisWeek" class="iMeeting-day-item-div" :key="index">
+        <div class='week-day-title'>{{ language(item.weekDay) + ' ' + (isZh ? item.weekDayZh : item.weekDayEn) }}</div>
           <div v-if="item.meetingList.length === 0" class="empty-i-meeting">
             {{ language('今日无会议安排') }}
           </div>
           <div v-else>
-            <iMeetingItem v-for="(meetingItem, meetingItemIndex) in item.meetingList" :item="meetingItem"/>
+            <iMeetingItem v-for="(meetingItem, meetingItemIndex) in item.meetingList" :item="meetingItem" :key="meetingItemIndex"/>
           </div>
         <div>
         </div>
@@ -89,7 +89,16 @@ export default {
       attrs: [],
       holiday: [],
       expectMeeting: [],
-      meetingListThisWeek: []
+      meetingListThisWeek: [],
+      WEEKS_EN_TEXT: [
+        'MONDAY_TEXT',
+        'TUESDAY_TEXT',
+        'WEDNESDAY_TEXT',
+        'THURSDAY_TEXT',
+        'FRIDAY_TEXT',
+        'SATURDAY_TEXT',
+        'SUNDAY_TEXT'
+      ]
     }
   },
   computed: {
@@ -106,6 +115,9 @@ export default {
         this.$t('SATURDAY_TEXT'),
         this.$t('SUNDAY_TEXT')
       ]
+    },
+    isZh() {
+      return this.$i18n.locale === "zh"
     }
   },
   async mounted() {
@@ -138,7 +150,9 @@ export default {
             }
           }
           const meetingListItem = {
-            weekDayTitle: this.WEEKS_TEXT[i] + ' ' + beginMoment.format('MM月DD日'),
+            weekDay: this.WEEKS_EN_TEXT[i],
+            weekDayZh: beginMoment.format('MM月DD日'),
+            weekDayEn: beginMoment.locale('en').format('DD,MMMM'),
             meetingList
           }
           meetingListThisWeek.push(meetingListItem)
@@ -371,6 +385,7 @@ export default {
     margin-top: 10px;
     margin-bottom: 10px;
     height: 100%;
+    min-height: 20px;
   }
   .info_container {
     overflow-x: hidden;
@@ -389,12 +404,16 @@ export default {
 }
 .iMeeting-div {
   .iMeeting-day-item-div {
+    margin-top: 5px;
+    margin-bottom: 5px;
     border-bottom: 2px dashed rgb(214, 214, 214);
   }
   .week-day-title {
     text-align: left;
     font-size: 16px;
     font-weight: bold;
+    height: 24px;
+    line-height: 24px;
   }
 }
 </style>
