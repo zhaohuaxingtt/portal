@@ -6,33 +6,34 @@
  * @FilePath: \front-portal\src\views\meeting\specialDetails\component\previewCSC.vue
 -->
 <template>
-  <i-page class="page">
+  <div class="page">
     <div class="content">
       <div class="header">
         <div>
-          <p class="title">CSC Nomination Recommendation</p>
-          <p class="subTitle">
-            1.5JA83156-GSCHARNIWEVERSTAERK-前盖铰链加强板总成
-          </p>
+          <p class="title">{{ meetingInfo.name || '-' }}</p>
+          <p class="subTitle">{{ 1 + index }}.{{ detail.topic || '-' }}</p>
         </div>
         <div class="infos">
           <div class="item">
-            <div class="name">Agenda No:</div>
+            <div class="name">Agenda No.:</div>
             <div class="value">
-              <icon
-                @click.native="prev"
-                class="list-icon"
-                symbol
-                name="iconfilterquyukuaijiantoushouqi"
+              <img
+                @click="prev"
+                class="margin-right5 cursor"
+                :src="upAllow"
+                alt="上箭头"
               />
-              <span> {{ 1 + index }}/{{ themens.length }} </span>
-              <icon
-                @click.native="next"
-                class="list-icon"
-                symbol
-                name="iconfilterquyukuaijiantouzhankai"
+              <span class="count margin-right5">
+                {{ 1 + index }}/{{ themens.length }}
+              </span>
+              <img
+                @click="next"
+                class="margin-right5 cursor"
+                :src="downAllow"
+                alt="下箭头"
               />
               <el-popover
+                popper-class="meeting-list"
                 placement="top-end"
                 :visible-arrow="false"
                 width="300"
@@ -41,9 +42,15 @@
                 审批清单
                 <ul class="item-list margin-top10">
                   <li
+                    class="cursor"
                     @click="click(item, index)"
                     v-for="(item, index) in themens || []"
                     :key="index"
+                    :class="{
+                      'is-disabled':
+                        item.source !== '04' ||
+                        ['MTZ', 'CSF', 'CHIP'].includes(item.type)
+                    }"
                   >
                     <p>{{ item.topic }}</p>
                     <p class="text">
@@ -55,11 +62,11 @@
                     <el-divider></el-divider>
                   </li>
                 </ul>
-                <icon
-                  class="list-icon"
+                <img
+                  class="list-icon cursor"
                   slot="reference"
-                  symbol
-                  name="iconxiaoxi"
+                  :src="menu"
+                  alt="数据列表"
                 />
               </el-popover>
             </div>
@@ -78,22 +85,15 @@
         class="iframe margin-top20"
       ></iframe>
     </div>
-  </i-page>
+  </div>
 </template>
 
 <script>
 import { iPage, icon } from 'rise'
-import {
-  findThemenById,
-  endThemen,
-  startThemen,
-  // recallThemen,
-  passThemenRecall,
-  rejectThemenRecall,
-  deleteThemen,
-  resortThemen,
-  spiltThemen
-} from '@/api/meeting/details'
+import upAllow from '@/assets/images/icon/up.png'
+import downAllow from '@/assets/images/icon/down.png'
+import menu from '@/assets/images/icon/menu.png'
+import { findThemenById } from '@/api/meeting/details'
 export default {
   components: {
     iPage,
@@ -101,28 +101,32 @@ export default {
   },
   data() {
     return {
+      upAllow,
+      downAllow,
+      menu,
       time: 0,
       index: -1,
       meetingInfo: {},
-      themens: []
+      themens: [],
+      detail: {},
+      timer: null
     }
   },
   async created() {
     let query = this.$route.query
     this.meetingInfo = await findThemenById({ id: query.id })
-    this.themens = this.meetingInfo.themens
+    this.themens = this.meetingInfo?.themens
     this.meetingInfo.themens.forEach((item, index) => {
       if (item.fixedPointApplyId == query.desinateId) {
         this.click(item, index)
       }
     })
-    let timer = setInterval(() => {
+    this.timer = setInterval(() => {
       this.time += 1000
     }, 1000)
   },
   methods: {
     prev() {
-      console.log(this.index)
       if (this.index > 0) {
         this.click(this.themens[this.index - 1], this.index - 1)
       }
@@ -134,7 +138,10 @@ export default {
     },
     click(item, index) {
       if (index == this.index) return
+      if (item.source !== '04' || ['MTZ', 'CSF', 'CHIP'].includes(item.type))
+        return
       this.time = 0
+      this.detail = item
       this.index = index
       let local
       // let local = 'http://localhost:8080/sourcing/#'
@@ -149,8 +156,8 @@ export default {
       }
     }
   },
-  destroyed(){
-    if(this.timer) clearInterval(this.timer)
+  destroyed() {
+    if (this.timer) clearInterval(this.timer)
   },
   filters: {
     handleTransTime(longTime) {
@@ -168,10 +175,15 @@ export default {
   }
 }
 </script>
-
 <style lang="scss" scoped>
 .page {
-  overflow-y: auto;
+  height: 100%;
+  padding: 30px 80px 20px;
+  background: #fff;
+  * {
+    font-family: 'Arial', 'Helvetica', 'sans-serif';
+    letter-spacing: 0;
+  }
 }
 .content {
   height: 100%;
@@ -204,7 +216,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border: 1px solid #666;
+    border: 1px solid #d9d9d9;
     line-height: 30px;
     font-weight: bold;
     &:first-child {
@@ -216,10 +228,16 @@ export default {
       font-size: 16px;
     }
     .value {
-      width: 200px;
+      padding-left: 10px;
       text-align: center;
       font-size: 16px;
       align-items: center;
+      justify-content: center;
+      display: flex;
+      flex: 1;
+      .count {
+        width: 50px;
+      }
     }
   }
 }
@@ -232,9 +250,26 @@ export default {
     display: flex;
     justify-content: space-between;
   }
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    min-height: 8px;
+    min-width: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    width: 8px;
+  }
 }
 .list-icon {
   font-size: 18px;
-  margin: 0 10px;
+  margin: 0 5px;
+  vertical-align: middle;
+}
+.is-disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
 }
 </style>
