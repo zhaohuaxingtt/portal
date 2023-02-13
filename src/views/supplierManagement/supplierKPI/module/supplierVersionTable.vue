@@ -22,14 +22,14 @@
       <el-upload style="margin-left: 10px" action="1" :accept="'.xlsx,.xls'" :before-upload="beforeAvatarUpload"
         :show-file-list="false" :http-request="httpUpload" :disabled="importLoading">
         <div>
-          <iButton  v-if=" active == 1">{{  '上传手工指标' }}
+          <iButton v-if="active == 1">{{ '上传手工指标' }}
           </iButton>
         </div>
       </el-upload>
       <el-upload style="margin-left: 10px" action="1" :accept="'.xlsx,.xls'" :before-upload="beforeAvatarUpload"
         :show-file-list="false" :http-request="httpUpload" :disabled="importLoading">
         <div>
-          <iButton v-if=" active == 2">{{ '上传主观打分' }}
+          <iButton v-if="active == 2">{{ '上传主观打分' }}
           </iButton>
         </div>
       </el-upload>
@@ -92,7 +92,7 @@ import column from './column'
 import {
   getSupplierPerforManceScorePage,
   getModelTree,
-  exportManualSupplierPerforManceScoreExcel ,
+  exportManualSupplierPerforManceScoreExcel,
   exportL2SupplierPerforManceScoreExcel,
   saveSystemPerformance,
   saveManualPerformance
@@ -132,11 +132,11 @@ export default {
   props: {
     isShow: { type: Boolean, default: true },
     active: { type: Number, default: 1 },
-    infoData:{type:Object}
+    infoData: { type: Object }
   },
   data() {
     return {
-      importLoading:false,
+      importLoading: false,
       ipagnation: {
         pageNo: 1,
         pageSize: 10
@@ -156,11 +156,11 @@ export default {
   methods: {
     init() { },
     getTableList() {
-      let id=''
-      if(this.isShow){
-        id=this.$route.query.modelId
-      }else{
-        id=this.infoData.modelId
+      let id = ''
+      if (this.isShow) {
+        id = this.$route.query.modelId
+      } else {
+        id = this.infoData.modelId
       }
       getModelTree(id).then((res) => {
         if (res.code == '200') {
@@ -185,7 +185,6 @@ export default {
               showLev1.push(z)
             }
           })
-
           this.theadData = [...showLev1]
           console.log(this.theadData)
         }
@@ -206,9 +205,9 @@ export default {
     },
     dowload() {
       if (this.active == 1) {
-        exportManualSupplierPerforManceScoreExcel({editionId:this.$route.query.editionId})
+        exportManualSupplierPerforManceScoreExcel({ editionId: this.$route.query.editionId })
       } else {
-        exportL2SupplierPerforManceScoreExcel({editionId:this.$route.query.editionId})
+        exportL2SupplierPerforManceScoreExcel({ editionId: this.$route.query.editionId })
       }
     },
     //导入
@@ -217,28 +216,28 @@ export default {
       let formData = new FormData()
       formData.append('uploadFile', info.file)
       formData.append('editionId', this.$route.query.editionId)
-      if(this.active==1){
+      if (this.active == 1) {
         await saveManualPerformance(formData).then((res) => {
-        if (res.code == 200 && res) {
-          this.importDialog = true
-          this.$message.success(this.language('DAORUCHENGGONG', '导入成功'))
-          this.getTableList()
-        } else {
-          this.$message.error(res.desZh)
-        }
-      })
-      }else{
+          if (res.code == 200 && res) {
+            this.importDialog = true
+            this.$message.success(this.language('DAORUCHENGGONG', '导入成功'))
+            this.getTableList()
+          } else {
+            this.$message.error(res.desZh)
+          }
+        })
+      } else {
         await saveSystemPerformance(formData).then((res) => {
-        if (res.code == 200 && res) {
-          this.importDialog = true
-          this.getTableList()
-          this.$message.success(this.language('DAORUCHENGGONG', '导入成功'))
-        } else {
-          this.$message.error(res.desZh)
-        }
-      })
+          if (res.code == 200 && res) {
+            this.importDialog = true
+            this.getTableList()
+            this.$message.success(this.language('DAORUCHENGGONG', '导入成功'))
+          } else {
+            this.$message.error(res.desZh)
+          }
+        })
       }
-  
+
       this.importLoading = false
     },
     // 上传前校验

@@ -81,6 +81,7 @@ export default {
       allData: {
         modelId: '',
         childVo: {
+          title:'总分',
           childVo: []
         }
       },
