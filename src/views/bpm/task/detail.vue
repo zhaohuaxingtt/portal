@@ -448,7 +448,7 @@ export default {
   width: calc(100% - 188px);
   background: $color-background;
   padding: 40px 0px 0px 0px;
-  z-index: 21;
+  z-index: 98;
 }
 #flow-form {
   width: 100%;

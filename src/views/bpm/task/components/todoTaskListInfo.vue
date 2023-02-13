@@ -30,7 +30,7 @@ export default {
   methods: {
     getTodoTaskList() {
       let todoTaskList = []
-      for(let i = 0; i < 10; i++) {
+      for(let i = 0; i < 15; i++) {
         todoTaskList.push({
           title: '5JA83156-GSCHARNIWEVERSTAERK-前盖铰链加强板总成',
           no: '80001123' + i,
@@ -44,21 +44,21 @@ export default {
 </script>
 <style lang="scss" scoped>
   ::-webkit-scrollbar {
-    width: 4px !important;
+    //width: 4px !important;
   }
   .todo-task-list-info-card {
-    z-index: 99999 !important;
-    height: 840px;
-    width: 340px;
-    position: absolute;
-    top: 61px;
-    right: 20px;
+    //z-index: 99999 !important;
+    //height: 840px;
+    //width: 340px;
+    //position: absolute;
+    //top: 61px;
+    //right: 20px;
   }
 .todo-task-list-info-div {
-  width: 340px;
+  //width: 340px;
   padding: 10px;
   background: rgb(255, 255, 255) !important;
-  z-index: 99999 !important;
+  //z-index: 99999 !important;
   .todo-task-list-title {
     background: rgb(255, 255, 255) !important;
     text-align: left;
@@ -68,10 +68,11 @@ export default {
     z-index: 99999 !important;
     width: 100%;
     font-size: 16px;
+    font-weight: 500;
   }
   .todo-task-list-info-list {
     background: rgb(255, 255, 255) !important;
-    z-index: 99999 !important;
+    //z-index: 99999 !important;
     padding: 5px;
     .todo-task-list-info {
       background: rgb(255, 255, 255) !important;
@@ -96,7 +97,7 @@ export default {
       border-bottom: 1px solid rgb(142, 142, 142);
       margin-bottom: 10px;
     }
-    max-height: 500px;
+    max-height: calc(100vh);
     overflow-y: scroll;
   }
 }

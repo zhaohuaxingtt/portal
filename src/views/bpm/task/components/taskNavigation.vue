@@ -1,19 +1,29 @@
 <template>
   <div class="task-navigation-div">
-    <div @click="gotoPreTask" class="task-nav-icon el-icon-arrow-up"></div>
-    <div @click="gotoNextTask" class="task-nav-icon el-icon-arrow-down"></div>
-    <div @click="clickShowMoreTask" class="task-nav-icon el-icon-s-fold"></div>
-    <todoTaskListInfo v-if='showMoreTask' />
+    <div class="task-navigation-div-icon" @click="gotoPreTask">
+      <div class="task-nav-icon el-icon-arrow-up"></div>
+    </div>
+    <div class="task-navigation-div-icon" @click="gotoNextTask">
+      <div class="task-nav-icon el-icon-arrow-down"></div>
+    </div>
+    <div @click="clickShowMoreTask" class="task-navigation-div-icon message">
+      <el-badge :value="todoTaskCount" :hidden="!todoTaskCount" :max="99">
+        <icon symbol class="icon" name="iconxiaoxi" />
+      </el-badge>
+      <taskNavigationDrawer :visible="showMoreTask" />
+    </div>
   </div>
 </template>
 <script>
-  import todoTaskListInfo from './todoTaskListInfo'
+  import taskNavigationDrawer from './taskNavigationDrawer'
+  import { icon } from 'rise'
   export default {
     name: "taskNavigation",
-    components: { todoTaskListInfo },
+    components: { taskNavigationDrawer, icon },
     data() {
       return {
-        showMoreTask: false
+        showMoreTask: false,
+        todoTaskCount: 10,
       }
     },
     methods: {
@@ -36,11 +46,45 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  .task-navigation-div-icon {
+    background-color: rgb(255, 255, 255);
+    margin-left: 15px;
+    padding: 5px;
+  }
 }
 .task-nav-icon {
   color: rgb(17, 91, 221);
+  font-weight: 900;
 }
 .task-nav-icon:hover {
   cursor: pointer;
+}
+.message {
+  margin-left: 30px;
+  cursor: pointer;
+  .icon {
+    line-height: 97px;
+    font-size: 25px;
+  }
+}
+.task-navigation-div {
+  .icon {
+    line-height: 97px;
+    font-size: 25px;
+  }
+}
+.message {
+  ::v-deep .el-badge {
+    .el-badge__content {
+      background: #e30d0d;
+      top: auto;
+      bottom: -3px;
+      min-width: 25px;
+      height: 25px;
+      padding: 0;
+      font-size: 14px;
+      text-align: center;
+    }
+  }
 }
 </style>
