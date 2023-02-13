@@ -45,9 +45,11 @@ export default {
         return []
       }
     },
-    approveTabItem: {
+    showPendingApproval: {  // true---显示待审批，false---显示我的申请
       type: Boolean,
-      default: false
+      default: () => {
+        return true
+      }
     }
   },
   computed: {
@@ -65,16 +67,12 @@ export default {
     return {
       valueNumbers: {},
       moduleData: [],
-      absMap: {},
-      showPendingApproval: true, // true---显示待审批，false---显示我的申请
+      absMap: {}
     }
   },
   watch: {
     data() {
       this.initModuleData()
-    },
-    approveTabItem(newValue) {
-      this.showPendingApproval = newValue
     }
   },
   created() {
@@ -84,6 +82,13 @@ export default {
   methods: {
     initModuleData() {
       const data = JSON.parse(this.data.moduleData)
+      if(data && data.length > 0) {
+        let approvalToDoNum = 0
+        data.forEach(item => {
+          approvalToDoNum += item.todoNum
+        })
+        this.$emit("approvalToDoNum", approvalToDoNum)
+      }
       if (data.length <= 5) {
         this.moduleData = data
       }

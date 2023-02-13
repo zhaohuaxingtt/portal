@@ -9,12 +9,12 @@
             :label="item.label"
             :name="item.name"
           >
-            <template v-if="index === 0 && messageCount" slot="label">
+            <template v-if="index === 0 && todoCount" slot="label">
               <span class="to-approval-span-info-label">
                 <span class="to-approval-span-info-label-title">
                   {{ item.label }}
                 </span>
-                <el-badge :value="messageCount" :hidden="!messageCount" :max="99" >
+                <el-badge :value="todoCount" :hidden="!todoCount" :max="99" >
   <!--                <span></span>-->
                 </el-badge>
               </span>
@@ -29,10 +29,17 @@
 <script>
 export default {
   name: 'approveHeader',
+  props: {
+    todoCount: {
+      type: Number,
+      default: () => {
+        return 0
+      }
+    }
+  },
   data() {
     return {
-      activeName: 0,
-      messageCount: 100
+      activeName: 0
     }
   },
   computed: {
@@ -56,7 +63,7 @@ export default {
       this.activeName = 'todo'
     },
     handleClick(item) {
-      this.$emit('tab-click', item === 1)
+      this.$emit('tab-click', item.name === "todo")
     }
   }
 }

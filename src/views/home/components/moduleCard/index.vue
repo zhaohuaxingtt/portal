@@ -17,7 +17,7 @@
       </span>
 
       <eklHeader v-if="card.component === 'EKL'" @tab-click="handleEklClick" />
-      <approveHeader v-if="card.component === 'Approve'" @tab-click="handleApproveHeaderClick" />
+      <approveHeader v-if="card.component === 'Approve'" @tab-click="handleApproveHeaderClick" :todoCount="approvalToDoNum" />
       <taskHeader v-if="card.component === 'Task'" @tab-click="handleTaskHeaderClick" />
       <meetingHeader v-if="card.component === 'Schedule'" @tab-click="handleMeetingHeaderClick" />
       <eklAffixHeader
@@ -57,8 +57,9 @@
         ref="parent"
         :eklTabItem="eklTabItem"
         :eklAffixTabItem="eklAffixTabItem"
-        :approveTabItem="approveTabItem"
+        :showPendingApproval="showPendingApproval"
         :meetingTabItems="meetingTabItems"
+        @approvalToDoNum="updateApprovalToDoNum"
       ></component>
     </div>
     <moreDialog
@@ -97,9 +98,10 @@ export default {
       modalTitle: '',
       show: false,
       eklTabItem: null,
-      approveTabItem: null,
+      showPendingApproval: true,
       eklAffixTabItem: null,
-      meetingTabItems: null
+      meetingTabItems: null,
+      approvalToDoNum: 0
     }
   },
   components: {
@@ -212,8 +214,11 @@ export default {
     handleEklClick(item) {
       this.eklTabItem = item
     },
+    updateApprovalToDoNum(todoCount) {
+      this.approvalToDoNum = todoCount
+    },
     handleApproveHeaderClick(item) {
-      this.approveTabItem = item
+      this.showPendingApproval = item
     },
     handleTaskHeaderClick() {
 
