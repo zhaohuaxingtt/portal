@@ -121,6 +121,7 @@ export default {
     },
     initModuleData() {
       const data = JSON.parse(this.data.moduleData)
+      console.log('initModuleData watch data +++...', data)
       if (data.length <= 5) {
         this.moduleData = data
       }
