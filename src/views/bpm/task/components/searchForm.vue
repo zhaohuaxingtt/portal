@@ -107,7 +107,7 @@
             </iFormItem>
           </el-col>
           <el-col :span="!isSourceFindingPoint ? 14 : 9">
-            <iFormItem :label="language('任务起止日期')" style="width: 80%">
+            <iFormItem :label="language('任务起止日期')" style="width: 90%">
               <div class="flex-between-center-center">
                 <iDatePicker
                   v-model="date"
