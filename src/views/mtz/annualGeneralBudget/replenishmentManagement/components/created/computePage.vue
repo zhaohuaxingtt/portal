@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-14 14:44:54
- * @LastEditTime: 2023-02-09 10:59:06
+ * @LastEditTime: 2023-02-13 10:34:06
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\created\computePage.vue
@@ -312,7 +312,7 @@ export default {
         .then((res) => {
           if (res?.code == '200') {
             this.info = res.data
-            this.statusName = res.data.balanceTaskBase.taskStatusName
+            this.statusName = res.data.balanceTaskBase?.taskStatusName||''
             let detailInfo = res.data.balanceBase
             detailInfo.supplier =
               res.data.balanceBase.supplierSapCode +
@@ -329,7 +329,7 @@ export default {
               res.data.balanceBase.actualMakeAmount ||
               res.data.balanceBase.toBeSubmitAmount
 
-            detailInfo.statusName = res.data.balanceTaskBase.taskStatusName
+            detailInfo.statusName = res.data.balanceTaskBase?.taskStatusName||''
             detailInfo.submittedAmount = res.data.submittedAmount
             detailInfo.toBeSubmitAmount = res.data.toBeSubmitAmount
             this.$set(this, 'detailInfo', detailInfo)
@@ -438,7 +438,7 @@ export default {
     },
     // 导出规则
     exportBalanceRuleList() {
-      exportBalanceRuleList({ balanceId: this.balanceId })
+      exportBalanceRuleList(this.rulePageData.map(item=>item.id))
     },
     // 导出凭证列表
     exportBalanceItemList() {
