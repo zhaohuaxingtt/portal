@@ -1,8 +1,8 @@
 <template>
-  <el-table-column :prop="col.prop" :label="col.name" align="center">
-    <template v-if="col.children">
+  <el-table-column :prop="col.prop" :label="col.title" align="center">
+    <template v-if="col.childVo">
       <my-column
-        v-for="(item, index) in col.children"
+        v-for="(item, index) in col.childVo"
         :key="index"
         :col="item"
       ></my-column>
