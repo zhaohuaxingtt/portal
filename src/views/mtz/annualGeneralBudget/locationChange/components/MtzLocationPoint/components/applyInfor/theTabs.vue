@@ -894,7 +894,7 @@
               "
             >
             <iInput
-                        v-model="scope.row.preciousMetalDosageUnit"
+                        v-model="scope.row.substrateExw"
                         v-if="editId.indexOf(scope.row.id)!==-1"
                         ></iInput>
               <span v-else>{{ scope.row.substrateExw }}</span>

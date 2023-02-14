@@ -430,7 +430,7 @@ export const tableTitleHistory = [
 ]
 
 export const formRulesGZ = {
-  effectFlag: [{ required: true, message: '请选择', trigger: 'blur' }],
+  // effectFlag: [{ required: true, message: '请选择', trigger: 'blur' }],
   materialGroup: [{ required: true, message: '请选择', trigger: 'blur' }], //MTZ-材料组
   carline: [{ required: true, message: '请选择', trigger: 'blur' }], //车型
 
@@ -441,9 +441,9 @@ export const formRulesGZ = {
   // price:[{required: true, message: '请输入', trigger: 'blur'}],//基价
   // priceMeasureUnit:[{required: true, message: '请输入', trigger: 'blur'}],//基价计量单位
 
-  tcCurrence: [{ required: true, message: '请输入', trigger: 'blur' }], //货币
+  // tcCurrence: [{ required: true, message: '请输入', trigger: 'blur' }], //货币
   tcExchangeRate: [{ required: true, message: '请输入', trigger: 'blur' }], //汇率
-  source: [{ required: true, message: '请输入', trigger: 'blur' }], //市场价来源
+  // source: [{ required: true, message: '请输入', trigger: 'blur' }], //市场价来源
   compensationRatio: [
     //补差系数
     { required: true, message: '请输入', trigger: 'blur' },
@@ -458,7 +458,7 @@ export const formRulesGZ = {
       trigger: 'blur'
     }
   ],
-  compensationPeriod: [{ required: true, message: '请选择', trigger: 'blur' }], //补差周期
+  // compensationPeriod: [{ required: true, message: '请选择', trigger: 'blur' }], //补差周期
   threshold: [
     //阈值
     { required: true, message: '请输入', trigger: 'blur' },
@@ -479,10 +479,35 @@ export const formRulesGZ = {
   ],
   thresholdCompensationLogic: [
     { required: true, message: '请选择', trigger: 'blur' }
-  ] //阈值补差逻辑
+  ], //阈值补差逻辑
+  startDate:[{required: true, message: '请选择', trigger: 'blur'}],//有效期起
+  endDate:[{required: true, message: '请选择', trigger: 'blur'}],//有效期止
+  substrateImpDuty: [
+    { required: false, message: '请选择', trigger: 'blur' },
+    { pattern:/^(\-|\+)?\d+(\.\d+)?$/, message: '请输入数字', trigger: 'blur' },
+  ], 
+  substrateHandling: [
+    { required: false, message: '请选择', trigger: 'blur' },
+    { pattern:/^(\-|\+)?\d+(\.\d+)?$/, message: '请输入数字', trigger: 'blur' },
+  ], 
+  pgmHandling: [
+    { required: false, message: '请选择', trigger: 'blur' },
+    { pattern:/^(\-|\+)?\d+(\.\d+)?$/, message: '请输入数字', trigger: 'blur' },
+  ], 
+  manufacture: [
+    { required: false, message: '请选择', trigger: 'blur' },
+    { pattern:/^(\-|\+)?\d+(\.\d+)?$/, message: '请输入数字', trigger: 'blur' },
+  ], 
+  transport: [
+    { required: false, message: '请选择', trigger: 'blur' },
+    { pattern:/^(\-|\+)?\d+(\.\d+)?$/, message: '请输入数字', trigger: 'blur' },
+  ], 
 
-  // startDate:[{required: true, message: '请选择', trigger: 'blur'}],//有效期起
-  // endDate:[{required: true, message: '请选择', trigger: 'blur'}],//有效期止
+  substrateExw: [
+    { required: false, message: '请选择', trigger: 'blur' },
+    { pattern:/^(\-|\+)?\d+(\.\d+)?$/, message: '请输入数字', trigger: 'blur' },
+  ], 
+ 
 }
 
 export const partNumberTitle = [
