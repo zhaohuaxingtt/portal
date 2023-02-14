@@ -1,9 +1,9 @@
 <template>
-    <iDialog append-to-body :title="$t('查看进度')" :visible.sync="value" width="60%" @close="clearDiolog">
+    <iDialog append-to-body :title="$t('查看进度')" :visible.sync="value" width="40%" @close="clearDiolog">
 
         <el-timeline >
             <el-timeline-item v-for="(activity, index) in activities" :key="index" :icon="activity.icon"
-                :type="activity.type || 'primary'" :color="activity.color || '#409EFF'" :size="activity.size || 'large'"
+                :type="activity.type " :color="activity.color || '#409EFF'" :size="activity.size || 'large'"
                 :timestamp="activity.timestamp" @click.native="handleClick(activity)">
                 <!--  对象  -->
                 <div v-if="typeof activity.content === 'object'">
@@ -22,7 +22,9 @@
 import {
     iDialog
 } from 'rise'
-
+import {
+    getSupplierPerforManceProcess
+} from '@/api/supplierManagement/supplierIndexManage/index'
 export default {
     components: {
         iDialog
@@ -32,28 +34,28 @@ export default {
     },
     data() {
         return {
-            activities: [{
-                content: {
-                    user: 'admin',
-                    descInfo: '支持使用图标',
-                    state: '草稿',
-                },
-                timestamp: '2018-04-12 20:46',
-            }, {
-                content: '<div>admin &nbsp;&nbsp;&nbsp;&nbsp; <span style="color: #000000">申请发布</span></div><div>拒绝发布</div>',
-                timestamp: '2018-04-03 20:46'
-            }, {
-                content: '<div>admin &nbsp;&nbsp;&nbsp;&nbsp; <span style="color: #000000">审核未通过</span></div><div>拒绝发布</div>',
-                timestamp: '2018-04-03 20:46'
-            }]
+            activities: []
         }
     },
     created() {
-
+        this.init()
     },
     methods: {
+        init(){
+            getSupplierPerforManceProcess({editionId:this.$route.query.editionId}).then(res=>{
+                if(res.data){
+                    res.data.forEach(val=>{
+                        this.activities.push({
+                            content:`<div>${val.nameZh} &nbsp;&nbsp;&nbsp;&nbsp; <span style="color: #000000">${val.deptCode}</span></div>`,
+                            timestamp:val.updateDate,
+                            color: val.executeStatus==1?'#0bbd87':"#666"
+                        })
+                    })
+                }
+            })
+        },
         clearDiolog() {
-            this.value = false
+            this.$emit('closeDiolog')
         },
         handleClick(val){
             console.log(val)

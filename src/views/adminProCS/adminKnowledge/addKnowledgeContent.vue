@@ -25,6 +25,7 @@
           @change="handleSection"
         >
           <el-option
+            :disabled="disabled"
             v-for="item in knowledgeSectionList"
             :key="item.id"
             :label="item.label"
@@ -237,7 +238,8 @@ export default {
       coverFile: null,
       fileList: [],
       loading: false,
-      modifyContentId: null
+      modifyContentId: null,
+      disabled:false
     }
   },
   props: {
@@ -337,7 +339,9 @@ export default {
     deleteImg() {
       this.imageUrl = ''
     },
-    handleSection(va) {
+    async handleSection(va) {
+      if(this.disabled) return
+      this.disabled = true
       this.getCurrCategoryData(va)
     },
     async getCurrCategoryData(va) {
@@ -346,6 +350,8 @@ export default {
         if (res) {
           this.knowledgeCategoryList = res
         }
+      }).finally(()=>{
+        this.disabled = false
       })
     },
     sure() {

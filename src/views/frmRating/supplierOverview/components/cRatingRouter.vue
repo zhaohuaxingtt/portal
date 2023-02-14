@@ -1,8 +1,8 @@
 <!--
  * @Date: 2021-11-23 15:29:59
- * @LastEditors: YoHo
- * @LastEditTime: 2022-02-15 15:28:39
- * @FilePath: \front-portal-new\src\views\frmRating\supplierOverview\components\cRatingRouter.vue
+ * @LastEditors: YoHo && 917955345@qq.com
+ * @LastEditTime: 2023-02-01 22:49:08
+ * @FilePath: \front-portal\src\views\frmRating\supplierOverview\components\cRatingRouter.vue
 -->
 <template>
   <div>
@@ -86,6 +86,7 @@
                    :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
                    v-model.trim="form.deptIds">
             <el-option v-for="item in deptList"
+                       :disabled="disabled"
                        :key="item.name"
                        :label="$i18n.locale === 'zh'  ? item.name : item.nameEn"
                        :value="item.code">
@@ -415,6 +416,7 @@ export default {
         { code: 1, name: this.language('XUNJIAZHONG', '询价中') }
       ],
       queryList:{},
+      disabled:false
     }
   },
   watch: {},
@@ -449,6 +451,8 @@ export default {
     // //选择相关科室
     deptChange (v) {
       if (v.length > 0) {
+        if(this.disabled) return
+        this.disabled = true
         let req = {
           type: 'user',
           deptIds: v
@@ -466,6 +470,8 @@ export default {
             })
           }
           this.form.userIds = arr2
+        }).finally(()=>{
+          this.disabled = false
         })
       }
     },

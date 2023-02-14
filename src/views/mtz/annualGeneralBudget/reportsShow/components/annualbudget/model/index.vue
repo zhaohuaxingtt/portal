@@ -25,9 +25,10 @@
                     clearable
                     @change='leftChangeCard'
                     :placeholder='language("LK_CHEXING","车型")'>
-            <el-option value=''
+            <el-option value='' :disabled="disabledLeft"
                        :label="language('LK_ALL', '全部')"></el-option>
             <el-option v-for="item in leftModelList"
+                       :disabled="disabledLeft"
                        :key="item.code"
                        :label="item.message"
                        :value="item.code">
@@ -71,9 +72,10 @@
                   clearable
                   :placeholder='language("LK_CHEXING","车型")'
                   @change='rightChangeCard'>
-          <el-option value=''
+          <el-option value='' :disabled="disabledRight"
                      :label="language('LK_ALL', '全部')"></el-option>
           <el-option v-for="item in rightModelList"
+                     :disabled="disabledRight"
                      :key="item.code"
                      :label="item.message"
                      :value="item.code">
@@ -157,7 +159,9 @@ export default {
       leftTableList: [],//左侧列表数据集合
       rightTableList: [],//右侧列表数据集合
       leftModelColumns,//左侧表头
-      rightModelColums//右侧表头
+      rightModelColums,//右侧表头,
+      disabledLeft:false,
+      disabledRight:false,
     }
   },
   methods: {
@@ -252,18 +256,26 @@ export default {
     },
     //获取左侧车型6位号
     getLeftCarSixCodeDropDown () {
+      if(this.disabledLeft) return 
+      this.disabledLeft = true
       carSixCodeDropDown({ carModel: this.leftQueryForm.carModel }).then(res => {
         if (res.code == 200) {
           this.leftCarSixCode = res.data
         }
+      }).finally(()=>{
+        this.disabledLeft = false
       })
     },
     //获取右侧车型6位号
     getRightCarSixCodeDropDown () {
+      if(this.disabledRight) return 
+      this.disabledRight = true
       carSixCodeDropDown({ carModel: this.rightQueryForm.carModel }).then(res => {
         if (res.code == 200) {
           this.rightCarSixCode = res.data
         }
+      }).finally(()=>{
+        this.disabledRight = false
       })
     },
     //获取车型
