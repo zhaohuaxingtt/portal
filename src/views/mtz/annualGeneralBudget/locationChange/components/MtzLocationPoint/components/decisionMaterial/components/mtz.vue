@@ -974,6 +974,12 @@ export default {
     this.getPageAppRule()
     this.getPagePartMasterData()
     this.getApprove()
+    this.$nextTick(() => {
+      console.log('dom渲染完成')
+      // 可以使用回调函数的写法
+      // 这个函数中DOM必定渲染完成
+      this.exportLoading=false
+    })
   },
   computed: {
     mtzObject() {
@@ -1084,6 +1090,8 @@ export default {
     handleCurrentChangeTable(e) {
       this.clickRulesNumber = 1
       this.loadingPart = true
+      this.exportLoading=true
+
       var list = {
         mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
         pageNo: 1,
@@ -1095,6 +1103,7 @@ export default {
           this.partTableListData = res.data
           this.clickRulesNumber = 0
           this.loadingPart = false
+          this.exportLoading=false
         } else iMessage.error(res.desZh)
       })
     },
@@ -1102,6 +1111,8 @@ export default {
       if (!this.RsObject) return false
       if (this.clickRulesNumber == 0) {
         this.loadingPart = true
+        this.exportLoading = true
+
         var list = {
           mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
           pageNo: 1,
@@ -1111,6 +1122,8 @@ export default {
           if (res && res.code == 200) {
             this.partTableListData = res.data
             this.loadingPart = false
+            this.exportLoading=false
+
           } else iMessage.error(res.desZh)
         })
       }
@@ -1340,7 +1353,7 @@ export default {
       })
     },
     changeStatus(val){
-      this.exportLoading = val
+      // this.exportLoading = val
     },
     // 导出会外流转单
     handleToSignPreview() {

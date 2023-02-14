@@ -1,10 +1,10 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-09-30 10:43:35
- * @LastEditTime: 2021-10-17 11:21:35
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-02-01 23:35:43
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 下载模板
- * @FilePath: \重庆软维科技\front-portal\src\views\mtz\dataBase\marketPriceEnquiry\components\downloadDialog.vue
+ * @FilePath: \front-portal\src\views\mtz\dataBase\marketPriceEnquiry\components\downloadDialog.vue
 -->
 <template>
   <div>
@@ -25,6 +25,7 @@
                          collapse-tags
                          @change="changeMaterial">
                   <el-option v-for="(item,index) in getMtzCategoryDorpDown"
+                             :disabled="disabled"
                              :key="index"
                              :label="item.code + ' - ' + item.message"
                              :value="item.code"></el-option>
@@ -137,7 +138,8 @@ export default {
           { required: true, message: '生效区间不能为空', trigger: 'change' },
           // { validator: validateDateRange, trigger: 'change' }
         ]
-      }
+      },
+      disabled:false
     }
   },
   created () {
@@ -152,10 +154,14 @@ export default {
       })
     },
     rawMaterialList () {
+      if(this.disabled) return 
+      this.disabled = true
       rawMaterialList({
         materialCategoryList: this.downTemplate.materialNos
       }).then(res => {
         this.rawMaterialDropdown = res.data
+      }).finally(()=>{
+        this.disabled = false
       })
     },
     getMtzMarketTypeList () {
