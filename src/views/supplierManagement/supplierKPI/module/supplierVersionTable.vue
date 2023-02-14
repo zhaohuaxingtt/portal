@@ -13,7 +13,7 @@
         <p>其他科室打分状态：进行中（2/4）</p> -->
       </div>
       <div>
-        <iButton @click="canel">查看进度 </iButton>
+        <iButton  @click="viewProgressIs=true">查看进度 </iButton>
       </div>
     </div>
     <div class="title2" v-else>
@@ -34,6 +34,8 @@
         </div>
       </el-upload>
       <iButton @click="submit(active)">下一步 </iButton>
+      <!-- <iButton @click="back()">上一步 </iButton> -->
+
     </div>
     <div class="table">
       <table cellspacing="0" cellpadding="0">
@@ -84,10 +86,13 @@
     <iPagination v-update @size-change="handleSizeChange($event, getTableList)"
       @current-change="handleCurrentChange($event, getTableList)" background :page-sizes="page.pageSizes"
       :page-size="page.pageSize" :layout="page.layout" :current-page="page.currPage" :total="page.totalCount" />
+    <viewProgress v-if="viewProgressIs" v-model="viewProgressIs"/>
+
   </div>
 </template>
 
 <script>
+import viewProgress from './viewProgress'
 import column from './column'
 import {
   getSupplierPerforManceScorePage,
@@ -118,7 +123,7 @@ export default {
 
   components: {
     column,
-
+    viewProgress,
     iCard,
     iPagination,
     iSearch,
@@ -136,6 +141,7 @@ export default {
   },
   data() {
     return {
+      viewProgressIs:false,
       importLoading: false,
       ipagnation: {
         pageNo: 1,
