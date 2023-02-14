@@ -2,16 +2,23 @@
   <iPage class="template">
     <pageHeader>
       {{ language('我的申请') }}
-      <template slot="actions">
+<!--      <template slot="actions">-->
+<!--        <headerActions-->
+<!--          :todo-total="todoTotal"-->
+<!--          :finished="finished"-->
+<!--          @toggle="toggleFinished"-->
+<!--        />-->
+<!--      </template>-->
+    </pageHeader>
+    <searchForm :finished="finished" :isSourceFindingPoint="true" @search="search" />
+    <iCard>
+      <div class="header-actions-div">
         <headerActions
           :todo-total="todoTotal"
           :finished="finished"
           @toggle="toggleFinished"
         />
-      </template>
-    </pageHeader>
-    <searchForm :finished="finished" @search="search" />
-    <iCard>
+      </div>
       <!-- <div class="operation-btn">
         <iButton
           v-show="!finished && recallButtonVisible"
@@ -272,6 +279,14 @@ export default {
   }
   .divider {
     margin: 0px 30px;
+  }
+}
+.header-actions-div {
+  height: 50px;
+  line-height: 50px;
+  margin-left: -50px;
+  ::v-deep .tab-badge {
+    justify-content: start;
   }
 }
 </style>
