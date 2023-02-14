@@ -1,7 +1,7 @@
 /*
  * @Author: youyuan
  * @Date: 2021-09-09 14:02:54
- * @LastEditTime: 2023-02-13 10:58:08
+ * @LastEditTime: 2023-02-14 16:24:09
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 年度预算编辑
  * @FilePath: \front-portal\src\api\mtz\annualGeneralBudget\chipReplenishment.js
@@ -212,6 +212,17 @@ export function exportBalanceRuleList(data) {
   })
 }
 
+// 补差任务列表导出
+export function exportBalanceTaskList(data) {
+  return downloadChip({
+    url: '/exportBalanceTaskList',
+    method: 'POST',
+    data,
+    responseType: 'blob'
+  })
+}
+
+
 // 补差单列表导出
 export function exportBalanceList(data) {
   return downloadChip({
@@ -268,5 +279,31 @@ export function exportSupplierBalanceSummaryDetail(data) {
     method: 'POST',
     data,
     responseType: 'blob'
+  })
+}
+
+// 单个补差单汇总列表分页查询-一次零件,二次零件,二次供应商维度
+export function findSupplierBalanceSummaryByPage( data ) {
+  return requestChip({
+    url: '/findSupplierBalanceSummaryByPage',
+    method: 'POST',
+    data,
+  })
+}
+// 补差汇总列表明细查询-一次零件,二次零件,二次供应商维度
+export function findSupplierBalanceSummaryDetailList( data ) {
+  return requestChip({
+    url: '/findSupplierBalanceSummaryDetailList',
+    method: 'POST',
+    data,
+  })
+}
+
+// 获取EPMS审批记录
+export function getEpmsApprovalRecord( params ) {
+  return requestChip({
+    url: '/getEpmsApprovalRecord',
+    method: 'POST',
+    params,
   })
 }

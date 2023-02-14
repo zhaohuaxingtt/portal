@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2023-02-09 11:16:53
+ * @LastEditTime: 2023-02-14 16:00:05
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipReplenishmentOverview\components\theTable.vue
@@ -64,13 +64,10 @@
       </iPagination>
     </iCard>
     <detailDialog
-      v-model="detailParams.visible"
-      v-if="detailParams.visible"
-      :key="detailParams.key"
-      :params="detailParams.data"
+      :visible.sync="visible"
+      v-if="visible"
+      :params="row"
       :supplierType="supplierType"
-      @handleCloseDialog="handleCloseDialog"
-      @handleRedeploy="handleRedeploy"
     />
     <redeployDialog
       v-model="redeployParams.visible"
@@ -117,11 +114,8 @@ export default {
           key:'散件补差',
         },
       ],
-      detailParams: {
-        key: 0,
-        visible: false,
-        data: {}
-      },
+      row: {},
+      visible: false,
       redeployParams: {
         key: 0,
         visible: false
@@ -193,19 +187,10 @@ export default {
       })
     },
     // 点击名称，打开弹窗
-    handleClickFsupplierName(val) {
-      console.log(val)
-      this.$nextTick((_) => {
-        this.detailParams = {
-          ...this.detailParams,
-          key: Math.random(),
-          visible: true,
-          data: {
-            firstSupplierId: val.firstSupplierId,
-            name: val.firstSupplierName,
-            time: this.$parent.$refs.searchBox.value1
-          }
-        }
+    handleClickFsupplierName(row) {
+      this.row = row
+      this.$nextTick(()=>{
+        this.visible = true
       })
     },
     // 关闭弹窗

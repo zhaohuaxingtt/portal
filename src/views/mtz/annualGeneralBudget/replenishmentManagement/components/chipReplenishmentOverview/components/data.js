@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-09 15:06:29
- * @LastEditTime: 2023-02-09 11:21:13
+ * @LastEditTime: 2023-02-14 17:37:43
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipReplenishmentOverview\components\data.js
@@ -507,36 +507,36 @@ export const tableTitle2 = [
 // 供应商详情弹框查询
 export const searchFormData1 = [
   {
-    props: 'ssupplierList', name: '二次件供应商', key: 'ERCIJIANGONGYINGSHANG', type: 'select', selectOption: 'sSupplierDropDownData', optionLabel: 'message',
+    props: 'secondSupplier', name: '二次件供应商', key: 'ERCIJIANGONGYINGSHANG', type: 'select', selectOption: 'sSupplierDropDownData', optionLabel: 'message',
     optionValue: 'code'
   },
   { props: 'compDate', name: '补差时间段', key: 'BUCHASHIJIANDUAN', type: 'daterange' },
   {
-    props: 'department', name: '科室', key: 'KESHI', type: 'select', selectOption: 'departmentDropDownData', optionLabel: 'departNameEn',
+    props: 'departmentCode', name: '科室', key: 'KESHI', type: 'select', selectOption: 'departmentDropDownData', optionLabel: 'departNameEn',
     optionValue: 'departId'
   },
   {
-    props: 'linieList', name: '采购员', key: 'CAIGOUYUAN', type: 'select', selectOption: 'linieDropDownData', optionLabel: 'message',
+    props: 'buyerName', name: '采购员', key: 'CAIGOUYUAN', type: 'select', selectOption: 'linieDropDownData', optionLabel: 'message',
     optionValue: 'code'
   },
-  { props: 'materialBrandList', name: '采购框架号', key: '采购框架号', type: 'input' }, // 字段待调整
-  { props: 'fpartNumList', name: '一次件零件号', key: 'YICIJIANLINGJIANHAO', type: 'iMultiLineInput' },
-  { props: 'spartNumList', name: '二次件零件号', key: 'ERCIJIANLINGJIANHAO', type: 'iMultiLineInput' },
+  { props: 'agreementNo', name: '采购框架号', key: '采购框架号', type: 'input' }, // 字段待调整
+  { props: 'primaryPartNum', name: '一次件零件号', key: 'YICIJIANLINGJIANHAO', type: 'iMultiLineInput' },
+  { props: 'secondPartNum', name: '二次件零件号', key: 'ERCIJIANLINGJIANHAO', type: 'iMultiLineInput' },
 ]
 
 // 供应商详情弹框查询-散件总览
 export const searchFormData2 = [
-  { props: 'partNum', name: '零件号', key: 'LINGJIANHAO', type: 'iMultiLineInput' },
+  { props: 'primaryPartNum', name: '零件号', key: 'LINGJIANHAO', type: 'iMultiLineInput' },
   { props: 'compDate', name: '补差时间段', key: 'BUCHASHIJIANDUAN', type: 'daterange' },
   {
-    props: 'department', name: '科室', key: 'KESHI', type: 'select', selectOption: 'departmentDropDownData', optionLabel: 'departNameEn',
+    props: 'departmentCode', name: '科室', key: 'KESHI', type: 'select', selectOption: 'departmentDropDownData', optionLabel: 'departNameEn',
     optionValue: 'departId'
   },
   {
-    props: 'linieList', name: '采购员', key: 'CAIGOUYUAN', type: 'select', selectOption: 'linieDropDownData', optionLabel: 'message',
+    props: 'buyerName', name: '采购员', key: 'CAIGOUYUAN', type: 'select', selectOption: 'linieDropDownData', optionLabel: 'message',
     optionValue: 'code'
   },
-  { props: 'materialBrandList', name: '采购框架号', key: '采购框架号', type: 'input' }, // 字段待调整
+  { props: 'agreementNo', name: '采购框架号', key: '采购框架号', type: 'input' }, // 字段待调整
 ]
 
 // 一次件供应商详情弹框总览列表
@@ -578,17 +578,11 @@ export const tableTitle1Overview = [
 
 // 供应商详情弹框明细列表
 export const tableTitle1Detail = [
-  { props: 'assemblyPartnum', name: '一次件零件号', key: 'YCJLJH', width: 150 },
+  { props: 'primaryPartNum', name: '一次件零件号', key: 'YCJLJH', width: 150 },
   {
-    props: 'firstSupplierName',
+    props: 'primarySupplierName',
     name: '一次件供应商',
     key: 'YICIJIANGONGYINGSHANG',
-    align: 'center',
-    minWidth: 150,
-  }, {
-    props: 'cailiaozu',
-    name: '材料组',
-    key: 'CAILIAOZU',
     align: 'center',
     minWidth: 150,
   }, {
@@ -598,9 +592,9 @@ export const tableTitle1Detail = [
     align: 'center',
     width: 150
   },
-  { props: 'piecePartnum', name: '二次件零件号', key: 'ECJLJH', width: 150 },
+  { props: 'secondPartNum', name: '二次件零件号', key: 'ECJLJH', width: 150 },
   {
-    props: 'ssupplier',
+    props: 'secondSupplierName',
     name: '二次件供应商',
     key: 'ERCIJIANGONGYINGSHANG',
     width: 220
@@ -619,14 +613,14 @@ export const tableTitle1Detail = [
     align: 'center',
     width: 150
   }, {
-    props: 'sourceCode',
+    props: 'agreementNo',
     name: '采购框架',
     key: '采购框架',
     align: 'center',
     width: 150
   },
   {
-    props: 'amount',
+    props: 'makeAmount',
     name: '补差金额',
     width: '100px',
     align: 'center',
@@ -641,12 +635,12 @@ export const tableTitle1Detail = [
     width: 150
   },
   { props: 'exchangeRate', name: '汇率', align: 'center', key: 'HUILV' },
-  { props: 'trueCompMoney', name: '结算数量', key: '结算数量', width: 150 },
-  { props: 'trueCompMoney', name: '应补金额', key: '应补金额', width: 150 },
-  { props: 'trueCompMoney', name: '实差金额', key: '实差金额', width: 150 },
-  { props: 'trueCompMoney', name: '补差单编号', key: '补差单编号', width: 150 },
-  { props: 'ekName', name: '采购员', key: 'CAIGOUYUAN', width: 150 },
-  { props: 'departmentName', name: '科室', key: 'KESHI', width: 150 },
+  { props: 'invoiceQuantity', name: '结算数量', key: '结算数量', width: 150 },
+  { props: 'requestAmount', name: '应补金额', key: '应补金额', width: 150 },
+  { props: 'actualMakeAmount', name: '实补金额', key: '实补金额', width: 150 },
+  { props: 'balanceNo', name: '补差单编号', key: '补差单编号', width: 150 },
+  { props: 'buyerName', name: '采购员', key: 'CAIGOUYUAN', width: 150 },
+  { props: 'departmentCode', name: '科室', key: 'KESHI', width: 150 },
 ]
 
 // 散件供应商详情弹框总览列表
