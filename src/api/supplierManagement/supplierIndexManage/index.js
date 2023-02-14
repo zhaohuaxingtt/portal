@@ -194,3 +194,12 @@ export function saveManualPerformance(parmars) {
 
   })
 }
+//  查看进度
+export function getSupplierPerforManceProcess(parmars) {
+  return requst({
+    url: '/supplierPerformanceTask/getSupplierPerforManceProcess',
+    method: 'POST',
+    data: parmars
+
+  })
+}
