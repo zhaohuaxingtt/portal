@@ -286,14 +286,16 @@ export default {
   methods: {
     toggleActive(index, item) {
       this.activeIndex = index
-      if(item.categoryList?.length > 0) {
+      if(index !== -1 && item && item.categoryList?.length > 0) {
         this.form.categoryList = item.categoryList
+      } else {
+        this.form.categoryList = ''
       }
       this.search()
     },
     onItemTypeListChange(newValue) {
-      this.search()
       this.updateCurTypeName(newValue)
+      this.search()
     },
     updateCurTypeName(newValue) {
       const newItem = this.dOptions.find(item => {

@@ -199,8 +199,8 @@ export default {
   },
   methods: {
     onItemTypeListChange(newValue) {
-      this.search()
       this.updateCurTypeName(newValue)
+      this.search()
     },
     updateCurTypeName(newValue) {
       const newItem = this.dOptions.find(item => {
@@ -217,8 +217,10 @@ export default {
     },
     toggleActive(index, item) {
       this.activeIndex = index
-      if(item.categoryList?.length > 0) {
+      if(index !== -1 && item && item.categoryList?.length > 0) {
         this.form.categoryList = item.categoryList
+      } else {
+        this.form.categoryList = ''
       }
       this.search()
     },
@@ -240,16 +242,19 @@ export default {
         searchData.startTime = this.date[0]
         searchData.endTime = this.date[1]
       }
-      this.$emit('search', searchData, this.templates)
+      // this.$emit('search', searchData, this.templates)
+      this.search()
     },
     reset() {
       this.updateCurTypeName(null)
       this.date = ''
       this.form = { ...searchForm }
-      this.$emit('search', this.form, this.templates)
+      // this.$emit('search', this.form, this.templates)
+      this.search()
     },
     search() {
-      this.$emit('search', this.form, this.templates)
+      this.$emit('search', { ...this.form, itemTypeList: this.form.itemTypeList ? [this.form.itemTypeList] : []}, this.templates)
+      // this.$emit('search', this.form, this.templates)
     },
     handleProcProgressChange(val) {
       if (val.length > 0) {

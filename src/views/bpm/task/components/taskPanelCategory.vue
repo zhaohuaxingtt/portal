@@ -5,6 +5,7 @@
       @toggle-active="toggleActive"
       :active-index.sync="activeIndex"
       :typeName='typeName'
+      :hasAll="hasAll"
       numVisible
     />
   </div>
@@ -14,7 +15,8 @@
   import taskTypePanelCategory from './taskTypePanelCategory'
   import {
     queryApprovalOverview,
-    queryAekoTodoCount
+    queryAekoTodoCount,
+    queryApplyOverview
   } from '@/api/approval/statistics'
   // import { queryAekoTodoCount } from '@/api/approval/statistics'
   export default {
@@ -29,6 +31,14 @@
         type: Number,
         default: -1
       },
+      myApplication: {
+        type: Boolean,
+        default: false
+      },
+      hasAll: {
+        type: Boolean,
+        default: false
+      }
     },
     data() {
       return {
@@ -45,12 +55,14 @@
             return item.typeName === this.typeName
           })
           console.log("this.typeName activeData1", this.typeName, findDataByTypeName)
+          this.hasAll = true
           if(findDataByTypeName) {
             return findDataByTypeName.wfCategoryList
           } else {
             return []
           }
         } else {
+          this.hasAll = false
           console.log("this.typeName activeData2", this.typeName)
           return []
         }
@@ -83,7 +95,11 @@
       },
       async getOverview() {
         this.loading = true
-        const { data = [] } = await queryApprovalOverview({
+        let queryOverviewFunc = queryApprovalOverview
+        if(this.myApplication) {
+          queryOverviewFunc = queryApplyOverview
+        }
+        const { data = [] } = await queryOverviewFunc({
           userID: this.$store.state.permission.userInfo.id,
           language: this.$i18n.locale == 'zh' ? 'CN' : 'EN'
         }).finally(() => (this.loading = false))

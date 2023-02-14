@@ -2,6 +2,15 @@
   <div class="panel-category">
     <div class="list">
       <div
+        v-if="hasAll"
+        class="item"
+        :key="-1"
+        :class="{ active: -1 == activeIndex }"
+        @click="toggleActive(-1)"
+      >
+        {{ language('QUANBU', '全部') }}
+      </div>
+      <div
         class="item"
         v-for="(item, index) in data"
         :key="index"
@@ -38,7 +47,11 @@ export default {
     numVisible: {
       type: Boolean,
       default: false
-    }
+    },
+    hasAll: {
+      type: Boolean,
+      default: false
+    },
   },
   // data() {
   //   return {
