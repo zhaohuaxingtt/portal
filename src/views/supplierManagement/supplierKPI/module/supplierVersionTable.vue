@@ -13,7 +13,7 @@
         <p>其他科室打分状态：进行中（2/4）</p> -->
       </div>
       <div>
-        <iButton  @click="viewProgressIs=true">查看进度 </iButton>
+        <iButton @click="viewProgressIs = true">查看进度 </iButton>
       </div>
     </div>
     <div class="title2" v-else>
@@ -52,10 +52,10 @@
           </td>
           <td v-for="(x, index) in theadData" :key="index">
             {{ x.label }}
-            <template v-if="x.lev == 1 && x.isShow">(</template><!-- 开始括号 -->
-            <i v-if="x.lev != 4" :class="x.isShow ? 'el-icon-minus' : 'el-icon-plus'"
-              @click="handleFoldCell(index, x.lev, x.id)"></i>
-            <template>{{ isLastData(x, index) }}</template><!-- 结束括号 -->
+            <span style="color:#1763f7" v-if="x.lev == 1 ">(</span><!-- 开始括号 -->
+            <!-- <i v-if="x.lev != 4" :class="x.isShow ? 'el-icon-minus' : 'el-icon-plus'"
+              @click="handleFoldCell(index, x.lev, x.id)"></i> -->
+            <span style="color:#1763f7">{{ isLastData(x, index) }}</span><!-- 结束括号 -->
           </td>
         </tr>
         <!-- 数据列表 -->
@@ -72,7 +72,7 @@
             </el-tooltip>
           </td>
           <td>
-            <div>{{ '100' }}</div>
+            <div>{{ x.all }}</div>
           </td>
           <template v-for="(lv1, index1) in x.score">
             <td :key="index1 + 'l1'">
@@ -86,7 +86,7 @@
     <iPagination v-update @size-change="handleSizeChange($event, getTableList)"
       @current-change="handleCurrentChange($event, getTableList)" background :page-sizes="page.pageSizes"
       :page-size="page.pageSize" :layout="page.layout" :current-page="page.currPage" :total="page.totalCount" />
-    <viewProgress v-if="viewProgressIs" v-model="viewProgressIs"/>
+    <viewProgress @closeDiolog="closeDiolog" v-if="viewProgressIs" v-model="viewProgressIs" />
 
   </div>
 </template>
@@ -141,7 +141,7 @@ export default {
   },
   data() {
     return {
-      viewProgressIs:false,
+      viewProgressIs: false,
       importLoading: false,
       ipagnation: {
         pageNo: 1,
@@ -160,6 +160,9 @@ export default {
     this.getTableList()
   },
   methods: {
+    closeDiolog() {
+      this.viewProgressIs = false
+    },
     init() { },
     getTableList() {
       let id = ''
@@ -185,14 +188,14 @@ export default {
           })
           this.jointTittle()
           //默认折叠
-          let showLev1 = []
-          this.theadData.map((z) => {
-            if (z.lev == 1) {
-              showLev1.push(z)
-            }
-          })
-          this.theadData = [...showLev1]
-          console.log(this.theadData)
+          // let showLev1 = []
+          // this.theadData.map((z) => {
+          //   if (z.lev == 1) {
+          //     showLev1.push(z)
+          //   }
+          // })
+          // this.theadData = [...showLev1]
+          // console.log(this.theadData)
         }
       })
       const req = {
@@ -200,9 +203,42 @@ export default {
         editionId: this.$route.query.editionId
       }
       getSupplierPerforManceScorePage(req).then((res) => {
-        this.allData = JSON.parse(JSON.stringify(res.data))
-        this.tbodyData = JSON.parse(JSON.stringify(res.data))
-        console.log(this.tbodyData)
+        let data = []
+        let tabledata = JSON.parse(JSON.stringify(res.data))
+
+        // data = tabledata.map(val => {
+        //   val.all = val.score[0].score
+        //   val.supplierName = val.supplierName
+        //   val.list = []
+        //   val.score.forEach(lev1 => {
+        //     if (lev1.level == 2) {
+        //       val.list.push(lev1)
+        //       val.score.forEach(lev2 => {
+        //         if (lev2.level == 3) {
+        //           lev2.children=[]
+        //           lev2.children.push(lev2)
+        //         }
+        //       })
+        //     }
+        //   })
+          // val.list.push(val.score.filter(item=>item.level==2))
+          // val.list.forEach(k=>{
+          //   k.children=[]
+          //   k.children.push(val.score.filter(item=>item.level==3))
+          // })
+          // val.list.children=[]
+          // val.list.children.push(val.score.filter(item=>item.level==3))
+          // val.list.children.children=[]
+          // val.list.children.children.push(val.score.filter(item=>item.level==4))
+          // val.list.children.children.children=[]
+          // val.list.children.children.children.push(val.score.filter(item=>item.level==5))
+
+        //   return val
+        // })
+        console.log(data)
+
+        this.allData = JSON.parse(JSON.stringify(tabledata))
+        this.tbodyData = JSON.parse(JSON.stringify(tabledata))
 
         this.page.totalCount = res.total
         this.ipagnation.pageNo = res.pageNum
