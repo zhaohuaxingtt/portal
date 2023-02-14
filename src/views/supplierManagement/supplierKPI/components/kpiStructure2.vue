@@ -12,6 +12,7 @@
           <iButton v-if="isEdit" @click="canel">取消</iButton>
           <iButton v-if="isEdit" @click="save">保存</iButton>
           <iButton v-if="!isEdit" @click="submit">下一步</iButton>
+          <!-- <iButton v-if="!isEdit" @click="back">上一步</iButton> -->
         </div>
       </div>
       <div class="scoll-y">
@@ -312,6 +313,9 @@ export default {
     submit() {
       this.$emit('submit0')
     },
+    back() {
+      this.$emit('back')
+    },
     addCell() {
       const tableChild = this.formDataLevel2.childVo.childVo
       console.log(tableChild)
@@ -418,97 +422,127 @@ export default {
       }
     },
     save() {
-      // 校验
+      const tableChild = this.formDataLevel2.childVo.childVo
+      let lv1Weight = 0
+      let lv2Weight = 0
+      let lv3Weight = 0
+      let lv4Weight = 0
+      let nameIsNull = true
+      tableChild.forEach((x) => {
+        if (!x.title || !x.weight) nameIsNull = false
+        lv1Weight += Number(x.weight)
+        if (x.childVo.length > 0) {
+          x.childVo.forEach((y) => {
+            if (!y.title || !y.weight) nameIsNull = false
+            lv2Weight += Number(y.weight)
+            if (y.childVo.length > 0) {
+              y.childVo.forEach((z) => {
+                if (!z.title || !z.weight) nameIsNull = false
+                lv3Weight += Number(z.weight)
+                if(z.childVo.length > 0){
+                  z.childVo.forEach((k) => {
+                    if (!z.title || !z.weight) nameIsNull = false
+                    lv4Weight += Number(k.weight)
+                    console.log(lv4Weight)
+                  })
+                }else{
+                    lv4Weight += Math.floor(100 * 100) / 100
+                }
+              })
+            } else {
+              lv3Weight += Math.floor(100 * 100) / 100
+            }
+          })
+        } else {
+          lv2Weight += Math.floor(100 * 100) / 100
+          lv3Weight += Math.floor(100 * 100) / 100
+        }
+      })
+      if (lv1Weight !== 100) {
+        return this.$message({
+          type: 'error',
+          message: '指标1的比重错误',
+          duration: 10000, // error 错误提示显示10秒
+          showClose: true
+        })
+      }
+      console.log()
+      if (lv2Weight !== 100) {
+        if (lv2Weight / tableChild.length !== 100) {
+          return this.$message({
+            type: 'error',
+            message: '指标2的比重错误',
+            duration: 10000, // error 错误提示显示10秒
+            showClose: true
+          })
+        }
+      }
+      if (lv3Weight !== 100) {
+        let num = 0
+        tableChild.forEach((x) => {
+          if (x.childVo.length < 1) {
+            num += 1
+          } else {
+            num += x.childVo.length
+          }
+        })
+        if (lv3Weight / num !== 100) {
+          return this.$message({
+            type: 'error',
+            message: '指标3的比重错误',
+            duration: 10000, // error 错误提示显示10秒
+            showClose: true
+          })
+        }
+      }
+      if (lv4Weight !== 100) {
+        let num = 0
+        tableChild.forEach((x) => {
+          x.childVo.forEach(l=>{
+            if (x.childVo.length < 1) {
+            num += 1
+          } else {
+            num += x.childVo.length
+          }
+          })
+         
+        })
+        console.log(num, lv4Weight, tableChild)
+        if (lv4Weight / num !== 100) {
+          return this.$message({
+            type: 'error',
+            message: '指标4的比重错误',
+            duration: 10000, // error 错误提示显示10秒
+            showClose: true
+          })
+        }
+      }
 
-      // let lv1Weight = 0
-      // let lv2Weight = 0
-      // let lv3Weight = 0
-      // let nameIsNull = true
-      // this.formDataLevel2.treeVO.forEach((x) => {
-      //   if (!x.name || !x.weight) nameIsNull = false
-      //   lv1Weight += Number(x.weight)
-      //   if (x.childVo.length > 0) {
-      //     x.childVo.forEach((y) => {
-      //       if (!y.name || !y.weight) nameIsNull = false
-      //       lv2Weight += Number(y.weight)
-      //       if (y.childVo.length > 0) {
-      //         y.childVo.forEach((z) => {
-      //           if (!z.name || !z.weight) nameIsNull = false
-      //           lv3Weight += Number(z.weight)
-      //         })
-      //       } else {
-      //         lv3Weight += Math.floor(100 * 100) / 100
-      //       }
-      //     })
-      //   } else {
-      //     lv2Weight += Math.floor(100 * 100) / 100
-      //     lv3Weight += Math.floor(100 * 100) / 100
-      //   }
-      // })
-      // if (lv1Weight !== 100) {
-      //   return this.$message({
-      //     type: 'error',
-      //     message: '指标1的比重错误',
-      //     duration: 10000, // error 错误提示显示10秒
-      //     showClose: true
-      //   })
-      // }
-      // if (lv2Weight !== 100) {
-      //   if (lv2Weight / this.formDataLevel2.treeVO.length !== 100) {
-      //     return this.$message({
-      //       type: 'error',
-      //       message: '指标2的比重错误',
-      //       duration: 10000, // error 错误提示显示10秒
-      //       showClose: true
-      //     })
-      //   }
-      // }
-      // if (lv3Weight !== 100) {
-      //   let num = 0
-      //   this.formDataLevel2.treeVO.forEach((x) => {
-      //     if (x.childVo.length < 1) {
-      //       num += 1
-      //     } else {
-      //       num += x.childVo.length
-      //     }
-      //   })
-      //   console.log(num, lv3Weight, this.formDataLevel2.treeVO)
-      //   if (lv3Weight / num !== 100) {
-      //     return this.$message({
-      //       type: 'error',
-      //       message: '指标3的比重错误',
-      //       duration: 10000, // error 错误提示显示10秒
-      //       showClose: true
-      //     })
-      //   }
-      // }
-
-      // if (!nameIsNull) {
-      //   return this.$message({
-      //     type: 'error',
-      //     message: '名称和比重不能为空',
-      //     duration: 10000, // error 错误提示显示10秒
-      //     showClose: true
-      //   })
-      // }
-      // 比重非空校验
-      // let isNullWeight = true
-      // this.formDataLevel2.treeVO.filter(x=>{
-      //     if(!x.weight){
-      //         isNullWeight = false
-      //     }
-      //     return x.childVo.filter(y=>{
-      //         if(!y.weight){
-      //             isNullWeight = false
-      //         }
-      //         return y.childVo.filter(z=>{
-      //             if(!z.weight){
-      //                 isNullWeight = false
-      //             }
-      //             return
-      //         })
-      //     })
-      // })
+      if (!nameIsNull) {
+        return this.$message({
+          type: 'error',
+          message: '名称和比重不能为空',
+          duration: 10000, // error 错误提示显示10秒
+          showClose: true
+        })
+      }
+      let isNullWeight = true
+      tableChild.filter(x=>{
+          if(!x.weight){
+              isNullWeight = false
+          }
+          return x.childVo.filter(y=>{
+              if(!y.weight){
+                  isNullWeight = false
+              }
+              return y.childVo.filter(z=>{
+                  if(!z.weight){
+                      isNullWeight = false
+                  }
+                  return
+              })
+          })
+      })
 
       // 保存执行
       console.log(this.formDataLevel2)
@@ -1109,7 +1143,7 @@ export default {
       content: '';
       position: absolute;
       border-top: 1px solid #2297f3;
-      top: 30px;
+      top: 29px;
       left: -54px;
       width: 54px;
       height: 1px;
@@ -1129,7 +1163,7 @@ export default {
       content: '';
       position: absolute;
       border-top: 1px solid #2297f3;
-      top: 30px;
+      top: 29px;
       right: -78px;
       width: 78px;
       height: 1px;

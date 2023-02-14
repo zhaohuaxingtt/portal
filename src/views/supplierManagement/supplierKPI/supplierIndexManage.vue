@@ -17,7 +17,7 @@
                 info.status == false ? '无效' : ''
             }}</span>
 
-            <span v-if="isShowFile" class="link" @click="dowload(allData.fileId)">{{ allData.fileName }}</span>
+            <span class="link" @click="dowload(allData.fileId)">{{ allData.fileName }}</span>
             <uploadButton style="margin-right:20px" :accept="'.pdf,.xlsx,.xls,.docx'" uploadClass="uploadButton"
               :beforeUpload="beforeUpload" @success="uploadSuccess" @error="uploadError">
               <iButton :disabled="!isEdit" :loading="uploadLoading">{{ '上传' }}</iButton>
@@ -81,7 +81,7 @@ export default {
       allData: {
         modelId: '',
         childVo: {
-          title:'总分',
+          title: '总分',
           childVo: []
         }
       },
@@ -106,7 +106,7 @@ export default {
           if (this.dropDownOptions.length > 0) {
             this.allData.modelId = this.dropDownOptions[this.dropDownOptions.length - 1].modelId
             this.allData.fileId = this.dropDownOptions[this.dropDownOptions.length - 1].fileId
-            this.allData.fileName = this.dropDownOptions[this.dropDownOptions.length - 1].fileName
+
             if (this.isShow || val == 'updata') {
               this.info = this.dropDownOptions.find(
                 (val) => val.modelId == this.allData.modelId
@@ -121,8 +121,9 @@ export default {
             } else {
               this.allData.modelId = this.$route.query.modelId
             }
-
+            console.log(this.allData)
           }
+          this.$set(this.allData, 'fileName', this.dropDownOptions[this.dropDownOptions.length - 1].fileName)
           this.$emit('getallData', this.allData)
           getModelTree(this.allData.modelId).then((res) => {
             if (res.code == '200') {
