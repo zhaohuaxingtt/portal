@@ -1,16 +1,17 @@
 <template>
   <div class="approval" v-loading="loading">
-    <panelCategory
-      :data="data"
+    <taskTypePanelCategory
+      :data="activeData"
       @toggle-active="toggleActive"
       :active-index.sync="activeIndex"
+      :typeName='typeName'
       numVisible
     />
   </div>
 </template>
 
 <script>
-  import panelCategory from './panelCategory'
+  import taskTypePanelCategory from './taskTypePanelCategory'
   import {
     queryApprovalOverview,
     queryAekoTodoCount
@@ -18,7 +19,13 @@
   // import { queryAekoTodoCount } from '@/api/approval/statistics'
   export default {
     name: 'taskPanelCategory',
-    components: { panelCategory },
+    components: { taskTypePanelCategory },
+    props: {
+      typeName: {
+        type: String,
+        default: null
+      }
+    },
     data() {
       return {
         data: [],
@@ -27,56 +34,23 @@
       }
     },
     computed: {
-      activeDataList() {
-        if (this.activeIndex === -1) {
-          const data = _.cloneDeep(this.data)
-          // CRW-7138 在全部Tab下只显示有待办任务的卡片，点击后面的分类Tab会将此分类下的全部卡片显示，包含审批任务为0的卡片
-          const hasValueData = data.filter((e) => {
-            const wfList = e?.wfCategoryList?.filter((wf) => {
-              return wf.todoNum
-            })
-            if (wfList.length) {
-              wfList.forEach(item => {
-                item['typeValue'] = e.typeValue
-              })
-              e.wfCategoryList = wfList
-              return true
-            }
-            return false
-          })
-          const activeDataList = []
-          if(hasValueData && hasValueData.length > 0) {
-            hasValueData.forEach(item => {
-              if(item.wfCategoryList && item.wfCategoryList.length > 0) {
-                activeDataList.push(...item.wfCategoryList)
-              }
-            })
-          }
-          return activeDataList
-        } else {
-          // console.log('activeDataList...', this.data[this.activeIndex])
-          return [this.data[this.activeIndex]]
-        }
-      },
       activeData() {
-        if (this.activeIndex === -1) {
+        console.log("this.typeName", this.typeName)
+        if(this.typeName) {
           const data = _.cloneDeep(this.data)
-          // CRW-7138 在全部Tab下只显示有待办任务的卡片，点击后面的分类Tab会将此分类下的全部卡片显示，包含审批任务为0的卡片
-          const hasValueData = data.filter((e) => {
-            const wfList = e?.wfCategoryList?.filter((wf) => {
-              return wf.todoNum
-            })
-            if (wfList.length) {
-              e.wfCategoryList = wfList
-              return true
-            }
-            return false
+          const findDataByTypeName = data.find(item => {
+            return item.typeName === this.typeName
           })
-          return hasValueData
-          // return this.data
+          console.log("this.typeName activeData1", this.typeName, findDataByTypeName)
+          if(findDataByTypeName) {
+            return findDataByTypeName.wfCategoryList
+          } else {
+            return []
+          }
+        } else {
+          console.log("this.typeName activeData2", this.typeName)
+          return []
         }
-
-        return [this.data[this.activeIndex]]
       }
     },
     watch:{

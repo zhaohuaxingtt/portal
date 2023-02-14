@@ -3,25 +3,26 @@
     <template v-if="isSourceFindingPoint">
       <el-row :gutter="2">
         <el-col :span="5">
-            <iSelect
-              :placeholder="language('请选择')"
-              v-model="form.itemTypeList"
-              :multiple="false"
-              collapse-tags
-              filterable
+          <iSelect
+            :placeholder="language('请选择')"
+            v-model="form.itemTypeList"
+            :multiple="false"
+            collapse-tags
+            filterable
+            @change="onItemTypeListChange"
+          >
+            <el-option
+              v-for="(item, index) in dOptions"
+              :key="index"
+              :value="item.value"
+              :label="item.label"
             >
-              <el-option
-                v-for="(item, index) in dOptions"
-                :key="index"
-                :value="item.value"
-                :label="item.label"
-              >
-              </el-option>
-            </iSelect>
+            </el-option>
+          </iSelect>
         </el-col>
         <el-col :span="19">
           <taskPanelCategory
-            :data="titles"
+            :typeName="curTypeName"
             @toggle-active="toggleActive"
             :active-index.sync="activeIndex"
           />
@@ -154,7 +155,6 @@ import { AEKO_CATEGORY_LIST, BPM_SINGL_CATEGORY_LIST } from '@/constants'
 import { fetchUser } from '@/api/approval/agent'
 import { searchOrganizationByID } from '@/api/organization'
 import taskPanelCategory from './taskPanelCategory'
-import { userApplicationList } from '@/api/applications'
 export default {
   name: 'searchForm',
   props: {
@@ -194,21 +194,18 @@ export default {
         itemName: '',
         startTime: '',
         applyUserDeptId: '',
-        itemTypeList: '0',
+        itemTypeList: '-1',
         reApprove: false
       },
       templates: [{ name: '', value: '全部' }],
       nameOptions: [],
       loading: false,
       dOptions: BPM_APPROVAL_TYPE_OPTIONS,
+      curTypeName: null,
       multipleCategoryList: true,
       bpmSinglCategoryList: BPM_SINGL_CATEGORY_LIST,
       userDefaultOptions: [],
-      deptDefaultOptions: [],
-      originapplications: {},
-      titles: [],
-      activeIndex: 0,
-      applicationCache: {}
+      deptDefaultOptions: []
     }
   },
   created() {
@@ -224,7 +221,6 @@ export default {
       } else {
         this.form.categoryList = JSON.parse(this.$route.query.modelTemplate)
       }
-      this.getApplications()
     }
     // CRW-8311
     // 【CF】审批人界面从[已审批]切换到[待审批]查不到待审批单据
@@ -240,13 +236,16 @@ export default {
               moment(queryForm.endTime).format('YYYY-MM-DD')
             ]
           }
-          this.form = { ...queryForm, itemTypeList: !queryForm.itemTypeList || queryForm.itemTypeList.length === 0 ? '0' : queryForm.itemTypeList[0] }
+          this.form = { ...queryForm, itemTypeList: !queryForm.itemTypeList || queryForm.itemTypeList.length === 0 ? '-1' : queryForm.itemTypeList[0] }
           console.log('this.form1...', this.form)
           if (this.form.applyUserId) {
             this.queryUserOptions()
           }
           if (this.form.applyUserDeptId) {
             this.queryDeptOptions()
+          }
+          if (this.form.itemTypeList != '-1') {
+            this.updateCurTypeName(this.form.itemTypeList)
           }
         } catch (err) {
           console.log(err)
@@ -264,13 +263,17 @@ export default {
               moment(queryForm.endTime).format('YYYY-MM-DD')
             ]
           }
-          this.form = { ...queryForm, itemTypeList: !queryForm.itemTypeList || queryForm.itemTypeList.length === 0 ? '0' : queryForm.itemTypeList[0] }
+          this.form = { ...queryForm, itemTypeList: !queryForm.itemTypeList || queryForm.itemTypeList.length === 0 ? '-1' : queryForm.itemTypeList[0] }
+          this.curTypeName =
           console.log('this.form2...', this.form)
           if (this.form.applyUserId) {
             this.queryUserOptions()
           }
           if (this.form.applyUserDeptId) {
             this.queryDeptOptions()
+          }
+          if (this.form.itemTypeList != '-1') {
+            this.updateCurTypeName(this.form.itemTypeList)
           }
         } catch (err) {
           console.log(err)
@@ -281,52 +284,21 @@ export default {
     this.queryModelTemplate()
   },
   methods: {
-    getApplications() {
-      this.activeIndex = 0
-      if (this.applicationCache[this.locale]) {
-        this.initData(this.applicationCache[this.locale])
-      } else {
-        const requestData = {
-          systemType: 3,
-          sortType: this.locale == 'zh' ? 1 : 2
-        }
-        this.loading = true
-        userApplicationList(requestData)
-          .then((val) => {
-            if (val.code == 200) {
-              this.applicationCache[this.locale] = _.cloneDeep(val.data)
-              this.initData(val.data)
-            }
-          })
-          .finally(() => {
-            this.loading = false
-          })
-      }
+    toggleActive(index) {
+      this.activeIndex = index
     },
-    initData(data) {
-      //  this.originapplications = _.cloneDeep(data)
-      console.log(
-        'this.originapplications',
-        Object.keys(this.originapplications)
-      )
-      console.log(
-        'this.originapplications data...',
-        data
-      )
-      this.titles = Object.keys(data)
-        .sort((a, b) => {
-          return a > b ? 1 : -1
-        })
-        .map((item) => {
-          return {
-            typeValue: item
-          }
-        })
-      const sortApplications = {}
-      this.titles.forEach((e) => {
-        sortApplications[e.typeValue] = data[e.typeValue]
+    onItemTypeListChange(newValue) {
+      this.search()
+      this.updateCurTypeName(newValue)
+    },
+    updateCurTypeName(newValue) {
+      const newItem = this.dOptions.find(item => {
+        return newValue == item.value
       })
-      this.originapplications = sortApplications
+      console.log("newItem, newValue", newItem, newValue)
+      if(newItem) {
+        this.curTypeName = newItem.typeName
+      }
     },
     search() {
       const searchData = { ...this.form }
@@ -350,7 +322,7 @@ export default {
         itemName: '',
         startTime: '',
         applyUserDeptId: '',
-        itemTypeList: '0',
+        itemTypeList: '-1',
         reApprove: false
       }
       this.date = ''
