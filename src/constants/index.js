@@ -126,51 +126,63 @@ export const BPM_APPROVAL_TYPE_OPTIONS = [
   },
   {
     value: '0',
-    label: '供应商管理'
+    label: '供应商管理',
+    typeName: "supplier_mgnt",
   },
   {
     value: '1',
-    label: '供应商转正'
+    label: '供应商转正',
+    typeName: 'supplier_conversion',
   },
   {
     value: '2',
-    label: '供应商修改'
+    label: '供应商修改',
+    typeName: 'supplier_change',
   },
   {
     value: '4',
-    label: '供应商准入'
+    label: '供应商准入',
+    typeName: 'supplier_access',
   },
   {
     value: '5',
-    label: '价格管理'
+    label: '价格管理',
+    typeName: 'price_mgnt',
   },
   {
     value: '6',
-    label: '寻源执行'
+    label: '寻源执行',
+    typeName: 'sourcing_execution',
   },
   {
     value: '7',
-    label: 'ProCS'
+    label: 'ProCS',
+    typeName: "procs",
   },
   {
     value: '8',
-    label: '寻源与定点'
+    label: '寻源与定点',
+    typeName: 'sourcing_point',
   },
   {
     value: '9',
-    label: '订单与合同'
+    label: '订单与合同',
+    typeName: 'order_contract',
   },
   {
     value: '10',
-    label: 'AEKO'
+    label: 'AEKO',
+    typeName: 'aeko',
   },
   {
     value: '11',
-    label: '模具采购'
+    label: '模具采购',
+    typeName: 'module_purchase',
   },
   {
     value: '12',
-    label: 'MTZ'
+    label: 'MTZ',
+    typeName: 'mtz',
   }
 ]
 
