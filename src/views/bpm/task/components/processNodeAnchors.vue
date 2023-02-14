@@ -29,11 +29,16 @@
     data() {
       return {
         nodeAnchors: [
-          this.genNodeAnchors({ title: 'APPROVAL_INSTRUCTIONS', anchorsId: 'APPROVAL_INSTRUCTIONS' }),
-          this.genNodeAnchors({ title: 'APPROVAL_ATTACHMENTS', anchorsId: 'APPROVAL_ATTACHMENTS' }),
-          this.genNodeAnchors({ title: 'APPROVAL_DETAILS', anchorsId: 'APPROVAL_DETAILS' }),
-          this.genNodeAnchors({ title: 'APPROVAL_FLOW', anchorsId: 'APPROVAL_FLOW' }),
-          this.genNodeAnchors({ title: 'APPROVAL_RECORDS', anchorsId: 'APPROVAL_RECORDS' })
+          // this.genNodeAnchors({ title: 'APPROVAL_INSTRUCTIONS', anchorsId: 'APPROVAL_INSTRUCTIONS' }),
+          // this.genNodeAnchors({ title: 'APPROVAL_ATTACHMENTS', anchorsId: 'APPROVAL_ATTACHMENTS' }),
+          // this.genNodeAnchors({ title: 'APPROVAL_DETAILS', anchorsId: 'APPROVAL_DETAILS' }),
+          // this.genNodeAnchors({ title: 'APPROVAL_FLOW', anchorsId: 'APPROVAL_FLOW' }),
+          // this.genNodeAnchors({ title: 'APPROVAL_RECORDS', anchorsId: 'APPROVAL_RECORDS' })
+          this.genNodeAnchors({ title: '审批说明', anchorsId: 'APPROVAL_INSTRUCTIONS' }),
+          this.genNodeAnchors({ title: '审批附件', anchorsId: 'APPROVAL_ATTACHMENTS' }),
+          this.genNodeAnchors({ title: '审批详情', anchorsId: 'APPROVAL_DETAILS' }),
+          this.genNodeAnchors({ title: '审批流', anchorsId: 'APPROVAL_FLOW' }),
+          this.genNodeAnchors({ title: '审批记录', anchorsId: 'APPROVAL_RECORDS' })
         ],
         active: -1,
         NEED_SCROLL_TOP_ANCHORS: ['APPROVAL_INSTRUCTIONS', 'APPROVAL_ATTACHMENTS', 'APPROVAL_DETAILS']
@@ -66,7 +71,7 @@
       },
       genNodeAnchors(data) {
         return {
-          title: this.$t(data.title),
+          title: data.title,
           anchorsId: data.anchorsId
         }
       }

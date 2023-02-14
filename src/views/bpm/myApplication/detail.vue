@@ -1,45 +1,52 @@
 <template>
   <iPage class="approval-detail" v-loading="loading">
-    <div class="page-header">
-      <div class="font18 font-weight">
-        {{ form.itemName }}
-        <span class="business-id">{{ form.businessId }}</span>
-        ({{ form.stateMsg }})
+    <div class="page-header margin-bottom20 cus-task-detail-header">
+      <div class="cus-approval-detail-title">
+        <div class="cus-approval-detail-title-info">
+          <div class="font18 font-weight">
+            {{ form.itemName }}
+            <span class="business-id">{{ form.businessId }}</span>
+            ({{ form.stateMsg }})
+          </div>
+          <taskNavigation />
+        </div>
+        <div class="cus-task-detail-operations-div" style="padding-left: 40px">
+          <processNodeAnchors />
+          <div class="operation-btn">
+            <viewFlow :detail="form" />
+            <!-- 撤回 -->
+            <iButton v-if="buttonRecallVisible" @click="dialogRecallVisible = true">
+              {{ language('撤回') }}
+            </iButton>
+            <!-- 补充材料 -->
+
+            <iButton v-if="buttonAppendVisible" @click="onAppendAttachment">
+              {{ language('补充材料') }}
+            </iButton>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="page-header margin-bottom20">
-      <div class="font18 font-weight">
-        {{ form.itemName }}
-        <span class="business-id">{{ form.businessId }}</span>
-        ({{ form.stateMsg }})
-      </div>
-      <div class="operation-btn">
-        <viewFlow :detail="form" />
-        <!-- 撤回 -->
-        <iButton v-if="buttonRecallVisible" @click="dialogRecallVisible = true">
-          {{ language('撤回') }}
-        </iButton>
-        <!-- 补充材料 -->
 
-        <iButton v-if="buttonAppendVisible" @click="onAppendAttachment">
-          {{ language('补充材料') }}
-        </iButton>
-      </div>
-    </div>
-
+    <div :class="{'margin-top70': form.stateCode === mapApprovalType.APPEND_DATA}">
     <lastNode
       :form="form"
       v-if="form.stateCode === mapApprovalType.APPEND_DATA"
     />
+    </div>
 
-    <baseForm :form="form" />
+    <div :class="{'margin-top70': form.stateCode !== mapApprovalType.APPEND_DATA}">
+      <baseForm :form="form" />
+    </div>
 
     <detailProcessForm
+      id="APPROVAL_DETAILS"
       :flow-form-url="flowFormUrl"
       :form-height="form.formHeight"
     />
 
     <i-card
+      id="APPROVAL_FLOW"
       :title="language('审批流程')"
       header-control
       collapse
@@ -56,7 +63,7 @@
       />
     </i-card>
 
-    <i-card :title="language('审批历史')" header-control collapse>
+    <i-card id="APPROVAL_RECORDS" :title="language('审批历史')" header-control collapse>
       <i-table-custom :data="form.histories" :columns="historyTableTitle" />
     </i-card>
 
@@ -83,6 +90,8 @@
 
 <script>
 import { iPage, iCard, iMessage, iButton } from 'rise'
+import taskNavigation from '@/views/bpm/task/components/taskNavigation'
+import processNodeAnchors from '@/views/bpm/task/components/processNodeAnchors'
 import {
   dialogRecall,
   detailProcessForm,
@@ -109,7 +118,9 @@ export default {
     baseForm,
     lastNode,
     processNodeHorizontal,
-    viewFlow
+    viewFlow,
+    taskNavigation,
+    processNodeAnchors
   },
   data() {
     return {
@@ -352,7 +363,7 @@ export default {
   width: calc(100% - 188px);
   background: $color-background;
   padding: 40px 0px 0px 0px;
-  z-index: 21;
+  z-index: 98;
 }
 #flow-form {
   width: 100%;
@@ -360,5 +371,29 @@ export default {
 }
 .business-id {
   margin: 0px 10px;
+}
+.cus-task-detail-header {
+  top: 0 !important;
+  padding-top: 0 !important;
+  //margin-top: 65px;
+  margin-top: 0 !important;
+  width: calc(100% - 6.25rem) !important;
+  background-color: rgb(247, 247, 247) !important;
+  .cus-approval-detail-title {
+    width: 100%;
+    .cus-approval-detail-title-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .cus-task-detail-operations-div {
+      padding-left: 40px;
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+}
+.margin-top70 {
+  margin-top: 70px;
 }
 </style>
