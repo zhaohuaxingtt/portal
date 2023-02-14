@@ -24,12 +24,15 @@
       typeName: {
         type: String,
         default: null
-      }
+      },
+      activeIndex: {
+        type: Number,
+        default: -1
+      },
     },
     data() {
       return {
         data: [],
-        activeIndex: 0,
         loading: false
       }
     },
@@ -64,6 +67,7 @@
     methods: {
       toggleActive(index) {
         this.activeIndex = index
+        this.$emit('toggle-active', index, this.activeData[index])
       },
       openListPage(item) {
         if (item.cardUrl) {

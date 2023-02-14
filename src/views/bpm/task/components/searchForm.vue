@@ -2,7 +2,7 @@
   <div>
     <template v-if="isSourceFindingPoint">
       <el-row :gutter="2">
-        <el-col :span="5">
+        <el-col :span="5" style="height: 40px;line-height: 40px;">
           <iSelect
             :placeholder="language('请选择')"
             v-model="form.itemTypeList"
@@ -24,7 +24,7 @@
           <taskPanelCategory
             :typeName="curTypeName"
             @toggle-active="toggleActive"
-            :active-index.sync="activeIndex"
+            :active-index="curActiveIndex"
           />
         </el-col>
       </el-row>
@@ -202,6 +202,7 @@ export default {
       loading: false,
       dOptions: BPM_APPROVAL_TYPE_OPTIONS,
       curTypeName: null,
+      curActiveIndex: -1,
       multipleCategoryList: true,
       bpmSinglCategoryList: BPM_SINGL_CATEGORY_LIST,
       userDefaultOptions: [],
@@ -264,7 +265,6 @@ export default {
             ]
           }
           this.form = { ...queryForm, itemTypeList: !queryForm.itemTypeList || queryForm.itemTypeList.length === 0 ? '-1' : queryForm.itemTypeList[0] }
-          this.curTypeName =
           console.log('this.form2...', this.form)
           if (this.form.applyUserId) {
             this.queryUserOptions()
@@ -284,8 +284,12 @@ export default {
     this.queryModelTemplate()
   },
   methods: {
-    toggleActive(index) {
+    toggleActive(index, item) {
       this.activeIndex = index
+      if(item.categoryList?.length > 0) {
+        this.form.categoryList = item.categoryList
+      }
+      this.search()
     },
     onItemTypeListChange(newValue) {
       this.search()
@@ -298,6 +302,10 @@ export default {
       console.log("newItem, newValue", newItem, newValue)
       if(newItem) {
         this.curTypeName = newItem.typeName
+        this.curActiveIndex = -1
+      } else {
+        this.curTypeName = null
+        this.curActiveIndex = -1
       }
     },
     search() {
@@ -314,6 +322,7 @@ export default {
       this.$emit('search', { ...searchData, itemTypeList: searchData.itemTypeList ? [searchData.itemTypeList] : []}, this.templates)
     },
     reset() {
+      this.updateCurTypeName(null)
       this.form = {
         businessId: '',
         applyUserId: '',
@@ -326,7 +335,8 @@ export default {
         reApprove: false
       }
       this.date = ''
-      this.$emit('search', { ...this.form, itemTypeList: searchData.itemTypeList ? [searchData.itemTypeList] : []}, this.templates)
+      // this.$emit('search', { ...this.form, itemTypeList: searchData.itemTypeList ? [searchData.itemTypeList] : []}, this.templates)
+      this.search()
     },
     async queryModelTemplate() {
       const data = {

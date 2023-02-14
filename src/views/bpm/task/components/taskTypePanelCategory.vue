@@ -10,11 +10,11 @@
       >
         {{ item.value }}
         <span
-          v-if="numVisible && item.totalTodoNum"
+          v-if="numVisible && item.todoNum"
           class="badge"
-          :class="{ large: item.totalTodoNum > 99 }"
+          :class="{ large: item.todoNum > 99 }"
         >
-          {{ item.totalTodoNum > 99 ? '99+' : item.totalTodoNum }}
+          {{ item.todoNum > 99 ? '99+' : item.todoNum }}
         </span>
       </div>
     </div>
