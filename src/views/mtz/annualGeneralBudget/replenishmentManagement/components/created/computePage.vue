@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-14 14:44:54
- * @LastEditTime: 2023-02-15 11:24:07
+ * @LastEditTime: 2023-02-15 15:04:57
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\created\computePage.vue
@@ -12,7 +12,7 @@
       <h1>{{ supplierType }}供应商芯片补差计算（{{ statusName }}）</h1>
       <div>
         <iButton @click="updateBalance">保存</iButton>
-        <iButton @click="submit">提交</iButton>
+        <iButton @click="submit">创建补差单</iButton>
       </div>
     </div>
     <search :searchForm="detailInfo" :searchFormData="infoFormData">
@@ -142,6 +142,7 @@ import {
   getTaskSecondSupplierList,
   findBalanceById,
   updateBalance,
+  createBalance,
   sendSupplierConfirm,
   deleteBalanceItem,
   exportBalanceRuleList,
@@ -366,7 +367,7 @@ export default {
         }
       })
     },
-    // 提交
+    // 创建补差单:获取补差单号
     submit() {
       if (!this.detailInfo.actualMakeAmount) {
         return iMessage.warn('请填写实补金额')
@@ -376,7 +377,7 @@ export default {
       }
       updateBalance(this.info).then((res) => {
         if (res?.code == '200') {
-          sendSupplierConfirm([this.balanceId]).then((res1) => {
+          createBalance({balanceId:this.balanceId}).then((res1) => {
             if (res?.code == '200') {
               iMessage.success(
                 this.$i18n.locale == 'zh' ? res1.desZh : res1.desEn

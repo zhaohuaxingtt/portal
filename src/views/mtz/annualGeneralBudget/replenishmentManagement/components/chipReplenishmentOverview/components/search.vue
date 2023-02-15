@@ -105,9 +105,6 @@ export default {
         }
       })
     },
-    // handleMaterialCode(codes) {
-    //   this.$emit('materialCodes', codes)
-    // },
     handleChange(val) {
       this.searchForm.compStartDate = window.moment(val[0]).format('yyyy-MM-DD')
       this.searchForm.compEndDate = window.moment(val[1]).format('yyyy-MM-DD')
