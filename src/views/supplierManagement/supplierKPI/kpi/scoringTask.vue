@@ -12,6 +12,9 @@
       }}
     </p>
     <div class="cardbox">
+      <div v-if="infoList.length==0"  class="noInfo" >
+          <span>暂无数据~~~</span>
+        </div>
       <div class="card" v-for="(item, index) in infoList">
         <div class="div1">
           <span class="cardtitle">{{ item.nameZh }}</span>
@@ -47,7 +50,10 @@
       <span>已结束任务</span>
       <el-button type="text" @click="isPage = !isPage">{{ isPage?'展开': '收起' }}</el-button></el-divider>
     <transition name="el-zoom-in-top">
-      <div v-show="isPage" class="cardbox">
+      <div v-show="!isPage" class="cardbox">
+        <div v-if="infoList2.length==0"  class="noInfo" >
+          <span>暂无数据~~~</span>
+        </div>
         <div class="card" v-for="(item, index) in infoList2">
           <div class="div1">
             <span class="cardtitle">{{ item.nameZh }}</span>
@@ -181,7 +187,15 @@ export default {
   margin: 20px 0;
   display: flex;
   justify-content: flex-start;
-
+.noInfo{
+  margin-top: 40px;
+  width: 100%;
+  span{
+    display: inline-block;
+  }
+  text-align: center;
+  font-size: 16px;
+}
   .card {
     margin-right: 1%;
     // display: flex;
