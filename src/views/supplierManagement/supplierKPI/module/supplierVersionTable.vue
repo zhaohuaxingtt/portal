@@ -73,7 +73,7 @@
             </el-tooltip>
           </td>
           <td>
-            <div>{{ x.all }}</div>
+            <div>{{ x.allScore }}</div>
           </td>
           <template v-for="(lv1, index1) in x.score">
             <td :key="index1 + 'l1'">
