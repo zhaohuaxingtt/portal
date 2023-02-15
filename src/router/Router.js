@@ -1,10 +1,10 @@
 /*
  * @Author: Luoshuang
  * @Date: 2021-07-27 17:14:19
- * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-04-15 16:39:47
+ * @LastEditors: YoHo && 917955345@qq.com
+ * @LastEditTime: 2023-01-13 14:15:42
  * @Description:
- * @FilePath: \front-portal-new\src\router\Router.js
+ * @FilePath: \front-portal\src\router\Router.js
  */
 import DefLayout from '../layout'
 import Login from '../views/login/index'
@@ -89,6 +89,16 @@ export default {
       component: () =>
         import(
           '@/views/mtz/annualGeneralBudget/replenishmentManagement/components/applicationForm/index.vue'
+        )
+    },{
+      path: '/applicationChipForm',
+      name: 'applicationChipForm',
+      meta: {
+        title: '芯片补差申请单'
+      },
+      component: () =>
+        import(
+          '@/views/mtz/annualGeneralBudget/replenishmentManagement/components/applicationForm/chip.vue'
         )
     },
     {
@@ -294,6 +304,14 @@ export default {
       path: '/suppliersDetails',
       name: 'suppliersDetails',
       component: SuppliersDetails
+    },
+    {
+      path: '/meeting/previewCSC',
+      name: 'previewCSC',
+      meta: {
+        title: '会议详情管理'
+      },
+      component: () => import('@/views/meeting/specialDetails/component/previewCSC.vue')
     },
     ...RouterView,
     { path: '*', name: 'notFound', component: NotFound }

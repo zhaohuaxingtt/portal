@@ -1,10 +1,10 @@
 <!--
  * @Author: yuszhou
  * @Date: 2021-02-19 15:12:20
- * @LastEditTime: 2022-02-18 14:35:31
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-02-02 00:13:19
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 首页
- * @FilePath: \rise\src\views\home\index.vue
+ * @FilePath: \front-portal\src\views\home\index.vue
 -->
 <template>
   <iPage>
@@ -32,17 +32,6 @@
             </el-carousel>
           </el-card>
         </el-col>
-<!--        <el-col-->
-<!--          :xs="24"-->
-<!--          :sm="12"-->
-<!--          :md="8"-->
-<!--          :lg="6"-->
-<!--          :xl="6"-->
-<!--          :key="card.id"-->
-<!--          v-for="(card,index) in cards"-->
-<!--        >-->
-<!--          <module-card :card="cards" @del="handleDelete" />-->
-<!--        </el-col>-->
       </el-row>
     </div>
   </iPage>
@@ -50,6 +39,7 @@
 <script>
 import moduleCard from './components/moduleCard'
 import greetCard from './components/greetCard'
+import iAgreeCard from './components/moduleCard/iAgreeCard'
 import carouselItem from './components/moduleCard/carouselItem'
 import { iPage } from 'rise'
 import Sortable from 'sortablejs'
@@ -65,7 +55,6 @@ export default {
       cardList: (state) => state.permission.cardList
     }),
     cards() {
-      // console.log("cardList", this.cardList[1])
       let newsIndex = -1
       let cards = this.cardList.filter(
         (li) =>
@@ -91,7 +80,8 @@ export default {
         ['Approve', 'Task', 'Schedule'].includes(li.component)
       )
       return cards
-    }
+      // return this.cardList.filter(li => li.name ==`EKL`)
+    },
   },
   mounted() {
     // this.$nextTick(() => {

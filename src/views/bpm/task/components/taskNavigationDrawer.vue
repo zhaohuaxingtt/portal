@@ -89,7 +89,8 @@
               this.gotoDetailPage(this.todoTaskList[curIndex])
             })
           } else {
-            this.$message.info(`已经是最后一条`);
+            this.$message.info(`已经是最后一条`)
+            this.$emit("showMoreTaskNeedClose")
           }
         }
       },
@@ -107,7 +108,8 @@
               this.gotoDetailPage(this.todoTaskList[curIndex])
             })
           } else {
-            this.$message.info(`已经是最后一条`);
+            this.$message.info(`已经是最后一条`)
+            this.$emit("showMoreTaskNeedClose")
           }
         }
       },
@@ -135,18 +137,20 @@
       },
       //打开详情页
       gotoDetailPage(item) {
-        this.$emit("showMoreTaskNeedClose", QUERY_DRAWER_TYPES)
-        if(this.queryType === QUERY_DRAWER_TYPES.APPLY_TODOQ || this.queryType === QUERY_DRAWER_TYPES.APPLY_FINISH) {
-          if (this.isFinished === 1) {
-            window.location.href = `/portal/#/bpm/finishList/detail/${item.instanceId}/${item.taskId}/${this.isFinished ? 'yes' : 'no'}`
+        this.$emit("showMoreTaskNeedClose")
+        this.$nextTick(() => {
+          if(this.queryType === QUERY_DRAWER_TYPES.APPLY_TODOQ || this.queryType === QUERY_DRAWER_TYPES.APPLY_FINISH) {
+            if (this.isFinished === 1) {
+              window.location.href = `/portal/#/bpm/finishList/detail/${item.instanceId}/${item.taskId}/${this.isFinished ? 'yes' : 'no'}`
+            } else {
+              window.location.href = `/portal/#/bpm/todoList/detail/${item.instanceId}/${item.taskId}/${this.isFinished ? 'yes' : 'no'}`
+            }
           } else {
-            window.location.href = `/portal/#/bpm/todoList/detail/${item.instanceId}/${item.taskId}/${this.isFinished ? 'yes' : 'no'}`
+            // http://localhost:8080/portal/#/bpm/myApply/detail/2423548/no
+            window.location.href = `/portal/#/bpm/myApply/detail/${item.instanceId}/${this.isFinished ? 'yes' : 'no'}`
           }
-        } else {
-          // http://localhost:8080/portal/#/bpm/myApply/detail/2423548/no
-          window.location.href = `/portal/#/bpm/myApply/detail/${item.instanceId}/${this.isFinished ? 'yes' : 'no'}`
-        }
-        // this.showDialog = true
+          // this.showDialog = true
+        })
       },
       getTodoTaskList() {
         const queryTodoListFunc = this.getQueryTodoListFunc()

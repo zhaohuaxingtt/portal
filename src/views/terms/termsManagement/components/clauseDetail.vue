@@ -1,5 +1,5 @@
 <template>
-  <div v-loading="loading">
+  <div v-loading="loading" style="height:100%">
     <iPage>
       <div class="title">
         <div>
@@ -48,6 +48,11 @@
               (ruleForm.state == '03' || ruleForm.state == '04')
             "
             >{{ $t('TM_GENGXINBANBEN') }}</iButton
+          >
+          <!-- 签署节点设置 -->
+          <iButton
+            @click="openSetting"
+            >{{ $t('签署节点设置') }}</iButton
           >
           <!-- 返回 -->
           <iButton @click="clearDiolog">{{ $t('TM_FANHUI') }}</iButton>
@@ -382,7 +387,7 @@
         >
           <div class="form">
             <div class="input-box">
-              <el-col :span="23" class="form-item" id="editMode">
+              <el-col :span="8" class="form-item" id="editMode">
                 <iFormItem label="编辑方式" prop="editMode">
                   <iLabel
                     :label="$t('TM_BIANJIFANGSHI')"
@@ -403,12 +408,41 @@
                   </el-radio-group>
                 </iFormItem>
               </el-col>
+              <el-col :span="10" class="form-item" id="editMode">
+                <iFormItem label="条款说明" prop="editMode">
+                  <iLabel
+                    :label="$t('条款说明')"
+                    slot="label"
+                    required
+                  ></iLabel>
+                  <iInput
+                    :disabled="ruleForm.isNewest == false"
+                    v-model="ruleForm.termsExplain"
+                  ></iInput>
+                </iFormItem>
+              </el-col>
+              <el-col :span="6" class="form-item" id="editMode">
+                <iFormItem label="条款签署按钮" prop="editMode">
+                  <iSelect
+                    v-model="ruleForm.singButton"
+                    :disabled="ruleForm.isNewest == false"
+                  >
+                    <el-option
+                      v-for="item in signBtnList"
+                      :key="item.value"
+                      :label="$t(item.agreeKey)+'/'+$t(item.refuseKey)"
+                      :value="item.value"
+                    >
+                    </el-option>
+                  </iSelect>
+                </iFormItem>
+              </el-col>
               <el-col
                 :span="24"
                 v-show="ruleForm.editMode == '01'"
                 class="form-item"
               >
-                <div style="float: right; margin-top: -3rem">
+                <div class="preview">
                   <iButton @click="handlePreEdit()">{{
                     $t('TM_YULAN')
                   }}</iButton>
@@ -565,6 +599,13 @@
         :supplierList="this.ruleForm.supplierList"
         @closeDialog="closeSupplierListDialog"
       />
+      <signNodeSetting
+        v-if="opensignNodeSettingDialog"
+        :id="id"
+        :signNode="ruleForm.signNode"
+        :openDialog="opensignNodeSettingDialog"
+        @closeDialog="closeSignNodeSettingDialog"
+      />
       <supplierChooseDialog
         v-if="openSupplierChooseDialog"
         :openDialog="openSupplierChooseDialog"
@@ -594,7 +635,8 @@ import {
   // baseRules,
   statusList,
   supplierContactsList,
-  editModeList
+  editModeList,
+  signBtnList
 } from './data'
 import uploadIcon from '@/assets/images/upload-icon.svg'
 import { uploadFile } from '@/api/terms/uploadFile.js'
@@ -612,6 +654,7 @@ import supplierListDialog from './supplierListDialog.vue'
 import supplierChooseDialog from './supplierChooseDialog.vue'
 import { invalidateTerms, releaseTerms } from '@/api/terms/terms'
 import { getFileByIds } from '@/api/terms/uploadFile'
+import signNodeSetting from './signNodeSetting.vue'
 import dayjs from 'dayjs'
 export default {
   components: {
@@ -625,7 +668,8 @@ export default {
     iDatePicker,
     iTableML,
     supplierListDialog,
-    supplierChooseDialog
+    supplierChooseDialog,
+    signNodeSetting
   },
   props: {
     // loading: { type: Boolean, default: false },
@@ -784,10 +828,13 @@ export default {
           i18n: 'TM_FOU'
         }
       ],
+      // 条款签署按钮
+      signBtnList,
       uploadLoading: false,
       submitLoading: false,
       openSupplierListDialog: false,
       openSupplierChooseDialog: false,
+      opensignNodeSettingDialog:false,
       supplierCheckList: [],
       exc: -1,
       supplierExcCheckList: []
@@ -845,6 +892,13 @@ export default {
     this.createEditor()
   },
   methods: {
+    openSetting() {
+      console.log('openSetting:打开条款设置弹窗')
+      this.opensignNodeSettingDialog = true
+    },
+    closeSignNodeSettingDialog(){
+      this.opensignNodeSettingDialog = false
+    },
     createEditor() {
       let that = this
       this.editor = new E('#editer')
@@ -1290,6 +1344,11 @@ export default {
     .form-item {
       padding-left: 2rem;
     }
+  }
+  .preview{
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
   }
   // .input-box {
   //   :nth-child(4n + 5) {

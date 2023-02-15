@@ -1,6 +1,5 @@
 <template>
-  <iPage>
-    <div class="header">{{ $t('TM_TIAOKUANGUANLI') }}</div>
+  <div>
     <theSearch @getTableList="getTableList" />
     <theTable
       ref="theTable"
@@ -14,27 +13,30 @@
       @handleSizeChange="handleSizeChange"
       @handleExportAll="handleExportAll"
     />
-  </iPage>
+  </div>
 </template>
 
 <script>
-import { iPage } from 'rise'
+import { iPage, iNavMvp } from 'rise'
 import theSearch from './components/theSearch.vue'
 import theTable from './components/theTable.vue'
 import { pageMixins } from '@/utils/pageMixins'
 import { findByPage } from '@/api/terms/terms'
 import { exportFile } from '@/utils/exportFileUtil'
+import { categoryManagementAssistantListkpi } from "../data";
 import store from '@/store'
 
 export default {
   mixins: [pageMixins],
   components: {
     iPage,
+    iNavMvp,
     theSearch,
     theTable
   },
   data() {
     return {
+      categoryManagementAssistantListkpi,
       tableLoading: false,
       tableListData: [],
       formData: {}
@@ -212,8 +214,4 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.header {
-  font-size: 20px;
-  font-weight: bold;
-}
 </style>

@@ -353,3 +353,28 @@ export const signStatusObj = {
   '03': 'TM_YIQIANSHUFEIBIAO',
   '04': 'TM_LIWAI'
 }
+
+// 条款签署按钮
+export const signBtnList = [
+  {
+    agree:'签署',
+    agreeKey:'签署',
+    refuse:'暂不签署',
+    refuseKey:'暂不签署',
+    value: 0,
+  },
+  {
+    agree:'同意',
+    agreeKey:'同意',
+    refuse:'拒绝',
+    refuseKey:'拒绝',
+    value: 1,
+  },
+  {
+    agree:'确认',
+    agreeKey:'确认',
+    refuse:'取消',
+    refuseKey:'取消',
+    value: 2,
+  }
+]

@@ -1,24 +1,23 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-06 21:19:27
- * @LastEditTime: 2021-10-28 16:35:17
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-01-05 16:11:40
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\commonHeardNav\headerNav.vue
 -->
 <template>
   <div>
-    <div class="navBox">
+    <div class="navBox margin-bottom20">
       <iNavMvp
         :list="tabRouterList"
-        class="margin-bottom20 lines"
         routerPage
         @change="change"
         :lev="1"
         v-if="$route.meta.showFooter"
       />
       <div class="rightNav">
-        <iNavMvp :list="rightNav2" routerPage @change="change" :lev="2" right />
+        <iNavMvp class="nav" :list="rightNav2" routerPage @change="change" :lev="2" right />
         <logButton
           class="logButton"
           @toLogPage="toLog"
@@ -28,8 +27,8 @@
         />
         <iUserLog :show.sync="showDialog" menuId="MTZ-013" is-page />
       </div>
-      <router-view />
     </div>
+    <router-view />
   </div>
 </template>
 
@@ -121,18 +120,29 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.lines {
-  border-bottom: 1px #e1e2ed solid;
-  padding-bottom: 10px;
-}
 .navBox {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  &:after {
+		content: '';
+		width: 100%;
+		height: 1px;
+		display: block;
+		background: rgba(197, 206, 229, 0.5);
+		position: absolute;
+		left: 0px;
+		bottom: -0.5rem;
+	}
   .rightNav {
     display: flex;
-    position: absolute;
-    align-items: center;
-    top: 0;
-    right: 0;
+    .logButton{
+      flex: 0 0 auto;
+    }
+    .nav{
+      max-width: 870px;
+    }
   }
 }
 </style>

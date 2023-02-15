@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-15 17:30:36
- * @LastEditors: YoHo
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 材料表格
 -->
 <template>
@@ -471,6 +471,8 @@ export default {
       this.exportsTable()
     },
     handleUser(val) {
+      if(this.disabled) return
+      this.disabled = true
       getPurchaseUserList({
         categoryId: this.selectTableData[0].categoryId,
         supplierId: this.selectTableData[0].supplierId,
@@ -480,6 +482,8 @@ export default {
       }).then((res) => {
         this.formGroup.userList = res.data
         this.form.linieId = ''
+      }).finally(()=>{
+        this.disabled = false
       })
     },
     cancel() {

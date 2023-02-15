@@ -270,8 +270,7 @@
             <iButton
               v-if="
                 RsObject &&
-                (formData.appStatus == '草稿' ||
-                  formData.appStatus == '未通过') &&
+                isEditNew &&
                 meetingNumber == 0
               "
               @click="handleClickSave($event)"
@@ -284,8 +283,7 @@
           v-model="formData.linieMeetingMemo"
           :disabled="
             !(
-              (formData.appStatus == '草稿' ||
-                formData.appStatus == '未通过') &&
+              isEditNew &&
               RsObject &&
               meetingNumber == 0
             )
@@ -920,7 +918,10 @@ export default {
     signExport
   },
   props: {
-    RsType: { type: Boolean }
+    RsType: { type: Boolean },
+    flowType:{type:String},
+    appStatus:{type:String},
+    meetingStatus:{type:String},
   },
   inject: ['pageTitle'],
   data() {
@@ -973,10 +974,19 @@ export default {
     this.getPageAppRule()
     this.getPagePartMasterData()
     this.getApprove()
+    this.$nextTick(() => {
+      console.log('dom渲染完成')
+      // 可以使用回调函数的写法
+      // 这个函数中DOM必定渲染完成
+      this.exportLoading=false
+    })
   },
   computed: {
     mtzObject() {
       return this.$store.state.location.mtzObject
+    },
+    isEditNew: function () {
+      return (this.appStatus == '草稿' || this.appStatus == '未通过')||(((this.flowType=='SIGN'||this.flowType=='FILING')||(['02','03',null,'01'].includes(this.meetingStatus)&&this.flowType=='MEETING'))&&this.appStatus=='已提交')
     },
     title() {
       let res = ''
@@ -1080,6 +1090,8 @@ export default {
     handleCurrentChangeTable(e) {
       this.clickRulesNumber = 1
       this.loadingPart = true
+      this.exportLoading=true
+
       var list = {
         mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
         pageNo: 1,
@@ -1091,6 +1103,7 @@ export default {
           this.partTableListData = res.data
           this.clickRulesNumber = 0
           this.loadingPart = false
+          this.exportLoading=false
         } else iMessage.error(res.desZh)
       })
     },
@@ -1098,6 +1111,8 @@ export default {
       if (!this.RsObject) return false
       if (this.clickRulesNumber == 0) {
         this.loadingPart = true
+        this.exportLoading = true
+
         var list = {
           mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
           pageNo: 1,
@@ -1107,6 +1122,8 @@ export default {
           if (res && res.code == 200) {
             this.partTableListData = res.data
             this.loadingPart = false
+            this.exportLoading=false
+
           } else iMessage.error(res.desZh)
         })
       }
@@ -1336,7 +1353,7 @@ export default {
       })
     },
     changeStatus(val){
-      this.exportLoading = val
+      // this.exportLoading = val
     },
     // 导出会外流转单
     handleToSignPreview() {
