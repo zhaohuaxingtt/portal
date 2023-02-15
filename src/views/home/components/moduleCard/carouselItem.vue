@@ -219,10 +219,6 @@ export default {
   }
   .el-card__body {
     height: 500px;
-    border-bottom: none;
-  }
-  .el-card__body {
-    height: 570px;
   }
   .card-dropdown {
     margin: 0 !important;
