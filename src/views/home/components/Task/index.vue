@@ -107,6 +107,10 @@ export default {
       const result = await getDutyStatistics(params)
 
       if (result) {
+        const taskQty = {
+          overdueQty: 0,
+          todoQty: 0
+        }
         result.forEach((task) => {
           task?.taskCenterDtoList?.forEach((e) => {
             this.valueNumbers[e.taskType] = e
@@ -114,18 +118,21 @@ export default {
               todayLink: e.todayLink,
               overdueLink: e.overdueLink
             }
+            taskQty.overdueQty += (e.overdueQty || 0)
+            taskQty.todoQty += (e.todayQty || 0)
           })
         })
+        this.$emit("taskQty", taskQty)
         this.initModuleData()
       }
     },
     initModuleData() {
       const data = JSON.parse(this.data.moduleData)
-      console.log('initModuleData watch data +++...', data)
-      if (data.length <= 5) {
+      // console.log('initModuleData watch data +++...', data, this.data.moduleData)
+      // if (data.length <= 5) {
         this.moduleData = data
-      }
-      this.moduleData = data.slice(0, 5)
+      // }
+      // this.moduleData = data.slice(0, 5)
     },
     getOverdueQty(taskType) {
       if (this.valueNumbers[taskType]) {
