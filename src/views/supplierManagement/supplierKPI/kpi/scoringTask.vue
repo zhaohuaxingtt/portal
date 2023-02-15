@@ -8,7 +8,7 @@
   <div class="page">
     <p class="title">
       {{ $t('LK_KESHI') }}：{{
-        $store.state.permission.userInfo.parentDeptList[0].deptNum
+        $store.state.permission.userInfo.deptDTO.deptNum
       }}
     </p>
     <div class="cardbox">
@@ -145,7 +145,7 @@ export default {
     init() {
       const req = {
         // deptCode:'CSS',
-        deptCode: this.$store.state.permission.userInfo.parentDeptList[0].deptNum,
+        deptCode: this.$store.state.permission.userInfo.deptDTO.deptNum
       }
       getSupplierPerforManceTaskList(req).then((res) => {
         this.infoList = res.data.filter(val => {
