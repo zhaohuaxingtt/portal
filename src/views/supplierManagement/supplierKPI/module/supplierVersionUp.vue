@@ -15,12 +15,12 @@
         <el-step title="评分调整"></el-step>
         <el-step title="完成"></el-step>
       </el-steps>
-      <supplierIndexManage :infoData="infoData" @submit0="submit0" @getallData="getallData" :isShow="false"
+      <supplierIndexManage @back="back" :infoData="infoData" @submit0="submit0" @getallData="getallData" :isShow="false"
         v-if="active == 0">
       </supplierIndexManage>
-      <supplierVersionTable :infoData="infoData" @submit12="submit12" :isShow="false" v-if="active == 1 || active == 2"
+      <supplierVersionTable @back="back" :infoData="infoData" @submit12="submit12" :isShow="false" v-if="active == 1 || active == 2"
         :active="active"></supplierVersionTable>
-      <Completed v-if="active == 3"> </Completed>
+      <Completed  @back="back" :infoData="infoData" v-if="active == 3"> </Completed>
     </iCard>
   </div>
 </template>
@@ -93,6 +93,9 @@ export default {
         console.log(this.DateDiffer(this.infoData.endDate))
 
       })
+    },
+    back(){
+      this.active=this.active-1
     },
     getallData(val) {
       console.log(val)
