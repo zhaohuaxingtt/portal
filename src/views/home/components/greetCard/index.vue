@@ -20,6 +20,7 @@
   </el-card>
 </template>
 <script>
+import { selectDictByKeys } from '@/api/dictionary'
 export default {
   computed: {
     // eslint-disable-next-line no-undef
@@ -31,13 +32,34 @@ export default {
       return this.getGreetingStr() + ',' + name + ',' + this.language('欢迎登录RiSE')
     },
     greetingsInfo() {
-      return '过去一年辛苦了！❤️辞旧迎新之际，记得给自己充电哦'
+      return this.$i18n.locale === "zh" ? this.greetingValues.zh : this.greetingValues.en
+    }
+  },
+  data() {
+    return {
+      greetingValues: {
+        zh: '',
+        en: ''
+      }
     }
   },
   created() {
-
+    this.queryGreetingDict()
   },
   methods: {
+    queryGreetingDict() {
+      selectDictByKeys("keys=HOME_GREETING").then((res) => {
+        if(res && res.data && res.data['HOME_GREETING'] && res.data['HOME_GREETING'].length > 0) {
+          debugger
+          if(res.data['HOME_GREETING'][0]) {
+            this.greetingValues.zh = res.data['HOME_GREETING'][0].describe
+          }
+          if(res.data['HOME_GREETING'][1]) {
+            this.greetingValues.en = res.data['HOME_GREETING'][1].describe
+          }
+        }
+      })
+    },
     getGreetingStr() {
       const dateObj = new Date()
       const hours = dateObj.getHours()
