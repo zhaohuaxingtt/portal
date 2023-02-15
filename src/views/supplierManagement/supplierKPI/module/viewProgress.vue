@@ -1,5 +1,6 @@
 <template>
-    <iDialog append-to-body :title="$t('查看进度')" :visible.sync="value" width="40%" @close="clearDiolog">
+    <iDialog   append-to-body :title="$t('查看进度')" :visible.sync="value" width="40%" @close="clearDiolog">
+        <div class="box">
 
         <el-timeline >
             <el-timeline-item v-for="(activity, index) in activities" :key="index" :icon="activity.icon"
@@ -15,6 +16,8 @@
                 </div>
             </el-timeline-item>
         </el-timeline>
+    </div>
+
     </iDialog>
 </template>
 
@@ -75,3 +78,13 @@ export default {
 
 }
 </script>
+<style lang="scss" scoped>
+.box{
+    padding-left: 100px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+    height: 600px;
+    overflow: auto;
+}
+</style>
