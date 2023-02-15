@@ -4,7 +4,7 @@
       <div class="cus-approval-detail-title">
         <div class="cus-approval-detail-title-info">
           <detailTitle :form="form" />
-          <taskNavigation />
+          <taskNavigation :queryType="queryType" :isFinished="finished"/>
         </div>
         <div style="padding-left: 40px">
           <el-row :gutter="20">
@@ -132,7 +132,7 @@ import {
 } from './components'
 import { excelExport } from '@/utils/filedowLoad'
 import iTableCustom from '@/components/iTableCustom'
-import { MAP_APPROVAL_TYPE, BPM_CATEGORY_RENAME_YIYI_LIST } from '@/constants'
+import { MAP_APPROVAL_TYPE, BPM_CATEGORY_RENAME_YIYI_LIST, QUERY_DRAWER_TYPES } from '@/constants'
 import { queryWorkflowDetail } from '@/api/approval/myApplication'
 import {
   completeApproval,
@@ -257,6 +257,13 @@ export default {
     }
   },
   computed: {
+    queryType() {
+      if(this.finished) {
+        return QUERY_DRAWER_TYPES.APPLY_FINISH
+      } else {
+        return QUERY_DRAWER_TYPES.APPLY_TODO
+      }
+    },
     finished() {
       // 状态3,4审批中
       return (

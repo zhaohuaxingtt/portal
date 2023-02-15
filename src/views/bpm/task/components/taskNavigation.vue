@@ -7,34 +7,57 @@
       <div class="task-nav-icon el-icon-arrow-down"></div>
     </div>
     <div @click="clickShowMoreTask" class="task-navigation-div-icon message">
-      <el-badge :value="todoTaskCount" :hidden="!todoTaskCount" :max="99">
+      <el-badge :value="totalTaskNum" :hidden="!totalTaskNum" :max="99">
         <icon symbol class="icon" name="iconxiaoxi" />
       </el-badge>
-      <taskNavigationDrawer :visible="showMoreTask" />
+      <taskNavigationDrawer @showMoreTaskNeedClose="handleShowMoreTaskNeedClose" @totalTaskNum="updateTotalTaskNum" ref="taskNavigationDrawer" :visible="showMoreTask" :isFinished="isFinished" :queryType="queryType" />
     </div>
   </div>
 </template>
 <script>
   import taskNavigationDrawer from './taskNavigationDrawer'
   import { icon } from 'rise'
+  import { QUERY_DRAWER_TYPES } from '@/constants'
   export default {
     name: "taskNavigation",
     components: { taskNavigationDrawer, icon },
+    props: {
+      queryType: {
+        type: Number,
+        default: QUERY_DRAWER_TYPES.APPLY_TODO
+      },
+      isFinished: {
+        type: Boolean,
+        default: false
+      }
+    },
     data() {
       return {
         showMoreTask: false,
-        todoTaskCount: 10,
+        totalTaskNum: 0,
       }
     },
     methods: {
       gotoPreTask() {
-
+        this.$nextTick(() => {
+          this.showMoreTask = false
+          this.$refs.taskNavigationDrawer.gotoPreTask(this.$route.params.instanceId)
+        })
       },
       gotoNextTask() {
-
+        this.$nextTick(() => {
+          this.showMoreTask = false
+          this.$refs.taskNavigationDrawer.gotoNextTask(this.$route.params.instanceId)
+        })
       },
       clickShowMoreTask() {
         this.showMoreTask = !this.showMoreTask
+      },
+      updateTotalTaskNum(totalTaskNum) {
+        this.totalTaskNum = totalTaskNum
+      },
+      handleShowMoreTaskNeedClose() {
+        this.showMoreTask = false
       }
     }
   }

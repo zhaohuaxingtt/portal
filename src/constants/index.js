@@ -429,3 +429,10 @@ export const EKL_BAOBIAO_PARAMS = {
     }
   }
 }
+
+export const QUERY_DRAWER_TYPES = {
+  APPLICATION_TODO: 1,
+  APPLICATION_FINISH: 2,
+  APPLY_TODO: 3,
+  APPLY_FINISH: 4,
+}

@@ -8,7 +8,7 @@
             <span class="business-id">{{ form.businessId }}</span>
             ({{ form.stateMsg }})
           </div>
-          <taskNavigation />
+          <taskNavigation :queryType="queryType" :isFinished="finished" />
         </div>
         <div class="cus-task-detail-operations-div" style="padding-left: 40px">
           <processNodeAnchors />
@@ -101,7 +101,7 @@ import {
 } from '../task/components'
 import { excelExport } from '@/utils/filedowLoad'
 import iTableCustom from '@/components/iTableCustom'
-import { MAP_APPROVAL_TYPE } from '@/constants'
+import { MAP_APPROVAL_TYPE, QUERY_DRAWER_TYPES } from '@/constants'
 import { queryWorkflowDetail } from '@/api/approval/myApplication'
 import { baseForm, lastNode, appentAttachment } from './component'
 import { reloadOpener } from '@/utils'
@@ -221,6 +221,13 @@ export default {
     }
   },
   computed: {
+    queryType() {
+      if(this.finished) {
+        return QUERY_DRAWER_TYPES.APPLICATION_FINISH
+      } else {
+        return QUERY_DRAWER_TYPES.APPLICATION_TODO
+      }
+    },
     finished() {
       return (
         this.$route.params &&
