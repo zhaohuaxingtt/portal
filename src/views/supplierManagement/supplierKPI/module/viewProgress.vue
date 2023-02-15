@@ -46,7 +46,7 @@ export default {
                 if(res.data){
                     res.data.forEach(val=>{
                         this.activities.push({
-                            content:`<div>${val.nameZh} &nbsp;&nbsp;&nbsp;&nbsp; <span style="color: #000000">${val.deptCode}</span></div>`,
+                            content:`<div>${val.createName} &nbsp;&nbsp;&nbsp;&nbsp; <span style="color: #000000">${val.deptCode}</span></div>`,
                             timestamp:val.updateDate,
                             color: val.executeStatus==1?'#0bbd87':"#666"
                         })
