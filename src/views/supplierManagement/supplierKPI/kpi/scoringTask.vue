@@ -38,10 +38,10 @@
           </div>
         </div>
         <div class="div4">
-          <el-button v-if="item.executeStatus == 0" @click="goDetail(item, 'see')" icon="el-icon-view" type="text">{{
+          <el-button v-if="item.executeStatus == 1" @click="goDetail(item, 'see')" icon="el-icon-view" type="text">{{
             $t('LK_CHAKAN')
           }}</el-button>
-          <el-button v-if="item.executeStatus == 1" @click="goDetail(item, 'edit')" icon="el-icon-edit-outline"
+          <el-button v-if="item.executeStatus == 0" @click="goDetail(item, 'edit')" icon="el-icon-edit-outline"
             type="text">{{ $t('LK_BIANJI') }}</el-button>
         </div>
       </div>
@@ -175,6 +175,7 @@ export default {
       let routeUrl = this.$router.resolve({
         path: '/supplier/spiIndex/supplierVersionUp',
         query: {
+          id:item.id,
           modelId: item.modelId,
           editionId: item.editionId,
           type

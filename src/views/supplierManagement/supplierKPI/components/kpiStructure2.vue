@@ -730,8 +730,8 @@ export default {
           position: absolute;
           border-top: 1px solid #2297f3;
           top: 34px;
-          right: -65px;
-          width: 60px;
+          right: -30px;
+          width: 30px;
           height: 1px;
         }
 
@@ -916,8 +916,8 @@ export default {
     position: absolute;
     border-top: 1px solid #2297f3;
     top: 34px;
-    left: -43px;
-    width: 43px;
+    left: -20px;
+    width: 20px;
     height: 1px;
   }
 
@@ -926,8 +926,8 @@ export default {
     position: absolute;
     border-top: 1px solid #2297f3;
     top: 30px;
-    right: -78px;
-    width: 78px;
+    right: -30px;
+    width: 30px;
     height: 1px;
   }
 }
@@ -1135,13 +1135,13 @@ export default {
       height: calc(100% - 160px);
     }
 
-    .lev4::after {
+    .lev4::before {
       content: '';
       position: absolute;
       border-top: 1px solid #2297f3;
       top: 31px;
-      left: 304px;
-      width: 78px;
+      left:312px;
+      width: 28px;
       height: 1px;
     }
 
@@ -1159,8 +1159,8 @@ export default {
       position: absolute;
       border-top: 1px solid #2297f3;
       top: 29px;
-      left: -54px;
-      width: 54px;
+      left: -26px;
+      width: 26px;
       height: 1px;
     }
 
@@ -1169,8 +1169,8 @@ export default {
       position: absolute;
       border-top: 1px solid #2297f3;
       top: 30px;
-      left: -54px;
-      width: 54px;
+      left: -24px;
+      width: 24px;
       height: 1px;
     }
 
@@ -1179,8 +1179,8 @@ export default {
       position: absolute;
       border-top: 1px solid #2297f3;
       top: 29px;
-      right: -78px;
-      width: 78px;
+      right: -36px;
+      width: 36px;
       height: 1px;
     }
   }

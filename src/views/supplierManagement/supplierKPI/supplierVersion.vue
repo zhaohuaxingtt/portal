@@ -46,7 +46,8 @@
           }}</span>
         </template>
         <template #caozuo="scope">
-          <iButton v-permission="SUPPLIER_WORKBENCH_SUPPLIERBERSION_DEL" type="text" @click="delRow(scope.row)">删除</iButton>
+          <iButton v-permission="SUPPLIER_WORKBENCH_SUPPLIERBERSION_DEL" type="text" @click="delRow(scope.row)">删除
+          </iButton>
         </template>
       </tableList>
       <iPagination v-update @size-change="handleSizeChange($event, getTableList)"
@@ -67,7 +68,8 @@
         </el-form-item>
 
         <el-form-item v-if="active == 0 || active == 3" :label="$t('数据日期：')">
-          <el-date-picker style="width: 200px" value-format="yyyy-MM-dd" v-model="form.dataTime" type="date" placeholder="选择日期">
+          <el-date-picker style="width: 200px" value-format="yyyy-MM-dd" v-model="form.dataTime" type="date"
+            placeholder="选择日期">
           </el-date-picker>
         </el-form-item>
         <el-form-item v-if="active == 0 || active == 3" :label="$t('绩效模型版本：')">
@@ -185,64 +187,64 @@ export default {
       importLoading: false,
       typeList: [],
       statusList: [
-    {
-        "id": "1004949",
-        "name": "进行中",
-        "nameEn": "1",
-        "nameDe": null,
-        "code": "1",
-        "describe": "进行中",
-        "remark": null,
-        "orderNum": "1",
-        "parentId": "1004947",
-        "type": null,
-        "level": "2",
-        "createBy": "1",
-        "createDate": "2023-02-07 14:06:06",
-        "updateBy": "1",
-        "state": 1,
-        "updateDate": "2023-02-15 10:01:33",
-        "subDictResultVo": null
-    },
-    {
-        "id": "1004948",
-        "name": "草稿",
-        "nameEn": "0",
-        "nameDe": null,
-        "code": "0",
-        "describe": "草稿",
-        "remark": null,
-        "orderNum": "1",
-        "parentId": "1004947",
-        "type": null,
-        "level": "2",
-        "createBy": "1",
-        "createDate": "2023-02-07 14:05:40",
-        "updateBy": null,
-        "state": 1,
-        "updateDate": null,
-        "subDictResultVo": null
-    },
-    {
-        "id": "1004950",
-        "name": "已结束",
-        "nameEn": "2",
-        "nameDe": null,
-        "code": "2",
-        "describe": "已结束",
-        "remark": null,
-        "orderNum": "1",
-        "parentId": "1004947",
-        "type": null,
-        "level": "2",
-        "createBy": "1",
-        "createDate": "2023-02-07 14:05:40",
-        "updateBy": null,
-        "state": 1,
-        "updateDate": null,
-        "subDictResultVo": null
-    }
-],
+        {
+          "id": "1004949",
+          "name": "进行中",
+          "nameEn": "1",
+          "nameDe": null,
+          "code": "1",
+          "describe": "进行中",
+          "remark": null,
+          "orderNum": "1",
+          "parentId": "1004947",
+          "type": null,
+          "level": "2",
+          "createBy": "1",
+          "createDate": "2023-02-07 14:06:06",
+          "updateBy": "1",
+          "state": 1,
+          "updateDate": "2023-02-15 10:01:33",
+          "subDictResultVo": null
+        },
+        {
+          "id": "1004948",
+          "name": "草稿",
+          "nameEn": "0",
+          "nameDe": null,
+          "code": "0",
+          "describe": "草稿",
+          "remark": null,
+          "orderNum": "1",
+          "parentId": "1004947",
+          "type": null,
+          "level": "2",
+          "createBy": "1",
+          "createDate": "2023-02-07 14:05:40",
+          "updateBy": null,
+          "state": 1,
+          "updateDate": null,
+          "subDictResultVo": null
+        },
+        {
+          "id": "1004950",
+          "name": "已结束",
+          "nameEn": "2",
+          "nameDe": null,
+          "code": "2",
+          "describe": "已结束",
+          "remark": null,
+          "orderNum": "1",
+          "parentId": "1004947",
+          "type": null,
+          "level": "2",
+          "createBy": "1",
+          "createDate": "2023-02-07 14:05:40",
+          "updateBy": null,
+          "state": 1,
+          "updateDate": null,
+          "subDictResultVo": null
+        }
+      ],
       supplierDiolog: false,
       pickerOptions: pickerOptions,
       dataTime: [],
@@ -305,14 +307,27 @@ export default {
       window.open(routeUrl.href, '_blank')
     },
     delRow(row) {
-      delEditionTask(row.id).then((res) => {
-        if (res.code == 200) {
-          this.getTableList()
-          this.$message.success('删除成功')
-        } else {
-          this.$message.error(res.desZh)
-        }
-      })
+      this.$confirm('是否确认删除', '删除', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+
+      }).then(() => {
+        delEditionTask(row.id).then((res) => {
+          if (res.code == 200) {
+            this.getTableList()
+            this.$message.success('删除成功')
+          } else {
+            this.$message.error(res.desZh)
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+
     },
     sure() {
       console.log(this.tableTitle)
