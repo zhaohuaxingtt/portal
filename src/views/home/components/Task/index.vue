@@ -1,7 +1,19 @@
 <template>
-  <!-- Top 5 Tasks -->
-  <div class="task-wrap">
-    <div class="task-container">
+  <div class="task-container">
+    <div v-for="item in moduleData" :key="item.taskType" class="task-card">
+      <div class="left task-type-name">
+        <div class="name single-ellipsis">{{ item.taskTypeName }}</div>
+<!--        <div class="abs single-ellipsis">{{ item.taskName }}</div>-->
+      </div>
+      <div class="right">
+        <div class="overdue" @click="handleToOverdue(item)">
+          <div :class="item.overdue ? 'exceed' : ''">
+            {{ getOverdueQty(item.taskType) | overNum }}
+            <span v-if="getOverdueQty(item.taskType) > 99">+</span>
+          </div>
+          <div class="numName flex-align-center">
+            <!-- <icon symbol class="icon" name="iconOverdue" /> -->
+            <div>{{ $t('HOME_CARD.OVERDUE_TEXT') }}</div>
       <!-- <div v-for="item in moduleData" :key="item.taskType" class="task-card">
         <div class="left">
           <div class="name single-ellipsis">{{ item.taskTypeName }}</div>
@@ -45,6 +57,10 @@
               <div>{{ $t('HOME_CARD.OVERDUE') }}</div>
             </div>
           </div>
+          <div class="numName flex-align-center">
+            <!-- <icon symbol class="icon" name="icona-InProgress" /> -->
+            <div>{{ $t('HOME_CARD.IN_PROGRESS_TEXT') }}</div>
+          </div>
           <div class="line">/</div>
           <div class="progress" @click="handleToProgress(item)">
             <div>
@@ -56,6 +72,9 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
       </div>
     </div>
   </div>
@@ -188,6 +207,10 @@ export default {
       const result = await getDutyStatistics(params)
 
       if (result) {
+        const taskQty = {
+          overdueQty: 0,
+          todoQty: 0
+        }
         result.forEach((task) => {
           task?.taskCenterDtoList?.forEach((e) => {
             this.valueNumbers[e.taskType] = e
@@ -195,17 +218,21 @@ export default {
               todayLink: e.todayLink,
               overdueLink: e.overdueLink
             }
+            taskQty.overdueQty += (e.overdueQty || 0)
+            taskQty.todoQty += (e.todayQty || 0)
           })
         })
+        this.$emit("taskQty", taskQty)
         this.initModuleData()
       }
     },
     initModuleData() {
       const data = JSON.parse(this.data.moduleData)
-      if (data.length <= 5) {
+      // console.log('initModuleData watch data +++...', data, this.data.moduleData)
+      // if (data.length <= 5) {
         this.moduleData = data
-      }
-      this.moduleData = data.slice(0, 5)
+      // }
+      // this.moduleData = data.slice(0, 5)
     },
     getOverdueQty(taskType) {
       // if (this.valueNumbers[taskType]) {
@@ -252,87 +279,135 @@ export default {
   white-space: normal;
   overflow: auto;
 }
-.task-card {
-  border-radius: 10px;
-  height: 97px;
-  box-sizing: border-box;
-  background: #f8f9fa;
-  padding: 17px 20px;
-  margin-bottom: 12px;
+.task-container {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  > .left {
-    text-align: center;
-    color: #333;
-    opacity: 0.65;
-    > .name {
-      font-size: 16px;
-      font-weight: bold;
-      margin-bottom: 5px;
-      text-align: left;
-    }
-    > .abs {
-      font-size: 12px;
-      text-align: left;
-    }
-  }
-  > .right {
+  flex-wrap: wrap;
+
+  .task-card {
+    border-radius: 10px;
+    height: 97px;
+    box-sizing: border-box;
+    background: #f8f9fa;
+    padding: 17px 20px;
+    margin-bottom: 12px;
     display: flex;
-    cursor: pointer;
-    .line {
-      font-size: 24px;
-    }
-    // .numName {
-    //   position: relative;
-    //   > img {
-    //     width: 15px;
-    //     margin-right: 5px;
-    //   }
-    //   > .icon {
-    //     font-size: 16px;
-    //     margin-right: 5px;
-    //   }
-    //   .numName-text {
-    //     line-height: 12px;
-    //     opacity: 0.86;
-    //   }
-    // }
-    // .overdue {
-    //   .numName {
-    //     margin-right: 10px;
-    //   }
-    // }
-    // .progress {
-    //   .numName {
-    //     margin-right: 10px;
-    //   }
-    // }
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    width: calc(50% - 5px);
 
-    .overdue,
-    .progress {
-      > div {
+    > .left {
+      text-align: center;
+      color: #333;
+      opacity: 0.65;
+
+      > .name {
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 5px;
         text-align: center;
-        color: #28303e;
-        position: relative;
-        > span {
-          font-size: 12px;
-          position: absolute;
-        }
-        &:first-child {
-          font-size: 20px;
-          font-weight: bold;
-          min-height: 30px;
-          &.exceed {
-            color: #e33232;
+        width: 100%;
+      }
 
-            // font-size: 24px;
-          }
+      > .abs {
+        font-size: 12px;
+        text-align: left;
+      }
+    }
+
+    > .left {
+      text-align: center;
+      color: #333;
+      opacity: 0.65;
+
+      > .name {
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 5px;
+        text-align: center;
+        width: 100%;
+      }
+
+      > .abs {
+        font-size: 12px;
+        text-align: left;
+      }
+      &.task-type-name {
+        width: 100%;
+        text-align: center;
+        .name {
+          text-align: center;
         }
-        // &:last-child {
-        //   min-height: 30px;
-        //   line-height: 30px;
-        // }
+      }
+    }
+
+    > .right {
+      display: flex;
+      cursor: pointer;
+      width: 100%;
+      text-align: center;
+      justify-content: center;
+      .line {
+        font-size: 24px;
+      }
+
+      // .numName {
+      //   position: relative;
+      //   > img {
+      //     width: 15px;
+      //     margin-right: 5px;
+      //   }
+      //   > .icon {
+      //     font-size: 16px;
+      //     margin-right: 5px;
+      //   }
+      //   .numName-text {
+      //     line-height: 12px;
+      //     opacity: 0.86;
+      //   }
+      // }
+      // .overdue {
+      //   .numName {
+      //     margin-right: 10px;
+      //   }
+      // }
+      // .progress {
+      //   .numName {
+      //     margin-right: 10px;
+      //   }
+      // }
+
+      .overdue,
+      .progress {
+        > div {
+          text-align: center;
+          width: 100%;
+          color: #28303e;
+          position: relative;
+
+          > span {
+            font-size: 12px;
+            position: absolute;
+          }
+
+          &:first-child {
+            font-size: 20px;
+            font-weight: bold;
+            min-height: 30px;
+
+            &.exceed {
+              color: #e33232;
+
+              // font-size: 24px;
+            }
+          }
+
+          // &:last-child {
+          //   min-height: 30px;
+          //   line-height: 30px;
+          // }
+        }
       }
     }
   }

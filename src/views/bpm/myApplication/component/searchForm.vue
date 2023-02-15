@@ -1,92 +1,124 @@
 <template>
-  <iSearch
-    class="margin-bottom20"
-    style="margin-top: 20px"
-    @sure="sure"
-    @reset="reset"
-    :search-key="PARTSPROCURE_CONFIRM"
-  >
-    <el-form>
-      <el-row :gutter="20">
-        <el-col :span="6">
-          <iFormItem :label="language('单据编号')">
-            <iInput
-              :placeholder="language('请输入')"
-              v-model="form.businessId"
-            />
-          </iFormItem>
-        </el-col>
-        <el-col :span="6">
-          <iFormItem :label="language('业务模块')">
-            <iSelect
-              :placeholder="language('请选择')"
-              multiple
-              collapse-tags
-              v-model="form.itemType"
+  <div>
+    <template v-if="isSourceFindingPoint">
+      <el-row :gutter="2">
+        <el-col :span="5" style="height: 40px;line-height: 40px;">
+          <iSelect
+            :placeholder="language('请选择')"
+            v-model="form.modelTemplate"
+            :multiple="false"
+            collapse-tags
+            filterable
+            @change="onItemTypeListChange"
+          >
+            <el-option
+              v-for="(item, index) in dOptions"
+              :key="index"
+              :value="item.value"
+              :label="item.label"
             >
-              <el-option
-                v-for="(item, index) in dOptions"
-                :key="index"
-                :value="item.value"
-                :label="item.label"
-              >
-              </el-option>
-            </iSelect>
-          </iFormItem>
+            </el-option>
+          </iSelect>
         </el-col>
-        <el-col :span="12">
-          <iFormItem :label="language('任务名称')" style="width: 80%">
-            <iSelect
-              :placeholder="language('请选择')"
-              v-model="form.categoryList"
-              :multiple="multipleCategoryList"
-              collapse-tags
-            >
-              <el-option
-                v-for="(item, index) in templates"
-                :key="index"
-                :value="item.name"
-                :label="item.value"
-              >
-              </el-option>
-            </iSelect>
-          </iFormItem>
-        </el-col>
-
-        <el-col :span="12">
-          <iFormItem :label="language('任务起止日期')" class="form-item-date">
-            <iDatePicker
-              v-model="date"
-              type="daterange"
-              :range-separator="language('至')"
-              :start-placeholder="language('开始日期')"
-              :end-placeholder="language('结束日期')"
-              style="width: 100%"
-            >
-            </iDatePicker>
-          </iFormItem>
-        </el-col>
-        <el-col :span="6">
-          <iFormItem :label="language('审批进度')">
-            <iSelect
-              :placeholder="language('请选择')"
-              v-model="form.procProgress"
-              multiple
-              collapse-tags
-              @change="handleProcProgressChange"
-            >
-              <el-option
-                v-for="(item, index) in approvalStatus"
-                :key="index"
-                :value="item.value"
-                :label="item.label"
-              />
-            </iSelect>
-          </iFormItem>
+        <el-col :span="19">
+          <taskPanelCategory
+            :typeName="curTypeName"
+            @toggle-active="toggleActive"
+            :active-index="curActiveIndex"
+          />
         </el-col>
       </el-row>
-    </el-form>
-  </iSearch>
+    </template>
+    <iSearch
+      class="margin-bottom20"
+      style="margin-top: 20px"
+      @sure="sure"
+      @reset="reset"
+      :search-key="PARTSPROCURE_CONFIRM"
+    >
+      <el-form>
+        <el-row :gutter="20">
+          <el-col :span="6">
+            <iFormItem :label="language('单据编号')">
+              <iInput
+                :placeholder="language('请输入')"
+                v-model="form.businessId"
+              />
+            </iFormItem>
+          </el-col>
+          <template v-if="!isSourceFindingPoint">
+            <el-col :span="6">
+              <iFormItem :label="language('业务模块')">
+                <iSelect
+                  :placeholder="language('请选择')"
+                  multiple
+                  collapse-tags
+                  v-model="form.itemType"
+                >
+                  <el-option
+                    v-for="(item, index) in dOptions"
+                    :key="index"
+                    :value="item.value"
+                    :label="item.label"
+                  >
+                  </el-option>
+                </iSelect>
+              </iFormItem>
+            </el-col>
+            <el-col :span="!isSourceFindingPoint ? 12 : 9">
+              <iFormItem :label="language('任务名称')" style="width: 90%">
+                <iSelect
+                  :placeholder="language('请选择')"
+                  v-model="form.categoryList"
+                  :multiple="multipleCategoryList"
+                  collapse-tags
+                >
+                  <el-option
+                    v-for="(item, index) in templates"
+                    :key="index"
+                    :value="item.name"
+                    :label="item.value"
+                  >
+                  </el-option>
+                </iSelect>
+              </iFormItem>
+            </el-col>
+          </template>
+          <el-col :span="12">
+            <iFormItem :label="language('任务起止日期')" class="form-item-date">
+              <iDatePicker
+                v-model="date"
+                type="daterange"
+                :range-separator="language('至')"
+                :start-placeholder="language('开始日期')"
+                :end-placeholder="language('结束日期')"
+                style="width: 100%"
+              >
+              </iDatePicker>
+            </iFormItem>
+          </el-col>
+          <el-col :span="6">
+            <iFormItem :label="language('审批进度')">
+              <iSelect
+                :placeholder="language('请选择')"
+                v-model="form.procProgress"
+                multiple
+                collapse-tags
+                @change="handleProcProgressChange"
+              >
+                <el-option
+                  v-for="(item, index) in approvalStatus"
+                  :key="index"
+                  :value="item.value"
+                  :label="item.label"
+                />
+              </iSelect>
+            </iFormItem>
+          </el-col>
+        </el-row>
+      </el-form>
+    </iSearch>
+  </div>
 </template>
 
 <script>
@@ -103,10 +135,15 @@ import {
   BPM_APPROVAL_TYPE_OPTIONS,
   BPM_APPLY_SINGLE_CATEGORY_LIST
 } from '@/constants'
+import taskPanelCategory from '@/views/bpm/task/components/taskPanelCategory'
 export default {
   name: 'searchForm',
   props: {
-    finished: {
+    isFinished: {
+      type: Boolean,
+      default: false
+    },
+    isSourceFindingPoint: {
       type: Boolean,
       default: false
     }
@@ -116,7 +153,8 @@ export default {
     iInput,
     iSelect,
     iFormItem,
-    iDatePicker
+    iDatePicker,
+    taskPanelCategory
   },
   data() {
     return {
@@ -125,6 +163,8 @@ export default {
       templates: [],
       date: '',
       dOptions: BPM_APPROVAL_TYPE_OPTIONS,
+      curTypeName: null,
+      curActiveIndex: -1,
       multipleCategoryList: true // 任务名称是否可多选
     }
   },
@@ -158,6 +198,32 @@ export default {
     }
   },
   methods: {
+    onItemTypeListChange(newValue) {
+      this.updateCurTypeName(newValue)
+      this.search()
+    },
+    updateCurTypeName(newValue) {
+      const newItem = this.dOptions.find(item => {
+        return newValue == item.value
+      })
+      console.log("newItem, newValue", newItem, newValue)
+      if(newItem) {
+        this.curTypeName = newItem.typeName
+        this.curActiveIndex = -1
+      } else {
+        this.curTypeName = null
+        this.curActiveIndex = -1
+      }
+    },
+    toggleActive(index, item) {
+      this.activeIndex = index
+      if(index !== -1 && item && item.categoryList?.length > 0) {
+        this.form.categoryList = item.categoryList
+      } else {
+        this.form.categoryList = ''
+      }
+      this.search()
+    },
     async queryModelTemplate() {
       const data = {
         pageNo: 1,
@@ -176,12 +242,19 @@ export default {
         searchData.startTime = this.date[0]
         searchData.endTime = this.date[1]
       }
-      this.$emit('search', searchData, this.templates)
+      // this.$emit('search', searchData, this.templates)
+      this.search()
     },
     reset() {
+      this.updateCurTypeName(null)
       this.date = ''
       this.form = { ...searchForm }
-      this.$emit('search', this.form, this.templates)
+      // this.$emit('search', this.form, this.templates)
+      this.search()
+    },
+    search() {
+      this.$emit('search', { ...this.form, itemTypeList: this.form.itemTypeList ? [this.form.itemTypeList] : []}, this.templates)
+      // this.$emit('search', this.form, this.templates)
     },
     handleProcProgressChange(val) {
       if (val.length > 0) {

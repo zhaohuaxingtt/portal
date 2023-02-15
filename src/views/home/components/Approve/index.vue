@@ -1,12 +1,12 @@
 <template>
   <div class="task-container">
     <div v-for="item in moduleData" :key="item.id" class="task-card">
-      <div class="left">
-        <div class="name single-ellipsis">{{ item.value }}</div>
-        <div class="abs single-ellipsis">{{ getAbs(item.typeName) }}</div>
+      <div class="top">
+        <div class="name single-no-ellipsis">{{ item.value }}</div>
+<!--        <div class="abs single-ellipsis">{{ getAbs(item.typeName) }}</div>-->
       </div>
-      <div class="right">
-        <div class="overdue" @click="handleToApply(item)">
+      <div class="bottom">
+        <div v-if="!showPendingApproval" class="overdue" @click="handleToApply(item)">
           <div :class="item.overdue">
             {{ getLaunchNum(item.subType) | overNum }}
             <span v-if="getLaunchNum(item.subType) > 99">+</span>
@@ -15,8 +15,8 @@
             <div>{{ $t('HOME_CARD.MY_APPLICATION') }}</div>
           </div>
         </div>
-        <div class="line">/</div>
-        <div class="approval" @click="handleToApproval(item)">
+        <div v-if="showPendingApproval" class="line">/</div>
+        <div v-if="showPendingApproval" class="approval" @click="handleToApproval(item)">
           <div>
             {{ getTodoNum(item.subType) | overNum }}
             <span v-if="getTodoNum(item.subType) > 99">+</span>
@@ -43,6 +43,12 @@ export default {
       type: Array,
       default: () => {
         return []
+      }
+    },
+    showPendingApproval: {  // true---显示待审批，false---显示我的申请
+      type: Boolean,
+      default: () => {
+        return true
       }
     }
   },
@@ -136,6 +142,13 @@ export default {
     },
     initModuleData() {
       const data = JSON.parse(this.data.moduleData)
+      if(data && data.length > 0) {
+        let approvalToDoNum = 0
+        data.forEach(item => {
+          approvalToDoNum += item.todoNum
+        })
+        this.$emit("approvalToDoNum", approvalToDoNum)
+      }
       console.log('data=>',data);
       if (data.length <= 5) {
         this.moduleData = data
@@ -253,6 +266,10 @@ export default {
     line-height: 12px;
     opacity: 0.86;
   }
+  color: rgb(129, 129, 129);
+  > div {
+    color: rgb(129, 129, 129);
+  }
 }
 .single-ellipsis {
   word-wrap: break-word;
@@ -265,64 +282,94 @@ export default {
   white-space: normal;
   overflow: auto;
 }
-.task-card {
-  width: 99.3%;
-  height: 97px;
-  box-sizing: border-box;
-  border-radius: 10px;
-  background: #f8f9fa;
-  padding: 17px 20px;
-  margin-bottom: 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  > .left {
-    text-align: center;
-    color: #333;
-    opacity: 0.65;
-    > .name {
-      font-size: 16px;
-      font-weight: bold;
-      margin-bottom: 5px;
-      text-align: left;
-    }
-    > .abs {
-      font-size: 12px;
-      text-align: left;
-      // color: #222;
-    }
-  }
-  > .right {
-    cursor: pointer;
+.single-no-ellipsis {
+  white-space: normal;
+  overflow: auto;
+}
+.task-container {
+  .task-card {
+    width: 99.3%;
+    height: 97px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    background: #f8f9fa;
+    padding: 17px 20px;
+    margin-bottom: 12px;
     display: flex;
-    .line {
-      font-size: 24px;
-    }
-    .overdue,
-    .approval {
-      > div {
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    .task-card {
+      height: 97px;
+      box-sizing: border-box;
+      border-radius: 10px;
+      background: #f8f9fa;
+      padding: 17px 20px;
+      margin-bottom: 12px;
+      width: calc(50% - 5px);
+      //display: flex;
+      //align-items: center;
+      > .top {
         text-align: center;
-        color: #28303e;
-        position: relative;
-        > span {
-          font-size: 12px;
-          position: absolute;
-        }
-        &:first-child {
-          font-size: 20px;
+        color: #333;
+        opacity: 0.65;
+
+        > .name {
+          font-size: 16px;
           font-weight: bold;
-          min-height: 30px;
-          &.exceed {
-            color: #e33232;
-            // font-size: 24px;
-          }
+          margin-bottom: 5px;
+          text-align: center;
+          color: rgb(0, 0, 0);
+        }
+
+        > .abs {
+          font-size: 12px;
+          text-align: left;
+          // color: #222;
         }
       }
-    }
-    .approval {
-      > div {
-        &:first-child {
-          color: #ffb500;
+
+      > .bottom {
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+
+        .line {
+          font-size: 24px;
+        }
+
+        .overdue,
+        .approval {
+          > div {
+            text-align: center;
+            color: #28303e;
+            position: relative;
+
+            > span {
+              font-size: 12px;
+              position: absolute;
+            }
+
+            &:first-child {
+              font-size: 20px;
+              font-weight: bold;
+              min-height: 30px;
+
+              &.exceed {
+                color: #e33232;
+                // font-size: 24px;
+              }
+            }
+          }
+        }
+
+        .approval {
+          > div {
+            &:first-child {
+              //color: #ffb500;
+              color: rgb(0, 0, 0);
+            }
+          }
         }
       }
     }

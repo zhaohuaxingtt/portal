@@ -8,24 +8,55 @@
       numVisible
     />
 
-    <div v-for="(item, index) in activeData" :key="index">
-      <div class="category-name">
-        {{ item.typeValue }}
-      </div>
+<!--    <div v-for="(item, index) in activeData" :key="index">-->
+<!--      <div class="category-name">-->
+<!--        {{ item.typeValue }}-->
+<!--      </div>-->
+<!--      <div class="category-content">-->
+<!--        <overview-panel-->
+<!--          v-for="(subItem, i) in item.wfCategoryList"-->
+<!--          :key="i"-->
+<!--          :data="subItem"-->
+<!--          :category-name="item.typeValue"-->
+<!--          @open="openListPage"-->
+<!--        />-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <div-->
+<!--      style="text-align: center"-->
+<!--      class="margin-top30"-->
+<!--      v-show="activeData.length === 0"-->
+<!--    >-->
+<!--      {{ language('无进行中的审批项') }}-->
+<!--    </div>-->
+    <template v-if='this.activeIndex === -1'>
       <div class="category-content">
         <overview-panel
-          v-for="(subItem, i) in item.wfCategoryList"
-          :key="i"
-          :data="subItem"
+          v-for="(item, index) in activeDataList"
+          :key="index"
+          :data="item"
           :category-name="item.typeValue"
           @open="openListPage"
         />
       </div>
-    </div>
+    </template>
+    <template v-else>
+      <div v-for="(item, index) in activeDataList" :key="index">
+        <div class="category-content">
+          <overview-panel
+            v-for="(subItem, i) in item.wfCategoryList"
+            :key="i"
+            :data="subItem"
+            :category-name="item.typeValue"
+            @open="openListPage"
+          />
+        </div>
+      </div>
+    </template>
     <div
       style="text-align: center"
       class="margin-top30"
-      v-show="activeData.length === 0"
+      v-show="activeDataList.length === 0"
     >
       {{ language('无进行中的审批项') }}
     </div>
@@ -47,6 +78,37 @@ export default {
     }
   },
   computed: {
+    activeDataList() {
+      if (this.activeIndex === -1) {
+        const data = _.cloneDeep(this.data)
+        const hasValueData = data.filter((e) => {
+          const wfList = e?.wfCategoryList?.filter((wf) => {
+            return wf.todoNum
+          })
+          if (wfList.length) {
+            wfList.forEach(item => {
+              item['typeValue'] = e.typeValue
+            })
+            e.wfCategoryList = wfList
+            return true
+          }
+          return false
+        })
+        const activeDataList = []
+        if(hasValueData && hasValueData.length > 0) {
+          hasValueData.forEach(item => {
+            if(item.wfCategoryList && item.wfCategoryList.length > 0) {
+              activeDataList.push(...item.wfCategoryList)
+            }
+          })
+        }
+        // console.log('activeDataList...', activeDataList)
+        return activeDataList
+      } else {
+        // console.log('activeDataList...', this.data[this.activeIndex])
+        return [this.data[this.activeIndex]]
+      }
+    },
     activeData() {
       if (this.activeIndex === -1) {
         const data = _.cloneDeep(this.data)

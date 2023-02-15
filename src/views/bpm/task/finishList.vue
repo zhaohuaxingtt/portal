@@ -2,20 +2,27 @@
   <iPage class="template">
     <pageHeader>
       <span>{{ language('已审批列表') }}</span>
-      <div slot="actions">
-        <actionHeader
-          :todo-total="todoTotal"
-          :task-type="1"
-          :search-form="form"
-        />
-      </div>
+<!--      <div slot="actions">-->
+<!--        <actionHeader-->
+<!--          :todo-total="todoTotal"-->
+<!--          :task-type="1"-->
+<!--          :search-form="form"-->
+<!--        />-->
+<!--      </div>-->
     </pageHeader>
-    <searchForm is-finished @search="search" />
+    <searchForm is-finished :isSourceFindingPoint="true" @search="search" />
     <iCard>
       <div class="operation-btn">
         <iButton @click="exportTemplate">
           {{ language('LK_DAOCHU') }}
         </iButton>
+      </div>
+      <div class="cus-action-header">
+        <actionHeader
+          :todo-total="todoTotal"
+          :task-type="1"
+          :search-form="form"
+        />
       </div>
       <i-table-custom
         :loading="loading"
@@ -282,5 +289,14 @@ export default {
   display: flex;
   margin-bottom: 22px;
   text-align: right;
+}
+.cus-action-header {
+  display: inline;
+  ::v-deep .types {
+    display: inline-flex;
+  }
+  ::v-deep .tab:first-child {
+    margin-left: 0 !important;
+  }
 }
 </style>
