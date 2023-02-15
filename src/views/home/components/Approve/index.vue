@@ -15,7 +15,7 @@
             <div>{{ $t('HOME_CARD.MY_APPLICATION') }}</div>
           </div>
         </div>
-        <div v-if="showPendingApproval" class="line">/</div>
+<!--        <div v-if="showPendingApproval" class="line">/</div>-->
         <div v-if="showPendingApproval" class="approval" @click="handleToApproval(item)">
           <div>
             {{ getTodoNum(item.subType) | overNum }}
@@ -175,7 +175,7 @@ export default {
       if(Number(subType)>99){
         return "99+"
       }else{
-        return subType
+        return this.valueNumbers[subType].launchNum || 0
       }
     },
     getTodoNum(subType) {
@@ -186,7 +186,7 @@ export default {
       if(Number(subType)>99){
         return "99+"
       }else{
-        return subType
+        return this.valueNumbers[subType].launchNum || 0
       }
     },
     getAbs(typeName) {
@@ -287,26 +287,21 @@ export default {
   overflow: auto;
 }
 .task-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
   .task-card {
-    width: 99.3%;
-    height: 97px;
+    width: calc(50% - 5px);
+    height: 120px;
     box-sizing: border-box;
     border-radius: 10px;
     background: #f8f9fa;
     padding: 17px 20px;
     margin-bottom: 12px;
     display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-
-    .task-card {
-      height: 97px;
-      box-sizing: border-box;
-      border-radius: 10px;
-      background: #f8f9fa;
-      padding: 17px 20px;
-      margin-bottom: 12px;
-      width: calc(50% - 5px);
+    justify-content: center;
+    flex-direction: column;
+    //flex-wrap: wrap;
       //display: flex;
       //align-items: center;
       > .top {
@@ -372,7 +367,6 @@ export default {
           }
         }
       }
-    }
   }
 }
 </style>

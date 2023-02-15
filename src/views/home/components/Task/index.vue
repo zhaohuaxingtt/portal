@@ -286,14 +286,16 @@ export default {
 
   .task-card {
     border-radius: 10px;
-    height: 97px;
+    height: 120px;
     box-sizing: border-box;
     background: #f8f9fa;
     padding: 17px 20px;
     margin-bottom: 12px;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    //justify-content: space-between;
+    //align-items: center;
     flex-wrap: wrap;
     width: calc(50% - 5px);
 
