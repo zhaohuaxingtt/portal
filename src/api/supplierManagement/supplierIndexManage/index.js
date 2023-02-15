@@ -203,3 +203,10 @@ export function getSupplierPerforManceProcess(parmars) {
 
   })
 }
+//  R2科室
+export function getIndicatorR2Dept(parmars) {
+  return requst({
+    url: '/indicatorLibrary/getIndicatorR2Dept',
+    method: 'GET',
+  })
+}

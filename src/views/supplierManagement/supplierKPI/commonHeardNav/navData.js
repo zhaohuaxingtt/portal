@@ -90,7 +90,7 @@ export const categoryManagementAssistantList = [
     url: '/supplier/spiIndex/supplierIndexManage',
     activePath: '/supplier/spiIndex/supplierIndexManage',
     key: 'ZHIBIAOGUANLI',
-    permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_BANNIANBAOHUIGU'
+    permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_SUPPLIERINDEXMANAGE'
   },
   {
     value: 6,
@@ -98,7 +98,7 @@ export const categoryManagementAssistantList = [
     url: '/supplier/spiIndex/supplierVersion',
     activePath: '/supplier/spiIndex/supplierVersion',
     key: '绩效版本管理',
-    permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_BANNIANBAOHUIGU'
+    permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_SUPPLIERBERSION'
   },
   {
     value: 6,
@@ -106,7 +106,7 @@ export const categoryManagementAssistantList = [
     url: '/supplier/spiIndex/kpi',
     activePath: '/supplier/spiIndex/kpi',
     key: 'KPI',
-    permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_BANNIANBAOHUIGU'
+    permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_KPI'
   }
 ]
 

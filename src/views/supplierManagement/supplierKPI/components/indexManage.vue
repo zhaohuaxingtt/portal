@@ -95,8 +95,8 @@
             <el-option
               v-for="(item, index) in deptList"
               :key="index"
-              :value="item.name"
-              :label="item.name"
+              :value="item.deptNum"
+              :label="item.deptNum"
             >
             </el-option>
           </iSelect>
@@ -118,7 +118,8 @@ import {
   delIndicator,
   updateIndicator,
   getIndicator,
-  getIndicatorList
+  getIndicatorList,
+  getIndicatorR2Dept
 } from '@/api/supplierManagement/supplierIndexManage/index'
 
 export default {
@@ -173,8 +174,8 @@ export default {
       })
     },
     async init() {
-      const res = await dictByCode('RELEVANT_DEPT')
-      this.deptList = res
+      const res = await getIndicatorR2Dept()
+      this.deptList = res.data
     },
     del(item) {
       delIndicator({ ids: [item.id] }).then((res) => {
@@ -205,7 +206,7 @@ export default {
         if (valid) {
           this.form.deptCode.forEach((j) => {
             this.deptList.forEach((g) => {
-              if (j == g.name) {
+              if (j == g.deptNum) {
                 this.form.deptId.push(g.id)
               }
             })
