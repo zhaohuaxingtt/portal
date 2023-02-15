@@ -7,8 +7,8 @@
             <span>{{ infoData.modelVersion }}</span>
           </el-form-item>
         </el-form>
-        <div v-if="$route.query.type == 'edit'">
-          <iButton v-if="!isEdit" @click="edit">编辑</iButton>
+        <div >
+          <iButton v-if="!isEdit&& $route.query.type == 'edit'" @click="edit ">编辑</iButton>
           <iButton v-if="isEdit" @click="canel">取消</iButton>
           <iButton v-if="isEdit" @click="save">保存</iButton>
           <!-- <iButton v-if="!isEdit" @click="back">上一步</iButton> -->

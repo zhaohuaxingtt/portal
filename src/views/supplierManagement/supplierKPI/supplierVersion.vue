@@ -9,7 +9,7 @@
     <iSearch @sure="sure" @reset="handleSearchReset">
       <el-form>
         <el-form-item :label="$t('ROLE.TYPE')">
-          <iSelect clearable :placeholder="$t('partsprocure.PLEENTER')" v-model="formData.businessType">
+          <iSelect clearable :placeholder="$t('partsprocure.PLEENTER')" v-model="formData.editionType">
             <el-option v-for="(j, index) in typeList" :key="index" :value="j.code" :label="j.name">
             </el-option>
           </iSelect>

@@ -16,25 +16,27 @@
         <iButton @click="viewProgressIs = true">查看进度 </iButton>
       </div>
     </div>
-    <div class="title2" v-if="!isShow&&$route.query.type=='edit'">
-      <iButton @click="dowload">{{ active == 1 ? '下载手工指标' : '导出Excel' }}
+    <div class="title2" v-if="!isShow">
+      <iButton v-if="$route.query.type=='edit'" @click="dowload">{{ active == 1 ? '下载手工指标' : '导出Excel' }}
       </iButton>
       <el-upload style="margin-left: 10px" action="1" :accept="'.xlsx,.xls'" :before-upload="beforeAvatarUpload"
         :show-file-list="false" :http-request="httpUpload" :disabled="importLoading">
         <div>
-          <iButton v-if="active == 1">{{ '上传手工指标' }}
+          <iButton v-if="active == 1&&$route.query.type=='edit'">{{ '上传手工指标' }}
           </iButton>
         </div>
       </el-upload>
       <el-upload style="margin-left: 10px" action="1" :accept="'.xlsx,.xls'" :before-upload="beforeAvatarUpload"
         :show-file-list="false" :http-request="httpUpload" :disabled="importLoading">
         <div>
-          <iButton v-if="active == 2">{{ '上传主观打分' }}
+          <iButton v-if="active == 2&&$route.query.type=='edit'">{{ '上传主观打分' }}
           </iButton>
         </div>
       </el-upload>
       <iButton style="margin-left: 10px" @click="back">上一步</iButton>
-      <iButton @click="submit(active)">下一步 </iButton>
+      <iButton v-if="active==1" @click="submit(active)">下一步 </iButton>
+      <iButton v-if="$route.query.type=='edit'&&active==2" @click="submit(active)">下一步 </iButton>
+
       <!-- <iButton @click="back()">上一步 </iButton> -->
 
     </div>

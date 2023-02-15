@@ -33,7 +33,7 @@
         </div>
       </div>
     </iCard>
-    <indexManage v-permission="SUPPLIER_WORKBENCH_JIXIAO_SUPPLIERINDEXMANAGE_ZHIBIAOKU" v-if="isShow" />
+    <indexManage @updata="updata" v-permission="SUPPLIER_WORKBENCH_JIXIAO_SUPPLIERINDEXMANAGE_ZHIBIAOKU" v-if="isShow" />
     <kpiStructure @back="back" :infoData="infoData" @submit0="submit0" ref="model" :isEdit="isEdit" style="margin-top: 20px"
       :treeData="allData" :temId="selectValue" :templateName="templateName" @click="changeSaveData" @init="init"
       :isShow="isShow"></kpiStructure>
@@ -98,6 +98,9 @@ export default {
   },
   watch: {},
   methods: {
+    updata(){
+      this.$refs.model.getInfo()
+    },
     init(val) {
       this.isEdit = false
       modelList(false).then((res) => {

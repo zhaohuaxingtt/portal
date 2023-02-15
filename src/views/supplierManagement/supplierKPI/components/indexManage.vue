@@ -193,6 +193,8 @@ export default {
               if (res.code == '200') {
                 this.getInfo()
                 this.canel()
+                this.$emit('updata')
+
                 iMessage.success(res.desZh || '更新成功')
               } else iMessage.error(res.desZh)
             })
@@ -200,6 +202,7 @@ export default {
             addIndicator(this.form).then((res) => {
               if (res.code == '200') {
                 this.getInfo()
+                this.$emit('updata')
                 this.canel()
                 iMessage.success(res.desZh || '新增成功')
               } else iMessage.error(res.desZh)
