@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-14 14:44:54
- * @LastEditTime: 2023-02-13 10:34:06
+ * @LastEditTime: 2023-02-15 11:24:07
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\created\computePage.vue
@@ -336,8 +336,8 @@ export default {
             this.ruleDataAll = res.data.balanceRuleList
             this.page.totalCount = res.data.balanceRuleList.length
             // 待发起凭证
-            this.balanceDataAll = res.data.balanceItemList
-            this.balancePage.totalCount = res.data.balanceItemList.length
+            this.balanceDataAll = res.data.tobeSavedBalanceItemList
+            this.balancePage.totalCount = res.data.tobeSavedBalanceItemList.length
             // 已发起凭证
             this.saveBalanceDataAll = res.data.savedBalanceItemList
             this.saveBalancePage.totalCount =
