@@ -8,65 +8,22 @@
 -->
 <template>
   <div>
-    <search class="margin-bottom20"
-            ref="searchBox"
-            @materialCodes="handleMaterialCodes"></search>
-            
-    <theTable ref="theTable" @dialog="handleAdd"></theTable>
-    <balancePaymentDialog @close="handleClose"
-                          v-if="dialogVisible"
-                          :dialogVisible="dialogVisible"
-                          :dateSearch="date"
-                          :selectData="selectData"
-                          :materialCodes="materialCodes"
-                          :flag="flag"></balancePaymentDialog>
+    <search class="margin-bottom20" ref="searchBox"></search>
+    <theTable ref="theTable"></theTable>
   </div>
 </template>
 
 <script>
-import { iPage } from 'rise'
 import search from './components/search'
 import theTable from './components/theTable'
-import balancePaymentDialog from './components/balancePaymentDialog'
 
-import { pageMixins } from "@/utils/pageMixins"
 export default {
-  name: '',
-  componentName: "Index",
+  componentName: 'Index',
   components: {
-    iPage,
     search,
     theTable,
-    balancePaymentDialog
-  },
-  data () {
-    return {
-      dialogVisible: false,
-      selectData: [],
-      flag: false,
-      date: "",
-      materialCodes: []
-    }
-  },
-  mixins: [pageMixins],
-  created () {
-  },
-  methods: {
-    handleAdd (params) {
-      console.log(params)
-      this.dialogVisible = params.dialogVisible
-      this.selectData = params.selectData
-      this.flag = params.flag
-      this.date = params.date
-    },
-    handleClose (val) {
-      this.dialogVisible = val
-    },
-    handleMaterialCodes (codes) {
-      this.materialCodes = codes
-    }
   }
-};
+}
 </script>
 
 <style scoped>

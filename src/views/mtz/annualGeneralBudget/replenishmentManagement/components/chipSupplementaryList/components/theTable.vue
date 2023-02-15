@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-18 18:52:11
- * @LastEditTime: 2023-02-14 00:06:38
+ * @LastEditTime: 2023-02-15 15:36:23
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\theTable.vue
@@ -193,7 +193,6 @@ export default {
       if (this.muiltSelectList.length === 0) {
         iMessage.error('请选择数据')
       }
-      console.log(this.muiltSelectList[0].statusName)
       if (
         this.muiltSelectList[0].statusName === '草稿' ||
         this.muiltSelectList[0].statusName === '供应商拒绝' ||
@@ -212,8 +211,8 @@ export default {
       }
     },
     handleClickEdit() {
-      if (this.muiltSelectList.length == 0) {
-        return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
+      if (this.muiltSelectList.length != 1) {
+        return iMessage.warn(this.language('QINGXUANZEYITIAOSHUJU', '请选择一条数据'))
       }
       if (
         this.muiltSelectList[0].statusName === '草稿' ||
@@ -294,16 +293,7 @@ export default {
       }
     },
     handleSelectionChange(val) {
-      if (val.length > 1) {
-        var duoxuans = val.pop()
-        this.muiltSelectList = val.pop()
-        //清除所有选中
-        this.$refs.moviesTable.clearSelection()
-        //给最后一个加上选中
-        this.$refs.moviesTable.toggleRowSelection(duoxuans)
-      } else {
         this.muiltSelectList = val
-      }
     },
     exportFile() {
       let search = []

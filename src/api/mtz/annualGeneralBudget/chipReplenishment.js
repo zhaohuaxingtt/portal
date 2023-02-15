@@ -1,7 +1,7 @@
 /*
  * @Author: youyuan
  * @Date: 2021-09-09 14:02:54
- * @LastEditTime: 2023-02-14 16:24:09
+ * @LastEditTime: 2023-02-15 15:04:44
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 年度预算编辑
  * @FilePath: \front-portal\src\api\mtz\annualGeneralBudget\chipReplenishment.js
@@ -102,6 +102,14 @@ export function updateBalance(params) {
   })
 }
 
+// 创建补差单号
+export function createBalance(params) {
+  return requestChip({
+    url: '/createBalance',
+    method: 'POST',
+    params
+  })
+}
 
 // 补差总览分页查询
 export function findBalanceSummaryByPage(params) {
