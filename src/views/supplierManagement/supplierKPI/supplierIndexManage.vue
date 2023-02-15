@@ -26,14 +26,14 @@
           </div>
         </div>
         <div>
-          <iButton @click="edit" v-if="!isEdit">编辑</iButton>
+          <iButton v-permission="SUPPLIER_WORKBENCH_JIXIAO_SUPPLIERINDEXMANAGE" @click="edit" v-if="!isEdit">编辑</iButton>
           <iButton @click="canel" v-if="isEdit">取消</iButton>
           <!-- <iButton @click="save">暂存</iButton> -->
           <iButton @click="save" v-if="isEdit">提交生效</iButton>
         </div>
       </div>
     </iCard>
-    <indexManage v-if="isShow" />
+    <indexManage v-permission="SUPPLIER_WORKBENCH_JIXIAO_SUPPLIERINDEXMANAGE_ZHIBIAOKU" v-if="isShow" />
     <kpiStructure :infoData="infoData" @submit0="submit0" ref="model" :isEdit="isEdit" style="margin-top: 20px"
       :treeData="allData" :temId="selectValue" :templateName="templateName" @click="changeSaveData" @init="init"
       :isShow="isShow"></kpiStructure>

@@ -30,15 +30,15 @@
         <div class="div3">
           <span class="label">截至时间</span>
           <div>
-            <p>{{ item.statisticsEndDate }}</p>
-            <p>(距离截止日期还有13天）</p>
+            <p>{{ item.endDate }}</p>
+            <p>(距离截止日期还有{{ DateDiffer(item.endDate) }}天）</p>
           </div>
         </div>
         <div class="div4">
-          <el-button v-if="item.executeStatus == 0" @click="goDetail(item, 'add')" icon="el-icon-view" type="text">{{
+          <el-button v-if="item.executeStatus != 0" @click="goDetail(item, 'see')" icon="el-icon-view" type="text">{{
             $t('LK_CHAKAN')
           }}</el-button>
-          <el-button v-if="item.executeStatus == 1" @click="goDetail(item, 'edit')" icon="el-icon-edit-outline"
+          <el-button v-if="item.executeStatus == 0" @click="goDetail(item, 'edit')" icon="el-icon-edit-outline"
             type="text">{{ $t('LK_BIANJI') }}</el-button>
         </div>
       </div>
@@ -64,13 +64,13 @@
           <div class="div3">
             <span class="label">截至时间</span>
             <div>
-              <p>{{ item.statisticsEndDate }}</p>
-              <p>(距离截止日期还有13天）</p>
+              <p>{{ item.endDate }}</p>
+              <p>(距离截止日期还有{{ DateDiffer(item.endDate) }}天）</p>
             </div>
           </div>
           <div class="div4">
             <el-button type="text" icon="el-icon-view" @click="goDetail(item, 'add')">{{ $t('LK_CHAKAN') }}</el-button>
-            <el-button type="text" iocn="el-icon-download" @click="exportFile(item)">{{ '导出明细' }}</el-button>
+            <!-- <el-button type="text" iocn="el-icon-download" @click="exportFile(item)">{{ '导出明细' }}</el-button> -->
 
           </div>
         </div>
@@ -150,12 +150,24 @@ export default {
         })
       })
     },
-    goDetail(item) {
+    DateDiffer(Date_end) {
+      //date1结束时间
+      let date1 = new Date(Date_end);
+      //date2当前时间
+      let date2 = new Date();
+      date1 = new Date(date1.getFullYear(), date1.getMonth(), date1.getDate());
+      date2 = new Date(date2.getFullYear(), date2.getMonth(), date2.getDate());
+      const diff = date1.getTime() - date2.getTime(); //目标时间减去当前时间
+      const diffDate = diff / (24 * 60 * 60 * 1000);  //计算当前时间与结束时间之间相差天数
+      return diffDate
+    },
+    goDetail(item,type) {
       let routeUrl = this.$router.resolve({
         path: '/supplier/spiIndex/supplierVersionUp',
         query: {
           modelId: item.modelId,
           editionId: item.editionId,
+          type
         }
       })
       window.open(routeUrl.href, '_blank')

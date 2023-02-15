@@ -27,7 +27,7 @@
         <!-- <iButton @click="initiate">供应商导入模板下载</iButton> -->
         <!-- <iButton @click="update">CS科室打分权重设置</iButton>
         <iButton @click="exportFile">定时规则设置</iButton> -->
-        <iButton @click="addVersion">创建版本</iButton>
+        <iButton v-permission="SUPPLIER_WORKBENCH_SUPPLIERBERSION_ADD" @click="addVersion">创建版本</iButton>
       </template>
       <tableList openPageProps="dataTime" :openPageGetRowData="true" @openPage="handleOpenPage" border
         :tableData="tableListData" :tableTitle="tableTitle" :tableLoading="tableLoading">
@@ -46,7 +46,7 @@
           }}</span>
         </template>
         <template #caozuo="scope">
-          <iButton type="text" @click="delRow(scope.row)">删除</iButton>
+          <iButton v-permission="SUPPLIER_WORKBENCH_SUPPLIERBERSION_DEL" type="text" @click="delRow(scope.row)">删除</iButton>
         </template>
       </tableList>
       <iPagination v-update @size-change="handleSizeChange($event, getTableList)"
