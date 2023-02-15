@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-14 14:44:54
- * @LastEditTime: 2023-01-13 16:02:50
+ * @LastEditTime: 2023-02-14 17:42:56
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipReplenishmentOverview\components\detailDialog.vue
@@ -9,11 +9,19 @@
 <template>
   <iDialog
     class="dialog"
-    :title="params.name"
-    :visible.sync="value"
+    :title="params.supplierSapCode + '-' + params.supplierName"
+    :visible.sync="visible"
     width="85%"
     @close="closeDiolog"
   >
+    <searchBox
+      @sure="handleSubmitSearch"
+      @reset="handleSearchReset"
+      :searchForm="searchForm"
+      :searchFormData="searchFormData"
+      :options="options"
+    />
+    <el-divider></el-divider>
     <iTabsList
       v-model="tabsValue"
       @tab-click="tableChange"
@@ -23,23 +31,6 @@
       <el-tab-pane name="1" :label="language('ZONGLAN', '总览')"></el-tab-pane>
       <el-tab-pane name="2" :label="language('明细', '明细')"></el-tab-pane>
     </iTabsList>
-    <div class="searchBox">
-      <!-- 总览 -->
-      <!-- <template v-if="tabsValue==1"> -->
-        <search
-          @sure="handleSubmitSearch"
-          @reset="handleSearchReset"
-          :searchForm="searchForm"
-          :searchFormData="searchFormData"
-          :options="options"
-        />
-      <!-- </template> -->
-      <!-- 明细 -->
-      <!-- <template v-else> -->
-
-      <!-- </template> -->
-    </div>
-    <el-divider class="margin-top20"></el-divider>
     <div class="contentBox">
       <div class="tableOptionBox">
         <div class="tableTitle">
@@ -62,8 +53,10 @@
         :tableData="tableListData"
         :tableTitle="tableTitle"
         :tableLoading="loading"
+        :key="tabsValue"
         :index="true"
         :selection="false"
+        height="300"
         @handleSelectionChange="handleSelectionChange"
       >
       </tableList>
@@ -91,28 +84,28 @@ import {
   iDatePicker,
   iPagination,
   iTabsList,
-  iMessageBox
 } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import tableList from '@/components/commonTable/index.vue'
-import search from '../../components/search.vue'
+import searchBox from '../../components/searchBox.vue'
 import {
   tableTitle1Overview,
   tableTitle1Detail,
   tableTitle2Overview,
   tableTitle2Detail,
   searchFormData1,
-  searchFormData2,
+  searchFormData2
 } from './data'
-import { excelExport } from './util'
 import {
-  fetchTableData,
-  fetchCurrentUser,
-  pageMtzDetailExport
-} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzReplenishmentOverview/detail'
-import { queryDeptSectionForCompItem } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
-import { getMtzSupplierList } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
-import { getNowFormatDate } from './util'
+  findSupplierBalanceSummaryByPage,
+  findSupplierBalanceSummaryDetailList,
+  getTaskSecondSupplierList,
+  getTaskDepartmentList,
+  getTaskBuyerList,
+  exportSupplierBalanceSummary,
+  exportSupplierBalanceSummaryDetail
+} from '@/api/mtz/annualGeneralBudget/chipReplenishment'
+
 export default {
   mixins: [pageMixins],
   components: {
@@ -123,12 +116,12 @@ export default {
     iPagination,
     tableList,
     iTabsList,
-    search
+    searchBox
   },
   props: {
-    value: {
+    visible: {
       type: Boolean,
-      default: true
+      default: false
     },
     params: {
       type: Object,
@@ -144,39 +137,45 @@ export default {
       tabsValue: '1',
       type: 1,
       searchForm: {},
-      searchFormData:[],
+      searchFormData: [],
       options: {
         sSupplierDropDownData: [], //二次件供应商编号
         departmentDropDownData: [], //科室
         linieDropDownData: [] //采购员
       },
       loading: false,
-      tableTitle:[],
+      tableTitle: [],
       tableListData: [],
       selection: []
     }
   },
-  watch:{
-    tabsValue:{
-      handler(val){
-        if(val==1){ // 总览
+  watch: {
+    tabsValue: {
+      handler(val) {
+        if (val == 1) {
+          // 总览
           this.searchFormData = searchFormData1
-          this.tableTitle = this.supplierType == '一次件供应商' ? tableTitle1Overview : tableTitle2Overview
-        }else{  // 明细
+          this.tableTitle =
+            this.supplierType == '一次件供应商'
+              ? tableTitle1Overview
+              : tableTitle2Overview
+        } else {
+          // 明细
           this.tableTitle = tableTitle1Detail
-          this.searchFormData = this.supplierType == '一次件供应商' ? searchFormData1 : searchFormData2
+          this.searchFormData =
+            this.supplierType == '一次件供应商'
+              ? searchFormData1
+              : searchFormData2
         }
         this.getTableData()
       },
-      immediate:true
+      immediate: true
     }
   },
   created() {
     this.$nextTick((_) => {
       this.getDeptList()
       this.getSecondSupplier()
-      this.initSeachData()
-      this.getTableData()
       this.getCurrentUser()
     })
   },
@@ -186,49 +185,53 @@ export default {
         this.tabsValue = val.name
       }
     },
-    // 初始化检索条件
-    initSeachData(val) {
-      for (let key in this.searchForm) {
-        this.searchForm[key] = []
-      }
-      if (val == 'clear') {
-        this.$set(this.searchForm, 'compDate', [])
-      } else if (this.params.time && this.params.time.length !== 0) {
-        this.params.time[0] = this.params.time[0].split(' ')[0]
-        this.params.time[1] = this.params.time[1].split(' ')[0]
-        this.$set(this.searchForm, 'compDate', this.params.time)
-      }
-      this.$set(this.searchForm, 'isSeeMe', true)
-      this.$set(this.searchForm, 'compStartDate', '')
-      this.$set(this.searchForm, 'compEndDate', '')
-    },
     // 获取列表数据
     getTableData() {
-      // this.loading = true
-      console.log(this.searchForm);
-      // fetchTableData({
-      //   ...this.searchForm,
-      //   pageNo: this.page.currPage,
-      //   pageSize: this.page.pageSize,
-      //   fsupplier: this.params.firstSupplierId || null,
-      //   compStartDate: this.searchForm.compDate
-      //     ? this.searchForm.compDate[0]
-      //     : null,
-      //   compEndDate: this.searchForm.compDate
-      //     ? this.searchForm.compDate[1]
-      //     : null
-      // }).then((res) => {
-      //   console.log('res', res)
-      //   if (res && res.code == 200) {
-      //     this.loading = false
-      //     this.page.totalCount = res.total
-      //     this.tableListData = res.data
-      //   } else iMessage.error(res.desZh)
-      // })
+      this.loading = true
+      console.log(this.searchForm)
+      let params = {
+        ...this.searchForm,
+        makeStartDate: this.searchForm.compDate
+          ? window
+              .moment(this.searchForm.compDate[0])
+              .format('YYYY-MM-DD 00:00:00')
+          : '',
+        makeEndDate: this.searchForm.compDate
+          ? (this.searchForm.endDate = window
+              .moment(this.searchForm.compDate[1])
+              .format('YYYY-MM-DD 23:59:59'))
+          : '',
+        isPrimary: this.supplierType == '一次件供应商',
+        currentPage: this.page.currPage,
+        pageSize: this.page.pageSize
+      }
+      if (this.tabsValue == '1') {
+        findSupplierBalanceSummaryByPage(params).then((res) => {
+          if (res?.code == '200') {
+            this.tableListData = res.data.orders
+            this.page.totalCount = res.data.total
+          } else {
+            iMessage.error(this.$i18n.locale == 'zh' ? res.desZh : res.desEn)
+          }
+        }).finally(()=>{
+          this.loading = false
+        })
+      } else {
+        findSupplierBalanceSummaryDetailList(params).then((res) => {
+          if (res?.code == '200') {
+            this.tableListData = res.data
+            this.page.totalCount = res.data.length
+          } else {
+            iMessage.error(this.$i18n.locale == 'zh' ? res.desZh : res.desEn)
+          }
+        }).finally(()=>{
+          this.loading = false
+        })
+      }
     },
     // 获取二次件供应商编号-名称
     getSecondSupplier() {
-      getMtzSupplierList({}).then((res) => {
+      getTaskSecondSupplierList().then((res) => {
         if (res && res.code == 200) {
           this.options.sSupplierDropDownData = res.data
         } else iMessage.error(res.desZh)
@@ -236,7 +239,7 @@ export default {
     },
     // 获取部门数据
     getDeptList() {
-      queryDeptSectionForCompItem({}).then((res) => {
+      getTaskDepartmentList().then((res) => {
         if (res && res.code == 200) {
           this.options.departmentDropDownData = res.data
         } else iMessage.error(res.desZh)
@@ -244,7 +247,7 @@ export default {
     },
     // 获取采购员
     getCurrentUser() {
-      fetchCurrentUser({}).then((res) => {
+      getTaskBuyerList().then((res) => {
         if (res && res.code == 200) {
           this.options.linieDropDownData = res.data
         } else iMessage.error(res.desZh)
@@ -268,57 +271,42 @@ export default {
     },
     // 关闭弹窗
     closeDiolog() {
-      this.$emit('handleCloseDialog')
+      this.$emit('update:visible', false)
     },
     lookUs() {
       this.handleSubmitSearch()
     },
     // 导出当页
     handleExportCurrent() {
-      pageMtzDetailExport({
+      let params = {
         ...this.searchForm,
-        pageNo: this.page.currPage,
-        pageSize: this.page.pageSize,
-        fsupplier: this.params.firstSupplierId || null,
-        compStartDate: this.searchForm.compDate
-          ? this.searchForm.compDate[0]
-          : null,
-        compEndDate: this.searchForm.compDate
-          ? this.searchForm.compDate[1]
-          : null
-      }).then((res) => {
-        let blob = new Blob([res], {
-          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'
-        })
-        let objectUrl = URL.createObjectURL(blob)
-        let link = document.createElement('a')
-        link.href = objectUrl
-        let fname = this.params.name + getNowFormatDate() + '.xlsx'
-        link.setAttribute('download', fname)
-        document.body.appendChild(link)
-        link.click()
-        link.parentNode.removeChild(link)
-        iMessage.success('链接成功！')
-      })
-      // excelExport(this.params.name, this.tableListData, this.tableTitle)
+        makeStartDate: this.searchForm.compDate
+          ? window
+              .moment(this.searchForm.compDate[0])
+              .format('YYYY-MM-DD 00:00:00')
+          : '',
+        makeEndDate: this.searchForm.compDate
+          ? (this.searchForm.endDate = window
+              .moment(this.searchForm.compDate[1])
+              .format('YYYY-MM-DD 23:59:59'))
+          : '',
+        isPrimary: this.supplierType == '一次件供应商',
+        currentPage: this.page.currPage,
+        pageSize: this.page.pageSize
+      }
+      if (this.tabsValue == '1') {
+        exportSupplierBalanceSummary(params)
+      } else {
+        exportSupplierBalanceSummaryDetail(params)
+      }
     }
   }
 }
 </script>
 
 <style lang='scss' scoped>
-.searchBox {
-  position: relative;
-  .searchButton {
-    position: absolute;
-    right: 0;
-    top: 50px;
-    z-index: 100;
-  }
-}
 .contentBox {
-  margin-top: 48px;
-  padding-bottom: 30px;
+  padding-bottom: 20px;
   .tableOptionBox {
     .tableTitle {
       display: inline;
