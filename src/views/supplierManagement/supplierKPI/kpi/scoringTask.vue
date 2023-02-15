@@ -12,9 +12,9 @@
       }}
     </p>
     <div class="cardbox">
-      <div v-if="infoList.length==0"  class="noInfo" >
+      <p v-if="infoList.length==0"  class="noInfo" >
           <span>暂无数据~~~</span>
-        </div>
+      </p>
       <div class="card" v-for="(item, index) in infoList">
         <div class="div1">
           <span class="cardtitle">{{ item.nameZh }}</span>
@@ -190,8 +190,10 @@ export default {
 <style lang="scss" scoped>
 .cardbox {
   margin: 20px 0;
-  display: flex;
-  justify-content: flex-start;
+  >div{
+    display: inline-block;
+    margin-top: 20px;
+  }
 .noInfo{
   text-align: center;
   margin: 40px 0;
