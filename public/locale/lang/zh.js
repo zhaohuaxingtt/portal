@@ -7,6 +7,8 @@
 })(this, function (i18n) {
   'use strict'
   var oldLanguage = {
+    ZHIBIAOKU:'指标库',
+    ZHIBIAOGUANLI:'指标管理',
     CSQCAIGOUYUAN:'CSQ采购员',
     QUERENRENKESHI:'确认人科室',
     delete: '删除',
@@ -3130,6 +3132,14 @@
     GONGYONG:"共用",
     '审批数量':"审批数量",
     "申请数量":"申请数量",
+
+    // 2022/7/7
+    YEJIMUBIAO:"业绩目标",
+    DANWEIBAIWANRMB: '单位：百万元',
+    MUBIAOZHIANDCHENGNUOZHI:"目标值/承诺值",
+    DANGQIANWANCHENGLV:"当前完成率",
+    ZHONGQIGAIKUAN:"中期改款",
+    DANGQIANWANCHENGCHIXU:"当前完成（持续）",
     SUPPLIER_DIANHUAHAOMA: '手机号', // 电话号码
     ZYGDCGSGJLSZQS:"主要股东（超过十个仅列示至前十）",
     QSRTHYY:"请输入退回原因",

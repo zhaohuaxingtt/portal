@@ -66,7 +66,7 @@
               </iFormItem>
             </el-col>
             <el-col :span="!isSourceFindingPoint ? 12 : 9">
-              <iFormItem :label="language('任务起止日期')" style="width: 90%">
+              <iFormItem :label="language('任务名称')" style="width: 90%">
                 <iSelect
                   :placeholder="language('请选择')"
                   v-model="form.categoryList"

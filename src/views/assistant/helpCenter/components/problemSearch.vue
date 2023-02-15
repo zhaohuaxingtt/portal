@@ -13,6 +13,7 @@
 						>
 						<el-option
 							v-for="item in moudleList"
+							:disabled="disabled"
 							:key="item.id"
 							:label="item.menuName"
 							:value="item.id"
@@ -94,7 +95,8 @@ export default {
 				problemLabel: '标签',
 				problemTitle: '问题标题'
 			},
-			labelList: []
+			labelList: [],
+			disabled:false,
 		}
 	},
 	methods: {
@@ -107,13 +109,16 @@ export default {
 			this.$emit('reset')
 		},
 		handleModuleChange() {
+			if(this.disabled) return
+			this.disabled = true
 			this.searchForm.questionLableId = ''
-			console.log(this.searchForm.questionModuleId, "questionModuleId")
 			if (!this.searchForm.questionModuleId) return
 			getCurrLabelList(this.searchForm.questionModuleId).then(res => {
 				if (res?.code === '200') {
 					this.labelList = res?.data || []
 				}
+			}).finally(()=>{
+				this.disabled = false
 			})
 		}
 	}

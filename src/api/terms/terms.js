@@ -1,12 +1,15 @@
 import axios from '@/utils/axios'
 import store from '@/store'
+import axiosDownload from '@/utils/axios.download'
 const requst = axios(process.env.VUE_APP_NEWS)
+const requstDown = axiosDownload(process.env.VUE_APP_NEWS)
 const requstInvalidate = axios(process.env.VUE_APP_NEWS)
 const requstDIC = axios(process.env.VUE_APP_BASE_INFO)
 const requstUser = axios(process.env.VUE_APP_USER_CENTER)
 
 requst.interceptors.request.use(function (config) {
   config.params = {
+    ...config.params,
     userId: store.state.permission.userInfo.id,
   }
   return config;
@@ -277,4 +280,48 @@ export function getPageListByParam(data) {
     method: 'POST',
     data
   })
+}
+
+// 获取签署分页信息
+export function signPageList(data) {
+  return requst({
+    url: `/termsQueryService/signPageList`,
+    method: "POST",
+    data,
+  });
+}
+// /termsQueryService/signExport 导出签署分页信息
+export function signExport(data) {
+  return requstDown({
+    url: `/termsQueryService/signExport`,
+    method: "POST",
+    data,
+  });
+}
+
+// 节点设置
+export function nodeSet(data) {
+  return requst({
+    url: `/termsService/nodeSet`,
+    method: "POST",
+    data,
+  });
+}
+
+// 获取节点设置列表 signNode
+export function nodeSetList(params) {
+  return requst({
+    url: `/termsService/nodeSetList`,
+    method: "GET",
+    params,
+  });
+}
+
+// 根据节点获取待签署条款信息
+export function termList(params) {
+  return requst({
+    url: `/termsQueryService/termList`,
+    method: "POST",
+    params,
+  });
 }

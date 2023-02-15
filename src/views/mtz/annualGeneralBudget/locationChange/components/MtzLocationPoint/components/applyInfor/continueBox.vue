@@ -86,7 +86,8 @@
     <div class="BtnTitle">
         <span>{{language("GUIZEXIANGQING","规则详情")}}</span>
         <div>
-            <iButton @click="save">{{language('YANYONG', '沿用')}}</iButton>
+            <iButton v-if="mtzAddShowNum=='0'" @click="save">{{language('YANYONG', '沿用')}}</iButton>
+            <iButton v-if="mtzAddShowNum=='1'" @click="save">{{'选择'}}</iButton>
         </div>
     </div>
     <tableList
@@ -147,7 +148,7 @@ export default {
     tableList,
     iSearch
   },
-  props: ["detailObj"],
+  props: ["detailObj","mtzAddShowNum"],
   mixins: [pageMixins],
   data () {
     return {

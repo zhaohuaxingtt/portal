@@ -12,19 +12,17 @@
             <span v-if="getLaunchNum(item.subType) > 99">+</span>
           </div>
           <div class="numName flex-align-center">
-            <!-- <icon symbol class="icon" name="icona-MyApplication" /> -->
             <div>{{ $t('HOME_CARD.MY_APPLICATION') }}</div>
           </div>
         </div>
-<!--        <div class="line">/</div>-->
-        <div v-else class="approval" @click="handleToApproval(item)">
+        <div v-if="showPendingApproval" class="line">/</div>
+        <div v-if="showPendingApproval" class="approval" @click="handleToApproval(item)">
           <div>
             {{ getTodoNum(item.subType) | overNum }}
             <span v-if="getTodoNum(item.subType) > 99">+</span>
           </div>
           <div class="numName flex-align-center">
-            <!-- <icon symbol class="icon" name="icona-MyApproval" /> -->
-            <div>{{ $t('APPROVAL.APPROVAL_TODO') }}</div>
+            <div>{{ $t('HOME_CARD.MY_APPROVAL') }}</div>
           </div>
         </div>
       </div>
@@ -35,6 +33,8 @@
 <script>
 import { Icon } from 'rise'
 import { getApprovalList } from '@/api/home'
+
+import { queryApplyOverview,queryApprovalOverview } from '@/api/approval/statistics'
 
 export default {
   components: { Icon },
@@ -67,7 +67,15 @@ export default {
     return {
       valueNumbers: {},
       moduleData: [],
-      absMap: {}
+      absMap: {},
+      dataList:[],
+      dataListNow:[],
+      dataObject:{
+        title:"",
+        name:"",
+        applyNumber:"",//申请
+        approvalNumber:"",//审批
+      }
     }
   },
   watch: {
@@ -79,7 +87,59 @@ export default {
     this.queryAllData()
     this.initModuleData()
   },
+  mounted(){
+    this.$nextTick(()=>{
+      this.queryApplyOverview();
+    })
+  },
   methods: {
+    queryApplyOverview(){//我的申请
+      queryApplyOverview({
+        userID: this.$store.state.permission.userInfo.id
+      }).then(res=>{
+        if(res.data&&res.data.length>0){
+          res.data.forEach(e=>{
+            if(e.wfCategoryList&&e.wfCategoryList.length>0){
+              e.wfCategoryList.forEach(item=>{
+                this.dataList.push({
+                  title:item.value,
+                  name:e.typeValue,
+                  applyNumber:item.todoNum,
+                  subType:item.subType,
+                  categoryList:item.categoryList,
+                })
+              })
+            }
+          })
+        }
+      }).then(res=>{
+        this.queryApprovalOverview();
+      })
+    },
+    queryApprovalOverview(){//我的审批
+      queryApprovalOverview({
+        userID: this.$store.state.permission.userInfo.id
+      }).then(res=>{
+        console.log(res);
+        if(res.data&&res.data.length>0){
+          res.data.forEach(e=>{
+            if(e.wfCategoryList&&e.wfCategoryList.length>0){
+              e.wfCategoryList.forEach(item=>{
+                this.dataList.forEach(val=>{
+                  if(val.title == item.value){
+                    val.approvalNumber = item.todoNum
+                    val.cardUrl = item.cardUrl
+                  }
+                })
+              })
+            }
+          })
+        }
+
+        const list = this.dataList.filter(e=>!(e.applyNumber==0&&e.approvalNumber==0))
+        this.dataListNow = list;
+      })
+    },
     initModuleData() {
       const data = JSON.parse(this.data.moduleData)
       if(data && data.length > 0) {
@@ -89,6 +149,7 @@ export default {
         })
         this.$emit("approvalToDoNum", approvalToDoNum)
       }
+      console.log('data=>',data);
       if (data.length <= 5) {
         this.moduleData = data
       }
@@ -96,6 +157,7 @@ export default {
     },
     async queryAllData() {
       const result = await getApprovalList({ userID: this.userInfo.id })
+      console.log('result=>',result);
       const data = result?.data || []
       data.forEach(item => {
         this.absMap[item.typeName] = item.typeValue
@@ -106,16 +168,26 @@ export default {
       this.initModuleData()
     },
     getLaunchNum(subType) {
-      if (this.valueNumbers[subType]) {
-        return this.valueNumbers[subType].launchNum || 0
+      // if (this.valueNumbers[subType]) {
+      //   return this.valueNumbers[subType].launchNum || 0
+      // }
+      // return 0
+      if(Number(subType)>99){
+        return "99+"
+      }else{
+        return subType
       }
-      return 0
     },
     getTodoNum(subType) {
-      if (this.valueNumbers[subType]) {
-        return this.valueNumbers[subType].todoNum || 0
+      // if (this.valueNumbers[subType]) {
+      //   return this.valueNumbers[subType].todoNum || 0
+      // }
+      // return 0
+      if(Number(subType)>99){
+        return "99+"
+      }else{
+        return subType
       }
-      return 0
     },
     getAbs(typeName) {
       if (this.absMap[typeName]) {
@@ -177,6 +249,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.task-wrap{
+  height:100%;
+  overflow-y: auto;
+}
 .numName {
   > img {
     width: 15px;
@@ -211,69 +287,88 @@ export default {
   overflow: auto;
 }
 .task-container {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
   .task-card {
+    width: 99.3%;
     height: 97px;
     box-sizing: border-box;
     border-radius: 10px;
     background: #f8f9fa;
     padding: 17px 20px;
     margin-bottom: 12px;
-    width: calc(50% - 5px);
-    //display: flex;
-    //align-items: center;
-    > .top {
-      text-align: center;
-      color: #333;
-      opacity: 0.65;
-      > .name {
-        font-size: 16px;
-        font-weight: bold;
-        margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    .task-card {
+      height: 97px;
+      box-sizing: border-box;
+      border-radius: 10px;
+      background: #f8f9fa;
+      padding: 17px 20px;
+      margin-bottom: 12px;
+      width: calc(50% - 5px);
+      //display: flex;
+      //align-items: center;
+      > .top {
         text-align: center;
-        color: rgb(0, 0, 0);
-      }
-      > .abs {
-        font-size: 12px;
-        text-align: left;
-        // color: #222;
-      }
-    }
-    > .bottom {
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      .line {
-        font-size: 24px;
-      }
-      .overdue,
-      .approval {
-        > div {
+        color: #333;
+        opacity: 0.65;
+
+        > .name {
+          font-size: 16px;
+          font-weight: bold;
+          margin-bottom: 5px;
           text-align: center;
-          color: #28303e;
-          position: relative;
-          > span {
-            font-size: 12px;
-            position: absolute;
-          }
-          &:first-child {
-            font-size: 20px;
-            font-weight: bold;
-            min-height: 30px;
-            &.exceed {
-              color: #e33232;
-              // font-size: 24px;
+          color: rgb(0, 0, 0);
+        }
+
+        > .abs {
+          font-size: 12px;
+          text-align: left;
+          // color: #222;
+        }
+      }
+
+      > .bottom {
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+
+        .line {
+          font-size: 24px;
+        }
+
+        .overdue,
+        .approval {
+          > div {
+            text-align: center;
+            color: #28303e;
+            position: relative;
+
+            > span {
+              font-size: 12px;
+              position: absolute;
+            }
+
+            &:first-child {
+              font-size: 20px;
+              font-weight: bold;
+              min-height: 30px;
+
+              &.exceed {
+                color: #e33232;
+                // font-size: 24px;
+              }
             }
           }
         }
-      }
-      .approval {
-        > div {
-          &:first-child {
-            //color: #ffb500;
-            color: rgb(0, 0, 0);
+
+        .approval {
+          > div {
+            &:first-child {
+              //color: #ffb500;
+              color: rgb(0, 0, 0);
+            }
           }
         }
       }

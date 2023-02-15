@@ -1,10 +1,10 @@
 <!--
  * @Author: your name
  * @Date: 2021-04-13 14:54:11
- * @LastEditTime: 2022-03-09 16:57:34
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-01-09 12:32:55
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
- * @FilePath: /front-portal/src/views/supplier360/index.vue
+ * @FilePath: \front-portal\src\views\supplier360\index.vue
 -->
 <template>
   <div class="height100">
@@ -47,6 +47,7 @@ import systemModificationHistory from '@/views/generalPage/systemModificationHis
 import financialBigNumbers from '@/views/generalPage/financialBigNumbers'
 import financialData from '@/views/generalPage/financialData'
 import supplyCompany from '@/views/generalPage/supplyCompany'
+import clauseSignRecord from '@/views/generalPage/clauseSignRecord'
 import { submitRegularInfo } from '../../api/supplier360/common'
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 
@@ -73,7 +74,8 @@ export default {
     financialBigNumbers,
     financialData,
     supplyCompany,
-    purchaseClassification
+    purchaseClassification,
+    clauseSignRecord
   },
   data () {
     return {
@@ -230,6 +232,14 @@ export default {
           component: 'supplyCompany',
           key: 'SUPPLIER_GONGHUOGONGSI',
           permission: 'SUPPLIER_SUPPLYCOMPANY'
+        },
+        {
+          current: '20',
+          title: '条款签署记录',
+          ref: 'clauseSignRecord',
+          component: 'clauseSignRecord',
+          key: '条款签署记录',
+          permission: 'SUPPLIER_SUPPLYCOMPANY'
         }
       ],
       listGP: [
@@ -376,6 +386,14 @@ export default {
           component: 'supplyCompany',
           key: 'SUPPLIER_GONGHUOGONGSI',
           permission: 'SUPPLIER_SUPPLYCOMPANY_GP'
+        },
+        {
+          current: '19',
+          title: '条款签署记录',
+          ref: 'clauseSignRecord',
+          component: 'clauseSignRecord',
+          key: '条款签署记录',
+          permission: 'SUPPLIER_SUPPLYCOMPANY'
         }
       ],
       refData: [],

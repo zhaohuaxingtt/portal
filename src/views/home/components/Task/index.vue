@@ -14,17 +14,62 @@
           <div class="numName flex-align-center">
             <!-- <icon symbol class="icon" name="iconOverdue" /> -->
             <div>{{ $t('HOME_CARD.OVERDUE_TEXT') }}</div>
+      <!-- <div v-for="item in moduleData" :key="item.taskType" class="task-card">
+        <div class="left">
+          <div class="name single-ellipsis">{{ item.taskTypeName }}</div>
+          <div class="abs single-ellipsis">{{ item.taskName }}</div>
+        </div>
+        <div class="right">
+          <div class="overdue" @click="handleToOverdue(item)">
+            <div :class="item.overdue ? 'exceed' : ''">
+              {{ getOverdueQty(item.taskType) | overNum }}
+              <span v-if="getOverdueQty(item.taskType) > 99">+</span>
+            </div>
+            <div class="numName flex-align-center">
+              <div>{{ $t('HOME_CARD.OVERDUE') }}</div>
+            </div>
+          </div>
+          <div class="line">/</div>
+          <div class="progress" @click="handleToProgress(item)">
+            <div>
+              {{ getTodayQty(item.taskType) | overNum }}
+              <span v-if="getTodayQty(item.taskType) > 99">+</span>
+            </div>
+            <div class="numName flex-align-center">
+              <div>{{ $t('HOME_CARD.IN_PROGRESS') }}</div>
+            </div>
           </div>
         </div>
-        <div class="line">/</div>
-        <div class="progress" @click="handleToProgress(item)">
-          <div>
-            {{ getTodayQty(item.taskType) | overNum }}
-            <span v-if="getTodayQty(item.taskType) > 99">+</span>
+      </div> -->
+
+      <div v-for="item in dataListNow" :key="item.taskType" class="task-card">
+        <div class="left">
+          <div class="name single-ellipsis">{{ item.title }}</div>
+          <div class="abs single-ellipsis">{{ item.name }}</div>
+        </div>
+        <div class="right">
+          <div class="overdue" @click="handleToOverdue(item)">
+            <div :class="item.overdue ? 'exceed' : ''">
+              {{ getOverdueQty(item.overdueQty) }}
+              <span v-if="item.overdueQty > 99">+</span>
+            </div>
+            <div class="numName flex-align-center">
+              <div>{{ $t('HOME_CARD.OVERDUE') }}</div>
+            </div>
           </div>
           <div class="numName flex-align-center">
             <!-- <icon symbol class="icon" name="icona-InProgress" /> -->
             <div>{{ $t('HOME_CARD.IN_PROGRESS_TEXT') }}</div>
+          </div>
+          <div class="line">/</div>
+          <div class="progress" @click="handleToProgress(item)">
+            <div>
+              {{ getTodayQty(item.todayQty) }}
+              <span v-if="item.todayQty > 99">+</span>
+            </div>
+            <div class="numName flex-align-center">
+              <div>{{ $t('HOME_CARD.IN_PROGRESS') }}</div>
+            </div>
           </div>
         </div>
       </div>
@@ -35,6 +80,9 @@
 <script>
 // import { Icon } from 'rise'
 import { getDutyStatistics } from '@/api/duty'
+import { fetchTaskCenter } from '@/api/duty'
+import { openUrl } from '@/utils/index'
+
 export default {
   // components: { Icon },
   props: {
@@ -49,7 +97,14 @@ export default {
     // eslint-disable-next-line no-undef
     ...Vuex.mapState({
       userInfo: (state) => state.permission.userInfo
-    })
+    }),
+    userId: function () {
+      return this.$store.state.permission.userInfo.id
+    },
+    userType: function () {
+      return this.$store.state.permission.userInfo.userType
+      //2是供应商 1是员工
+    },
   },
   filters: {
     overNum: function (value) {
@@ -60,7 +115,9 @@ export default {
     return {
       valueNumbers: {},
       moduleData: [],
-      urls: {}
+      urls: {},
+      dataList:[],
+      dataListNow:[],
     }
   },
   watch: {
@@ -73,12 +130,50 @@ export default {
     this.queryAllData()
     this.initModuleData()
   },
+  mounted(){
+    this.$nextTick(()=>{
+      this.fetchTaskCenter();
+    })
+  },
   methods: {
+    fetchTaskCenter(){
+      fetchTaskCenter({
+        userId: this.userId,
+        userTye: this.userType == 1 ? 2 : 1
+      }).then(res=>{
+        if(res){
+          const keyList = Object.keys(res);
+          console.log(keyList)
+          keyList.forEach(e=>{
+            if(res[e]&&res[e].length>0){
+              res[e].forEach(item=>{
+                this.dataList.push({
+                  title:item.taskTypeName,
+                  name:item.taskName,
+                  overdueQty:item.overdueQty,
+                  todayQty:item.todayQty,
+                  taskType:item.taskType,
+                  overdueLink:item.overdueLink,
+                  todayLink:item.todayLink,
+                })
+              })
+            }
+          })
+
+          console.log(this.dataList)
+          const list = this.dataList.filter(e=>!(e.overdueQty==0&&e.todayQty==0))
+          console.log(list)
+          this.dataListNow = list;
+        }
+      })
+    },
     handleTaskCenter() {
       window.open(process.env.VUE_APP_HOST + '/portal/#/task/center', '_blank')
     },
-    handleToOverdue(item) {
+    handleToOverdue(item) {//overdueLink
       // 接口的坑，url不同步
+      openUrl(item.overdueLink || item.todayLink)
+      return;
       if (this.urls[item.taskType] && this.urls[item.taskType].todayLink) {
         // window.open(this.urls[item.taskType].todayLink)
         window.open(this.urls[item.taskType].overdueLink)
@@ -87,8 +182,10 @@ export default {
         window.open(item.overdueLink, '_blank')
       }
     },
-    handleToProgress(item) {
+    handleToProgress(item) {//todayLink
       // 接口的坑，url不同步
+      openUrl(item.overdueLink || item.todayLink)
+      return;
       if (
         this.urls[item.taskType] &&
         (this.urls[item.taskType].overdueLink ||
@@ -135,22 +232,39 @@ export default {
       // this.moduleData = data.slice(0, 5)
     },
     getOverdueQty(taskType) {
-      if (this.valueNumbers[taskType]) {
-        return this.valueNumbers[taskType].overdueQty || 0
+      // if (this.valueNumbers[taskType]) {
+      //   return this.valueNumbers[taskType].overdueQty || 0
+      // }
+      // return 0
+
+      if(Number(taskType)>99){
+        return "99+"
+      }else{
+        return taskType
       }
-      return 0
     },
     getTodayQty(taskType) {
-      if (this.valueNumbers[taskType]) {
-        return this.valueNumbers[taskType].todayQty || 0
+      // if (this.valueNumbers[taskType]) {
+      //   return this.valueNumbers[taskType].todayQty || 0
+      // }
+      // return 0
+
+      if(Number(taskType)>99){
+        return "99+"
+      }else{
+        return taskType
       }
-      return 0
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.task-wrap{
+  height:100%;
+  overflow-y: auto;
+}
+
 .single-ellipsis {
   word-wrap: break-word;
   white-space: nowrap;

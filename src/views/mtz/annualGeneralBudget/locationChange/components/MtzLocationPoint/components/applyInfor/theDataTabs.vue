@@ -21,7 +21,7 @@
             token: getToken()
           }"
           v-permission="PORTAL_MTZ_POINT_INFOR_DATA_SHANGCHUAN"
-          v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
+          v-if="!editType && isEditNew"
         >
           <el-tooltip
             :content="
@@ -36,53 +36,53 @@
         <iButton
           @click="download"
           v-permission="PORTAL_MTZ_POINT_INFOR_DATA_XIAZAIMUBAN"
-          v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
+          v-if="!editType && isEditNew"
           >{{ language('XIAZAIMUBAN', '下载模板') }}</iButton
         >
         <iButton
           @click="cancel"
-          v-if="editType && (appStatus == '草稿' || appStatus == '未通过')"
+          v-if="editType && isEditNew"
           >{{ language('QUXIAO', '取消') }}</iButton
         >
         <iButton
           @click="rfqClick"
           v-permission="PORTAL_MTZ_POINT_INFOR_DATA_YINYONGRFQ"
-          v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
+          v-if="!editType && isEditNew"
           >{{ language('YYRFQZLJ', '引用RFQ中零件') }}</iButton
         >
         <iButton
           @click="locationClick"
           v-permission="PORTAL_MTZ_POINT_INFOR_DATA_YYDDSQDLJ"
-          v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
+          v-if="!editType && isEditNew"
           >{{ language('YYDDSQDLJ', '引用定点申请单零件') }}</iButton
         >
         <iButton
           @click="historyClick"
           v-permission="PORTAL_MTZ_POINT_INFOR_DATA_ZJLSMTZLJZSJ"
-          v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
+          v-if="!editType && isEditNew"
           >{{ language('ZJLSMTZLJZSJ', '增加历史MTZ零件主数据') }}</iButton
         >
         <iButton
           @click="add"
           v-permission="PORTAL_MTZ_POINT_INFOR_ADD"
-          v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
+          v-if="!editType && isEditNew"
           >{{ language('XINZENG', '新增') }}</iButton
         >
         <iButton
           @click="edit"
           v-permission="PORTAL_MTZ_POINT_INFOR_BIANJI"
-          v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
+          v-if="!editType && isEditNew"
           >{{ language('BIANJI', '编辑') }}</iButton
         >
         <iButton
           @click="delecte"
           v-permission="PORTAL_MTZ_POINT_INFOR_DEL"
-          v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
+          v-if="!editType && isEditNew"
           >{{ language('SHANCHU', '删除') }}</iButton
         >
         <iButton
           @click="save"
-          v-if="editType && (appStatus == '草稿' || appStatus == '未通过')"
+          v-if="editType && isEditNew"
           >{{ language('BAOCUN', '保存') }}</iButton
         >
       </div>
@@ -926,7 +926,7 @@ import { getToken } from '@/utils'
 export default {
   name: 'Search',
   componentName: 'theDataTabs',
-  props: ['appStatus', 'inforData', 'applyNumber'],
+  props: ['appStatus', 'inforData', 'applyNumber','flowType','meetingStatus'],
   components: {
     iCard,
     iButton,
@@ -1011,6 +1011,9 @@ export default {
   computed: {
     mtzObject() {
       return this.$store.state.location.mtzObject
+    },
+    isEditNew: function () {
+      return (this.appStatus == '草稿' || this.appStatus == '未通过')||(((this.flowType=='SIGN'||this.flowType=='FILING')||(['02','03',null,'01'].includes(this.meetingStatus)&&this.flowType=='MEETING'))&&this.appStatus=='已提交')
     }
   },
   watch: {

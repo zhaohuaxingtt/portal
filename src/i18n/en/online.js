@@ -1215,6 +1215,7 @@ export default {
   SHEJISVWCAIGOUGONGCHANG: 'Relevant SVW Factory',
   SHEJICHEXING: 'Relevant Model',
   ZONGCHENGJIANDAZONGLINGJIANHAO: 'Assy. Part VW No.',
+  SHANJIANGONGYINGSHANG: 'N-tier Supplier',
   SHANJIANGONGYINGSHANGMINGCHEN: 'N-tier Supplier Name',
   SHANJIANGONGYINGSHANGTONGYISHEHUIXINGYONGDAIMA:
     'N-tier Supplier Unified Social Credit Code',
@@ -1848,6 +1849,7 @@ export default {
   LK_QINGXUANZHE: 'Please Select',
   LK_LINGJIANHAO: 'Part No.',
   LK_LINGJIANMINGCHENG: 'Part Name',
+  LK_ZHANGFU: 'Increase',
   LK_AEKOHAO: 'Aeko No.',
   LK_CAIGOUGONGCHANG: 'SVW Factory',
   LK_EOPZHUANGTAI: 'EOP Status',

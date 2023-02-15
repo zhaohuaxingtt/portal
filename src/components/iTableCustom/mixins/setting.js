@@ -185,7 +185,6 @@ export default {
         } else {
           this.tableColumns = this.columns
         }
-        console.log(this.tableColumns.length, '===>', this.tableColumns);
       }
       const requestData = {
         permissionKey: this.permissionKey
