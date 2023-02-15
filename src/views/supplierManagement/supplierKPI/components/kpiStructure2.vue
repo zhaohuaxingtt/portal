@@ -11,8 +11,8 @@
           <iButton v-if="!isEdit" @click="edit">编辑</iButton>
           <iButton v-if="isEdit" @click="canel">取消</iButton>
           <iButton v-if="isEdit" @click="save">保存</iButton>
-          <iButton v-if="!isEdit" @click="submit">下一步</iButton>
           <!-- <iButton v-if="!isEdit" @click="back">上一步</iButton> -->
+          <iButton v-if="!isEdit" @click="submit">下一步</iButton>
         </div>
       </div>
       <div class="scoll-y">

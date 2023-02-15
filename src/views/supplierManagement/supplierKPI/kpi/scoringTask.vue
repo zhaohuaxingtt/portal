@@ -188,7 +188,9 @@ export default {
   display: flex;
   justify-content: flex-start;
 .noInfo{
-  margin-top: 40px;
+  text-align: center;
+  margin: 40px 0;
+  font-size: 16px;
   width: 100%;
   span{
     display: inline-block;
@@ -275,6 +277,7 @@ export default {
 .title {
   font-size: 18px;
   font-weight: 600;
+  margin-top: 40px;
   color: #555;
 }
 

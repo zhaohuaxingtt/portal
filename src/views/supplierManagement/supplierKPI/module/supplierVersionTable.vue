@@ -33,6 +33,7 @@
           </iButton>
         </div>
       </el-upload>
+      <iButton style="margin-left: 10px" @click="back">上一步</iButton>
       <iButton @click="submit(active)">下一步 </iButton>
       <!-- <iButton @click="back()">上一步 </iButton> -->
 
@@ -435,6 +436,9 @@ export default {
       console.log(this.theadData)
       this.berforTheadData = [...this.theadData]
     },
+    back() {
+      this.$emit('back')
+    },
     // 判断是否是最后一条数据
     isLastData(x, index) {
       if (x.lev != 1) {
@@ -500,7 +504,7 @@ export default {
 
 .table {
   width: 100%;
-  height: calc(100vh - 340px);
+  // height: calc(100vh - 340px);
   overflow: auto;
 
   table {
