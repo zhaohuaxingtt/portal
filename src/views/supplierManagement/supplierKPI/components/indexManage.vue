@@ -1,9 +1,6 @@
 <template>
   <div class="box">
-    <div
-      @click="isShow = !isShow"
-      :class="isShow ? 'keyright key' : 'keyleft key'"
-    >
+    <div @click="isShow = !isShow" :class="isShow ? 'keyright key' : 'keyleft key'">
       <i :class="isShow ? 'el-icon-arrow-left' : 'el-icon-arrow-right'"></i>
     </div>
     <el-collapse-transition>
@@ -13,91 +10,56 @@
             <template slot="title">
               {{ '手工指标' }}<i @click="add" class="el-icon-plus addicon"></i>
             </template>
-            <div
-              class="infolist"
-              v-for="(item, index) in infoList.filter(
+            <div class="infocard">
+
+              <div class="infolist" v-for="(item, index) in infoList.filter(
                 (val) => val.indicatorType == 'MANUAL'
-              )"
-            >
-              <div>
-                <span>{{ item.nameZh }}</span>
-              </div>
-              <div>
-                <i class="el-icon-delete icon red" @click="del(item)"></i
-                ><i
-                  class="el-icon-edit-outline icon blue"
-                  @click="edit(item)"
-                ></i>
+              )">
+                <div>
+                  <span>{{ item.nameZh }}</span>
+                </div>
+                <div>
+                  <i class="el-icon-delete icon red" @click="del(item)"></i><i class="el-icon-edit-outline icon blue"
+                    @click="edit(item)"></i>
+                </div>
               </div>
             </div>
+
           </el-collapse-item>
           <el-collapse-item title="系统指标" name="2">
-            <div
-              class="infolist"
-              v-for="(item, index) in infoList.filter(
+            <div class="infocard">
+              <div class="infolist" v-for="(item, index) in infoList.filter(
                 (val) => val.indicatorType != 'MANUAL'
-              )"
-            >
-              <div>
-                <span>{{ item.nameZh }}</span>
-              </div>
-              <div>
-                <i class="el-icon-delete icon red" @click="del(item)"></i
-                ><i
-                  class="el-icon-edit-outline icon blue"
-                  @click="edit(item)"
-                ></i>
+              )">
+                <div>
+                  <span>{{ item.nameZh }}</span>
+                </div>
+                <div>
+                  <i class="el-icon-delete icon red" @click="del(item)"></i><i class="el-icon-edit-outline icon blue"
+                    @click="edit(item)"></i>
+                </div>
               </div>
             </div>
+
           </el-collapse-item>
         </el-collapse>
       </iCard>
     </el-collapse-transition>
-    <iDialog
-      append-to-body
-      :title="typeDialog == '2' ? $t('编辑手工指标') : $t('新增手工指标')"
-      :visible.sync="addDialog"
-      width="40%"
-      @close="clearDiolog"
-    >
-      <el-form
-        :label-position="'left'"
-        label-width="160px"
-        :model="form"
-        :rules="rules"
-        ref="ruleForm"
-      >
+    <iDialog append-to-body :title="typeDialog == '2' ? $t('编辑手工指标') : $t('新增手工指标')" :visible.sync="addDialog"
+      width="40%" @close="clearDiolog">
+      <el-form :label-position="'left'" label-width="160px" :model="form" :rules="rules" ref="ruleForm">
         <el-form-item :label="$t('指标名称（CN)')" prop="nameZh">
-          <i-input
-            style="width: 200px"
-            :placeholder="$t('partsprocure.PLEENTER')"
-            v-model="form.nameZh"
-          >
+          <i-input style="width: 200px" :placeholder="$t('partsprocure.PLEENTER')" v-model="form.nameZh">
           </i-input>
         </el-form-item>
         <el-form-item :label="$t('指标名称（EN)')" prop="nameEn">
-          <i-input
-            style="width: 200px"
-            :placeholder="$t('partsprocure.PLEENTER')"
-            v-model="form.nameEn"
-          >
+          <i-input style="width: 200px" :placeholder="$t('partsprocure.PLEENTER')" v-model="form.nameEn">
           </i-input>
         </el-form-item>
         <el-form-item :label="$t('负责科室')" prop="deptCode">
-          <iSelect
-            filterable
-            clearable
-            multiple
-            style="width: 200px"
-            :placeholder="$t('partsprocure.PLEENTER')"
-            v-model="form.deptCode"
-          >
-            <el-option
-              v-for="(item, index) in deptList"
-              :key="index"
-              :value="item.deptNum"
-              :label="item.deptNum"
-            >
+          <iSelect filterable clearable multiple style="width: 200px" :placeholder="$t('partsprocure.PLEENTER')"
+            v-model="form.deptCode">
+            <el-option v-for="(item, index) in deptList" :key="index" :value="item.deptNum" :label="item.deptNum">
             </el-option>
           </iSelect>
         </el-form-item>
@@ -111,7 +73,7 @@
 </template>
 
 <script>
-import { iButton, iPage, iCard, iInput, iSelect, iDialog,iMessage } from 'rise'
+import { iButton, iPage, iCard, iInput, iSelect, iDialog, iMessage } from 'rise'
 import { dictByCode } from './data'
 import {
   addIndicator,
@@ -147,7 +109,7 @@ export default {
         deptId: [],
         nameEn: '',
         nameZh: '',
-        indicatorType:'MANUAL'
+        indicatorType: 'MANUAL'
       },
       deptList: [],
       activeName: '1',
@@ -168,7 +130,7 @@ export default {
   },
   watch: {},
   methods: {
-     getInfo() {
+    getInfo() {
       getIndicatorList().then((res) => {
         this.infoList = res.data
       })
@@ -192,8 +154,8 @@ export default {
         if (res.code == '200') {
           this.form = res.data
 
-          this.form.deptCode=this.form.deptCode.split(',')
-          this.form.deptId=this.form.deptId.split(',')
+          this.form.deptCode = this.form.deptCode.split(',')
+          this.form.deptId = this.form.deptId.split(',')
         } else iMessage.error(res.desZh)
       })
     },
@@ -242,7 +204,7 @@ export default {
         deptId: [],
         nameEn: '',
         nameZh: '',
-        indicatorType:'MANUAL'
+        indicatorType: 'MANUAL'
 
       }
     },
@@ -260,42 +222,63 @@ export default {
   background: #1763f7;
   border-radius: 30px;
   cursor: pointer;
+
   i {
     color: white;
     font-weight: 600;
     line-height: 100px;
   }
+
   position: absolute;
 }
+
 .keyleft {
   top: 50%;
   left: -20px;
 }
+
 .keyright {
   top: 50%;
   right: -10px;
 }
+
 .box {
   position: relative;
+
   .addicon {
     font-weight: 600;
     margin-left: 20px;
     color: #1763f7;
     display: inline-block;
   }
+
+
   position: fixed;
   top: 280px;
 
   z-index: 1000;
   width: 400px;
+
   ::v-deep .el-collapse-item__header {
     font-size: 16px;
     font-weight: 600;
   }
+
+  .infocard {
+    height: 400px;
+    overflow: auto !important;
+
+    
+  }
+  ::-webkit-scrollbar {
+      width: 8px;
+    }
   .infolist {
+
     display: flex;
     justify-content: space-between;
-    > div {
+
+    >div {
       display: flex;
       font-size: 16px;
       align-items: center;
@@ -305,9 +288,11 @@ export default {
         cursor: pointer;
         // display: inline-block;
       }
+
       .red {
         color: #e30d0d;
       }
+
       .blue {
         color: #1763f7;
       }
