@@ -8,7 +8,7 @@
   <div class="page">
     <p class="title">
       {{ $t('LK_KESHI') }}：{{
-        $store.state.permission.userInfo.deptDTO.deptNum
+        $store.state.permission.userInfo.deptDTO.deptNum.split('-')[0]
       }}
     </p>
     <div class="cardbox">
@@ -38,7 +38,7 @@
           </div>
         </div>
         <div class="div4">
-          <el-button v-if="item.executeStatus != 0" @click="goDetail(item, 'see')" icon="el-icon-view" type="text">{{
+          <el-button v-if="item.executeStatus == 1" @click="goDetail(item, 'see')" icon="el-icon-view" type="text">{{
             $t('LK_CHAKAN')
           }}</el-button>
           <el-button v-if="item.executeStatus == 0" @click="goDetail(item, 'edit')" icon="el-icon-edit-outline"
@@ -75,8 +75,8 @@
             </div>
           </div>
           <div class="div4">
-            <el-button type="text" icon="el-icon-view" @click="goDetail(item, 'add')">{{ $t('LK_CHAKAN') }}</el-button>
-            <!-- <el-button type="text" iocn="el-icon-download" @click="exportFile(item)">{{ '导出明细' }}</el-button> -->
+            <el-button type="text" icon="el-icon-view" @click="goDetail(item, 'see')">{{ $t('LK_CHAKAN') }}</el-button>
+            <el-button type="text" iocn="el-icon-download" @click="exportFile(item)">{{ '导出明细' }}</el-button>
 
           </div>
         </div>
@@ -145,15 +145,16 @@ export default {
     init() {
       const req = {
         // deptCode:'CSS',
-        deptCode: this.$store.state.permission.userInfo.deptDTO.deptNum
+        deptCode: this.$store.state.permission.userInfo.deptDTO.deptNum.split('-')[0]
       }
       getSupplierPerforManceTaskList(req).then((res) => {
         this.infoList = res.data.filter(val => {
-          return val.status == 0
+          return val.status != 2
         })
         this.infoList2 = res.data.filter(val => {
-          return val.status == 1
+          return val.status == 2
         })
+        console.log( this.infoList)
       })
     },
     DateDiffer(Date_end) {
@@ -167,10 +168,14 @@ export default {
       const diffDate = diff / (24 * 60 * 60 * 1000);  //计算当前时间与结束时间之间相差天数
       return diffDate
     },
+    exportFile(item){
+      exportSupplierPerforManceScoreExcel({ editionId: this.$route.query.editionId })
+    },
     goDetail(item,type) {
       let routeUrl = this.$router.resolve({
         path: '/supplier/spiIndex/supplierVersionUp',
         query: {
+          id:item.id,
           modelId: item.modelId,
           editionId: item.editionId,
           type

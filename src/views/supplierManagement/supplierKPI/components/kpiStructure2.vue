@@ -7,7 +7,7 @@
             <span>{{ infoData.modelVersion }}</span>
           </el-form-item>
         </el-form>
-        <div>
+        <div v-if="$route.query.type == 'edit'">
           <iButton v-if="!isEdit" @click="edit">编辑</iButton>
           <iButton v-if="isEdit" @click="canel">取消</iButton>
           <iButton v-if="isEdit" @click="save">保存</iButton>
@@ -427,37 +427,51 @@ export default {
       let lv2Weight = 0
       let lv3Weight = 0
       let lv4Weight = 0
+      let lev4p=true
       let nameIsNull = true
-      tableChild.forEach((x) => {
-        if (!x.title || !x.weight) nameIsNull = false
-        lv1Weight += Number(x.weight)
-        if (x.childVo.length > 0) {
-          x.childVo.forEach((y) => {
-            if (!y.title || !y.weight) nameIsNull = false
-            lv2Weight += Number(y.weight)
-            if (y.childVo.length > 0) {
-              y.childVo.forEach((z) => {
-                if (!z.title || !z.weight) nameIsNull = false
-                lv3Weight += Number(z.weight)
-                if(z.childVo.length > 0){
-                  z.childVo.forEach((k) => {
-                    if (!z.title || !z.weight) nameIsNull = false
-                    lv4Weight += Number(k.weight)
-                    console.log(lv4Weight)
-                  })
-                }else{
+      if (tableChild.length > 0) {
+        tableChild.forEach((x) => {
+          if (!x.title || !x.weight) nameIsNull = false
+          lv1Weight += Number(x.weight)
+          if (x.childVo.length > 0) {
+            x.childVo.forEach((y) => {
+              if (!y.title || !y.weight) nameIsNull = false
+              lv2Weight += Number(y.weight)
+              if (y.childVo.length > 0) {
+                y.childVo.forEach((z) => {
+                  if (!z.title || !z.weight) nameIsNull = false
+                  lv3Weight += Number(z.weight)
+                  if (z.childVo.length > 0) {
+                    z.childVo.forEach((k) => {
+                      if (!z.title || !z.weight) nameIsNull = false
+                      lv4Weight += Number(k.weight)
+                      lev4p=true
+                      console.log(lv4Weight)
+                    })
+                  } else {
                     lv4Weight += Math.floor(100 * 100) / 100
-                }
-              })
-            } else {
-              lv3Weight += Math.floor(100 * 100) / 100
-            }
-          })
-        } else {
-          lv2Weight += Math.floor(100 * 100) / 100
-          lv3Weight += Math.floor(100 * 100) / 100
-        }
-      })
+                  }
+                })
+              } else {
+                lv4Weight += Math.floor(100 * 100) / 100
+                lv3Weight += Math.floor(100 * 100) / 100
+              }
+            })
+          } else {
+            lv2Weight += Math.floor(100 * 100) / 100
+            lv3Weight += Math.floor(100 * 100) / 100
+            lv4Weight += Math.floor(100 * 100) / 100
+            lev4p=false
+            console.log(+1)
+          }
+        })
+      } else {
+        lv2Weight += Math.floor(100 * 100) / 100
+        lv3Weight += Math.floor(100 * 100) / 100
+        lv4Weight += Math.floor(100 * 100) / 100
+        lv1Weight += Math.floor(100 * 100) / 100
+      }
+
       if (lv1Weight !== 100) {
         return this.$message({
           type: 'error',
@@ -466,7 +480,7 @@ export default {
           showClose: true
         })
       }
-      console.log()
+      console.log(lv4Weight)
       if (lv2Weight !== 100) {
         if (lv2Weight / tableChild.length !== 100) {
           return this.$message({
@@ -495,17 +509,18 @@ export default {
           })
         }
       }
-      if (lv4Weight !== 100) {
+      if (lv4Weight !== 100&&lev4p) {
         let num = 0
         tableChild.forEach((x) => {
-          x.childVo.forEach(l=>{
-            if (x.childVo.length < 1) {
-            num += 1
-          } else {
-            num += x.childVo.length
-          }
+          x.childVo.forEach(l => {
+            if (l.childVo.length < 1) {
+              num += 1
+            } else {
+              console.log( l.childVo)
+              num += l.childVo.length
+            }
           })
-         
+
         })
         console.log(num, lv4Weight, tableChild)
         if (lv4Weight / num !== 100) {
@@ -527,21 +542,21 @@ export default {
         })
       }
       let isNullWeight = true
-      tableChild.filter(x=>{
-          if(!x.weight){
-              isNullWeight = false
+      tableChild.filter(x => {
+        if (!x.weight) {
+          isNullWeight = false
+        }
+        return x.childVo.filter(y => {
+          if (!y.weight) {
+            isNullWeight = false
           }
-          return x.childVo.filter(y=>{
-              if(!y.weight){
-                  isNullWeight = false
-              }
-              return y.childVo.filter(z=>{
-                  if(!z.weight){
-                      isNullWeight = false
-                  }
-                  return
-              })
+          return y.childVo.filter(z => {
+            if (!z.weight) {
+              isNullWeight = false
+            }
+            return
           })
+        })
       })
 
       // 保存执行
@@ -715,8 +730,8 @@ export default {
           position: absolute;
           border-top: 1px solid #2297f3;
           top: 34px;
-          right: -65px;
-          width: 60px;
+          right: -30px;
+          width: 30px;
           height: 1px;
         }
 
@@ -901,8 +916,8 @@ export default {
     position: absolute;
     border-top: 1px solid #2297f3;
     top: 34px;
-    left: -43px;
-    width: 43px;
+    left: -20px;
+    width: 20px;
     height: 1px;
   }
 
@@ -911,8 +926,8 @@ export default {
     position: absolute;
     border-top: 1px solid #2297f3;
     top: 30px;
-    right: -78px;
-    width: 78px;
+    right: -30px;
+    width: 30px;
     height: 1px;
   }
 }
@@ -1120,13 +1135,13 @@ export default {
       height: calc(100% - 160px);
     }
 
-    .lev4::after {
+    .lev4::before {
       content: '';
       position: absolute;
       border-top: 1px solid #2297f3;
       top: 31px;
-      left: 304px;
-      width: 78px;
+      left:312px;
+      width: 28px;
       height: 1px;
     }
 
@@ -1144,8 +1159,8 @@ export default {
       position: absolute;
       border-top: 1px solid #2297f3;
       top: 29px;
-      left: -54px;
-      width: 54px;
+      left: -26px;
+      width: 26px;
       height: 1px;
     }
 
@@ -1154,8 +1169,8 @@ export default {
       position: absolute;
       border-top: 1px solid #2297f3;
       top: 30px;
-      left: -54px;
-      width: 54px;
+      left: -24px;
+      width: 24px;
       height: 1px;
     }
 
@@ -1164,8 +1179,8 @@ export default {
       position: absolute;
       border-top: 1px solid #2297f3;
       top: 29px;
-      right: -78px;
-      width: 78px;
+      right: -36px;
+      width: 36px;
       height: 1px;
     }
   }

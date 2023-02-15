@@ -12,22 +12,22 @@
       <el-steps finish-status="success" align-center :active="active">
         <el-step title="绩效模型确认"></el-step>
         <el-step title="上传手工指标结果"></el-step>
-        <el-step title="评分调整"></el-step>
+        <el-step v-if="activeIs" title="评分调整"></el-step>
         <el-step title="完成"></el-step>
       </el-steps>
-      <supplierIndexManage @back="back" :infoData="infoData" @submit0="submit0" @getallData="getallData" :isShow="false"
-        v-if="active == 0">
+      <supplierIndexManage @changeTab="changeTab" @back="back" :infoData="infoData" @submit0="submit0"
+        @getallData="getallData" :isShow="false" v-if="active == 0">
       </supplierIndexManage>
-      <supplierVersionTable @back="back" :infoData="infoData" @submit12="submit12" :isShow="false" v-if="active == 1 || active == 2"
-        :active="active"></supplierVersionTable>
-      <Completed  @back="back" :infoData="infoData" v-if="active == 3"> </Completed>
+      <supplierVersionTable @back="back" :infoData="infoData" @submit12="submit12" :isShow="false"
+        v-if="active == 1 || active == 2" :active="active"></supplierVersionTable>
+      <Completed @back="back" :infoData="infoData" v-if="active == 3"> </Completed>
     </iCard>
   </div>
 </template>
 
 <script>
 import Completed from './Completed'
-import { getPerformanceEdition, updateSupplierPerforManceModel } from '@/api/supplierManagement/supplierIndexManage/index'
+import { getPerformanceEdition, updateSupplierPerforManceModel,submitPerformanceTask  } from '@/api/supplierManagement/supplierIndexManage/index'
 import { downloadFileWithName } from '@/api/common'
 import { pageMixins } from '@/utils/pageMixins'
 import supplierIndexManage from '../supplierIndexManage'
@@ -69,7 +69,8 @@ export default {
     return {
       active: 0,
       allData: {},
-      infoData: {}
+      infoData: {},
+      activeIs: true
     }
   },
   created() {
@@ -87,6 +88,9 @@ export default {
       const diffDate = diff / (24 * 60 * 60 * 1000);  //计算当前时间与结束时间之间相差天数
       return diffDate
     },
+    changeTab() {
+      this.activeIs = false
+    },
     init() {
       getPerformanceEdition(this.$route.query.editionId).then(res => {
         this.infoData = res.data
@@ -94,8 +98,16 @@ export default {
 
       })
     },
-    back(){
-      this.active=this.active-1
+    back() {
+      if (!this.activeIs && this.active == 3) {
+        this.active = 1
+      } else if (!this.activeIs) {
+        this.active = 0
+      } else {
+        this.active = this.active - 1
+
+      }
+
     },
     getallData(val) {
       console.log(val)
@@ -117,7 +129,25 @@ export default {
 
     },
     submit12() {
-      this.active = this.active + 1
+      if (!this.activeIs) {
+        this.submitTask()
+      } else {
+        if (this.active == 2) {
+          this.submitTask()
+        } else {
+          this.active = this.active + 1
+        }
+      }
+    },
+    submitTask() {
+      submitPerformanceTask({id:this.$route.query.id}).then(res => {
+        if (res.code == 200) {
+          this.active = 3
+          iMessage.success(res.desZh || '提交成功')
+        } else {
+          iMessage.error(`${this.$i18n.locale === "zh" ? res.desZh : res.desEn}`)
+        }
+      })
     },
     dowload(v) {
       const params = {

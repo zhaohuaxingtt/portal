@@ -140,12 +140,25 @@ export default {
       this.deptList = res.data
     },
     del(item) {
-      delIndicator({ ids: [item.id] }).then((res) => {
-        if (res.code == '200') {
-          this.getInfo()
-          iMessage.success(res.desZh || '删除成功')
-        } else iMessage.error(res.desZh)
-      })
+      this.$confirm('是否确认删除', '删除', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+
+      }).then(() => {
+        delIndicator({ ids: [item.id] }).then((res) => {
+          if (res.code == '200') {
+            this.getInfo()
+            iMessage.success(res.desZh || '删除成功')
+          } else iMessage.error(res.desZh)
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+
     },
     edit(item) {
       this.typeDialog = '2'
@@ -268,11 +281,13 @@ export default {
     height: 400px;
     overflow: auto !important;
 
-    
+
   }
+
   ::-webkit-scrollbar {
-      width: 8px;
-    }
+    width: 8px;
+  }
+
   .infolist {
 
     display: flex;

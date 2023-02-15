@@ -156,6 +156,24 @@ export function updateSupplierPerforManceModel(parmars) {
     method: 'POST',
     data: parmars
 
+  }) 
+}
+//  提交打分任务
+export function submitPerformanceTask(parmars) {
+  return requst({
+    url: '/supplierPerformanceScore/submitPerformanceTask',
+    method: 'POST',
+    data: parmars
+
+  }) 
+}
+//  导出明细excel
+export function exportSupplierPerforManceScoreExcel(parmars) {
+  return requestDownload({
+    url: '/supplierPerformanceScore/exportSupplierPerforManceScoreExcel',
+    method: 'POST',
+    data: parmars
+
   })
 }
 //  导出手工指标excel

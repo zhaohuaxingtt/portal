@@ -106,7 +106,6 @@ export default {
           if (this.dropDownOptions.length > 0) {
             this.allData.modelId = this.dropDownOptions[this.dropDownOptions.length - 1].modelId
             this.allData.fileId = this.dropDownOptions[this.dropDownOptions.length - 1].fileId
-
             if (this.isShow || val == 'updata') {
               this.info = this.dropDownOptions.find(
                 (val) => val.modelId == this.allData.modelId
@@ -121,8 +120,8 @@ export default {
             } else {
               this.allData.modelId = this.$route.query.modelId
             }
-            console.log(this.allData)
           }
+
           this.$set(this.allData, 'fileName', this.dropDownOptions[this.dropDownOptions.length - 1].fileName)
           this.$emit('getallData', this.allData)
           getModelTree(this.allData.modelId).then((res) => {
@@ -130,6 +129,12 @@ export default {
               if (res.data.id != null) {
                 this.allData.modelId = res.data.modelId
                 this.allData.childVo = res.data
+                if(!this.isShow){
+                  if(!this.allData.childVo.childVo.length){
+                    console.log(this.allData.childVo.childVo.length)
+                    this.$emit('changeTab')
+                  }
+                }
               }
             }
           })
