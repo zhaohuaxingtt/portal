@@ -214,7 +214,11 @@ export default {
     z-index: 999;
   }
   .el-card__header {
-    height: 50px;
+    height: 65px;
+    border-bottom: none;
+  }
+  .el-card__body {
+    height: 500px;
     border-bottom: none;
   }
   .el-card__body {
@@ -235,6 +239,9 @@ export default {
   .module-content {
     height: 100%;
     overflow: auto;
+  }
+  .module-content::-webkit-scrollbar {
+    width: calc(1.25rem / 2);
   }
 }
 </style>

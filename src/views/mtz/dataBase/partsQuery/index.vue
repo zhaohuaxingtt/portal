@@ -161,7 +161,7 @@
             v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_XZMB"
             >下载模板</iButton
           > -->
-          <iButton
+          <!-- <iButton
             @click="handleSeePartsRelationship"
             v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_CKYECJLJGX"
             >查看一/二次件零件关系</iButton
@@ -175,7 +175,7 @@
             :uploadByBusiness="true"
             @uploadedCallback="handleUpload($event)"
             class="margin-left10 margin-right10"
-          />
+          /> -->
           <iButton
             @click="takeEffect(1)"
             v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_SHENGXIAO"

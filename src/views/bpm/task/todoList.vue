@@ -2,16 +2,23 @@
   <iPage class="template">
     <pageHeader>
       <span>{{ language('待审批列表') }}</span>
-      <div slot="actions">
+<!--      <div slot="actions">-->
+<!--        <actionHeader-->
+<!--          :todo-total="todoTotal"-->
+<!--          :task-type="0"-->
+<!--          :search-form="form"-->
+<!--        />-->
+<!--      </div>-->
+    </pageHeader>
+    <searchForm :isSourceFindingPoint="true" @search="search" />
+    <iCard>
+      <div class="cus-action-header">
         <actionHeader
           :todo-total="todoTotal"
           :task-type="0"
           :search-form="form"
         />
       </div>
-    </pageHeader>
-    <searchForm @search="search" />
-    <iCard>
       <actionButtons
         :selected-row="selectTableData"
         :task-type="taskType"
@@ -378,4 +385,14 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.cus-action-header {
+  display: inline;
+  ::v-deep .types {
+    display: inline-flex;
+  }
+  ::v-deep .tab:first-child {
+    margin-left: 0 !important;
+  }
+}
+</style>

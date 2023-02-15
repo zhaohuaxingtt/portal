@@ -70,6 +70,7 @@
                      :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
                      v-model.trim="form.deptId">
               <el-option v-for="item in deptList"
+                         :disabled="disabled"
                          :key="item.kvalue"
                          :label="item.vvalue"
                          :value="item.kvalue">
@@ -376,7 +377,8 @@ export default {
         { code: '', name: this.language('QUANBU', '全部') },
         { code: 0, name: this.language('WEIBAOJIA', '未报价') },
         { code: 1, name: this.language('XUNJIAZHONG', '询价中') }
-      ]
+      ],
+      disabled:false
     }
   },
   watch: {},
@@ -401,6 +403,8 @@ export default {
           type: 'user',
           deptIds: v
         }
+        if(this.disabled) return
+        this.disabled = true
         userDropDown(req).then((res) => {
           this.userList = res.data
           var arr2 = []
@@ -414,6 +418,8 @@ export default {
             })
           }
           this.form.userId = arr2
+        }).finally(()=>{
+          this.disabled = false
         })
       }
     },

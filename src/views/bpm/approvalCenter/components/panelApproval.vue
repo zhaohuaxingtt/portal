@@ -4,26 +4,64 @@
       :data="data"
       @toggle-active="toggleActive"
       :active-index.sync="activeIndex"
+      :filterType="true"
       numVisible
     />
 
-    <div v-for="item in activeData" :key="item.typeName">
-      <div class="category-name">
-        {{ item.typeValue }}
-      </div>
+<!--    <div v-for="item in activeData" :key="item.typeName">-->
+<!--      <div class="category-name">-->
+<!--        {{ item.typeValue }}-->
+<!--      </div>-->
+<!--      <div class="category-content">-->
+<!--        <overview-panel-->
+<!--          v-for="subItem in item.wfCategoryList"-->
+<!--          :key="subItem.subType"-->
+<!--          :data="subItem"-->
+<!--          :category-name="item.typeValue"-->
+<!--          type="APPROVAL"-->
+<!--          :typeName="item.typeName"-->
+<!--          @open="openListPage"-->
+<!--        />-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    <div-->
+<!--      style="text-align: center"-->
+<!--      class="margin-top30"-->
+<!--      v-show="activeData.length === 0"-->
+<!--    >-->
+<!--      {{ language('无进行中的审批项') }}-->
+<!--    </div>-->
+
+    <template v-if='this.activeIndex === -1'>
       <div class="category-content">
         <overview-panel
-          v-for="subItem in item.wfCategoryList"
-          :key="subItem.subType"
-          :data="subItem"
+          v-for="(item, index) in activeDataList"
+          :key="index"
+          :data="item"
           :category-name="item.typeValue"
-          type="APPROVAL"
-          :typeName="item.typeName"
           @open="openListPage"
         />
       </div>
-    </div>
-
+    </template>
+    <template v-else>
+      <div v-for="item in activeData" :key="item.typeName">
+<!--        <div class="category-name">-->
+<!--          {{ item.typeValue }}-->
+<!--        </div>-->
+        <div class="category-content">
+          <overview-panel
+            v-for="subItem in item.wfCategoryList"
+            :key="subItem.subType"
+            :data="subItem"
+            :category-name="item.typeValue"
+            type="APPROVAL"
+            :typeName="item.typeName"
+            @open="openListPage"
+          />
+        </div>
+      </div>
+    </template>
     <div
       style="text-align: center"
       class="margin-top30"
@@ -53,6 +91,37 @@ export default {
     }
   },
   computed: {
+    activeDataList() {
+      if (this.activeIndex === -1) {
+        const data = _.cloneDeep(this.data)
+        // CRW-7138 在全部Tab下只显示有待办任务的卡片，点击后面的分类Tab会将此分类下的全部卡片显示，包含审批任务为0的卡片
+        const hasValueData = data.filter((e) => {
+          const wfList = e?.wfCategoryList?.filter((wf) => {
+            return wf.todoNum
+          })
+          if (wfList.length) {
+            wfList.forEach(item => {
+              item['typeValue'] = e.typeValue
+            })
+            e.wfCategoryList = wfList
+            return true
+          }
+          return false
+        })
+        const activeDataList = []
+        if(hasValueData && hasValueData.length > 0) {
+          hasValueData.forEach(item => {
+            if(item.wfCategoryList && item.wfCategoryList.length > 0) {
+              activeDataList.push(...item.wfCategoryList)
+            }
+          })
+        }
+        return activeDataList
+      } else {
+        // console.log('activeDataList...', this.data[this.activeIndex])
+        return [this.data[this.activeIndex]]
+      }
+    },
     activeData() {
       if (this.activeIndex === -1) {
         const data = _.cloneDeep(this.data)

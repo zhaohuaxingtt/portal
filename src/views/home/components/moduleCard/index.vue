@@ -1,5 +1,5 @@
 <template>
-  <el-card class="module-card">
+  <el-card class="module-card" :class="getHeaderBgColorClass(card)">
     <!-- :class="
         !['EKL', 'EKLAffix'].includes(card.component)
           ? 'flex-between-center-center'
@@ -17,35 +17,38 @@
       </span>
 
       <eklHeader v-if="card.component === 'EKL'" @tab-click="handleEklClick" />
+      <approveHeader v-if="card.component === 'Approve'" @tab-click="handleApproveHeaderClick" :todoCount="approvalToDoNum" />
+      <taskHeader v-if="card.component === 'Task'" @tab-click="handleTaskHeaderClick" :taskQty="taskQty" />
+      <meetingHeader v-if="card.component === 'Schedule'" @tab-click="handleMeetingHeaderClick" />
       <eklAffixHeader
         v-if="card.component === 'EKLAffix'"
         @tab-click="handleEklAffixClick"
       />
       <!-- 更多2 -->
-      <div class="more">
-        <span class="el-dropdown-link" @click.stop="show = !show">
-          <i class="el-icon-more"></i>
-        </span>
-        <div class="more-content" style="top: 17px" v-show="show">
-          <div
-            v-if="['Task', 'Approve'].includes(card.component)"
-            class="more-item"
-            @click="handleMore"
-          >
-            更多
-          </div>
-          <div
-            class="more-item"
-            :class="
-              ['Task', 'Approve'].includes(card.component) ? 'bottom' : 'all'
-            "
-            @click="handleDel"
-          >
-            删除
-          </div>
-          <i class="arrow" style="width: 8px; height: 8px; top: -4px"></i>
-        </div>
-      </div>
+<!--      <div class="more">-->
+<!--        <span class="el-dropdown-link" @click.stop="show = !show">-->
+<!--          <i class="el-icon-more"></i>-->
+<!--        </span>-->
+<!--        <div class="more-content" style="top: 17px" v-show="show">-->
+<!--          <div-->
+<!--            v-if="['Task', 'Approve'].includes(card.component)"-->
+<!--            class="more-item"-->
+<!--            @click="handleMore"-->
+<!--          >-->
+<!--            更多-->
+<!--          </div>-->
+<!--          <div-->
+<!--            class="more-item"-->
+<!--            :class="-->
+<!--              ['Task', 'Approve'].includes(card.component) ? 'bottom' : 'all'-->
+<!--            "-->
+<!--            @click="handleDel"-->
+<!--          >-->
+<!--            删除-->
+<!--          </div>-->
+<!--          <i class="arrow" style="width: 8px; height: 8px; top: -4px"></i>-->
+<!--        </div>-->
+<!--      </div>-->
     </div>
     <div class="module-content">
       <component
@@ -54,6 +57,10 @@
         ref="parent"
         :eklTabItem="eklTabItem"
         :eklAffixTabItem="eklAffixTabItem"
+        :showPendingApproval="showPendingApproval"
+        :meetingTabItems="meetingTabItems"
+        @approvalToDoNum="updateApprovalToDoNum"
+        @taskQty="updateTaskQty"
       ></component>
     </div>
     <moreDialog
@@ -77,6 +84,9 @@ import Sponser from '../Sponser/index.vue'
 import Delivery from '../Delivery/index.vue'
 import EKL from '../EKL/index.vue'
 import eklHeader from '../EKL/header'
+import approveHeader from '../Approve/header'
+import taskHeader from '../Task/header'
+import meetingHeader from  '../Schedule/Header'
 import EKLAffix from '../EKLAffix/index.vue'
 import eklAffixHeader from '../EKLAffix/header'
 
@@ -89,7 +99,11 @@ export default {
       modalTitle: '',
       show: false,
       eklTabItem: null,
-      eklAffixTabItem: null
+      showPendingApproval: true,
+      eklAffixTabItem: null,
+      meetingTabItems: null,
+      approvalToDoNum: 0,
+      taskQty: null
     }
   },
   components: {
@@ -105,6 +119,9 @@ export default {
     EKL,
     EKLAffix,
     eklHeader,
+    approveHeader,
+    taskHeader,
+    meetingHeader,
     eklAffixHeader
   },
   props: {
@@ -133,6 +150,11 @@ export default {
       // } else {
       //   return this.$t('HOME_CARD.' + this.card.permissionKey)
       // }
+      if(this.card.component === 'Task') {
+        return this.$t('HOME_CARD.HOME_MODULE_I_TASK')
+      } else if(this.card.component === 'Schedule') {
+        return this.$t('HOME_CARD.HOME_MODULE_I_MEETING')
+      }
       return this.$t('HOME_CARD.' + this.card.permissionKey)
     }
   },
@@ -142,6 +164,17 @@ export default {
     })
   },
   methods: {
+    getHeaderBgColorClass(card) {
+      if (card.component === 'Approve') {
+        return 'deep-blue-header'
+      } else if(card.component === 'Task') {
+        return 'blue-header'
+      } else if(card.component === 'Schedule') {
+        return 'deep-blue-header'
+      } else {
+        return 'blue-header'
+      }
+    },
     handleClickTitle(card) {
       console.log(card, '111111111')
       if (card.component === 'Approve') {
@@ -183,6 +216,21 @@ export default {
     handleEklClick(item) {
       this.eklTabItem = item
     },
+    updateApprovalToDoNum(todoCount) {
+      this.approvalToDoNum = todoCount
+    },
+    updateTaskQty(taskQty) {
+      this.taskQty = taskQty
+    },
+    handleApproveHeaderClick(item) {
+      this.showPendingApproval = item
+    },
+    handleTaskHeaderClick() {
+
+    },
+    handleMeetingHeaderClick(meetingTabItems) {
+      this.meetingTabItems = meetingTabItems
+    },
     handleEklAffixClick(item) {
       this.eklAffixTabItem = item
     }
@@ -212,6 +260,9 @@ export default {
   .card-header {
     position: relative;
     z-index: 10;
+  }
+  .flex-between-center-center {
+    align-items: start;
   }
   .module-card-btn {
     color: #4d4d4d;
@@ -284,15 +335,33 @@ export default {
 <style scope lang="scss">
 .module-card {
   margin-bottom: 20px;
+  &.deep-blue-header {
+    .el-card__header {
+      background-color: rgb(29, 51, 88);
+      .title {
+        color: rgb(255, 255, 255);
+      }
+    }
+  }
+  &.blue-header {
+    .el-card__header {
+      background-color: rgb(15, 66, 145);
+      .title {
+        color: rgb(255, 255, 255);
+      }
+    }
+  }
   .el-dropdown {
     z-index: 999;
   }
   .el-card__header {
-    height: 50px;
+    height: 65px;
     border-bottom: none;
+    //padding-top: 4px;
+    //padding-bottom: 4px;
   }
   .el-card__body {
-    height: 570px;
+    height: 520px;
   }
   .card-dropdown {
     margin: 0 !important;
@@ -308,6 +377,9 @@ export default {
   }
   .module-content {
     height: 100%;
+  }
+  .module-content::-webkit-scrollbar {
+    width: calc(1.25rem / 2);
   }
 }
 </style>

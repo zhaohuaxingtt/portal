@@ -18,7 +18,8 @@
         <div class="title_type">
           <div class="title_block">
             <span>申请单类型：</span>
-            <iSelect :disabled="(appStatus !== '草稿' && appStatus !== '未通过') || formInfor.ttNominateAppId !== ''"
+            <!-- <iSelect :disabled="(appStatus !== '草稿' && appStatus !== '未通过') || formInfor.ttNominateAppId !== '' -->
+            <iSelect :disabled="!isEditNew || formInfor.ttNominateAppId !== ''"
                      :value="formInfor.flowType"
                      v-permission.edit="PORTAL_MTZ_POINT_INFOR_SHENQINGDANLEIXING"
                      :placeholder="language('QINGXUANZE','请选择')"
@@ -41,7 +42,8 @@
           <iButton @click="submit"
                    v-show="locationNow==3&&meetingNumber == 0"
                    v-permission="PORTAL_MTZ_POINT_INFOR_TIJIAO"
-                   :disabled="(appStatus !== '草稿' && appStatus !== '未通过') || ttNominateAppId !== ''">{{ language('TIJIAO', '提交') }}</iButton>
+                   :disabled="!isEditNew || ttNominateAppId !== ''">{{ language('TIJIAO', '提交') }}</iButton>
+                   <!-- (appStatus !== '草稿' && appStatus !== '未通过') -->
         </template>
         <iButton @click="downRS">{{ language('YULAN', '预览') }}</iButton>
       </div>
@@ -145,6 +147,7 @@ export default {
       beforReturn: true,
       flowType: "",
       appStatus: "",
+      meetingStatus:'',
       stepNum: 1,
       ttNominateAppId: "",
       NumberCESHI: 0,
@@ -173,6 +176,9 @@ export default {
     submitInfor () {
       return this.$store.state.location.submitInfor;
     },
+    isEditNew: function () {
+      return (this.appStatus == '草稿' || this.appStatus == '未通过')||(((this.flowType=='SIGN'||this.flowType=='FILING')||(['02','03',null,'01'].includes(this.meetingStatus)&&this.flowType=='MEETING'))&&this.appStatus=='已提交')
+    }
   },
 
   watch: {
@@ -330,6 +336,7 @@ export default {
       getAppFormInfo({ mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId }).then(res => {
         this.formInfor = res.data;
         this.flowType = res.data.flowType;
+        this.meetingStatus=res.data.meetingStatus
         this.appStatus = res.data.appStatus;
         this.ttNominateAppId = res.data.ttNominateAppId;
         this.mtzAppName = res.data.appName;

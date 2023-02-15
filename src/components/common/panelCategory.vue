@@ -15,7 +15,7 @@
 
       <div
         class="item"
-        v-for="(item, index) in data"
+        v-for="(item, index) in dataNowList"
         :key="index"
         :class="{ active: index === activeIndex }"
         @click="toggleActive(index)"
@@ -50,14 +50,43 @@ export default {
     numVisible: {
       type: Boolean,
       default: false
+    },
+    filterType:{
+      type: Boolean,
+      default: false
     }
   },
-  // data() {
-  //   return {
-  //     activeIndex: -1,
-  //   }
-  // },
+  data() {
+    return {
+      dataNowList:[],
+    }
+  },
+  watch:{
+    data: {
+      handler(a) {
+        this.refresh(a);
+      },
+      deep: true,
+      immediate: true,
+    },
+  },
+  created(){
+    
+  },
   methods: {
+    refresh(val){
+      if(this.filterType){
+        if(val.length>0){
+          console.log(val);
+          const list = val.filter(e=>e.totalTodoNum!==0)
+          this.dataNowList = _.cloneDeep(list);
+        }else{
+          this.dataNowList = _.cloneDeep(val);
+        }
+      }else{
+        this.dataNowList = _.cloneDeep(val);
+      }
+    },
     toggleActive(index) {
       // this.activeIndex = index
       this.$emit('toggle-active', index)

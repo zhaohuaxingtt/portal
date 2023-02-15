@@ -10,36 +10,42 @@
       <div>
         <iButton
           @click="cancel"
-          v-if="editType && (appStatus == '草稿' || appStatus == '未通过')"
+          v-if="editType && isEditNew"
           >{{ language('QUXIAO', '取消') }}</iButton
         >
         <iButton
           @click="add"
           v-permission="PORTAL_MTZ_POINT_INFOR_ADD"
-          v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
+          v-if="!editType && isEditNew"
           >{{ language('XINZENG', '新增') }}</iButton
         >
         <iButton
           @click="edit"
           v-permission="PORTAL_MTZ_POINT_INFOR_BIANJI"
-          v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
+          v-if="!editType && isEditNew"
           >{{ language('BIANJI', '编辑') }}</iButton
         >
         <iButton
           @click="continueBtn"
           v-permission="PORTAL_MTZ_POINT_INFOR_GZ_YANYONG"
-          v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
+          v-if="!editType && isEditNew"
           >{{ language('YANYONG', '沿用') }}</iButton
+        >
+        <iButton
+          @click="upRuleBtn"
+          v-permission="PORTAL_MTZ_POINT_INFOR_GZ_YANYONG"
+          v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
+          >{{ language('升版', '升版') }}</iButton
         >
         <iButton
           @click="delecte"
           v-permission="PORTAL_MTZ_POINT_INFOR_DEL"
-          v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
+          v-if="!editType && isEditNew"
           >{{ language('SHANCHU', '删除') }}</iButton
         >
         <iButton
           @click="save"
-          v-if="editType && (appStatus == '草稿' || appStatus == '未通过')"
+          v-if="editType && isEditNew"
           >{{ language('BAOCUN', '保存') }}</iButton
         >
       </div>
@@ -84,6 +90,23 @@
             </el-form-item>
           </template>
         </el-table-column>
+        <el-table-column
+          prop="ruleVersion"
+          align="center"
+          show-overflow-tooltip
+          width="130"
+          :label="language('版本编号')"
+        >
+          <template slot-scope="scope">
+            <el-form-item
+              :prop="'tableData.' + scope.$index + '.' + 'ruleVersion'"
+              :rules="formRules.ruleVersion ? formRules.ruleVersion : ''"
+            >
+              <!-- <iInput v-model="scope.row.ruleNo" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
+              <span>{{ scope.row.ruleVersion }}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
 
         <el-table-column
           prop="formalFlag"
@@ -115,7 +138,7 @@
               :prop="'tableData.' + scope.$index + '.' + 'effectFlag'"
               :rules="formRules.effectFlag ? formRules.effectFlag : ''"
             >
-              <el-select
+              <!-- <el-select
                 v-model="scope.row.effectFlag"
                 clearable
                 :placeholder="language('QINGSHURU', '请输入')"
@@ -128,8 +151,8 @@
                   :value="item.code"
                 >
                 </el-option>
-              </el-select>
-              <span v-else>{{
+              </el-select> -->
+              <span >{{
                 scope.row.effectFlag == 1
                   ? '是'
                   : scope.row.effectFlag == 0
@@ -318,11 +341,11 @@
               :rules="formRules.price ? formRules.price : ''"
             >
               <!-- :disabled='scope.row.metalType && editId.indexOf(scope.row.id)!==-1' -->
-              <iInput type="number"
+              <!-- <iInput type="number"
                             v-model="scope.row.price"
                             v-if="editId.indexOf(scope.row.id) !== -1"
-                        ></iInput>
-              <span v-else>{{ scope.row.price }}</span>
+                        ></iInput> -->
+              <span >{{ scope.row.price }}</span>
             </el-form-item>
           </template>
         </el-table-column>
@@ -370,7 +393,7 @@
               :prop="'tableData.' + scope.$index + '.' + 'tcCurrence'"
               :rules="formRules.tcCurrence ? formRules.tcCurrence : ''"
             >
-              <el-select
+              <!-- <el-select
                 v-model="scope.row.tcCurrence"
                 clearable
                 :placeholder="language('QINGSHURU', '请输入')"
@@ -383,8 +406,8 @@
                   :value="item.code"
                 >
                 </el-option>
-              </el-select>
-              <span v-else>{{ scope.row.tcCurrence }}</span>
+              </el-select> -->
+              <span >{{ scope.row.tcCurrence }}</span>
             </el-form-item>
           </template>
         </el-table-column>
@@ -430,7 +453,7 @@
                 </el-option>
               </el-select> -->
 
-              <i-select
+              <!-- <i-select
                 v-model="scope.row.source"
                 clearable
                 @change="sourceChange(scope.row, $event)"
@@ -444,9 +467,9 @@
                   :value="item.code"
                 >
                 </el-option>
-              </i-select>
+              </i-select> -->
 
-              <span v-else>{{ scope.row.source }}</span>
+              <span >{{ scope.row.source }}</span>
             </el-form-item>
           </template>
         </el-table-column>
@@ -486,7 +509,7 @@
                 formRules.compensationPeriod ? formRules.compensationPeriod : ''
               "
             >
-              <el-select
+              <!-- <el-select
                 v-model="scope.row.compensationPeriod"
                 clearable
                 :placeholder="language('QINGSHURU', '请输入')"
@@ -499,8 +522,8 @@
                   :value="item.code"
                 >
                 </el-option>
-              </el-select>
-              <span v-else>{{
+              </el-select> -->
+              <span >{{
                 scope.row.compensationPeriod == 'A'
                   ? '年度'
                   : scope.row.compensationPeriod == 'H'
@@ -602,15 +625,16 @@
               :prop="'tableData.' + scope.$index + '.' + 'startDate'"
               :rules="formRules.startDate ? formRules.startDate : ''"
             >
-              <!-- <iDatePicker v-model="scope.row.startDate"
+              <iDatePicker :picker-options="pickerOptionsStar" v-model="scope.row.startDate"
+                               @focus="chaneDate($event,scope.row)"
                                 style="width:180px!important;"
                                 type="date"
-                                value-format="yyyy-MM-dd hh:mm:ss"
+                                value-format="yyyy-MM-dd"
                                 format="yyyy-MM-dd"
                                 v-if="editId.indexOf(scope.row.id)!==-1"
                                 >
-                        </iDatePicker> -->
-              <span>{{ scope.row.startDate }}</span>
+                        </iDatePicker>
+              <span v-else>{{ scope.row.startDate }}</span>
             </el-form-item>
           </template>
         </el-table-column>
@@ -625,15 +649,16 @@
               :prop="'tableData.' + scope.$index + '.' + 'endDate'"
               :rules="formRules.endDate ? formRules.endDate : ''"
             >
-              <!-- <iDatePicker v-model="scope.row.endDate"
+              <iDatePicker :picker-options="pickerOptionsEnd" v-model="scope.row.endDate"
+              @focus="chaneDate($event,scope.row)"
                                 style="width:180px!important;"
                                 type="date"
-                                value-format="yyyy-MM-dd hh:mm:ss"
+                                value-format="yyyy-MM-dd"
                                 format="yyyy-MM-dd"
                                 v-if="editId.indexOf(scope.row.id)!==-1"
                                 >
-                        </iDatePicker> -->
-              <span>{{ scope.row.endDate }}</span>
+                        </iDatePicker>
+              <span v-else>{{ scope.row.endDate }}</span>
             </el-form-item>
           </template>
         </el-table-column>
@@ -659,14 +684,13 @@
               :prop="'tableData.' + scope.$index + '.' + 'platinumPrice'"
               :rules="formRules.platinumPrice ? formRules.platinumPrice : ''"
             >
-              <!-- <iInput
+              <iInput
                         type="number"
                         v-model="scope.row.platinumPrice"
                         v-if="editId.indexOf(scope.row.id)!==-1"
-                        :disabled='!scope.row.metalType && editId.indexOf(scope.row.id)!==-1'
                         @change="jijiaCompute(scope.row,$event)"
-                        ></iInput> -->
-              <span>{{ scope.row.platinumPrice }}</span>
+                        ></iInput>
+              <span v-else>{{ scope.row.platinumPrice }}</span>
             </el-form-item>
           </template>
         </el-table-column>
@@ -690,14 +714,13 @@
               :prop="'tableData.' + scope.$index + '.' + 'platinumDosage'"
               :rules="formRules.platinumDosage ? formRules.platinumDosage : ''"
             >
-              <!-- <iInput
+              <iInput
                         type="number"
                         v-model="scope.row.platinumDosage"
                         v-if="editId.indexOf(scope.row.id)!==-1"
-                        :disabled='!scope.row.metalType && editId.indexOf(scope.row.id)!==-1'
                         @change="jijiaCompute(scope.row,$event)"
-                        ></iInput> -->
-              <span>{{ scope.row.platinumDosage }}</span>
+                        ></iInput>
+              <span v-else>{{ scope.row.platinumDosage }}</span>
             </el-form-item>
           </template>
         </el-table-column>
@@ -721,14 +744,13 @@
               :prop="'tableData.' + scope.$index + '.' + 'palladiumPrice'"
               :rules="formRules.palladiumPrice ? formRules.palladiumPrice : ''"
             >
-              <!-- <iInput 
+              <iInput 
                         type="number"
                         v-model="scope.row.palladiumPrice"
                         v-if="editId.indexOf(scope.row.id)!==-1"
-                        :disabled='!scope.row.metalType && editId.indexOf(scope.row.id)!==-1'
                         @change="jijiaCompute(scope.row,$event)"
-                        ></iInput> -->
-              <span>{{ scope.row.palladiumPrice }}</span>
+                        ></iInput>
+              <span v-else>{{ scope.row.palladiumPrice }}</span>
             </el-form-item>
           </template>
         </el-table-column>
@@ -754,13 +776,12 @@
                 formRules.palladiumDosage ? formRules.palladiumDosage : ''
               "
             >
-              <!-- <iInput type="number"
+              <iInput type="number"
                         v-model="scope.row.palladiumDosage"
                         v-if="editId.indexOf(scope.row.id)!==-1"
-                        :disabled='!scope.row.metalType && editId.indexOf(scope.row.id)!==-1'
                         @change="jijiaCompute(scope.row,$event)"
-                        ></iInput> -->
-              <span>{{ scope.row.palladiumDosage }}</span>
+                        ></iInput>
+              <span v-else>{{ scope.row.palladiumDosage }}</span>
             </el-form-item>
           </template>
         </el-table-column>
@@ -784,13 +805,12 @@
               :prop="'tableData.' + scope.$index + '.' + 'rhodiumPrice'"
               :rules="formRules.rhodiumPrice ? formRules.rhodiumPrice : ''"
             >
-              <!-- <iInput type="number"
+              <iInput type="number"
                         v-model="scope.row.rhodiumPrice"
                         v-if="editId.indexOf(scope.row.id)!==-1"
-                        :disabled='!scope.row.metalType && editId.indexOf(scope.row.id)!==-1'
                         @change="jijiaCompute(scope.row,$event)"
-                        ></iInput> -->
-              <span>{{ scope.row.rhodiumPrice }}</span>
+                        ></iInput>
+              <span v-else>{{ scope.row.rhodiumPrice }}</span>
             </el-form-item>
           </template>
         </el-table-column>
@@ -815,14 +835,13 @@
               :prop="'tableData.' + scope.$index + '.' + 'rhodiumDosage'"
               :rules="formRules.rhodiumDosage ? formRules.rhodiumDosage : ''"
             >
-              <!-- <iInput
+              <iInput
                         type="number"
                         v-model="scope.row.rhodiumDosage"
                         v-if="editId.indexOf(scope.row.id)!==-1"
-                        :disabled='!scope.row.metalType && editId.indexOf(scope.row.id)!==-1'
                         @change="jijiaCompute(scope.row,$event)"
-                        ></iInput> -->
-              <span>{{ scope.row.rhodiumDosage }}</span>
+                        ></iInput>
+              <span v-else>{{ scope.row.rhodiumDosage }}</span>
             </el-form-item>
           </template>
         </el-table-column>
@@ -846,7 +865,11 @@
                   : ''
               "
             >
-              <span>{{ scope.row.preciousMetalDosageUnit }}</span>
+            <iInput
+                        v-model="scope.row.preciousMetalDosageUnit"
+                        v-if="editId.indexOf(scope.row.id)!==-1"
+                        ></iInput>
+              <span v-else>{{ scope.row.preciousMetalDosageUnit }}</span>
             </el-form-item>
           </template>
         </el-table-column>
@@ -870,7 +893,11 @@
                   : ''
               "
             >
-              <span>{{ scope.row.substrateExw }}</span>
+            <iInput
+                        v-model="scope.row.substrateExw"
+                        v-if="editId.indexOf(scope.row.id)!==-1"
+                        ></iInput>
+              <span v-else>{{ scope.row.substrateExw }}</span>
             </el-form-item>
           </template>
         </el-table-column>
@@ -894,7 +921,11 @@
                   : ''
               "
             >
-              <span>{{ scope.row.substrateImpDuty }}</span>
+            <iInput
+                        v-model="scope.row.substrateImpDuty"
+                        v-if="editId.indexOf(scope.row.id)!==-1"
+                        ></iInput>
+              <span v-else>{{ scope.row.substrateImpDuty }}</span>
             </el-form-item>
           </template>
         </el-table-column>
@@ -918,7 +949,11 @@
                   : ''
               "
             >
-              <span>{{ scope.row.substrateHandling }}</span>
+            <iInput
+                        v-model="scope.row.substrateHandling"
+                        v-if="editId.indexOf(scope.row.id)!==-1"
+                        ></iInput>
+              <span v-else>{{ scope.row.substrateHandling }}</span>
             </el-form-item>
           </template>
         </el-table-column>
@@ -942,7 +977,11 @@
                   : ''
               "
             >
-              <span>{{ scope.row.pgmHandling }}</span>
+            <iInput
+                        v-model="scope.row.pgmHandling"
+                        v-if="editId.indexOf(scope.row.id)!==-1"
+                        ></iInput>
+              <span v-else>{{ scope.row.pgmHandling }}</span>
             </el-form-item>
           </template>
         </el-table-column>
@@ -966,7 +1005,11 @@
                   : ''
               "
             >
-              <span>{{ scope.row.manufacture }}</span>
+            <iInput
+                        v-model="scope.row.manufacture"
+                        v-if="editId.indexOf(scope.row.id)!==-1"
+                        ></iInput>
+              <span v-else>{{ scope.row.manufacture }}</span>
             </el-form-item>
           </template>
         </el-table-column>
@@ -990,7 +1033,11 @@
                   : ''
               "
             >
-              <span>{{ scope.row.transport }}</span>
+            <iInput
+                        v-model="scope.row.transport"
+                        v-if="editId.indexOf(scope.row.id)!==-1"
+                        ></iInput>
+              <span v-else>{{ scope.row.transport }}</span>
             </el-form-item>
           </template>
         </el-table-column>
@@ -1012,7 +1059,7 @@
       width="90%"
       @close="closeDiolog"
     >
-      <continueBox @addDialogData="addDialogDataList"></continueBox>
+      <continueBox :mtzAddShowNum="mtzAddShowNum" @addDialogData="addDialogDataList"></continueBox>
     </iDialog>
 
     <iDialog
@@ -1055,13 +1102,16 @@ import store from '@/store'
 // import {
 //   getMtzSupplierList,//获取原材料牌号
 // } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview';
+
 import {
   pageAppRule, //维护MTZ原材料规则-分页查询
   addBatchAppRule, //维护MTZ原材料规则-批量新增
+  upAppRule,
   deleteAppRule, //列表删除,
   modifyAppRule,
   // checkPreciousMetal,
-  getMtzMarketSourceList
+  getMtzMarketSourceList,
+  getFirstRuleByNos
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import {
   cartypePaged, //车型
@@ -1087,7 +1137,7 @@ export default {
     addGZ
   },
   watch: {},
-  props: ['appStatus', 'flowType', 'relationType'],
+  props: ['appStatus', 'flowType', 'relationType','meetingStatus'],
   //   mixins: [pageMixins],
   data() {
     return {
@@ -1145,14 +1195,37 @@ export default {
 
       dialogEditType: false, //判断是否是沿用过来的数据
       carline: [], //车型
-      resetNum: false
+      resetNum: false,
+      startDate:'',
+      endDate:'',
+      mtzAddShowNum:'0',
+      pickerOptionsStar: {
+        disabledDate: time => {
+          let starDateVal = this.startDate;
+          if (starDateVal) {
+            return time.getTime() < new Date(starDateVal).getTime()-86400000;
+          }
+        }
+      },
+      pickerOptionsEnd: {
+        disabledDate: time => {
+          let endDateVal = this.endDate;
+          if (endDateVal) {
+            return time.getTime() > new Date(endDateVal).getTime();
+          }
+        }
+      }
     }
   },
   computed: {
     mtzObject() {
       return this.$store.state.location.mtzObject
+    },
+    isEditNew: function () {
+      return (this.appStatus == '草稿' || this.appStatus == '未通过')||(((this.flowType=='SIGN'||this.flowType=='FILING')||(['02','03',null,'01'].includes(this.meetingStatus)&&this.flowType=='MEETING'))&&this.appStatus=='已提交')
     }
   },
+
   watch: {
     mtzObject(newVlue, oldValue) {
       // console.log(newVlue)
@@ -1187,6 +1260,17 @@ export default {
     },
     sourceChange(e, val) {
       this.$set(e, 'source', val)
+    },
+    chaneDate(val,row){
+      console.log(val)
+      console.log(row)
+      getFirstRuleByNos([row.ruleNo]).then(res=>{
+        const {startDate,endDate}=res.data[row.ruleNo]
+        console.log(res.data[row.ruleNo])
+        this.startDate=startDate
+        this.endDate=endDate
+
+      })
     },
     add() {
       //新增
@@ -1300,7 +1384,29 @@ export default {
               }
             )
               .then((res) => {
-                addBatchAppRule({
+                if(this.mtzAddShowNum=='1'){
+                  this.newDataList.forEach(val=>{
+                    val.mtzAppId=this.$route.query.mtzAppId 
+                  })
+                  upAppRule(this.newDataList).then((res) => {
+                  if (res.code == 200) {
+                    iMessage.success(this.language(res.desEn, res.desZh))
+                    this.editId = ''
+                    this.editType = false
+                    setTimeout(() => {
+                      this.$parent.$refs.theDataTabs.pageAppRequest()
+                      if (!this.$parent.$refs.theDataTabs.editType) {
+                        this.$parent.$refs.theDataTabs.getTableList()
+                      }
+                    }, 500)
+
+                    this.getTableList()
+                  } else {
+                    iMessage.error(this.language(res.desEn, res.desZh))
+                  }
+                })
+                }else{
+                  addBatchAppRule({
                   mtzAppId:
                     this.$route.query.mtzAppId ||
                     JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
@@ -1327,7 +1433,9 @@ export default {
                     //     item.endDate = item.endDate.split(" ")[0];
                     // })
                   }
-                })
+                })                  
+                }
+
               })
               .catch((res) => {
                 // this.newDataList.forEach(item=>{
@@ -1422,32 +1530,39 @@ export default {
         .catch((res) => {})
     },
     jijiaCompute(arr, val) {
-      if (
-        isNumber(arr.platinumPrice) &&
-        isNumber(arr.platinumDosage) &&
-        isNumber(arr.palladiumPrice) &&
-        isNumber(arr.palladiumDosage) &&
-        isNumber(arr.rhodiumPrice) &&
-        isNumber(arr.rhodiumDosage)
-      ) {
-        console.log('计算出基价值')
-        arr.price = '99.9'
-      } else {
-        iMessage.error('请填写完')
-      }
+      // if (
+      //   isNumber(arr.platinumPrice) &&
+      //   isNumber(arr.platinumDosage) &&
+      //   isNumber(arr.palladiumPrice) &&
+      //   isNumber(arr.palladiumDosage) &&
+      //   isNumber(arr.rhodiumPrice) &&
+      //   isNumber(arr.rhodiumDosage)
+      // ) {
+      //   console.log('计算出基价值')
+      //   arr.price = '99.9'
+      // } else {
+      //   iMessage.error('请填写完')
+      // }
     },
     continueBtn() {
       //沿用
+      this.mtzAddShowNum='0'
+      this.mtzAddShow = true
+    },
+    upRuleBtn(){
+      this.mtzAddShowNum='1'
       this.mtzAddShow = true
     },
     addDialogDataList(val) {
       //沿用
+      console.log(val)
       val.forEach((item) => {
         // item.source = item.sourceType;
         this.$set(item, 'source', item.sourceType)
         // if(item.preciousMetalDosageUnit == ""){
         //   this.$set(item,"preciousMetalDosageUnit","OZ")
         // }
+        item.ruleId=item.id
         item.formalFlag = 'Y'
         delete item.sourceType
         delete item.id
@@ -1463,6 +1578,7 @@ export default {
       this.newDataList = val
       this.closeDiolog()
       this.tableData.unshift(...this.newDataList)
+      console.log(this.tableData)
       this.editType = true
       var changeArrayList = []
       this.$refs.moviesTable.clearSelection()
@@ -1470,7 +1586,9 @@ export default {
         changeArrayList.push(item.id)
         this.$refs.moviesTable.toggleRowSelection(item, true)
       })
+      if(this.mtzAddShowNum=='1'){
       this.editId = changeArrayList
+      }
       this.dialogEditType = true
     },
     delecte() {

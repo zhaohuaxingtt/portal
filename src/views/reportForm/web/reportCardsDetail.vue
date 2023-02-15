@@ -62,7 +62,7 @@ import pageHeader from '@/components/pageHeader'
 import { iPage, iInput, iCard, iButton, iPagination } from 'rise'
 import Dialog from './../components/dialog.vue'
 import {
-  queryReportContentList,
+  queryReportContentListAll,
   updateIsNew,
   downLoadFileName,
   reportTypeDetailById
@@ -145,7 +145,7 @@ export default {
         params.title = this.keyword
       }
 
-      await queryReportContentList(params).then((res) => {
+      await queryReportContentListAll(params).then((res) => {
         if (res?.code === '200') {
           const data = res?.data || []
           const dataMapItem = {

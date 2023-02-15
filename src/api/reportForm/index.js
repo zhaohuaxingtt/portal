@@ -19,6 +19,15 @@ export function queryReportContentList(data) {
     data
   })
 }
+/**  内容管理 */
+//报表内容列表查询
+export function queryReportContentListAll(data) {
+  return requst({
+    url: `/report_content/contentListAll.json`,
+    method: 'post',
+    data
+  })
+}
 // 改变最新状态
 export function updateIsNew(id) {
   return requst({

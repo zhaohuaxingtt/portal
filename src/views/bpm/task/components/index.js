@@ -18,3 +18,5 @@ export { default as processNodeVertical } from './processNodeVertical'
 
 export { default as viewFlow } from './viewFlow'
 export { default as detailTitle } from './detailTitle'
+export { default as taskNavigation } from './taskNavigation'
+export { default as processNodeAnchors } from './processNodeAnchors'

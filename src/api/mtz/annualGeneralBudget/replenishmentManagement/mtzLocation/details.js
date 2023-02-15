@@ -110,13 +110,20 @@ export function getAppFormInfo(parmars) {
     data: parmars
   })
 }
+export function getFirstRuleByNos(data) {
+  //根据规则编号查询版本为1的规则信息
+  return request({
+    url: '/mtzAppNomi/getFirstRuleByNos',
+    method: 'POST',
+    data
+  })
+}
 
 export function modifyAppFormInfo(parmars) {
   //mtz申请单信息-编辑
   return request({
-    url: '/mtzAppNomi/modifyAppFormInfo',
+    url: '/mtzAppNomi/modifyAppFormInfo/'+parmars,
     method: 'POST',
-    data: parmars
   })
 }
 
@@ -301,7 +308,14 @@ export function addBatchAppRule(params) {
     data: params
   })
 }
-
+export function upAppRule(params) {
+  //维护MTZ原材料规则-批量升版
+  return request({
+    url: '/mtzAppNomi/upAppRule',
+    method: 'POST',
+    data: params
+  })
+}
 export function addBatchPartMasterData(params) {
   //维护MTZ零件主数据-新增多条
   return request({
