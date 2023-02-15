@@ -16,7 +16,7 @@
         <iButton @click="viewProgressIs = true">查看进度 </iButton>
       </div>
     </div>
-    <div class="title2" v-else>
+    <div class="title2" v-if="!isShow&&$route.query.type=='edit'">
       <iButton @click="dowload">{{ active == 1 ? '下载手工指标' : '导出Excel' }}
       </iButton>
       <el-upload style="margin-left: 10px" action="1" :accept="'.xlsx,.xls'" :before-upload="beforeAvatarUpload"
