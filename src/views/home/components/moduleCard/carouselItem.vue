@@ -218,7 +218,8 @@ export default {
     border-bottom: none;
   }
   .el-card__body {
-    height: 500px;
+    //height: 500px;
+    height: calc(100vh - 420px);
   }
   .card-dropdown {
     margin: 0 !important;
