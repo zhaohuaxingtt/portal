@@ -142,18 +142,18 @@ export default {
     },
     initModuleData() {
       const data = JSON.parse(this.data.moduleData)
+      let approvalToDoNum = 0
       if(data && data.length > 0) {
-        let approvalToDoNum = 0
         data.forEach(item => {
-          approvalToDoNum += item.todoNum
+          approvalToDoNum += ( this.valueNumbers[item.subType] && this.valueNumbers[item.subType].todoNum || 0)
         })
-        this.$emit("approvalToDoNum", approvalToDoNum)
       }
-      console.log('data=>',data);
-      if (data.length <= 5) {
-        this.moduleData = data
-      }
-      this.moduleData = data.slice(0, 5)
+      this.$emit("approvalToDoNum", approvalToDoNum)
+      // console.log('data=>',data);
+      // if (data.length <= 5) {
+      this.moduleData = data
+      // }
+      // this.moduleData = data.slice(0, 5)
     },
     async queryAllData() {
       const result = await getApprovalList({ userID: this.userInfo.id })
@@ -172,22 +172,12 @@ export default {
         return this.valueNumbers[subType].launchNum || 0
       }
       return 0
-      // if(Number(subType)>99){
-      //   return "99+"
-      // }else{
-      //   return this.valueNumbers[subType].launchNum || 0
-      // }
     },
     getTodoNum(subType) {
       if (this.valueNumbers[subType]) {
         return this.valueNumbers[subType].todoNum || 0
       }
       return 0
-      // if(Number(subType)>99){
-      //   return "99+"
-      // }else{
-      //   return this.valueNumbers[subType].launchNum || 0
-      // }
     },
     getAbs(typeName) {
       if (this.absMap[typeName]) {
