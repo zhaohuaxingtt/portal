@@ -7,77 +7,100 @@
       </div>
       <div class="right">
         <div class="overdue" @click="handleToOverdue(item)">
-          <div :class="item.overdue ? 'exceed' : ''">
+          <div :class="{ 'exceed': getOverdueQty(item.taskType) }">
             {{ getOverdueQty(item.taskType) | overNum }}
             <span v-if="getOverdueQty(item.taskType) > 99">+</span>
           </div>
           <div class="numName flex-align-center">
             <!-- <icon symbol class="icon" name="iconOverdue" /> -->
             <div>{{ $t('HOME_CARD.OVERDUE_TEXT') }}</div>
-      <!-- <div v-for="item in moduleData" :key="item.taskType" class="task-card">
-        <div class="left">
-          <div class="name single-ellipsis">{{ item.taskTypeName }}</div>
-          <div class="abs single-ellipsis">{{ item.taskName }}</div>
-        </div>
-        <div class="right">
-          <div class="overdue" @click="handleToOverdue(item)">
-            <div :class="item.overdue ? 'exceed' : ''">
-              {{ getOverdueQty(item.taskType) | overNum }}
-              <span v-if="getOverdueQty(item.taskType) > 99">+</span>
-            </div>
-            <div class="numName flex-align-center">
-              <div>{{ $t('HOME_CARD.OVERDUE') }}</div>
-            </div>
-          </div>
-          <div class="line">/</div>
-          <div class="progress" @click="handleToProgress(item)">
-            <div>
-              {{ getTodayQty(item.taskType) | overNum }}
-              <span v-if="getTodayQty(item.taskType) > 99">+</span>
-            </div>
-            <div class="numName flex-align-center">
-              <div>{{ $t('HOME_CARD.IN_PROGRESS') }}</div>
-            </div>
           </div>
         </div>
-      </div> -->
-
-      <div v-for="item in dataListNow" :key="item.taskType" class="task-card">
-        <div class="left">
-          <div class="name single-ellipsis">{{ item.title }}</div>
-          <div class="abs single-ellipsis">{{ item.name }}</div>
-        </div>
-        <div class="right">
-          <div class="overdue" @click="handleToOverdue(item)">
-            <div :class="item.overdue ? 'exceed' : ''">
-              {{ getOverdueQty(item.overdueQty) }}
-              <span v-if="item.overdueQty > 99">+</span>
-            </div>
-            <div class="numName flex-align-center">
-              <div>{{ $t('HOME_CARD.OVERDUE') }}</div>
-            </div>
+        <div class="line">/</div>
+        <div class="progress" @click="handleToProgress(item)">
+          <div>
+            {{ getTodayQty(item.taskType) | overNum }}
+            <span v-if="getTodayQty(item.taskType) > 99">+</span>
           </div>
           <div class="numName flex-align-center">
             <!-- <icon symbol class="icon" name="icona-InProgress" /> -->
             <div>{{ $t('HOME_CARD.IN_PROGRESS_TEXT') }}</div>
           </div>
-          <div class="line">/</div>
-          <div class="progress" @click="handleToProgress(item)">
-            <div>
-              {{ getTodayQty(item.todayQty) }}
-              <span v-if="item.todayQty > 99">+</span>
-            </div>
-            <div class="numName flex-align-center">
-              <div>{{ $t('HOME_CARD.IN_PROGRESS') }}</div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
   </div>
-      </div>
-    </div>
-  </div>
+<!--      <div class="right">-->
+<!--        <div class="overdue" @click="handleToOverdue(item)">-->
+<!--          <div :class="item.overdue ? 'exceed' : ''">-->
+<!--            {{ getOverdueQty(item.taskType) | overNum }}-->
+<!--            <span v-if="getOverdueQty(item.taskType) > 99">+</span>-->
+<!--          </div>-->
+<!--          <div class="numName flex-align-center">-->
+<!--            &lt;!&ndash; <icon symbol class="icon" name="iconOverdue" /> &ndash;&gt;-->
+<!--            <div>{{ $t('HOME_CARD.OVERDUE_TEXT') }}</div>-->
+<!--      &lt;!&ndash; <div v-for="item in moduleData" :key="item.taskType" class="task-card">-->
+<!--        <div class="left">-->
+<!--          <div class="name single-ellipsis">{{ item.taskTypeName }}</div>-->
+<!--          <div class="abs single-ellipsis">{{ item.taskName }}</div>-->
+<!--        </div>-->
+<!--        <div class="right">-->
+<!--          <div class="overdue" @click="handleToOverdue(item)">-->
+<!--            <div :class="item.overdue ? 'exceed' : ''">-->
+<!--              {{ getOverdueQty(item.taskType) | overNum }}-->
+<!--              <span v-if="getOverdueQty(item.taskType) > 99">+</span>-->
+<!--            </div>-->
+<!--            <div class="numName flex-align-center">-->
+<!--              <div>{{ $t('HOME_CARD.OVERDUE') }}</div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="line">/</div>-->
+<!--          <div class="progress" @click="handleToProgress(item)">-->
+<!--            <div>-->
+<!--              {{ getTodayQty(item.taskType) | overNum }}-->
+<!--              <span v-if="getTodayQty(item.taskType) > 99">+</span>-->
+<!--            </div>-->
+<!--            <div class="numName flex-align-center">-->
+<!--              <div>{{ $t('HOME_CARD.IN_PROGRESS') }}</div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div> &ndash;&gt;-->
+
+<!--      <div v-for="item in dataListNow" :key="item.taskType" class="task-card">-->
+<!--        <div class="left">-->
+<!--          <div class="name single-ellipsis">{{ item.title }}</div>-->
+<!--          <div class="abs single-ellipsis">{{ item.name }}</div>-->
+<!--        </div>-->
+<!--        <div class="right">-->
+<!--          <div class="overdue" @click="handleToOverdue(item)">-->
+<!--            <div :class="item.overdue ? 'exceed' : ''">-->
+<!--              {{ getOverdueQty(item.overdueQty) }}-->
+<!--              <span v-if="item.overdueQty > 99">+</span>-->
+<!--            </div>-->
+<!--            <div class="numName flex-align-center">-->
+<!--              <div>{{ $t('HOME_CARD.OVERDUE') }}</div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="numName flex-align-center">-->
+<!--            &lt;!&ndash; <icon symbol class="icon" name="icona-InProgress" /> &ndash;&gt;-->
+<!--            <div>{{ $t('HOME_CARD.IN_PROGRESS_TEXT') }}</div>-->
+<!--          </div>-->
+<!--          <div class="line">/</div>-->
+<!--          <div class="progress" @click="handleToProgress(item)">-->
+<!--            <div>-->
+<!--              {{ getTodayQty(item.todayQty) }}-->
+<!--              <span v-if="item.todayQty > 99">+</span>-->
+<!--            </div>-->
+<!--            <div class="numName flex-align-center">-->
+<!--              <div>{{ $t('HOME_CARD.IN_PROGRESS') }}</div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--      </div>-->
 </template>
 
 <script>
@@ -235,28 +258,28 @@ export default {
       // this.moduleData = data.slice(0, 5)
     },
     getOverdueQty(taskType) {
-      // if (this.valueNumbers[taskType]) {
-      //   return this.valueNumbers[taskType].overdueQty || 0
-      // }
-      // return 0
-
-      if(Number(taskType)>99){
-        return "99+"
-      }else{
-        return taskType
+      if (this.valueNumbers[taskType]) {
+        return this.valueNumbers[taskType].overdueQty || 0
       }
+      return 0
+
+      // if(Number(taskType)>99){
+      //   return "99+"
+      // }else{
+      //   return taskType
+      // }
     },
     getTodayQty(taskType) {
-      // if (this.valueNumbers[taskType]) {
-      //   return this.valueNumbers[taskType].todayQty || 0
-      // }
-      // return 0
-
-      if(Number(taskType)>99){
-        return "99+"
-      }else{
-        return taskType
+      if (this.valueNumbers[taskType]) {
+        return this.valueNumbers[taskType].todayQty || 0
       }
+      return 0
+
+      // if(Number(taskType)>99){
+      //   return "99+"
+      // }else{
+      //   return taskType
+      // }
     }
   }
 }
