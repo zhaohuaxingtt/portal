@@ -1,9 +1,9 @@
 <template>
-  <div class='i-meeting-item'>
-    <div class='i-meeting-item-date'>{{ item.beginHour }}</div>
+  <div class='i-meeting-item' @click="gotoMeetingUrl">
+    <div class='i-meeting-item-date'>{{ item.strStartTime }}</div>
     <div class='i-meeting-item-content-div'>
       <div class='i-meeting-item-divide-line'></div>
-      <div class='i-meeting-item-title'>{{ item.title }}</div>
+      <div class='i-meeting-item-title'>{{ item.name }}</div>
       <div class='i-meeting-item-location'><i class="el-icon-map-location"></i>{{ item.location }}</div>
     </div>
   </div>
@@ -78,6 +78,9 @@
       })
     },
     methods: {
+      gotoMeetingUrl() {
+        window.location.href = `/portal/#/meeting/near-meeting/detail?id=${this.item.id}`
+      },
       handleGoMeetingDetail(id) {
         window.location.href = `/portal/#/meeting/near-meeting/detail?id=${id}`
       },

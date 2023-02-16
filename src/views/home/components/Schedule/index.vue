@@ -1,5 +1,5 @@
 <template>
-  <div class="schedule-container">
+  <div v-loading="loadingWeekMeetingData" class="schedule-container">
 <!--    <div class="calendar">-->
 <!--      <v-calendar-->
 <!--        :attributes="attrs"-->
@@ -34,11 +34,11 @@
     <div class="iMeeting-div">
       <div v-for="(item, index) in meetingListThisWeek" class="iMeeting-day-item-div" :key="index">
         <div class='week-day-title'>{{ language(item.weekDay) + ' ' + (isZh ? item.weekDayZh : item.weekDayEn) }}</div>
-          <div v-if="item.meetingList.length === 0" class="empty-i-meeting">
+          <div v-if="item.customData.length === 0" class="empty-i-meeting">
             {{ language('今日无会议安排') }}
           </div>
           <div v-else>
-            <iMeetingItem v-for="(meetingItem, meetingItemIndex) in item.meetingList" :item="meetingItem" :key="meetingItemIndex"/>
+            <iMeetingItem v-for="(meetingItem, meetingItemIndex) in item.customData" :item="meetingItem" :key="meetingItemIndex"/>
           </div>
         <div>
         </div>
@@ -90,6 +90,7 @@ export default {
       holiday: [],
       expectMeeting: [],
       meetingListThisWeek: [],
+      loadingWeekMeetingData: false,
       WEEKS_EN_TEXT: [
         'MONDAY_TEXT',
         'TUESDAY_TEXT',
@@ -133,27 +134,51 @@ export default {
     },
   },
   methods: {
-    genMeetingListThisWeek(val) {
+    async genMeetingListThisWeek(val) {
       let meetingListThisWeek = []
       if(val) {
         let beginMoment = val[0]
-        console.log("genMeetingListThisWeek", beginMoment)
-        for(let i=0; i < 7; i++) {
-          let meetingList = []
-          if(i > 0) {
-            for(let j=0; j<=i; j++) {
-              meetingList.push({
-                location: 'M303',
-                title: 'CW 36/2022 小会(50万<=CSC的会议xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-                beginHour: '09:00'
-              })
+        let endMoment = val[1]
+        let beginMonth = beginMoment.month() + 1
+        let endMonth = endMoment.month() + 1
+        this.loadingWeekMeetingData = true
+        let result = []
+        try {
+          // 如果跨月了，就需要调用两次getSchedule
+          if(beginMonth !== endMonth) {
+            let beginQueryBody = {
+              year: beginMoment.year(),
+              month: beginMonth
             }
+            let beginResult = await this.getMeetingList(beginQueryBody, this.userId.id)
+            let endQueryBody = {
+              year: endMoment.year(),
+              month: endMonth
+            }
+            let endResult = await this.getMeetingList(endQueryBody, this.userId.id)
+            result = [...beginResult, ...endResult]
+          } else {
+            let queryBody = {
+              year: beginMoment.year(),
+              month: beginMonth
+            }
+            result = await this.getMeetingList(queryBody, this.userId.id)
           }
+        } catch (error) {
+          console.log("error", error)
+        } finally {
+          this.loadingWeekMeetingData = false
+        }
+        for(let i=0; i < 7; i++) {
+          let dates = beginMoment.format('YYYY-MM-DD')
+          let foundData = result.find(item => {
+            return item.dates === dates
+          })
           const meetingListItem = {
             weekDay: this.WEEKS_EN_TEXT[i],
             weekDayZh: beginMoment.format('MM月DD日'),
             weekDayEn: beginMoment.locale('en').format('DD,MMMM'),
-            meetingList
+            customData: foundData ? foundData.customData : []
           }
           meetingListThisWeek.push(meetingListItem)
           beginMoment.add(1, 'days')
