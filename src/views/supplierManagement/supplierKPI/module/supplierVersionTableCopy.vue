@@ -61,21 +61,19 @@
       <!-- <iButton @click="back()">上一步 </iButton> -->
     </div>
     <div class="table">
-      <el-table style="width: 100%"  :data="tbodyData">
+      <el-table :data="tbodyData">
         <el-table-column
           align="center"
           prop="supplierName"
           label="供应商"
           width="120"
-          fixed
         >
         </el-table-column>
         <el-table-column
           align="center"
           prop="allScore"
           label="总体KPI"
-          width="80"
-          fixed
+          width="120"
         >
         </el-table-column>
 
@@ -189,54 +187,41 @@ export default {
         if (res.code == '200') {
           this.tittleData = JSON.parse(JSON.stringify(res.data.childVo))
           let titleCopy = JSON.parse(JSON.stringify(res.data.childVo))
-          if (titleCopy.length > 0) {
-            titleCopy.forEach((lev1) => {
-              lev1.id = lev1.id.toString()
-              if (lev1.childVo.length > 0) {
-                lev1.childVo.unshift({
-                  id: 'val' + lev1.id,
-                  weight: lev1.weight,
-                  title: '总分',
-                  childVo: [],
-                  width: '60'
-                })
-                lev1.childVo.forEach((lev2) => {
-                  lev2.id = lev2.id.toString()
-                  if (lev2.childVo.length > 0) {
-                    lev2.childVo.unshift({
-                      id: 'val' + lev2.id,
-                      weight: lev2.weight,
-                      title: '总分',
-                      childVo: [],
-                      width: '60'
-                    })
-                    lev2.childVo.forEach((lev3) => {
-                      lev3.id = lev3.id.toString()
-                      if (lev3.childVo.length > 0) {
-                        lev3.childVo.unshift({
-                          id: 'val' + lev3.id,
-                          weight: lev3.weight,
-                          title: '总分',
-                          childVo: [],
-                          width: '60'
-                        })
-                        lev3.childVo.forEach((lev4) => {
-                          lev4.id = lev4.id.toString()
-                          // lev4.childVo.unshift({
-                          //   id: 'val' + lev4.id,
-                          //   weight: lev4.weight,
-                          //   title: '总分',
-                          //   childVo: []
-                          // })
-                        })
-                      }
-                    })
-                  }
-                })
-              }
+          titleCopy.forEach((lev1) => {
+            lev1.id = lev1.id.toString()
+            lev1.childVo.unshift({
+              id: 'val' + lev1.id,
+              weight: lev1.weight,
+              title: '总分',
+                  width:80,
             })
-          }
-
+            lev1.childVo.forEach((lev2) => {
+              lev2.id = lev2.id.toString()
+              lev2.childVo.unshift({
+                id: 'val' + lev2.id,
+                weight: lev2.weight,
+                title: '总分',
+                  width:80,
+              })
+              lev1.childVo.forEach((lev3) => {
+                lev3.id = lev3.id.toString()
+                lev3.childVo.unshift({
+                  id: 'val' + lev3.id,
+                  weight: lev3.weight,
+                  title: '总分',
+                  width:80,
+                })
+                lev1.childVo.forEach((lev4) => {
+                  lev4.id = lev4.id.toString()
+                  // lev4.childVo.unshift({
+                  //   id: 'val' + lev4.id,
+                  //   weight: lev4.weight,
+                  //   title: '总分'
+                  // })
+                })
+              })
+            })
+          })
           this.tittleData = titleCopy
           console.log(titleCopy)
         }
@@ -253,14 +238,16 @@ export default {
             val['val' + item.modelLibaryId] = item.score
           })
         })
+        console.log(this.tbodyData)
         this.page.totalCount = res.total
+        this.ipagnation.pageNo = res.pageNum
+        this.ipagnation.pageSize = res.pageSize
       })
     },
     dowload() {
       if (this.active == 1) {
         exportManualSupplierPerforManceScoreExcel({
-          editionId: this.$route.query.editionId,
-          taskId:this.$route.query.id,
+          editionId: this.$route.query.editionId
         })
       } else {
         exportL2SupplierPerforManceScoreExcel({
@@ -274,8 +261,6 @@ export default {
       let formData = new FormData()
       formData.append('uploadFile', info.file)
       formData.append('editionId', this.$route.query.editionId)
-
-      formData.append('taskId', this.$route.query.id)
       if (this.active == 1) {
         await saveManualPerformance(formData).then((res) => {
           if (res.code == 200 && res) {
@@ -319,13 +304,290 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.top {
+  display: flex;
+  justify-content: space-between;
+
+  .searchOptions {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .rotate {
+    transform: rotate(180deg);
+    color: #a0bffc;
+    margin-left: 10px;
+  }
+
+  .closed {
+    font-size: 24px;
+    color: #a0bffc;
+    cursor: pointer;
+  }
+}
+
+.table {
+  width: 100%;
+  // height: calc(100vh - 340px);
+  overflow: auto;
+  margin-top: 20px;
+  table {
+    margin-top: 20px;
+    position: relative;
+    table-layout: fixed;
+    white-space: nowrap;
+    // width: 100%;
+    height: 100px;
+    background-color: #fff;
+
+    tr {
+      td {
+        position: relative;
+        height: 50px;
+        text-align: left;
+        border-bottom: 2px solid #fff;
+        padding-left: 40px;
+
+        div {
+          position: relative;
+          width: 100px;
+          height: 50px;
+          overflow: hidden;
+          line-height: 50px;
+          z-index: 1;
+        }
+      }
+
+      //    td:first-child{
+      //         padding-left: 40px;
+      //     }
+      td:last-child {
+        padding-right: 40px;
+      }
+
+      td:nth-child(2) {
+        div {
+          width: 165px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+}
+
+.theadBgcolor {
+  background: rgba(22, 96, 241, 0.1);
+  color: #000;
+}
+
+.blod {
+  font-weight: bold;
+
+  td:first-child {
+    border-top-left-radius: 10px;
+  }
+
+  td:last-child {
+    border-top-right-radius: 10px;
+  }
+}
+
+.el-icon-plus {
+  color: #fff;
+  background: #1763f7;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.el-icon-minus,
+.el-icon-plus {
+  color: #fff;
+  background: #1763f7;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.lev1dashed::after {
+  position: absolute;
+  content: '';
+  width: 100%;
+  top: -25px;
+  border-top: 1px dashed #1660f1;
+  left: 0;
+}
+
+.lev1dashed::before {
+  position: absolute;
+  content: '';
+  width: 100%;
+  top: -25px;
+  border-left: 1px dashed #1660f1;
+  height: 40px;
+  left: 75px;
+}
+
+.leftline::after {
+  position: absolute;
+  content: '';
+  width: 75px;
+  top: -25px;
+  border-top: 1px dashed #1660f1;
+  left: 0;
+}
+
+.halfWidth::before {
+  position: absolute;
+  content: '';
+  width: 100%;
+  top: -25px;
+  border-left: 1px dashed #1660f1;
+  height: 40px;
+  left: 75px;
+}
+
+.lay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #5d5d5d;
+  opacity: 0.2;
+  z-index: 1;
+}
+
+.upload {
+  width: 390px;
+  background: #ffffff;
+  border-radius: 10px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999;
+}
+
+.lay-head {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+
+  .el-icon-circle-close {
+    font-size: 24px;
+    color: #a0bffc;
+    cursor: pointer;
+  }
+}
+
+.dialog-box {
+  padding: 30px;
+}
+
+.dialog-button {
+  display: flex;
+  justify-content: flex-end;
+}
+
+::v-deep.navBox {
+  position: relative;
+  // border-bottom: 1px solid #E3E3E3;
+  margin-bottom: 20px;
+
+  .logButton .icon + span {
+    vertical-align: top;
+  }
+
+  div {
+    font-size: 20px;
+  }
+
+  .el-tabs__nav-wrap::after {
+    width: 0;
+  }
+
+  .el-tabs__item {
+    line-height: 24px;
+  }
+
+  .el-tabs__item.is-active {
+    font-weight: Bold;
+  }
+
+  .leftNav {
+    float: left;
+  }
+
+  .rightNav {
+    float: right;
+    margin-right: 110px;
+
+    .el-tabs__active-bar {
+      background-color: transparent !important;
+    }
+  }
+
+  .logButton {
+    position: absolute;
+    top: 5px;
+    right: 0;
+  }
+}
+
+.clearfix:after {
+  content: '020';
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+.clearfix {
+  /* 触发 hasLayout */
+  zoom: 1;
+}
+
+.tabs {
+  width: 208px;
+  height: 35px;
+  background: #f5f6f7;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.08);
+  opacity: 1;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  line-height: 35px;
+
+  div:first-child {
+    width: 104px;
+    height: 35px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 10px 0 0 10px;
+  }
+
+  div:last-child {
+    width: 104px;
+    height: 35px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 0 10px 10px 0;
+  }
+
+  .current {
+    background: #fff !important;
+    color: #1660f1 !important;
+    font-weight: bold !important;
+  }
+}
+
 .page {
   ::v-deep .el-table th {
     border: 0.5px solid #999;
   }
-  .table {
-    margin-top: 20px;
-  }
+
   .title2 {
     width: 100%;
     display: flex;

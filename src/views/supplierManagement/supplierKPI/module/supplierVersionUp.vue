@@ -3,7 +3,7 @@
     <iCard>
       <div class="title">
         <span class="blod">{{ infoData.name }}</span>
-        <span>统计周期: {{ infoData.statisticsEndDate }}-{{ infoData.statisticsEndDate }}</span>
+        <span>统计周期: {{ infoData.statisticsStartDate }}-{{ infoData.statisticsEndDate }}</span>
         <span>截止时间: {{ infoData.endDate }}(距离截止日期还有{{ DateDiffer(infoData.endDate) }}天）</span>
         <span class="link" @click="dowload(allData.fileId)">{{ allData.fileName }}</span>
       </div>
