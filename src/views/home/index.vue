@@ -140,7 +140,7 @@ export default {
     ::v-deep .el-carousel__indicators.el-carousel__indicators--horizontal {
       background-color: transparent;
       z-index: 30;
-      bottom: 60px;
+      bottom: 3%;
       .el-carousel__button {
         background-color: rgb(192,192,192) !important;
         border-radius: 50% !important;
@@ -156,7 +156,7 @@ export default {
     }
   }
 .carousel-card {
-  height: 565px;
+  //height: 565px;
   margin-bottom: 20px;
   border-radius: 20px;
   .title {
@@ -166,7 +166,8 @@ export default {
     cursor: pointer;
   }
   ::v-deep .el-card__body{
-    height: 550px;
+    //height: 550px;
+    height: calc(100vh - 420px);
     overflow: auto;
     //padding-right: 0px;
     .carousel{
