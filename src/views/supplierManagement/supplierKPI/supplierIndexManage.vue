@@ -187,8 +187,8 @@ export default {
     },
     changVersion(v) {
       this.info = this.dropDownOptions.find((val) => val.modelId == v)
-      this.allData.fileId = this.dropDownOptions[0].fileId
-      this.allData.fileName = this.dropDownOptions[0].fileName
+      this.allData.fileId = this.info.fileId
+      this.allData.fileName = this.info.fileName
       getModelTree(this.allData.modelId).then((res) => {
         if (res.code == '200') {
           if (res.data.id != null) {

@@ -149,7 +149,8 @@ export default {
         delIndicator({ ids: [item.id] }).then((res) => {
           if (res.code == '200') {
             this.getInfo()
-            iMessage.success(res.desZh || '删除成功')
+            this.$emit('updata')
+            iMessage.success('删除成功')
           } else iMessage.error(res.desZh)
         })
       }).catch(() => {
@@ -281,7 +282,7 @@ export default {
   }
 
   .infocard {
-    height: 400px;
+    max-height: 200px;
     overflow: auto !important;
 
 
