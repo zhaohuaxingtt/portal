@@ -77,10 +77,10 @@ export default {
   }
   .to-approval-span-info-label {
     ::v-deep .el-badge {
-      top: -33%;
+      top: -10%;
     }
     .to-approval-span-info-label-title {
-       margin-right: -10px;
+       margin-right: -5px;
     }
   }
 .ekl-header {
@@ -111,9 +111,9 @@ export default {
 }
 ::v-deep .ekl-tabs {
   .el-tabs__item {
-    line-height: 20px;
+    line-height: 28px;
     height: 28px;
-    padding-bottom: 6px;
+    padding-bottom: 0;
     font-size: 16px;
     font-weight: normal;
     color: rgb(153, 163, 173);
