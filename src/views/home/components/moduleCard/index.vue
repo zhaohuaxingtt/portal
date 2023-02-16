@@ -262,7 +262,8 @@ export default {
     z-index: 10;
   }
   .flex-between-center-center {
-    align-items: start;
+    align-items: center;
+    height: 65px;
   }
   .module-card-btn {
     color: #4d4d4d;
@@ -357,6 +358,8 @@ export default {
   .el-card__header {
     height: 65px;
     border-bottom: none;
+    padding-top: 0;
+    padding-bottom: 0;
     //padding-top: 4px;
     //padding-bottom: 4px;
   }

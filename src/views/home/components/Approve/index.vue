@@ -168,26 +168,26 @@ export default {
       this.initModuleData()
     },
     getLaunchNum(subType) {
-      // if (this.valueNumbers[subType]) {
+      if (this.valueNumbers[subType]) {
+        return this.valueNumbers[subType].launchNum || 0
+      }
+      return 0
+      // if(Number(subType)>99){
+      //   return "99+"
+      // }else{
       //   return this.valueNumbers[subType].launchNum || 0
       // }
-      // return 0
-      if(Number(subType)>99){
-        return "99+"
-      }else{
-        return this.valueNumbers[subType].launchNum || 0
-      }
     },
     getTodoNum(subType) {
-      // if (this.valueNumbers[subType]) {
-      //   return this.valueNumbers[subType].todoNum || 0
-      // }
-      // return 0
-      if(Number(subType)>99){
-        return "99+"
-      }else{
-        return this.valueNumbers[subType].launchNum || 0
+      if (this.valueNumbers[subType]) {
+        return this.valueNumbers[subType].todoNum || 0
       }
+      return 0
+      // if(Number(subType)>99){
+      //   return "99+"
+      // }else{
+      //   return this.valueNumbers[subType].launchNum || 0
+      // }
     },
     getAbs(typeName) {
       if (this.absMap[typeName]) {
