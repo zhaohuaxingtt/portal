@@ -10,8 +10,8 @@
     <div class="content">
       <div class="header">
         <div>
-          <p class="title">{{ meetingInfo.name || '-' }}</p>
-          <p class="subTitle">{{ 1 + index }}.{{ detail.topic || '-' }}</p>
+          <p class="title">{{ meetingInfo.name || '' }}</p>
+          <p class="subTitle" v-if="index>-1" >{{ 1 + index }}. <span class="margin-left5">{{ detail.topic || '' }}</span></p>
         </div>
         <div class="infos">
           <div class="item">
@@ -36,6 +36,7 @@
                 :visible-arrow="false"
                 width="330"
                 trigger="click"
+                class="menu"
               >
                 <ul class="item-list">
                   <li
@@ -146,8 +147,8 @@ export default {
       this.time = 0
       this.detail = item
       this.index = index
-      let local
-      // let local = 'http://localhost:8080/sourcing/#'
+      // let local
+      let local = 'http://localhost:8080/sourcing/#'
       if(item.source == '04'){
         if (item.type === 'FS+MTZ') {
           this.src =
@@ -183,7 +184,7 @@ export default {
 <style lang="scss" scoped>
 .page {
   height: 100%;
-  padding: 30px 80px 20px;
+  // padding: 30px 80px 20px;
   background: #fff;
   * {
     font-family: 'Arial', 'Helvetica', 'sans-serif';
@@ -200,17 +201,18 @@ export default {
   flex-flow: row;
   justify-content: space-between;
   flex: 0 0 auto;
+  padding: 30px 80px 0;
 }
 .iframe {
   flex: 1 1 auto;
   width: 100%;
 }
 .title {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: bold;
 }
 .subTitle {
-  font-size: 20px;
+  font-size: 28px;
   font-weight: bold;
 }
 .infos {
@@ -222,26 +224,28 @@ export default {
     align-items: center;
     justify-content: space-between;
     border: 1px solid #d9d9d9;
-    line-height: 30px;
     font-weight: bold;
+    font-size: 28px;
     &:first-child {
       border-bottom: 0;
     }
     .name {
-      width: 120px;
       text-align: right;
-      font-size: 16px;
+      padding: 3px 0;
+      min-width: 190px;
     }
     .value {
       padding-left: 10px;
       text-align: center;
-      font-size: 16px;
       align-items: flex-start;
       justify-content: center;
       display: flex;
       flex: 1;
       .count {
-        width: 50px;
+        min-width: 80px;
+      }
+      .menu{
+        writing-mode: vertical-lr;
       }
     }
   }
