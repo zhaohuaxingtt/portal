@@ -50,7 +50,6 @@ export default {
     queryGreetingDict() {
       selectDictByKeys("keys=HOME_GREETING").then((res) => {
         if(res && res.data && res.data['HOME_GREETING'] && res.data['HOME_GREETING'].length > 0) {
-          debugger
           if(res.data['HOME_GREETING'][0]) {
             this.greetingValues.zh = res.data['HOME_GREETING'][0].describe
           }

@@ -95,7 +95,8 @@ import moment from 'moment'
           font-weight: 900;
         }
         .tab-title:hover {
-          cursor: pointer;
+          cursor: pointer !important;
+          color: rgb(255, 255, 255);
         }
         .meeting-week-value {
           font-size: 16px;
