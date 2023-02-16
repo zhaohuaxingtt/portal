@@ -475,7 +475,7 @@ export default {
       if (lv1Weight !== 100) {
         return this.$message({
           type: 'error',
-          message: '指标1的比重错误',
+          message: '第二列的权重错误',
           duration: 10000, // error 错误提示显示10秒
           showClose: true
         })
@@ -485,7 +485,7 @@ export default {
         if (lv2Weight / tableChild.length !== 100) {
           return this.$message({
             type: 'error',
-            message: '指标2的比重错误',
+            message: '第三列的权重错误',
             duration: 10000, // error 错误提示显示10秒
             showClose: true
           })
@@ -503,7 +503,7 @@ export default {
         if (lv3Weight / num !== 100) {
           return this.$message({
             type: 'error',
-            message: '指标3的比重错误',
+            message: '第四列的权重错误',
             duration: 10000, // error 错误提示显示10秒
             showClose: true
           })
@@ -526,7 +526,7 @@ export default {
         if (lv4Weight / num !== 100) {
           return this.$message({
             type: 'error',
-            message: '指标4的比重错误',
+            message: '第五列的权重错误',
             duration: 10000, // error 错误提示显示10秒
             showClose: true
           })
@@ -536,7 +536,7 @@ export default {
       if (!nameIsNull) {
         return this.$message({
           type: 'error',
-          message: '名称和比重不能为空',
+          message: '名称和权重不能为空',
           duration: 10000, // error 错误提示显示10秒
           showClose: true
         })
