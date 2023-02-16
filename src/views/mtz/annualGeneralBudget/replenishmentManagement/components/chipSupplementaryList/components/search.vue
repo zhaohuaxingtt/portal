@@ -1,7 +1,7 @@
 <!--
  * @Author: tanmou
  * @Date: 2021-08-27 16:29:54
- * @LastEditTime: 2023-02-04 00:23:31
+ * @LastEditTime: 2023-02-13 23:45:20
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\search.vue
@@ -96,12 +96,12 @@
             >{{ language('GONGYINGSHANGQUEREN', '代供应商确认') }}</iButton
           >
           <iButton
-            @click="save"
+            @click="updateBalance"
             v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_DAOCHUBEIZHU"
             >{{ language('BAOCUNBEIZHU', '保存备注') }}</iButton
           >
           <iButton
-            @click="uploadPZ"
+            @click="balanceDetailPdfExport"
             v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_PINGZHENGDAOCHU"
             >{{ language('PINGZHENGDAOCHU', '凭证导出') }}</iButton
           >
@@ -113,18 +113,12 @@
         </div>
       </div>
       <tabs1
-        :searchFormList="seachWather"
-        :dataObject="detailObj"
         :tableListData="agreementSummaryList"
         v-if="tabsValue == 1"
-        @componentHidden="btnHidden1"
       ></tabs1>
       <tabs2
-        :searchFormList="seachWather"
-        :dataObject="detailObj"
         :tableListData="detailTableData"
         v-show="tabsValue == 2"
-        @componentHidden="btnHidden2"
       ></tabs2>
       <!-- </div> -->
     </iDialog>
@@ -143,22 +137,17 @@ import {
   iTabs,
   iTabsList
 } from 'rise'
-import { getMtzSupplierList } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
 import search from '@/views/mtz/annualGeneralBudget/locationChange/components/components/search.vue'
 import { searchFormData, tabsInforList } from './data.js'
-import {
-  compdocMetalDetailSum,
-  compdocMetalDetailSumItem,
-  saveRemark,
-  mtzCompDetailOverviewExport,
-  mtzBalanceDetailsExport,
-  supplierConfirmation
-} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details'
 import {
   findBalanceById,
   supplierConfirm,
   exportSupplierBalanceSummary,
   exportSupplierBalanceSummaryDetail,
+  updateBalance,
+  getTaskSecondSupplierList,
+  balanceDetailPdfExport,
+  balanceDetailExport,
 } from '@/api/mtz/annualGeneralBudget/chipReplenishment'
 import tabs1 from './tabs1'
 import tabs2 from './tabs2'
@@ -184,6 +173,7 @@ export default {
   props: ['detailObj'],
   data() {
     return {
+      detail:{},
       inforData: {},
       typesJS: [
         {
@@ -196,9 +186,6 @@ export default {
         }
       ],
       tabsInforList,
-      btnShow1: true,
-      btnShow2: true,
-      seachWather: {},
       searchForm: {},
       searchFormData,
       options: {
@@ -234,13 +221,8 @@ export default {
   created() {
     this.balanceId = this.detailObj?.id || ''
     this.dialogTitle = '补差单号-' + this.detailObj.balanceNo
-    this.getDemandData()
+    this.getTaskSecondSupplierList()
     this.getInforData()
-  },
-  mounted() {
-    // this.$nextTick(() => {
-    //   this.$el.querySelector('.el-icon-arrow-up').click()
-    // })
   },
   methods: {
     formatDate(date, format = 'YYYY-MM-DD') {
@@ -249,9 +231,10 @@ export default {
     // 获取明细
     getInforData() {
       this.BoxLoading = true
-      findBalanceById({ balanceId: this.detailObj.id, isExisted: false, ...this.searchForm })
+      findBalanceById({ balanceId: this.detailObj.id, ...this.searchForm })
         .then((res) => {
           if (res?.code == '200') {
+            this.detail = res.data
             this.inforData = _.cloneDeep(res.data.balanceBase)
             this.detailTableData = res.data.balanceItemList || []
             this.agreementSummaryList = res.data.agreementSummaryList || []
@@ -271,23 +254,18 @@ export default {
         this.tabsValue = val.name
       }
     },
-    // 获取用量版本
-    getDemandData() {
-      getMtzSupplierList({ balanceId: this.balanceId }).then((res) => {
+    // 获取二次件供应商
+    getTaskSecondSupplierList() {
+      getTaskSecondSupplierList().then((res) => {
         this.options.secondSupplierList = res.data
       })
     },
     // 重置
-    handleSearchReset(form) {
+    handleSearchReset() {
       this.searchForm = {}
-      this.searchForm = {}
-      this.seachWather = {}
-    },
-    btnHidden1(val) {
-      this.btnShow1 = val
-    },
-    btnHidden2(val) {
-      this.btnShow2 = val
+      this.searchFormData.forEach(item=>{
+        if(item.showAll) this.searchForm[item.props] = ''
+      })
     },
     // 代供应商确认
     supplierConfirm() {
@@ -310,8 +288,19 @@ export default {
           // console.log(err)
         })
     },
+    // 保存备注
+    updateBalance(){
+      updateBalance({
+            ...this.detail,
+            balanceBase:this.inforData
+          }).then(res=>{
+        if(res?.code=='200'){
+          this.getInforData()
+        }
+      })
+    },
     // 导出凭证
-    uploadPZ() {
+    balanceDetailPdfExport() {
       NewMessageBox({
         title: this.language('LK_WENXINTISHI', '温馨提示'),
         Tips: this.language('SHIFOUDAOCHU', '是否导出？'),
@@ -319,9 +308,10 @@ export default {
         confirmButtonText: this.language('QUEREN', '确认')
       })
         .then(() => {
-          mtzBalanceDetailsExport({
+          balanceDetailPdfExport({
             balanceId: this.balanceId
           }).then((res) => {
+            console.log(res);
             if (res.type === 'application/json') {
               iMessage.error(this.language('LK_ZANWUSHUJU', '暂无数据'))
             } else {
@@ -352,14 +342,21 @@ export default {
         confirmButtonText: this.language('QUEREN', '确认')
       })
         .then(() => {
-          let exportFun = this.tabsValue == 1 ? exportSupplierBalanceSummary : exportSupplierBalanceSummaryDetail
-          exportFun({
+          let exportFun = this.tabsValue == 1 ? exportSupplierBalanceSummary : balanceDetailExport
+          let params = this.tabsValue == 1 ? {
             ...this.detailObj,
             ...this.searchForm,
             isPrimary:this.detailObj.balanceType=='1',
             isOnlyMyself:true,
-            agreementNo:this.detailObj.id
-          }).then((res) => {
+            makeEndDate:this.detailObj.endTo,
+            makeStartDate:this.detailObj.startFrom,
+            ...this.page,
+            balanceSapCode:this.detailObj.id,
+            agreementNo:this.detailObj.id,
+          } : {
+            balanceId:this.balanceId,
+          }
+          exportFun(params).then((res) => {
             console.log(res)
           })
         })

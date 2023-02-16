@@ -110,7 +110,7 @@
                   <el-col :span="7">
                     <iFormItem :label="language('模块')" prop="questionModuleId">
                       <iSelect v-model="editForm.questionModuleId" filterable :disabled="isDisabledModule" @change="changeModuleHandle">
-                        <el-option v-for="item in problemModuleList" :key="item.id" :label="item.menuName" :value="item.id"></el-option>
+                        <el-option v-for="item in problemModuleList" :key="item.id" :label="item.menuName" :value="item.id" :disabled="optionDisabled"></el-option>
                       </iSelect>
                     </iFormItem>
                   </el-col>
@@ -280,6 +280,7 @@ export default {
         inner: "内部用户",
         supplier:"供应商用户"
       },
+      optionDisabled:false
     }
   },
   async mounted () {
@@ -546,8 +547,11 @@ export default {
     },
     // 表单中切换模块
     changeModuleHandle (val) {
+      if(this.optionDisabled) return
+      this.optionDisabled = true
       this.queryLabelByModuleId(val);
       this.editForm = Object.assign(this.editForm, { questionLableId: '' });
+      this.optionDisabled = false
     },
     saveHandler () {
       this.$refs.editForm.validate(async (valid) => {

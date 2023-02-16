@@ -102,7 +102,7 @@ import { pageMixins } from '@/utils/pageMixins'
 import editContent from './editContent.vue'
 import tableSetting from './table'
 import {
-  queryReportContentList,
+  queryReportContentListAll,
   reportContentDetailById,
   publishedContentById,
   sendContentById,
@@ -161,7 +161,7 @@ export default {
         Object.assign(params, this.searchForm)
       }
       this.tableLoading = true
-      await queryReportContentList(params).then((res) => {
+      await queryReportContentListAll(params).then((res) => {
         console.log(res)
         if (res?.code === '200') {
           this.tableListData = res?.data || []

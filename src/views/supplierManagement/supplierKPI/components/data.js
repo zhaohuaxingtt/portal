@@ -10,6 +10,8 @@
     设置开始点 start:true
     设置开始点 start:true
 */
+import { getDictByCode } from '@/api/dictionary'
+
 export const tabSetting = [
   {
     prop: 'nameZh',
@@ -317,3 +319,16 @@ export const PointCloum = [
     tooltip: true
   }
 ]
+// 数据字典查询
+export const dictByCode = async function (key) {
+  let dicResult = []
+  let res = await getDictByCode(key)
+  if (res.data) {
+    res.data.filter((result) => {
+      if (result.code === key) {
+        dicResult = result.subDictResultVo || []
+      }
+    })
+    return dicResult
+  }
+}

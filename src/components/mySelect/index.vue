@@ -102,7 +102,6 @@ export default {
       // 如果新一页还有数据的话，拼接当前数据和新一页数据
       if (this.pageData[this.page])
         this.options = [...this.options, ...this.pageData[this.page]];
-        console.log(this.options);
     },
     // 数据筛选，筛选后查询第一页的数据
     filterData(input) {

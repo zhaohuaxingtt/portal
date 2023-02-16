@@ -6,60 +6,64 @@
  * @FilePath: \front-portal\src\views\meeting\specialDetails\component\previewCSC.vue
 -->
 <template>
-  <i-page class="page">
+  <div class="page">
     <div class="content">
       <div class="header">
         <div>
-          <p class="title">CSC Nomination Recommendation</p>
-          <p class="subTitle">
-            1.5JA83156-GSCHARNIWEVERSTAERK-前盖铰链加强板总成
-          </p>
+          <p class="title">{{ meetingInfo.name || '-' }}</p>
+          <p class="subTitle">{{ 1 + index }}.{{ detail.topic || '-' }}</p>
         </div>
         <div class="infos">
           <div class="item">
-            <div class="name">Agenda No:</div>
+            <div class="name">Agenda No.:</div>
             <div class="value">
-              <icon
-                @click.native="prev"
-                class="list-icon"
-                symbol
-                name="iconfilterquyukuaijiantoushouqi"
+              <img
+                @click="prev"
+                class="list-icon cursor"
+                :src="upAllow"
+                alt="上箭头"
               />
-              <span> {{ 1 + index }}/{{ themens.length }} </span>
-              <icon
-                @click.native="next"
-                class="list-icon"
-                symbol
-                name="iconfilterquyukuaijiantouzhankai"
+              <span class="count"> {{ 1 + index }}/{{ themens.length }} </span>
+              <img
+                @click="next"
+                class="list-icon cursor"
+                :src="downAllow"
+                alt="下箭头"
               />
               <el-popover
-                placement="top-end"
+                popper-class="meeting-list"
+                placement="bottom-end"
                 :visible-arrow="false"
-                width="300"
+                width="330"
                 trigger="click"
               >
-                审批清单
-                <ul class="item-list margin-top10">
+                <ul class="item-list">
                   <li
-                    @click="click(item, index)"
-                    v-for="(item, index) in themens || []"
-                    :key="index"
+                    class="list-item cursor"
+                    @click="click(item, i)"
+                    v-for="(item, i) in themens || []"
+                    :key="i"
+                    :class="{
+                      'is-disabled': ['MTZ', 'CSF', 'CHIP'].includes(item.type),
+                      'is-active': i == index
+                    }"
                   >
-                    <p>{{ item.topic }}</p>
-                    <p class="text">
-                      <span>No:{{ item.fixedPointApplyId }}</span
+                  <div class="content">
+                    <p class="text margin-bottom5">
+                      <span>{{ 1 + i }}</span
                       ><span
                         >{{ item.presenterDept }} {{ item.presenterEn }}</span
                       >
                     </p>
-                    <el-divider></el-divider>
+                    <p>{{ item.topic }}</p>
+                  </div>
                   </li>
                 </ul>
-                <icon
-                  class="list-icon"
+                <img
+                  class="list-icon cursor"
                   slot="reference"
-                  symbol
-                  name="iconxiaoxi"
+                  :src="menu"
+                  alt="数据列表"
                 />
               </el-popover>
             </div>
@@ -70,59 +74,63 @@
           </div>
         </div>
       </div>
+      <attch v-if="detail.type=='MANUAL'" :key="detail.id" :attachments="detail.attachments"/>
       <iframe
+        v-else-if="detail.source=='04'"
+        :key="detail.id"
         :src="src"
         frameborder="0"
         width="100%"
         height="100%"
         class="iframe margin-top20"
       ></iframe>
+      <div v-else>-</div>
     </div>
-  </i-page>
+  </div>
 </template>
 
 <script>
 import { iPage, icon } from 'rise'
-import {
-  findThemenById,
-  endThemen,
-  startThemen,
-  // recallThemen,
-  passThemenRecall,
-  rejectThemenRecall,
-  deleteThemen,
-  resortThemen,
-  spiltThemen
-} from '@/api/meeting/details'
+import upAllow from '@/assets/images/icon/up.png'
+import downAllow from '@/assets/images/icon/down.png'
+import menu from '@/assets/images/icon/menu.png'
+import attch from './attch.vue'
+import { findThemenById } from '@/api/meeting/details'
 export default {
   components: {
     iPage,
-    icon
+    icon,
+    attch
   },
   data() {
     return {
+      upAllow,
+      downAllow,
+      menu,
       time: 0,
       index: -1,
       meetingInfo: {},
-      themens: []
+      themens: [],
+      detail: {},
+      timer: null,
+      
     }
   },
   async created() {
     let query = this.$route.query
     this.meetingInfo = await findThemenById({ id: query.id })
-    this.themens = this.meetingInfo.themens
+    this.themens = this.meetingInfo?.themens
     this.meetingInfo.themens.forEach((item, index) => {
       if (item.fixedPointApplyId == query.desinateId) {
         this.click(item, index)
       }
     })
-    let timer = setInterval(() => {
+    this.timer = setInterval(() => {
       this.time += 1000
     }, 1000)
   },
   methods: {
     prev() {
-      console.log(this.index)
       if (this.index > 0) {
         this.click(this.themens[this.index - 1], this.index - 1)
       }
@@ -134,23 +142,27 @@ export default {
     },
     click(item, index) {
       if (index == this.index) return
+      if (['MTZ', 'CSF', 'CHIP'].includes(item.type)) return
       this.time = 0
+      this.detail = item
       this.index = index
       let local
       // let local = 'http://localhost:8080/sourcing/#'
-      if (item.type === 'FS+MTZ') {
-        this.src =
-          (local || process.env.VUE_APP_POINT) +
-          `/previewCSC/mtz?route=force&desinateId=${item.fixedPointApplyId}&isPreview=1`
-      } else {
-        this.src =
-          (local || process.env.VUE_APP_POINT) +
-          `/previewCSC/title?route=force&desinateId=${item.fixedPointApplyId}&isPreview=1`
+      if(item.source == '04'){
+        if (item.type === 'FS+MTZ') {
+          this.src =
+            (local || process.env.VUE_APP_POINT) +
+            `/previewCSC/mtz?route=force&desinateId=${item.fixedPointApplyId}&isPreview=1`
+        } else {
+          this.src =
+            (local || process.env.VUE_APP_POINT) +
+            `/previewCSC/title?route=force&desinateId=${item.fixedPointApplyId}&isPreview=1`
+        }
       }
     }
   },
-  destroyed(){
-    if(this.timer) clearInterval(this.timer)
+  destroyed() {
+    if (this.timer) clearInterval(this.timer)
   },
   filters: {
     handleTransTime(longTime) {
@@ -168,10 +180,15 @@ export default {
   }
 }
 </script>
-
 <style lang="scss" scoped>
 .page {
-  overflow-y: auto;
+  height: 100%;
+  padding: 30px 80px 20px;
+  background: #fff;
+  * {
+    font-family: 'Arial', 'Helvetica', 'sans-serif';
+    letter-spacing: 0;
+  }
 }
 .content {
   height: 100%;
@@ -204,7 +221,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border: 1px solid #666;
+    border: 1px solid #d9d9d9;
     line-height: 30px;
     font-weight: bold;
     &:first-child {
@@ -216,10 +233,16 @@ export default {
       font-size: 16px;
     }
     .value {
-      width: 200px;
+      padding-left: 10px;
       text-align: center;
       font-size: 16px;
-      align-items: center;
+      align-items: flex-start;
+      justify-content: center;
+      display: flex;
+      flex: 1;
+      .count {
+        width: 50px;
+      }
     }
   }
 }
@@ -227,14 +250,61 @@ export default {
   max-height: 500px;
   overflow: auto;
   padding-right: 20px;
+  padding: 0;
+  color: #4f4f4f;
+  .list-item {
+    padding: 0 18px;
+    .content{
+      padding: 12px 0;
+      border-bottom: 1px solid #efefef;
+    }
+  }
   .text {
     width: 100%;
     display: flex;
     justify-content: space-between;
   }
+  .is-active {
+    background: #364d6e;
+    color: #fff;
+    .content{
+      padding: 12px 0;
+      border-bottom: 0px;
+    }
+    &:hover{
+      background: #364d6e;
+      color: #fff;
+      opacity: 1;
+    }
+  }
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    min-height: 8px;
+    min-width: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    width: 8px;
+  }
 }
 .list-icon {
-  font-size: 18px;
-  margin: 0 10px;
+  margin: 0 5px;
+  vertical-align: top;
+  width: 30px;
+}
+.is-disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+</style>
+<style lang="scss">
+.meeting-list {
+  margin-top: 40px !important;
+  padding: 0;
+  border: 0;
+  font-size: 16px;
 }
 </style>

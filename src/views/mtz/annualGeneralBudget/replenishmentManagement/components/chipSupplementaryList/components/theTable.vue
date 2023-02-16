@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-18 18:52:11
- * @LastEditTime: 2023-02-02 14:14:56
+ * @LastEditTime: 2023-02-15 15:36:23
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\theTable.vue
@@ -75,36 +75,11 @@
       :current-page="page.currPage"
       :total="page.totalCount"
     />
-    <detailDialog
-      :v-model="editModalParams.visible"
-      v-if="editModalParams.visible"
-      :params="editModalParams.data"
-      :supplierType="supplierType"
-      @close="editDetalClose"
-    />
     <search
       :detailObj="detailObj"
       v-if="dialogShow"
       v-on:dialogShowFun="dialogShowFun"
     />
-    <el-dialog
-      :title="language('FUJIANQINGDAN', '附件清单')"
-      :visible.sync="dialogVisible"
-      width="30%"
-      :before-close="handleClose"
-    >
-      <ul>
-        <li
-          class="fileList"
-          v-for="item in fileList"
-          :key="item.fileUrl"
-          @click="fileDown(item.fileUrl)"
-        >
-          {{ item.fileName }}
-        </li>
-      </ul>
-      <span slot="footer" class="dialog-footer"> </span>
-    </el-dialog>
   </iCard>
 </template>
 
@@ -115,11 +90,11 @@ import {
   exportBalanceList,
   recallBalance,
   deleteBalance,
+  submitBalance,
 } from '@/api/mtz/annualGeneralBudget/chipReplenishment'
 import { iCard, iButton, iPagination, iMessage, iTableCustom } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import processVertical from './processVertical'
-import detailDialog from '../../components/detailDialog'
 import search from './search'
 import { tableTitle } from "./data"
 export default {
@@ -127,7 +102,6 @@ export default {
     iCard,
     iButton,
     iPagination,
-    detailDialog,
     search,
     processVertical,
     iTableCustom
@@ -140,23 +114,7 @@ export default {
       searchForm: {},
       tableData: [],
       muiltSelectList: [],
-      editModalParams: {
-        key: 0,
-        visible: false,
-        data: [],
-        flag: false
-      },
       loading: false,
-      fileList: [],
-      dialogVisible: false,
-      allowClickStatusList: [
-        '审批中',
-        '审批退回',
-        '审批不通过',
-        'EPMS退回',
-        'EPMS审批通过',
-        '关闭'
-      ],
       detailObj:{},
       dialogShow:false,
       supplierType: '一次件供应商',
@@ -215,8 +173,8 @@ export default {
         iMessage.error('请选择数据')
       }
       if (
-        this.muiltSelectList[0].status === '草稿' ||
-        this.muiltSelectList[0].status === '撤回'
+        this.muiltSelectList[0].statusName === '草稿' ||
+        this.muiltSelectList[0].statusName === '撤回'
       ) {
         deleteBalance(this.muiltSelectList.map(item=>item.id)).then((res) => {
           if (res.code === '200') {
@@ -235,11 +193,10 @@ export default {
       if (this.muiltSelectList.length === 0) {
         iMessage.error('请选择数据')
       }
-      console.log(this.muiltSelectList[0].status)
       if (
-        this.muiltSelectList[0].status === '草稿' ||
-        this.muiltSelectList[0].status === '供应商拒绝' ||
-        this.muiltSelectList[0].status === '审批不通过'
+        this.muiltSelectList[0].statusName === '草稿' ||
+        this.muiltSelectList[0].statusName === '供应商拒绝' ||
+        this.muiltSelectList[0].statusName === '审批不通过'
       ) {
         sendSupplierConfirm(this.muiltSelectList.map(item=>item.id)).then((res) => {
           if (res.code === '200') {
@@ -254,16 +211,16 @@ export default {
       }
     },
     handleClickEdit() {
-      if (this.muiltSelectList.length == 0) {
-        return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
+      if (this.muiltSelectList.length != 1) {
+        return iMessage.warn(this.language('QINGXUANZEYITIAOSHUJU', '请选择一条数据'))
       }
       if (
-        this.muiltSelectList[0].status === '草稿' ||
-        this.muiltSelectList[0].status === '供应商拒绝' ||
-        this.muiltSelectList[0].status == '审批不通过' ||
-        this.muiltSelectList[0].status == '审批退回' ||
-        this.muiltSelectList[0].status == 'RISE审批通过' ||
-        this.muiltSelectList[0].status == '供应商确认' || true
+        this.muiltSelectList[0].statusName === '草稿' ||
+        this.muiltSelectList[0].statusName === '供应商拒绝' ||
+        this.muiltSelectList[0].statusName == '审批不通过' ||
+        this.muiltSelectList[0].statusName == '审批退回' ||
+        this.muiltSelectList[0].statusName == 'RISE审批通过' ||
+        this.muiltSelectList[0].statusName == '供应商确认'
       ) {
         // 一次件
         let balanceId = this.muiltSelectList[0].id || ''
@@ -287,9 +244,9 @@ export default {
         iMessage.error('请选择数据')
       }
       if (
-        this.muiltSelectList[0].status === '供应商确认' ||
-        this.muiltSelectList[0].status === '审批退回' ||
-        this.muiltSelectList[0].status === 'RISE审批通过'
+        this.muiltSelectList[0].statusName === '供应商确认' ||
+        this.muiltSelectList[0].statusName === '审批退回' ||
+        this.muiltSelectList[0].statusName === 'RISE审批通过'
       ) {
         let params = []
         this.muiltSelectList.forEach((item) => {
@@ -312,10 +269,10 @@ export default {
         iMessage.error('请选择数据')
       }
       if (
-        this.muiltSelectList[0].status === '草稿' ||
-        this.muiltSelectList[0].status === '供应商确认中' ||
-        this.muiltSelectList[0].status === '供应商拒绝' ||
-        this.muiltSelectList[0].status === '审批不通过'
+        this.muiltSelectList[0].statusName === '草稿' ||
+        this.muiltSelectList[0].statusName === '供应商确认中' ||
+        this.muiltSelectList[0].statusName === '供应商拒绝' ||
+        this.muiltSelectList[0].statusName === '审批不通过'
       ) {
         let params = []
         this.muiltSelectList.forEach((item) => {
@@ -335,32 +292,8 @@ export default {
         )
       }
     },
-    edit() {
-      if (this.muiltSelectList.length === 0) {
-        iMessage.error('请选择数据')
-      }
-    },
     handleSelectionChange(val) {
-      if (val.length > 1) {
-        var duoxuans = val.pop()
-        this.muiltSelectList = val.pop()
-        //清除所有选中
-        this.$refs.moviesTable.clearSelection()
-        //给最后一个加上选中
-        this.$refs.moviesTable.toggleRowSelection(duoxuans)
-      } else {
         this.muiltSelectList = val
-      }
-    },
-    editDetalClose(val) {
-      this.editModalParams.visible = val
-    },
-    openFile(val) {
-      this.fileList = val
-      this.dialogVisible = true
-    },
-    handleClose(done) {
-      done()
     },
     exportFile() {
       let search = []
@@ -385,9 +318,6 @@ export default {
         }
       })
     },
-    fileDown(val) {
-      window.open(val)
-    }
   }
 }
 </script>
@@ -399,12 +329,6 @@ export default {
   font-size: 14px;
   cursor: pointer;
   width: 90%;
-}
-.fileList {
-  cursor: pointer;
-  color: rgb(55, 72, 231);
-  margin-bottom: 10px;
-  text-decoration: underline;
 }
 </style>
 <style lang="scss">

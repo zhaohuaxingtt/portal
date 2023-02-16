@@ -31,7 +31,7 @@ export default {
     errorTipsText: String,
     uploadButtonLoading: {type: Boolean, default: false},
     hideTip: {type: Boolean, default: false},
-    accept: {type: String, default: '.xlsx,.pdf,.docx'},
+    accept: {type: String, default: '.pdf,.xlsx,.xls,.docx'},
     props: {type: Object, default: () => ({})},
     // 回调函数
     onHttpUploaded: {type: Function}

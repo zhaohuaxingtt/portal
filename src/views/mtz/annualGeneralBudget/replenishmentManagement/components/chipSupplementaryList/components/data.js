@@ -12,25 +12,31 @@ import language from "@/utils/language";
 export const queryFormData = [
   { props: 'balanceNo', name: '补差单号', key: '补差单号', type: 'input' },
   { props: 'sapPayBalanceNo', name: '凭证Id', key: '凭证Id', type: 'input' },
-  { props: 'fsupplierIds', name: '一次件供应商', key: '一次件供应商', type: 'select', selectOption: 'fsupplierList',optionLabel: 'message',
-  optionValue: 'code', multiple: true, clearable: true, showAll: true },
-  { props: 'pieceSupplierSaps', name: '二次件供应商', key: 'ECJGYS', type: 'select', selectOption: 'ssupplierList',optionLabel: 'message',
-  optionValue: 'code', multiple: true, clearable: true, showAll: true },
-  { props: 'statuss', name: '单据状态', key: '单据状态', type: 'select', selectOption: 'approvalStatus',optionLabel: 'message',
-  optionValue: 'code', multiple: true, clearable: true, showAll: true },
-  { props: 'materialBrandList', name: '采购框架号', key: '采购框架号', type: 'input' }, // 字段待调整
-  
-  { props: 'compDate', name: '补差时间段', key: 'BUCHASHIJIANDUAN', type: 'daterange' },
   {
-    props: 'department', name: '科室', key: 'KESHI', type: 'select', selectOption: 'departmentDropDownData', optionLabel: 'departNameEn',
-    optionValue: 'departId'
+    props: 'primarySupplier', name: '一次件供应商', key: '一次件供应商', type: 'select', selectOption: 'fsupplierList', optionLabel: 'message',
+    optionValue: 'code', clearable: true, showAll: true
   },
   {
-    props: 'linieList', name: '采购员', key: 'CAIGOUYUAN', type: 'select', selectOption: 'linieDropDownData', optionLabel: 'message',
+    props: 'secondSupplier', name: '二次件供应商', key: 'ECJGYS', type: 'select', selectOption: 'ssupplierList', optionLabel: 'message',
+    optionValue: 'code', clearable: true, showAll: true
+  },
+  {
+    props: 'status', name: '单据状态', key: '单据状态', type: 'select', selectOption: 'approvalStatus', optionLabel: 'message',
+    optionValue: 'code', clearable: true, showAll: true
+  },
+  { props: 'agreementNo', name: '采购框架号', key: '采购框架号', type: 'input' },
+
+  { props: 'compDate', name: '补差时间段', key: 'BUCHASHIJIANDUAN', type: 'daterange', clearable: true, },
+  {
+    props: 'departmentCode', name: '科室', key: 'KESHI', type: 'select', selectOption: 'departmentDropDownData', optionLabel: 'message',
     optionValue: 'code'
   },
-  { props: 'fpartNumList', name: '一次件零件号', key: 'YICIJIANLINGJIANHAO', type: 'iMultiLineInput' },
-  { props: 'spartNumList', name: '二次件零件号', key: 'ERCIJIANLINGJIANHAO', type: 'iMultiLineInput' },
+  {
+    props: 'buyerName', name: '采购员', key: 'CAIGOUYUAN', type: 'select', selectOption: 'linieDropDownData', optionLabel: 'message',
+    optionValue: 'message'
+  },
+  { props: 'primaryPartNum', name: '一次件零件号', key: 'YICIJIANLINGJIANHAO', type: 'iMultiLineInput' },
+  { props: 'secondPartNum', name: '二次件零件号', key: 'ERCIJIANLINGJIANHAO', type: 'iMultiLineInput' },
 ]
 
 // 一次件供应商
@@ -53,7 +59,7 @@ export const tableTitle = [
       return <span class="link">{scope.row.balanceNo}</span>
     }
   }, {
-    prop: 'id',
+    prop: 'balanceSapCode',
     label: '凭证ID',
     i18n: 'PINGZHENGID',
     align: 'center',
@@ -65,7 +71,7 @@ export const tableTitle = [
     align: 'center',
     minWidth: 150,
     customRender: (h, scope) => {
-      return <span>{scope.row.supplierSapCode + '-' + scope.row.supplierName }</span>
+      return <span>{scope.row.supplierSapCode + '-' + scope.row.supplierName}</span>
     }
   }, {
     prop: 'departmentCode',
@@ -178,12 +184,12 @@ export const tableTitleDetail = [
     align: 'center',
     minWidth: 220,
   }, {
-  //   props: 'materialGroup',
-  //   name: '材料组',
-  //   key: 'CAILIAOZU',
-  //   align: 'center',
-  //   minWidth: 100,
-  // }, {
+    //   props: 'materialGroup',
+    //   name: '材料组',
+    //   key: 'CAILIAOZU',
+    //   align: 'center',
+    //   minWidth: 100,
+    // }, {
     props: 'materialName',
     name: '原材料描述',
     key: '原材料描述',
@@ -538,12 +544,12 @@ export const tableTitleBE = [
 // 弹窗查询条件
 export const searchFormData = [
   {
-    props: 'saNos', name: '采购框架', key: 'CAIGOUKUANGJIA', type: 'input'
+    props: 'agreementNo', name: '采购框架', key: 'CAIGOUKUANGJIA', type: 'input'
   },
   {
     props: 'primaryPartNum', name: '一次件零件号', key: 'YICIJIANLINGJIANHAO', type: 'input'
   },
   { props: 'secondPartNum', name: '二次件零件号', key: 'ERCIJIANLINGJIANHAO', type: 'input' },
-  { props: 'secondSupplier', name: '二次件供应商', key: 'ECJGYS', type: 'select', selectOption: 'getSecondSupplierList', multiple: true, clearable: true, showAll: true },
+  { props: 'secondSupplierSapCode', name: '二次件供应商', key: 'ECJGYS', type: 'select', selectOption: 'getSecondSupplierList', clearable: true, showAll: true },
   { props: 'dateTime', name: '补差时间段', key: 'BUCHASHIJIANDUAN', type: 'daterange' },
 ]

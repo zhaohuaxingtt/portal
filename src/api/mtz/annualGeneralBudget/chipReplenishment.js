@@ -1,7 +1,7 @@
 /*
  * @Author: youyuan
  * @Date: 2021-09-09 14:02:54
- * @LastEditTime: 2023-02-06 20:01:42
+ * @LastEditTime: 2023-02-15 15:04:44
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 年度预算编辑
  * @FilePath: \front-portal\src\api\mtz\annualGeneralBudget\chipReplenishment.js
@@ -11,10 +11,10 @@ import axiosDownLoad from '@/utils/axios.download'
 const request = axios(process.env.VUE_APP_MTZ + '/web/chip')
 const requestChip = axios(process.env.VUE_APP_MTZ + '/web/balance')
 const downloadChip = axiosDownLoad(process.env.VUE_APP_MTZ + '/web/balance')
-// 获取一次件供应商
+// 获取供应商下拉选择(当前用户权限)
 export function getSupplierByUser(params) {
   return request({
-    url: '/commonDropDown/getSupplierByUser',
+    url: '/common/getSupplierByUser',
     method: 'POST',
     data: params
   })
@@ -30,6 +30,20 @@ export function getTaskPrimarySupplierList() {
 export function getTaskSecondSupplierList() {
   return request({
     url: '/common/getTaskSecondSupplierList',
+    method: 'POST',
+  })
+}
+// 任务:采购员列表
+export function getTaskBuyerList() {
+  return request({
+    url: '/common/getTaskBuyerList',
+    method: 'POST',
+  })
+}
+// 任务:科室列表
+export function getTaskDepartmentList() {
+  return request({
+    url: '/common/getTaskDepartmentList',
     method: 'POST',
   })
 }
@@ -88,6 +102,14 @@ export function updateBalance(params) {
   })
 }
 
+// 创建补差单号
+export function createBalance(params) {
+  return requestChip({
+    url: '/createBalance',
+    method: 'POST',
+    params
+  })
+}
 
 // 补差总览分页查询
 export function findBalanceSummaryByPage(params) {
@@ -189,14 +211,25 @@ export function getBalanceStatusList() {
 }
 
 // 计算中补差规则导出
-export function exportBalanceRuleList(params) {
+export function exportBalanceRuleList(data) {
   return downloadChip({
     url: '/exportBalanceRuleList',
     method: 'POST',
-    params,
+    data,
     responseType: 'blob'
   })
 }
+
+// 补差任务列表导出
+export function exportBalanceTaskList(data) {
+  return downloadChip({
+    url: '/exportBalanceTaskList',
+    method: 'POST',
+    data,
+    responseType: 'blob'
+  })
+}
+
 
 // 补差单列表导出
 export function exportBalanceList(data) {
@@ -217,7 +250,27 @@ export function exportBalanceItemList(data) {
   })
 }
 
-// 补差汇总列表分页查询-一次零件,二次零件,二次供应商维度-导出
+// 凭证PDF导出
+export function balanceDetailPdfExport(params) {
+  return requestChip({
+    url: '/balanceDetailPdfExport',
+    method: 'POST',
+    params,
+    responseType: 'blob'
+  })
+}
+
+// 单个补差单明细凭证Excel导出
+export function balanceDetailExport(params) {
+  return downloadChip({
+    url: '/balanceDetailExport',
+    method: 'POST',
+    params,
+    responseType: 'blob'
+  })
+}
+
+// 补差汇总列表分页查询-一次零件,二次零件,二次供应商维度-导出 汇总EXCEL
 export function exportSupplierBalanceSummary(data) {
   return downloadChip({
     url: '/exportSupplierBalanceSummary',
@@ -227,12 +280,38 @@ export function exportSupplierBalanceSummary(data) {
   })
 }
 
-// 补差汇总列表明细查询-一次零件,二次零件,二次供应商维度-导出
+// 补差汇总列表明细查询-一次零件,二次零件,二次供应商维度-导出 明细EXCEL
 export function exportSupplierBalanceSummaryDetail(data) {
   return downloadChip({
     url: '/exportSupplierBalanceSummaryDetail',
     method: 'POST',
     data,
     responseType: 'blob'
+  })
+}
+
+// 单个补差单汇总列表分页查询-一次零件,二次零件,二次供应商维度
+export function findSupplierBalanceSummaryByPage( data ) {
+  return requestChip({
+    url: '/findSupplierBalanceSummaryByPage',
+    method: 'POST',
+    data,
+  })
+}
+// 补差汇总列表明细查询-一次零件,二次零件,二次供应商维度
+export function findSupplierBalanceSummaryDetailList( data ) {
+  return requestChip({
+    url: '/findSupplierBalanceSummaryDetailList',
+    method: 'POST',
+    data,
+  })
+}
+
+// 获取EPMS审批记录
+export function getEpmsApprovalRecord( params ) {
+  return requestChip({
+    url: '/getEpmsApprovalRecord',
+    method: 'POST',
+    params,
   })
 }
