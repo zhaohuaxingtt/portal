@@ -3,14 +3,13 @@
     <i-drawer
       class="messageDrawer1"
       :visible.sync="visible"
-      v-loading="loading"
       wrapper-closable
       modal
     >
-      <iCard class="todo-task-list-info-card">
+      <iCard class="todo-task-list-info-card" v-loading="loading">
         <div class="todo-task-list-info-div">
           <div class="todo-task-list-title">{{ $t('APPROVAL_TODO_LIST') }}</div>
-          <div class="todo-task-list-info-list">
+          <div class="todo-task-list-info-list" v-infinite-scroll="handleLoadMore">
             <div class="todo-task-list-info" v-for="(item, index) in todoTaskList">
               <div class="todo-task-list-info-title" @click="gotoDetailPage(item)">
                 {{ item.itemName + '-' + item.itemContent }}
@@ -20,6 +19,7 @@
                 <span>{{ item.applyUserName }}</span>
               </div>
             </div>
+            <p class="no-more-text" v-if="noMore">{{ $t("MAIL.NOMORE") }}</p>
           </div>
         </div>
       </iCard>
@@ -67,10 +67,11 @@
         loading: false,
         todoTaskList: [],
         pageInfo: {
-          pageNum: 0,
-          pageSize: 1000,
+          pageNum: 1,
+          pageSize: 20,
           total: 0,
         },
+        noMore: false,
         QUERY_DRAWER_TYPES
       }
     },
@@ -124,8 +125,8 @@
       },
       genQueryListParams() {
         const params = {
-          pageNum: 1,
-          pageSize: 1000
+          pageNum: this.pageInfo.pageNum,
+          pageSize: this.pageInfo.pageSize
         }
         return params
       },
@@ -152,20 +153,38 @@
           // this.showDialog = true
         })
       },
+      handleLoadMore() {
+        if(this.noMore) {
+          return
+        }
+        this.pageInfo.pageNum += 1
+        this.getTodoTaskList()
+      },
       getTodoTaskList() {
         const queryTodoListFunc = this.getQueryTodoListFunc()
         this.loading = true
         queryTodoListFunc(this.genQueryListParams(), this.genQueryListData()).then((res) => {
-          this.loading = false
+          // this.loading = false
           const { current, size, total, records } = res.data
           this.pageInfo.pageNum = current
           this.pageInfo.pageSize = size
           this.pageInfo.total = total
-          this.todoTaskList = records
+          if(this.todoTaskList?.length >= 0) {
+            this.todoTaskList = this.todoTaskList.concat(records)
+          } else {
+            this.todoTaskList = records
+          }
+          if(this.todoTaskList.length >= total) {
+            this.noMore = true
+          }
           if(!this.isFinished) {
             this.$emit("totalTaskNum", total)
           }
-        }).catch(() => (this.loading = false))
+        }).catch(error => {
+          console.log("getTodoTaskList...", error)
+        }).finally(() => {
+          this.loading = false
+        })
       },
       close(val) {
         this.show = val
@@ -250,8 +269,13 @@
         border-bottom: 1px solid rgb(142, 142, 142);
         margin-bottom: 10px;
       }
-      max-height: calc(100vh);
+      max-height: calc(100vh - 140px);
       overflow-y: scroll;
+    }
+    .no-more-text {
+      text-align: center;
+      height: 30px;
+      line-height: 30px;
     }
   }
 </style>

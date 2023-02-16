@@ -253,12 +253,12 @@ export default {
             if (this.form.applyUserDeptId) {
               this.queryDeptOptions()
             }
+            this.form = {
+              ...queryForm,
+              itemTypeList: !queryForm.itemTypeList || queryForm.itemTypeList.length === 0 ? '-1' : queryForm.itemTypeList[0]
+            }
           } catch (err) {
             console.log(err)
-          }
-          this.form = {
-            ...queryForm,
-            itemTypeList: !queryForm.itemTypeList || queryForm.itemTypeList.length === 0 ? '-1' : queryForm.itemTypeList[0]
           }
           console.log('this.form2...', this.form)
           if (this.form.applyUserId) {
