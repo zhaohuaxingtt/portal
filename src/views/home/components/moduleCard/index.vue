@@ -364,7 +364,8 @@ export default {
     //padding-bottom: 4px;
   }
   .el-card__body {
-    height: 520px;
+    //height: 520px;
+    height: calc(100vh - 420px);
   }
   .card-dropdown {
     margin: 0 !important;
