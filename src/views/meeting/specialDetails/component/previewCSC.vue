@@ -147,8 +147,8 @@ export default {
       this.time = 0
       this.detail = item
       this.index = index
-      // let local
-      let local = 'http://localhost:8080/sourcing/#'
+      let local
+      // let local = 'http://localhost:8080/sourcing/#'
       if(item.source == '04'){
         if (item.type === 'FS+MTZ') {
           this.src =
