@@ -47,7 +47,9 @@ import { updateBatchModules } from '@/api/home'
 export default {
   components: { moduleCard, greetCard, iPage, carouselItem },
   data() {
-    return {}
+    return {
+      fixedCardsComponentNames: ['Approve', 'Task', 'Schedule']
+    }
   },
   computed: {
     // eslint-disable-next-line no-undef
@@ -76,9 +78,10 @@ export default {
       return cards
     },
     fixedCards() {
-      let cards = this.cardList.filter((li) =>
-        ['Approve', 'Task', 'Schedule'].includes(li.component)
-      )
+      const cards = []
+      this.fixedCardsComponentNames.forEach(componentName => {
+        this.addFixedCards(cards, componentName)
+      })
       return cards
       // return this.cardList.filter(li => li.name ==`EKL`)
     },
@@ -95,6 +98,14 @@ export default {
     // })
   },
   methods: {
+    addFixedCards(cards, componentName) {
+      let card = this.cardList.find((li) =>
+        componentName === li.component
+      )
+      if(card) {
+        cards.push(card)
+      }
+    },
     handleDragEnd(event) {
       console.log('handleDragEnd', event)
     },
