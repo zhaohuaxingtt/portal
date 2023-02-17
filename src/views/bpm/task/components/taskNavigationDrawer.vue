@@ -214,6 +214,7 @@
         padding-left: 0;
       }
     }
+    z-index: 101 !important;
   }
   ::-webkit-scrollbar {
     //width: 4px !important;
