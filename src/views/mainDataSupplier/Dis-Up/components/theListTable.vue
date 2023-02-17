@@ -1,13 +1,13 @@
 <template>
   <iCard class="margin-top20">
     <div class="flex-end-center margin-bottom20">
-      <iButton :disabled="selectedRows.length !== 1" @click="edit">
+      <iButton :disabled="selectedRows.length !== 1" @click="edit" v-permission="ADMIN_MAIN_DATA_SUPPLIER_DISPERSED_EDIT">
         {{ language('编辑') }}
       </iButton>
-      <iButton :disabled="!selectedRows.length" @click="handleDelete">
+      <iButton :disabled="!selectedRows.length" @click="handleDelete" v-permission="ADMIN_MAIN_DATA_SUPPLIER_DISPERSED_DEL">
         {{ language('删除') }}
       </iButton>
-      <button-download :download-method="handleExport" />
+      <button-download :download-method="handleExport" v-permission="ADMIN_MAIN_DATA_SUPPLIER_DISPERSED_DOWNLOAD" />
     </div>
     <i-table-custom
       :loading="tableLoading"
