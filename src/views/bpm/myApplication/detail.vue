@@ -11,19 +11,25 @@
           <taskNavigation :queryType="queryType" :isFinished="finished" />
         </div>
         <div class="cus-task-detail-operations-div" style="padding-left: 40px">
-          <processNodeAnchors />
-          <div class="operation-btn">
-            <viewFlow :detail="form" />
-            <!-- 撤回 -->
-            <iButton v-if="buttonRecallVisible" @click="dialogRecallVisible = true">
-              {{ language('撤回') }}
-            </iButton>
-            <!-- 补充材料 -->
+          <el-row :gutter="20">
+            <el-col :span="12">
+              <processNodeAnchors />
+            </el-col>
+            <el-col :span="12">
+              <div class="operation-btn">
+                <viewFlow :detail="form" />
+                <!-- 撤回 -->
+                <iButton v-if="buttonRecallVisible" @click="dialogRecallVisible = true">
+                  {{ language('撤回') }}
+                </iButton>
+                <!-- 补充材料 -->
 
-            <iButton v-if="buttonAppendVisible" @click="onAppendAttachment">
-              {{ language('补充材料') }}
-            </iButton>
-          </div>
+                <iButton v-if="buttonAppendVisible" @click="onAppendAttachment">
+                  {{ language('补充材料') }}
+                </iButton>
+              </div>
+            </el-col>
+          </el-row>
         </div>
       </div>
     </div>
@@ -395,12 +401,22 @@ export default {
     }
     .cus-task-detail-operations-div {
       padding-left: 40px;
-      display: flex;
-      justify-content: space-between;
+      //display: flex;
+      //justify-content: space-between;
     }
   }
+  z-index: 100 !important;
 }
 .margin-top70 {
   margin-top: 70px;
+}
+.operation-btn {
+  flex-grow: 1;
+  min-width: 350px;
+  text-align: right;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  height: 80px;
 }
 </style>
