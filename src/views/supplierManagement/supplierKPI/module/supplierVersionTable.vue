@@ -13,6 +13,9 @@
           <p>其他科室打分状态：进行中（2/4）</p> -->
       </div>
       <div>
+        <iButton  @click="godept">{{
+          '发送评分部门'
+        }}</iButton>
         <iButton @click="viewProgressIs = true">查看进度 </iButton>
       </div>
     </div>
@@ -114,7 +117,8 @@ import {
   exportManualSupplierPerforManceScoreExcel,
   exportL2SupplierPerforManceScoreExcel,
   saveSystemPerformance,
-  saveManualPerformance
+  saveManualPerformance,
+  sendPerformanceTask
 } from '@/api/supplierManagement/supplierIndexManage/index'
 import { pageMixins } from '@/utils/pageMixins'
 import tableList from '@/components/commonTable'
@@ -268,7 +272,17 @@ export default {
         })
       }
     },
+    godept(){
+      sendPerformanceTask(this.$route.query.editionId).then((res) => {
+            if (res.code == '200') {
+              iMessage.success('发送成功')
+            } else {
+              iMessage.error(res.desZh)
+            }
+          })
+    },
     //导入
+
     async httpUpload(info) {
       this.importLoading = true
       let formData = new FormData()
