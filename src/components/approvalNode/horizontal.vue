@@ -36,6 +36,8 @@
               {{ item.approvers[0].deptFullCode }}
               {{ item.approvers[0].nameZh }}
               {{ item.approvers[0].taskStatus }}
+              <span v-if="item.approvers[0].agentUsers && item.approvers[0].agentUsers.length" class="gray-end-time">{{ item.approvers[0].endTime }}</span>
+              <span v-else class="gray-end-time with-br"><br/>{{ item.approvers[0].endTime }}</span>
             </span>
             <div
               v-if="
@@ -57,6 +59,7 @@
                 >
                   {{ agentUser.deptFullCode }} {{ agentUser.nameZh }}
                   {{ agentUser.taskStatus }}(代)
+                  <span class="gray-end-time"> {{ agentUser.endTime ? "2022-11-12 19:03" : "2022-11-12 19:03" }}</span>
                 </li>
               </ul>
             </div>
@@ -76,6 +79,7 @@
                     {{ approver.deptFullCode }} {{ approver.nameZh }}
                     {{ approver.taskStatus }}
                   </span>
+                  <span class="gray-end-time">{{ approver.endTime ? "2022-11-12 19:03" : "2022-11-12 19:03" }}</span>
                 </div>
                 <ul
                   v-if="approver.agentUsers && approver.agentUsers.length"
@@ -90,6 +94,7 @@
                   >
                     {{ agentUser.deptFullCode }} {{ agentUser.nameZh }}
                     {{ agentUser.taskStatus }}(代)
+                    <span class="gray-end-time"> {{ agentUser.endTime ? "2022-11-12 19:03" : "2022-11-12 19:03"  }}</span>
                   </li>
                 </ul>
               </li>
@@ -249,7 +254,14 @@ export default {
             align-items: center;
             flex-wrap: wrap;
           }
-
+          .gray-end-time {
+            color: rgb(139, 144, 154);
+            margin-left: 10px;
+            margin-right: 10px;
+          }
+          .gray-end-time.with-br {
+            margin-top: 10px;
+          }
           /* &.multiple ul.approval-users > li::before {
             content: '';
             display: block;

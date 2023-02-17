@@ -8,10 +8,10 @@
         </div>
         <div style="padding-left: 40px">
           <el-row :gutter="20">
-          <el-col :span="8">
+          <el-col :span="12">
             <processNodeAnchors />
           </el-col>
-          <el-col :span="8">
+          <el-col :span="12">
             <div class="operation-btn">
               <!--        <viewFlow :detail="form" />-->
               <!-- 批准 -->
@@ -440,6 +440,7 @@ export default {
       align-items: center;
     }
   }
+  z-index: 100 !important;
 }
 .el-link {
   line-height: 1em;
@@ -465,5 +466,9 @@ export default {
   flex-grow: 1;
   min-width: 350px;
   text-align: right;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  height: 80px;
 }
 </style>
