@@ -259,10 +259,10 @@ export default {
       }
       const searchData = filterEmptyValue(this.form)
 
-      if (searchData.itemTypeList && searchData.itemTypeList.length === 0) {
+      if (searchData.itemTypeList && (searchData.itemTypeList.length === 0 || (searchData.itemTypeList.length === 1 && searchData.itemTypeList[0] == -1))) {
         delete searchData.itemTypeList
       }
-      if (searchData.categoryList && searchData.categoryList.length === 0) {
+      if (searchData.categoryList && (searchData.categoryList.length === 0 || (searchData.categoryList.length === 1 && searchData.categoryList[0] == ''))) {
         delete searchData.categoryList
       }
       if (
