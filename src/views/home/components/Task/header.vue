@@ -4,7 +4,7 @@
       <div style="width: 100%">
         <div class="task-value-div">
           <div>
-            <span class="task-value overdue-task-value">{{ overDueQtyStr }}</span>
+            <span class="task-value" :class="{'overdue-task-value': overDueQtyStr}">{{ overDueQtyStr }}</span>
             <span class="task-value-title">{{ $t('HOME_CARD.OVERDUE_TEXT') }}</span>
           </div>
           <div class="task-value-divide-line">/</div>

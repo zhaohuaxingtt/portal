@@ -4,7 +4,7 @@
     <div class='i-meeting-item-content-div'>
       <div class='i-meeting-item-divide-line'></div>
       <div class='i-meeting-item-title'>{{ item.name }}</div>
-      <div class='i-meeting-item-location'><i class="el-icon-map-location"></i>{{ item.location }}</div>
+      <div class='i-meeting-item-location'><i class="el-icon-map-location"></i>{{ item.meetingPlace }}</div>
     </div>
   </div>
 </template>
@@ -135,6 +135,7 @@
       color: rgb(129, 129, 129);
       height: 100%;
       width: 35px;
+      margin-right: 5px;
     }
     .i-meeting-item-content-div {
       display: flex;
@@ -146,7 +147,7 @@
         height: 22px;
         line-height: 22px;
         width: 4px;
-        margin-left: 5px;
+        margin-left: 0;
         margin-right: 5px;
         margin-top: 5px;
         margin-bottom: 5px;
@@ -155,10 +156,15 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        width: calc(100% - 9px - 35px - 30px);
+        width: calc(100% - 10px - 35px - 50px);
       }
       .i-meeting-item-location {
-        width: 50px;
+        width: 70px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: left;
+        margin-left: 10px;
       }
       margin-bottom: 5px;
     }
