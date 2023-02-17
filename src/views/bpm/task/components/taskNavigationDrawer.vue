@@ -131,9 +131,18 @@
         return params
       },
       genQueryListData() {
-        return {
-          applyUserId: this.$store.state.permission.userInfo.id,
-          isFinished: this.isFinished
+        if(this.queryType === QUERY_DRAWER_TYPES.APPLY_TODO) {
+          return {
+            "taskType": 0,
+            "userID": this.$store.state.permission.userInfo.id,
+            "reApprove": false,
+            "isAeko": false
+          }
+        } else {
+          return {
+            applyUserId: this.$store.state.permission.userInfo.id,
+            isFinished: this.isFinished
+          }
         }
       },
       //打开详情页
