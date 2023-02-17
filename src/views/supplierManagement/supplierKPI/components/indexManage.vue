@@ -196,7 +196,7 @@ export default {
                 this.canel()
                 this.$emit('updata')
 
-                iMessage.success(res.desZh || '更新成功')
+                iMessage.success('编辑成功')
               } else iMessage.error(res.desZh)
             })
           } else {
@@ -205,7 +205,7 @@ export default {
                 this.getInfo()
                 this.$emit('updata')
                 this.canel()
-                iMessage.success(res.desZh || '新增成功')
+                iMessage.success('新增成功')
               } else iMessage.error(res.desZh)
             })
           }
