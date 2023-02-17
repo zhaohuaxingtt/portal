@@ -65,11 +65,33 @@
       <iFormItem prop="supplierType"
                  v-permission="SUPPLIER_BASEINFO_SUPPLIER_TYPE">
         <iLabel :label="language(
-                'CAIGOUYUANKESHI',
-                '采购员科室'
+                '采购员R2科室',
+                '采购员R2科室'
               )"
                 slot="label"></iLabel>
         <iInput v-model="supplierData.purchaserSection"
+                :disabled="disabled">
+        </iInput>
+      </iFormItem>
+      <iFormItem prop="supplierType"
+                 v-permission="SUPPLIER_BASEINFO_SUPPLIER_TYPE">
+        <iLabel :label="language(
+                '采购员所在股',
+                '采购员所在股'
+              )"
+                slot="label"></iLabel>
+        <iInput v-model="supplierData.purchaserDept"
+                :disabled="disabled">
+        </iInput>
+      </iFormItem>
+      <iFormItem prop="supplierType"
+                 v-permission="SUPPLIER_BASEINFO_SUPPLIER_TYPE">
+        <iLabel :label="language(
+                '采购员岗位',
+                '采购员岗位'
+              )"
+                slot="label"></iLabel>
+        <iInput v-model="supplierData.purchaserPosition"
                 :disabled="disabled">
         </iInput>
       </iFormItem>
