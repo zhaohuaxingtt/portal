@@ -59,7 +59,7 @@
                 >
                   {{ agentUser.deptFullCode }} {{ agentUser.nameZh }}
                   {{ agentUser.taskStatus }}(代)
-                  <span class="gray-end-time"> {{ agentUser.endTime ? "2022-11-12 19:03" : "2022-11-12 19:03" }}</span>
+                  <span class="gray-end-time"> {{ agentUser.endTime }}</span>
                 </li>
               </ul>
             </div>
@@ -79,7 +79,7 @@
                     {{ approver.deptFullCode }} {{ approver.nameZh }}
                     {{ approver.taskStatus }}
                   </span>
-                  <span class="gray-end-time">{{ approver.endTime ? "2022-11-12 19:03" : "2022-11-12 19:03" }}</span>
+                  <span class="gray-end-time">{{ approver.endTime }}</span>
                 </div>
                 <ul
                   v-if="approver.agentUsers && approver.agentUsers.length"
@@ -94,7 +94,7 @@
                   >
                     {{ agentUser.deptFullCode }} {{ agentUser.nameZh }}
                     {{ agentUser.taskStatus }}(代)
-                    <span class="gray-end-time"> {{ agentUser.endTime ? "2022-11-12 19:03" : "2022-11-12 19:03"  }}</span>
+                    <span class="gray-end-time"> {{ agentUser.endTime }}</span>
                   </li>
                 </ul>
               </li>
