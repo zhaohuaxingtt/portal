@@ -205,9 +205,9 @@ export default {
       return this.$store.state.location.mtzObject;
     },
     isEditNew: function () {
-      return (this.inforData.appStatus == '草稿' || this.inforData.appStatus == '未通过')||(((this.inforData.flowType=='SIGN'||this.inforData.flowType=='FILING')||(['02','03',null,'01'].includes(this.inforData.meetingStatus)&&this.inforData.flowType=="MEETING"))&&this.inforData.appStatus=='已提交')
+      // return (this.inforData.appStatus == '草稿' || this.inforData.appStatus == '未通过')||(((this.inforData.flowType=='SIGN'||this.inforData.flowType=='FILING')||(['02','03',null,'01'].includes(this.inforData.meetingStatus)&&this.inforData.flowType=="MEETING"))&&this.inforData.appStatus=='已提交')
+      return (this.inforData.appStatus == '草稿' || this.inforData.appStatus == '未通过')||(((this.inforData.flowType=='SIGN'||this.inforData.flowType=='FILING')&&this.inforData.appStatus=='已提交')||(this.inforData.appStatus!='冻结'&&this.inforData.flowType=="MEETING"))
 
-      // return (this.appStatus == '草稿' || this.appStatus == '未通过')||(((this.flowType=='SIGN'||this.flowType=='FILING')||(['02','03',null,'01'].includes(this.meetingStatus)&&this.flowType=='MEETING'))&&this.appStatus=='已提交')
     }
   },
   watch: {
@@ -216,6 +216,9 @@ export default {
     }
   },
   created () {
+
+
+
     if (JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId == undefined && this.$route.query.mtzAppId == undefined) {
 
     } else {
@@ -255,10 +258,10 @@ export default {
         } else {
           this.showType = false;
         }
-        console.log( this.showType)
-        console.log( this.applyNumber)
-
-        console.log( this.disabled)
+        console.log((this.inforData.appStatus == '草稿' || this.inforData.appStatus == '未通过')||(((this.inforData.flowType=='SIGN'||this.inforData.flowType=='FILING')&&this.inforData.appStatus=='已提交')||(this.inforData.appStatus!='冻结'&&this.inforData.flowType=="MEETING")))
+    console.log(this.inforData.appStatus == '草稿' || this.inforData.appStatus == '未通过')
+    console.log((this.inforData.flowType=='SIGN'||this.inforData.flowType=='FILING')&&this.inforData.appStatus=='已提交')
+    console.log(this.inforData.appStatus!='冻结'&&this.inforData.flowType=="MEETING")
 
 
       }).then(res=>{
