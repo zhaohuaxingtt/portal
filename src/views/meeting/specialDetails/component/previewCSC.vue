@@ -9,14 +9,14 @@
   <div class="page">
     <div class="content">
       <div class="header">
-        <div>
-          <p class="title">{{ meetingInfo.name || '' }}</p>
-          <p class="subTitle" v-if="index>-1" >{{ 1 + index }}. <span class="margin-left5">{{ detail.topic || '' }}</span></p>
+        <div class="title">
+          <p>{{ meetingInfo.name || '' }}</p>
+          <p v-if="index>-1" >{{ 1 + index }}. {{ detail.topic || '' }}</p>
         </div>
         <div class="infos">
-          <div class="item">
-            <div class="name">Agenda No.:</div>
-            <div class="value">
+          <p class="item">
+            <span class="name"></span>
+            <span class="value">
               <img
                 @click="prev"
                 class="list-icon cursor"
@@ -67,12 +67,12 @@
                   alt="数据列表"
                 />
               </el-popover>
-            </div>
-          </div>
-          <div class="item">
-            <div class="name">Timing:</div>
-            <div class="value">{{ time | handleTransTime }}</div>
-          </div>
+            </span>
+          </p>
+          <p class="item">
+            <span class="name"><i class="el-icon-time"></i>{{ time | handleTransTime }}</span>
+            <span class="value"><i class="el-icon-time"></i>{{ newDate }}</span>
+          </p>
         </div>
       </div>
       <attch v-if="detail.type=='MANUAL'" :key="detail.id" :attachments="detail.attachments"/>
@@ -114,10 +114,18 @@ export default {
       themens: [],
       detail: {},
       timer: null,
+      show:true,
+      newDate:'',
       
     }
   },
+  computed:{
+    newDate(){
+      return new Date().toTimeString()
+    }
+  },
   async created() {
+
     let query = this.$route.query
     this.meetingInfo = await findThemenById({ id: query.id })
     this.themens = this.meetingInfo?.themens
@@ -130,7 +138,22 @@ export default {
       this.time += 1000
     }, 1000)
   },
+  mounted(){
+      window.addEventListener('message',(message)=>{
+        if(message.data && message.data.type=='click'){
+          this.show = false
+        }
+      }, false)
+      this.getNewDate()
+  },
   methods: {
+    getNewDate(){
+    this.timer2 = setInterval(() => {
+      let h = new Date().getHours()
+      let m = new Date().getMinutes()
+      this.newDate = h+':'+m
+    }, 1000)
+    },
     prev() {
       if (this.index > 0) {
         this.click(this.themens[this.index - 1], this.index - 1)
@@ -147,8 +170,8 @@ export default {
       this.time = 0
       this.detail = item
       this.index = index
-      let local
-      // let local = 'http://localhost:8080/sourcing/#'
+      // let local
+      let local = 'http://localhost:8081/sourcing/#'
       if(item.source == '04'){
         if (item.type === 'FS+MTZ') {
           this.src =
@@ -211,28 +234,23 @@ export default {
   font-size: 28px;
   font-weight: bold;
 }
-.subTitle {
+.infos {
   font-size: 28px;
   font-weight: bold;
-}
-.infos {
-  height: 60px;
   display: flex;
   flex-flow: column;
   .item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border: 1px solid #d9d9d9;
-    font-weight: bold;
-    font-size: 28px;
+    // border: 1px solid #eaeaea;
+    flex: 1;
     &:first-child {
       border-bottom: 0;
     }
     .name {
       text-align: right;
-      padding: 3px 0;
-      min-width: 190px;
+      // min-width: 130px;
     }
     .value {
       padding-left: 10px;
@@ -260,7 +278,7 @@ export default {
     padding: 0 18px;
     .content{
       padding: 12px 0;
-      border-bottom: 1px solid #efefef;
+      // border-bottom: 1px solid #efefef;
     }
   }
   .text {
