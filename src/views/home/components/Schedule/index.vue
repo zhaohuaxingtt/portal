@@ -169,16 +169,22 @@ export default {
         } finally {
           this.loadingWeekMeetingData = false
         }
+        let colorFirstItem = false
         for(let i=0; i < 7; i++) {
           let dates = beginMoment.format('YYYY-MM-DD')
           let foundData = result.find(item => {
             return item.dates === dates
           })
+          const customData = foundData ? foundData.customData : []
+          if(!colorFirstItem && customData?.length > 0) {
+            customData[0]['colorFirstItem'] = true
+            colorFirstItem = true
+          }
           const meetingListItem = {
             weekDay: this.WEEKS_EN_TEXT[i],
             weekDayZh: beginMoment.format('MM月DD日'),
             weekDayEn: beginMoment.locale('en').format('DD,MMMM'),
-            customData: foundData ? foundData.customData : []
+            customData: customData
           }
           meetingListThisWeek.push(meetingListItem)
           beginMoment.add(1, 'days')
@@ -431,7 +437,8 @@ export default {
   .iMeeting-day-item-div {
     margin-top: 5px;
     margin-bottom: 5px;
-    border-bottom: 2px dashed rgb(214, 214, 214);
+    //border-bottom: 2px dashed rgb(214, 214, 214);
+    border-bottom: 1px solid rgb(214, 214, 214);
   }
   .week-day-title {
     text-align: left;
