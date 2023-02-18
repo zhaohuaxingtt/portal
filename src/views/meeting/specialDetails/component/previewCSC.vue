@@ -70,7 +70,7 @@
             </span>
           </p>
           <p class="item">
-            <span class="name"><i class="el-icon-time"></i>{{ time | handleTransTime }}</span>
+            <span class="name"><i class="el-icon-alarm-clock"></i>{{ time | handleTransTime }}</span>
             <span class="value"><i class="el-icon-time"></i>{{ newDate }}</span>
           </p>
         </div>
@@ -170,8 +170,8 @@ export default {
       this.time = 0
       this.detail = item
       this.index = index
-      // let local
-      let local = 'http://localhost:8081/sourcing/#'
+      let local
+      // let local = 'http://localhost:8081/sourcing/#'
       if(item.source == '04'){
         if (item.type === 'FS+MTZ') {
           this.src =
