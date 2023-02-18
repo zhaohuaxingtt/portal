@@ -1,6 +1,6 @@
 <template>
   <div class="task-container">
-    <div v-for="item in moduleData" :key="item.id" class="task-card">
+    <div v-for="item in moduleData" :key="item.value" class="task-card">
       <div class="top">
         <div class="name single-no-ellipsis">{{ item.value }}</div>
 <!--        <div class="abs single-ellipsis">{{ getAbs(item.typeName) }}</div>-->
@@ -9,7 +9,7 @@
         <div v-if="!showPendingApproval" class="overdue" @click="handleToApply(item)">
           <div :class="item.overdue">
             {{ getLaunchNum(item.subType) | overNum }}
-            <span v-if="getLaunchNum(item.subType) > 99">+</span>
+            <span v-if="getLaunchNum(item.subType) > 99"></span>
           </div>
           <div class="numName flex-align-center">
             <div>{{ $t('HOME_CARD.MY_APPLICATION') }}</div>
@@ -19,7 +19,7 @@
         <div v-if="showPendingApproval" class="approval" @click="handleToApproval(item)">
           <div>
             {{ getTodoNum(item.subType) | overNum }}
-            <span v-if="getTodoNum(item.subType) > 99">+</span>
+            <span v-if="getTodoNum(item.subType) > 99"></span>
           </div>
           <div class="numName flex-align-center">
             <div>{{ $t('HOME_CARD.MY_APPROVAL') }}</div>
@@ -79,18 +79,19 @@ export default {
     }
   },
   watch: {
-    data() {
-      this.initModuleData()
-    }
+    // data() {
+    //   this.initModuleData()
+    //   console.log("moduleData, approvalToDoNum watch...", this.moduleData)
+    // }
   },
   created() {
     this.queryAllData()
     this.initModuleData()
   },
   mounted(){
-    this.$nextTick(()=>{
-      this.queryApplyOverview();
-    })
+    // this.$nextTick(()=>{
+    //   this.queryApplyOverview();
+    // })
   },
   methods: {
     queryApplyOverview(){//我的申请
@@ -141,23 +142,45 @@ export default {
       })
     },
     initModuleData() {
-      const data = JSON.parse(this.data.moduleData)
+      // const data = JSON.parse(this.data.moduleData)
       let approvalToDoNum = 0
-      if(data && data.length > 0) {
-        data.forEach(item => {
-          approvalToDoNum += ( this.valueNumbers[item.subType] && this.valueNumbers[item.subType].todoNum || 0)
+      let moduleData = []
+      if(this.data?.length > 0) {
+        this.data.forEach(dataItem => {
+          if(dataItem.wfCategoryList?.length>0){
+            dataItem.wfCategoryList.forEach(wfCategoryListItem=>{
+              let foundModuleDataItem = moduleData.find(moduleDataItem => {
+                 return (moduleDataItem.value == wfCategoryListItem.value)
+              })
+              if(foundModuleDataItem) {
+                foundModuleDataItem.launchNum += wfCategoryListItem.launchNum
+                foundModuleDataItem.todoNum += wfCategoryListItem.todoNum
+                foundModuleDataItem.overDueNum += wfCategoryListItem.overDueNum
+                foundModuleDataItem.cardUrl = wfCategoryListItem.cardUrl
+              } else {
+                let newModuleDataItem = {
+                  ...wfCategoryListItem
+                }
+                moduleData.push(newModuleDataItem)
+              }
+              approvalToDoNum += ( this.valueNumbers[wfCategoryListItem.subType] && this.valueNumbers[wfCategoryListItem.subType].todoNum || 0)
+            })
+          }
         })
       }
       this.$emit("approvalToDoNum", approvalToDoNum)
+      const filteredModuleData = moduleData.filter(e=>!(e.launchNum==0 && e.todoNum==0))
       // console.log('data=>',data);
-      // if (data.length <= 5) {
-      this.moduleData = data
+      // if (filteredModuleData.length <= 5) {
+      this.moduleData = filteredModuleData
+        // console.log("moduleData, approvalToDoNum...", this.moduleData, approvalToDoNum)
+      // } else {
+      //   this.moduleData = filteredModuleData.slice(0, 5)
       // }
-      // this.moduleData = data.slice(0, 5)
     },
     async queryAllData() {
       const result = await getApprovalList({ userID: this.userInfo.id })
-      console.log('result=>',result);
+      // console.log('queryAllData getApprovalList result=>',result);
       const data = result?.data || []
       data.forEach(item => {
         this.absMap[item.typeName] = item.typeValue
@@ -165,6 +188,7 @@ export default {
           this.valueNumbers[e.subType] = { ...e }
         })
       })
+      this.data = data
       this.initModuleData()
     },
     getLaunchNum(subType) {
