@@ -6,7 +6,7 @@
  * @FilePath: \front-portal\src\views\meeting\specialDetails\component\previewCSC.vue
 -->
 <template>
-  <div class="page">
+  <div class="page" ref="page">
     <div class="content">
       <div class="header">
         <div class="title">
@@ -15,7 +15,6 @@
         </div>
         <div class="infos">
           <p class="item">
-            <span class="name"></span>
             <span class="value">
               <img
                 @click="prev"
@@ -70,8 +69,10 @@
             </span>
           </p>
           <p class="item">
-            <span class="name"><i class="el-icon-alarm-clock"></i>{{ time | handleTransTime }}</span>
-            <span class="value"><i class="el-icon-time"></i>{{ newDate }}</span>
+            <span class="value margin-right20">
+              <img :src="alarm" class="icon" alt="">{{ time | handleTransTime }}</span>
+            <span class="value">
+              <img :src="clock" class="icon" alt="">{{ newDate }}</span>
           </p>
         </div>
       </div>
@@ -95,6 +96,8 @@ import { iPage, icon } from 'rise'
 import upAllow from '@/assets/images/icon/up.png'
 import downAllow from '@/assets/images/icon/down.png'
 import menu from '@/assets/images/icon/menu.png'
+import alarm from '@/assets/images/icon/alarm.svg'
+import clock from '@/assets/images/icon/clock.svg'
 import attch from './attch.vue'
 import { findThemenById } from '@/api/meeting/details'
 export default {
@@ -108,20 +111,17 @@ export default {
       upAllow,
       downAllow,
       menu,
+      alarm,
+      clock,
       time: 0,
       index: -1,
       meetingInfo: {},
       themens: [],
       detail: {},
       timer: null,
-      show:true,
+      timer2: null,
       newDate:'',
       
-    }
-  },
-  computed:{
-    newDate(){
-      return new Date().toTimeString()
     }
   },
   async created() {
@@ -139,20 +139,24 @@ export default {
     }, 1000)
   },
   mounted(){
-      window.addEventListener('message',(message)=>{
-        if(message.data && message.data.type=='click'){
-          this.show = false
-        }
-      }, false)
-      this.getNewDate()
+    window.addEventListener('message',this.closePop, false)
+    this.getNewDate()
   },
   methods: {
     getNewDate(){
-    this.timer2 = setInterval(() => {
-      let h = new Date().getHours()
-      let m = new Date().getMinutes()
-      this.newDate = h+':'+m
-    }, 1000)
+      this.timer2 = setInterval(() => {
+        let h = new Date().getHours()
+        let m = new Date().getMinutes()
+        h = h < 10 ? '0'+h : h
+        m = m < 10 ? '0'+m : m
+        this.newDate = h+':'+m
+      }, 1000)
+    },
+    closePop(message){
+      console.log(message);
+      if(message.data && message.data.type=='click'){
+        this.$refs.page.click()
+      }
     },
     prev() {
       if (this.index > 0) {
@@ -171,7 +175,7 @@ export default {
       this.detail = item
       this.index = index
       let local
-      // let local = 'http://localhost:8081/sourcing/#'
+      = 'http://localhost:8080/sourcing/#'
       if(item.source == '04'){
         if (item.type === 'FS+MTZ') {
           this.src =
@@ -187,6 +191,8 @@ export default {
   },
   destroyed() {
     if (this.timer) clearInterval(this.timer)
+    if (this.timer2) clearInterval(this.timer2)
+    window.removeEventListener('message',this.closePop)
   },
   filters: {
     handleTransTime(longTime) {
@@ -243,20 +249,15 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    // border: 1px solid #eaeaea;
     flex: 1;
     &:first-child {
       border-bottom: 0;
     }
-    .name {
-      text-align: right;
-      // min-width: 130px;
-    }
     .value {
       padding-left: 10px;
       text-align: center;
-      align-items: flex-start;
-      justify-content: center;
+      align-items: center;
+      justify-content: flex-end;
       display: flex;
       flex: 1;
       .count {
@@ -264,6 +265,10 @@ export default {
       }
       .menu{
         writing-mode: vertical-lr;
+      }
+      .icon{
+        height: 30px;
+        margin-right: 5px;
       }
     }
   }
