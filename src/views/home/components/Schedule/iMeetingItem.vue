@@ -1,10 +1,10 @@
 <template>
-  <div class='i-meeting-item' @click="gotoMeetingUrl">
+  <div class='i-meeting-item' :class="{ 'color-first-item': item.colorFirstItem }" @click="gotoMeetingUrl">
     <div class='i-meeting-item-date'>{{ item.strStartTime }}</div>
+<!--    <div class='i-meeting-item-divide-line'></div>-->
     <div class='i-meeting-item-content-div'>
-      <div class='i-meeting-item-divide-line'></div>
       <div class='i-meeting-item-title'>{{ item.name }}</div>
-      <div class='i-meeting-item-location'><i class="el-icon-map-location"></i>{{ item.meetingPlace }}</div>
+      <div class='i-meeting-item-location'><i class="el-icon-map-location"></i><span class="i-meeting-meeting-place">{{ item.meetingPlace }}</span></div>
     </div>
   </div>
 </template>
@@ -126,57 +126,98 @@
 <style lang="scss" scoped>
   .i-meeting-item {
     display: flex;
-    height: 32px;
-    line-height: 32px;
+    //height: 48px;
+    line-height: 48px;
     align-items: center;
     padding-left: 10px;
     padding-right: 10px;
     .i-meeting-item-date {
-      color: rgb(129, 129, 129);
+      color: rgb(127, 127, 127);
       height: 100%;
       width: 40px;
-      margin-right: 5px;
+      margin-right: 10px;
     }
+    //.i-meeting-item-divide-line {
+    //  background-color: rgb(210, 216, 224);
+    //  min-height: calc(48px - 5px);
+    //  line-height: calc(48px - 5px);
+    //  height: calc(100%);
+    //  width: 5px;
+    //  margin-left: 0;
+    //  margin-right: 5px;
+    //  margin-top: 5px;
+    //  margin-bottom: 5px;
+    //}
     .i-meeting-item-content-div {
       display: flex;
-      width: calc(100% - 40px);
+      //width: calc(100% - 40px - 10px - 10px - 5px);
       color: rgb(0, 0, 0);
-      justify-content: space-between;
-      .i-meeting-item-divide-line {
-        background-color: rgb(210, 216, 224);
-        height: 22px;
-        line-height: 22px;
-        width: 4px;
-        margin-left: 0;
-        margin-right: 5px;
-        margin-top: 5px;
-        margin-bottom: 5px;
-      }
+      justify-content: center;
+      flex-direction: column;
+      margin-left: 0px;
+      border-left: 8px solid rgb(127, 127, 127);
+      padding-left: 10px;
       .i-meeting-item-title {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        width: calc(100% - 10px - 40px - 50px);
+        color: rgb(127, 127, 127);
+        //white-space: nowrap;
+        //overflow: hidden;
+        //text-overflow: ;
+        word-break: break-all;
+        word-wrap: break-word;
+        //height: 32px;
+        //line-height: 32px;
+        line-height: 1rem;
+        text-align: left;
+        //width: calc(100% - 40px);
       }
       .i-meeting-item-location {
-        width: 70px;
+        color: rgb(127, 127, 127);
+        //width: 70px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
         text-align: left;
-        margin-left: 10px;
+        //margin-left: 10px;
+        height: 24px;
+        line-height: 24px;
+        margin-top: 4px;
+        .i-meeting-meeting-place {
+          margin-left: 16px;
+        }
       }
       margin-bottom: 5px;
+      margin-top: 5px;
     }
-    .i-meeting-item-content-div:hover {
-      color: rgb(0, 85, 232);
-      background-color: rgb(228, 237, 253);
-      cursor: pointer;
-      .i-meeting-item-divide-line {
-        background-color: rgb(0, 85, 232);
+    //.i-meeting-item-content-div:hover {
+    //  color: rgb(0, 85, 232);
+    //  background-color: rgb(228, 237, 253);
+    //  cursor: pointer;
+    //  .i-meeting-item-divide-line {
+    //    background-color: rgb(0, 85, 232);
+    //  }
+    //}
+  }
+  .i-meeting-item:hover, .i-meeting-item.color-first-item {
+    color: rgb(0, 85, 232);
+    background-color: rgb(228, 237, 253);
+    cursor: pointer;
+    .i-meeting-item-divide-line {
+      background-color: rgb(0, 85, 232);
+    }
+    .i-meeting-item-content-div {
+      border-left-color: rgb(0, 85, 232);
+      color: rgb(36, 107, 243);
+      .i-meeting-item-title {
+        color: rgb(36, 107, 243);
       }
     }
-  }
+    .i-meeting-item-date {
+      color: rgb(36, 107, 243);
+    }
+    .i-meeting-item-location {
+      color: rgb(36, 107, 243);
+    }
+   }
   .start-time {
     font-weight: 500;
     font-family: Arial, 'PingFang SC';
