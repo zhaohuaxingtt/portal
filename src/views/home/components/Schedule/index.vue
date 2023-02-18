@@ -37,7 +37,7 @@
           <div v-if="item.customData.length === 0" class="empty-i-meeting">
             {{ language('今日无会议安排') }}
           </div>
-          <div v-else>
+          <div class="has-meeting-div" v-else>
             <iMeetingItem v-for="(meetingItem, meetingItemIndex) in item.customData" :item="meetingItem" :key="meetingItemIndex"/>
           </div>
         <div>
@@ -412,6 +412,9 @@ export default {
     margin-top: 10px;
     height: 100%;
   }
+  .has-meeting-div {
+    margin-top: 10px;
+  }
   .empty-i-meeting {
     margin-top: 10px;
     margin-bottom: 10px;
@@ -438,7 +441,7 @@ export default {
     margin-top: 5px;
     margin-bottom: 5px;
     //border-bottom: 2px dashed rgb(214, 214, 214);
-    border-bottom: 1px solid rgb(214, 214, 214);
+    border-bottom: 1px solid rgb(235, 235, 235);
   }
   .week-day-title {
     text-align: left;
