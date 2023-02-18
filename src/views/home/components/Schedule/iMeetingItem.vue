@@ -134,12 +134,12 @@
     .i-meeting-item-date {
       color: rgb(129, 129, 129);
       height: 100%;
-      width: 35px;
+      width: 40px;
       margin-right: 5px;
     }
     .i-meeting-item-content-div {
       display: flex;
-      width: calc(100% - 35px);
+      width: calc(100% - 40px);
       color: rgb(0, 0, 0);
       justify-content: space-between;
       .i-meeting-item-divide-line {
@@ -156,7 +156,7 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        width: calc(100% - 10px - 35px - 50px);
+        width: calc(100% - 10px - 40px - 50px);
       }
       .i-meeting-item-location {
         width: 70px;
