@@ -69,7 +69,7 @@ export default {
         greetingStr = this.language('中午好')
       } else if(hours >= 14 && hours <= 18) {
         greetingStr = this.language('下午好')
-      } else if(hours > 19 && hours <=23 ) {
+      } else {
         greetingStr = this.language('晚上好')
       }
       return greetingStr

@@ -2,29 +2,31 @@
   <div>
     <template v-if="isSourceFindingPoint">
       <el-row :gutter="2">
-        <el-col :span="5" style="height: 40px;line-height: 40px;">
-          <iSelect
-            :placeholder="language('请选择')"
-            v-model="form.modelTemplate"
-            :multiple="false"
-            collapse-tags
-            filterable
-            @change="onItemTypeListChange"
-          >
-            <el-option
-              v-for="(item, index) in dOptions"
-              :key="index"
-              :value="item.value"
-              :label="item.label"
-            >
-            </el-option>
-          </iSelect>
-        </el-col>
-        <el-col :span="19">
+<!--        <el-col :span="5" style="height: 40px;line-height: 40px;">-->
+<!--          <iSelect-->
+<!--            :placeholder="language('请选择')"-->
+<!--            v-model="form.modelTemplate"-->
+<!--            :multiple="false"-->
+<!--            collapse-tags-->
+<!--            filterable-->
+<!--            @change="onItemTypeListChange"-->
+<!--          >-->
+<!--            <el-option-->
+<!--              v-for="(item, index) in dOptions"-->
+<!--              :key="index"-->
+<!--              :value="item.value"-->
+<!--              :label="item.label"-->
+<!--            >-->
+<!--            </el-option>-->
+<!--          </iSelect>-->
+<!--        </el-col>-->
+        <el-col :span="24">
           <taskPanelCategory
-            :typeName="curTypeName"
+            :subTypeName="curTypeName"
             @toggle-active="toggleActive"
+            @item-type-list-change="onItemTypeListChange"
             :active-index="curActiveIndex"
+            :isFinished="isFinished"
           />
         </el-col>
       </el-row>
@@ -183,6 +185,9 @@ export default {
         }
       } else {
         this.form.categoryList = categoryList
+      }
+      if(categoryList?.length > 0) {
+        this.curTypeName = categoryList[0]
       }
     }
     this.queryModelTemplate()

@@ -38,6 +38,10 @@
       }
     },
     methods: {
+      handleFinishCurrentTask() {
+        this.showMoreTask = false
+        return this.$refs.taskNavigationDrawer.handleFinishCurrentTask(this.$route.params.instanceId)
+      },
       gotoPreTask() {
         this.$nextTick(() => {
           this.showMoreTask = false
