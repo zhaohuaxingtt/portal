@@ -1,6 +1,23 @@
 <template>
   <div class="panel-category">
     <div class="list">
+      <iSelect
+        :placeholder="language('请选择')"
+        v-model="typeName"
+        class="item-type-select"
+        :multiple="false"
+        collapse-tags
+        filterable
+        @change="onItemTypeListChange"
+      >
+        <el-option
+          v-for="(item, index) in dOptions"
+          :key="index"
+          :value="item.value"
+          :label="item.label"
+        >
+        </el-option>
+      </iSelect>
       <div
         v-if="hasAll"
         class="item"
@@ -31,8 +48,12 @@
 </template>
 
 <script>
+import { AEKO_CATEGORY_LIST, BPM_APPROVAL_TYPE_OPTIONS } from '@/constants'
+import { iSelect } from 'rise'
+
 export default {
   name: 'taskTypePanelCategory',
+  components: { iSelect },
   props: {
     data: {
       type: Array,
@@ -53,15 +74,41 @@ export default {
       default: false
     },
   },
-  // data() {
-  //   return {
-  //     activeIndex: -1,
-  //   }
-  // },
+  data() {
+    return {
+      dOptions: BPM_APPROVAL_TYPE_OPTIONS,
+      typeName: null,
+      itemTypeList: '-1',
+    }
+  },
   methods: {
     toggleActive(index) {
       // this.activeIndex = index
       this.$emit('toggle-active', index)
+    },
+    onItemTypeListChange(newValue) {
+      this.$emit('item-type-list-change', newValue)
+    },
+    setTypeName(typeName, foundSubTypeName) {
+      const foundByTypeName = this.dOptions.find(item => {
+        return item.typeName === typeName
+      })
+      let foundIndex = -1
+      this.data.forEach((item, index) => {
+        if(item.categoryList.indexOf(foundSubTypeName) > -1) {
+          foundIndex = index
+        }
+      })
+      if(foundByTypeName) {
+        this.typeName = foundByTypeName.value
+        this.$emit('item-type-list-change', foundByTypeName.value, false)
+        this.$emit('toggle-active', foundIndex, true)
+      } else {
+        if(typeName === null) {
+          this.$emit('item-type-list-change', -1, true)
+          this.$emit('toggle-active', -1, true)
+        }
+      }
     }
   }
 }
@@ -136,6 +183,11 @@ export default {
       border-radius: 10px;
       margin: 11px 10px 0px -10px;
     }
+  }
+  .item-type-select {
+    width: 200px !important;
+    max-width: 200px !important;
+    margin-right: 20px;
   }
 }
 </style>

@@ -4,7 +4,7 @@
       <div class="cus-approval-detail-title">
         <div class="cus-approval-detail-title-info">
           <detailTitle :form="form" />
-          <taskNavigation :queryType="queryType" :isFinished="finished"/>
+          <taskNavigation ref="taskNavigation" :queryType="queryType" :isFinished="finished"/>
         </div>
         <div style="padding-left: 40px">
           <el-row :gutter="20">
@@ -379,8 +379,11 @@ export default {
             if (res.result) {
               this.$message.success(res.desZh || this.language('操作成功'))
 
-              reloadOpener()
-              this.replaceUrl()
+              const finished = this.$refs.taskNavigation.handleFinishCurrentTask()
+              if(!finished) {
+                reloadOpener()
+                this.replaceUrl()
+              }
             } else {
               this.$message.error(res.desZh || this.language('操作失败'))
             }
@@ -396,9 +399,12 @@ export default {
       }
     },
     approvelSuccess() {
-      reloadOpener()
       this.dialogApprovalVisible = false
-      this.replaceUrl()
+      const isFinished = this.$refs.taskNavigation.handleFinishCurrentTask()
+      if(!isFinished) {
+        reloadOpener()
+        this.replaceUrl()
+      }
     },
     //导出
     exportTemplate() {

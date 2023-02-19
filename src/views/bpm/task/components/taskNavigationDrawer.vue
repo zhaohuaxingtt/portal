@@ -9,10 +9,10 @@
       <iCard class="todo-task-list-info-card" v-loading="loading">
         <div class="todo-task-list-info-div">
           <div class="todo-task-list-title">{{ $t('APPROVAL_TODO_LIST') }}</div>
-          <div class="todo-task-list-info-list" v-infinite-scroll="handleLoadMore">
+          <div class="todo-task-list-info-list" v-infinite-scroll="handleLoadMore" infinite-scroll-distance="20">
             <div class="todo-task-list-info" v-for="(item, index) in todoTaskList">
               <div class="todo-task-list-info-title" @click="gotoDetailPage(item)">
-                {{ item.itemName + '-' + item.itemContent }}
+                {{ item.itemName + '-' + (isFinished ? item.itemContent : item.itemEvent) }}
               </div>
               <div class="todo-task-list-info-content">
                 <span>{{ item.businessId }}</span>
@@ -50,6 +50,11 @@
         default: false
       }
     },
+    computed: {
+      disabled () {
+        return this.loading || this.noMore
+      }
+    },
     watch: {
       visible(val) {
       }
@@ -76,6 +81,35 @@
       }
     },
     methods: {
+      handleFinishCurrentTask(instanceId) {
+        if(this.todoTaskList?.length >= 2) {
+          let curIndex = -1
+          this.todoTaskList.find((item,index) => {
+            if(item.instanceId === instanceId) {
+              curIndex = index
+            }
+          })
+          // 找到当前finish了的Index
+          if((curIndex+1) < this.todoTaskList.length) {
+            this.$nextTick(() => {
+              this.gotoDetailPage(this.todoTaskList[curIndex + 1])
+            })
+            return true
+          } else if((curIndex - 1) >= 0){
+            this.$nextTick(() => {
+              this.gotoDetailPage(this.todoTaskList[curIndex - 1])
+            })
+            return true
+          } else {
+            this.$message.info(`已经是最后一条`)
+            this.$emit("showMoreTaskNeedClose")
+            return false
+          }
+        } else {
+          this.$message.info(`已经是最后一条`)
+          return false
+        }
+      },
       gotoPreTask(instanceId) {
         if(this.todoTaskList?.length > 0) {
           let curIndex = -1
@@ -131,6 +165,9 @@
         return params
       },
       genQueryListData() {
+        if(this.$route.params.queryData) {
+          return JSON.parse(decodeURIComponent(this.$route.params.queryData))
+        }
         if(this.queryType === QUERY_DRAWER_TYPES.APPLY_TODO) {
           return {
             "taskType": 0,
@@ -149,15 +186,19 @@
       gotoDetailPage(item) {
         this.$emit("showMoreTaskNeedClose")
         this.$nextTick(() => {
-          if(this.queryType === QUERY_DRAWER_TYPES.APPLY_TODOQ || this.queryType === QUERY_DRAWER_TYPES.APPLY_FINISH) {
-            if (this.isFinished === 1) {
-              window.location.href = `/portal/#/bpm/finishList/detail/${item.instanceId}/${item.taskId}/${this.isFinished ? 'yes' : 'no'}`
+          let queryDataStr = ''
+          if(this.$route.params.queryData) {
+            queryDataStr = decodeURIComponent(this.$route.params.queryData)
+          }
+          if(this.queryType === QUERY_DRAWER_TYPES.APPLY_TODO || this.queryType === QUERY_DRAWER_TYPES.APPLY_FINISH) {
+            if (this.isFinished) {
+              window.location.href = `/portal/#/bpm/finishList/detail/${item.instanceId}/${item.taskId}/${this.isFinished ? 'yes' : 'no'}/${queryDataStr}`
             } else {
-              window.location.href = `/portal/#/bpm/todoList/detail/${item.instanceId}/${item.taskId}/${this.isFinished ? 'yes' : 'no'}`
+              window.location.href = `/portal/#/bpm/todoList/detail/${item.instanceId}/${item.taskId}/${this.isFinished ? 'yes' : 'no'}/${queryDataStr}`
             }
           } else {
             // http://localhost:8080/portal/#/bpm/myApply/detail/2423548/no
-            window.location.href = `/portal/#/bpm/myApply/detail/${item.instanceId}/${this.isFinished ? 'yes' : 'no'}`
+            window.location.href = `/portal/#/bpm/myApply/detail/${item.instanceId}/${this.isFinished ? 'yes' : 'no'}/queryData=${queryDataStr}`
           }
           // this.showDialog = true
         })
