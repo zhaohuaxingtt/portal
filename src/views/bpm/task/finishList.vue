@@ -21,7 +21,7 @@
         <actionHeader
           :todo-total="todoTotal"
           :task-type="1"
-          :search-form="form"
+          :search-form="queryData"
         />
       </div>
       <i-table-custom
@@ -177,6 +177,7 @@ export default {
       ],
       selectTableData: [],
       form: {},
+      queryData: {},
       agreeType: 1,
       dialogApprovalVisible: false,
       todoTotal: 0,
@@ -194,9 +195,9 @@ export default {
       const { categoryList } = queryForm
       if (categoryList) {
         if (_.isArray(categoryList)) {
-          modelTemplate = JSON.stringify(categoryList)
+          modelTemplate = JSON.stringify(categoryList[0])
         } else {
-          modelTemplate = JSON.stringify([categoryList])
+          modelTemplate = JSON.stringify(categoryList)
         }
       }
       this.modelTemplate = modelTemplate
@@ -238,6 +239,8 @@ export default {
             searchData.categoryList[0] === '')
         ) {
           delete searchData.categoryList
+        } else if(searchData.categoryList[0] && _.isArray(searchData.categoryList[0]) && searchData.categoryList[0].length) {
+          searchData.categoryList = [searchData.categoryList[0][0]]
         }
       }
       if (
@@ -246,7 +249,6 @@ export default {
       ) {
         searchData.categoryList = [searchData.categoryList]
       }
-
       const data = {
         taskType: this.taskType,
         userID: this.$store.state.permission.userInfo.id,
@@ -262,6 +264,7 @@ export default {
         pageSize: this.page.pageSize
       }
       const data = this.genQueryData()
+      this.queryData = data
       const result = queryFinishedApprovals(params, data)
 
       result

@@ -211,6 +211,7 @@ export default {
         applyUserName: '',
         categoryList: ''
       },
+      queryData: {},
       agreeType: 1,
       dialogApprovalVisible: false,
       todoTotal: 0,
@@ -290,7 +291,7 @@ export default {
         pageSize: this.page.pageSize
       }
       const data = this.genQueryData()
-
+      this.queryData = data
       const result = queryUndoApprovals(params, data)
 
       result

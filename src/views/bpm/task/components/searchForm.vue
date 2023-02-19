@@ -26,6 +26,7 @@
             @toggle-active="toggleActive"
             @item-type-list-change="onItemTypeListChange"
             :active-index="curActiveIndex"
+            :isFinished="isFinished"
           />
         </el-col>
       </el-row>
@@ -216,8 +217,8 @@ export default {
   },
   methods: {
     refresh() {
-      console.log("this.isFinished...", this.isFinished)
-      if (!this.isFinished && this.$route.query.modelTemplate) {
+      console.log("this.isFinished...", this.isFinished, this.$route.query.modelTemplate)
+      if (this.$route.query.modelTemplate) {
         const moduleTemplate = JSON.parse(this.$route.query.modelTemplate)
         console.log('module-template', moduleTemplate)
         if (

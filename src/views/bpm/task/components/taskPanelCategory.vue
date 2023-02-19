@@ -9,7 +9,7 @@
       :active-index.sync="activeIndex"
       :typeName="subTypeName"
       :hasAll="hasAll"
-      numVisible
+      :numVisible="numVisible"
     />
   </div>
 </template>
@@ -40,6 +40,10 @@
       },
       hasAll: {
         type: Boolean,
+        default: true
+      },
+      isFinished: {
+        type: Boolean,
         default: false
       }
     },
@@ -51,6 +55,9 @@
       }
     },
     computed: {
+      numVisible() {
+        return !this.isFinished
+      },
       activeData() {
         console.log("this.subTypeName 1111", this.subTypeName)
         if(this.subTypeName) {
