@@ -99,12 +99,14 @@ export default {
           foundIndex = index
         }
       })
-      debugger
       if(foundByTypeName) {
         this.typeName = foundByTypeName.value
         this.$emit('item-type-list-change', foundByTypeName.value, false)
-        if(foundIndex !== -1) {
-          this.$emit('toggle-active', foundIndex, true)
+        this.$emit('toggle-active', foundIndex, true)
+      } else {
+        if(typeName === null) {
+          this.$emit('item-type-list-change', -1, true)
+          this.$emit('toggle-active', -1, true)
         }
       }
     }

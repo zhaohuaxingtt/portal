@@ -357,8 +357,8 @@ export default {
         this.curTypeName = newItem.typeName
         this.curActiveIndex = -1
       } else {
-        // this.curTypeName = null
-        // this.curActiveIndex = -1
+        this.curTypeName = null
+        this.curActiveIndex = -1
       }
       this.queryModelTemplate(update)
     },
