@@ -73,7 +73,7 @@
             return []
           }
         } else {
-          this.hasAll = false
+          this.hasAll = true
           console.log("this.subTypeName for activeData2", this.subTypeName)
           return []
         }

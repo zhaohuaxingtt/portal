@@ -10,7 +10,7 @@
 <!--        />-->
 <!--      </template>-->
     </pageHeader>
-    <searchForm :finished="finished" :isSourceFindingPoint="true" @search="search" />
+    <searchForm :is-finished="finished" :isSourceFindingPoint="true" @search="search" />
     <iCard>
       <div class="header-actions-div">
         <headerActions
