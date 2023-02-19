@@ -12,7 +12,7 @@
           <div class="todo-task-list-info-list" v-infinite-scroll="handleLoadMore">
             <div class="todo-task-list-info" v-for="(item, index) in todoTaskList">
               <div class="todo-task-list-info-title" @click="gotoDetailPage(item)">
-                {{ item.itemName + '-' + item.itemEvent }}
+                {{ item.itemName + '-' + (isFinished ? item.itemContent : item.itemEvent) }}
               </div>
               <div class="todo-task-list-info-content">
                 <span>{{ item.businessId }}</span>
@@ -76,6 +76,35 @@
       }
     },
     methods: {
+      handleFinishCurrentTask(instanceId) {
+        if(this.todoTaskList?.length >= 2) {
+          let curIndex = -1
+          this.todoTaskList.find((item,index) => {
+            if(item.instanceId === instanceId) {
+              curIndex = index
+            }
+          })
+          // 找到当前finish了的Index
+          if((curIndex+1) < this.todoTaskList.length) {
+            this.$nextTick(() => {
+              this.gotoDetailPage(this.todoTaskList[curIndex + 1])
+            })
+            return true
+          } else if((curIndex - 1) >= 0){
+            this.$nextTick(() => {
+              this.gotoDetailPage(this.todoTaskList[curIndex - 1])
+            })
+            return true
+          } else {
+            this.$message.info(`已经是最后一条`)
+            this.$emit("showMoreTaskNeedClose")
+            return false
+          }
+        } else {
+          this.$message.info(`已经是最后一条`)
+          return false
+        }
+      },
       gotoPreTask(instanceId) {
         if(this.todoTaskList?.length > 0) {
           let curIndex = -1
