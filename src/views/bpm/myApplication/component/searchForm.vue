@@ -27,6 +27,7 @@
             @item-type-list-change="onItemTypeListChange"
             :active-index="curActiveIndex"
             :isFinished="isFinished"
+            :myApplication="true"
           />
         </el-col>
       </el-row>
