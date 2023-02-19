@@ -12,7 +12,7 @@
           <div class="todo-task-list-info-list" v-infinite-scroll="handleLoadMore">
             <div class="todo-task-list-info" v-for="(item, index) in todoTaskList">
               <div class="todo-task-list-info-title" @click="gotoDetailPage(item)">
-                {{ item.itemName + '-' + item.itemContent }}
+                {{ item.itemName + '-' + item.itemEvent }}
               </div>
               <div class="todo-task-list-info-content">
                 <span>{{ item.businessId }}</span>
