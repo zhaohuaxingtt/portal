@@ -233,7 +233,7 @@ export default {
         this.form.categoryList = JSON.parse(this.$route.query.modelTemplate)
       }
     }
-    this.getTableList()
+    // this.getTableList()
   },
   methods: {
     //表格选中值集

@@ -2,28 +2,29 @@
   <div>
     <template v-if="isSourceFindingPoint">
       <el-row :gutter="2">
-        <el-col :span="5" style="height: 40px;line-height: 40px;">
-          <iSelect
-            :placeholder="language('请选择')"
-            v-model="form.itemTypeList"
-            :multiple="false"
-            collapse-tags
-            filterable
-            @change="onItemTypeListChange"
-          >
-            <el-option
-              v-for="(item, index) in dOptions"
-              :key="index"
-              :value="item.value"
-              :label="item.label"
-            >
-            </el-option>
-          </iSelect>
-        </el-col>
-        <el-col :span="19">
+<!--        <el-col :span="5" style="height: 40px;line-height: 40px;">-->
+<!--          <iSelect-->
+<!--            :placeholder="language('请选择')"-->
+<!--            v-model="form.itemTypeList"-->
+<!--            :multiple="false"-->
+<!--            collapse-tags-->
+<!--            filterable-->
+<!--            @change="onItemTypeListChange"-->
+<!--          >-->
+<!--            <el-option-->
+<!--              v-for="(item, index) in dOptions"-->
+<!--              :key="index"-->
+<!--              :value="item.value"-->
+<!--              :label="item.label"-->
+<!--            >-->
+<!--            </el-option>-->
+<!--          </iSelect>-->
+<!--        </el-col>-->
+        <el-col :span="24">
           <taskPanelCategory
-            :typeName="curTypeName"
+            :subTypeName="curTypeName"
             @toggle-active="toggleActive"
+            @item-type-list-change="onItemTypeListChange"
             :active-index="curActiveIndex"
           />
         </el-col>
@@ -215,7 +216,7 @@ export default {
   },
   methods: {
     refresh() {
-      console.log(this.isFinished)
+      console.log("this.isFinished...", this.isFinished)
       if (!this.isFinished && this.$route.query.modelTemplate) {
         const moduleTemplate = JSON.parse(this.$route.query.modelTemplate)
         console.log('module-template', moduleTemplate)
@@ -226,9 +227,12 @@ export default {
           this.multipleCategoryList = false
           this.form.categoryList = moduleTemplate[0]
         } else {
-          this.form.categoryList = JSON.parse(this.$route.query.modelTemplate)
+          // this.form.categoryList = JSON.parse(this.$route.query.modelTemplate)
+          this.form.categoryList = moduleTemplate[0]
         }
-        console.log(this.form);
+        this.curTypeName = moduleTemplate[0]
+        // console.log(this.form);
+        // this.queryModelTemplate()
       }
       // CRW-8311
       // 【CF】审批人界面从[已审批]切换到[待审批]查不到待审批单据
@@ -327,20 +331,24 @@ export default {
         }
       }
     },
-    toggleActive(index, item) {
+    toggleActive(index, item, update = true) {
       this.activeIndex = index
       if(index !== -1 && item && item.categoryList?.length > 0) {
         this.form.categoryList = item.categoryList
       } else {
         this.form.categoryList = ''
       }
-      this.search()
+      if(update) {
+        this.search()
+      }
     },
-    onItemTypeListChange(newValue) {
-      this.updateCurTypeName(newValue)
-      this.search()
+    onItemTypeListChange(newValue, update = true) {
+      this.updateCurTypeName(newValue, update)
+      if(update) {
+        this.search()
+      }
     },
-    updateCurTypeName(newValue) {
+    updateCurTypeName(newValue, update) {
       const newItem = this.dOptions.find(item => {
         return newValue == item.value
       })
@@ -349,10 +357,10 @@ export default {
         this.curTypeName = newItem.typeName
         this.curActiveIndex = -1
       } else {
-        this.curTypeName = null
-        this.curActiveIndex = -1
+        // this.curTypeName = null
+        // this.curActiveIndex = -1
       }
-      this.queryModelTemplate()
+      this.queryModelTemplate(update)
     },
     search() {
       const searchData = { ...this.form }
@@ -384,7 +392,7 @@ export default {
       // this.$emit('search', { ...this.form, itemTypeList: searchData.itemTypeList ? [searchData.itemTypeList] : []}, this.templates)
       this.search()
     },
-    async queryModelTemplate() {
+    async queryModelTemplate(update = true) {
       console.log(this.form);
       const data = {
         pageNo: 1,
@@ -392,11 +400,13 @@ export default {
         type: 'modelTemplate',
         userId: this.$store.state.permission.userInfo.id
       }
-      const res = await queryModelTemplate(data)
+      const res = await queryModelTemplate(data, update)
       const list = res?.data?.records || []
       list.unshift({ name: '', value: '全部' })
       this.templates = list.filter((e) => !AEKO_CATEGORY_LIST.includes(e.name))
-      this.search()
+      if(update) {
+        this.search()
+      }
     },
     async queryUserOptions() {
       const queryData = {

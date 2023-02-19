@@ -1,10 +1,13 @@
 <template>
   <div class="approval" v-loading="loading">
     <taskTypePanelCategory
+      ref="taskTypePanelCategory"
       :data="activeData"
       @toggle-active="toggleActive"
+      @new-type-name="handleNewTypeName"
+      @item-type-list-change="onItemTypeListChange"
       :active-index.sync="activeIndex"
-      :typeName='typeName'
+      :typeName="subTypeName"
       :hasAll="hasAll"
       numVisible
     />
@@ -23,7 +26,7 @@
     name: 'taskPanelCategory',
     components: { taskTypePanelCategory },
     props: {
-      typeName: {
+      subTypeName: {
         type: String,
         default: null
       },
@@ -43,18 +46,19 @@
     data() {
       return {
         data: [],
-        loading: false
+        loading: false,
+        oriSubTypeName: null
       }
     },
     computed: {
       activeData() {
-        console.log("this.typeName", this.typeName)
-        if(this.typeName) {
+        console.log("this.subTypeName 1111", this.subTypeName)
+        if(this.subTypeName) {
           const data = _.cloneDeep(this.data)
           const findDataByTypeName = data.find(item => {
-            return item.typeName === this.typeName
+            return item.typeName === this.subTypeName
           })
-          console.log("this.typeName activeData1", this.typeName, findDataByTypeName)
+          console.log("this.subTypeName for activeData1", this.subTypeName, findDataByTypeName)
           this.hasAll = true
           if(findDataByTypeName) {
             return findDataByTypeName.wfCategoryList
@@ -63,7 +67,7 @@
           }
         } else {
           this.hasAll = false
-          console.log("this.typeName activeData2", this.typeName)
+          console.log("this.subTypeName for activeData2", this.subTypeName)
           return []
         }
       }
@@ -71,15 +75,41 @@
     watch:{
       '$i18n.locale'(val){
         this.getOverview()
+      },
+      activeData(val) {
+        let foundTypeName = null
+        this.data.forEach((e) => {
+          e.wfCategoryList.forEach((wf) => {
+            // 根据typeName，找到下拉框的内容了
+            console.log("this.subTypeName.....", this.subTypeName)
+            if(wf.categoryList && wf.categoryList.indexOf(this.subTypeName) > -1) {
+              foundTypeName = e
+            }
+          })
+        })
+        this.$nextTick(() => {
+          if(foundTypeName) {
+            this.$refs.taskTypePanelCategory.setTypeName(foundTypeName.typeName, this.oriSubTypeName)
+          } else {
+            this.$refs.taskTypePanelCategory.setTypeName(this.subTypeName, this.oriSubTypeName)
+          }
+        })
       }
     },
     created() {
+      this.oriSubTypeName = this.subTypeName
       this.getOverview()
     },
     methods: {
-      toggleActive(index) {
+      onItemTypeListChange(newValue, update = true) {
+        this.$emit('item-type-list-change', newValue, update)
+      },
+      handleNewTypeName(newValue) {
+        this.$emit('new-type-name', newValue)
+      },
+      toggleActive(index, update = true) {
         this.activeIndex = index
-        this.$emit('toggle-active', index, this.activeData[index])
+        this.$emit('toggle-active', index, this.activeData[index], update)
       },
       openListPage(item) {
         if (item.cardUrl) {
