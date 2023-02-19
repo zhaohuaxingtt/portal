@@ -131,6 +131,9 @@
         return params
       },
       genQueryListData() {
+        if(this.$route.params.queryData) {
+          return JSON.parse(decodeURIComponent(this.$route.params.queryData))
+        }
         if(this.queryType === QUERY_DRAWER_TYPES.APPLY_TODO) {
           return {
             "taskType": 0,
@@ -149,15 +152,19 @@
       gotoDetailPage(item) {
         this.$emit("showMoreTaskNeedClose")
         this.$nextTick(() => {
-          if(this.queryType === QUERY_DRAWER_TYPES.APPLY_TODOQ || this.queryType === QUERY_DRAWER_TYPES.APPLY_FINISH) {
-            if (this.isFinished === 1) {
-              window.location.href = `/portal/#/bpm/finishList/detail/${item.instanceId}/${item.taskId}/${this.isFinished ? 'yes' : 'no'}`
+          let queryDataStr = ''
+          if(this.$route.params.queryData) {
+            queryDataStr = decodeURIComponent(this.$route.params.queryData)
+          }
+          if(this.queryType === QUERY_DRAWER_TYPES.APPLY_TODO || this.queryType === QUERY_DRAWER_TYPES.APPLY_FINISH) {
+            if (this.isFinished) {
+              window.location.href = `/portal/#/bpm/finishList/detail/${item.instanceId}/${item.taskId}/${this.isFinished ? 'yes' : 'no'}/${queryDataStr}`
             } else {
-              window.location.href = `/portal/#/bpm/todoList/detail/${item.instanceId}/${item.taskId}/${this.isFinished ? 'yes' : 'no'}`
+              window.location.href = `/portal/#/bpm/todoList/detail/${item.instanceId}/${item.taskId}/${this.isFinished ? 'yes' : 'no'}/${queryDataStr}`
             }
           } else {
             // http://localhost:8080/portal/#/bpm/myApply/detail/2423548/no
-            window.location.href = `/portal/#/bpm/myApply/detail/${item.instanceId}/${this.isFinished ? 'yes' : 'no'}`
+            window.location.href = `/portal/#/bpm/myApply/detail/${item.instanceId}/${this.isFinished ? 'yes' : 'no'}/queryData=${queryDataStr}`
           }
           // this.showDialog = true
         })
