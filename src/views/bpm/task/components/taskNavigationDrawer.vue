@@ -9,7 +9,7 @@
       <iCard class="todo-task-list-info-card" v-loading="loading">
         <div class="todo-task-list-info-div">
           <div class="todo-task-list-title">{{ $t('APPROVAL_TODO_LIST') }}</div>
-          <div class="todo-task-list-info-list" v-infinite-scroll="handleLoadMore">
+          <div class="todo-task-list-info-list" v-infinite-scroll="handleLoadMore" infinite-scroll-distance="20">
             <div class="todo-task-list-info" v-for="(item, index) in todoTaskList">
               <div class="todo-task-list-info-title" @click="gotoDetailPage(item)">
                 {{ item.itemName + '-' + (isFinished ? item.itemContent : item.itemEvent) }}
@@ -48,6 +48,11 @@
       isFinished: {
         type: Boolean,
         default: false
+      }
+    },
+    computed: {
+      disabled () {
+        return this.loading || this.noMore
       }
     },
     watch: {
