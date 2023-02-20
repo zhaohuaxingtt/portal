@@ -1,113 +1,150 @@
 <template>
-  <iSearch
-    class="margin-bottom20"
-    style="margin-top: 20px"
-    :icon="true"
-    @sure="search"
-    @reset="reset"
-  >
-    <el-form label-position="top">
+  <div>
+    <template v-if="isSourceFindingPoint">
       <el-row :gutter="2">
-        <el-col :span="5">
-          <iFormItem :label="language('单据编号')">
-            <iInput
-              :placeholder="language('请输入')"
-              v-model="form.businessId"
-            />
-          </iFormItem>
-        </el-col>
-        <el-col :span="5">
-          <iFormItem :label="language('业务模块')">
-            <iSelect
-              :placeholder="language('请选择')"
-              v-model="form.itemTypeList"
-              multiple
-              collapse-tags
-              filterable
-            >
-              <el-option
-                v-for="(item, index) in dOptions"
-                :key="index"
-                :value="item.value"
-                :label="item.label"
-              >
-              </el-option>
-            </iSelect>
-          </iFormItem>
-        </el-col>
-        <el-col :span="14">
-          <iFormItem :label="language('任务名称')" style="width: 80%">
-            <iSelect
-              :placeholder="language('请选择')"
-              v-model="form.categoryList"
-              :multiple="multipleCategoryList"
-              collapse-tags
-              filterable
-            >
-              <el-option
-                v-for="(item, index) in templates"
-                :key="index"
-                :value="item.name"
-                :label="item.value"
-                :disabled="
-                  !isFinished &&
-                  multipleCategoryList &&
-                  bpmSinglCategoryList.includes(item.name)
-                "
-              >
-              </el-option>
-            </iSelect>
-          </iFormItem>
-        </el-col>
-        <el-col :span="5">
-          <iFormItem :label="language('申请人')">
-            <userSearch
-              v-model="form.applyUserId"
-              :default-options="userDefaultOptions"
-            />
-          </iFormItem>
-        </el-col>
-        <el-col :span="5">
-          <iFormItem :label="language('申请部门')">
-            <orgSearch
-              v-model="form.applyUserDeptId"
-              :default-options="deptDefaultOptions"
-            />
-          </iFormItem>
-        </el-col>
-        <el-col :span="14">
-          <iFormItem :label="language('任务起止日期')" style="width: 80%">
-            <div class="flex-between-center-center">
-              <iDatePicker
-                v-model="date"
-                type="daterange"
-                :range-separator="language('至')"
-                :start-placeholder="language('开始日期')"
-                :end-placeholder="language('结束日期')"
-                :style="{ width: isTodoPage ? 'auto' : '100%' }"
-                value-format="yyyy-MM-dd"
-                format="yyyy-MM-dd"
-              >
-              </iDatePicker>
-              <el-checkbox v-model="form.reApprove" v-if="isTodoPage">
-                {{ language('复核中单据') }}
-                <el-tooltip
-                  effect="light"
-                  :content="
-                    language(
-                      '显示全部仍在复核期内的单据，包括已经完成复核操作的单据。'
-                    )
-                  "
-                >
-                  <icon name="iconzengjiacailiaochengben_lan" symbol />
-                </el-tooltip>
-              </el-checkbox>
-            </div>
-          </iFormItem>
+<!--        <el-col :span="5" style="height: 40px;line-height: 40px;">-->
+<!--          <iSelect-->
+<!--            :placeholder="language('请选择')"-->
+<!--            v-model="form.itemTypeList"-->
+<!--            :multiple="false"-->
+<!--            collapse-tags-->
+<!--            filterable-->
+<!--            @change="onItemTypeListChange"-->
+<!--          >-->
+<!--            <el-option-->
+<!--              v-for="(item, index) in dOptions"-->
+<!--              :key="index"-->
+<!--              :value="item.value"-->
+<!--              :label="item.label"-->
+<!--            >-->
+<!--            </el-option>-->
+<!--          </iSelect>-->
+<!--        </el-col>-->
+        <el-col :span="24">
+          <taskPanelCategory
+            ref="taskPanelCategory"
+            :subTypeName="curTypeName"
+            @toggle-active="toggleActive"
+            @item-type-list-change="onItemTypeListChange"
+            @item-type-list-Click="onItemTypeListClick"
+            :active-index="curActiveIndex"
+            :isFinished="isFinished"
+          />
         </el-col>
       </el-row>
-    </el-form>
-  </iSearch>
+    </template>
+    <iSearch
+      class="margin-bottom20"
+      style="margin-top: 20px"
+      :icon="true"
+      @sure="search"
+      @reset="reset"
+    >
+      <el-form label-position="top">
+        <el-row :gutter="2">
+          <el-col :span="5">
+            <iFormItem :label="language('单据编号')">
+              <iInput
+                :placeholder="language('请输入')"
+                v-model="form.businessId"
+              />
+            </iFormItem>
+          </el-col>
+          <template v-if="!isSourceFindingPoint">
+            <el-col :span="5">
+              <iFormItem :label="language('业务模块')">
+                <iSelect
+                  :placeholder="language('请选择')"
+                  v-model="form.itemTypeList"
+                  multiple
+                  collapse-tags
+                  filterable
+                >
+                  <el-option
+                    v-for="(item, index) in dOptions"
+                    :key="index"
+                    :value="item.value"
+                    :label="item.label"
+                  >
+                  </el-option>
+                </iSelect>
+              </iFormItem>
+            </el-col>
+            <el-col :span="14">
+              <iFormItem :label="language('任务名称')" style="width: 80%">
+                <iSelect
+                  :placeholder="language('请选择')"
+                  v-model="form.categoryList"
+                  :multiple="multipleCategoryList"
+                  collapse-tags
+                  filterable
+                >
+                  <el-option
+                    v-for="(item, index) in templates"
+                    :key="index"
+                    :value="item.name"
+                    :label="item.value"
+                    :disabled="
+                      !isFinished &&
+                      multipleCategoryList &&
+                      bpmSinglCategoryList.includes(item.name)
+                    "
+                  >
+                  </el-option>
+                </iSelect>
+              </iFormItem>
+            </el-col>
+          </template>
+          <el-col :span="5">
+            <iFormItem :label="language('申请人')">
+              <userSearch
+                v-model="form.applyUserId"
+                :default-options="userDefaultOptions"
+              />
+            </iFormItem>
+          </el-col>
+          <el-col :span="5">
+            <iFormItem :label="language('申请部门')">
+              <orgSearch
+                v-model="form.applyUserDeptId"
+                :default-options="deptDefaultOptions"
+              />
+            </iFormItem>
+          </el-col>
+          <el-col :span="!isSourceFindingPoint ? 14 : 9">
+            <iFormItem :label="language('任务起止日期')" style="width: 90%">
+              <div class="flex-between-center-center">
+                <iDatePicker
+                  v-model="date"
+                  type="daterange"
+                  :range-separator="language('至')"
+                  :start-placeholder="language('开始日期')"
+                  :end-placeholder="language('结束日期')"
+                  :style="{ width: isTodoPage ? 'auto' : '100%' }"
+                  value-format="yyyy-MM-dd"
+                  format="yyyy-MM-dd"
+                >
+                </iDatePicker>
+                <el-checkbox v-model="form.reApprove" style="margin-left: 10px;" v-if="isTodoPage">
+                  {{ language('复核中单据') }}
+                  <el-tooltip
+                    effect="light"
+                    :content="
+                      language(
+                        '显示全部仍在复核期内的单据，包括已经完成复核操作的单据。'
+                      )
+                    "
+                  >
+                    <icon name="iconzengjiacailiaochengben_lan" symbol />
+                  </el-tooltip>
+                </el-checkbox>
+              </div>
+            </iFormItem>
+          </el-col>
+        </el-row>
+      </el-form>
+    </iSearch>
+  </div>
 </template>
 
 <script>
@@ -121,10 +158,15 @@ import {
 import { AEKO_CATEGORY_LIST, BPM_SINGL_CATEGORY_LIST } from '@/constants'
 import { fetchUser } from '@/api/approval/agent'
 import { searchOrganizationByID } from '@/api/organization'
+import taskPanelCategory from './taskPanelCategory'
 export default {
   name: 'searchForm',
   props: {
     isFinished: {
+      type: Boolean,
+      default: false
+    },
+    isSourceFindingPoint: {
       type: Boolean,
       default: false
     }
@@ -137,6 +179,7 @@ export default {
     iDatePicker,
     userSearch,
     orgSearch,
+    taskPanelCategory,
     Icon
   },
   computed: {
@@ -155,13 +198,15 @@ export default {
         itemName: '',
         startTime: '',
         applyUserDeptId: '',
-        itemTypeList: '',
+        itemTypeList: '-1',
         reApprove: false
       },
       templates: [{ name: '', value: '全部' }],
       nameOptions: [],
       loading: false,
       dOptions: BPM_APPROVAL_TYPE_OPTIONS,
+      curTypeName: null,
+      curActiveIndex: -1,
       multipleCategoryList: true,
       bpmSinglCategoryList: BPM_SINGL_CATEGORY_LIST,
       userDefaultOptions: [],
@@ -173,9 +218,9 @@ export default {
     this.refresh();
   },
   methods: {
-    refresh(){
-      console.log(this.isFinished)
-      if (!this.isFinished && this.$route.query.modelTemplate) {
+    refresh() {
+      console.log("this.isFinished...", this.isFinished, this.$route.query.modelTemplate)
+      if (this.$route.query.modelTemplate) {
         const moduleTemplate = JSON.parse(this.$route.query.modelTemplate)
         console.log('module-template', moduleTemplate)
         if (
@@ -185,9 +230,12 @@ export default {
           this.multipleCategoryList = false
           this.form.categoryList = moduleTemplate[0]
         } else {
-          this.form.categoryList = JSON.parse(this.$route.query.modelTemplate)
+          // this.form.categoryList = JSON.parse(this.$route.query.modelTemplate)
+          this.form.categoryList = moduleTemplate[0]
         }
-        console.log(this.form);
+        this.curTypeName = moduleTemplate[0]
+        // console.log(this.form);
+        // this.queryModelTemplate()
       }
       // CRW-8311
       // 【CF】审批人界面从[已审批]切换到[待审批]查不到待审批单据
@@ -212,10 +260,18 @@ export default {
             if (this.form.applyUserDeptId) {
               this.queryDeptOptions()
             }
+            this.form = {
+              ...queryForm,
+              itemTypeList: !queryForm.itemTypeList || queryForm.itemTypeList.length === 0 ? '-1' : queryForm.itemTypeList[0]
+            }
           } catch (err) {
             console.log(err)
           }
-        }else if(this.$route.query.todoQueryStr){
+          console.log('this.form2...', this.form)
+          if (this.form.applyUserId) {
+            this.queryUserOptions()
+          }
+        } else if (this.$route.query.todoQueryStr) {
           try {
             const queryForm = JSON.parse(
               decodeURIComponent(this.$route.query.todoQueryStr)
@@ -224,7 +280,7 @@ export default {
 
             console.log(this.dataList)
             // return;
-            this.$set(this,"form",_.cloneDeep(queryForm))
+            this.$set(this, "form", _.cloneDeep(queryForm))
             this.form.categoryList = [this.dataList.categoryList]
             console.log(this.form)
             console.log(this.form.categoryList)
@@ -245,36 +301,93 @@ export default {
           } catch (err) {
             console.log(err)
           }
-        }
-      } else {//待审批
-        console.log(1111)
-        if (this.$route.query.todoQueryStr) {
-          try {
-            const queryForm = JSON.parse(
-              decodeURIComponent(this.$route.query.todoQueryStr)
-            )
+        } else {//待审批
+          console.log(1111)
+          if (this.$route.query.todoQueryStr) {
+            try {
+              const queryForm = JSON.parse(
+                decodeURIComponent(this.$route.query.todoQueryStr)
+              )
 
-            console.log(queryForm);
-            if (queryForm.startTime && queryForm.endTime) {
-              this.date = [
-                moment(queryForm.startTime).format('YYYY-MM-DD'),
-                moment(queryForm.endTime).format('YYYY-MM-DD')
-              ]
+              console.log(queryForm);
+              if (queryForm.startTime && queryForm.endTime) {
+                this.date = [
+                  moment(queryForm.startTime).format('YYYY-MM-DD'),
+                  moment(queryForm.endTime).format('YYYY-MM-DD')
+                ]
+              }
+              this.form = queryForm
+              if (this.form.applyUserId) {
+                this.queryUserOptions()
+              }
+              if (this.form.applyUserDeptId) {
+                this.queryDeptOptions()
+              }
+            } catch (err) {
+              console.log(err)
             }
-            this.form = queryForm
-            if (this.form.applyUserId) {
-              this.queryUserOptions()
+            if (this.form.itemTypeList != '-1') {
+              this.updateCurTypeName(this.form.itemTypeList)
             }
-            if (this.form.applyUserDeptId) {
-              this.queryDeptOptions()
-            }
-          } catch (err) {
-            console.log(err)
           }
+          this.queryModelTemplate()
         }
       }
-
-      this.queryModelTemplate()
+    },
+    toggleActive(index, items, update = true) {
+      this.curActiveIndex = index
+      if(index !== -1 && items && items[index] && items[index].categoryList?.length > 0) {
+        this.form.categoryList = items[index].categoryList
+      } else {
+        if(index === -1) {
+          let categoryList = []
+          if(items) {
+            items.forEach(categoryItem => {
+              if(categoryItem.categoryList && categoryItem.categoryList.length > 0) {
+                categoryList = categoryList.concat(categoryItem.categoryList)
+              }
+            })
+          }
+          this.form.categoryList = categoryList
+        } else {
+          this.form.categoryList = ''
+        }
+      }
+      if(update) {
+        this.search()
+      }
+    },
+    onItemTypeListClick(newValue) {
+      this.updateCurTypeName(newValue)
+      this.$nextTick(() => {
+        const newItem = this.dOptions.find(item => {
+          return newValue == item.value
+        })
+        if(newItem) {
+          this.$refs.taskPanelCategory.updateActiveDataByTypeName(newItem.typeName)
+        }
+      })
+      this.search()
+    },
+    onItemTypeListChange(newValue, update = true) {
+      this.updateCurTypeName(newValue, update)
+      if(update) {
+        this.search()
+      }
+    },
+    updateCurTypeName(newValue, update) {
+      const newItem = this.dOptions.find(item => {
+        return newValue == item.value
+      })
+      console.log("newItem, newValue", newItem, newValue)
+      if(newItem) {
+        this.curTypeName = newItem.typeName
+        this.curActiveIndex = -1
+      } else {
+        this.curTypeName = null
+        this.curActiveIndex = -1
+      }
+      this.queryModelTemplate(update)
     },
     search() {
       const searchData = { ...this.form }
@@ -287,9 +400,10 @@ export default {
       if (!this.isTodoPage) {
         delete searchData.reApprove
       }
-      this.$emit('search', searchData, this.templates)
+      this.$emit('search', { ...searchData, itemTypeList: searchData.itemTypeList ? [searchData.itemTypeList] : []}, this.templates)
     },
     reset() {
+      this.updateCurTypeName(null)
       this.form = {
         businessId: '',
         applyUserId: '',
@@ -298,13 +412,14 @@ export default {
         itemName: '',
         startTime: '',
         applyUserDeptId: '',
-        itemTypeList: '',
+        itemTypeList: '-1',
         reApprove: false
       }
       this.date = ''
-      this.$emit('search', this.form, this.templates)
+      // this.$emit('search', { ...this.form, itemTypeList: searchData.itemTypeList ? [searchData.itemTypeList] : []}, this.templates)
+      this.search()
     },
-    async queryModelTemplate() {
+    async queryModelTemplate(update = true) {
       console.log(this.form);
       const data = {
         pageNo: 1,
@@ -312,11 +427,13 @@ export default {
         type: 'modelTemplate',
         userId: this.$store.state.permission.userInfo.id
       }
-      const res = await queryModelTemplate(data)
+      const res = await queryModelTemplate(data, update)
       const list = res?.data?.records || []
       list.unshift({ name: '', value: '全部' })
       this.templates = list.filter((e) => !AEKO_CATEGORY_LIST.includes(e.name))
-      this.search()
+      if(update) {
+        this.search()
+      }
     },
     async queryUserOptions() {
       const queryData = {

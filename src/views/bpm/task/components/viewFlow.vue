@@ -1,6 +1,6 @@
 <template>
   <div class="view-approval-flow">
-    <iButton v-show="detail.businessId" @click="handleViewFlow" class="btn">
+    <iButton v-if="withIButton" v-show="detail.businessId" @click="handleViewFlow" class="btn">
       <div class="btn-container">
         {{ language('审批流') }}
         <svg
@@ -32,6 +32,11 @@
         </svg>
       </div>
     </iButton>
+    <div v-else>
+      <viewFlowContent
+        v-if="detail.businessId"
+        :detail="detail"/>
+    </div>
     <viewFlowDialog
       v-if="detail.businessId"
       :detail="detail"
@@ -41,17 +46,22 @@
 </template>
 
 <script>
-import { iButton } from 'rise'
+import { iButton, iCard } from 'rise'
 import viewFlowDialog from './viewFlowDialog'
+import viewFlowContent from '@/views/bpm/task/components/viewFlowContent'
 export default {
   name: 'ViewApprovalFlow',
-  components: { iButton, viewFlowDialog },
+  components: { iButton, iCard, viewFlowDialog, viewFlowContent },
   props: {
     detail: {
       type: Object,
       default: function () {
         return {}
       }
+    },
+    withIButton: {
+      type: Boolean,
+      default: true
     }
   },
   data() {

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2023-02-14 16:00:05
+ * @LastEditTime: 2023-02-15 16:07:15
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipReplenishmentOverview\components\theTable.vue
@@ -69,12 +69,6 @@
       :params="row"
       :supplierType="supplierType"
     />
-    <redeployDialog
-      v-model="redeployParams.visible"
-      :key="redeployParams.key"
-      @handleReturnDetail="handleReturnDetail"
-      @handleSubmitAssign="handleSubmitAssign"
-    />
   </div>
 </template>
 
@@ -82,11 +76,9 @@
 import { iCard, iButton, iPagination, icon, iTableCustom, iMessage } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import detailDialog from './detailDialog'
-import redeployDialog from './redeployDialog'
 import {
   findBalanceSummaryByPage
 } from '@/api/mtz/annualGeneralBudget/chipReplenishment'
-import { fetchAssign } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzReplenishmentOverview/detail'
 import { tableTitle1, tableTitle2 } from './data'
 export default {
   name: 'Search',
@@ -98,9 +90,7 @@ export default {
     icon,
     iTableCustom,
     detailDialog,
-    redeployDialog
   },
-  watch: {},
   mixins: [pageMixins],
   data() {
     return {
@@ -116,12 +106,6 @@ export default {
       ],
       row: {},
       visible: false,
-      redeployParams: {
-        key: 0,
-        visible: false
-      },
-      handleSelectArr: [],
-      detailIdList: [],
       tableData: [],
       loading: false,
       onlySeeMySelf:true
@@ -152,18 +136,6 @@ export default {
         window.open('/portal/#/chipCeated?type=2')
       }
     },
-    formatterNumber(row, column, cellValue, index) {
-      return VueUtil.formatNumber(cellValue)
-    },
-    add() {
-      let params = {
-        dialogVisible: true,
-        selectData: this.handleSelectArr,
-        flag: true,
-        date: this.$parent.$refs.searchBox.value1
-      }
-      this.$emit('dialog', params)
-    },
     getTableList() {
       this.loading = true
       let search = []
@@ -193,58 +165,6 @@ export default {
         this.visible = true
       })
     },
-    // 关闭弹窗
-    handleCloseDialog() {
-      this.detailParams.visible = false
-      this.redeployParams.visible = false
-    },
-    // 跳转转派弹窗
-    handleRedeploy(idList) {
-      this.detailIdList = idList
-      // this.$set(this.detailParams, 'visible', false)
-      this.$set(this.redeployParams, 'key', Math.random())
-      this.$nextTick((_) => {
-        this.$set(this.redeployParams, 'visible', true)
-      })
-    },
-    // 返回详情
-    handleReturnDetail() {
-      // this.$set(this.redeployParams, 'visible', false)
-      // this.$set(this.detailParams, 'key', Math.random())
-      // this.$nextTick(_ => {
-      //   this.$set(this.detailParams, 'visible', true)
-      // })
-    },
-    // 转派
-    handleSubmitAssign(list) {
-      var data = list
-      let linieName = data.message.split('-')[1]
-      let linieId = data.code
-      fetchAssign({
-        keyList: this.detailIdList,
-        linieName,
-        linieId
-      }).then((res) => {
-        if (res && res.code == 200) {
-          iMessage.success(res.desZh)
-          this.$set(this.redeployParams, 'visible', false)
-        } else iMessage.error(res.desZh)
-      })
-      this.$set(this.detailParams, 'key', Math.random())
-    },
-    handleSelectionChange(val) {
-      console.log(val)
-      if (val.length > 1) {
-        var duoxuans = val.pop()
-        this.handleSelectArr = val.pop()
-        //清除所有选中
-        this.$refs.moviesTable.clearSelection()
-        //给最后一个加上选中
-        this.$refs.moviesTable.toggleRowSelection(duoxuans)
-      } else {
-        this.handleSelectArr = val
-      }
-    }
   }
 }
 </script>

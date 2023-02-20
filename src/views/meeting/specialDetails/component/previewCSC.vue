@@ -6,17 +6,16 @@
  * @FilePath: \front-portal\src\views\meeting\specialDetails\component\previewCSC.vue
 -->
 <template>
-  <div class="page">
+  <div class="page" ref="page">
     <div class="content">
       <div class="header">
-        <div>
-          <p class="title">{{ meetingInfo.name || '-' }}</p>
-          <p class="subTitle">{{ 1 + index }}.{{ detail.topic || '-' }}</p>
+        <div class="title">
+          <p>{{ meetingInfo.name || '' }}</p>
+          <p v-if="index>-1" >{{ 1 + index }}. {{ detail.topic || '' }}</p>
         </div>
         <div class="infos">
-          <div class="item">
-            <div class="name">Agenda No.:</div>
-            <div class="value">
+          <p class="item">
+            <span class="value">
               <img
                 @click="prev"
                 class="list-icon cursor"
@@ -36,6 +35,7 @@
                 :visible-arrow="false"
                 width="330"
                 trigger="click"
+                class="menu"
               >
                 <ul class="item-list">
                   <li
@@ -66,12 +66,14 @@
                   alt="数据列表"
                 />
               </el-popover>
-            </div>
-          </div>
-          <div class="item">
-            <div class="name">Timing:</div>
-            <div class="value">{{ time | handleTransTime }}</div>
-          </div>
+            </span>
+          </p>
+          <p class="item">
+            <span class="value margin-right20">
+              <img :src="alarm" class="icon" alt="">{{ time | handleTransTime }}</span>
+            <span class="value">
+              <img :src="clock" class="icon" alt="">{{ newDate }}</span>
+          </p>
         </div>
       </div>
       <attch v-if="detail.type=='MANUAL'" :key="detail.id" :attachments="detail.attachments"/>
@@ -94,6 +96,8 @@ import { iPage, icon } from 'rise'
 import upAllow from '@/assets/images/icon/up.png'
 import downAllow from '@/assets/images/icon/down.png'
 import menu from '@/assets/images/icon/menu.png'
+import alarm from '@/assets/images/icon/alarm.svg'
+import clock from '@/assets/images/icon/clock.svg'
 import attch from './attch.vue'
 import { findThemenById } from '@/api/meeting/details'
 export default {
@@ -107,16 +111,21 @@ export default {
       upAllow,
       downAllow,
       menu,
+      alarm,
+      clock,
       time: 0,
       index: -1,
       meetingInfo: {},
       themens: [],
       detail: {},
       timer: null,
+      timer2: null,
+      newDate:'',
       
     }
   },
   async created() {
+
     let query = this.$route.query
     this.meetingInfo = await findThemenById({ id: query.id })
     this.themens = this.meetingInfo?.themens
@@ -129,7 +138,26 @@ export default {
       this.time += 1000
     }, 1000)
   },
+  mounted(){
+    window.addEventListener('message',this.closePop, false)
+    this.getNewDate()
+  },
   methods: {
+    getNewDate(){
+      this.timer2 = setInterval(() => {
+        let h = new Date().getHours()
+        let m = new Date().getMinutes()
+        h = h < 10 ? '0'+h : h
+        m = m < 10 ? '0'+m : m
+        this.newDate = h+':'+m
+      }, 1000)
+    },
+    closePop(message){
+      console.log(message);
+      if(message.data && message.data.type=='click'){
+        this.$refs.page.click()
+      }
+    },
     prev() {
       if (this.index > 0) {
         this.click(this.themens[this.index - 1], this.index - 1)
@@ -147,7 +175,7 @@ export default {
       this.detail = item
       this.index = index
       let local
-      // let local = 'http://localhost:8080/sourcing/#'
+      // = 'http://localhost:8080/sourcing/#'
       if(item.source == '04'){
         if (item.type === 'FS+MTZ') {
           this.src =
@@ -163,6 +191,8 @@ export default {
   },
   destroyed() {
     if (this.timer) clearInterval(this.timer)
+    if (this.timer2) clearInterval(this.timer2)
+    window.removeEventListener('message',this.closePop)
   },
   filters: {
     handleTransTime(longTime) {
@@ -183,7 +213,7 @@ export default {
 <style lang="scss" scoped>
 .page {
   height: 100%;
-  padding: 30px 80px 20px;
+  // padding: 30px 80px 20px;
   background: #fff;
   * {
     font-family: 'Arial', 'Helvetica', 'sans-serif';
@@ -200,48 +230,45 @@ export default {
   flex-flow: row;
   justify-content: space-between;
   flex: 0 0 auto;
+  padding: 30px 80px 0;
 }
 .iframe {
   flex: 1 1 auto;
   width: 100%;
 }
 .title {
-  font-size: 24px;
-  font-weight: bold;
-}
-.subTitle {
-  font-size: 20px;
+  font-size: 28px;
   font-weight: bold;
 }
 .infos {
-  height: 60px;
+  font-size: 28px;
+  font-weight: bold;
   display: flex;
   flex-flow: column;
   .item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border: 1px solid #d9d9d9;
-    line-height: 30px;
-    font-weight: bold;
+    flex: 1;
     &:first-child {
       border-bottom: 0;
-    }
-    .name {
-      width: 120px;
-      text-align: right;
-      font-size: 16px;
     }
     .value {
       padding-left: 10px;
       text-align: center;
-      font-size: 16px;
-      align-items: flex-start;
-      justify-content: center;
+      align-items: center;
+      justify-content: flex-end;
       display: flex;
       flex: 1;
       .count {
-        width: 50px;
+        min-width: 80px;
+      }
+      .menu{
+        writing-mode: vertical-lr;
+      }
+      .icon{
+        height: 30px;
+        margin-right: 5px;
       }
     }
   }
@@ -256,7 +283,7 @@ export default {
     padding: 0 18px;
     .content{
       padding: 12px 0;
-      border-bottom: 1px solid #efefef;
+      // border-bottom: 1px solid #efefef;
     }
   }
   .text {

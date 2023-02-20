@@ -1,7 +1,7 @@
 <template>
   <div>
     <div style="text-align:right">
-    <iButton style="margin-left: 10px" @click="back">上一步</iButton>
+    <!-- <iButton style="margin-left: 10px" @click="back">上一步</iButton> -->
 
       </div>
     <div class="page">

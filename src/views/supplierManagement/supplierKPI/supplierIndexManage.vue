@@ -33,7 +33,7 @@
         </div>
       </div>
     </iCard>
-    <indexManage v-permission="SUPPLIER_WORKBENCH_JIXIAO_SUPPLIERINDEXMANAGE_ZHIBIAOKU" v-if="isShow" />
+    <indexManage @updata="updata" v-permission="SUPPLIER_WORKBENCH_JIXIAO_SUPPLIERINDEXMANAGE_ZHIBIAOKU" v-if="isShow" />
     <kpiStructure @back="back" :infoData="infoData" @submit0="submit0" ref="model" :isEdit="isEdit" style="margin-top: 20px"
       :treeData="allData" :temId="selectValue" :templateName="templateName" @click="changeSaveData" @init="init"
       :isShow="isShow"></kpiStructure>
@@ -98,6 +98,9 @@ export default {
   },
   watch: {},
   methods: {
+    updata(){
+      this.$refs.model.getInfo()
+    },
     init(val) {
       this.isEdit = false
       modelList(false).then((res) => {
@@ -106,7 +109,6 @@ export default {
           if (this.dropDownOptions.length > 0) {
             this.allData.modelId = this.dropDownOptions[this.dropDownOptions.length - 1].modelId
             this.allData.fileId = this.dropDownOptions[this.dropDownOptions.length - 1].fileId
-
             if (this.isShow || val == 'updata') {
               this.info = this.dropDownOptions.find(
                 (val) => val.modelId == this.allData.modelId
@@ -121,8 +123,8 @@ export default {
             } else {
               this.allData.modelId = this.$route.query.modelId
             }
-            console.log(this.allData)
           }
+
           this.$set(this.allData, 'fileName', this.dropDownOptions[this.dropDownOptions.length - 1].fileName)
           this.$emit('getallData', this.allData)
           getModelTree(this.allData.modelId).then((res) => {
@@ -130,6 +132,12 @@ export default {
               if (res.data.id != null) {
                 this.allData.modelId = res.data.modelId
                 this.allData.childVo = res.data
+                if(!this.isShow){
+                  if(!this.allData.childVo.childVo.length){
+                    console.log(this.allData.childVo.childVo.length)
+                    this.$emit('changeTab')
+                  }
+                }
               }
             }
           })
@@ -179,8 +187,8 @@ export default {
     },
     changVersion(v) {
       this.info = this.dropDownOptions.find((val) => val.modelId == v)
-      this.allData.fileId = this.dropDownOptions[0].fileId
-      this.allData.fileName = this.dropDownOptions[0].fileName
+      this.allData.fileId = this.info.fileId
+      this.allData.fileName = this.info.fileName
       getModelTree(this.allData.modelId).then((res) => {
         if (res.code == '200') {
           if (res.data.id != null) {

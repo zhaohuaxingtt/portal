@@ -2,16 +2,23 @@
   <iPage class="template">
     <pageHeader>
       <span>{{ language('待审批列表') }}</span>
-      <div slot="actions">
+<!--      <div slot="actions">-->
+<!--        <actionHeader-->
+<!--          :todo-total="todoTotal"-->
+<!--          :task-type="0"-->
+<!--          :search-form="form"-->
+<!--        />-->
+<!--      </div>-->
+    </pageHeader>
+    <searchForm :isSourceFindingPoint="true" @search="search" />
+    <iCard>
+      <div class="cus-action-header">
         <actionHeader
           :todo-total="todoTotal"
           :task-type="0"
           :search-form="form"
         />
       </div>
-    </pageHeader>
-    <searchForm @search="search" />
-    <iCard>
       <actionButtons
         :selected-row="selectTableData"
         :task-type="taskType"
@@ -204,6 +211,7 @@ export default {
         applyUserName: '',
         categoryList: ''
       },
+      queryData: {},
       agreeType: 1,
       dialogApprovalVisible: false,
       todoTotal: 0,
@@ -235,7 +243,7 @@ export default {
     },
     //打开详情页
     handleTableClick(item) {
-      this.goDetail(item, this.taskType)
+      this.goDetail(item, this.taskType, this.genQueryData())
     },
     // 查询
     search(val, templates) {
@@ -244,18 +252,13 @@ export default {
       this.page.currPage = 1
       this.getTableList()
     },
-    getTableList() {
-      this.loading = true
-      const params = {
-        pageNum: this.page.currPage,
-        pageSize: this.page.pageSize
-      }
+    genQueryData: function() {
       const searchData = filterEmptyValue(this.form)
 
-      if (searchData.itemTypeList && searchData.itemTypeList.length === 0) {
+      if (searchData.itemTypeList && (searchData.itemTypeList.length === 0 || (searchData.itemTypeList.length === 1 && searchData.itemTypeList[0] == -1))) {
         delete searchData.itemTypeList
       }
-      if (searchData.categoryList && searchData.categoryList.length === 0) {
+      if (searchData.categoryList && (searchData.categoryList.length === 0 || (searchData.categoryList.length === 1 && searchData.categoryList[0] == ''))) {
         delete searchData.categoryList
       }
       if (
@@ -279,7 +282,16 @@ export default {
         ...searchData,
         isAeko: false
       }
-
+      return data
+    },
+    getTableList() {
+      this.loading = true
+      const params = {
+        pageNum: this.page.currPage,
+        pageSize: this.page.pageSize
+      }
+      const data = this.genQueryData()
+      this.queryData = data
       const result = queryUndoApprovals(params, data)
 
       result
@@ -378,4 +390,14 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.cus-action-header {
+  display: inline;
+  ::v-deep .types {
+    display: inline-flex;
+  }
+  ::v-deep .tab:first-child {
+    margin-left: 0 !important;
+  }
+}
+</style>

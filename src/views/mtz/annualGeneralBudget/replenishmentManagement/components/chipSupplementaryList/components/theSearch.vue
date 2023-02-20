@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-17 13:17:43
- * @LastEditTime: 2023-02-09 13:35:20
+ * @LastEditTime: 2023-02-15 15:36:58
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\theSearch.vue
@@ -136,19 +136,6 @@ export default {
 ::v-deep .el-form-item {
   margin-right: 20px;
 }
-// ::v-deep .el-date-editor .el-range-separator {
-//   width: 8%;
-//   line-height: 26px;
-// }
-// ::v-deep .el-date-editor .el-range__icon {
-//   line-height: 26px;
-// }
-// ::v-deep .el-date-editor--daterange.el-input,
-// .el-date-editor--daterange.el-input__inner,
-// .el-date-editor--timerange.el-input,
-// .el-date-editor--timerange.el-input__inner {
-//   width: 260px;
-// }
 </style>
 <style lang="scss">
 .el-form-item {

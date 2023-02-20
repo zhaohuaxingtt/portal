@@ -544,12 +544,12 @@ export const tableTitleBE = [
 // 弹窗查询条件
 export const searchFormData = [
   {
-    props: 'saNos', name: '采购框架', key: 'CAIGOUKUANGJIA', type: 'input'
+    props: 'agreementNo', name: '采购框架', key: 'CAIGOUKUANGJIA', type: 'input'
   },
   {
     props: 'primaryPartNum', name: '一次件零件号', key: 'YICIJIANLINGJIANHAO', type: 'input'
   },
   { props: 'secondPartNum', name: '二次件零件号', key: 'ERCIJIANLINGJIANHAO', type: 'input' },
-  { props: 'secondSupplier', name: '二次件供应商', key: 'ECJGYS', type: 'select', selectOption: 'getSecondSupplierList', clearable: true, showAll: true },
+  { props: 'secondSupplierSapCode', name: '二次件供应商', key: 'ECJGYS', type: 'select', selectOption: 'getSecondSupplierList', clearable: true, showAll: true },
   { props: 'dateTime', name: '补差时间段', key: 'BUCHASHIJIANDUAN', type: 'daterange' },
 ]

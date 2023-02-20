@@ -1,5 +1,5 @@
 <template>
-  <el-table-column :prop="col.prop" :label="col.title" align="center">
+  <el-table-column :width="col.width||'120'" :prop="col.id" :label="col.title" align="center">
     <template v-if="col.childVo">
       <my-column
         v-for="(item, index) in col.childVo"

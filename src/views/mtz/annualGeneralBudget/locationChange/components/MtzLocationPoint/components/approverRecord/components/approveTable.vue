@@ -256,7 +256,7 @@ export default {
       return this.$store.state.location.mtzObject;
     },
     isEditNew: function () {
-      return ((this.appStatus == '草稿' || this.appStatus == '未通过')||((this.flowType=='SIGN'||this.flowType=='FILING')&&this.appStatus=='已提交'))
+      return (this.appStatus == '草稿' || this.appStatus == '未通过')||(((this.flowType=='SIGN'||this.flowType=='FILING')&&this.appStatus=='已提交')||(this.appStatus!='冻结'&&this.flowType=="MEETING"))
     }
   },
   watch: {
@@ -516,7 +516,8 @@ export default {
         mtzAppId: this.mtzAppId || ''
       }).then(res => {
         if (res?.code === '200') {
-          if ((res.data.appStatus == '草稿' || res.data.appStatus == '未通过')||(((res.data.flowType=='SIGN'||res.data.flowType=='FILING')||(['02','03',null,'01'].includes(res.data.meetingStatus)&&res.data.flowType=='MEETING'))&&res.data.appStatus=='已提交')) {
+          
+          if ((res.data.appStatus == '草稿' || res.data.appStatus == '未通过')||(((res.data.flowType=='SIGN'||res.data.flowType=='FILING')&&res.data.appStatus=='已提交')||(res.data.appStatus!='冻结'&&res.data.flowType=="MEETING"))) {
             this.flag = false;
           } else {
             this.flag = true;
