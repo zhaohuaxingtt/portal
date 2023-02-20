@@ -34,7 +34,8 @@
           <span class="label">截至时间</span>
           <div>
             <p>{{ item.endDate }}</p>
-            <p>(距离截止日期还有{{ DateDiffer(item.endDate) }}天）</p>
+            <p v-if="DateDiffer(item.endDate)<0">(已截止)</p>
+            <p v-else>(距离截止日期还有{{ DateDiffer(item.endDate) }}天）</p>
           </div>
         </div>
         <div class="div4">
@@ -71,7 +72,8 @@
             <span class="label">截至时间</span>
             <div>
               <p>{{ item.endDate }}</p>
-              <p>(距离截止日期还有{{ DateDiffer(item.endDate) }}天）</p>
+              <p v-if="DateDiffer(item.endDate)<0">(已截止)</p>
+            <p v-else>(距离截止日期还有{{ DateDiffer(item.endDate) }}天）</p>
             </div>
           </div>
           <div class="div4">
@@ -151,6 +153,7 @@ export default {
         this.infoList = res.data.filter(val => {
           return val.status != 2
         })
+        console.log(this.DateDiffer(this.infoList[0].endDate))
         this.infoList2 = res.data.filter(val => {
           return val.status == 2
         })
