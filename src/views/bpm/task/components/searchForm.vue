@@ -26,6 +26,7 @@
             :subTypeName="curTypeName"
             @toggle-active="toggleActive"
             @item-type-list-change="onItemTypeListChange"
+            @toggle-active-click="onToggleActiveClick"
             @item-type-list-Click="onItemTypeListClick"
             :active-index="curActiveIndex"
             :isFinished="isFinished"
@@ -356,6 +357,27 @@ export default {
       if(update) {
         this.search()
       }
+    },
+    onToggleActiveClick(index, items) {
+      this.curActiveIndex = index
+      if(index !== -1 && items && items[index] && items[index].categoryList?.length > 0) {
+        this.form.categoryList = items[index].categoryList
+      } else {
+        if(index === -1) {
+          let categoryList = []
+          if(items) {
+            items.forEach(categoryItem => {
+              if(categoryItem.categoryList && categoryItem.categoryList.length > 0) {
+                categoryList = categoryList.concat(categoryItem.categoryList)
+              }
+            })
+          }
+          this.form.categoryList = categoryList
+        } else {
+          this.form.categoryList = ''
+        }
+      }
+      this.search()
     },
     onItemTypeListClick(newValue) {
       const newItem = this.dOptions.find(item => {
