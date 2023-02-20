@@ -490,7 +490,7 @@ export default {
           })
           data.forEach((v, i) => {
             this.tableListData2.forEach((k, j) => {
-              if (v.supplierId == k.supplierId) {
+              if (v.sapCode == k.sapCode) {
                 this.tableListData2.splice(j, 1)
               }
             })
@@ -563,7 +563,7 @@ export default {
       })
       data.forEach((v, i) => {
         this.tableListData2.forEach((k, j) => {
-          if (v.supplierId == k.supplierId) {
+          if (v.sapCode == k.sapCode) {
             this.tableListData2.splice(j, 1)
           }
         })
