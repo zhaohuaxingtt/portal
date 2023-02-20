@@ -208,7 +208,7 @@
         }
       },
       onItemTypeListClick(newValue) {
-        this.$emit('item-type-list-Click', newValue)
+        this.$emit('item-type-list-Click', newValue, this.activeData)
       },
       onItemTypeListChange(newValue, update = true) {
         this.$emit('item-type-list-change', newValue, update)
@@ -261,19 +261,18 @@
       updateActiveDataByTypeName(typeName) {
         let activeData = []
         let findDataByTypeName = null
-        debugger
         if(typeName) {
           const data = _.cloneDeep(this.data)
           findDataByTypeName = data.find(e => {
             return e.typeName === typeName
           })
         }
-        debugger
         if(findDataByTypeName) {
           this.activeData = findDataByTypeName.wfCategoryList
         } else {
           this.activeData = activeData
         }
+        return this.activeData
       },
       /**
        * 这个是那一堆tag过滤之后的值，根据this.subTypeName
@@ -298,7 +297,7 @@
           }
         }
         this.activeData = activeData
-        debugger
+        // debugger
         this.$nextTick(() => {
           if(findDataByTypeName) {
             this.setTypeName(findDataByTypeName.typeName, this.oriSubTypeName)

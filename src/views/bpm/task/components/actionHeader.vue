@@ -76,7 +76,7 @@ export default {
            }
           delete this.$route.query.todoQueryStr
           console.log(queryForm)
-          query.todoQueryStr = encodeURIComponent(JSON.stringify(this.searchForm))
+          query.doneQueryStr = encodeURIComponent(JSON.stringify(this.searchForm))
           query.reApprove = !!queryForm.reApprove
           if (this.searchForm.categoryList) {
             let modelTemplate = ''
