@@ -36,7 +36,7 @@
           class="item"
           :key="-1"
           :class="{ active: -1 == activeIndex }"
-          @click="toggleActive(-1)"
+          @click="onToggleActiveClick(-1)"
         >
           {{ language('QUANBU', '全部') }}
         </div>
@@ -45,7 +45,7 @@
           v-for="(item, index) in activeData"
           :key="index"
           :class="{ active: index === activeIndex }"
-          @click="toggleActive(index)"
+          @click="onToggleActiveClick(index)"
         >
           {{ item.value }}
           <span
@@ -62,7 +62,6 @@
 </template>
 
 <script>
-  import taskTypePanelCategory from './taskTypePanelCategory'
   import {
     queryApprovalOverview,
     queryAekoTodoCount,
@@ -202,10 +201,15 @@
           this.toggleActive(foundIndex, true)
         } else {
           if(typeName === null) {
+            this.selectSubTypeName = '-1'
             this.onItemTypeListChange(-1, false)
-            this.toggleActive(-1, false)
+            this.toggleActive('-1', true)
           }
         }
+      },
+      onToggleActiveClick(index) {
+        this.activeIndex = index
+        this.$emit('toggle-active-click', index, this.activeData)
       },
       onItemTypeListClick(newValue) {
         this.$emit('item-type-list-Click', newValue, this.activeData)

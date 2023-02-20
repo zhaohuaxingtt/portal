@@ -272,9 +272,12 @@ export default {
         (searchData.categoryList.length === 1 &&
           searchData.categoryList[0] === '')
       ) {
-        searchData.categoryList = this.templates
+        const filteredCategoryList = this.templates
           .filter((e) => !BPM_SINGL_CATEGORY_LIST.includes(e.name))
           .map((e) => e.name)
+        if(filteredCategoryList.length > 1 || (filteredCategoryList.length === 1 && filteredCategoryList[0] !=='')) {
+          searchData.categoryList = filteredCategoryList
+        }
       }
       const data = {
         taskType: this.taskType,
