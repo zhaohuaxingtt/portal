@@ -27,10 +27,9 @@
         :before-upload="beforeAvatarUpload"
         :show-file-list="false"
         :http-request="httpUpload"
-        :disabled="importLoading"
       >
         <div>
-          <iButton v-if="active == 1 && $route.query.type == 'edit'"
+          <iButton v-loading="importLoading" v-if="active == 1 && $route.query.type == 'edit'"
             >{{ '上传手工指标' }}
           </iButton>
         </div>
@@ -42,10 +41,9 @@
         :before-upload="beforeAvatarUpload"
         :show-file-list="false"
         :http-request="httpUpload"
-        :disabled="importLoading"
       >
         <div>
-          <iButton v-if="active == 2 && $route.query.type == 'edit'"
+          <iButton v-loading="importLoading" v-if="active == 2 && $route.query.type == 'edit'"
             >{{ '上传主观打分' }}
           </iButton>
         </div>
@@ -155,6 +153,7 @@ export default {
   },
   data() {
     return {
+      loadingFile:false,
       viewProgressIs: false,
       importLoading: false,
       ipagnation: {
@@ -279,25 +278,26 @@ export default {
       if (this.active == 1) {
         await saveManualPerformance(formData).then((res) => {
           if (res.code == 200 && res) {
-            this.importDialog = true
+            this.importLoading = false
             this.$message.success(this.language('DAORUCHENGGONG', '导入成功'))
             this.getTableList()
           } else {
+            this.importLoading = false
             this.$message.error(res.desZh)
           }
         })
       } else {
         await saveSystemPerformance(formData).then((res) => {
           if (res.code == 200 && res) {
-            this.importDialog = true
+            this.importLoading = false
             this.getTableList()
             this.$message.success(this.language('DAORUCHENGGONG', '导入成功'))
           } else {
+            this.importLoading = false
             this.$message.error(res.desZh)
           }
         })
       }
-      this.importLoading = false
     },
     // 上传前校验
     beforeAvatarUpload(file) {
