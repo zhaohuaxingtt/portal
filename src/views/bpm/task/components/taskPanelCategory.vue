@@ -201,8 +201,9 @@
           this.toggleActive(foundIndex, true)
         } else {
           if(typeName === null) {
+            this.selectSubTypeName = '-1'
             this.onItemTypeListChange(-1, false)
-            this.toggleActive(-1, false)
+            this.toggleActive('-1', true)
           }
         }
       },
