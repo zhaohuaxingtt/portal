@@ -358,15 +358,26 @@ export default {
       }
     },
     onItemTypeListClick(newValue) {
-      this.updateCurTypeName(newValue)
-      this.$nextTick(() => {
-        const newItem = this.dOptions.find(item => {
-          return newValue == item.value
-        })
-        if(newItem) {
-          this.$refs.taskPanelCategory.updateActiveDataByTypeName(newItem.typeName)
+      const newItem = this.dOptions.find(item => {
+        return newValue == item.value
+      })
+      let activeData = []
+      if(newItem) {
+        this.curTypeName = newItem.typeName
+        this.curActiveIndex = -1
+        activeData = this.$refs.taskPanelCategory.updateActiveDataByTypeName(newItem.typeName)
+      } else {
+        this.curTypeName = null
+        this.curActiveIndex = -1
+        activeData = this.$refs.taskPanelCategory.updateActiveDataByTypeName(newItem.typeName)
+      }
+      let categoryList = []
+      activeData.forEach(categoryItem => {
+        if(categoryItem.categoryList && categoryItem.categoryList.length > 0) {
+          categoryList = categoryList.concat(categoryItem.categoryList)
         }
       })
+      this.form.categoryList = categoryList
       this.search()
     },
     onItemTypeListChange(newValue, update = true) {
