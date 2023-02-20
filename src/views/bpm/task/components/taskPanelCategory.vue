@@ -62,7 +62,6 @@
 </template>
 
 <script>
-  import taskTypePanelCategory from './taskTypePanelCategory'
   import {
     queryApprovalOverview,
     queryAekoTodoCount,
