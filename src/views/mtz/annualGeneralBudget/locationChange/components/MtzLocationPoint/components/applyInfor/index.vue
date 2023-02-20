@@ -465,27 +465,27 @@ $tabsInforHeight: 35px;
   display: flex;
   flex-flow: wrap;
   .inforDiv {
-    width: 29%;
     height: $tabsInforHeight;
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-top: 0;
     margin-bottom: 20px;
-    margin-left:6.5%;
+    margin-left:3.5%;
     span {
       font-size: 15px;
     }
     .inforText {
       font-size: 14px;
       width: 68%;
+      height: 60px;
       background: #f8f8fa;
       text-align: center;
       height: $tabsInforHeight;
       line-height: $tabsInforHeight;
     }
   }
-  .inforDiv:nth-child(3n-2){
+  .inforDiv:nth-child(1){
     margin-left:0!important;
   }
 }
