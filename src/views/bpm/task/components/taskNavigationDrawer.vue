@@ -198,7 +198,7 @@
             }
           } else {
             // http://localhost:8080/portal/#/bpm/myApply/detail/2423548/no
-            window.location.href = `/portal/#/bpm/myApply/detail/${item.instanceId}/${this.isFinished ? 'yes' : 'no'}/queryData=${queryDataStr}`
+            window.location.href = `/portal/#/bpm/myApply/detail/${item.instanceId}/${this.isFinished ? 'yes' : 'no'}/${queryDataStr}`
           }
           // this.showDialog = true
         })
