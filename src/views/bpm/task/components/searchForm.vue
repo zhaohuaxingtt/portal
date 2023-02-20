@@ -22,9 +22,11 @@
 <!--        </el-col>-->
         <el-col :span="24">
           <taskPanelCategory
+            ref="taskPanelCategory"
             :subTypeName="curTypeName"
             @toggle-active="toggleActive"
             @item-type-list-change="onItemTypeListChange"
+            @item-type-list-Click="onItemTypeListClick"
             :active-index="curActiveIndex"
             :isFinished="isFinished"
           />
@@ -332,16 +334,40 @@ export default {
         }
       }
     },
-    toggleActive(index, item, update = true) {
-      this.activeIndex = index
-      if(index !== -1 && item && item.categoryList?.length > 0) {
-        this.form.categoryList = item.categoryList
+    toggleActive(index, items, update = true) {
+      this.curActiveIndex = index
+      if(index !== -1 && items && items[index] && items[index].categoryList?.length > 0) {
+        this.form.categoryList = items[index].categoryList
       } else {
-        this.form.categoryList = ''
+        if(index === -1) {
+          let categoryList = []
+          if(items) {
+            items.forEach(categoryItem => {
+              if(categoryItem.categoryList && categoryItem.categoryList.length > 0) {
+                categoryList = categoryList.concat(categoryItem.categoryList)
+              }
+            })
+          }
+          this.form.categoryList = categoryList
+        } else {
+          this.form.categoryList = ''
+        }
       }
       if(update) {
         this.search()
       }
+    },
+    onItemTypeListClick(newValue) {
+      this.updateCurTypeName(newValue)
+      this.$nextTick(() => {
+        const newItem = this.dOptions.find(item => {
+          return newValue == item.value
+        })
+        if(newItem) {
+          this.$refs.taskPanelCategory.updateActiveDataByTypeName(newItem.typeName)
+        }
+      })
+      this.search()
     },
     onItemTypeListChange(newValue, update = true) {
       this.updateCurTypeName(newValue, update)

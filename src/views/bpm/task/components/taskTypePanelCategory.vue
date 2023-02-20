@@ -102,11 +102,11 @@ export default {
       if(foundByTypeName) {
         this.typeName = foundByTypeName.value
         this.$emit('item-type-list-change', foundByTypeName.value, false)
-        this.$emit('toggle-active', foundIndex, true)
+        this.$emit('toggle-active', foundIndex, false)
       } else {
         if(typeName === null) {
-          this.$emit('item-type-list-change', -1, true)
-          this.$emit('toggle-active', -1, true)
+          this.$emit('item-type-list-change', -1, false)
+          this.$emit('toggle-active', -1, false)
         }
       }
     }
