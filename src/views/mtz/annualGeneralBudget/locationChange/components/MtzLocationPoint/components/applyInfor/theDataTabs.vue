@@ -141,52 +141,6 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="ruleNo"
-          align="center"
-          :label="language('GUIZEBIANHAO', '规则编号')"
-          show-overflow-tooltip
-          width="130"
-        >
-          <template slot-scope="scope">
-            <el-form-item
-              :prop="'tableData.' + scope.$index + '.' + 'ruleNo'"
-              :rules="formRules.ruleNo ? formRules.ruleNo : ''"
-            >
-              <el-tooltip
-                effect="light"
-                v-if="editId.indexOf(scope.row.id) !== -1"
-                placement="right"
-              >
-                <div slot="content">
-                  <p>
-                    {{
-                      language(
-                        'GZBHBXCZYSMYCLGZBGZ',
-                        '规则编号必须存在于上面原材料规则表格中'
-                      )
-                    }}
-                  </p>
-                </div>
-                <el-select
-                  v-model="scope.row.ruleNo"
-                  clearable
-                  :placeholder="language('QINGSHURU', '请输入')"
-                  @change="choiseGZ(scope, $event)"
-                >
-                  <el-option
-                    v-for="item in ruleNo"
-                    :key="item.id"
-                    :label="item.ruleNo"
-                    :value="item.id"
-                  >
-                  </el-option>
-                </el-select>
-              </el-tooltip>
-              <span v-else>{{ scope.row.ruleNo }}</span>
-            </el-form-item>
-          </template>
-        </el-table-column>
-        <el-table-column
           prop="sapCode"
           align="center"
           :label="language('GONGYINGSHANGBIANHAOMINGCHENG', '供应商编号/名称')"
@@ -255,6 +209,165 @@
           </template>
         </el-table-column>
         <el-table-column
+          prop="partUnit"
+          align="center"
+          width="130"
+          :label="language('原材料用量来源', '原材料用量来源')"
+          show-overflow-tooltip
+        >
+          <template slot-scope="scope">
+            <el-form-item
+              :prop="'tableData.' + scope.$index + '.' + 'partUnit'"
+              :rules="formRules.partUnit ? formRules.partUnit : ''"
+            >
+              <!-- <iInput v-model="scope.row.partUnit" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
+              <span>{{ scope.row.partUnit }}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="startDate"
+          align="center"
+          width="110"
+          :label="language('YOUXIAOQIQI', '有效期起')"
+          show-overflow-tooltip
+        >
+          <template slot-scope="scope">
+            <!-- <iDatePicker v-model="scope.row.startDate"
+                                style="width: 180px!important;"
+                                :disabled="true"
+                                type="datetime"
+                                v-if="editId.indexOf(scope.row.id)!==-1"
+                                >
+                    </iDatePicker> -->
+            <span>{{ scope.row.startDate }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="endDate"
+          align="center"
+          width="110"
+          :label="language('YOUXIAOQIZHI', '有效期止')"
+          show-overflow-tooltip
+        >
+          <template slot-scope="scope">
+            <!-- <iDatePicker v-model="scope.row.endDate"
+                                style="width: 180px!important;"
+                                :disabled="true"
+                                type="datetime"
+                                v-if="editId.indexOf(scope.row.id)!==-1"
+                                >
+                    </iDatePicker> -->
+            <span>{{ scope.row.endDate }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="ruleNo"
+          align="center"
+          :label="language('GUIZEBIANHAO', '规则编号')"
+          show-overflow-tooltip
+          width="130"
+        >
+          <template slot-scope="scope">
+            <el-form-item
+              :prop="'tableData.' + scope.$index + '.' + 'ruleNo'"
+              :rules="formRules.ruleNo ? formRules.ruleNo : ''"
+            >
+              <el-tooltip
+                effect="light"
+                v-if="editId.indexOf(scope.row.id) !== -1"
+                placement="right"
+              >
+                <div slot="content">
+                  <p>
+                    {{
+                      language(
+                        'GZBHBXCZYSMYCLGZBGZ',
+                        '规则编号必须存在于上面原材料规则表格中'
+                      )
+                    }}
+                  </p>
+                </div>
+                <el-select
+                  v-model="scope.row.ruleNo"
+                  clearable
+                  :placeholder="language('QINGSHURU', '请输入')"
+                  @change="choiseGZ(scope, $event)"
+                >
+                  <el-option
+                    v-for="item in ruleNo"
+                    :key="item.id"
+                    :label="item.ruleNo"
+                    :value="item.id"
+                  >
+                  </el-option>
+                </el-select>
+              </el-tooltip>
+              <span v-else>{{ scope.row.ruleNo }}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
+   
+        <el-table-column prop="ruleVersion" align="center" show-overflow-tooltip width="130" :label="language('规则类型')">
+          <template slot-scope="scope">
+            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'ruleVersion'"
+              :rules="formRules.ruleVersion ? formRules.ruleVersion : ''">
+              <!-- <iInput v-model="scope.row.ruleNo" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
+              <span>{{ scope.row.ruleVersion }}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="materialCode"
+          align="center"
+          width="120"
+          :label="language('原材料牌号-名称', '原材料牌号-名称')"
+          show-overflow-tooltip
+        >
+          <template slot-scope="scope">
+            <!-- <el-select v-model="scope.row.materialCode"
+                            clearable
+                            :disabled="true"
+                            :placeholder="language('QINGSHURU', '请输入')"
+                            v-if="editId.indexOf(scope.row.id)!==-1"
+                            >
+                        <el-option
+                            v-for="item in materialCode"
+                            :key="item.code"
+                            :label="item.codeMessage"
+                            :value="item.code">
+                        </el-option>
+                    </el-select> -->
+            <span>{{ scope.row.materialCode }}-{{ scope.row.materialName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="price"
+          align="center"
+          width="120"
+          :label="language('JIJIA', '基价')"
+          show-overflow-tooltip
+        >
+          <template slot-scope="scope">
+            <!-- <iInput :disabled="true" v-model="scope.row.price" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
+            <span>{{ scope.row.price }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="tcCurrence"
+          align="center"
+          width="80"
+          :label="language('HUOBI', '货币')"
+          show-overflow-tooltip
+        >
+          <template slot-scope="scope">
+            <!-- <iInput v-model="scope.row.tcCurrence" :disabled="true" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
+            <span>{{ scope.row.tcCurrence }}</span>
+          </template>
+        </el-table-column>
+
+<!-- ----------------------------------------------------------------------------------------------------------------------- -->
+        <el-table-column
           prop="dosage"
           align="center"
           width="70"
@@ -310,42 +423,7 @@
             </el-form-item>
           </template>
         </el-table-column>
-        <el-table-column
-          prop="startDate"
-          align="center"
-          width="110"
-          :label="language('YOUXIAOQIQI', '有效期起')"
-          show-overflow-tooltip
-        >
-          <template slot-scope="scope">
-            <!-- <iDatePicker v-model="scope.row.startDate"
-                                style="width: 180px!important;"
-                                :disabled="true"
-                                type="datetime"
-                                v-if="editId.indexOf(scope.row.id)!==-1"
-                                >
-                    </iDatePicker> -->
-            <span>{{ scope.row.startDate }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="endDate"
-          align="center"
-          width="110"
-          :label="language('YOUXIAOQIZHI', '有效期止')"
-          show-overflow-tooltip
-        >
-          <template slot-scope="scope">
-            <!-- <iDatePicker v-model="scope.row.endDate"
-                                style="width: 180px!important;"
-                                :disabled="true"
-                                type="datetime"
-                                v-if="editId.indexOf(scope.row.id)!==-1"
-                                >
-                    </iDatePicker> -->
-            <span>{{ scope.row.endDate }}</span>
-          </template>
-        </el-table-column>
+
         <el-table-column
           prop="mark"
           align="center"
@@ -366,53 +444,8 @@
             </el-form-item>
           </template>
         </el-table-column>
-        <el-table-column
-          prop="materialCode"
-          align="center"
-          width="120"
-          :label="language('YUANCAILIAOPAIHAO', '原材料牌号')"
-          show-overflow-tooltip
-        >
-          <template slot-scope="scope">
-            <!-- <el-select v-model="scope.row.materialCode"
-                            clearable
-                            :disabled="true"
-                            :placeholder="language('QINGSHURU', '请输入')"
-                            v-if="editId.indexOf(scope.row.id)!==-1"
-                            >
-                        <el-option
-                            v-for="item in materialCode"
-                            :key="item.code"
-                            :label="item.codeMessage"
-                            :value="item.code">
-                        </el-option>
-                    </el-select> -->
-            <span>{{ scope.row.materialCode }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="materialName"
-          align="center"
-          width="150"
-          :label="language('YUANCAILIAO', '原材料')"
-          show-overflow-tooltip
-        >
-          <template slot-scope="scope">
-            <span>{{ scope.row.materialName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="price"
-          align="center"
-          width="120"
-          :label="language('JIJIA', '基价')"
-          show-overflow-tooltip
-        >
-          <template slot-scope="scope">
-            <!-- <iInput :disabled="true" v-model="scope.row.price" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
-            <span>{{ scope.row.price }}</span>
-          </template>
-        </el-table-column>
+ 
+
         <el-table-column
           prop="priceMeasureUnit"
           align="center"
@@ -425,18 +458,7 @@
             <span>{{ scope.row.priceMeasureUnit }}</span>
           </template>
         </el-table-column>
-        <el-table-column
-          prop="tcCurrence"
-          align="center"
-          width="80"
-          :label="language('HUOBI', '货币')"
-          show-overflow-tooltip
-        >
-          <template slot-scope="scope">
-            <!-- <iInput v-model="scope.row.tcCurrence" :disabled="true" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
-            <span>{{ scope.row.tcCurrence }}</span>
-          </template>
-        </el-table-column>
+
         <el-table-column
           prop="tcExchangeRate"
           align="center"

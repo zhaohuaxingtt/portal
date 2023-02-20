@@ -29,11 +29,7 @@
                    v-show="!disabled">{{ language('QUXIAO', '取消') }}</iButton>
           <iButton @click="save"
                    v-show="!disabled">{{ language('BAOCUN', '保存') }}</iButton>
-          <iButton @click="relation"
-                    v-permission="PORTAL_MTZ_POINT_INFOR_GLLJDDSQ"
-                   v-if="applyNumber===''&&showType&&disabled">{{ language('GLLJDDSQ', '关联零件定点申请') }}</iButton>
-          <iButton @click="cancelRelation"
-                   v-if="applyNumber!==''&&showType&&disabled">{{ language('QUXIAOGUANLIAN', '取消关联') }}</iButton>
+      
         </div>
       </div>
       <div class="tabsBoxInfor">
@@ -81,12 +77,16 @@
       <span style="display:block;margin-bottom:20px;">{{language("LINIEBEIAN","Linie备注")}}</span>
       <el-input :disabled="disabled"
                 type="textarea"
-                :rows="4"
+                :rows="2"
                 :placeholder="language('QINGSHURUBEIAN','请输入备注')"
                 v-model="inforData.linieMeetingMemo"></el-input>
     </iCard>
+    <div class="centerBox">
+      <p>补差金额=零件结算数量 <iTooltip :txtInfo="''" :num="'1'"></iTooltip>
+        *[原材料市场价<iTooltip :txtInfo="''" :num="'2'"></iTooltip>     -原材料基价<iTooltip :txtInfo="''" :num="'3'"></iTooltip>     *(1+阈值<iTooltip :txtInfo="''" :num="'4'"></iTooltip>     )]*原材料用量<iTooltip :txtInfo="''" :num="'5'"></iTooltip>     *补差系数<iTooltip :txtInfo="''" :num="'6'"></iTooltip></p>
+      <p>MTZ Payment=Settle accounts Quantity*[Effective Price-Base Price(1+threshold)]*Raw Material Weight*Ratio</p>
+    </div>
     <theTabs ref="theTabs"
-             @isNomiNumber="isNomiNum"
              @handleReset="handleReset"
              v-if="beforReturn"
              :appStatus='inforData.appStatus'
@@ -100,16 +100,7 @@
                  :applyNumber="applyNumber"
                  >
     </theDataTabs>
-    <iDialog :title="language('LINGJIANDINGDIANSHENQING', '零件定点申请')"
-             :visible.sync="mtzAddShow"
-             v-if="mtzAddShow"
-             width="85%"
-             @close='closeDiolog'>
-      <partApplication @close="saveClose"
-                      :numIsNomi="numIsNomi"
-                      :inforData="inforData"
-                       ></partApplication>
-    </iDialog>
+
   </div>
 </template>
 
@@ -117,8 +108,9 @@
 import { iInput, iSelect, iDialog, iMessage, iDatePicker, iCard, iButton, iMessageBox } from 'rise';
 import { tabsInforList } from "./data";
 import theTabs from "./theTabs";
+
+import iTooltip from "./iTooltip";
 import theDataTabs from "./theDataTabs";
-import partApplication from "./partApplication";
 import store from "@/store";
 import {
   page,
@@ -134,13 +126,13 @@ import { syncAuther } from '@/api/mtz/annualGeneralBudget/replenishmentManagemen
 export default {
   name: "searchTabs",
   components: {
+    iTooltip,
     iDialog,
     iInput,
     iDatePicker,
     iCard,
     iButton,
     theTabs,
-    partApplication,
     theDataTabs,
     iSelect,
   },
@@ -148,7 +140,6 @@ export default {
     return {
       beforReturn:false,
       // getFlowTypeList: [],
-      mtzAddShow: false,
       disabled: true,
       textarea: "",
       inforData: {
@@ -228,7 +219,6 @@ export default {
         this.inforData.appStatus = res.data.appStatus
         this.inforData.meetingName = res.data.meetingName
         this.inforData.linieMeetingMemo = res.data.linieMeetingMemo
-
         if (res.data.ttNominateAppId == null) {
           this.applyNumber = "";
         } else {
@@ -248,14 +238,11 @@ export default {
 
         this.inforData.appName = res.data.appName
         this.inforData.flowType = res.data.flowType
-
       }).then(res=>{
         this.beforReturn = true;
       })
     },
-    getsyncAuther () {
-      syncAuther({ mtzAppId: this.$route.query.mtzAppId,tag:"" })
-    },
+   
     // getListData () {
       // getFlowTypeList({}).then(res => {
       //   this.getFlowTypeList = res.data;
@@ -339,35 +326,8 @@ export default {
       this.disabled = true;
       this.init("取消");
     },
-    relation () {//关联零件定点申请
-      iMessageBox(this.language('GLSQDHWFCMTZJMFQTJCHHWLZDJQXDDDCZ', '关联申请单后，无法从MTZ界面发起提交、撤回、会外流转、冻结、取消定点等操作'), this.language('LK_WENXINTISHI', '温馨提示'), {
-        confirmButtonText: this.language('QUEREN', '确认'),
-        cancelButtonText: this.language('QUXIAO', '取消')
-      }).then(res => {
-        this.mtzAddShow = true;
-      })
-    },
-    cancelRelation () {
-      iMessageBox(this.language('QDYQXGL', '确定要取消关联？'), this.language('LK_WENXINTISHI', '温馨提示'), {
-        confirmButtonText: this.language('QUEREN', '确认'),
-        cancelButtonText: this.language('QUXIAO', '取消')
-      }).then(res => {
-        disassociate({
-          mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
-        }).then(res => {
-          if (res.code == 200) {
-            iMessage.success(res.desZh)
-            this.applyNumber = "";
-            this.getsyncAuther()
-            this.init();
-          } else {
-            iMessage.error(res.desZh)
-          }
-        })
-      }).catch(res => {
 
-      })
-    },
+  
     reset () {
       this.searchForm = {
         idList: [],
@@ -386,20 +346,12 @@ export default {
     handleClickFsupplierName (val) {
 
     },
-    closeDiolog () {
-      this.mtzAddShow = false;
-    },
-    saveClose (val) {
-      this.applyNumber = val;
-      this.closeDiolog();
-      this.init();
-    },
+  
+  
     chioce (e, name) {
       this.inforData[name] = e;
     },
-    isNomiNum (val) {
-      this.numIsNomi = val;
-    },
+  
 
     // getLjLocation(){
     //   page({
@@ -447,6 +399,9 @@ export default {
 
 <style lang="scss" scoped>
 $tabsInforHeight: 35px;
+.centerBox{
+  margin: 20px 0;
+}
 .openPage {
   position: relative;
   color: $color-blue;
@@ -474,7 +429,8 @@ $tabsInforHeight: 35px;
     margin-left:3.5%;
     span {
       font-size: 15px;
-    }
+    }   
+ 
     .inforText {
       font-size: 14px;
       width: 68%;
