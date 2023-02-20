@@ -21,7 +21,7 @@
           :multiple="false"
           collapse-tags
           filterable
-          @change="onItemTypeListChange"
+          @change="onItemTypeListClick"
         >
           <el-option
             v-for="(item, index) in dOptions"
@@ -76,22 +76,39 @@
     name: 'taskPanelCategory',
     components: { iSelect },
     props: {
+      /**
+       * subTypeName
+       * 对应的是queryApprovalOverview和queryApplyOverview获取的内容
+       * 下面的typeName，也是用这个来过滤出activeData
+       */
       subTypeName: {
         type: String,
         default: null
       },
+      /**
+       * 当前active的Tag
+       */
       activeIndex: {
         type: Number,
         default: -1
       },
+      /**
+       * 是否是我的申请
+       */
       myApplication: {
         type: Boolean,
         default: false
       },
+      /**
+       * 是否有全部，默认都是true
+       */
       hasAll: {
         type: Boolean,
         default: true
       },
+      /**
+       * 是否是已完成
+       */
       isFinished: {
         type: Boolean,
         default: false
@@ -99,69 +116,76 @@
     },
     data() {
       return {
-        data: [],
+        data: [], // queryApprovalOverview和queryApplyOverview获取的内容, 下面有wfCategoryList 再下一级有 categoryList
         loading: false,
-        oriSubTypeName: null,
+        oriSubTypeName: null, // 是home跳转过来的时候带的那个modelTemplate, 对应的是categoryList
         dOptions: BPM_APPROVAL_TYPE_OPTIONS,
-        selectSubTypeName: null
+        selectSubTypeName: null, // 下拉框的value，BPM_APPROVAL_TYPE_OPTIONS下面的value像 -1，0，1，2
+        activeData: []
       }
     },
     computed: {
+      /**
+       * 是否显示待办的数字
+       * @returns {boolean}
+       */
       numVisible() {
         return !this.isFinished
       },
-      activeData() {
-        if(this.subTypeName) {
-          const data = _.cloneDeep(this.data)
-          const findDataByTypeName = data.find(item => {
-            return item.typeName === this.subTypeName
-          })
-          if(findDataByTypeName) {
-            return findDataByTypeName.wfCategoryList
-          } else {
-            return []
-          }
-        } else {
-          return []
-        }
-      }
+      // activeData() {
+      //   if(this.subTypeName) {
+      //     const data = _.cloneDeep(this.data)
+      //     const findDataByTypeName = data.find(item => {
+      //       return item.typeName === this.subTypeName
+      //     })
+      //     if(findDataByTypeName) {
+      //       return findDataByTypeName.wfCategoryList
+      //     } else {
+      //       return []
+      //     }
+      //   } else {
+      //     return []
+      //   }
+      // }
     },
-    watch:{
+    watch: {
       '$i18n.locale'(val){
         this.getOverview()
       },
-      activeData(val) {
-        let foundTypeName = null
-        this.data.forEach((e) => {
-          e.wfCategoryList.forEach((wf) => {
-            // 根据typeName，找到下拉框的内容了
-            console.log("this.subTypeName.....", this.subTypeName)
-            if(wf.categoryList && wf.categoryList.indexOf(this.subTypeName) > -1) {
-              foundTypeName = e
-            }
-          })
-        })
-        this.$nextTick(() => {
-          if(foundTypeName) {
-            this.setTypeName(foundTypeName.typeName, this.oriSubTypeName)
-          } else {
-            this.setTypeName(this.subTypeName, this.oriSubTypeName)
-          }
-        })
-      }
+      // activeData(val) {
+      //   let foundTypeName = null
+      //   this.data.forEach((e) => {
+      //     e.wfCategoryList.forEach((wf) => {
+      //       // 根据typeName，找到下拉框的内容了
+      //       console.log("this.subTypeName.....", this.subTypeName)
+      //       if(wf.categoryList && wf.categoryList.indexOf(this.subTypeName) > -1) {
+      //         foundTypeName = e
+      //       }
+      //     })
+      //   })
+      //   this.$nextTick(() => {
+      //     if(foundTypeName) {
+      //       this.setTypeName(foundTypeName.typeName, this.oriSubTypeName)
+      //     } else {
+      //       this.setTypeName(this.subTypeName, this.oriSubTypeName)
+      //     }
+      //   })
+      // }
+      // subTypeName(val) {
+      //   debugger
+      //   this.updateActiveData(true)
+      // }
     },
     created() {
       this.oriSubTypeName = this.subTypeName
       this.getOverview()
     },
     methods: {
-      // toggleActive(index) {
-      //   // this.activeIndex = index
-      //   this.$emit('toggle-active', index)
-      // },
-      // onItemTypeListChange(newValue) {
-      //   this.$emit('item-type-list-change', newValue)
-      // },
+      /**
+       *
+       * @param typeName 用来找下拉框的
+       * @param foundSubTypeName foundSubTypeName来找对应的index的
+       */
       setTypeName(typeName, foundSubTypeName) {
         const foundByTypeName = this.dOptions.find(item => {
           return item.typeName === typeName
@@ -182,6 +206,9 @@
             this.toggleActive(-1, false)
           }
         }
+      },
+      onItemTypeListClick(newValue) {
+        this.$emit('item-type-list-Click', newValue)
       },
       onItemTypeListChange(newValue, update = true) {
         this.$emit('item-type-list-change', newValue, update)
@@ -225,9 +252,60 @@
           })
           e.totalTodoNum = totalTodoNum
         })
+
         this.data = data
+        this.updateActiveData()
         this.$emit('set-num', totalNum)
         this.getAekoTodoCount()
+      },
+      updateActiveDataByTypeName(typeName) {
+        let activeData = []
+        let findDataByTypeName = null
+        debugger
+        if(typeName) {
+          const data = _.cloneDeep(this.data)
+          findDataByTypeName = data.find(e => {
+            return e.typeName === typeName
+          })
+        }
+        debugger
+        if(findDataByTypeName) {
+          this.activeData = findDataByTypeName.wfCategoryList
+        } else {
+          this.activeData = activeData
+        }
+      },
+      /**
+       * 这个是那一堆tag过滤之后的值，根据this.subTypeName
+       * 返回的wfCategoryList
+       */
+      updateActiveData() {
+        let activeData = []
+        let foundBySubTypeName = null
+        let findDataByTypeName = null
+        if(this.subTypeName) {
+          const data = _.cloneDeep(this.data)
+          findDataByTypeName = data.find(e => {
+            e.wfCategoryList.forEach((wf) => {
+              if(wf.categoryList && wf.categoryList.indexOf(this.subTypeName) > -1) {
+                foundBySubTypeName = e
+              }
+            })
+            return foundBySubTypeName
+          })
+          if(findDataByTypeName) {
+            activeData = findDataByTypeName.wfCategoryList
+          }
+        }
+        this.activeData = activeData
+        debugger
+        this.$nextTick(() => {
+          if(findDataByTypeName) {
+            this.setTypeName(findDataByTypeName.typeName, this.oriSubTypeName)
+          } else {
+            this.setTypeName(this.subTypeName, this.oriSubTypeName)
+          }
+        })
       },
       handleSetAekoNum(val) {
         const data = this.data
