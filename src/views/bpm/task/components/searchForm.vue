@@ -23,7 +23,8 @@
         <el-col :span="24">
           <taskPanelCategory
             ref="taskPanelCategory"
-            :subTypeName="curTypeName"
+            :curTypeName="curTypeName"
+            :subTypeName="curSubTypeName"
             @toggle-active="toggleActive"
             @item-type-list-change="onItemTypeListChange"
             @toggle-active-click="onToggleActiveClick"
@@ -206,7 +207,8 @@ export default {
       nameOptions: [],
       loading: false,
       dOptions: BPM_APPROVAL_TYPE_OPTIONS,
-      curTypeName: null,
+      curSubTypeName: null, // 对应的url里面的modelTemplate, 用来过滤出activeData
+      curTypeName: null, // 这个用来记录对应selectSubTypeName，目前还没有其他用处
       curActiveIndex: -1,
       multipleCategoryList: true,
       bpmSinglCategoryList: BPM_SINGL_CATEGORY_LIST,
@@ -219,6 +221,9 @@ export default {
     this.refresh();
   },
   methods: {
+    getOverview(onlyUpdateActiveData = false) {
+      this.$refs.taskPanelCategory.getOverview(onlyUpdateActiveData)
+    },
     refresh() {
       console.log("this.isFinished...", this.isFinished, this.$route.query.modelTemplate)
       if (this.$route.query.modelTemplate) {
@@ -234,7 +239,7 @@ export default {
           // this.form.categoryList = JSON.parse(this.$route.query.modelTemplate)
           this.form.categoryList = moduleTemplate[0]
         }
-        this.curTypeName = moduleTemplate[0]
+        this.curSubTypeName = moduleTemplate[0]
         // console.log(this.form);
         // this.queryModelTemplate()
       }
