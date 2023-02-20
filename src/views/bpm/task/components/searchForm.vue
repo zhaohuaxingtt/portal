@@ -332,12 +332,24 @@ export default {
         }
       }
     },
-    toggleActive(index, item, update = true) {
+    toggleActive(index, items, update = true) {
       this.activeIndex = index
-      if(index !== -1 && item && item.categoryList?.length > 0) {
-        this.form.categoryList = item.categoryList
+      if(index !== -1 && items && items[index] && items[index].categoryList?.length > 0) {
+        this.form.categoryList = items[index].categoryList
       } else {
-        this.form.categoryList = ''
+        if(index === -1) {
+          let categoryList = []
+          if(items) {
+            items.forEach(categoryItem => {
+              if(categoryItem.categoryList && categoryItem.categoryList.length > 0) {
+                categoryList = categoryList.concat(categoryItem.categoryList)
+              }
+            })
+          }
+          this.form.categoryList = categoryList
+        } else {
+          this.form.categoryList = ''
+        }
       }
       if(update) {
         this.search()
