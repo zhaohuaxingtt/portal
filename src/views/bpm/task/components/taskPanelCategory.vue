@@ -76,8 +76,16 @@
     components: { iSelect },
     props: {
       /**
+       * 这个用来记录对应selectSubTypeName，目前还没有其他用处
+       */
+      typeName: {
+        type: String,
+        default: null
+      },
+      /**
        * subTypeName
        * 对应的是queryApprovalOverview和queryApplyOverview获取的内容
+       * categoryList
        * 下面的typeName，也是用这个来过滤出activeData
        */
       subTypeName: {
@@ -130,50 +138,12 @@
        */
       numVisible() {
         return !this.isFinished
-      },
-      // activeData() {
-      //   if(this.subTypeName) {
-      //     const data = _.cloneDeep(this.data)
-      //     const findDataByTypeName = data.find(item => {
-      //       return item.typeName === this.subTypeName
-      //     })
-      //     if(findDataByTypeName) {
-      //       return findDataByTypeName.wfCategoryList
-      //     } else {
-      //       return []
-      //     }
-      //   } else {
-      //     return []
-      //   }
-      // }
+      }
     },
     watch: {
       '$i18n.locale'(val){
         this.getOverview()
-      },
-      // activeData(val) {
-      //   let foundTypeName = null
-      //   this.data.forEach((e) => {
-      //     e.wfCategoryList.forEach((wf) => {
-      //       // 根据typeName，找到下拉框的内容了
-      //       console.log("this.subTypeName.....", this.subTypeName)
-      //       if(wf.categoryList && wf.categoryList.indexOf(this.subTypeName) > -1) {
-      //         foundTypeName = e
-      //       }
-      //     })
-      //   })
-      //   this.$nextTick(() => {
-      //     if(foundTypeName) {
-      //       this.setTypeName(foundTypeName.typeName, this.oriSubTypeName)
-      //     } else {
-      //       this.setTypeName(this.subTypeName, this.oriSubTypeName)
-      //     }
-      //   })
-      // }
-      // subTypeName(val) {
-      //   debugger
-      //   this.updateActiveData(true)
-      // }
+      }
     },
     created() {
       this.oriSubTypeName = this.subTypeName
@@ -236,7 +206,7 @@
           })
         }
       },
-      async getOverview() {
+      async getOverview(onlyUpdateActiveData = false) {
         this.loading = true
         let queryOverviewFunc = queryApprovalOverview
         if(this.myApplication) {
@@ -258,7 +228,7 @@
         })
 
         this.data = data
-        this.updateActiveData()
+        this.updateActiveData(onlyUpdateActiveData)
         this.$emit('set-num', totalNum)
         this.getAekoTodoCount()
       },
@@ -282,7 +252,7 @@
        * 这个是那一堆tag过滤之后的值，根据this.subTypeName
        * 返回的wfCategoryList
        */
-      updateActiveData() {
+      updateActiveData(onlyUpdateActiveData = false) {
         let activeData = []
         let foundBySubTypeName = null
         let findDataByTypeName = null
@@ -301,14 +271,16 @@
           }
         }
         this.activeData = activeData
-        // debugger
-        this.$nextTick(() => {
-          if(findDataByTypeName) {
-            this.setTypeName(findDataByTypeName.typeName, this.oriSubTypeName)
-          } else {
-            this.setTypeName(this.subTypeName, this.oriSubTypeName)
-          }
-        })
+        if(!onlyUpdateActiveData) {
+          // debugger
+          this.$nextTick(() => {
+            if(findDataByTypeName) {
+              this.setTypeName(findDataByTypeName.typeName, this.oriSubTypeName)
+            } else {
+              this.setTypeName(this.subTypeName, this.oriSubTypeName)
+            }
+          })
+        }
       },
       handleSetAekoNum(val) {
         const data = this.data

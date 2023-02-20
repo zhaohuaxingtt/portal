@@ -23,7 +23,7 @@
         <el-col :span="24">
           <taskPanelCategory
             ref="taskPanelCategory"
-            :subTypeName="curTypeName"
+            :subTypeName="curSubTypeName"
             @toggle-active="toggleActive"
             @item-type-list-change="onItemTypeListChange"
             @toggle-active-click="onToggleActiveClick"
@@ -169,7 +169,8 @@ export default {
       templates: [],
       date: '',
       dOptions: BPM_APPROVAL_TYPE_OPTIONS,
-      curTypeName: null,
+      curSubTypeName: null, // 对应的url里面的modelTemplate, 用来过滤出activeData
+      curTypeName: null, // 这个用来记录对应selectSubTypeName，目前还没有其他用处
       curActiveIndex: -1,
       multipleCategoryList: true // 任务名称是否可多选
     }
@@ -191,7 +192,7 @@ export default {
         this.form.categoryList = categoryList
       }
       if(categoryList?.length > 0) {
-        this.curTypeName = categoryList[0]
+        this.curSubTypeName = categoryList[0]
       }
     }
     this.queryModelTemplate()
