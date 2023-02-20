@@ -23,6 +23,7 @@
         <el-col :span="24">
           <taskPanelCategory
             ref="taskPanelCategory"
+            :curTypeName="curTypeName"
             :subTypeName="curSubTypeName"
             @toggle-active="toggleActive"
             @item-type-list-change="onItemTypeListChange"
