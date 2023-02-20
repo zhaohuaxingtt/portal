@@ -10,7 +10,7 @@
 <!--        />-->
 <!--      </div>-->
     </pageHeader>
-    <searchForm :isSourceFindingPoint="true" @search="search" />
+    <searchForm ref="searchForm" :isSourceFindingPoint="true" @search="search" />
     <iCard>
       <div class="cus-action-header">
         <actionHeader
@@ -362,7 +362,9 @@ export default {
           iMessage.success(this.language('审批成功'))
         }
         this.getTableList()
-
+        this.$nextTick(() => {
+          this.$refs.searchForm.getOverview(true)
+        })
         this.loading = false
       } else {
         this.dialogApprovalVisible = true
@@ -376,6 +378,9 @@ export default {
     approvelSuccess() {
       this.dialogApprovalVisible = false
       this.getTableList()
+      this.$nextTick(() => {
+        this.$refs.searchForm.getOverview(true)
+      })
     },
 
     //导出
