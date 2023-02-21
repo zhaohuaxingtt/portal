@@ -177,7 +177,7 @@ export default {
       return diffDate
     },
     exportFile(item){
-      exportSupplierPerforManceScoreExcel({ editionId: this.$route.query.editionId })
+      exportSupplierPerforManceScoreExcel({ editionId:item.editionId })
     },
     goDetail(item,type) {
       let routeUrl = this.$router.resolve({
