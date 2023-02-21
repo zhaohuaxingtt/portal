@@ -17,7 +17,7 @@ export const supplierInformationTitle = [
     name: '统一社会信用代码',
     key: 'UnifySocialCreditCode'
   },
-  { props: 'adjustmentScore', name: '调整前得分', key: 'SPR_FRM_CBPJ_TZQDF' },
+  { props: 'score', name: '调整前得分', key: 'SPR_FRM_CBPJ_TZQDF' },
   { props: 'afterAdjustScore', name: '调整后得分', key: 'SPR_FRM_CBPJ_TZHDF' },
   { props: 'totalMissingRate', name: '缺失率%', key: 'SPR_FRM_CBPJ_QSL' },
   { props: 'grade', name: '调整前评级', key: 'SPR_FRM_CBPJ_TZQPJ' },

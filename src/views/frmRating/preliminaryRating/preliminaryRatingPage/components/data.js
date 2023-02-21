@@ -94,8 +94,8 @@ export const tableTitle = [
   },
   {
     prop: 'adjustmentScore',
-    label: '调整分',
-    li8n: 'SPR_FRM_CBPJ_TZF',
+    label: '风险信号调整分',
+    li8n: 'FENGXAINXINHAOTIAOZHENGFEN',
     width: 120,
     tooltip: true
   },

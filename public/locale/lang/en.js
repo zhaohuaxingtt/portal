@@ -7,6 +7,7 @@
 })(this, function (i18n) {
   'use strict'
   var oldLanguage = {
+    FENGXAINXINHAOTIAOZHENGFEN:'Adjustment points',
     CSQCAIGOUYUAN:'CSQ采购员',
     QUERENRENKESHI:'确认人科室',
     delete: 'delete',
