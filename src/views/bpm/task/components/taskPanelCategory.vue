@@ -1,5 +1,5 @@
 <template>
-  <div class="approval" v-loading="loading">
+  <div class="approval" v-loading="firstLoading && loading">
 <!--    <taskTypePanelCategory-->
 <!--      ref="taskTypePanelCategory"-->
 <!--      :data="activeData"-->
@@ -125,6 +125,7 @@
       return {
         data: [], // queryApprovalOverview和queryApplyOverview获取的内容, 下面有wfCategoryList 再下一级有 categoryList
         loading: false,
+        firstLoading: true,
         oriSubTypeName: null, // 是home跳转过来的时候带的那个modelTemplate, 对应的是categoryList
         dOptions: BPM_APPROVAL_TYPE_OPTIONS,
         selectSubTypeName: null, // 下拉框的value，BPM_APPROVAL_TYPE_OPTIONS下面的value像 -1，0，1，2
@@ -150,6 +151,10 @@
       this.getOverview()
     },
     methods: {
+      reset(subTypeName) {
+        this.selectSubTypeName = subTypeName
+        this.onItemTypeListClick(subTypeName)
+      },
       /**
        *
        * @param typeName 用来找下拉框的
@@ -215,7 +220,12 @@
         const { data = [] } = await queryOverviewFunc({
           userID: this.$store.state.permission.userInfo.id,
           language: this.$i18n.locale == 'zh' ? 'CN' : 'EN'
-        }).finally(() => (this.loading = false))
+        }).finally(() => {
+          this.loading = false
+          if(this.firstLoading) {
+            this.firstLoading = false
+          }
+        })
 
         let totalNum = 0
         data.forEach((e) => {
