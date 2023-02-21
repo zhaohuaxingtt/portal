@@ -363,6 +363,7 @@ export default {
 .schedule-container {
   text-align: center;
   position: relative;
+  height: 100%;
   .calendar {
     margin-top: -17px;
     padding-bottom: 12px;

@@ -2909,7 +2909,9 @@
       APPROVAL_FAILED: '审批失败',
       APPROVAL_AGENT_MEETING: '会议审批代理',
       NEW: '新建',
-      NODE_REQUIRED: '补充材料节点必选'
+      NODE_REQUIRED: '补充材料节点必选',
+      NO_APPROVAL_TODO: '暂无待审批数据',
+      NO_MY_APPLICATION: '暂无我的申请数据'
     },
     ROLE: {
       ROLE_NAME: '角色名称',

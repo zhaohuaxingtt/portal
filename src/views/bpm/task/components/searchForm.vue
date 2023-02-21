@@ -441,7 +441,7 @@ export default {
       this.$emit('search', { ...searchData, itemTypeList: searchData.itemTypeList ? [searchData.itemTypeList] : []}, this.templates)
     },
     reset() {
-      this.updateCurTypeName(null)
+      // this.updateCurTypeName(null)
       this.form = {
         businessId: '',
         applyUserId: '',
@@ -455,7 +455,8 @@ export default {
       }
       this.date = ''
       // this.$emit('search', { ...this.form, itemTypeList: searchData.itemTypeList ? [searchData.itemTypeList] : []}, this.templates)
-      this.search()
+      // this.search()
+      this.$refs.taskPanelCategory.reset("-1")
     },
     async queryModelTemplate(update = true) {
       console.log(this.form);

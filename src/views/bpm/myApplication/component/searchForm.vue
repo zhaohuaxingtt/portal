@@ -317,11 +317,12 @@ export default {
       this.search()
     },
     reset() {
-      this.updateCurTypeName(null)
+      // this.updateCurTypeName(null)
       this.date = ''
       this.form = { ...searchForm }
       // this.$emit('search', this.form, this.templates)
-      this.search()
+      // this.search()
+      this.$refs.taskPanelCategory.reset("-1")
     },
     search() {
       this.$emit('search', { ...this.form, itemTypeList: this.form.itemTypeList ? [this.form.itemTypeList] : []}, this.templates)
