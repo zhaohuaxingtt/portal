@@ -113,7 +113,7 @@
                 <el-form-item :label="language(searchOptionTitles.isExpire)">
                   <i-select
                     :placeholder="language(searchOptionTitles.iselect)"
-                    v-model="formData.isValid"
+                    v-model="formData.isExpired"
                   >
                     <el-option
                       v-for="item in falseTrueSelect"
