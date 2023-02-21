@@ -1,37 +1,39 @@
 <template>
-  <div class="task-container" v-loading="loadingApproveData">
-    <template v-for="item in curModuleData">
-      <div :key="item.value" class="task-card">
-        <div class="top">
-          <div class="name single-no-ellipsis">{{ item.value }}</div>
-  <!--        <div class="abs single-ellipsis">{{ getAbs(item.typeName) }}</div>-->
-        </div>
-        <div class="bottom">
-          <div v-if="!showPendingApproval" class="overdue" @click="handleToApply(item)">
-            <div :class="item.overdue">
-              {{ getLaunchNum(item.subType) | overNum }}
-              <span v-if="getLaunchNum(item.subType) > 99"></span>
-            </div>
-            <div class="numName flex-align-center">
-              <div>{{ $t('HOME_CARD.MY_APPLICATION') }}</div>
-            </div>
-          </div>
-  <!--        <div v-if="showPendingApproval" class="line">/</div>-->
-          <div v-if="showPendingApproval" class="approval" @click="handleToApproval(item)">
-            <div>
-              {{ getTodoNum(item.subType) | overNum }}
-              <span v-if="getTodoNum(item.subType) > 99"></span>
-            </div>
-            <div class="numName flex-align-center">
-              <div>{{ $t('HOME_CARD.MY_APPROVAL') }}</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </template>
-    <p class="no-data-text" v-if="!loadingApproveData && (!curModuleData || curModuleData.length === 0)">
+  <div class="task-container-div" v-loading="loadingApproveData">
+    <div class="no-data-text" v-if="!loadingApproveData && (!curModuleData || curModuleData.length === 0)">
       <span> {{ showPendingApproval ? $t("APPROVAL.NO_APPROVAL_TODO") : $t("APPROVAL.NO_MY_APPLICATION") }}  </span>
-    </p>
+    </div>
+    <div class="task-container" v-else>
+      <template v-for="item in curModuleData">
+        <div :key="item.value" class="task-card">
+          <div class="top">
+            <div class="name single-no-ellipsis">{{ item.value }}</div>
+    <!--        <div class="abs single-ellipsis">{{ getAbs(item.typeName) }}</div>-->
+          </div>
+          <div class="bottom">
+            <div v-if="!showPendingApproval" class="overdue" @click="handleToApply(item)">
+              <div :class="item.overdue">
+                {{ getLaunchNum(item.subType) | overNum }}
+                <span v-if="getLaunchNum(item.subType) > 99"></span>
+              </div>
+              <div class="numName flex-align-center">
+                <div>{{ $t('HOME_CARD.MY_APPLICATION') }}</div>
+              </div>
+            </div>
+    <!--        <div v-if="showPendingApproval" class="line">/</div>-->
+            <div v-if="showPendingApproval" class="approval" @click="handleToApproval(item)">
+              <div>
+                {{ getTodoNum(item.subType) | overNum }}
+                <span v-if="getTodoNum(item.subType) > 99"></span>
+              </div>
+              <div class="numName flex-align-center">
+                <div>{{ $t('HOME_CARD.MY_APPROVAL') }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
+    </div>
   </div>
 </template>
 
@@ -330,11 +332,24 @@ export default {
   white-space: normal;
   overflow: auto;
 }
+.task-container-div {
+  height: 100%;
+  .no-data-text {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    span {
+      height: 30px;
+      line-height: 30px;
+    }
+  }
+}
 .task-container {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  height: 100%;
   .task-card {
     width: calc(50% - 5px);
     height: 120px;
@@ -412,17 +427,6 @@ export default {
           }
         }
       }
-  }
-  .no-data-text {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    align-items: center;
-    justify-content: center;
-    span {
-      height: 30px;
-      line-height: 30px;
-    }
   }
 }
 </style>
