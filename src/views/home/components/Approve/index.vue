@@ -1,32 +1,34 @@
 <template>
   <div class="task-container">
-    <div v-for="item in moduleData" :key="item.value" class="task-card">
-      <div class="top">
-        <div class="name single-no-ellipsis">{{ item.value }}</div>
-<!--        <div class="abs single-ellipsis">{{ getAbs(item.typeName) }}</div>-->
-      </div>
-      <div class="bottom">
-        <div v-if="!showPendingApproval" class="overdue" @click="handleToApply(item)">
-          <div :class="item.overdue">
-            {{ getLaunchNum(item.subType) | overNum }}
-            <span v-if="getLaunchNum(item.subType) > 99"></span>
+    <template v-for="item in moduleData">
+      <div :key="item.value" v-if="(!showPendingApproval && getLaunchNum(item.subType)) || (showPendingApproval && getTodoNum(item.subType))" class="task-card">
+        <div class="top">
+          <div class="name single-no-ellipsis">{{ item.value }}</div>
+  <!--        <div class="abs single-ellipsis">{{ getAbs(item.typeName) }}</div>-->
+        </div>
+        <div class="bottom">
+          <div v-if="!showPendingApproval" class="overdue" @click="handleToApply(item)">
+            <div :class="item.overdue">
+              {{ getLaunchNum(item.subType) | overNum }}
+              <span v-if="getLaunchNum(item.subType) > 99"></span>
+            </div>
+            <div class="numName flex-align-center">
+              <div>{{ $t('HOME_CARD.MY_APPLICATION') }}</div>
+            </div>
           </div>
-          <div class="numName flex-align-center">
-            <div>{{ $t('HOME_CARD.MY_APPLICATION') }}</div>
+  <!--        <div v-if="showPendingApproval" class="line">/</div>-->
+          <div v-if="showPendingApproval" class="approval" @click="handleToApproval(item)">
+            <div>
+              {{ getTodoNum(item.subType) | overNum }}
+              <span v-if="getTodoNum(item.subType) > 99"></span>
+            </div>
+            <div class="numName flex-align-center">
+              <div>{{ $t('HOME_CARD.MY_APPROVAL') }}</div>
+            </div>
           </div>
         </div>
-<!--        <div v-if="showPendingApproval" class="line">/</div>-->
-        <div v-if="showPendingApproval" class="approval" @click="handleToApproval(item)">
-          <div>
-            {{ getTodoNum(item.subType) | overNum }}
-            <span v-if="getTodoNum(item.subType) > 99"></span>
-          </div>
-          <div class="numName flex-align-center">
-            <div>{{ $t('HOME_CARD.MY_APPROVAL') }}</div>
-          </div>
-        </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 
