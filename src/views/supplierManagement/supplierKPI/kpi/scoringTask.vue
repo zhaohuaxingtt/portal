@@ -89,7 +89,8 @@
 <script>
 import {
   getSupplierPerforManceScorePage,
-  getSupplierPerforManceTaskList
+  getSupplierPerforManceTaskList,
+  exportSupplierPerforManceScoreExcel
 } from '@/api/supplierManagement/supplierIndexManage/index'
 import { pageMixins } from '@/utils/pageMixins'
 import tableList from '@/components/commonTable'
