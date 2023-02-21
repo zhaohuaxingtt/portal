@@ -14,7 +14,7 @@
           <p v-if="index>-1" >{{ 1 + index }}. {{ detail.topic || '' }}</p>
         </div>
         <div class="infos">
-          <p class="item">
+          <p class="item btn">
             <span class="value">
               <img
                 @click="prev"
@@ -267,10 +267,13 @@ export default {
         writing-mode: vertical-lr;
       }
       .icon{
-        height: 30px;
+        height: 24px;
         margin-right: 5px;
       }
     }
+  }
+  .btn{
+    flex: 0;
   }
 }
 .item-list {
