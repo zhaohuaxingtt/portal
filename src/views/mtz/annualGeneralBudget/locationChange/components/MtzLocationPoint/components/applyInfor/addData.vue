@@ -3,7 +3,7 @@
     <div style="padding-bottom:30px;">
          <div class="form-wrapper">
             <iFormGroup
-            :row="2"
+            :row="4"
             :model="contractForm"
             :rules="rules"
             ref="contractForm"

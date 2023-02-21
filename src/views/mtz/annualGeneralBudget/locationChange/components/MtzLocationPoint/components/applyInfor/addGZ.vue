@@ -4,7 +4,7 @@
     <!-- :rules="metalType?rules1:rules2" -->
     <div class="form-wrapper">
       <iFormGroup
-        :row="2"
+        :row="4"
         :model="contractForm"
         :rules="rules"
         ref="contractForm"

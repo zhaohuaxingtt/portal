@@ -11,10 +11,9 @@
   <iPage>
     <iCard>
       <div class="title">
-        <span>{{ language('关联定点申请',"关联定点申请") }}</span>
+        <span>{{ language('关联定点申请', "关联定点申请") }}</span>
         <div>
-          <iButton @click="relation" v-permission="PORTAL_MTZ_POINT_INFOR_GLLJDDSQ"
-            v-if="applyNumber === '' && showType">
+          <iButton @click="relation" v-permission="PORTAL_MTZ_POINT_INFOR_GLLJDDSQ" v-if="applyNumber === '' && showType">
             {{
               language('GLLJDDSQ', '关联零件定点申请')
             }}</iButton>
@@ -24,7 +23,7 @@
           </iButton>
         </div>
       </div>
-      <div class="info" style="margin-top:20px">
+      <div class="info" style="margin-top:30px">
         <span>{{ language('定点申请单号', '定点申请单号') }}：</span>
         <iInput style="width:100px;margin-right:20px" v-model="inforData.mtzAppId" :disabled="true" />
         <span>{{ language('定点申请单名称', '定点申请单名称') }}：</span>
@@ -66,11 +65,25 @@ export default {
       applyNumber: '',
       numIsNomi: 0,
       mtzAddShow: false,
-
+      showType:false,
+    }
+  },
+  computed: {
+    mtzObject() {
+      return this.$store.state.location.mtzObject;
+    }
+  },
+  watch: {
+    mtzObject(newVlue, oldValue) {
+      this.init()
     }
   },
   created() {
-    this.init()
+    if (JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId == undefined && this.$route.query.mtzAppId == undefined) {
+
+    } else {
+      this.init()
+    }
   },
   methods: {
     init(val) {
@@ -92,6 +105,7 @@ export default {
         } else {
           this.showType = false;
         }
+
         this.inforData.appName = res.data.appName
         this.inforData.flowType = res.data.flowType
         console.log(this.applyNumber === '' && this.showType)
@@ -113,7 +127,7 @@ export default {
             num++
           }
         })
-        this.numIsNomi=num
+        this.numIsNomi = num
       })
     },
     saveClose(val) {
