@@ -110,6 +110,48 @@
           return false
         }
       },
+      handleLoopTask(instanceId, goPreTask) {
+        if(this.todoTaskList?.length >= 2) {
+          let curIndex = -1
+          this.todoTaskList.find((item,index) => {
+            if(item.instanceId === instanceId) {
+              curIndex = index
+            }
+          })
+          // 找到当前finish了的Index
+          if(goPreTask) {
+            if((curIndex - 1) < this.todoTaskList.length) {
+              this.$nextTick(() => {
+                this.gotoDetailPage(this.todoTaskList[curIndex - 1])
+              })
+              return true
+            } else if((curIndex + 1) >= 0){
+              this.$nextTick(() => {
+                this.gotoDetailPage(this.todoTaskList[curIndex + 1])
+              })
+              return true
+            }
+          } else {
+            if((curIndex + 1) < this.todoTaskList.length) {
+              this.$nextTick(() => {
+                this.gotoDetailPage(this.todoTaskList[curIndex + 1])
+              })
+              return true
+            } else if((curIndex - 1) >= 0){
+              this.$nextTick(() => {
+                this.gotoDetailPage(this.todoTaskList[curIndex - 1])
+              })
+              return true
+            }
+          }
+          
+          this.$message.info(`已经是最后一条`)
+          return false
+        } else {
+          this.$message.info(`已经是最后一条`)
+          return false
+        }
+      },
       gotoPreTask(instanceId) {
         if(this.todoTaskList?.length > 0) {
           let curIndex = -1
@@ -124,8 +166,7 @@
               this.gotoDetailPage(this.todoTaskList[curIndex])
             })
           } else {
-            this.$message.info(`已经是最后一条`)
-            this.$emit("showMoreTaskNeedClose")
+            this.handleLoopTask(instanceId, true)
           }
         }
       },
@@ -143,8 +184,7 @@
               this.gotoDetailPage(this.todoTaskList[curIndex])
             })
           } else {
-            this.$message.info(`已经是最后一条`)
-            this.$emit("showMoreTaskNeedClose")
+            this.handleLoopTask(instanceId, false)
           }
         }
       },
