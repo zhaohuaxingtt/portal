@@ -29,6 +29,9 @@
         </div>
       </div>
     </template>
+    <p class="no-data-text" v-if="!loadingApproveData && (!curModuleData || curModuleData.length === 0)">
+      <span> {{ showPendingApproval ? $t("APPROVAL.NO_APPROVAL_TODO") : $t("APPROVAL.NO_MY_APPLICATION") }}  </span>
+    </p>
   </div>
 </template>
 
@@ -409,6 +412,17 @@ export default {
           }
         }
       }
+  }
+  .no-data-text {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    span {
+      height: 30px;
+      line-height: 30px;
+    }
   }
 }
 </style>
