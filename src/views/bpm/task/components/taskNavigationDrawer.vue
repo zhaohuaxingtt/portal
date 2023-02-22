@@ -83,28 +83,7 @@
     methods: {
       handleFinishCurrentTask(instanceId) {
         if(this.todoTaskList?.length >= 2) {
-          let curIndex = -1
-          this.todoTaskList.find((item,index) => {
-            if(item.instanceId === instanceId) {
-              curIndex = index
-            }
-          })
-          // 找到当前finish了的Index
-          if((curIndex+1) < this.todoTaskList.length) {
-            this.$nextTick(() => {
-              this.gotoDetailPage(this.todoTaskList[curIndex + 1])
-            })
-            return true
-          } else if((curIndex - 1) >= 0){
-            this.$nextTick(() => {
-              this.gotoDetailPage(this.todoTaskList[curIndex - 1])
-            })
-            return true
-          } else {
-            this.$message.info(`已经是最后一条`)
-            this.$emit("showMoreTaskNeedClose")
-            return false
-          }
+          return this.gotoNextTask(instanceId)
         } else {
           this.$message.info(`已经是最后一条`)
           return false
@@ -120,33 +99,27 @@
           })
           // 找到当前finish了的Index
           if(goPreTask) {
-            if((curIndex - 1) < this.todoTaskList.length) {
+            if((curIndex - 1) < 0 ) {
+              this.$nextTick(() => {
+                this.gotoDetailPage(this.todoTaskList[this.todoTaskList.length - 1])
+              })
+            } else {
               this.$nextTick(() => {
                 this.gotoDetailPage(this.todoTaskList[curIndex - 1])
               })
-              return true
-            } else if((curIndex + 1) >= 0){
-              this.$nextTick(() => {
-                this.gotoDetailPage(this.todoTaskList[curIndex + 1])
-              })
-              return true
             }
           } else {
-            if((curIndex + 1) < this.todoTaskList.length) {
+            if((curIndex + 1) >= this.todoTaskList.length) {
+              this.$nextTick(() => {
+                this.gotoDetailPage(this.todoTaskList[0])
+              })
+            } else {
               this.$nextTick(() => {
                 this.gotoDetailPage(this.todoTaskList[curIndex + 1])
               })
-              return true
-            } else if((curIndex - 1) >= 0){
-              this.$nextTick(() => {
-                this.gotoDetailPage(this.todoTaskList[curIndex - 1])
-              })
-              return true
             }
           }
-          
-          this.$message.info(`已经是最后一条`)
-          return false
+          return true
         } else {
           this.$message.info(`已经是最后一条`)
           return false
@@ -165,9 +138,13 @@
             this.$nextTick(() => {
               this.gotoDetailPage(this.todoTaskList[curIndex])
             })
+	    return true
           } else {
-            this.handleLoopTask(instanceId, true)
+            return this.handleLoopTask(instanceId, true)
           }
+        } else {
+          this.$message.info(`已经是最后一条`)
+          return false
         }
       },
       gotoNextTask(instanceId) {
@@ -183,9 +160,13 @@
             this.$nextTick(() => {
               this.gotoDetailPage(this.todoTaskList[curIndex])
             })
+            return true
           } else {
-            this.handleLoopTask(instanceId, false)
+            return this.handleLoopTask(instanceId, false)
           }
+        } else {
+          this.$message.info(`已经是最后一条`)
+          return false
         }
       },
       getQueryTodoListFunc() {
