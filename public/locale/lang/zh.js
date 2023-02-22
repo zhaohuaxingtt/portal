@@ -1759,7 +1759,8 @@
       HOME_MODULE_I_FACT: 'iFact',
       HOME_MODULE_VOLUME: 'Volume Pricing',
       HOME_MODULE_NEWS: 'News',
-      HOME_MODULE_PROVIDER_RATE: '配附件供货率'
+      HOME_MODULE_PROVIDER_RATE: '配附件供货率',
+      NO_TASK_DATA: '暂无任务'
     },
     //谈判助手
     TPZS: {
