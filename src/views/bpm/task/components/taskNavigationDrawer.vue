@@ -145,8 +145,11 @@
               this.gotoDetailPage(this.todoTaskList[curIndex])
             })
           } else {
-            this.handleLoopTask(instanceId, true)
+            return this.handleLoopTask(instanceId, true)
           }
+        } else {
+          this.$message.info(`已经是最后一条`)
+          return false
         }
       },
       gotoNextTask(instanceId) {
