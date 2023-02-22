@@ -246,38 +246,7 @@ export default {
       // CRW-8311
       // 【CF】审批人界面从[已审批]切换到[待审批]查不到待审批单据
       if (this.isFinished) {//已审批
-        console.log(this.$route.query)
-        if (this.$route.query.doneQueryStr) {
-          try {
-            const queryForm = JSON.parse(
-              decodeURIComponent(this.$route.query.doneQueryStr)
-            )
-            console.log(queryForm)
-            if (queryForm.startTime && queryForm.endTime) {
-              this.date = [
-                moment(queryForm.startTime).format('YYYY-MM-DD'),
-                moment(queryForm.endTime).format('YYYY-MM-DD')
-              ]
-            }
-            this.form = queryForm
-            if (this.form.applyUserId) {
-              this.queryUserOptions()
-            }
-            if (this.form.applyUserDeptId) {
-              this.queryDeptOptions()
-            }
-            this.form = {
-              ...queryForm,
-              itemTypeList: !queryForm.itemTypeList || queryForm.itemTypeList.length === 0 ? '-1' : queryForm.itemTypeList[0]
-            }
-          } catch (err) {
-            console.log(err)
-          }
-          console.log('this.form2...', this.form)
-          if (this.form.applyUserId) {
-            this.queryUserOptions()
-          }
-        } else if (this.$route.query.todoQueryStr) {
+        if (this.$route.query.todoQueryStr) {
           try {
             const queryForm = JSON.parse(
               decodeURIComponent(this.$route.query.todoQueryStr)
@@ -307,36 +276,42 @@ export default {
           } catch (err) {
             console.log(err)
           }
-        } else {//待审批
-          console.log(1111)
-          if (this.$route.query.todoQueryStr) {
-            try {
-              const queryForm = JSON.parse(
-                decodeURIComponent(this.$route.query.todoQueryStr)
-              )
-
-              console.log(queryForm);
-              if (queryForm.startTime && queryForm.endTime) {
-                this.date = [
-                  moment(queryForm.startTime).format('YYYY-MM-DD'),
-                  moment(queryForm.endTime).format('YYYY-MM-DD')
-                ]
-              }
-              this.form = queryForm
-              if (this.form.applyUserId) {
-                this.queryUserOptions()
-              }
-              if (this.form.applyUserDeptId) {
-                this.queryDeptOptions()
-              }
-            } catch (err) {
-              console.log(err)
+        }
+      } else {//待审批
+        console.log(this.$route.query)
+        if (this.$route.query.doneQueryStr) {
+          try {
+            const queryForm = JSON.parse(
+              decodeURIComponent(this.$route.query.doneQueryStr)
+            )
+            console.log(queryForm)
+            if (queryForm.startTime && queryForm.endTime) {
+              this.date = [
+                moment(queryForm.startTime).format('YYYY-MM-DD'),
+                moment(queryForm.endTime).format('YYYY-MM-DD')
+              ]
             }
-            if (this.form.itemTypeList != '-1') {
-              this.updateCurTypeName(this.form.itemTypeList)
+            this.form = queryForm
+            if (this.form.applyUserId) {
+              this.queryUserOptions()
             }
+            if (this.form.applyUserDeptId) {
+              this.queryDeptOptions()
+            }
+            if(queryForm.reApprove == "true") {
+              queryForm.reApprove = true
+            }
+            this.form = {
+              ...queryForm,
+              itemTypeList: !queryForm.itemTypeList || queryForm.itemTypeList.length === 0 ? '-1' : queryForm.itemTypeList[0]
+            }
+          } catch (err) {
+            console.log(err)
           }
-          this.queryModelTemplate()
+          console.log('this.form2...', this.form)
+          if (this.form.applyUserId) {
+            this.queryUserOptions()
+          }
         }
       }
     },

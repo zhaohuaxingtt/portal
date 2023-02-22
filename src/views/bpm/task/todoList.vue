@@ -16,7 +16,7 @@
         <actionHeader
           :todo-total="todoTotal"
           :task-type="0"
-          :search-form="form"
+          :search-form="queryData"
         />
       </div>
       <actionButtons
