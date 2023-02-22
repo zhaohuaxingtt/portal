@@ -382,7 +382,7 @@ export const infoFormData = [
   {
     props: 'dateRange', name: '补差时间段', key: '补差时间段', type: 'daterange', disabled: true
   },
-  { props: 'statusName', name: '状态', key: '状态', type: 'input', disabled: true },
+  { props: 'taskStatusName', name: '状态', key: '状态', type: 'input', disabled: true },
   { props: 'balanceNo', name: '补差单编号', key: '补差单编号', type: 'input', disabled: true },
   { props: 'totalAmount', name: '补差金额（总计）', key: '补差金额（总计）', type: 'thousands', disabled: true },
   { props: 'submittedAmount', name: '已发起凭证', key: '已发起凭证', type: 'thousands', disabled: true },

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-18 18:52:11
- * @LastEditTime: 2023-02-15 15:36:23
+ * @LastEditTime: 2023-02-22 11:13:20
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\theTable.vue
@@ -79,6 +79,7 @@
       :detailObj="detailObj"
       v-if="dialogShow"
       v-on:dialogShowFun="dialogShowFun"
+      @getmakeUpPageList="getmakeUpPageList"
     />
   </iCard>
 </template>
@@ -151,13 +152,13 @@ export default {
         ...this.searchForm
       }
       findBalanceByPage(req).then((res) => {
-        if (res.code === '200') {
+        if (res?.code == '200') {
           this.tableData = res.data.records
           this.page.totalCount = res.data.total || 0
-          this.loading = false
         }
+      }).finally(()=>{
+        this.loading = false
       })
-      this.loading = false
     },
     openPage(val) {
       this.detailObj = val
@@ -270,7 +271,7 @@ export default {
       }
       if (
         this.muiltSelectList[0].statusName === '草稿' ||
-        this.muiltSelectList[0].statusName === '供应商确认中' ||
+        this.muiltSelectList[0].statusName === '待供应商确认' ||
         this.muiltSelectList[0].statusName === '供应商拒绝' ||
         this.muiltSelectList[0].statusName === '审批不通过'
       ) {
@@ -288,7 +289,7 @@ export default {
         })
       } else {
         iMessage.error(
-          "'草稿、供应商确认中、供应商拒绝、审批不通过状态可以撤回"
+          "'草稿、待供应商确认、供应商拒绝、审批不通过状态可以撤回"
         )
       }
     },
