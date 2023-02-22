@@ -326,6 +326,11 @@ export default {
   height:100%;
   overflow-y: auto;
 }
+.numName {
+  > div {
+    color: rgb(129, 129, 129);
+  }
+}
 .task-container-div {
   height: 100%;
   .no-data-text {
@@ -361,7 +366,7 @@ export default {
   flex-wrap: wrap;
   .task-card {
     border-radius: 10px;
-    height: 130px;
+    height: 120px;
     box-sizing: border-box;
     background: #f8f9fa;
     padding: 17px 20px;
@@ -371,7 +376,7 @@ export default {
     flex-direction: column;
     //justify-content: space-between;
     //align-items: center;
-    flex-wrap: wrap;
+    //flex-wrap: wrap;
     width: calc(50% - 5px);
 
     > .left {
@@ -385,6 +390,7 @@ export default {
         margin-bottom: 5px;
         text-align: center;
         width: 100%;
+        color: rgb(0, 0, 0);
       }
 
       > .abs {
