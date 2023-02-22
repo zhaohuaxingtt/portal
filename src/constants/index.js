@@ -122,7 +122,7 @@ export const BPM_APPLY_HIDE_RECALL_CATEGORY_LIST = [
 export const BPM_APPROVAL_TYPE_OPTIONS = [
   {
     value: '-1',
-    label: '未知类型'
+    label: '全部'
   },
   {
     value: '0',

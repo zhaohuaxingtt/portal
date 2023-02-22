@@ -371,7 +371,7 @@ export default {
     flex-direction: column;
     //justify-content: space-between;
     //align-items: center;
-    flex-wrap: wrap;
+    //flex-wrap: wrap;
     width: calc(50% - 5px);
 
     > .left {

@@ -29,7 +29,12 @@ export default {
     }),
     userGreetInfoStr: function() {
       const name = this.$i18n.locale === "zh" ? this.userInfo.nameZh : this.userInfo.nameEn
-      return this.getGreetingStr() + ',' + name + ',' + this.language('欢迎登录RiSE')
+      const greetingStr = this.getGreetingStr()
+      if(greetingStr) {
+        return greetingStr + ',' + name + ',' + this.language('欢迎登录RiSE')
+      } else {
+        return name + ',' + this.language('欢迎登录RiSE')
+      }
     },
     greetingsInfo() {
       return this.$i18n.locale === "zh" ? this.greetingValues.zh : this.greetingValues.en
@@ -69,7 +74,7 @@ export default {
         greetingStr = this.language('中午好')
       } else if(hours >= 14 && hours <= 18) {
         greetingStr = this.language('下午好')
-      } else {
+      } else if(hours >= 19 && hours <= 23) {
         greetingStr = this.language('晚上好')
       }
       return greetingStr
