@@ -438,6 +438,8 @@ export default {
   }
 }
 .iMeeting-div {
+  display: flex;
+  flex-direction: column;
   .iMeeting-day-item-div {
     margin-top: 5px;
     margin-bottom: 5px;
