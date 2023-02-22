@@ -376,12 +376,12 @@ export default {
       },
       falseTrueSelect: [
         {
-          value: false,
+          value: true,
           label: this.language('是'),
           id: '1'
         },
         {
-          value: true,
+          value: false,
           label: this.language('否'),
           id: '2'
         }
