@@ -90,7 +90,7 @@
         frameborder="0"
         width="100%"
         height="100%"
-        class="iframe margin-top20"
+        class="iframe margin-top5"
       ></iframe>
       <div v-else>-</div>
     </div>
@@ -249,6 +249,11 @@ export default {
     .value{
       display: inline-flex;
       align-items: center;
+      .count {
+        min-width: 60px;
+        text-align: center;
+        display: inline-block;
+      }
     }
   }
   ::v-deep .el-popover__reference-wrapper {
@@ -256,7 +261,7 @@ export default {
   }
 }
 .item-list {
-  max-height: 500px;
+  height: 450px;
   overflow: auto;
   padding-right: 20px;
   padding: 0;
