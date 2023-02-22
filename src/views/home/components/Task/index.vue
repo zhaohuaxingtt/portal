@@ -6,7 +6,7 @@
     <div class="task-container" v-else>
       <div v-for="item in dataListNow" :key="item.taskType + item.title" class="task-card">
       <div class="left task-type-name">
-        <div class="name single-ellipsis">{{ item.title }}</div>
+        <div class="name single-no-ellipsis">{{ item.title }}</div>
 <!--        <div class="abs single-ellipsis">{{ item.name }}</div>-->
 <!--        <div class="name single-ellipsis">{{ item.title }}</div>-->
 <!--        <div class="abs single-ellipsis">{{ item.name }}</div>-->
@@ -351,13 +351,17 @@ export default {
   white-space: normal;
   overflow: auto;
 }
+.single-no-ellipsis {
+  white-space: normal;
+  overflow: auto;
+}
 .task-container {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
   .task-card {
     border-radius: 10px;
-    height: 120px;
+    height: 130px;
     box-sizing: border-box;
     background: #f8f9fa;
     padding: 17px 20px;

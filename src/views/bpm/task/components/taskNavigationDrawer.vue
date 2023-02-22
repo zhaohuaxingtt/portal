@@ -103,29 +103,23 @@
               this.$nextTick(() => {
                 this.gotoDetailPage(this.todoTaskList[this.todoTaskList.length - 1])
               })
-              return true
             } else {
               this.$nextTick(() => {
                 this.gotoDetailPage(this.todoTaskList[curIndex - 1])
               })
-              return true
             }
           } else {
             if((curIndex + 1) >= this.todoTaskList.length) {
               this.$nextTick(() => {
                 this.gotoDetailPage(this.todoTaskList[0])
               })
-              return true
             } else {
               this.$nextTick(() => {
                 this.gotoDetailPage(this.todoTaskList[curIndex + 1])
               })
-              return true
             }
           }
-
-          this.$message.info(`已经是最后一条`)
-          return false
+          return true
         } else {
           this.$message.info(`已经是最后一条`)
           return false
@@ -144,6 +138,7 @@
             this.$nextTick(() => {
               this.gotoDetailPage(this.todoTaskList[curIndex])
             })
+	    return true
           } else {
             return this.handleLoopTask(instanceId, true)
           }
