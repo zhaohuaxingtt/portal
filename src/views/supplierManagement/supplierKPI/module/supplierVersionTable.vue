@@ -193,7 +193,7 @@ export default {
               lev1.id = lev1.id.toString()
               if (lev1.childVo.length > 0) {
                 lev1.childVo.unshift({
-                  id: 'val' + lev1.id,
+                  id: lev1.id,
                   weight: lev1.weight,
                   title: '总分',
                   childVo: [],
@@ -203,7 +203,7 @@ export default {
                   lev2.id = lev2.id.toString()
                   if (lev2.childVo.length > 0) {
                     lev2.childVo.unshift({
-                      id: 'val' + lev2.id,
+                      id: lev2.id,
                       weight: lev2.weight,
                       title: '总分',
                       childVo: [],
@@ -213,7 +213,7 @@ export default {
                       lev3.id = lev3.id.toString()
                       if (lev3.childVo.length > 0) {
                         lev3.childVo.unshift({
-                          id: 'val' + lev3.id,
+                          id: lev3.id,
                           weight: lev3.weight,
                           title: '总分',
                           childVo: [],
@@ -249,9 +249,10 @@ export default {
         this.tbodyData = res.data
         this.tbodyData.map((val) => {
           val.score.forEach((item) => {
-            val['val' + item.modelLibaryId] = item.score
+            val[item.modelLibaryId] = item.score
           })
         })
+        console.log( this.tbodyData)
         this.page.totalCount = res.total
       })
     },
