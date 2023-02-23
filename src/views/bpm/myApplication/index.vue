@@ -161,7 +161,7 @@ export default {
       let queryDataStr = ''
       const queryData = this.genQueryData()
       if(queryData) {
-        queryDataStr = encodeURIComponent(JSON.stringify(queryData))
+        queryDataStr = encodeURIComponent(JSON.stringify({ ...queryData, page: this.page }))
       }
       window.open(
         `/portal/#/bpm/myApply/detail/${item.instanceId}/${
