@@ -6,7 +6,7 @@
     <div class="task-container" v-else>
       <div v-for="item in dataListNow" :key="item.taskType + item.title" class="task-card">
       <div class="left task-type-name">
-        <div class="name single-no-ellipsis">{{ item.title }}</div>
+        <div class="name single-no-ellipsis">{{ item.name }}</div>
 <!--        <div class="abs single-ellipsis">{{ item.name }}</div>-->
 <!--        <div class="name single-ellipsis">{{ item.title }}</div>-->
 <!--        <div class="abs single-ellipsis">{{ item.name }}</div>-->

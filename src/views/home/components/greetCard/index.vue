@@ -14,7 +14,9 @@
         <div class="user-greet-info greetings-info">{{ greetingsInfo }}</div>
       </div>
       <div class="greeting-pics">
-        <img src="../../../../assets/images/greetings.png" />
+<!--        <img src="../../../../assets/images/greetings.png" />-->
+        <img :src="require('@/assets/images/home-digital-purchasing.svg')"/>
+        <img class="home-rise-icon" :src="require('@/assets/images/home-rise-icon.svg')"/>
       </div>
     </div>
   </el-card>
@@ -87,7 +89,7 @@ export default {
     border-radius: 20px;
   }
 .greet-card {
-  border-radius: 20px;
+  border-radius: 20px !important;
   .greet-card-div {
     display: flex;
     justify-content: space-between;
@@ -95,7 +97,7 @@ export default {
     padding-left: 50px;
     .greeting-copy {
       .user-greet-info {
-        margin-top: 20px;
+        margin-top: 50px;
         color: #003595;
         font-size: 20px;
         font-weight: bold;
@@ -103,12 +105,17 @@ export default {
         height: 30px;
       }
       .greetings-info {
-        margin-top: 20px;
+        margin-top: 5px;
         font-size: 16px;
         font-weight: normal;
       }
     }
     .greeting-pics {
+      display: flex;
+      align-items: center;
+      margin-right: 100px;
+    }
+    .home-rise-icon {
 
     }
   }
