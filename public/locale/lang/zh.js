@@ -7,6 +7,7 @@
 })(this, function (i18n) {
   'use strict'
   var oldLanguage = {
+    FENGXAINXINHAOTIAOZHENGFEN:'风险信号调整分',
     CSQCAIGOUYUAN:'CSQ采购员',
     QUERENRENKESHI:'确认人科室',
     delete: '删除',
