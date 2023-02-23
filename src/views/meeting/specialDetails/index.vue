@@ -654,14 +654,14 @@
               <el-table-column
                 show-overflow-tooltip
                 align="center"
-                label="Sourcing No."
+                label="RFQ No."
                 min-width="119"
                 prop="sourcingNo"
                 label-class-name="can-hideen"
               >
                 <template slot-scope="scope">
                   <span>{{
-                    scope.row.isBreak ? '-' : scope.row.sourcingNo
+                    scope.row.isBreak ? '-' : scope.row.rfqId
                   }}</span>
                 </template>
               </el-table-column>
