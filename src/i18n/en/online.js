@@ -3386,6 +3386,8 @@ export default {
   导出审批流程: 'Export Approval Process',
   重新分配任务审批人成功: 'Reassign approver successfully',
   审批备注与附件: 'Approval Remark and Attachments',
+  审批说明: 'Approval Desc.',
+  审批附件: 'Approval Attachments',
   'APPROVAL.TIME': 'APPROVAL.TIME',
   'APPROVAL.NODE_NAME': 'APPROVAL.NODE_NAME',
   'APPROVAL.OPRATION_USER': 'APPROVAL.OPRATION_USER',

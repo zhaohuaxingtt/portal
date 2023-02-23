@@ -2655,6 +2655,8 @@ export default {
   LK_YQ_QINGXUNAZENEIRONGFENLEI: '请选择内容分类',
   XIUGAISHIJIAN: '修改时间',
   审批备注与附件: '审批备注与附件',
+  审批说明: '审批说明',
+  审批附件: '审批附件',
   审批备注: '审批备注',
   附件: '附件',
   GAIGONGYINGSHANGYIZAISUOYOUKENENGDEGONGYIZUHEIMINGDANZHON:
