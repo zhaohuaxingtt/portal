@@ -6,7 +6,7 @@
           <div class='tab-title'>
             <i class="el-icon-arrow-left" @click="handleClickPre"></i>
           </div>
-          <div class="meeting-week-value">{{ startDate.format("YYYY") + '-CW' + this.startDate.week() }}</div>
+          <div class="meeting-week-value">{{ startDate.format("YYYY") + '-KW' + this.startDate.week() }}</div>
           <div class='tab-title'>
             <i class="el-icon-arrow-right" @click="handleClickNext"></i>
           </div>
