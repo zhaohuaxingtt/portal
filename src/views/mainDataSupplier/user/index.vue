@@ -113,16 +113,18 @@
           <iButton
             @click="handleDelete"
             :disabled="this.selectedItems.length == 0"
+            v-permission="ADMIN_MAIN_DATA_SUPPLIER_DATA_USER_EDIT"
           >
             {{ language('删除') }}
           </iButton>
           <iButton
             @click="handleEdit"
             :disabled="this.selectedItems.length !== 1"
+            v-permission="ADMIN_MAIN_DATA_SUPPLIER_DATA_USER_DEL"
           >
             {{ language('编辑') }}
           </iButton>
-          <button-download :download-method="handleExportExcel" />
+          <button-download :download-method="handleExportExcel" v-permission="ADMIN_MAIN_DATA_SUPPLIER_DATA_USER_DOWNLOAD" />
         </div>
         <div class="tableContent">
           <iTableCustom
