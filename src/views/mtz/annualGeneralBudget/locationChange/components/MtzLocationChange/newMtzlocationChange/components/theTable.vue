@@ -2,10 +2,10 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2022-05-13 11:11:09
- * @LastEditors: zhaohuaxing 5359314+zhaohuaxing@user.noreply.gitee.com
+ * @LastEditTime: 2023-02-23 11:37:55
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
- * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
+ * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\newMtzlocationChange\components\theTable.vue
 -->
 <template>
   <iCard>
@@ -26,7 +26,7 @@
                   :columns="TABLE_COLUMNS"
                   :loading="tableLoading"
                   index
-                  @go-detail="goDetail"
+                  :extraData="{ locale: $i18n.locale, language: (key) => $t(key) }"
                   @handle-selection-change="handleSelectionChange">
     </iTableCustom>
     <iPagination @size-change="handleSizeChange($event, getTableList)"
@@ -41,12 +41,12 @@
 </template>
 
 <script>
-import { iCard, iButton, iPagination, icon, iMessage } from 'rise'
+import { iCard, iButton, iPagination, icon, iMessage, iTableCustom } from 'rise'
 
 import { mtzBasePricePageList, addGenericAppChange, saveGenericAppChange } from '@/api/mtz/annualGeneralBudget/mtzChange.js'
 import { pageMixins } from "@/utils/pageMixins"
 import { TABLE_COLUMNS } from "./data"
-import iTableCustom from '@/components/iTableCustom'
+// import iTableCustom from '@/components/iTableCustom'
 export default {
   name: "Search",
   componentName: "theTable",
