@@ -206,7 +206,9 @@ export default {
   methods: {
     //打开详情页
     handleTableClick(item) {
-      this.goDetail(item, 1, this.genQueryData())
+      const queryData = this.genQueryData()
+      // 增加带上当前的pge
+      this.goDetail(item, 1, { ...queryData, page: this.page })
     },
     // 查询
     search(val, templates) {
