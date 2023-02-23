@@ -338,7 +338,7 @@ export default {
   margin-bottom: 20px;
   &.deep-blue-header {
     .el-card__header {
-      background-color: rgb(29, 51, 88);
+      background-color: rgb(45, 84, 132);
       .title {
         color: rgb(255, 255, 255);
       }
