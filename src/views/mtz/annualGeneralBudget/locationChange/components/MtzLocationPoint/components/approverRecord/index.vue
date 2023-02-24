@@ -100,7 +100,7 @@ export default {
         } else {
           this.applyNumber = res.data.ttNominateAppId;
         }
-        if (res.data.appStatus == "草稿" || res.data.appStatus == "未通过") {
+        if ((res.data.appStatus == '草稿' || res.data.appStatus == '未通过')||(((res.data.flowType=='SIGN'||res.data.flowType=='FILING')&&res.data.appStatus=='已提交')||(res.data.appStatus!='冻结'&&res.data.flowType=="MEETING"))) {
           this.showType = true;
         } else {
           this.showType = false;
