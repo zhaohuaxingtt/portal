@@ -41,23 +41,46 @@ export default {
   methods: {
     tabChange(path) {
       console.log('this.searchFrom', this.searchForm)
+      console.log("this.$route.query...." + this.$route.query);
       // CRW-8311
       // 【CF】审批人界面从[已审批]切换到[待审批]查不到待审批单据
       const query = {}
-      if (this.taskType === 0) {
+      if (this.taskType === 0) {//待审批
+        delete this.$route.query.doneQueryStr
         query.todoQueryStr = encodeURIComponent(JSON.stringify(this.searchForm))
-        if (this.$route.query.doneQueryStr) {
-          query.doneQueryStr = this.$route.query.doneQueryStr
+        // if (this.$route.query.doneQueryStr) {
+        //   query.doneQueryStr = this.$route.query.doneQueryStr
+        // }
+        if (this.searchForm.categoryList) {
+          let modelTemplate = ''
+          const { categoryList } = this.searchForm
+          if (categoryList) {
+            if (_.isArray(categoryList)) {
+              modelTemplate = JSON.stringify(categoryList)
+            } else {
+              modelTemplate = JSON.stringify([categoryList])
+            }
+          }
+          query.modelTemplate = [modelTemplate]
         }
-      }
-      if (this.taskType === 1) {
+        console.log(query);
+      } else if (this.taskType === 1) {//已审批
         try {
-          const queryForm = JSON.parse(
-            decodeURIComponent(this.$route.query.todoQueryStr)
-          )
-          if (queryForm.categoryList) {
+          let queryForm = {}
+           try {
+             queryForm = JSON.parse(
+               decodeURIComponent(this.$route.query.todoQueryStr)
+             )
+           } catch (error) {
+             console.log(error)
+           }
+          this.searchForm.reApprove = queryForm.reApprove
+          delete this.$route.query.todoQueryStr
+          console.log(queryForm)
+          query.doneQueryStr = encodeURIComponent(JSON.stringify(this.searchForm))
+          if (this.searchForm.categoryList) {
             let modelTemplate = ''
-            const { categoryList } = queryForm
+            const { categoryList } = this.searchForm
             if (categoryList) {
               if (_.isArray(categoryList)) {
                 modelTemplate = JSON.stringify(categoryList)
@@ -70,12 +93,14 @@ export default {
         } catch (error) {
           console.log(error)
         }
-
-        query.doneQueryStr = encodeURIComponent(JSON.stringify(this.searchForm))
-        if (this.$route.query.todoQueryStr) {
-          query.todoQueryStr = this.$route.query.todoQueryStr
-        }
+        // delete this.$route.query.todoQueryStr
+        // query.doneQueryStr = encodeURIComponent(JSON.stringify(this.searchForm))
+        // if (this.$route.query.todoQueryStr) {
+        //   query.todoQueryStr = this.$route.query.todoQueryStr
+        // }
+        console.log(query)
       }
+      // return;
       this.$router.push({
         path,
         query

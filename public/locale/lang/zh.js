@@ -1748,12 +1748,18 @@
       MY_APPROVAL: '我的审批',
       OVERDUE: '逾期待办',
       IN_PROGRESS: '今日待办',
+      OVERDUE_TEXT: '逾期',
+      IN_PROGRESS_TEXT: '待办',
       HOME_MODULE_SPONSER: '供应商财务风险评级',
       HOME_MODULE_SCHEDULE: 'Schedule',
       HOME_MODULE_APPROVE: 'iAgree',
+      HOME_MODULE_I_TASK: 'iTask',
+      HOME_MODULE_I_MEETING: 'iMeeting',
+      HOME_MODULE_I_FACT: 'iFact',
       HOME_MODULE_VOLUME: 'Volume Pricing',
       HOME_MODULE_NEWS: 'News',
-      HOME_MODULE_PROVIDER_RATE: '配附件供货率'
+      HOME_MODULE_PROVIDER_RATE: '配附件供货率',
+      NO_TASK_DATA: '暂无任务'
     },
     //谈判助手
     TPZS: {
@@ -1765,6 +1771,19 @@
       BANJIAJIAN: '(半价/件)', //（半价/件）
       CHANLIANG: '产量'
     },
+    MONDAY_TEXT: '星期一',
+    TUESDAY_TEXT: '星期二',
+    WEDNESDAY_TEXT: '星期三',
+    THURSDAY_TEXT: '星期四',
+    FRIDAY_TEXT: '星期五',
+    SATURDAY_TEXT: '星期六',
+    SUNDAY_TEXT: '星期日',
+    APPROVAL_TODO_LIST: '审批清单',
+    APPROVAL_INSTRUCTIONS: '审批说明',
+    APPROVAL_ATTACHMENTS: '审批附件',
+    APPROVAL_DETAILS: '审批详情',
+    APPROVAL_FLOW: '审批流',
+    APPROVAL_RECORDS: '审批记录',
     // 以下ekl中文
     LK_WDYJ: '我的业绩',
     LK_YJJC: '业绩基础',
@@ -2782,7 +2801,7 @@
 
 
 
-    
+
 
     APPROVAL: {
       ADD: '新增',
@@ -2890,7 +2909,9 @@
       APPROVAL_FAILED: '审批失败',
       APPROVAL_AGENT_MEETING: '会议审批代理',
       NEW: '新建',
-      NODE_REQUIRED: '补充材料节点必选'
+      NODE_REQUIRED: '补充材料节点必选',
+      NO_APPROVAL_TODO: '暂无待审批数据',
+      NO_MY_APPLICATION: '暂无我的申请数据'
     },
     ROLE: {
       ROLE_NAME: '角色名称',

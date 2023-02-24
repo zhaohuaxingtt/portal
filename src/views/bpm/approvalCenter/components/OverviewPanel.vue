@@ -55,7 +55,8 @@ $color-blue-1: #001847;
 $color-blue-2: #3a5280;
 $color-blue-3: #2d539b;
 .approval-overview-panel {
-  width: 320px;
+  //width: 320px;
+  width: calc((100% - 70px - 35px*6)/6);
   height: 180px;
   position: relative;
   background: #fff;
@@ -70,7 +71,7 @@ $color-blue-3: #2d539b;
     position: relative;
     min-height: 62px;
     .name {
-      font-size: 16px;
+      font-size: 14px;
       color: $color-blue-1;
       font-weight: bold;
       margin: 20px 0 0 20px;

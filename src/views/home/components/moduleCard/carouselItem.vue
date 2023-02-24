@@ -214,11 +214,12 @@ export default {
     z-index: 999;
   }
   .el-card__header {
-    height: 50px;
+    height: 65px;
     border-bottom: none;
   }
   .el-card__body {
-    height: 570px;
+    //height: 500px;
+    height: calc(100vh - 420px);
   }
   .card-dropdown {
     margin: 0 !important;
@@ -235,6 +236,9 @@ export default {
   .module-content {
     height: 100%;
     overflow: auto;
+  }
+  .module-content::-webkit-scrollbar {
+    width: calc(1.25rem / 2);
   }
 }
 </style>
