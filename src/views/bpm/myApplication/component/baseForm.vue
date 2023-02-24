@@ -7,8 +7,8 @@
   >
     <el-form label-position="left" label-width="100px">
       <el-row :gutter="20">
-        <el-col :span="12">
-          <iFormItem :label="language('审批备注')">
+        <el-col id="APPROVAL_INSTRUCTIONS" :span="12">
+          <iFormItem :label="language('审批说明')">
             <div class="text-area">
               {{ form.remark }}
             </div>
@@ -19,8 +19,8 @@
             </div>
           </iFormItem>
         </el-col>
-        <el-col :span="12">
-          <iFormItem :label="language('附件')">
+        <el-col id="APPROVAL_ATTACHMENTS" :span="12">
+          <iFormItem :label="language('审批附件')">
             <div class="attach-area">
               <attachmentList :data="form.procAttachments || []" icon />
             </div>

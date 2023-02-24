@@ -2,16 +2,23 @@
   <iPage class="template">
     <pageHeader>
       {{ language('我的申请') }}
-      <template slot="actions">
+<!--      <template slot="actions">-->
+<!--        <headerActions-->
+<!--          :todo-total="todoTotal"-->
+<!--          :finished="finished"-->
+<!--          @toggle="toggleFinished"-->
+<!--        />-->
+<!--      </template>-->
+    </pageHeader>
+    <searchForm :is-finished="finished" :isSourceFindingPoint="true" @search="search" />
+    <iCard>
+      <div class="header-actions-div">
         <headerActions
           :todo-total="todoTotal"
           :finished="finished"
           @toggle="toggleFinished"
         />
-      </template>
-    </pageHeader>
-    <searchForm :finished="finished" @search="search" />
-    <iCard>
+      </div>
       <!-- <div class="operation-btn">
         <iButton
           v-show="!finished && recallButtonVisible"
@@ -137,7 +144,7 @@ export default {
     toggleFinished(isFinished) {
       this.finished = isFinished
       this.page.currPage = 1
-      this.form = { ...dataSearchForm }
+      this.form = { ...this.form, finished: this.finished }
       if (isFinished) {
         this.tableTitle = tableTitle.filter((e) => e.type !== 'selection')
       } else {
@@ -151,10 +158,15 @@ export default {
     },
     //打开详情页
     openPage(item) {
+      let queryDataStr = ''
+      const queryData = this.genQueryData()
+      if(queryData) {
+        queryDataStr = encodeURIComponent(JSON.stringify({ ...queryData, page: this.page }))
+      }
       window.open(
         `/portal/#/bpm/myApply/detail/${item.instanceId}/${
           this.finished ? 'yes' : 'no'
-        }`
+        }/${queryDataStr}`
       )
       // this.showDialog = true
     },
@@ -165,15 +177,7 @@ export default {
       this.page.currPage = 1
       this.getTableList()
     },
-    getTableList() {
-      const params = {
-        pageNum: this.page.currPage,
-        pageSize: this.page.pageSize
-      }
-      // 接口需要收数组
-      if (typeof this.form.categoryList === 'string') {
-        this.form.categoryList = [this.form.categoryList]
-      }
+    genQueryData: function() {
       const data = {
         applyUserId: this.$store.state.permission.userInfo.id,
         isFinished: this.finished,
@@ -194,6 +198,18 @@ export default {
       } else {
         data['procProgress'] = '0'
       }
+      return data
+    },
+    getTableList() {
+      const params = {
+        pageNum: this.page.currPage,
+        pageSize: this.page.pageSize
+      }
+      // 接口需要收数组
+      if (typeof this.form.categoryList === 'string') {
+        this.form.categoryList = [this.form.categoryList]
+      }
+      const data = this.genQueryData()
       this.tableLoading = true
 
       queryApplications(params, data)
@@ -272,6 +288,14 @@ export default {
   }
   .divider {
     margin: 0px 30px;
+  }
+}
+.header-actions-div {
+  height: 50px;
+  line-height: 50px;
+  margin-left: -50px;
+  ::v-deep .tab-badge {
+    justify-content: start;
   }
 }
 </style>
