@@ -120,13 +120,14 @@ export function getFirstRuleByNos(data) {
 }
 
 export function modifyAppFormInfo(parmars) {
-  //mtz申请单信息-编辑
-  return request({
-    url: '/mtzAppNomi/modifyAppFormInfo/'+parmars,
+//mtz申请单信息-编辑
+    return request({
+    url: '/mtzAppNomi/modifyAppFormInfo',
     method: 'POST',
-  })
-}
-
+    data: parmars
+    })
+  }
+  
 export function pageAppRule(parmars) {
   //维护MTZ原材料规则-分页查询
   return request({
