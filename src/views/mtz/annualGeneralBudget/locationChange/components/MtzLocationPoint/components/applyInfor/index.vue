@@ -382,7 +382,7 @@ $tabsInforHeight: 35px;
 .centerBox {
   margin: 20px 0;
   p{
-    font-size: 18px;
+    font-size: 16px;
   }
 }
 
