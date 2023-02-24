@@ -22,9 +22,13 @@
 <!--        </el-col>-->
         <el-col :span="24">
           <taskPanelCategory
-            :subTypeName="curTypeName"
+            ref="taskPanelCategory"
+            :curTypeName="curTypeName"
+            :subTypeName="curSubTypeName"
             @toggle-active="toggleActive"
             @item-type-list-change="onItemTypeListChange"
+            @toggle-active-click="onToggleActiveClick"
+            @item-type-list-Click="onItemTypeListClick"
             :active-index="curActiveIndex"
             :isFinished="isFinished"
             :myApplication="true"
@@ -166,7 +170,8 @@ export default {
       templates: [],
       date: '',
       dOptions: BPM_APPROVAL_TYPE_OPTIONS,
-      curTypeName: null,
+      curSubTypeName: null, // 对应的url里面的modelTemplate, 用来过滤出activeData
+      curTypeName: null, // 这个用来记录对应selectSubTypeName，目前还没有其他用处
       curActiveIndex: -1,
       multipleCategoryList: true // 任务名称是否可多选
     }
@@ -188,7 +193,7 @@ export default {
         this.form.categoryList = categoryList
       }
       if(categoryList?.length > 0) {
-        this.curTypeName = categoryList[0]
+        this.curSubTypeName = categoryList[0]
       }
     }
     this.queryModelTemplate()
@@ -204,9 +209,55 @@ export default {
     }
   },
   methods: {
-    onItemTypeListChange(newValue) {
-      this.updateCurTypeName(newValue)
+    onToggleActiveClick(index, items) {
+      this.curActiveIndex = index
+      if(index !== -1 && items && items[index] && items[index].categoryList?.length > 0) {
+        this.form.categoryList = items[index].categoryList
+      } else {
+        if(index === -1) {
+          let categoryList = []
+          if(items) {
+            items.forEach(categoryItem => {
+              if(categoryItem.categoryList && categoryItem.categoryList.length > 0) {
+                categoryList = categoryList.concat(categoryItem.categoryList)
+              }
+            })
+          }
+          this.form.categoryList = categoryList
+        } else {
+          this.form.categoryList = ''
+        }
+      }
       this.search()
+    },
+    onItemTypeListClick(newValue) {
+      const newItem = this.dOptions.find(item => {
+        return newValue == item.value
+      })
+      let activeData = []
+      if(newItem) {
+        this.curTypeName = newItem.typeName
+        this.curActiveIndex = -1
+        activeData = this.$refs.taskPanelCategory.updateActiveDataByTypeName(newItem.typeName)
+      } else {
+        this.curTypeName = null
+        this.curActiveIndex = -1
+        activeData = this.$refs.taskPanelCategory.updateActiveDataByTypeName(newItem.typeName)
+      }
+      let categoryList = []
+      activeData.forEach(categoryItem => {
+        if(categoryItem.categoryList && categoryItem.categoryList.length > 0) {
+          categoryList = categoryList.concat(categoryItem.categoryList)
+        }
+      })
+      this.form.categoryList = categoryList
+      this.search()
+    },
+    onItemTypeListChange(newValue, update = true) {
+      this.updateCurTypeName(newValue, update)
+      if(update) {
+        this.search()
+      }
     },
     updateCurTypeName(newValue) {
       const newItem = this.dOptions.find(item => {
@@ -221,14 +272,28 @@ export default {
         this.curActiveIndex = -1
       }
     },
-    toggleActive(index, item) {
-      this.activeIndex = index
-      if(index !== -1 && item && item.categoryList?.length > 0) {
-        this.form.categoryList = item.categoryList
+    toggleActive(index, items, update = true) {
+      this.curActiveIndex = index
+      if(index !== -1 && items && items[index] && items[index].categoryList?.length > 0) {
+        this.form.categoryList = items[index].categoryList
       } else {
-        this.form.categoryList = ''
+        if(index === -1) {
+          let categoryList = []
+          if(items) {
+            items.forEach(categoryItem => {
+              if(categoryItem.categoryList && categoryItem.categoryList.length > 0) {
+                categoryList = categoryList.concat(categoryItem.categoryList)
+              }
+            })
+          }
+          this.form.categoryList = categoryList
+        } else {
+          this.form.categoryList = ''
+        }
       }
-      this.search()
+      if(update) {
+        this.search()
+      }
     },
     async queryModelTemplate() {
       const data = {
@@ -252,11 +317,12 @@ export default {
       this.search()
     },
     reset() {
-      this.updateCurTypeName(null)
+      // this.updateCurTypeName(null)
       this.date = ''
       this.form = { ...searchForm }
       // this.$emit('search', this.form, this.templates)
-      this.search()
+      // this.search()
+      this.$refs.taskPanelCategory.reset("-1")
     },
     search() {
       this.$emit('search', { ...this.form, itemTypeList: this.form.itemTypeList ? [this.form.itemTypeList] : []}, this.templates)

@@ -10,13 +10,13 @@
 <!--        />-->
 <!--      </div>-->
     </pageHeader>
-    <searchForm :isSourceFindingPoint="true" @search="search" />
+    <searchForm ref="searchForm" :isSourceFindingPoint="true" @search="search" />
     <iCard>
       <div class="cus-action-header">
         <actionHeader
           :todo-total="todoTotal"
           :task-type="0"
-          :search-form="form"
+          :search-form="queryData"
         />
       </div>
       <actionButtons
@@ -243,7 +243,9 @@ export default {
     },
     //打开详情页
     handleTableClick(item) {
-      this.goDetail(item, this.taskType, this.genQueryData())
+      const queryData = this.genQueryData()
+      // 增加带上当前的pge
+      this.goDetail(item, this.taskType, { ...queryData, page: this.page })
     },
     // 查询
     search(val, templates) {
@@ -272,9 +274,12 @@ export default {
         (searchData.categoryList.length === 1 &&
           searchData.categoryList[0] === '')
       ) {
-        searchData.categoryList = this.templates
+        const filteredCategoryList = this.templates
           .filter((e) => !BPM_SINGL_CATEGORY_LIST.includes(e.name))
           .map((e) => e.name)
+        if(filteredCategoryList.length > 1 || (filteredCategoryList.length === 1 && filteredCategoryList[0] !=='')) {
+          searchData.categoryList = filteredCategoryList
+        }
       }
       const data = {
         taskType: this.taskType,
@@ -359,7 +364,9 @@ export default {
           iMessage.success(this.language('审批成功'))
         }
         this.getTableList()
-
+        this.$nextTick(() => {
+          this.$refs.searchForm.getOverview(true)
+        })
         this.loading = false
       } else {
         this.dialogApprovalVisible = true
@@ -373,6 +380,9 @@ export default {
     approvelSuccess() {
       this.dialogApprovalVisible = false
       this.getTableList()
+      this.$nextTick(() => {
+        this.$refs.searchForm.getOverview(true)
+      })
     },
 
     //导出

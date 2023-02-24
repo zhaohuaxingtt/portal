@@ -205,9 +205,11 @@ export default {
     border-color: rgb(234, 240, 249);
   }
   ::v-deep .module-card .el-card__body {
+    min-height: 230px;
     height: 230px;
-    background-color: rgb(234, 240, 249);
-    border-color: rgb(234, 240, 249);
+    background-color: rgb(238, 244, 254);
+    border-color: rgb(238, 244, 254);
+    padding: 5px;
   }
 }
 .blue-header-div {

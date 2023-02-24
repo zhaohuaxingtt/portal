@@ -14,7 +14,7 @@
                 <span class="to-approval-span-info-label-title">
                   {{ item.label }}
                 </span>
-                <el-badge :value="todoCount" :hidden="!todoCount" :max="99" >
+                <el-badge class="round-badge" :value="todoCount" :hidden="!todoCount" :max="99" >
   <!--                <span></span>-->
                 </el-badge>
               </span>
@@ -79,6 +79,11 @@ export default {
     ::v-deep .el-badge {
       top: -10%;
     }
+    ::v-deep .el-badge.round-badge {
+      .el-badge__content {
+        border-radius: 50%;
+      }
+    }
     .to-approval-span-info-label-title {
        margin-right: -5px;
     }
@@ -103,8 +108,9 @@ export default {
       left: calc(16px * 1.5);
       min-width: 25px;
       height: 25px;
+      line-height: 25px;
       padding: 0;
-      font-size: 14px;
+      font-size: 12px;
       text-align: center;
     }
   }

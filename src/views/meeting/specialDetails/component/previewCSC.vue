@@ -10,23 +10,20 @@
     <div class="content">
       <div class="header">
         <div class="title">
-          <p>{{ meetingInfo.name || '' }}</p>
-          <p v-if="index>-1" >{{ 1 + index }}. {{ detail.topic || '' }}</p>
-        </div>
-        <div class="infos">
-          <p class="item">
+          <div class="item">
+            <span>{{ meetingInfo.name || '' }}</span>
             <span class="value">
               <img
                 @click="prev"
-                class="list-icon cursor"
-                :src="upAllow"
+                class="list-icon cursor left"
+                :src="allow"
                 alt="上箭头"
               />
               <span class="count"> {{ 1 + index }}/{{ themens.length }} </span>
               <img
                 @click="next"
-                class="list-icon cursor"
-                :src="downAllow"
+                class="list-icon cursor right"
+                :src="allow"
                 alt="下箭头"
               />
               <el-popover
@@ -48,43 +45,52 @@
                       'is-active': i == index
                     }"
                   >
-                  <div class="content">
-                    <p class="text margin-bottom5">
-                      <span>{{ 1 + i }}</span
-                      ><span
-                        >{{ item.presenterDept }} {{ item.presenterEn }}</span
-                      >
-                    </p>
-                    <p>{{ item.topic }}</p>
-                  </div>
+                    <div class="content">
+                      <p class="text margin-bottom5">
+                        <span>{{ 1 + i }}</span
+                        ><span
+                          >{{ item.presenterDept }} {{ item.presenterEn }}</span
+                        >
+                      </p>
+                      <p>{{ item.topic }}</p>
+                    </div>
                   </li>
                 </ul>
                 <img
-                  class="list-icon cursor"
+                  class="list-icon-menu cursor"
                   slot="reference"
                   :src="menu"
                   alt="数据列表"
                 />
               </el-popover>
             </span>
-          </p>
-          <p class="item">
-            <span class="value margin-right20">
-              <img :src="alarm" class="icon" alt="">{{ time | handleTransTime }}</span>
+          </div>
+          <div class="item" v-if="index > -1">
+            <span> {{ 1 + index }}. {{ detail.topic || '' }} </span>
             <span class="value">
-              <img :src="clock" class="icon" alt="">{{ newDate }}</span>
-          </p>
+              <img :src="alarm" class="icon" alt="" />
+              <span class="value margin-right20">
+                {{ time | handleTransTime }}</span
+              >
+              <img :src="clock" class="icon" alt="" />
+              <span class="value">{{ newDate }}</span>
+            </span>
+          </div>
         </div>
       </div>
-      <attch v-if="detail.type=='MANUAL'" :key="detail.id" :attachments="detail.attachments"/>
+      <attch
+        v-if="detail.type == 'MANUAL'"
+        :key="detail.id"
+        :attachments="detail.attachments"
+      />
       <iframe
-        v-else-if="detail.source=='04'"
+        v-else-if="detail.source == '04'"
         :key="detail.id"
         :src="src"
         frameborder="0"
         width="100%"
         height="100%"
-        class="iframe margin-top20"
+        class="iframe margin-top5"
       ></iframe>
       <div v-else>-</div>
     </div>
@@ -93,9 +99,8 @@
 
 <script>
 import { iPage, icon } from 'rise'
-import upAllow from '@/assets/images/icon/up.png'
-import downAllow from '@/assets/images/icon/down.png'
-import menu from '@/assets/images/icon/menu.png'
+import allow from '@/assets/images/icon/right.svg'
+import menu from '@/assets/images/icon/menu.svg'
 import alarm from '@/assets/images/icon/alarm.svg'
 import clock from '@/assets/images/icon/clock.svg'
 import attch from './attch.vue'
@@ -108,8 +113,7 @@ export default {
   },
   data() {
     return {
-      upAllow,
-      downAllow,
+      allow,
       menu,
       alarm,
       clock,
@@ -120,12 +124,10 @@ export default {
       detail: {},
       timer: null,
       timer2: null,
-      newDate:'',
-      
+      newDate: ''
     }
   },
   async created() {
-
     let query = this.$route.query
     this.meetingInfo = await findThemenById({ id: query.id })
     this.themens = this.meetingInfo?.themens
@@ -138,23 +140,23 @@ export default {
       this.time += 1000
     }, 1000)
   },
-  mounted(){
-    window.addEventListener('message',this.closePop, false)
+  mounted() {
+    window.addEventListener('message', this.closePop, false)
     this.getNewDate()
   },
   methods: {
-    getNewDate(){
+    getNewDate() {
       this.timer2 = setInterval(() => {
         let h = new Date().getHours()
         let m = new Date().getMinutes()
-        h = h < 10 ? '0'+h : h
-        m = m < 10 ? '0'+m : m
-        this.newDate = h+':'+m
+        h = h < 10 ? '0' + h : h
+        m = m < 10 ? '0' + m : m
+        this.newDate = h + ':' + m
       }, 1000)
     },
-    closePop(message){
-      console.log(message);
-      if(message.data && message.data.type=='click'){
+    closePop(message) {
+      console.log(message)
+      if (message.data && message.data.type == 'click') {
         this.$refs.page.click()
       }
     },
@@ -176,7 +178,7 @@ export default {
       this.index = index
       let local
       // = 'http://localhost:8080/sourcing/#'
-      if(item.source == '04'){
+      if (item.source == '04') {
         if (item.type === 'FS+MTZ') {
           this.src =
             (local || process.env.VUE_APP_POINT) +
@@ -192,7 +194,7 @@ export default {
   destroyed() {
     if (this.timer) clearInterval(this.timer)
     if (this.timer2) clearInterval(this.timer2)
-    window.removeEventListener('message',this.closePop)
+    window.removeEventListener('message', this.closePop)
   },
   filters: {
     handleTransTime(longTime) {
@@ -226,10 +228,6 @@ export default {
   flex-flow: column;
 }
 .header {
-  display: flex;
-  flex-flow: row;
-  justify-content: space-between;
-  flex: 0 0 auto;
   padding: 30px 80px 0;
 }
 .iframe {
@@ -239,51 +237,40 @@ export default {
 .title {
   font-size: 28px;
   font-weight: bold;
-}
-.infos {
-  font-size: 28px;
-  font-weight: bold;
-  display: flex;
-  flex-flow: column;
   .item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex: 1;
-    &:first-child {
-      border-bottom: 0;
+
+    .icon {
+      height: 24px;
+      margin-right: 5px;
     }
-    .value {
-      padding-left: 10px;
-      text-align: center;
+    .value{
+      display: inline-flex;
       align-items: center;
-      justify-content: flex-end;
-      display: flex;
-      flex: 1;
       .count {
-        min-width: 80px;
-      }
-      .menu{
-        writing-mode: vertical-lr;
-      }
-      .icon{
-        height: 30px;
-        margin-right: 5px;
+        min-width: 60px;
+        text-align: center;
+        display: inline-block;
       }
     }
   }
+  ::v-deep .el-popover__reference-wrapper {
+    font-size: 0;
+  }
 }
 .item-list {
-  max-height: 500px;
+  height: 450px;
   overflow: auto;
   padding-right: 20px;
   padding: 0;
   color: #4f4f4f;
   .list-item {
     padding: 0 18px;
-    .content{
+    .content {
       padding: 12px 0;
-      // border-bottom: 1px solid #efefef;
+      border-bottom: 1px solid #efefef;
     }
   }
   .text {
@@ -294,11 +281,11 @@ export default {
   .is-active {
     background: #364d6e;
     color: #fff;
-    .content{
+    .content {
       padding: 12px 0;
       border-bottom: 0px;
     }
-    &:hover{
+    &:hover {
       background: #364d6e;
       color: #fff;
       opacity: 1;
@@ -319,8 +306,18 @@ export default {
 }
 .list-icon {
   margin: 0 5px;
-  vertical-align: top;
-  width: 30px;
+  height: 32px;
+  &.right{
+    transform: rotateZ(90deg);
+  }
+  &.left{
+    transform: rotateZ(-90deg);
+  }
+}
+.list-icon-menu{
+  margin: 0 5px;
+  height: 32px;
+  vertical-align: bottom;
 }
 .is-disabled {
   cursor: not-allowed;

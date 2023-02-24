@@ -5,7 +5,7 @@
         <iCard>
           <div class="base-form">
             <div class="name">
-              {{ language('审批备注与附件') }}
+              {{ language('审批说明') }}
             </div>
             <div class="content">
               <div class="remark">
@@ -21,7 +21,7 @@
         <iCard>
           <div class="base-form">
           <div class="name">
-            {{ language('附件') }}
+            {{ language('审批附件') }}
           </div>
           <div class="content">
             <div class="attachments">

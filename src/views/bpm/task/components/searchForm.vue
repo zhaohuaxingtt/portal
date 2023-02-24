@@ -23,9 +23,11 @@
         <el-col :span="24">
           <taskPanelCategory
             ref="taskPanelCategory"
-            :subTypeName="curTypeName"
+            :curTypeName="curTypeName"
+            :subTypeName="curSubTypeName"
             @toggle-active="toggleActive"
             @item-type-list-change="onItemTypeListChange"
+            @toggle-active-click="onToggleActiveClick"
             @item-type-list-Click="onItemTypeListClick"
             :active-index="curActiveIndex"
             :isFinished="isFinished"
@@ -205,7 +207,8 @@ export default {
       nameOptions: [],
       loading: false,
       dOptions: BPM_APPROVAL_TYPE_OPTIONS,
-      curTypeName: null,
+      curSubTypeName: null, // 对应的url里面的modelTemplate, 用来过滤出activeData
+      curTypeName: null, // 这个用来记录对应selectSubTypeName，目前还没有其他用处
       curActiveIndex: -1,
       multipleCategoryList: true,
       bpmSinglCategoryList: BPM_SINGL_CATEGORY_LIST,
@@ -218,6 +221,9 @@ export default {
     this.refresh();
   },
   methods: {
+    getOverview(onlyUpdateActiveData = false) {
+      this.$refs.taskPanelCategory.getOverview(onlyUpdateActiveData)
+    },
     refresh() {
       console.log("this.isFinished...", this.isFinished, this.$route.query.modelTemplate)
       if (this.$route.query.modelTemplate) {
@@ -233,45 +239,14 @@ export default {
           // this.form.categoryList = JSON.parse(this.$route.query.modelTemplate)
           this.form.categoryList = moduleTemplate[0]
         }
-        this.curTypeName = moduleTemplate[0]
+        this.curSubTypeName = moduleTemplate[0]
         // console.log(this.form);
         // this.queryModelTemplate()
       }
       // CRW-8311
       // 【CF】审批人界面从[已审批]切换到[待审批]查不到待审批单据
       if (this.isFinished) {//已审批
-        console.log(this.$route.query)
-        if (this.$route.query.doneQueryStr) {
-          try {
-            const queryForm = JSON.parse(
-              decodeURIComponent(this.$route.query.doneQueryStr)
-            )
-            console.log(queryForm)
-            if (queryForm.startTime && queryForm.endTime) {
-              this.date = [
-                moment(queryForm.startTime).format('YYYY-MM-DD'),
-                moment(queryForm.endTime).format('YYYY-MM-DD')
-              ]
-            }
-            this.form = queryForm
-            if (this.form.applyUserId) {
-              this.queryUserOptions()
-            }
-            if (this.form.applyUserDeptId) {
-              this.queryDeptOptions()
-            }
-            this.form = {
-              ...queryForm,
-              itemTypeList: !queryForm.itemTypeList || queryForm.itemTypeList.length === 0 ? '-1' : queryForm.itemTypeList[0]
-            }
-          } catch (err) {
-            console.log(err)
-          }
-          console.log('this.form2...', this.form)
-          if (this.form.applyUserId) {
-            this.queryUserOptions()
-          }
-        } else if (this.$route.query.todoQueryStr) {
+        if (this.$route.query.todoQueryStr) {
           try {
             const queryForm = JSON.parse(
               decodeURIComponent(this.$route.query.todoQueryStr)
@@ -301,36 +276,42 @@ export default {
           } catch (err) {
             console.log(err)
           }
-        } else {//待审批
-          console.log(1111)
-          if (this.$route.query.todoQueryStr) {
-            try {
-              const queryForm = JSON.parse(
-                decodeURIComponent(this.$route.query.todoQueryStr)
-              )
-
-              console.log(queryForm);
-              if (queryForm.startTime && queryForm.endTime) {
-                this.date = [
-                  moment(queryForm.startTime).format('YYYY-MM-DD'),
-                  moment(queryForm.endTime).format('YYYY-MM-DD')
-                ]
-              }
-              this.form = queryForm
-              if (this.form.applyUserId) {
-                this.queryUserOptions()
-              }
-              if (this.form.applyUserDeptId) {
-                this.queryDeptOptions()
-              }
-            } catch (err) {
-              console.log(err)
+        }
+      } else {//待审批
+        console.log(this.$route.query)
+        if (this.$route.query.doneQueryStr) {
+          try {
+            const queryForm = JSON.parse(
+              decodeURIComponent(this.$route.query.doneQueryStr)
+            )
+            console.log(queryForm)
+            if (queryForm.startTime && queryForm.endTime) {
+              this.date = [
+                moment(queryForm.startTime).format('YYYY-MM-DD'),
+                moment(queryForm.endTime).format('YYYY-MM-DD')
+              ]
             }
-            if (this.form.itemTypeList != '-1') {
-              this.updateCurTypeName(this.form.itemTypeList)
+            this.form = queryForm
+            if (this.form.applyUserId) {
+              this.queryUserOptions()
             }
+            if (this.form.applyUserDeptId) {
+              this.queryDeptOptions()
+            }
+            if(queryForm.reApprove == "true") {
+              queryForm.reApprove = true
+            }
+            this.form = {
+              ...queryForm,
+              itemTypeList: !queryForm.itemTypeList || queryForm.itemTypeList.length === 0 ? '-1' : queryForm.itemTypeList[0]
+            }
+          } catch (err) {
+            console.log(err)
           }
-          this.queryModelTemplate()
+          console.log('this.form2...', this.form)
+          if (this.form.applyUserId) {
+            this.queryUserOptions()
+          }
         }
       }
     },
@@ -357,16 +338,48 @@ export default {
         this.search()
       }
     },
+    onToggleActiveClick(index, items) {
+      this.curActiveIndex = index
+      if(index !== -1 && items && items[index] && items[index].categoryList?.length > 0) {
+        this.form.categoryList = items[index].categoryList
+      } else {
+        if(index === -1) {
+          let categoryList = []
+          if(items) {
+            items.forEach(categoryItem => {
+              if(categoryItem.categoryList && categoryItem.categoryList.length > 0) {
+                categoryList = categoryList.concat(categoryItem.categoryList)
+              }
+            })
+          }
+          this.form.categoryList = categoryList
+        } else {
+          this.form.categoryList = ''
+        }
+      }
+      this.search()
+    },
     onItemTypeListClick(newValue) {
-      this.updateCurTypeName(newValue)
-      this.$nextTick(() => {
-        const newItem = this.dOptions.find(item => {
-          return newValue == item.value
-        })
-        if(newItem) {
-          this.$refs.taskPanelCategory.updateActiveDataByTypeName(newItem.typeName)
+      const newItem = this.dOptions.find(item => {
+        return newValue == item.value
+      })
+      let activeData = []
+      if(newItem) {
+        this.curTypeName = newItem.typeName
+        this.curActiveIndex = -1
+        activeData = this.$refs.taskPanelCategory.updateActiveDataByTypeName(newItem.typeName)
+      } else {
+        this.curTypeName = null
+        this.curActiveIndex = -1
+        activeData = this.$refs.taskPanelCategory.updateActiveDataByTypeName(newItem.typeName)
+      }
+      let categoryList = []
+      activeData.forEach(categoryItem => {
+        if(categoryItem.categoryList && categoryItem.categoryList.length > 0) {
+          categoryList = categoryList.concat(categoryItem.categoryList)
         }
       })
+      this.form.categoryList = categoryList
       this.search()
     },
     onItemTypeListChange(newValue, update = true) {
@@ -403,7 +416,7 @@ export default {
       this.$emit('search', { ...searchData, itemTypeList: searchData.itemTypeList ? [searchData.itemTypeList] : []}, this.templates)
     },
     reset() {
-      this.updateCurTypeName(null)
+      // this.updateCurTypeName(null)
       this.form = {
         businessId: '',
         applyUserId: '',
@@ -417,7 +430,8 @@ export default {
       }
       this.date = ''
       // this.$emit('search', { ...this.form, itemTypeList: searchData.itemTypeList ? [searchData.itemTypeList] : []}, this.templates)
-      this.search()
+      // this.search()
+      this.$refs.taskPanelCategory.reset("-1")
     },
     async queryModelTemplate(update = true) {
       console.log(this.form);

@@ -293,65 +293,7 @@ export default {
     return {
       importLoading: false,
       typeList: [],
-      statusList: [
-        {
-          id: '1004949',
-          name: '进行中',
-          nameEn: '1',
-          nameDe: null,
-          code: '1',
-          describe: '进行中',
-          remark: null,
-          orderNum: '1',
-          parentId: '1004947',
-          type: null,
-          level: '2',
-          createBy: '1',
-          createDate: '2023-02-07 14:06:06',
-          updateBy: '1',
-          state: 1,
-          updateDate: '2023-02-15 10:01:33',
-          subDictResultVo: null
-        },
-        {
-          id: '1004948',
-          name: '草稿',
-          nameEn: '0',
-          nameDe: null,
-          code: '0',
-          describe: '草稿',
-          remark: null,
-          orderNum: '1',
-          parentId: '1004947',
-          type: null,
-          level: '2',
-          createBy: '1',
-          createDate: '2023-02-07 14:05:40',
-          updateBy: null,
-          state: 1,
-          updateDate: null,
-          subDictResultVo: null
-        },
-        {
-          id: '1004950',
-          name: '已结束',
-          nameEn: '2',
-          nameDe: null,
-          code: '2',
-          describe: '已结束',
-          remark: null,
-          orderNum: '1',
-          parentId: '1004947',
-          type: null,
-          level: '2',
-          createBy: '1',
-          createDate: '2023-02-07 14:05:40',
-          updateBy: null,
-          state: 1,
-          updateDate: null,
-          subDictResultVo: null
-        }
-      ],
+      statusList: [],
       supplierDiolog: false,
       pickerOptions: pickerOptions,
       dataTime: [],
@@ -382,13 +324,13 @@ export default {
           }
         })
         .catch(() => {})
-      // getDictByCode('SUPPLIER_PERFORMANCE_MODEL_STATUS')
-      //   .then((res) => {
-      //     if (res.data) {
-      //       this.statusList = res?.data[0]?.subDictResultVo
-      //     }
-      //   })
-      //   .catch(() => { })
+      getDictByCode('SUPPLIER_PERFORMANCE_MODEL_STATUS')
+        .then((res) => {
+          if (res.data) {
+            this.statusList = res?.data[0]?.subDictResultVo
+          }
+        })
+        .catch(() => { })
     },
     openPreDetail(item) {
       let routeUrl = this.$router.resolve({
@@ -490,7 +432,7 @@ export default {
           })
           data.forEach((v, i) => {
             this.tableListData2.forEach((k, j) => {
-              if (v.supplierId == k.supplierId) {
+              if (v.sapCode == k.sapCode) {
                 this.tableListData2.splice(j, 1)
               }
             })
@@ -563,7 +505,7 @@ export default {
       })
       data.forEach((v, i) => {
         this.tableListData2.forEach((k, j) => {
-          if (v.supplierId == k.supplierId) {
+          if (v.sapCode == k.sapCode) {
             this.tableListData2.splice(j, 1)
           }
         })

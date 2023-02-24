@@ -1,15 +1,21 @@
 <template>
-  <div class="task-container">
-    <div v-for="item in moduleData" :key="item.taskType" class="task-card">
+  <div class="task-container-div" v-loading="taskLoading">
+    <div class="no-data-text" v-if="!taskLoading && (!dataListNow || dataListNow.length === 0)">
+      <span> {{ $t("HOME_CARD.NO_TASK_DATA") }}  </span>
+    </div>
+    <div class="task-container" v-else>
+      <div v-for="item in dataListNow" :key="item.taskType + item.title" class="task-card">
       <div class="left task-type-name">
-        <div class="name single-ellipsis">{{ item.taskTypeName }}</div>
-<!--        <div class="abs single-ellipsis">{{ item.taskName }}</div>-->
+        <div class="name single-no-ellipsis">{{ item.name }}</div>
+<!--        <div class="abs single-ellipsis">{{ item.name }}</div>-->
+<!--        <div class="name single-ellipsis">{{ item.title }}</div>-->
+<!--        <div class="abs single-ellipsis">{{ item.name }}</div>-->
       </div>
       <div class="right">
         <div class="overdue" @click="handleToOverdue(item)">
-          <div :class="{ 'exceed': getOverdueQty(item.taskType) }">
-            {{ getOverdueQty(item.taskType) | overNum }}
-            <span v-if="getOverdueQty(item.taskType) > 99">+</span>
+          <div :class="{ 'exceed': getOverdueQtyByItem(item) }">
+            {{ getOverdueQtyByItem(item) | overNum }}
+            <span v-if="getOverdueQtyByItem(item) > 99">+</span>
           </div>
           <div class="numName flex-align-center">
             <!-- <icon symbol class="icon" name="iconOverdue" /> -->
@@ -19,8 +25,8 @@
         <div class="line">/</div>
         <div class="progress" @click="handleToProgress(item)">
           <div>
-            {{ getTodayQty(item.taskType) | overNum }}
-            <span v-if="getTodayQty(item.taskType) > 99">+</span>
+            {{ getTodayQtyByItem(item) | overNum }}
+            <span v-if="getTodayQtyByItem(item) > 99">+</span>
           </div>
           <div class="numName flex-align-center">
             <!-- <icon symbol class="icon" name="icona-InProgress" /> -->
@@ -101,6 +107,7 @@
 <!--    </div>-->
 <!--  </div>-->
 <!--      </div>-->
+  </div>
 </template>
 
 <script>
@@ -144,53 +151,76 @@ export default {
       urls: {},
       dataList:[],
       dataListNow:[],
+      taskLoading: false
     }
   },
   watch: {
-    data(val) {
-      console.log('watch data', val)
-      this.initModuleData()
-    }
+    // data(val) {
+    //   console.log('watch data', val)
+    //   this.initModuleData()
+    // }
   },
   created() {
-    this.queryAllData()
-    this.initModuleData()
+    // this.queryAllData()
+    // this.initModuleData()
+    this.fetchTaskCenter()
   },
   mounted(){
-    this.$nextTick(()=>{
-      this.fetchTaskCenter();
-    })
+    // this.$nextTick(()=>{
+    //   this.fetchTaskCenter();
+    // })
   },
   methods: {
     fetchTaskCenter(){
+      this.taskLoading = true
+      const taskQty = {
+        overdueQty: 0,
+        todayQty: 0
+      }
       fetchTaskCenter({
         userId: this.userId,
         userTye: this.userType == 1 ? 2 : 1
       }).then(res=>{
         if(res){
           const keyList = Object.keys(res);
-          console.log(keyList)
-          keyList.forEach(e=>{
-            if(res[e]&&res[e].length>0){
-              res[e].forEach(item=>{
+          // console.log(keyList)
+          keyList.forEach(e => {
+            this.valueNumbers[e] = {
+              overdueQty: 0,
+              todayQty: 0
+            }
+            if(res[e] && res[e].length>0){
+              res[e].forEach(item => {
                 this.dataList.push({
-                  title:item.taskTypeName,
-                  name:item.taskName,
-                  overdueQty:item.overdueQty,
-                  todayQty:item.todayQty,
-                  taskType:item.taskType,
-                  overdueLink:item.overdueLink,
-                  todayLink:item.todayLink,
+                  title: item.taskTypeName,
+                  name: item.taskName,
+                  overdueQty: item.overdueQty,
+                  todayQty: item.todayQty,
+                  taskType: item.taskType,
+                  overdueLink: item.overdueLink,
+                  todayLink: item.todayLink,
                 })
+                taskQty.overdueQty += item.overdueQty || 0
+                taskQty.todayQty += item.todayQty || 0
+                // this.valueNumbers[e].overdueQty += item.overdueQty || 0
+                // this.valueNumbers[e].todayQty += item.todayQty || 0
               })
             }
           })
 
-          console.log(this.dataList)
-          const list = this.dataList.filter(e=>!(e.overdueQty==0&&e.todayQty==0))
-          console.log(list)
-          this.dataListNow = list;
+          // console.log(this.dataList)
+          const list = this.dataList.filter(e=>!(e.overdueQty==0 && e.todayQty==0)).sort((a, b) => {
+            return b.overdueQty - a.overdueQty
+          })
+          // console.log(list)
+          this.dataListNow = list
         }
+        // this.initModuleData()
+      }).catch(error => {
+        console.log("error", error)
+      }).finally(() => {
+        this.$emit("taskQty", taskQty)
+        this.taskLoading = false
       })
     },
     handleTaskCenter() {
@@ -250,12 +280,15 @@ export default {
       }
     },
     initModuleData() {
-      const data = JSON.parse(this.data.moduleData)
+      // const data = JSON.parse(this.data.moduleData)
       // console.log('initModuleData watch data +++...', data, this.data.moduleData)
       // if (data.length <= 5) {
-        this.moduleData = data
+      // this.moduleData = data
       // }
       // this.moduleData = data.slice(0, 5)
+    },
+    getOverdueQtyByItem(item) {
+      return item.overdueQty || 0
     },
     getOverdueQty(taskType) {
       if (this.valueNumbers[taskType]) {
@@ -268,6 +301,9 @@ export default {
       // }else{
       //   return taskType
       // }
+    },
+    getTodayQtyByItem(item) {
+      return item.todayQty || 0
     },
     getTodayQty(taskType) {
       if (this.valueNumbers[taskType]) {
@@ -290,7 +326,25 @@ export default {
   height:100%;
   overflow-y: auto;
 }
-
+.numName {
+  > div {
+    color: rgb(129, 129, 129);
+  }
+}
+.task-container-div {
+  height: 100%;
+  .no-data-text {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    span {
+      height: 30px;
+      line-height: 30px;
+    }
+  }
+}
 .single-ellipsis {
   word-wrap: break-word;
   white-space: nowrap;
@@ -302,11 +356,14 @@ export default {
   white-space: normal;
   overflow: auto;
 }
+.single-no-ellipsis {
+  white-space: normal;
+  overflow: auto;
+}
 .task-container {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-
   .task-card {
     border-radius: 10px;
     height: 120px;
@@ -319,7 +376,7 @@ export default {
     flex-direction: column;
     //justify-content: space-between;
     //align-items: center;
-    flex-wrap: wrap;
+    //flex-wrap: wrap;
     width: calc(50% - 5px);
 
     > .left {
@@ -333,6 +390,7 @@ export default {
         margin-bottom: 5px;
         text-align: center;
         width: 100%;
+        color: rgb(0, 0, 0);
       }
 
       > .abs {

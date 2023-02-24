@@ -9,10 +9,11 @@
       <iCard class="todo-task-list-info-card" v-loading="loading">
         <div class="todo-task-list-info-div">
           <div class="todo-task-list-title">{{ $t('APPROVAL_TODO_LIST') }}</div>
-          <div class="todo-task-list-info-list" v-infinite-scroll="handleLoadMore" infinite-scroll-distance="20">
+          <div class="todo-task-list-info-list" v-infinite-scroll="handleLoadMore" :infinite-scroll-distance="20" :infinite-scroll-disabled="disabled">
             <div class="todo-task-list-info" v-for="(item, index) in todoTaskList">
               <div class="todo-task-list-info-title" @click="gotoDetailPage(item)">
-                {{ item.itemName + '-' + (isFinished ? item.itemContent : item.itemEvent) }}
+<!--                {{ item.itemName + '-' + (isFinished ? item.itemContent : item.itemEvent) }}-->
+                {{ item.itemName + '-' + item.itemEvent }}
               </div>
               <div class="todo-task-list-info-content">
                 <span>{{ item.businessId }}</span>
@@ -64,6 +65,7 @@
     beforeDestroy() {
     },
     created() {
+      this.initQueryDataAndParams()
       this.getTodoTaskList()
     },
     data() {
@@ -76,12 +78,22 @@
           pageSize: 20,
           total: 0,
         },
+        queryData: null,
+        reverseMode: false,
         noMore: false,
         QUERY_DRAWER_TYPES
       }
     },
     methods: {
       handleFinishCurrentTask(instanceId) {
+        if(this.todoTaskList?.length >= 2) {
+          return this.gotoNextTask(instanceId)
+        } else {
+          this.$message.info(`已经是最后一条`)
+          return false
+        }
+      },
+      handleLoopTask(instanceId, goPreTask) {
         if(this.todoTaskList?.length >= 2) {
           let curIndex = -1
           this.todoTaskList.find((item,index) => {
@@ -90,21 +102,28 @@
             }
           })
           // 找到当前finish了的Index
-          if((curIndex+1) < this.todoTaskList.length) {
-            this.$nextTick(() => {
-              this.gotoDetailPage(this.todoTaskList[curIndex + 1])
-            })
-            return true
-          } else if((curIndex - 1) >= 0){
-            this.$nextTick(() => {
-              this.gotoDetailPage(this.todoTaskList[curIndex - 1])
-            })
-            return true
+          if(goPreTask) {
+            if((curIndex - 1) < 0 ) {
+              this.$nextTick(() => {
+                this.gotoDetailPage(this.todoTaskList[this.todoTaskList.length - 1])
+              })
+            } else {
+              this.$nextTick(() => {
+                this.gotoDetailPage(this.todoTaskList[curIndex - 1])
+              })
+            }
           } else {
-            this.$message.info(`已经是最后一条`)
-            this.$emit("showMoreTaskNeedClose")
-            return false
+            if((curIndex + 1) >= this.todoTaskList.length) {
+              this.$nextTick(() => {
+                this.gotoDetailPage(this.todoTaskList[0])
+              })
+            } else {
+              this.$nextTick(() => {
+                this.gotoDetailPage(this.todoTaskList[curIndex + 1])
+              })
+            }
           }
+          return true
         } else {
           this.$message.info(`已经是最后一条`)
           return false
@@ -123,10 +142,13 @@
             this.$nextTick(() => {
               this.gotoDetailPage(this.todoTaskList[curIndex])
             })
+            return true
           } else {
-            this.$message.info(`已经是最后一条`)
-            this.$emit("showMoreTaskNeedClose")
+            return this.handleLoopTask(instanceId, true)
           }
+        } else {
+          this.$message.info(`已经是最后一条`)
+          return false
         }
       },
       gotoNextTask(instanceId) {
@@ -142,10 +164,13 @@
             this.$nextTick(() => {
               this.gotoDetailPage(this.todoTaskList[curIndex])
             })
+            return true
           } else {
-            this.$message.info(`已经是最后一条`)
-            this.$emit("showMoreTaskNeedClose")
+            return this.handleLoopTask(instanceId, false)
           }
+        } else {
+          this.$message.info(`已经是最后一条`)
+          return false
         }
       },
       getQueryTodoListFunc() {
@@ -157,6 +182,25 @@
           return queryApplications
         }
       },
+      initQueryDataAndParams() {
+        let page = null
+        let queryData = null
+        if(this.$route.params.queryData) {
+          queryData = JSON.parse(decodeURIComponent(this.$route.params.queryData))
+          page = queryData.page
+          if(queryData.page) {
+            delete queryData.page
+          }
+        }
+        if(page) {
+          this.pageInfo.pageNum = page.currPage
+          this.pageInfo.pageSize = page.pageSize
+          this.pageInfo.total = page.totalCount
+        }
+        if(queryData) {
+          this.queryData = queryData
+        }
+      },
       genQueryListParams() {
         const params = {
           pageNum: this.pageInfo.pageNum,
@@ -165,8 +209,8 @@
         return params
       },
       genQueryListData() {
-        if(this.$route.params.queryData) {
-          return JSON.parse(decodeURIComponent(this.$route.params.queryData))
+        if(this.queryData) {
+          return this.queryData
         }
         if(this.queryType === QUERY_DRAWER_TYPES.APPLY_TODO) {
           return {
@@ -182,14 +226,30 @@
           }
         }
       },
+      getPageInfoByInstanceId(instanceId) {
+        let curIndex = -1
+        this.todoTaskList.find((item, index) => {
+          if(item.instanceId === instanceId) {
+            curIndex = index
+          }
+        })
+        curIndex += 1
+        return {
+          currPage: this.reverseMode ? this.pageInfo.pageNum + Math.floor(curIndex/this.pageInfo.pageSize) : Math.floor(curIndex/this.pageInfo.pageSize),
+          pageSize: this.pageInfo.pageSize,
+          totalCount: this.pageInfo.total
+        }
+      },
       //打开详情页
       gotoDetailPage(item) {
         this.$emit("showMoreTaskNeedClose")
         this.$nextTick(() => {
           let queryDataStr = ''
-          if(this.$route.params.queryData) {
-            queryDataStr = decodeURIComponent(this.$route.params.queryData)
+          let queryDataObj = { page: this.getPageInfoByInstanceId(item.instanceId) }
+          if(this.queryData) {
+            queryDataObj = { ...queryDataObj, ...this.queryData }
           }
+          queryDataStr = encodeURIComponent(JSON.stringify(queryDataObj))
           if(this.queryType === QUERY_DRAWER_TYPES.APPLY_TODO || this.queryType === QUERY_DRAWER_TYPES.APPLY_FINISH) {
             if (this.isFinished) {
               window.location.href = `/portal/#/bpm/finishList/detail/${item.instanceId}/${item.taskId}/${this.isFinished ? 'yes' : 'no'}/${queryDataStr}`
@@ -198,16 +258,23 @@
             }
           } else {
             // http://localhost:8080/portal/#/bpm/myApply/detail/2423548/no
-            window.location.href = `/portal/#/bpm/myApply/detail/${item.instanceId}/${this.isFinished ? 'yes' : 'no'}/queryData=${queryDataStr}`
+            window.location.href = `/portal/#/bpm/myApply/detail/${item.instanceId}/${this.isFinished ? 'yes' : 'no'}/${queryDataStr}`
           }
           // this.showDialog = true
         })
+      },
+      getTotalPageNum() {
+        return Math.ceil(this.pageInfo.total/this.pageInfo.pageSize)
       },
       handleLoadMore() {
         if(this.noMore) {
           return
         }
-        this.pageInfo.pageNum += 1
+        if(this.reverseMode) {
+          this.pageInfo.pageNum = (this.getTotalPageNum() - Math.ceil(this.todoTaskList.length/this.pageInfo.pageSize))
+        } else {
+          this.pageInfo.pageNum += 1
+        }
         this.getTodoTaskList()
       },
       getTodoTaskList() {
@@ -220,12 +287,18 @@
           this.pageInfo.pageSize = size
           this.pageInfo.total = total
           if(this.todoTaskList?.length >= 0) {
-            this.todoTaskList = this.todoTaskList.concat(records)
+            if(this.reverseMode) {
+              this.todoTaskList = records.concat(this.todoTaskList)
+            } else {
+              this.todoTaskList = this.todoTaskList.concat(records)
+            }
           } else {
             this.todoTaskList = records
           }
           if(this.todoTaskList.length >= total) {
             this.noMore = true
+          } else if(this.pageInfo.pageNum >= this.getTotalPageNum()) {
+            this.reverseMode = true
           }
           if(!this.isFinished) {
             this.$emit("totalTaskNum", total)

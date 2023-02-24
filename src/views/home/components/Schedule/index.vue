@@ -363,6 +363,7 @@ export default {
 .schedule-container {
   text-align: center;
   position: relative;
+  height: 100%;
   .calendar {
     margin-top: -17px;
     padding-bottom: 12px;
@@ -437,6 +438,8 @@ export default {
   }
 }
 .iMeeting-div {
+  display: flex;
+  flex-direction: column;
   .iMeeting-day-item-div {
     margin-top: 5px;
     margin-bottom: 5px;

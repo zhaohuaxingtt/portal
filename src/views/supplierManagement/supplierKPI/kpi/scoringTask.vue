@@ -34,14 +34,13 @@
           <span class="label">截至时间</span>
           <div>
             <p>{{ item.endDate }}</p>
-            <p>(距离截止日期还有{{ DateDiffer(item.endDate) }}天）</p>
+            <p v-if="item.endDate&&DateDiffer(item.endDate)<0">(已截止)</p>
+            <p v-else>(距离截止日期还有{{ DateDiffer(item.endDate) }}天）</p>
           </div>
         </div>
         <div class="div4">
-          <!-- <el-button v-if="item.executeStatus == 1" @click="goDetail(item, 'see')" icon="el-icon-view" type="text">{{
-            $t('LK_CHAKAN')
-          }}</el-button> -->
-          <el-button v-if="item.executeStatus == 0||item.executeStatus == 1" @click="goDetail(item, 'edit')" icon="el-icon-edit-outline"
+        
+          <el-button  @click="goDetail(item, 'edit')" icon="el-icon-edit-outline"
             type="text">{{ $t('LK_BIANJI') }}</el-button>
         </div>
       </div>
@@ -71,7 +70,8 @@
             <span class="label">截至时间</span>
             <div>
               <p>{{ item.endDate }}</p>
-              <p>(距离截止日期还有{{ DateDiffer(item.endDate) }}天）</p>
+              <p v-if="item.endDate&&DateDiffer(item.endDate)<0">(已截止)</p>
+            <p v-else>(距离截止日期还有{{ DateDiffer(item.endDate) }}天）</p>
             </div>
           </div>
           <div class="div4">
@@ -89,7 +89,8 @@
 <script>
 import {
   getSupplierPerforManceScorePage,
-  getSupplierPerforManceTaskList
+  getSupplierPerforManceTaskList,
+  exportSupplierPerforManceScoreExcel
 } from '@/api/supplierManagement/supplierIndexManage/index'
 import { pageMixins } from '@/utils/pageMixins'
 import tableList from '@/components/commonTable'
@@ -139,6 +140,13 @@ export default {
         }
       })
       .catch(() => { })
+      getDictByCode('SUPPLIER_PERFORMANCE_TASK_STATUS')
+      .then((res) => {
+        if (res.data) {
+          // this.statusList = res?.data[0]?.subDictResultVo
+        }
+      })
+      .catch(() => { })
     this.init()
   },
   methods: {
@@ -149,12 +157,12 @@ export default {
       }
       getSupplierPerforManceTaskList(req).then((res) => {
         this.infoList = res.data.filter(val => {
-          return val.status != 2
+          return val.status ==0
         })
         this.infoList2 = res.data.filter(val => {
-          return val.status == 2
+          return val.status ==1
         })
-        console.log( this.infoList)
+        console.log( this.infoList2)
       })
     },
     DateDiffer(Date_end) {
@@ -169,7 +177,7 @@ export default {
       return diffDate
     },
     exportFile(item){
-      exportSupplierPerforManceScoreExcel({ editionId: this.$route.query.editionId })
+      exportSupplierPerforManceScoreExcel({ editionId:item.editionId })
     },
     goDetail(item,type) {
       let routeUrl = this.$router.resolve({

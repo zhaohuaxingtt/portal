@@ -1,5 +1,5 @@
 <template>
-  <div class="approval" v-loading="loading">
+  <div class="approval" v-loading="firstLoading && loading">
 <!--    <taskTypePanelCategory-->
 <!--      ref="taskTypePanelCategory"-->
 <!--      :data="activeData"-->
@@ -36,7 +36,7 @@
           class="item"
           :key="-1"
           :class="{ active: -1 == activeIndex }"
-          @click="toggleActive(-1)"
+          @click="onToggleActiveClick(-1)"
         >
           {{ language('QUANBU', '全部') }}
         </div>
@@ -45,7 +45,7 @@
           v-for="(item, index) in activeData"
           :key="index"
           :class="{ active: index === activeIndex }"
-          @click="toggleActive(index)"
+          @click="onToggleActiveClick(index)"
         >
           {{ item.value }}
           <span
@@ -62,7 +62,6 @@
 </template>
 
 <script>
-  import taskTypePanelCategory from './taskTypePanelCategory'
   import {
     queryApprovalOverview,
     queryAekoTodoCount,
@@ -77,8 +76,16 @@
     components: { iSelect },
     props: {
       /**
+       * 这个用来记录对应selectSubTypeName，目前还没有其他用处
+       */
+      typeName: {
+        type: String,
+        default: null
+      },
+      /**
        * subTypeName
        * 对应的是queryApprovalOverview和queryApplyOverview获取的内容
+       * categoryList
        * 下面的typeName，也是用这个来过滤出activeData
        */
       subTypeName: {
@@ -118,6 +125,7 @@
       return {
         data: [], // queryApprovalOverview和queryApplyOverview获取的内容, 下面有wfCategoryList 再下一级有 categoryList
         loading: false,
+        firstLoading: true,
         oriSubTypeName: null, // 是home跳转过来的时候带的那个modelTemplate, 对应的是categoryList
         dOptions: BPM_APPROVAL_TYPE_OPTIONS,
         selectSubTypeName: null, // 下拉框的value，BPM_APPROVAL_TYPE_OPTIONS下面的value像 -1，0，1，2
@@ -131,56 +139,22 @@
        */
       numVisible() {
         return !this.isFinished
-      },
-      // activeData() {
-      //   if(this.subTypeName) {
-      //     const data = _.cloneDeep(this.data)
-      //     const findDataByTypeName = data.find(item => {
-      //       return item.typeName === this.subTypeName
-      //     })
-      //     if(findDataByTypeName) {
-      //       return findDataByTypeName.wfCategoryList
-      //     } else {
-      //       return []
-      //     }
-      //   } else {
-      //     return []
-      //   }
-      // }
+      }
     },
     watch: {
       '$i18n.locale'(val){
         this.getOverview()
-      },
-      // activeData(val) {
-      //   let foundTypeName = null
-      //   this.data.forEach((e) => {
-      //     e.wfCategoryList.forEach((wf) => {
-      //       // 根据typeName，找到下拉框的内容了
-      //       console.log("this.subTypeName.....", this.subTypeName)
-      //       if(wf.categoryList && wf.categoryList.indexOf(this.subTypeName) > -1) {
-      //         foundTypeName = e
-      //       }
-      //     })
-      //   })
-      //   this.$nextTick(() => {
-      //     if(foundTypeName) {
-      //       this.setTypeName(foundTypeName.typeName, this.oriSubTypeName)
-      //     } else {
-      //       this.setTypeName(this.subTypeName, this.oriSubTypeName)
-      //     }
-      //   })
-      // }
-      // subTypeName(val) {
-      //   debugger
-      //   this.updateActiveData(true)
-      // }
+      }
     },
     created() {
       this.oriSubTypeName = this.subTypeName
       this.getOverview()
     },
     methods: {
+      reset(subTypeName) {
+        this.selectSubTypeName = subTypeName
+        this.onItemTypeListClick(subTypeName)
+      },
       /**
        *
        * @param typeName 用来找下拉框的
@@ -202,13 +176,18 @@
           this.toggleActive(foundIndex, true)
         } else {
           if(typeName === null) {
+            this.selectSubTypeName = '-1'
             this.onItemTypeListChange(-1, false)
-            this.toggleActive(-1, false)
+            this.toggleActive('-1', true)
           }
         }
       },
+      onToggleActiveClick(index) {
+        this.activeIndex = index
+        this.$emit('toggle-active-click', index, this.activeData)
+      },
       onItemTypeListClick(newValue) {
-        this.$emit('item-type-list-Click', newValue)
+        this.$emit('item-type-list-Click', newValue, this.activeData)
       },
       onItemTypeListChange(newValue, update = true) {
         this.$emit('item-type-list-change', newValue, update)
@@ -232,7 +211,7 @@
           })
         }
       },
-      async getOverview() {
+      async getOverview(onlyUpdateActiveData = false) {
         this.loading = true
         let queryOverviewFunc = queryApprovalOverview
         if(this.myApplication) {
@@ -241,7 +220,12 @@
         const { data = [] } = await queryOverviewFunc({
           userID: this.$store.state.permission.userInfo.id,
           language: this.$i18n.locale == 'zh' ? 'CN' : 'EN'
-        }).finally(() => (this.loading = false))
+        }).finally(() => {
+          this.loading = false
+          if(this.firstLoading) {
+            this.firstLoading = false
+          }
+        })
 
         let totalNum = 0
         data.forEach((e) => {
@@ -254,32 +238,31 @@
         })
 
         this.data = data
-        this.updateActiveData()
+        this.updateActiveData(onlyUpdateActiveData)
         this.$emit('set-num', totalNum)
         this.getAekoTodoCount()
       },
       updateActiveDataByTypeName(typeName) {
         let activeData = []
         let findDataByTypeName = null
-        debugger
         if(typeName) {
           const data = _.cloneDeep(this.data)
           findDataByTypeName = data.find(e => {
             return e.typeName === typeName
           })
         }
-        debugger
         if(findDataByTypeName) {
           this.activeData = findDataByTypeName.wfCategoryList
         } else {
           this.activeData = activeData
         }
+        return this.activeData
       },
       /**
        * 这个是那一堆tag过滤之后的值，根据this.subTypeName
        * 返回的wfCategoryList
        */
-      updateActiveData() {
+      updateActiveData(onlyUpdateActiveData = false) {
         let activeData = []
         let foundBySubTypeName = null
         let findDataByTypeName = null
@@ -298,14 +281,16 @@
           }
         }
         this.activeData = activeData
-        debugger
-        this.$nextTick(() => {
-          if(findDataByTypeName) {
-            this.setTypeName(findDataByTypeName.typeName, this.oriSubTypeName)
-          } else {
-            this.setTypeName(this.subTypeName, this.oriSubTypeName)
-          }
-        })
+        if(!onlyUpdateActiveData) {
+          // debugger
+          this.$nextTick(() => {
+            if(findDataByTypeName) {
+              this.setTypeName(findDataByTypeName.typeName, this.oriSubTypeName)
+            } else {
+              this.setTypeName(this.subTypeName, this.oriSubTypeName)
+            }
+          })
+        }
       },
       handleSetAekoNum(val) {
         const data = this.data
