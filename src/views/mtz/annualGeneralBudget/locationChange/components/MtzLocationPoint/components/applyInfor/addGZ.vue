@@ -181,11 +181,20 @@
             slot="label"
             :required="true"
           ></iLabel>
-          <el-input
+          <i-select
             v-model="contractForm.partBalanceCountType"
-            type="text"
-            :disabled="true"
-          />
+            clearable
+            filterable
+            :placeholder="language('QINGXUANZE', '请选择')"
+          >
+            <el-option
+              v-for="item in partBalanceCountTypeList"
+              :key="item.code"
+              :label="item.name"
+              :value="item.code"
+            >
+            </el-option>
+          </i-select>
         </iFormItem>
         <iFormItem prop="source">
           <iLabel
@@ -220,12 +229,7 @@
             filterable
             :placeholder="language('QINGXUANZE', '请选择')"
           >
-            <el-option
-              v-for="item in getMtzMarketSourceList"
-              :key="item.code"
-              :label="item.message"
-              :value="item.code"
-            >
+          <el-option v-for="item in avgPeriodList" :key="item.code" :label="item.name" :value="item.code">
             </el-option>
           </i-select>
         </iFormItem>
@@ -241,13 +245,8 @@
             filterable
             :placeholder="language('QINGXUANZE', '请选择')"
           >
-            <el-option
-              v-for="item in getMtzMarketSourceList"
-              :key="item.code"
-              :label="item.message"
-              :value="item.code"
-            >
-            </el-option>
+          <el-option v-for="item in offsetList" :key="item.code" :label="item.name" :value="item.code">
+          </el-option>
           </i-select>
         </iFormItem>
 
@@ -586,6 +585,8 @@ import { getRawMaterialNos } from '@/api/mtz/annualGeneralBudget/replenishmentMa
 import {
   fetchRemoteMtzMaterial //查询MTZ材料组
 } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
+import { partBalanceCountTypeList } from "./data";
+
 import {
   isNumber,
   timeCoincide,
@@ -630,7 +631,9 @@ export default {
     },
     resetNum: {
       type: Boolean
-    }
+    },
+    avgPeriodList: { type: Array, default: () => [] },
+    offsetList: { type: Array, default: () => [] },
     // dataObject:{
     //     type: Object,
     //     default: () => {
@@ -747,6 +750,7 @@ export default {
         transport: ''
       },
       carlineNumber: [],
+      partBalanceCountTypeList,
       rules_init: {
         effectFlag: [{ required: true, message: '请选择', trigger: 'change' }],
         materialGroup: [

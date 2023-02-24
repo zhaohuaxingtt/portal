@@ -71,6 +71,27 @@
               <span>{{scope.row.sapCode}}</span><br/>
               <span>{{scope.row.supplierName}}</span>
             </template>
+            <template slot-scope="scope" slot="materialCode">
+              <span>{{ scope.row.materialCode }}</span><br />
+              <span>{{ scope.row.materialName }}</span>
+            </template>
+            <template slot-scope="scope" slot="formalFlag">
+              <span>{{ scope.row.formalFlag == 'Y' ? '否' : '是' }}</span>
+            </template>
+            <template slot-scope="scope" slot="method">
+              <span>{{ scope.row.method == '1' ? '一次性补差' : scope.row.method == '2' ? '变价单补差' : '' }}</span>
+            </template>
+            <template slot-scope="scope" slot="partBalanceCountType">
+              <span>{{
+                scope.row.partBalanceCountType == 'SYSTEM' ? '系统预读' : scope.row.partBalanceCountType == 'HANDWORK' ? '手工上传' : ''
+              }}</span>
+            </template>
+            <template slot-scope="scope" slot="avgPeriod">
+              <span>{{ scope.row.avgPeriod ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+            </template>
+            <template slot-scope="scope" slot="offset">
+              <span>{{ scope.row.offset ? offsetList.find(val => val.code == scope.row.offset).name : '' }}</span>
+            </template>
           </tableList>
         </div>
 
@@ -99,6 +120,24 @@
                       slot="sapCode">
               <span>{{scope.row.sapCode}}</span><br/>
               <span>{{scope.row.supplierName}}</span>
+            </template>
+            <template slot-scope="scope" slot="materialCode">
+              <span>{{ scope.row.materialCode }}</span><br />
+              <span>{{ scope.row.materialName }}</span>
+            </template>
+            <template slot-scope="scope" slot="materialDoseSource">
+              <span>{{
+                scope.row.materialDoseSource ? materialDoseSourceList.find(val => val.code == scope.row.materialDoseSource).name : ''
+              }}</span>
+            </template>
+            <template slot-scope="scope" slot="method">
+              <span>{{ scope.row.method == '1' ? '一次性补差' : scope.row.method == '2' ? '变价单补差' : '' }}</span>
+            </template>
+            <template slot-scope="scope" slot="avgPeriod">
+              <span>{{ scope.row.avgPeriod ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+            </template>
+            <template slot-scope="scope" slot="offset">
+              <span>{{ scope.row.offset ? offsetList.find(val => val.code == scope.row.offset).name : '' }}</span>
             </template>
           </tableList>
         </div>
@@ -155,7 +194,7 @@
 
 <script>
 import { iCard, icon, iInput, iButton, iMessage, iPagination,iDialog } from 'rise'
-import { formList } from './data'
+import { formList, avgPeriodList, offsetList, materialDoseSourceList } from './data'
 import tableList from '@/components/commonTable/index.vue'
 import { ruleTableTitle1_1,partTableTitle1_1,ruleTableTitle1_all,partTableTitle1_all} from './data'
 import { getAppFormInfo, pageAppRule, pagePartMasterData,approvalList } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
@@ -178,6 +217,9 @@ export default {
   },
   data () {
     return {
+      avgPeriodList,
+      offsetList,
+      materialDoseSourceList,
       formData: {},
       formList,
       partTableTitle1_all,

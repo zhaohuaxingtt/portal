@@ -72,10 +72,10 @@
       </p>
       <p>MTZ Payment=Settle accounts Quantity*[Effective Price-Base Price(1+threshold)]*Raw Material Weight*Ratio</p>
     </div>
-    <theTabs ref="theTabs" @handleReset="handleReset" v-if="beforReturn" :appStatus='inforData.appStatus'
+    <theTabs :avgPeriodList="avgPeriodList" :offsetList="offsetList" ref="theTabs" @handleReset="handleReset" v-if="beforReturn" :appStatus='inforData.appStatus'
       :flowType="inforData.flowType">
     </theTabs>
-    <theDataTabs ref="theDataTabs" v-if="beforReturn" :appStatus='inforData.appStatus' :flowType="inforData.flowType"
+    <theDataTabs :avgPeriodList="avgPeriodList" :offsetList="offsetList" ref="theDataTabs" v-if="beforReturn" :appStatus='inforData.appStatus' :flowType="inforData.flowType"
       :inforData="inforData" :applyNumber="applyNumber">
     </theDataTabs>
 
@@ -84,9 +84,8 @@
 
 <script>
 import { iInput, iSelect, iDialog, iMessage, iDatePicker, iCard, iButton, iMessageBox } from 'rise';
-import { tabsInforList, tipList } from "./data";
+import { tabsInforList, tipList,avgPeriodList,offsetList } from "./data";
 import theTabs from "./theTabs";
-
 import iTooltip from "./iTooltip";
 import theDataTabs from "./theDataTabs";
 import store from "@/store";
@@ -116,6 +115,8 @@ export default {
   },
   data() {
     return {
+      avgPeriodList,
+      offsetList,
       tipList,
       beforReturn: false,
       // getFlowTypeList: [],

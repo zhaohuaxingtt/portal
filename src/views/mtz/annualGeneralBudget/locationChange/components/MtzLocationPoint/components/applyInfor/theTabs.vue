@@ -30,7 +30,7 @@
 
     <el-form :rules="formRules" :model="{ tableData }" ref="contractForm" class="formStyle">
       <div class="btn">
-        <el-button type="primary" size="mini" circle @click="isTitle=!isTitle">{{isTitle?'-':'+'}}</el-button>
+        <el-button type="primary" size="mini" circle @click="isTitle = !isTitle">{{ isTitle ? '-' : '+' }}</el-button>
       </div>
       <el-table :data="tableData" ref="moviesTable" border v-loading="loading" @selection-change="handleSelectionChange">
         <el-table-column type="selection" :selectable="selectionType" fixed width="40" align="center">
@@ -52,11 +52,11 @@
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'method'"
               :rules="formRules.method ? formRules.method : ''">
               <!-- <iInput v-model="scope.row.ruleNo" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
-              <span>{{ scope.row.method }}</span>
+              <span>{{ scope.row.method=='1'?'一次性补差':scope.row.method=='2'?'变价单补差':'' }}</span>
             </el-form-item>
-        </template>
-      </el-table-column>
-    
+          </template>
+        </el-table-column>
+
 
         <el-table-column prop="formalFlag" align="center" width="80" :label="language('SHIFOUWEIXINGUIZE', '是否为新规则')">
           <template slot-scope="scope">
@@ -67,7 +67,8 @@
             </el-form-item>
           </template>
         </el-table-column>
-        <el-table-column prop="sapCode" align="center" :width="isTitle?'100':''"           :label="language('GONGYINGSHANGBIANHAOMINGCHENG', '供应商编号/名称')">
+        <el-table-column prop="sapCode" align="center" :width="isTitle ? '100' : ''"
+          :label="language('GONGYINGSHANGBIANHAOMINGCHENG', '供应商编号/名称')">
           <template slot-scope="scope">
           <el-form-item :prop="'tableData.' + scope.$index + '.' + 'sapCode'"
             :rules="formRules.sapCode ? formRules.sapCode : ''">
@@ -82,15 +83,16 @@
                                 v-for="item in supplierList"
                                 :key="item.code"
                                 :label="item.codeMessage"
-                                  :value="item.code">
-                              </el-option>
-                          </el-select> -->
+                                    :value="item.code">
+                                </el-option>
+                            </el-select> -->
               <spa>{{ scope.row.sapCode }}-{{ scope.row.supplierName }}</spa>
             </el-form-item>
           </template>
         </el-table-column>
 
-        <el-table-column prop="materialCode" align="center" :width="isTitle?'80':''" :label="language('YUANCAILIAOPAIHAO', '原材料牌号')">
+        <el-table-column prop="materialCode" align="center" :width="isTitle ? '80' : ''"
+          :label="language('YUANCAILIAOPAIHAO', '原材料牌号')">
           <template slot-scope="scope">
           <el-form-item :prop="'tableData.' + scope.$index + '.' + 'materialCode'"
             :rules="formRules.materialCode ? formRules.materialCode : ''">
@@ -105,9 +107,9 @@
                                 v-for="item in materialCode"
                                 :key="item.code"
                                 :label="item.codeMessage"
-                                  :value="item.code">
-                              </el-option>
-                          </el-select> -->
+                                    :value="item.code">
+                                </el-option>
+                            </el-select> -->
               <span>{{ scope.row.materialCode }}</span>
             </el-form-item>
           </template>
@@ -139,18 +141,18 @@
         <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
         <el-table-column prop="partBalanceCountType" align="center" width="90" :label="language('零件结算数量', '零件结算数量')">
           <template slot="header" slot-scope="scope">
-            <span>{{language('零件结算数量', '零件结算数量')}}<iTooltip :txtInfo="tipList[0]" :num="'1'"></iTooltip></span>
+            <span>{{ language('零件结算数量', '零件结算数量') }}<iTooltip :txtInfo="tipList[0]" :num="'1'"></iTooltip></span>
           </template>
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'partBalanceCountType'"
               :rules="formRules.partBalanceCountType ? formRules.partBalanceCountType : ''">
-              <span>{{ scope.row.partBalanceCountType }}</span>
+              <span>{{ scope.row.partBalanceCountType=='SYSTEM'?'系统预读':scope.row.partBalanceCountType=='HANDWORK'?'手工上传':'' }}</span>
             </el-form-item>
           </template>
         </el-table-column>
         <el-table-column prop="source" align="center" width="80" :label="language('SHICHANGJIALAIYUAN', '市场价来源')">
           <template slot="header" slot-scope="scope">
-            <span>{{language('SHICHANGJIALAIYUAN', '市场价来源')}}<iTooltip :txtInfo="tipList[1]" :num="'2'"></iTooltip></span>
+            <span>{{ language('SHICHANGJIALAIYUAN', '市场价来源') }}<iTooltip :txtInfo="tipList[1]" :num="'2'"></iTooltip></span>
           </template>
           <template slot-scope="scope">
           <el-form-item :prop="'tableData.' + scope.$index + '.' + 'source'"
@@ -162,8 +164,8 @@
                 <el-option v-for="item in tcCurrence"
                            :key="item.code"
                            :label="item.code"
-                             :value="item.code">
-                  </el-option>
+                               :value="item.code">
+                    </el-option>
               </el-select> -->
 
             <!-- <i-select
@@ -178,9 +180,9 @@
                   :key="item.code"
                   :label="item.code"
                   :value="item.code"
-                  >
-                  </el-option>
-                </i-select> -->
+                    >
+                    </el-option>
+                  </i-select> -->
 
               <span>{{ scope.row.source }}</span>
             </el-form-item>
@@ -188,66 +190,50 @@
         </el-table-column>
         <el-table-column prop="avgPeriod" align="center" width="90" :label="language('均值计算周期', '均值计算周期')">
           <template slot="header" slot-scope="scope">
-            <span>{{language('均值计算周期', '均值计算周期')}}<iTooltip :type="'icon'" :txtInfo="tipList[6]" :num="'1'"></iTooltip></span>
+            <span>{{ language('均值计算周期', '均值计算周期') }}<iTooltip :type="'icon'" :txtInfo="tipList[6]" :num="'1'"></iTooltip>
+              </span>
           </template>
           <template slot-scope="scope">
-          <el-form-item :prop="'tableData.' + scope.$index + '.' + 'avgPeriod'"
-            :rules="formRules.avgPeriod ? formRules.avgPeriod : ''">
-            <!-- <el-select
-                v-model="scope.row.tcCurrence"
-                clearable
-                :placeholder="language('QINGSHURU', '请输入')"
-                v-if="editId.indexOf(scope.row.id) !== -1"
-              >
-                <el-option
-                  v-for="item in tcCurrence"
-                  :key="item.code"
-                  :label="item.code"
-                  :value="item.code"
-                  >
-                  </el-option>
-                </el-select> -->
-              <span>{{ scope.row.tcCurrence }}</span>
+            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'avgPeriod'"
+              :rules="formRules.avgPeriod ? formRules.avgPeriod : ''">
+              <el-select v-model="scope.row.avgPeriod" clearable :placeholder="language('QINGSHURU', '请输入')"
+                v-if="editId.indexOf(scope.row.id) !== -1">
+                <el-option v-for="item in avgPeriodList" :key="item.code" :label="item.name" :value="item.code">
+                </el-option>
+              </el-select>
+              <span v-else>{{ scope.row.avgPeriod?avgPeriodList.find(val=>val.code==scope.row.avgPeriod).name:'' }}</span>
             </el-form-item>
           </template>
         </el-table-column>
         <el-table-column prop="offset" align="center" width="80" :label="language('计算偏移量', '计算偏移量')">
           <template slot="header" slot-scope="scope">
-            <span>{{language('计算偏移量', '计算偏移量')}}<iTooltip :type="'icon'" :txtInfo="tipList[7]" :num="'1'"></iTooltip></span>
+            <span>{{ language('计算偏移量', '计算偏移量') }}<iTooltip :type="'icon'" :txtInfo="tipList[7]" :num="'1'"></iTooltip>
+              </span>
           </template>
           <template slot-scope="scope">
-          <el-form-item :prop="'tableData.' + scope.$index + '.' + 'offset'"
-            :rules="formRules.offset ? formRules.offset : ''">
-            <!-- <el-select
-                v-model="scope.row.tcCurrence"
-                clearable
-                :placeholder="language('QINGSHURU', '请输入')"
-                v-if="editId.indexOf(scope.row.id) !== -1"
-              >
-                <el-option
-                  v-for="item in tcCurrence"
-                  :key="item.code"
-                  :label="item.code"
-                  :value="item.code"
-                  >
-                  </el-option>
-                </el-select> -->
-              <span>{{ scope.row.tcCurrence }}</span>
+            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'offset'"
+              :rules="formRules.offset ? formRules.offset : ''">
+              <el-select v-model="scope.row.offset" clearable :placeholder="language('QINGSHURU', '请输入')"
+                v-if="editId.indexOf(scope.row.id) !== -1">
+                <el-option v-for="item in offsetList" :key="item.code" :label="item.name" :value="item.code">
+                </el-option>
+              </el-select>
+              <span v-else>{{ scope.row.offset?offsetList.find(val=>val.code==scope.row.offset).name:'' }}</span>
             </el-form-item>
           </template>
         </el-table-column>
         <el-table-column prop="price" align="center" width="60" :label="language('JIJIA', '基价')">
           <template slot="header" slot-scope="scope">
-            <span>{{language('JIJIA', '基价')}}<iTooltip  :txtInfo="tipList[2]" :num="'3'"></iTooltip></span>
+            <span>{{ language('JIJIA', '基价') }}<iTooltip :txtInfo="tipList[2]" :num="'3'"></iTooltip></span>
           </template>
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'price'"
             :rules="formRules.price ? formRules.price : ''">
             <!-- :disabled='scope.row.metalType && editId.indexOf(scope.row.id)!==-1' -->
             <!-- <iInput type="number"
-                              v-model="scope.row.price"
-                              v-if="editId.indexOf(scope.row.id) !== -1"
-                          ></iInput> -->
+                                v-model="scope.row.price"
+                                v-if="editId.indexOf(scope.row.id) !== -1"
+                            ></iInput> -->
               <span>{{ scope.row.price }}</span>
             </el-form-item>
           </template>
@@ -268,16 +254,16 @@
                   :key="item.code"
                   :label="item.code"
                   :value="item.code"
-                  >
-                  </el-option>
-                </el-select> -->
+                    >
+                    </el-option>
+                  </el-select> -->
               <span>{{ scope.row.tcCurrence }}</span>
             </el-form-item>
           </template>
         </el-table-column>
         <el-table-column prop="tcExchangeRate" align="center" width="60" :label="language('HUILV', '汇率')">
           <template slot="header" slot-scope="scope">
-            <span>{{language('HUILV', '汇率')}}<iTooltip  :txtInfo="tipList[2]" :num="'3'"></iTooltip></span>
+            <span>{{ language('HUILV', '汇率') }}<iTooltip :txtInfo="tipList[2]" :num="'3'"></iTooltip></span>
           </template>
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'tcExchangeRate'"
@@ -303,20 +289,20 @@
                                 v-for="item in priceMeasureUnit"
                                 :key="item.code"
                                 :label="item.message"
-                                  :value="item.code">
+                                    :value="item.code">
                             </el-option>
                         </el-select> -->
             <!-- <iInput
-                              v-model="scope.row.priceMeasureUnit"
-                              v-if="editId.indexOf(scope.row.id)!==-1"
-                          ></iInput> -->
+                                v-model="scope.row.priceMeasureUnit"
+                                v-if="editId.indexOf(scope.row.id)!==-1"
+                            ></iInput> -->
               <span>{{ scope.row.priceMeasureUnit }}</span>
             </el-form-item>
           </template>
         </el-table-column>
         <el-table-column prop="threshold" align="center" :label="language('YUZHI', '阈值')" width="60">
           <template slot="header" slot-scope="scope">
-            <span>{{language('YUZHI', '阈值')}}<iTooltip  :txtInfo="tipList[3]" :num="'4'"></iTooltip></span>
+            <span>{{ language('YUZHI', '阈值') }}<iTooltip :txtInfo="tipList[3]" :num="'4'"></iTooltip></span>
           </template>
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'threshold'"
@@ -366,7 +352,7 @@
         </el-table-column>
         <el-table-column prop="compensationRatio" align="center" width="90" :label="language('BUCHAXISHU', '补差系数')">
           <template slot="header" slot-scope="scope">
-            <span>{{language('BUCHAXISHU', '补差系数')}}<iTooltip  :txtInfo="tipList[5]" :num="'6'"></iTooltip></span>
+            <span>{{ language('BUCHAXISHU', '补差系数') }}<iTooltip :txtInfo="tipList[5]" :num="'6'"></iTooltip></span>
           </template>
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'compensationRatio'" :rules="
@@ -394,9 +380,9 @@
                   :key="item.code"
                   :label="item.message"
                   :value="item.code"
-                  >
-                  </el-option>
-                </el-select> -->
+                    >
+                    </el-option>
+                  </el-select> -->
               <span>{{
                 scope.row.compensationPeriod == 'A'
                 ? '年度'
@@ -412,13 +398,13 @@
           </template>
         </el-table-column>
         <!-- ----------------------------------------------------------------------------------------------------------------------- -->
-        <template v-if="isTitle">
+      <template v-if="isTitle">
 
-          <!-- <el-table-column prop="effectFlag" align="center" :label="language('SHIFOUSHENGXIAO', '是否生效')" width="100">
-            <template slot-scope="scope">
+        <!-- <el-table-column prop="effectFlag" align="center" :label="language('SHIFOUSHENGXIAO', '是否生效')" width="100">
+              <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'effectFlag'"
               :rules="formRules.effectFlag ? formRules.effectFlag : ''"> -->
-              <!-- <el-select
+        <!-- <el-select
                 v-model="scope.row.effectFlag"
                 clearable
                 :placeholder="language('QINGSHURU', '请输入')"
@@ -429,21 +415,21 @@
                   :key="item.code"
                   :label="item.message"
                   :value="item.code"
-                  >
+                    >
                   </el-option>
                 </el-select> -->
-                <!-- <span>{{
+        <!-- <span>{{
                   scope.row.effectFlag == 1
                   ? '是'
                   : scope.row.effectFlag == 0
                     ? '否'
                     : ''
                 }}</span>
-              </el-form-item>
-            </template>
+                </el-form-item>
+              </template>
           </el-table-column> -->
 
-          <!-- <el-table-column prop="materialGroup" align="center" :label="language('MTZCAILIAOZU', 'MTZ-材料组')" width="150">
+        <!-- <el-table-column prop="materialGroup" align="center" :label="language('MTZCAILIAOZU', 'MTZ-材料组')" width="150">
             <template slot-scope="scope">
               <el-form-item :prop="'tableData.' + scope.$index + '.' + 'materialGroup'"
                 :rules="formRules.materialGroup ? formRules.materialGroup : ''">
@@ -468,14 +454,14 @@
                   </el-option>
                 </i-select>
                 <span v-else>{{ scope.row.carline }}</span>
-              </el-form-item>
+                </el-form-item>
             </template>
           </el-table-column> -->
-          <!-- <el-table-column prop="materialName" align="center" width="150" :label="language('YUANCAILIAO', '原材料')">
+        <!-- <el-table-column prop="materialName" align="center" width="150" :label="language('YUANCAILIAO', '原材料')">
             <template slot-scope="scope">
-              <span>{{ scope.row.materialName }}</span>
-            </template>
-          </el-table-column> -->
+                <span>{{ scope.row.materialName }}</span>
+              </template>
+            </el-table-column> -->
           <el-table-column prop="platinumPrice" align="center" width="120">
             <template slot="header">
               <div>
@@ -724,19 +710,11 @@
               </el-form-item>
             </template>
           </el-table-column>
-          <el-table-column
-          prop="ruleVersion"
-          align="center"
-          
-          width="80"
-          :label="language('版本')"
-        >
-          <template slot-scope="scope">
-            <el-form-item
-              :prop="'tableData.' + scope.$index + '.' + 'ruleVersion'"
-              :rules="formRules.ruleVersion ? formRules.ruleVersion : ''"
-            >
-              <span>{{ scope.row.ruleVersion }}</span>
+          <el-table-column prop="ruleVersion" align="center" width="80" :label="language('版本')">
+            <template slot-scope="scope">
+              <el-form-item :prop="'tableData.' + scope.$index + '.' + 'ruleVersion'"
+                :rules="formRules.ruleVersion ? formRules.ruleVersion : ''">
+                <span>{{ scope.row.ruleVersion }}</span>
               </el-form-item>
             </template>
           </el-table-column>
@@ -749,9 +727,9 @@
                    :page-sizes="page.pageSizes"
                    :page-size="page.pageSize"
                    :current-page="page.currPage"
-                     :total="page.totalCount"
-                     :layout="page.layout">
-        </iPagination> -->
+                       :total="page.totalCount"
+                       :layout="page.layout">
+          </iPagination> -->
 
     <iDialog :title="language('SHUJUYANYONG', '数据沿用')" :visible.sync="mtzAddShow" v-if="mtzAddShow" width="90%"
       @close="closeDiolog">
@@ -761,7 +739,7 @@
     <iDialog :title="language('XINZENGMTZYUANCAILIAOGUIZE', '新增MTZ原材料规则')" :visible.sync="addDialog" v-if="addDialog"
       width="70%" @close="saveGzDialog">
       <!-- :dataObject="dataObject" -->
-      <addGZ :resetType="resetType" @close="saveGzClose" @addDialogGZ="addDialogGZList">
+      <addGZ :avgPeriodList="avgPeriodList" :offsetList="offsetList" :resetType="resetType" @close="saveGzClose" @addDialogGZ="addDialogGZList">
       </addGZ>
     </iDialog>
   </iCard>
@@ -786,7 +764,7 @@ import iTooltip from "./iTooltip";
 import continueBox from './continueBox'
 import addGZ from './addGZ'
 import { deepClone, isNumber } from './util'
-import { formRulesGZ ,tipList} from './data'
+import { formRulesGZ, tipList,partBalanceCountTypeList } from './data'
 import store from '@/store'
 // import {
 //   getMtzSupplierList,//获取原材料牌号
@@ -826,12 +804,19 @@ export default {
     addGZ
   },
   watch: {},
-  props: ['appStatus', 'flowType', 'relationType'],
+  props: {
+    appStatus:{type: String},
+    flowType:{type: String},
+    relationType:{type: String},
+    avgPeriodList: { type: Array, default: () => [] },
+    offsetList: { type: Array, default: () => [] },
+  },
   //   mixins: [pageMixins],
   data() {
     return {
+      partBalanceCountTypeList,
       tipList,
-      isTitle:false,
+      isTitle: false,
       tcCurrence: [],
       formRules: formRulesGZ,
       // dataObject: [],
@@ -1441,11 +1426,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-::v-deep.el-table .cell{
+::v-deep.el-table .cell {
   line-height: 0;
   padding: 0px 4px;
 
 }
+
+.formStyle ::v-deep.el-form-item__content {
+  line-height: normal !important;
+}
+
 ::v-deep.el-table th>.cell {
   white-space: normal;
   padding: 0px 4px;
@@ -1453,20 +1443,22 @@ export default {
 }
 
 .formStyle ::v-deep .el-form-item {
-  margin-top: 0;
-  margin-bottom: 0;
-  
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
 }
+
 .formStyle {
   position: relative;
 
 }
-.btn{
-    position: absolute;
-    right: -10px;
-    top: 20px;
-    z-index: 10000;
-  }
+
+.btn {
+  position: absolute;
+  right: -10px;
+  top: 20px;
+  z-index: 10000;
+}
+
 ::v-deep .el-select__tags {
   max-width: 100% !important;
 }
@@ -1474,7 +1466,8 @@ export default {
 ::v-deep .el-table .el-table__row .el-input {
   width: 100% !important;
 }
-::v-deep.el-button--mini.is-circle{
+
+::v-deep.el-button--mini.is-circle {
   padding: 3px 4px;
 }
 </style>
@@ -1483,11 +1476,11 @@ export default {
 .el-table__fixed-header-wrapper {
   background: #fff;
 }
-::v-deep.el-table .cell{
 
-}
-.font18_b{
+::v-deep.el-table .cell {}
+
+.font18_b {
   font-size: 18px;
-font-weight: bold;
+  font-weight: bold;
 }
 </style>

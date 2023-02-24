@@ -37,8 +37,9 @@
                     <iLabel :label="language('原材料用量来源', '原材料用量来源')" slot="label" :required="true"></iLabel>
                     <iSelect v-model="contractForm.materialDoseSource" clearable filterable
                         :placeholder="language('QINGXUANZE', '请选择')">
-                        <el-option v-for="item in materialDoseSource" :key="item.code" :value="item.code"
-                            :label="item.code"></el-option>
+                        <el-option v-for="item in materialDoseSourceList" :key="item.code" :label="item.name"
+                            :value="item.code">
+                        </el-option>
                     </iSelect>
                 </iFormItem>
                 <iFormItem prop="startDate">
@@ -63,7 +64,7 @@
                     <iInput v-model="contractForm.mark" type="text" :placeholder="language('QINGSHURU', '请输入')"
                         :disabled="disabled" />
                 </iFormItem>
-                
+
                 <span class="tip">*以下为规则字段</span>
                 <div class="box">
                     <iFormItem prop="sapCode">
@@ -166,7 +167,7 @@
                         <iInput v-model="contractForm.compensationRatio" type="text"
                             :placeholder="language('QINGSHURU', '请输入')" :disabled="true" />
                     </iFormItem>
-                    <!-- <iFormItem prop="compensationPeriod">
+                <!-- <iFormItem prop="compensationPeriod">
                         <iLabel :label="language('BUCHAZHOUQI', '补差周期')" slot="label"></iLabel>
                         <i-select v-model="contractForm.compensationPeriod" clearable
                             :placeholder="language('QINGXUANZE', '请选择')" :disabled="true">
@@ -174,7 +175,7 @@
                                 :value="item.code">
                             </el-option>
                         </i-select>
-                    </iFormItem> -->
+                        </iFormItem> -->
                     <span class="tip">*以下为贵金属原材料必填字段</span>
                     <div>
 
@@ -264,13 +265,14 @@
 </template>
 
 <script>
+import { materialDoseSourceList } from "./data";
 import partNumber from "./partNumber";
 import { getRawMaterialNos } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details';
 import {
     getMtzSupplierList,//获取原材料牌号
 } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview';
 import {
-  timeTransformation,
+    timeTransformation,
 } from './util'
 import {
     addPartMasterData,//维护MTZ零件主数据-新增
@@ -380,6 +382,7 @@ export default {
                     { validator: validatePass4, trigger: 'blur' }
                 ]
             },
+            materialDoseSourceList,
             compensationPeriod: [
                 { code: 'A', message: '年度' },
                 { code: 'H', message: '半年度' },

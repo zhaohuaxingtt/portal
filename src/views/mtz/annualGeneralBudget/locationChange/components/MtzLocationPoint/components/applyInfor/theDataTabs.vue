@@ -281,8 +281,25 @@
               :prop="'tableData.' + scope.$index + '.' + 'materialDoseSource'"
               :rules="formRules.materialDoseSource ? formRules.materialDoseSource : ''"
             >
+            <el-select
+                v-model="scope.row.materialDoseSource"
+                clearable
+                :placeholder="language('QINGSHURU', '请输入')"
+                v-if="
+                  editId.indexOf(scope.row.id) !== -1 &&
+                  scope.row.priceMeasureUnit !== 'PC'
+                "
+              >
+                <el-option
+                  v-for="item in materialDoseSourceList"
+                  :key="item.code"
+                  :label="item.name"
+                  :value="item.code"
+                >
+                </el-option>
+              </el-select>
               <!-- <iInput v-model="scope.row.materialDoseSource" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
-              <span>{{ scope.row.materialDoseSource }}</span>
+              <span v-else>{{ scope.row.materialDoseSource?materialDoseSourceList.find(val=>val.code==scope.row.materialDoseSource).name:'' }}</span>
             </el-form-item>
           </template>
         </el-table-column>
@@ -373,8 +390,7 @@
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'method'"
               :rules="formRules.method ? formRules.method : ''">
-              <!-- <iInput v-model="scope.row.ruleNo" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
-              <span>{{ scope.row.method }}</span>
+              <span>{{ scope.row.method=='1'?'一次性补差':scope.row.method=='2'?'变价单补差':'' }}</span>
             </el-form-item>
           </template>
         </el-table-column>
@@ -497,8 +513,6 @@
             }}</span>
           </template>
         </el-table-column>
- 
-  
         <el-table-column
           prop="compensationRatio"
           align="center"
@@ -511,11 +525,11 @@
             <span>{{ scope.row.compensationRatio }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="partBalanceCountType" align="center" width="90" :label="language('零件结算数量类型', '零件结算数量类型')">
+        <el-table-column prop="partBalanceCountType" align="center" width="90" :label="language('零件结算数量', '零件结算数量')">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'partBalanceCountType'"
               :rules="formRules.partBalanceCountType ? formRules.partBalanceCountType : ''">
-              <span>{{ scope.row.partBalanceCountType }}</span>
+              <span>{{ scope.row.partBalanceCountType=='SYSTEM'?'系统预读':scope.row.partBalanceCountType=='HANDWORK'?'手工上传':'' }}</span>
             </el-form-item>
           </template>
         </el-table-column>
@@ -532,49 +546,23 @@
             <span>{{ scope.row.priceSource }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="tcCurrence" align="center" width="80" :label="language('均值计算周期', '均值计算周期')">
+        <el-table-column prop="avgPeriod" align="center" width="80" :label="language('均值计算周期', '均值计算周期')">
      
           <template slot-scope="scope">
-          <el-form-item :prop="'tableData.' + scope.$index + '.' + 'tcCurrence'"
-            :rules="formRules.tcCurrence ? formRules.tcCurrence : ''">
-            <!-- <el-select
-                v-model="scope.row.tcCurrence"
-                clearable
-                :placeholder="language('QINGSHURU', '请输入')"
-                v-if="editId.indexOf(scope.row.id) !== -1"
-              >
-                <el-option
-                  v-for="item in tcCurrence"
-                  :key="item.code"
-                  :label="item.code"
-                  :value="item.code"
-                  >
-                  </el-option>
-                </el-select> -->
-              <span>{{ scope.row.tcCurrence }}</span>
+          <el-form-item :prop="'tableData.' + scope.$index + '.' + 'avgPeriod'"
+            :rules="formRules.avgPeriod ? formRules.avgPeriod : ''">
+          
+                <span >{{ scope.row.avgPeriod?avgPeriodList.find(val=>val.code==scope.row.avgPeriod).name:'' }}</span>
             </el-form-item>
           </template>
         </el-table-column>
-        <el-table-column prop="tcCurrence" align="center" width="80" :label="language('计算偏移量', '计算偏移量')">
+        <el-table-column prop="offset" align="center" width="80" :label="language('计算偏移量', '计算偏移量')">
  
           <template slot-scope="scope">
-          <el-form-item :prop="'tableData.' + scope.$index + '.' + 'tcCurrence'"
-            :rules="formRules.tcCurrence ? formRules.tcCurrence : ''">
-            <!-- <el-select
-                v-model="scope.row.tcCurrence"
-                clearable
-                :placeholder="language('QINGSHURU', '请输入')"
-                v-if="editId.indexOf(scope.row.id) !== -1"
-              >
-                <el-option
-                  v-for="item in tcCurrence"
-                  :key="item.code"
-                  :label="item.code"
-                  :value="item.code"
-                  >
-                  </el-option>
-                </el-select> -->
-              <span>{{ scope.row.tcCurrence }}</span>
+          <el-form-item :prop="'tableData.' + scope.$index + '.' + 'offset'"
+            :rules="formRules.offset ? formRules.offset : ''">
+        
+                <span >{{ scope.row.offset?offsetList.find(val=>val.code==scope.row.offset).name:'' }}</span>
             </el-form-item>
           </template>
         </el-table-column>
@@ -1023,7 +1011,7 @@ import {
 import iTooltip from "./iTooltip";
 import { deepClone } from './util'
 import { getToken } from '@/utils'
-import { tipList} from './data'
+import { tipList,offsetList,avgPeriodList,materialDoseSourceList} from './data'
 export default {
   name: 'Search',
   componentName: 'theDataTabs',
@@ -1724,6 +1712,9 @@ export default {
   ::v-deep .el-dialog__title {
     color: red;
   }
+}
+.formStyle ::v-deep.el-form-item__content {
+  line-height: normal !important;
 }
 .font18_b{
   font-size: 18px;
