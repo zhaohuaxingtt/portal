@@ -9,7 +9,7 @@
 <template>
   <iCard>
     <template slot="header">
-      <span>{{language('SHENPIRENLIEBIAO', '审批人列表') }}</span>
+      <span class="font18_b"> {{language('SHENPIRENLIEBIAO', '审批人列表') }}</span>
       <div v-if="!editFlag">
         <iButton type="text"
                  class="margin-right20"

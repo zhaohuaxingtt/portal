@@ -46,10 +46,15 @@
         </div>
 
         <p class="tableTitle">{{language('GUIZEQINGDAN', '规则清单')}}-Regulation</p>
+        <div class="margin-top20 formStyle">
+          <div  class="btn ">
+            <el-button type="primary" size="mini" circle @click="isruleTitle1=!isruleTitle1">{{isruleTitle1?'-':'+'}}</el-button>
+          </div>
           <tableList
+            border
             class="margin-top20"
             :tableData="ruleTableListData"
-            :tableTitle="ruleTableTitle1_1"
+            :tableTitle="isruleTitle1?ruleTableTitle1_all:ruleTableTitle1_1"
             @handleClickRow="handleCurrentChangeTable"
             :tableLoading="loadingRule"
             :index="true"
@@ -67,12 +72,19 @@
               <span>{{scope.row.supplierName}}</span>
             </template>
           </tableList>
+        </div>
+
         <el-divider class="margin-top20"/>
         <p class="tableTitle">{{language('LJQD', '零件清单')}}-Part List</p>
+        <div class="margin-top20 formStyle">
+          <div  class="btn ">
+            <el-button type="primary" size="mini" circle @click="isruleTitle2=!isruleTitle2">{{isruleTitle2?'-':'+'}}</el-button>
+          </div>
           <tableList
+          border
             class="margin-top20 over_flow_y_ture"
             :tableData="partTableListData"
-            :tableTitle="partTableTitle1_1"
+            :tableTitle="isruleTitle2?partTableTitle1_all:partTableTitle1_1"
             :tableLoading="loadingPart"
             :index="true"
             :selection="false"
@@ -89,6 +101,7 @@
               <span>{{scope.row.supplierName}}</span>
             </template>
           </tableList>
+        </div>
       </iCard>
       <iCard class="margin-top20">
         <div slot="header"
@@ -144,7 +157,7 @@
 import { iCard, icon, iInput, iButton, iMessage, iPagination,iDialog } from 'rise'
 import { formList } from './data'
 import tableList from '@/components/commonTable/index.vue'
-import { ruleTableTitle1_1,partTableTitle1_1} from './data'
+import { ruleTableTitle1_1,partTableTitle1_1,ruleTableTitle1_all,partTableTitle1_all} from './data'
 import { getAppFormInfo, pageAppRule, pagePartMasterData,approvalList } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
 import signPreview from "./signPreview";
@@ -167,6 +180,10 @@ export default {
     return {
       formData: {},
       formList,
+      partTableTitle1_all,
+      ruleTableTitle1_all,
+      isruleTitle1:false,
+      isruleTitle2:false,
       ruleTableTitle1_1,
       partTableTitle1_1,
       ruleTableListData: [],
@@ -204,6 +221,7 @@ export default {
     this.getPagePartMasterData()
   },
   computed: {
+   
     mtzObject(){
       return this.$store.state.location.mtzObject;
     },
@@ -232,6 +250,13 @@ export default {
     }
   },
   methods: {
+    clickn(){
+      this.$nextTick(()=>{
+        this.isruleTitle1=true
+
+      })
+      console.log(this.isruleTitle1)
+    },
     handleCurrentChangeTable(e){
       this.clickRulesNumber = 1;
       this.loadingPart = true;
@@ -349,6 +374,16 @@ $tabsInforHeight: 35px;
   overflow-y:auto;
   background:white!important;
 }
+.formStyle {
+  position: relative;
+
+}
+.btn{
+    position: absolute;
+    right: -10px;
+    top: 25px;
+    z-index: 900;
+  }
 .sign_swap{
   width:100%;
   height:100%;
@@ -388,6 +423,9 @@ $tabsInforHeight: 35px;
   margin-top: 10px;
   width:33px;
   height:33px;
+}
+::v-deep.el-button--mini.is-circle{
+  padding: 3px 4px;
 }
 .applayDateContentItem {
   width: 100%;

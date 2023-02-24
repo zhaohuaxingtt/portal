@@ -75,10 +75,19 @@
               </div>
             </template>
           </div>
+       
         </div>
+       
         <div ref="ruleTableTitle">
           <el-divider class="hr_divider" />
-
+          <div v-if="RsObject" class="centerBox">
+            <p>补差金额=零件结算数量 <iTooltip :txtInfo="tipList[0]" :num="'1'"></iTooltip>
+              *[原材料市场价<iTooltip :txtInfo="tipList[1]" :num="'2'"></iTooltip> -原材料基价<iTooltip :txtInfo="tipList[2]" :num="'3'">
+              </iTooltip> *(1+阈值<iTooltip :txtInfo="tipList[3]" :num="'4'"></iTooltip> )]*原材料用量
+              <iTooltip :txtInfo="tipList[4]" :num="'5'"></iTooltip> *补差系数<iTooltip :txtInfo="tipList[5]" :num="'6'"></iTooltip>
+            </p>
+            <p>MTZ Payment=Settle accounts Quantity*[Effective Price-Base Price(1+threshold)]*Raw Material Weight*Ratio</p>
+          </div>
           <div class="infor_futitle">
             <span class="big_font">Regulation:</span>
             <br />
@@ -102,81 +111,97 @@
           </p>
         </div>
         <!-- highlight-current-row -->
-        <tableList
-          class="margin-top20"
-          ref="moviesTable"
-          :tableData="ruleTableListData"
-          :tableTitle="ruleTableTitle1_1"
-          @handleClickRow="handleCurrentChangeTable"
-          :tableLoading="loadingRule"
-          :header-row-class-name="'ruleTableHeader'"
-          :index="true"
-          :rowClassName="'table-row'"
-          v-if="RsObject"
-          :selection="false"
-          border
-        >
-          <template slot-scope="scope" slot="compensationPeriod">
-            <span>{{
-              scope.row.compensationPeriod == 'A'
-                ? '年度'
-                : scope.row.compensationPeriod == 'H'
-                ? '半年度'
-                : scope.row.compensationPeriod == 'Q'
-                ? '季度'
-                : scope.row.compensationPeriod == 'M'
-                ? '月度'
-                : ''
-            }}</span>
-          </template>
-          <template slot-scope="scope" slot="thresholdCompensationLogic">
-            <span>{{
-              scope.row.thresholdCompensationLogic == 'A'
-                ? '全额补差'
-                : scope.row.thresholdCompensationLogic == 'B'
-                ? '超额补差'
-                : ''
-            }}</span>
-          </template>
-          <template slot-scope="scope" slot="sapCode">
-            <span>{{ scope.row.sapCode }}</span
-            ><br />
-            <span>{{ scope.row.supplierName }}</span>
-          </template>
-        </tableList>
-        <!-- 导出规则表格 -->
-        <tableList
-          class="margin-top20"
-          ref="moviesTable"
-          :tableData="ruleTableListData"
-          :tableTitle="ruleTableTitle1_1"
-          :tableLoading="loadingRule"
-          v-if="!RsObject && ruleTableListData.length > 0"
-          :index="true"
-          :rowClassName="'table-row'"
-          :header-row-class-name="'ruleTableHeader'"
-          :selection="false"
-          border
-        >
-          <template slot-scope="scope" slot="sapCode">
-            <span>{{ scope.row.sapCode }}</span
-            ><br />
-            <span>{{ scope.row.supplierName }}</span>
-          </template>
-          <template slot-scope="scope" slot="compensationPeriod">
-            <span>{{
-              scope.row.compensationPeriod == 'A'
-                ? '年度'
-                : scope.row.compensationPeriod == 'H'
-                ? '半年度'
-                : scope.row.compensationPeriod == 'Q'
-                ? '季度'
-                : scope.row.compensationPeriod == 'M'
-                ? '月度'
-                : ''
-            }}</span>
-          </template>
-        </tableList>
+        <div class="margin-top20 formStyle">
+          <div v-if="RsObject" class="btn ">
+            <el-button type="primary" size="mini" circle @click="isruleTitle1=!isruleTitle1">{{isruleTitle1?'-':'+'}}</el-button>
+          </div>
+          <tableList
+          :tagNum="'1'"
+            ref="moviesTable"
+            :tableData="ruleTableListData"
+            :tableTitle="isruleTitle1?ruleTableTitle1_all:ruleTableTitle1_1"
+            @handleClickRow="handleCurrentChangeTable"
+            :tableLoading="loadingRule"
+            :header-row-class-name="'ruleTableHeader'"
+            :index="true"
+            :rowClassName="'table-row'"
+            v-if="RsObject"
+            :selection="false"
+            border
+          >
+            <template slot-scope="scope" slot="compensationPeriod">
+              <span>{{
+                scope.row.compensationPeriod == 'A'
+                  ? '年度'
+                  : scope.row.compensationPeriod == 'H'
+                  ? '半年度'
+                  : scope.row.compensationPeriod == 'Q'
+                  ? '季度'
+                  : scope.row.compensationPeriod == 'M'
+                  ? '月度'
+                  : ''
+              }}</span>
+            </template>
+            <template slot-scope="scope" slot="thresholdCompensationLogic">
+              <span>{{
+                scope.row.thresholdCompensationLogic == 'A'
+                  ? '全额补差'
+                  : scope.row.thresholdCompensationLogic == 'B'
+                  ? '超额补差'
+                  : ''
+              }}</span>
+            </template>
+            <template slot-scope="scope" slot="sapCode">
+              <span>{{ scope.row.sapCode }}</span
+              ><br />
+              <span>{{ scope.row.supplierName }}</span>
+            </template>
+            <template slot-scope="scope" slot="materialCode">
+              <span>{{ scope.row.materialCode }}</span
+              ><br />
+              <span>{{ scope.row.materialName }}</span>
+            </template>
+          </tableList>
+      <!-- 导出规则表格 -->
+          <tableList
+            ref="moviesTable"
+            :tableData="ruleTableListData"
+            :tableTitle="isruleTitle1?ruleTableTitle1_all:ruleTableTitle1_1"
+            :tableLoading="loadingRule"
+            v-if="!RsObject && ruleTableListData.length > 0"
+            :index="true"
+            :rowClassName="'table-row'"
+            :header-row-class-name="'ruleTableHeader'"
+            :selection="false"
+            border
+          >
+            <template slot-scope="scope" slot="sapCode">
+              <span>{{ scope.row.sapCode }}</span
+              ><br />
+              <span>{{ scope.row.supplierName }}</span>
+            </template>
+            <template slot-scope="scope" slot="compensationPeriod">
+              <span>{{
+                scope.row.compensationPeriod == 'A'
+                  ? '年度'
+                  : scope.row.compensationPeriod == 'H'
+                  ? '半年度'
+                  : scope.row.compensationPeriod == 'Q'
+                  ? '季度'
+                  : scope.row.compensationPeriod == 'M'
+                  ? '月度'
+                  : ''
+              }}</span>
+            </template>
+            <template slot-scope="scope" slot="materialCode">
+              <span>{{ scope.row.materialCode }}</span
+              ><br />
+              <span>{{ scope.row.materialName }}</span>
+            </template>
+        
+          </tableList>
+        </div>
+
         <div ref="partTableTitle">
           <el-divider v-if="RsObject" />
           <el-divider
@@ -193,11 +218,16 @@
             {{ language('LJQD', '零件清单') }}-Part List
           </p>
         </div>
+        <div class="margin-top20 formStyle">
+          <div v-if="RsObject" class="btn ">
+            <el-button type="primary" size="mini" circle @click="isruleTitle2=!isruleTitle2">{{isruleTitle2?'-':'+'}}</el-button>
+          </div>
         <tableList
-          class="margin-top20 over_flow_y_ture"
+        :tagNum="'1'"
+          class=" over_flow_y_ture"
           ref="partTable"
           :tableData="partTableListData"
-          :tableTitle="partTableTitle1_1"
+          :tableTitle="isruleTitle2?partTableTitle1_all:partTableTitle1_1"
           :tableLoading="loadingPart"
           v-if="RsObject"
           :index="true"
@@ -228,10 +258,16 @@
             ><br />
             <span>{{ scope.row.supplierName }}</span>
           </template>
+          <template slot-scope="scope" slot="materialCode">
+            <span>{{ scope.row.materialCode }}</span
+            ><br />
+            <span>{{ scope.row.materialName }}</span>
+          </template>
         </tableList>
         <!-- 导出零件表格 -->
         <tableList
-          class="margin-top20"
+
+         
           ref="partTable"
           :tableData="partTableListData"
           :tableTitle="partTableTitle1_1"
@@ -260,7 +296,14 @@
                 : ''
             }}</span>
           </template>
+          <template slot-scope="scope" slot="materialCode">
+            <span>{{ scope.row.materialCode }}</span
+            ><br />
+            <span>{{ scope.row.materialName }}</span>
+          </template>
         </tableList>
+      </div>
+
         <div class="padding-bottom30" ref="padding"></div>
       </iCard>
       <iCard class="margin-top20">
@@ -517,6 +560,11 @@
                 ><br />
                 <span>{{ scope.row.supplierName }}</span>
               </template>
+              <template slot-scope="scope" slot="materialCode">
+            <span>{{ scope.row.materialCode }}</span
+            ><br />
+            <span>{{ scope.row.materialName }}</span>
+          </template>
             </tableList>
             <!-- 导出规则表格 -->
             <tableList
@@ -547,6 +595,11 @@
                     : ''
                 }}</span>
               </template>
+              <template slot-scope="scope" slot="materialCode">
+            <span>{{ scope.row.materialCode }}</span
+            ><br />
+            <span>{{ scope.row.materialName }}</span>
+          </template>
             </tableList>
           </iCard>
           <div class="page-logo">
@@ -572,6 +625,7 @@
           <iCard class="upload_hr" :style="{ height: pdfItemHeight + 'px' }">
             <div slot="header" class="headBox">
               <p class="headTitle">{{ title }}</p>
+              
               <!-- <div class="tabs_box_right"> -->
               <div class="tabs_box_right" v-if="meetingType">
                 <div class="big_text">
@@ -895,7 +949,9 @@ import { iCard, icon, iInput, iButton, iMessage, iPagination } from 'rise'
 import { formList } from './data'
 import signExport from './signExport.vue'
 import tableList from '@/components/commonTable/index.vue'
-import { ruleTableTitle1_1, partTableTitle1_1 } from './data'
+import { ruleTableTitle1_1,ruleTableTitle1_all, partTableTitle1_1,partTableTitle1_all } from './data'
+import iTooltip from "../../applyInfor/iTooltip";
+import { tipList } from '../../applyInfor/data'
 import {
   getAppFormInfo,
   pageAppRule,
@@ -911,6 +967,7 @@ import html2canvas from 'html2canvas'
 export default {
   mixins: [pageMixins],
   components: {
+    iTooltip,
     iCard,
     icon,
     iInput,
@@ -925,8 +982,13 @@ export default {
   inject: ['pageTitle'],
   data() {
     return {
+      isruleTitle2:false,
+      isruleTitle1:false,
+      tipList,
       formData: {},
       formList,
+      partTableTitle1_all,
+      ruleTableTitle1_all,
       ruleTableTitle1_1,
       partTableTitle1_1,
       ruleTableListData: [],
@@ -968,6 +1030,8 @@ export default {
     if (this.RsType) {
       this.RsObject = false
     }
+    console.log(this.RsType)
+
     this.initApplayDateData()
     this.getAppFormInfo()
     this.getPageAppRule()
@@ -1447,6 +1511,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.centerBox {
+  margin: 20px 0;
+  p{
+    font-size: 18px;
+  }
+}
 #tabsBoxTitle,
 .computed {
   ::v-deep .cardBody {
@@ -1458,7 +1528,9 @@ $tabsInforHeight: 35px;
 ::v-deep .cardHeader {
   padding: 1.875rem 1.5625rem 0 2.4rem !important;
 }
-
+::v-deep.el-button--mini.is-circle{
+  padding: 3px 4px;
+}
 .tableTitle {
   font-weight: bold;
   font-family: Arial;
@@ -1531,7 +1603,16 @@ $tabsInforHeight: 35px;
   border-radius: 15px;
   text-align: center;
 }
+.formStyle {
+  position: relative;
 
+}
+.btn{
+    position: absolute;
+    right: -10px;
+    top: 25px;
+    z-index: 900;
+  }
 .tabsBoxInfor {
   margin-bottom: 10px;
   display: flex;

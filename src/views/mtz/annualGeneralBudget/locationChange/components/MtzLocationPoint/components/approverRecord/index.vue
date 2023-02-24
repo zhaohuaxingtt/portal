@@ -11,7 +11,7 @@
   <iPage>
     <iCard>
       <div class="title">
-        <span>{{ language('关联定点申请', "关联定点申请") }}</span>
+        <span class="font18_b">{{ language('关联定点申请', "关联定点申请") }}</span>
         <div>
           <iButton @click="relation" v-permission="PORTAL_MTZ_POINT_INFOR_GLLJDDSQ" v-if="applyNumber === '' && showType">
             {{
@@ -46,7 +46,7 @@ import {
   disassociate,
   pageAppRule
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
-import { iPage, iCard, iButton, iLabel, iInput, iMessageBox, iDialog } from 'rise'
+import { iPage, iCard, iButton, iLabel, iInput, iMessageBox, iDialog,iMessage } from 'rise'
 import approveTable from './components/approveTable'
 export default {
   components: {
@@ -183,9 +183,13 @@ export default {
 }
 
 .title {
-  font-size: 18px;
+  // font-size: 18px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+.font18_b{
+  font-size: 18px;
+font-weight: bold;
 }
 </style>
