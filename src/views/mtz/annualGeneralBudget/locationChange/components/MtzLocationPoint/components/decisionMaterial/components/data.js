@@ -168,7 +168,7 @@ export const ruleTableTitle1_2 = [
     key: '贵金属用量&基价单位',
     overlap: true,
     overlapbottom: 'Precious Metal Consumption & Base Price Unit',
-    width: 140
+    width: 150
   },
   {
     props: 'substrateExw',
@@ -192,7 +192,7 @@ export const ruleTableTitle1_2 = [
     key: '载体管理费率(%)',
     overlap: true,
     overlapbottom: 'substrate Handling',
-    width: 110
+    width: 120
   },
   {
     props: 'pgmHandling',
@@ -200,7 +200,7 @@ export const ruleTableTitle1_2 = [
     key: '贵金属管理费率(%)',
     overlap: true,
     overlapbottom: 'pgm Handling',
-    width: 110
+    width: 130
   },
   {
     props: 'manufacture',
@@ -474,7 +474,7 @@ export const ruleTableTitle1_all = [
     key: '贵金属用量&基价单位',
     overlap: true,
     overlapbottom: 'Precious Metal Consumption & Base Price Unit',
-    width: 140
+    width: 150
   },
   {
     props: 'substrateExw',
@@ -498,7 +498,7 @@ export const ruleTableTitle1_all = [
     key: '载体管理费率(%)',
     overlap: true,
     overlapbottom: 'substrate Handling',
-    width: 110
+    width: 120
   },
   {
     props: 'pgmHandling',
@@ -506,7 +506,7 @@ export const ruleTableTitle1_all = [
     key: '贵金属管理费率(%)',
     overlap: true,
     overlapbottom: 'pgm Handling',
-    width: 110
+    width: 130
   },
   {
     props: 'manufacture',
@@ -908,7 +908,7 @@ export const partTableTitle1_2 =[
     key: '贵金属用量&基价单位',
     overlap: true,
     overlapbottom: 'Precious Metal Consumption & Base Price Unit',
-    width: 140
+    width: 150
   },
   {
     props: 'substrateExw',
@@ -932,7 +932,7 @@ export const partTableTitle1_2 =[
     key: '载体管理费率(%)',
     overlap: true,
     overlapbottom: 'substrate Handling',
-    width: 110
+    width: 120
   },
   {
     props: 'pgmHandling',
@@ -940,7 +940,7 @@ export const partTableTitle1_2 =[
     key: '贵金属管理费率(%)',
     overlap: true,
     overlapbottom: 'pgm Handling',
-    width: 110
+    width: 130
   },
   {
     props: 'manufacture',
@@ -1244,7 +1244,7 @@ export const partTableTitle1_all = [
     key: '贵金属用量&基价单位',
     overlap: true,
     overlapbottom: 'Precious Metal Consumption & Base Price Unit',
-    width: 140
+    width: 150
   },
   {
     props: 'substrateExw',
@@ -1268,7 +1268,7 @@ export const partTableTitle1_all = [
     key: '载体管理费率(%)',
     overlap: true,
     overlapbottom: 'substrate Handling',
-    width: 110
+    width: 120
   },
   {
     props: 'pgmHandling',
@@ -1276,7 +1276,7 @@ export const partTableTitle1_all = [
     key: '贵金属管理费率(%)',
     overlap: true,
     overlapbottom: 'pgm Handling',
-    width: 110
+    width: 130
   },
   {
     props: 'manufacture',
