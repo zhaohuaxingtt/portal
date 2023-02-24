@@ -146,8 +146,8 @@
         <el-table-column
           prop="sapCode"
           align="center"
-          :label="language('GONGYINGSHANGBIANHAOMINGCHENG', '供应商编号/名称')"
-          :width="isTitle?'140':''"
+          :label="language('GONGYINGSHANGBIANHAOMINGCHENG', '供应商')"
+          
         >
           <!-- supplierName供应商名称 -->
           <template slot-scope="scope">
@@ -176,7 +176,6 @@
         <el-table-column
           prop="partUnit"
           align="center"
-          width="120"
           :label="language('LINGJIANSHULIANGDANWEI', '零件数量单位')"
           
         >
@@ -233,7 +232,6 @@
         <el-table-column
           prop="dosageMeasureUnit"
           align="center"
-          width="130"
           :label="language('YONGLIANGJILIANGDANEWI', '用量计量单位')"
           
         >
@@ -272,7 +270,6 @@
         <el-table-column
           prop="materialDoseSource"
           align="center"
-          width="130"
           :label="language('原材料用量来源', '原材料用量来源')"
           
         >
@@ -306,7 +303,6 @@
         <el-table-column
           prop="startDate"
           align="center"
-          width="105"
           :label="language('YOUXIAOQIQI', '有效期起')"
           
         >
@@ -324,7 +320,6 @@
         <el-table-column
           prop="endDate"
           align="center"
-          width="105"
           :label="language('YOUXIAOQIZHI', '有效期止')"
           
         >
