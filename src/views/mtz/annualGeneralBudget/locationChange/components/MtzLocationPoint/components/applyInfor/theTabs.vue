@@ -58,7 +58,7 @@
         </el-table-column>
 
 
-        <el-table-column prop="formalFlag" align="center" width="80" :label="language('SHIFOUWEIXINGUIZE', '是否为新规则')">
+        <el-table-column prop="formalFlag" align="center"  :label="language('SHIFOUWEIXINGUIZE', '是否为新规则')">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'formalFlag'"
               :rules="formRules.formalFlag ? formRules.formalFlag : ''">
@@ -139,7 +139,7 @@
           </template>
         </el-table-column>
         <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-        <el-table-column prop="partBalanceCountType" align="center" width="90" :label="language('零件结算数量', '零件结算数量')">
+        <el-table-column prop="partBalanceCountType" align="center"  :label="language('零件结算数量', '零件结算数量')">
           <template slot="header" slot-scope="scope">
             <span>{{ language('零件结算数量', '零件结算数量') }}<iTooltip :txtInfo="tipList[0]" :num="'1'"></iTooltip></span>
           </template>
@@ -150,7 +150,7 @@
             </el-form-item>
           </template>
         </el-table-column>
-        <el-table-column prop="source" align="center" width="80" :label="language('SHICHANGJIALAIYUAN', '市场价来源')">
+        <el-table-column prop="source" align="center"  :label="language('SHICHANGJIALAIYUAN', '市场价来源')">
           <template slot="header" slot-scope="scope">
             <span>{{ language('SHICHANGJIALAIYUAN', '市场价来源') }}<iTooltip :txtInfo="tipList[1]" :num="'2'"></iTooltip></span>
           </template>
@@ -188,7 +188,7 @@
             </el-form-item>
           </template>
         </el-table-column>
-        <el-table-column prop="avgPeriod" align="center" width="90" :label="language('均值计算周期', '均值计算周期')">
+        <el-table-column prop="avgPeriod" align="center"  :label="language('均值计算周期', '均值计算周期')">
           <template slot="header" slot-scope="scope">
             <span>{{ language('均值计算周期', '均值计算周期') }}<iTooltip :type="'icon'" :txtInfo="tipList[6]" :num="'1'"></iTooltip>
               </span>
@@ -205,7 +205,7 @@
             </el-form-item>
           </template>
         </el-table-column>
-        <el-table-column prop="offset" align="center" width="80" :label="language('计算偏移量', '计算偏移量')">
+        <el-table-column prop="offset" align="center"  :label="language('计算偏移量', '计算偏移量')">
           <template slot="header" slot-scope="scope">
             <span>{{ language('计算偏移量', '计算偏移量') }}<iTooltip :type="'icon'" :txtInfo="tipList[7]" :num="'1'"></iTooltip>
               </span>
@@ -324,7 +324,7 @@
             </el-form-item>
           </template>
         </el-table-column>
-        <el-table-column prop="thresholdCompensationLogic" align="center" width="80"
+        <el-table-column prop="thresholdCompensationLogic" align="center" 
           :label="language('YUZHIBUCHALUOJI', '阈值补差逻辑')">
           <template slot-scope="scope">
             <el-form-item :prop="
