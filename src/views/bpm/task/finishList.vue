@@ -2,20 +2,27 @@
   <iPage class="template">
     <pageHeader>
       <span>{{ language('已审批列表') }}</span>
-      <div slot="actions">
-        <actionHeader
-          :todo-total="todoTotal"
-          :task-type="1"
-          :search-form="form"
-        />
-      </div>
+<!--      <div slot="actions">-->
+<!--        <actionHeader-->
+<!--          :todo-total="todoTotal"-->
+<!--          :task-type="1"-->
+<!--          :search-form="form"-->
+<!--        />-->
+<!--      </div>-->
     </pageHeader>
-    <searchForm is-finished @search="search" />
+    <searchForm is-finished :isSourceFindingPoint="true" @search="search" />
     <iCard>
       <div class="operation-btn">
         <iButton @click="exportTemplate">
           {{ language('LK_DAOCHU') }}
         </iButton>
+      </div>
+      <div class="cus-action-header">
+        <actionHeader
+          :todo-total="todoTotal"
+          :task-type="1"
+          :search-form="queryData"
+        />
       </div>
       <i-table-custom
         :loading="loading"
@@ -45,7 +52,7 @@
 import { iCard, iPage, iPagination, iButton } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import filters from '@/utils/filters'
-import { MAP_APPROVAL_TYPE } from '@/constants'
+import { BPM_SINGL_CATEGORY_LIST, MAP_APPROVAL_TYPE } from '@/constants'
 import iTableCustom from '@/components/iTableCustom'
 import pageHeader from '@/components/pageHeader'
 import taskMixin from './taskMixin'
@@ -170,6 +177,7 @@ export default {
       ],
       selectTableData: [],
       form: {},
+      queryData: {},
       agreeType: 1,
       dialogApprovalVisible: false,
       todoTotal: 0,
@@ -187,9 +195,9 @@ export default {
       const { categoryList } = queryForm
       if (categoryList) {
         if (_.isArray(categoryList)) {
-          modelTemplate = JSON.stringify(categoryList)
+          modelTemplate = JSON.stringify(categoryList[0])
         } else {
-          modelTemplate = JSON.stringify([categoryList])
+          modelTemplate = JSON.stringify(categoryList)
         }
       }
       this.modelTemplate = modelTemplate
@@ -198,7 +206,9 @@ export default {
   methods: {
     //打开详情页
     handleTableClick(item) {
-      this.goDetail(item, 1)
+      const queryData = this.genQueryData()
+      // 增加带上当前的pge
+      this.goDetail(item, 1, { ...queryData, page: this.page })
     },
     // 查询
     search(val, templates) {
@@ -214,18 +224,15 @@ export default {
       this.form = {}
       this.getTableList()
     },
-    getTableList() {
-      this.loading = true
-      const params = {
-        pageNum: this.page.currPage,
-        pageSize: this.page.pageSize
-      }
-
+    genQueryData: function() {
       const searchData = filterEmptyValue(this.form)
       console.log(searchData)
 
-      if (searchData.itemTypeList && searchData.itemTypeList.length === 0) {
+      if (searchData.itemTypeList && (searchData.itemTypeList.length === 0 || (searchData.itemTypeList.length === 1 && searchData.itemTypeList[0] == -1))) {
         delete searchData.itemTypeList
+      }
+      if (searchData.categoryList && (searchData.categoryList.length === 0 || (searchData.categoryList.length === 1 && searchData.categoryList[0] == ''))) {
+        delete searchData.categoryList
       }
       if (searchData.categoryList && _.isArray(searchData.categoryList)) {
         if (
@@ -234,6 +241,8 @@ export default {
             searchData.categoryList[0] === '')
         ) {
           delete searchData.categoryList
+        } else if(searchData.categoryList[0] && _.isArray(searchData.categoryList[0]) && searchData.categoryList[0].length) {
+          searchData.categoryList = [searchData.categoryList[0][0]]
         }
       }
       if (
@@ -242,13 +251,22 @@ export default {
       ) {
         searchData.categoryList = [searchData.categoryList]
       }
-
       const data = {
         taskType: this.taskType,
         userID: this.$store.state.permission.userInfo.id,
         ...searchData,
         isAeko: false
       }
+      return data
+    },
+    getTableList() {
+      this.loading = true
+      const params = {
+        pageNum: this.page.currPage,
+        pageSize: this.page.pageSize
+      }
+      const data = this.genQueryData()
+      this.queryData = data
       const result = queryFinishedApprovals(params, data)
 
       result
@@ -282,5 +300,14 @@ export default {
   display: flex;
   margin-bottom: 22px;
   text-align: right;
+}
+.cus-action-header {
+  display: inline;
+  ::v-deep .types {
+    display: inline-flex;
+  }
+  ::v-deep .tab:first-child {
+    margin-left: 0 !important;
+  }
 }
 </style>

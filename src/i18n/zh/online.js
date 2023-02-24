@@ -2653,6 +2653,8 @@ export default {
   LK_YQ_QINGXUNAZENEIRONGFENLEI: '请选择内容分类',
   XIUGAISHIJIAN: '修改时间',
   审批备注与附件: '审批备注与附件',
+  审批说明: '审批说明',
+  审批附件: '审批附件',
   审批备注: '审批备注',
   附件: '附件',
   GAIGONGYINGSHANGYIZAISUOYOUKENENGDEGONGYIZUHEIMINGDANZHON:
@@ -3212,6 +3214,11 @@ export default {
   是否为主用户: '是否为主用户',
   区号: '区号',
   联系人类型: '联系人类型',
+  早上好: '早上好',
+  中午好: '中午好',
+  下午好: '下午好',
+  晚上好: '晚上好',
+  欢迎登录RiSE: '欢迎登录RiSE',
   LIANXIRENDEXINGMINGDIANHUADIANZIYOUJIANBITIAN:
     '联系人的姓名，电话，电子邮件必填！',
   任务中心: '任务中心',
