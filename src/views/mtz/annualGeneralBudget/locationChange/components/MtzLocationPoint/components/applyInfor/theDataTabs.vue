@@ -1045,6 +1045,9 @@ export default {
       }
     }
     return {
+      materialDoseSourceList,
+      avgPeriodList,
+      offsetList,
       tipList,
       isTitle:false,
       formRules: {
