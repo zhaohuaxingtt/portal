@@ -7,13 +7,15 @@
  * @FilePath: \test\src\layout\default.vue
 -->
 <template>
-  <div class="content">
+  <div class="content" :class="{ 'no-left-layout': $route.meta.noLeftLayout, 'no-top-layout': $route.meta.noTopLayout }">
     <topLayout
+      v-if="!$route.meta.noTopLayout"
       :menus="menus_admin"
       :active-menu="activeMenu"
       @click-menu="handleClickAdminMenu"
     />
     <leftLayout
+      v-if="!$route.meta.noLeftLayout"
       ref="leftLayout"
       :menus="menus"
       :active-menu="activeMenu"
@@ -279,6 +281,16 @@ export default {
     height: 100%;
     width: 100%;
     position: relative;
+  }
+  &.no-left-layout {
+    .app-content {
+      padding-left: 0;
+    }
+  }
+  &.no-top-layout {
+    .app-content {
+      padding-top: 0;
+    }
   }
   .povper-content {
     position: fixed;

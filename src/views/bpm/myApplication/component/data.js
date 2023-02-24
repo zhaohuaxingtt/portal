@@ -9,7 +9,8 @@ export const searchForm = {
   businessId: '',
   endTime: '',
   startTime: '',
-  itemType: ''
+  itemType: '',
+  modelTemplate: '-1'
 }
 
 export const approvalTypes = [

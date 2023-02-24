@@ -30,10 +30,12 @@ export default [
         component: BpmTodoList
       },
       {
-        path: '/bpm/todoList/detail/:instanceId/:taskId/:finished',
+        path: '/bpm/todoList/detail/:instanceId/:taskId/:finished/:queryData?',
         name: 'bpmTaskUndoDetail',
         meta: {
-          title: '我的审批-待办任务详情'
+          title: '我的审批-待办任务详情',
+          noTopLayout: true,
+          noLeftLayout: true
         },
         component: BpmTaskDetail
       },
@@ -46,10 +48,12 @@ export default [
         component: BpmFinishList
       },
       {
-        path: '/bpm/finishList/detail/:instanceId/:taskId/:finished',
+        path: '/bpm/finishList/detail/:instanceId/:taskId/:finished/:queryData?',
         name: 'bpmTaskFinishDetail',
         meta: {
-          title: '我的审批-已办任务详情'
+          title: '我的审批-已办任务详情',
+          noTopLayout: true,
+          noLeftLayout: true
         },
         component: BpmTaskDetail
       },
@@ -62,10 +66,12 @@ export default [
         component: () => import('@/views/bpm/myApplication')
       },
       {
-        path: '/bpm/myApply/detail/:instanceId/:finished',
+        path: '/bpm/myApply/detail/:instanceId/:finished/:queryData?',
         name: 'BpmTaskApplyDetail',
         meta: {
-          title: '我的申请任务详情'
+          title: '我的申请任务详情',
+          noTopLayout: true,
+          noLeftLayout: true
         },
         component: () => import('@/views/bpm/myApplication/detail')
       },
@@ -80,10 +86,12 @@ export default [
         component: () => import('@/views/bpm/myApplicationAeko')
       },
       {
-        path: '/bpm/myAekoApply/detail/:instanceId/:finished',
+        path: '/bpm/myAekoApply/detail/:instanceId/:finished/:queryData?',
         name: 'BpmTaskApplyDetailAeko',
         meta: {
-          title: '我的申请任务详情'
+          title: '我的申请任务详情',
+          noTopLayout: true,
+          noLeftLayout: true
         },
         component: () => import('@/views/bpm/myApplicationAeko/detail')
       }

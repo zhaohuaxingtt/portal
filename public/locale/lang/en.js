@@ -832,6 +832,8 @@
       APPROVAL_SUCCESS: 'Approval successful',
       APPROVAL_FAILED: 'Approval failed',
       NODE_REQUIRED: 'Required for supplementary material nodes',
+      NO_APPROVAL_TODO: 'No pending approval data',
+      NO_MY_APPLICATION: 'No my application data',
       EXIT_EDIT: 'exit edit',
       LK_ZP: 'task transfer',
       LK_ZGZJ: 'give it to yourself'
@@ -1828,7 +1830,19 @@
     SPR_FRM_FXXH_YTJDFXXHSJBKSC: 'Submitted risk signal data cannot be deleted', //已提交的风险信号数据不可删除
     SPR_FRM_FXXH_SFQRTJ: 'Confirm submission', //是否确认提交
     // -----------------------ws3 供应商 end -------------------------------------------
-
+    MONDAY_TEXT: 'Monday',
+    TUESDAY_TEXT: 'Tuesday',
+    WEDNESDAY_TEXT: 'Wednesday',
+    THURSDAY_TEXT: 'Thursday',
+    FRIDAY_TEXT: 'Friday',
+    SATURDAY_TEXT: 'Saturday',
+    SUNDAY_TEXT: 'Sunday',
+    APPROVAL_TODO_LIST: 'Approval Todo List',
+    APPROVAL_INSTRUCTIONS: 'Approval Instructions',
+    APPROVAL_ATTACHMENTS: 'Approval Attachments',
+    APPROVAL_DETAILS: 'Approval Details',
+    APPROVAL_FLOW: 'Approval Flow',
+    APPROVAL_RECORDS: 'Approval Records',
     LK_WDYJ: 'my performance',
     LK_YJJC: 'performance basis',
     LK_MIAOSHU: 'describe',
@@ -2043,12 +2057,18 @@
       MY_APPROVAL: 'My Approval',
       OVERDUE: 'Overdue',
       IN_PROGRESS: 'In Progress',
+      OVERDUE_TEXT: 'Overdue',
+      IN_PROGRESS_TEXT: 'In Progress',
       HOME_MODULE_SPONSER: 'FRM',
       HOME_MODULE_SCHEDULE: 'Schedule',
       HOME_MODULE_APPROVE: 'iAgree',
+      HOME_MODULE_I_TASK: 'iTask',
+      HOME_MODULE_I_MEETING: 'iMeeting',
+      HOME_MODULE_I_FACT: 'iFact',
       HOME_MODULE_VOLUME: 'Volume Pricing',
       HOME_MODULE_NEWS: 'News',
-      HOME_MODULE_PROVIDER_RATE: 'Spare Supply Rate'
+      HOME_MODULE_PROVIDER_RATE: 'Spare Supply Rate',
+      NO_TASK_DATA: 'No task data'
     },
     //会议中英文
     MT_HUIYIMINGCHENG: 'Meeting name',
@@ -2166,7 +2186,7 @@
 
 
 
-    
+
 
     POSITION: {
       POSITION_NAME: 'Position name',

@@ -1,33 +1,43 @@
 <template>
   <iPage class="approval-detail" v-loading="loading">
-    <div class="page-header margin-bottom20">
-      <detailTitle :form="form" />
-      <div class="operation-btn">
-        <viewFlow :detail="form" />
-        <!-- 批准 -->
-        <iButton
-          v-if="!finished && (buttons.批准 || buttons.无异议)"
-          :loading="loading"
-          :disabled="canApprove"
-          @click="onComplete(mapApprovalType.AGREE, language('批准'))"
-        >
-          {{ buttons.批准 ? language('批准') : language('无异议') }}
-        </iButton>
-        <!-- 拒绝 -->
-        <iButton
-          v-if="!finished && buttons.拒绝"
-          :loading="loading"
-          :disabled="canApprove"
-          @click="onComplete(mapApprovalType.REFUSE, language('拒绝'))"
-        >
-          {{ language('拒绝') }}
-        </iButton>
-        <!-- 补充材料 -->
-        <iButton
-          v-if="!finished && (buttons.补充材料 || buttons.有异议)"
-          :disabled="canApprove"
-          :loading="loading"
-          @click="
+    <div class="page-header margin-bottom20 cus-task-detail-header">
+      <div class="cus-approval-detail-title">
+        <div class="cus-approval-detail-title-info">
+          <detailTitle :form="form" />
+          <taskNavigation ref="taskNavigation" :queryType="queryType" :isFinished="finished"/>
+        </div>
+        <div style="padding-left: 40px">
+          <el-row :gutter="20">
+          <el-col :span="12">
+            <processNodeAnchors />
+          </el-col>
+          <el-col :span="12">
+            <div class="operation-btn">
+              <!--        <viewFlow :detail="form" />-->
+              <!-- 批准 -->
+              <iButton
+                v-if="!finished && (buttons.批准 || buttons.无异议)"
+                :loading="loading"
+                :disabled="canApprove"
+                @click="onComplete(mapApprovalType.AGREE, language('批准'))"
+              >
+                {{ buttons.批准 ? language('批准') : language('无异议') }}
+              </iButton>
+              <!-- 拒绝 -->
+              <iButton
+                v-if="!finished && buttons.拒绝"
+                :loading="loading"
+                :disabled="canApprove"
+                @click="onComplete(mapApprovalType.REFUSE, language('拒绝'))"
+              >
+                {{ language('拒绝') }}
+              </iButton>
+              <!-- 补充材料 -->
+              <iButton
+                v-if="!finished && (buttons.补充材料 || buttons.有异议)"
+                :disabled="canApprove"
+                :loading="loading"
+                @click="
             onComplete(
               mapApprovalType.APPEND_DATA,
               buttons.补充材料
@@ -35,13 +45,18 @@
                 : language('有异议', '有异议')
             )
           "
-        >
-          {{
-            buttons.补充材料
-              ? language('补充材料', '补充材料')
-              : language('有异议', '有异议')
-          }}
-        </iButton>
+              >
+                {{
+                  buttons.补充材料
+                    ? language('补充材料', '补充材料')
+                    : language('有异议', '有异议')
+                }}
+              </iButton>
+            </div>
+
+          </el-col>
+        </el-row>
+        </div>
       </div>
     </div>
 
@@ -49,9 +64,10 @@
     <lastNode :form="form" />
 
     <!-- 基础信息 -->
-    <baseForm :form="form" />
+    <baseForm :form="form" :divide-to-tow="true" />
 
     <detailProcessForm
+      id="APPROVAL_DETAILS"
       :flow-form-url="flowFormUrl"
       :form-height="form.formHeight"
       :form="form"
@@ -62,7 +78,7 @@
       header-control
       collapse
       class="margin-bottom20"
-    > 
+    >
       <processNodeHorizontal
         v-if="form.panorama"
         :panorama="form.panorama"
@@ -70,7 +86,11 @@
       />
     </i-card> -->
 
-    <i-card :title="language('审批历史')" header-control collapse>
+    <i-card id="APPROVAL_FLOW" :title="language('审批流')" class="margin-top20" header-control collapse>
+      <viewFlow :detail="form" :withIButton="false" />
+    </i-card>
+
+    <i-card id="APPROVAL_RECORDS" :title="language('审批历史')" class="margin-top20" header-control collapse>
       <i-table-custom :data="form.histories" :columns="historyTableTitle" />
     </i-card>
 
@@ -106,11 +126,13 @@ import {
   lastNode,
   baseForm,
   viewFlow,
+  taskNavigation,
+  processNodeAnchors,
   detailTitle
 } from './components'
 import { excelExport } from '@/utils/filedowLoad'
 import iTableCustom from '@/components/iTableCustom'
-import { MAP_APPROVAL_TYPE, BPM_CATEGORY_RENAME_YIYI_LIST } from '@/constants'
+import { MAP_APPROVAL_TYPE, BPM_CATEGORY_RENAME_YIYI_LIST, QUERY_DRAWER_TYPES } from '@/constants'
 import { queryWorkflowDetail } from '@/api/approval/myApplication'
 import {
   completeApproval,
@@ -130,6 +152,8 @@ export default {
     lastNode,
     baseForm,
     viewFlow,
+    taskNavigation,
+    processNodeAnchors,
     detailTitle
   },
   data() {
@@ -233,6 +257,13 @@ export default {
     }
   },
   computed: {
+    queryType() {
+      if(this.finished) {
+        return QUERY_DRAWER_TYPES.APPLY_FINISH
+      } else {
+        return QUERY_DRAWER_TYPES.APPLY_TODO
+      }
+    },
     finished() {
       // 状态3,4审批中
       return (
@@ -348,8 +379,11 @@ export default {
             if (res.result) {
               this.$message.success(res.desZh || this.language('操作成功'))
 
-              reloadOpener()
-              this.replaceUrl()
+              const finished = this.$refs.taskNavigation.handleFinishCurrentTask()
+              if(!finished) {
+                reloadOpener()
+                this.replaceUrl()
+              }
             } else {
               this.$message.error(res.desZh || this.language('操作失败'))
             }
@@ -365,9 +399,12 @@ export default {
       }
     },
     approvelSuccess() {
-      reloadOpener()
       this.dialogApprovalVisible = false
-      this.replaceUrl()
+      const isFinished = this.$refs.taskNavigation.handleFinishCurrentTask()
+      if(!isFinished) {
+        reloadOpener()
+        this.replaceUrl()
+      }
     },
     //导出
     exportTemplate() {
@@ -391,7 +428,25 @@ export default {
 <style lang="scss" scoped>
 .approval-detail {
   position: relative;
-  padding-top: 80px;
+  //padding-top: 80px;
+  padding-top: 175px;
+}
+.cus-task-detail-header {
+  top: 0 !important;
+  padding-top: 0 !important;
+  //margin-top: 65px;
+  margin-top: 0 !important;
+  width: calc(100% - 6.25rem) !important;
+  background-color: rgb(247, 247, 247) !important;
+  .cus-approval-detail-title {
+    width: 100%;
+    .cus-approval-detail-title-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+  z-index: 100 !important;
 }
 .el-link {
   line-height: 1em;
@@ -407,7 +462,7 @@ export default {
   width: calc(100% - 188px);
   background: $color-background;
   padding: 40px 0px 0px 0px;
-  z-index: 21;
+  z-index: 98;
 }
 #flow-form {
   width: 100%;
@@ -417,5 +472,9 @@ export default {
   flex-grow: 1;
   min-width: 350px;
   text-align: right;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  height: 80px;
 }
 </style>
