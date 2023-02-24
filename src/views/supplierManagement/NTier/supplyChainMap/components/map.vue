@@ -108,6 +108,63 @@ export default {
           return item
         }
       })
+      let obj = {}
+      let obj_country = {
+      }
+      let obj_province = {
+      }
+      let obj_city = {
+      }
+      this.markerList.forEach(item=>{
+        if(obj_country[item.country]){
+          obj_country[item.country||'-'].children.push(item)
+        }else{
+          obj_country[item.country||'-'] = {
+            children: [item]
+          }
+        }
+        if(obj_province[item.province]){
+          obj_province[item.province||'-'].children.push(item)
+        }else{
+          obj_province[item.province||'-'] = {
+            children: [item]
+          }
+        }
+        if(obj_city[item.city]){
+          obj_city[item.city||'-'].children.push(item)
+        }else{
+          obj_city[item.city||'-'] = {
+            children: [item]
+          } 
+        }
+        if(obj[item.lat+'-'+item.lon]){
+          obj[item.lat+'-'+item.lon].push(item)
+        } else{
+          obj[item.lat+'-'+item.lon] = [item]
+        }
+      })
+      this.obj= obj
+      console.log(obj);
+      console.log(obj_country);
+      console.log(obj_province);
+      console.log(obj_city);
+      Object.keys(obj_city).forEach(key=>{
+        let lat = []
+        let lon = []
+        let province = []
+        let country = []
+        obj_city[key].children.forEach(child=>{
+          lat.push(child.lat)
+          lon.push(child.lon)
+          province.push(child.province)
+          country.push(child.country)
+        })
+        obj_city[key].province = Array.from(new Set(province))
+        obj_city[key].country = Array.from(new Set(country))
+        obj_city[key].lat = (lat.reduce((a,b)=>{return +b+a},0)/lat.length).toFixed(2)
+        obj_city[key].lon = (lon.reduce((a,b)=>{return +b+a},0)/lon.length).toFixed(2)
+      })
+      this.markerList = Object.values(obj_city)
     },
     showCityInfo () {
       this.map = new AMap.Map('container', {
@@ -168,6 +225,13 @@ export default {
           topWhenClick: true,//鼠标点击时marker是否置顶
           clickable: true
         });
+        // if(this.obj[item.lat+'-'+item.lon].length>1)
+        this.marker[index].setLabel({
+          offset: new AMap.Pixel(0, 0), //设置文本标注偏移量
+// content:"<div>"+this.obj[item.lat+'-'+item.lon].length+"</div>",//设置文本标注内容
+content:"<div>"+item.children.length || item+"</div>",//设置文本标注内容
+direction:'bottom'//设置文本标注方位
+})
         this.marker[index].setMap(this.map)
         this.marker[index].on('click', (e) => {
           this.marker.forEach((i, index) => {
@@ -190,9 +254,6 @@ export default {
             imageSize: new AMap.Size(30, 30)
           }))
           this.getChainPart(this.marker[index]._opts.extData, item)
-          // if (e.target._opts.extData.viewType) {
-
-          // }
         })
       })
     },
