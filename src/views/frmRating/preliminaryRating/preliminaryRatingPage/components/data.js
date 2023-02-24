@@ -52,7 +52,7 @@ export const tableTitle = [
   },
   {
     prop: 'grade',
-    label: '初步评级',
+    label: '调整前评级',
     li8n: 'SUPPLIER_CHUBUPINGJI1',
     width: 120,
     tooltip: true
