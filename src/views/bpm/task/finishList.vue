@@ -10,7 +10,7 @@
 <!--        />-->
 <!--      </div>-->
     </pageHeader>
-    <searchForm is-finished :isSourceFindingPoint="true" @search="search" />
+    <searchForm ref="searchForm" is-finished :isSourceFindingPoint="true" @search="search" />
     <iCard>
       <div class="operation-btn">
         <iButton @click="exportTemplate">
@@ -22,6 +22,7 @@
           :todo-total="todoTotal"
           :task-type="1"
           :search-form="queryData"
+          @getActiveIndex="getActiveIndex"
         />
       </div>
       <i-table-custom
@@ -217,6 +218,9 @@ export default {
       this.page.currPage = 1
       this.getTableList()
     },
+    getActiveIndex(callback){
+      callback(this.$refs.searchForm.curActiveIndex)
+    },
     toggleTaskType(taskType) {
       this.taskType = taskType
       Vue.set(this.tableExtraData, 'taskType', taskType)
@@ -226,8 +230,6 @@ export default {
     },
     genQueryData: function() {
       const searchData = filterEmptyValue(this.form)
-      console.log(searchData)
-
       if (searchData.itemTypeList && (searchData.itemTypeList.length === 0 || (searchData.itemTypeList.length === 1 && searchData.itemTypeList[0] == -1))) {
         delete searchData.itemTypeList
       }
