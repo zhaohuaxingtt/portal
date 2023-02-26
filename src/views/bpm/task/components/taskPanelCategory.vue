@@ -170,10 +170,14 @@
             foundIndex = index
           }
         })
+        let curActiveIndex = null
+        if(this.$route.query.curActiveIndex){
+          curActiveIndex = +this.$route.query.curActiveIndex
+        }
         if(foundByTypeName) {
           this.selectSubTypeName = foundByTypeName.value
           this.onItemTypeListChange(foundByTypeName.value, false)
-          this.toggleActive(foundIndex, true)
+          this.toggleActive(curActiveIndex||foundIndex, true)
         } else {
           if(typeName === null || typeName === '' || typeName === undefined) {
             this.selectSubTypeName = '-1'
