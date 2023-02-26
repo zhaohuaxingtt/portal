@@ -21,6 +21,7 @@
         >{{ active == 1 ? '下载手工指标' : '导出Excel' }}
       </iButton>
       <el-upload
+      :disabled="importLoading"
         style="margin-left: 10px"
         action="1"
         :accept="'.xlsx,.xls'"
@@ -29,12 +30,13 @@
         :http-request="httpUpload"
       >
         <div>
-          <iButton v-loading="importLoading" v-if="active == 1 && $route.query.type == 'edit'"
+          <iButton :loading="importLoading"  v-if="active == 1 && $route.query.type == 'edit'"
             >{{ '上传手工指标' }}
           </iButton>
         </div>
       </el-upload>
       <el-upload
+      :disabled="importLoading"
         style="margin-left: 10px"
         action="1"
         :accept="'.xlsx,.xls'"
@@ -43,7 +45,7 @@
         :http-request="httpUpload"
       >
         <div>
-          <iButton v-loading="importLoading" v-if="active == 2 && $route.query.type == 'edit'"
+          <iButton  :loading="importLoading" v-if="active == 2 && $route.query.type == 'edit'"
             >{{ '上传主观打分' }}
           </iButton>
         </div>
@@ -283,10 +285,14 @@ export default {
             this.$message.success(this.language('DAORUCHENGGONG', '导入成功'))
             this.getTableList()
           } else {
+            // this.$set(this.importLoading,'fasle')
             this.importLoading = false
             this.$message.error(res.desZh)
           }
         })
+        .catch(( ) => {
+          this.importLoading = false;
+        });
       } else {
         await saveSystemPerformance(formData).then((res) => {
           if (res.code == 200 && res) {
@@ -298,6 +304,9 @@ export default {
             this.$message.error(res.desZh)
           }
         })
+        .catch(( ) => {
+          this.importLoading = false;
+        });
       }
     },
     // 上传前校验
