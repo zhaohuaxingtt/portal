@@ -176,7 +176,6 @@ export default {
       }
     },
     handleClickTitle(card) {
-      console.log(card, '111111111')
       if (card.component === 'Approve') {
         window.open(process.env.VUE_APP_HOST + '/portal/#/bpm/approval/center')
       } else if (card.component === 'Task') {

@@ -89,7 +89,9 @@ export default [
         path: '/bpm/myAekoApply/detail/:instanceId/:finished/:queryData?',
         name: 'BpmTaskApplyDetailAeko',
         meta: {
-          title: '我的申请任务详情'
+          title: '我的申请任务详情',
+          noTopLayout: true,
+          noLeftLayout: true
         },
         component: () => import('@/views/bpm/myApplicationAeko/detail')
       }
