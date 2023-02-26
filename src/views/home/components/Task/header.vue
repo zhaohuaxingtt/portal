@@ -4,12 +4,12 @@
       <div style="width: 100%">
         <div class="task-value-div">
           <div>
-            <span class="task-value" :class="{'overdue-task-value': overDueQtyStr}">{{ overDueQtyStr }}</span>
+            <span class="task-value" :class="{'overdue-task-value': overDueQtyStr}">{{ overDueQtyStr | overNum }}</span>
             <span class="task-value-title">{{ $t('HOME_CARD.OVERDUE_TEXT') }}</span>
           </div>
           <div class="task-value-divide-line">/</div>
           <div class='tab-title'>
-            <span class="task-value">{{ todoDueQtyStr }}</span>
+            <span class="task-value">{{ todoDueQtyStr | overNum }}</span>
             <span class="task-value-title">{{ $t('HOME_CARD.IN_PROGRESS_TEXT') }}</span>
           </div>
         </div>
@@ -34,12 +34,10 @@
     },
     computed: {
       overDueQtyStr() {
-        // console.log("overDueQtyStr...",this.taskQty, this.taskQty && this.taskQty.overdueQty ? this.taskQty.overdueQty : 0)
         return this.taskQty && this.taskQty.overdueQty ? this.taskQty.overdueQty : 0
       },
       todoDueQtyStr() {
-        // console.log("todoDueQtyStr...",this.taskQty, this.taskQty && this.taskQty.todoQty ? this.taskQty.todoQty : 0)
-        return this.taskQty && this.taskQty.todoQty ? this.taskQty.todoQty : 0
+        return this.taskQty && this.taskQty.todayQty ? this.taskQty.todayQty : 0
       }
     },
     data() {
@@ -66,7 +64,13 @@
       handleClick(item) {
         this.$emit('tab-click', item === 1)
       }
-    }
+    },
+    
+    filters: {
+      overNum: function(value) {
+        return value > 99 ? '99+' : value || 0
+      }
+  },
   }
 </script>
 

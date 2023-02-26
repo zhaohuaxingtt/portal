@@ -17,6 +17,7 @@
           :todo-total="todoTotal"
           :task-type="0"
           :search-form="queryData"
+          @getActiveIndex="getActiveIndex"
         />
       </div>
       <actionButtons
@@ -253,6 +254,9 @@ export default {
       this.templates = templates
       this.page.currPage = 1
       this.getTableList()
+    },
+    getActiveIndex(callback){
+      callback(this.$refs.searchForm.curActiveIndex)
     },
     genQueryData: function() {
       const searchData = filterEmptyValue(this.form)
