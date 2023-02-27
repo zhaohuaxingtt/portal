@@ -551,13 +551,13 @@
             </el-form-item>
           </template>
         </el-table-column>
-        <el-table-column prop="offset" align="center" width="80" :label="language('计算偏移量', '计算偏移量')">
+        <el-table-column prop="offsetMonth" align="center" width="80" :label="language('计算偏移量', '计算偏移量')">
  
           <template slot-scope="scope">
-          <el-form-item :prop="'tableData.' + scope.$index + '.' + 'offset'"
-            :rules="formRules.offset ? formRules.offset : ''">
+          <el-form-item :prop="'tableData.' + scope.$index + '.' + 'offsetMonth'"
+            :rules="formRules.offsetMonth ? formRules.offsetMonth : ''">
         
-                <span >{{ scope.row.offset?offsetList.find(val=>val.code==scope.row.offset).name:'' }}</span>
+                <span >{{ scope.row.offsetMonth?offsetList.find(val=>val.code==scope.row.offsetMonth).name:'' }}</span>
             </el-form-item>
           </template>
         </el-table-column>
