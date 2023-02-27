@@ -102,6 +102,14 @@ export function mtzDel(parmars) {
   })
 }
 
+export function getPartBalanceCountType(parmars) {
+  //零件数量类型
+  return request({
+    url: '/mtzAppNomi/getPartBalanceCountType',
+    method: 'POST',
+    data: parmars
+  })
+}
 export function getAppFormInfo(parmars) {
   //mtz申请单信息
   return request({
