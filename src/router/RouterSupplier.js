@@ -469,6 +469,12 @@ export default [
               import('@/views/supplierManagement/supplierKPI/kpi/scoringTask')
           },
           {
+            path: 'system',
+            name: 'system',
+            component: () =>
+              import('@/views/supplierManagement/supplierKPI/system')
+          },
+          {
             path: 'supplierVersionTable',
             name: 'supplierVersionTable',
             component: () =>

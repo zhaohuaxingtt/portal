@@ -4,6 +4,41 @@
  * @LastEditTime: 2022-09-28 14:13:24
  * @FilePath: \front-order\src\views\ws2\productionCapacity\Bom\page\detail\contrast\data.js
  */
+export const tableTitleDept = [
+  {
+    props: 'sapCode',
+    name: 'L1类型',
+    key: 'L1类型',
+    align: 'center',
+    width:300
+  },
+  {
+    props: 'sapCode',
+    name: '评分部门/科室',
+    key: '评分部门/科室',
+    align: 'center',
+    width:300
+
+  },
+]
+export const tableTitleModel = [
+  {
+    props: 'sapCode',
+    name: 'L1类型',
+    key: 'L1类型',
+    align: 'center',
+    width:300
+
+  },
+  {
+    props: 'sapCode',
+    name: '编辑者',
+    key: '编辑者',
+    align: 'center',
+    width:300
+
+  },
+]
 export const tableTitle2 = [
   {
     props: 'sapCode',
