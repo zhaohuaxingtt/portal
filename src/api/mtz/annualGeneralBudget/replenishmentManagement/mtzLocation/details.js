@@ -129,10 +129,11 @@ export function getFirstRuleByNos(data) {
 
 export function modifyAppFormInfo(parmars) {
   //mtz申请单信息-编辑
-  return request({
-    url: '/mtzAppNomi/modifyAppFormInfo/'+parmars,
+    return request({
+    url: '/mtzAppNomi/modifyAppFormInfo',
     method: 'POST',
-  })
+    data: parmars
+    })
 }
 
 export function pageAppRule(parmars) {
