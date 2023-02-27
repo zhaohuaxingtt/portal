@@ -182,10 +182,8 @@
             :required="true"
           ></iLabel>
           <i-select
+           :disabled="true"
             v-model="contractForm.partBalanceCountType"
-            clearable
-            filterable
-            :placeholder="language('QINGXUANZE', '请选择')"
           >
             <el-option
               v-for="item in partBalanceCountTypeList"
@@ -579,7 +577,8 @@ import {
   checkPreciousMetal,
   queryMaterialList,
   getMtzMarketSourceList,
-  getPreciousMetalDosageUnit
+  getPreciousMetalDosageUnit,
+  getPartBalanceCountType
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { getRawMaterialNos } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details'
 import {
@@ -1014,6 +1013,8 @@ export default {
       if (value == '') {
         this.contractForm.supplierName = ''
         this.contractForm.sapCode = ''
+        this.contractForm.partBalanceCountType =''
+
         setTimeout(() => {
           this.supplierType1 = false
         }, 100)
@@ -1025,6 +1026,10 @@ export default {
             console.log(value, 5555555555)
             this.contractForm.supplierName = e.message
             this.contractForm.sapCode = value
+            getPartBalanceCountType(this.contractForm.sapCode).then(res=>{
+             this.$set(this.contractForm,'partBalanceCountType',res.data)
+            })
+
             setTimeout(() => {
               this.supplierType1 = false
             }, 100)
@@ -1041,7 +1046,8 @@ export default {
       if (value == '') {
         this.contractForm.supplierName = ''
         this.contractForm.sapCode = ''
-        this.contractForm.laiyuan = ''
+        this.contractForm.partBalanceCountType =''
+
         setTimeout(() => {
           this.supplierType2 = false
         }, 100)
@@ -1053,7 +1059,9 @@ export default {
             console.log(e,2222222)
             this.contractForm.supplierName = value
             this.contractForm.sapCode = e.code
-            this.contractForm.laiyuan = ''
+            getPartBalanceCountType(this.contractForm.sapCode).then(res=>{
+              this.$set(this.contractForm,'partBalanceCountType',res.data)
+            })
             setTimeout(() => {
               this.supplierType2 = false
             }, 100)
