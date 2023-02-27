@@ -381,9 +381,9 @@ export default {
 
               const finished = this.$refs.taskNavigation.handleFinishCurrentTask()
               if(!finished) {
-                reloadOpener()
                 this.replaceUrl()
               }
+              reloadOpener()
             } else {
               this.$message.error(res.desZh || this.language('操作失败'))
             }
@@ -402,10 +402,10 @@ export default {
       this.dialogApprovalVisible = false
       const isFinished = this.$refs.taskNavigation.handleFinishCurrentTask()
       if(!isFinished) {
-        reloadOpener()
         this.replaceUrl()
       }
-    },
+      reloadOpener()
+a    },
     //导出
     exportTemplate() {
       if (this.selectTableData.length == 0) {
