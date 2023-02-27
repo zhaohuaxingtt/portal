@@ -330,7 +330,7 @@ export const ruleTableTitle1_all = [
     // overlapbottom: 'Market'
   },
   {
-    props: 'offset',
+    props: 'offsetMonth',
     name: '计算偏移量',
     width: 90,
     key: '计算偏移量',
@@ -637,7 +637,7 @@ export const ruleTableTitle1_1 = [
     // overlapbottom: 'Market'
   },
   {
-    props: 'offset',
+    props: 'offsetMonth',
     name: '计算偏移量',
     width: 90,
     key: '计算偏移量',
@@ -821,7 +821,7 @@ export const partTableTitle1_2 =[
     // overlapbottom: 'Market'
   },
   {
-    props: 'offset',
+    props: 'offsetMonth',
     name: '计算偏移量',
     width: 100,
     key: '计算偏移量',
@@ -1157,7 +1157,7 @@ export const partTableTitle1_all = [
     // overlapbottom: 'Market'
   },
   {
-    props: 'offset',
+    props: 'offsetMonth',
     name: '计算偏移量',
     width: 100,
     key: '计算偏移量',
