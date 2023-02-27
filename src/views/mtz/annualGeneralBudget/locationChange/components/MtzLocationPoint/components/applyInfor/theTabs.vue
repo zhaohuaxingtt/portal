@@ -205,20 +205,20 @@
             </el-form-item>
           </template>
         </el-table-column>
-        <el-table-column prop="offset" align="center"  :label="language('计算偏移量', '计算偏移量')">
+        <el-table-column prop="offsetMonth" align="center"  :label="language('计算偏移量', '计算偏移量')">
           <template slot="header" slot-scope="scope">
             <span>{{ language('计算偏移量', '计算偏移量') }}<iTooltip :type="'icon'" :txtInfo="tipList[7]" :num="'1'"></iTooltip>
               </span>
           </template>
           <template slot-scope="scope">
-            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'offset'"
-              :rules="formRules.offset ? formRules.offset : ''">
-              <el-select v-model="scope.row.offset" clearable :placeholder="language('QINGSHURU', '请输入')"
+            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'offsetMonth'"
+              :rules="formRules.offsetMonth ? formRules.offsetMonth : ''">
+              <el-select v-model="scope.row.offsetMonth" clearable :placeholder="language('QINGSHURU', '请输入')"
                 v-if="editId.indexOf(scope.row.id) !== -1">
                 <el-option v-for="item in offsetList" :key="item.code" :label="item.name" :value="item.code">
                 </el-option>
               </el-select>
-              <span v-else>{{ scope.row.offset?offsetList.find(val=>val.code==scope.row.offset).name:'' }}</span>
+              <span v-else>{{ scope.row.offsetMonth?offsetList.find(val=>val.code==scope.row.offsetMonth).name:'' }}</span>
             </el-form-item>
           </template>
         </el-table-column>

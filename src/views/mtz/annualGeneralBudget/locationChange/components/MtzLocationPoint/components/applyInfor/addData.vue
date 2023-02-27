@@ -118,9 +118,9 @@
                             </el-option>
                         </i-select>
                     </iFormItem>
-                    <iFormItem prop="offset">
+                    <iFormItem prop="offsetMonth">
                         <iLabel :label="language('计算偏移量', '计算偏移量')" slot="label" :required="true"></iLabel>
-                        <i-select :disabled="true" v-model="contractForm.offset" clearable filterable
+                        <i-select :disabled="true" v-model="contractForm.offsetMonth" clearable filterable
                             :placeholder="language('QINGXUANZE', '请选择')">
                             <el-option v-for="item in getMtzMarketSourceList" :key="item.code" :label="item.message"
                                 :value="item.code">
