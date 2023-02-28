@@ -290,6 +290,7 @@ export default {
           this.page.pageSize = res.pageSize
           this.page.totalCount = res.total
           this.tableLoading = false
+          console.log(this.tableData)
         } else {
           iMessage.error(res.desZh)
           this.tableLoading = false
@@ -539,6 +540,7 @@ export default {
             // this.disabled = true
           }
           this.formInfor = res.data;
+          console.log(11111)
           this.handleSync('1')
         }
       })
