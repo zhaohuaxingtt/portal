@@ -287,6 +287,7 @@ export default {
           this.page.pageSize = res.pageSize
           this.page.totalCount = res.total
           this.tableLoading = false
+          console.log(this.tableData)
         } else {
           iMessage.error(res.desZh)
           this.tableLoading = false
@@ -513,6 +514,7 @@ export default {
         mtzAppId: this.mtzAppId || ''
       }).then(res => {
         if (res?.code === '200') {
+          console.log(11111)
           if (res.data.appStatus === '草稿' || res.data.appStatus === '未通过') {
             this.flag = false;
           } else {
@@ -535,6 +537,7 @@ export default {
             // this.disabled = true
           }
           this.formInfor = res.data;
+          console.log(11111)
           this.handleSync('1')
         }
       })

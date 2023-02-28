@@ -27,11 +27,11 @@
         <span>{{ language('定点申请单号', '定点申请单号') }}：</span>
         <iInput style="width:100px;margin-right:20px" v-model="inforData.ttNominateAppId" :disabled="true" />
         <span>{{ language('定点申请单名称', '定点申请单名称') }}：</span>
-        <iInput style="width:100px" v-model="inforData.ttNominateAppName" :disabled="true" />
+        <iText class="text" style="width:300px">{{ inforData.ttNominateAppName}}</iText>
       </div>
 
     </iCard>
-    <approveTable style="margin-top:20px"></approveTable>
+    <approveTable ref="approveTable" style="margin-top:20px"></approveTable>
     <iDialog :title="language('LINGJIANDINGDIANSHENQING', '零件定点申请')" :visible.sync="mtzAddShow" v-if="mtzAddShow"
       width="85%" @close='closeDiolog'>
       <partApplication @close="saveClose" :numIsNomi="numIsNomi" :inforData="inforData"></partApplication>
@@ -47,11 +47,14 @@ import {
   pageAppRule
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 import { syncAuther } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/approve'
-
-import { iPage, iCard, iButton, iLabel, iInput, iMessageBox, iDialog,iMessage } from 'rise'
+import {
+  page,
+} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/firstDetails';
+import { iPage, iCard, iButton, iLabel, iInput, iMessageBox, iDialog,iMessage,iText } from 'rise'
 import approveTable from './components/approveTable'
 export default {
   components: {
+    iText,
     iInput,
     iLabel,
     iButton,
@@ -84,15 +87,14 @@ export default {
     if (JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId == undefined && this.$route.query.mtzAppId == undefined) {
 
     } else {
-      this.init()
+      this.init('','del')
     }
   },
   methods: {
-    init(val) {
+    init(val,type) {
       getAppFormInfo({
         mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
       }).then(res => {
-        this.$set(this.inforData,'ttNominateAppName',res.data.ttNominateAppName)
         this.$set(this.inforData,'ttNominateAppId',res.data.ttNominateAppId)
         this.inforData.mtzAppId = res.data.mtzAppId;
         this.inforData.linieName = res.data.linieName
@@ -112,7 +114,16 @@ export default {
 
         this.inforData.appName = res.data.appName
         this.inforData.flowType = res.data.flowType
-        console.log(this.applyNumber === '' && this.showType)
+        if(type!='del'){
+          page({
+            current: 1,
+            size: 10,
+            nominateId:this.inforData.ttNominateAppId
+          }).then(res=>{
+            this.$set(this.inforData,'ttNominateAppName',res.data.records[0].nominateName)
+          })
+        }
+
       })
       //获取列表
       pageAppRule({
@@ -138,6 +149,8 @@ export default {
       this.applyNumber = val;
       this.closeDiolog();
       this.init();
+      this.$refs.approveTable.init()
+
     },
     closeDiolog() {
       this.mtzAddShow = false;
@@ -162,8 +175,11 @@ export default {
           if (res.code == 200) {
             iMessage.success(res.desZh)
             this.applyNumber = "";
+            this.$set(this.inforData,'ttNominateAppName','')
             this.getsyncAuther()
-            this.init();
+            this.init('','del');
+            this.$refs.approveTable.init()
+
           } else {
             iMessage.error(res.desZh)
           }
@@ -181,11 +197,14 @@ export default {
 
 <style lang='scss' scoped>
 .info {
+  display: flex;
+  align-items: center;
   span {
     font-size: 16px;
   }
 }
-
+.text{
+}
 .title {
   // font-size: 18px;
   display: flex;

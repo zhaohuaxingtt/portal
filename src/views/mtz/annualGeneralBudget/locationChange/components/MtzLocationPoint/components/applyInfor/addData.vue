@@ -102,7 +102,11 @@
                     </iFormItem>
                     <iFormItem prop="partBalanceCountType">
                         <iLabel :label="language('结算数据来源', '结算数据来源')" slot="label" :required="true"></iLabel>
-                        <el-input v-model="contractForm.partBalanceCountType" type="text" :disabled="true" />
+                        <i-select :disabled="true" v-model="contractForm.partBalanceCountType" >
+                        <el-option v-for="item in partBalanceCountTypeList" :key="item.code" :label="item.name" :value="item.code">
+                            </el-option>
+                        </i-select>
+
                     </iFormItem>
                     <iFormItem prop="priceSource">
                         <iLabel :label="language('SHICHANGJIALAIYUAN', '市场价来源')" slot="label"></iLabel>
@@ -113,8 +117,7 @@
                         <iLabel :label="language('均值计算周期', '均值计算周期')" slot="label" :required="true"></iLabel>
                         <i-select :disabled="true" v-model="contractForm.avgPeriod" clearable filterable
                             :placeholder="language('QINGXUANZE', '请选择')">
-                            <el-option v-for="item in getMtzMarketSourceList" :key="item.code" :label="item.message"
-                                :value="item.code">
+                            <el-option v-for="item in avgPeriodList" :key="item.code" :label="item.name" :value="item.code">
                             </el-option>
                         </i-select>
                     </iFormItem>
@@ -122,8 +125,7 @@
                         <iLabel :label="language('计算偏移量', '计算偏移量')" slot="label" :required="true"></iLabel>
                         <i-select :disabled="true" v-model="contractForm.offsetMonth" clearable filterable
                             :placeholder="language('QINGXUANZE', '请选择')">
-                            <el-option v-for="item in getMtzMarketSourceList" :key="item.code" :label="item.message"
-                                :value="item.code">
+                            <el-option v-for="item in offsetList" :key="item.code" :label="item.name" :value="item.code">
                             </el-option>
                         </i-select>
                     </iFormItem>
@@ -265,7 +267,7 @@
 </template>
 
 <script>
-import { materialDoseSourceList } from "./data";
+import { tipList,offsetList,avgPeriodList,materialDoseSourceList,partBalanceCountTypeList} from './data'
 import partNumber from "./partNumber";
 import { getRawMaterialNos } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details';
 import {
@@ -352,6 +354,10 @@ export default {
             }
         }
         return {
+            avgPeriodList,
+      offsetList,
+      partBalanceCountTypeList,
+      materialDoseSourceList,
             companyType: false,
             supplierList: [],//供应商编号
             contractForm: {
@@ -454,6 +460,7 @@ export default {
                         this.contractForm.supplierId = e.supplierId.toString();
                         this.contractForm.sapCode = e.sapCode.toString();
                         this.contractForm.priceSource = e.source;
+                     
                         this.contractForm = Object.assign({ ...this.contractForm }, e);
                         if (e.priceMeasureUnit == "PC") {
                             this.contractForm.dosageMeasureUnit = "PC";
@@ -462,6 +469,9 @@ export default {
                             this.contractForm.dosageMeasureUnit = "KG";
                             this.companyType = false;
                         }
+                        this.contractForm.avgPeriod=e.avgPeriod.toString();
+                        this.contractForm.offsetMonth=e.offsetMonth.toString();
+                        console.log(this.contractForm)
                         throw new Error("EndIterative");
                     }
                 });
