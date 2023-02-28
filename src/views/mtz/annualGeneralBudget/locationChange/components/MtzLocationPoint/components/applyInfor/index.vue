@@ -99,7 +99,6 @@ import {
   disassociate,
   fetchAppNomiDecisionDataPage
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
-import { syncAuther } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/approve'
 export default {
   name: "searchTabs",
   components: {

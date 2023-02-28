@@ -25,9 +25,9 @@
       </div>
       <div class="info" style="margin-top:30px">
         <span>{{ language('定点申请单号', '定点申请单号') }}：</span>
-        <iInput style="width:100px;margin-right:20px" v-model="inforData.mtzAppId" :disabled="true" />
+        <iInput style="width:100px;margin-right:20px" v-model="inforData.ttNominateAppId" :disabled="true" />
         <span>{{ language('定点申请单名称', '定点申请单名称') }}：</span>
-        <iInput style="width:100px" v-model="inforData.appName" :disabled="true" />
+        <iInput style="width:100px" v-model="inforData.ttNominateAppName" :disabled="true" />
       </div>
 
     </iCard>
@@ -46,6 +46,8 @@ import {
   disassociate,
   pageAppRule
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
+import { syncAuther } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/approve'
+
 import { iPage, iCard, iButton, iLabel, iInput, iMessageBox, iDialog,iMessage } from 'rise'
 import approveTable from './components/approveTable'
 export default {
@@ -90,6 +92,8 @@ export default {
       getAppFormInfo({
         mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
       }).then(res => {
+        this.$set(this.inforData,'ttNominateAppName',res.data.ttNominateAppName)
+        this.$set(this.inforData,'ttNominateAppId',res.data.ttNominateAppId)
         this.inforData.mtzAppId = res.data.mtzAppId;
         this.inforData.linieName = res.data.linieName
         this.inforData.appStatus = res.data.appStatus
