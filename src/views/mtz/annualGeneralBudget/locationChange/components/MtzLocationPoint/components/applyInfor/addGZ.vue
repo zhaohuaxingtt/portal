@@ -93,22 +93,19 @@
         </iFormItem>
         <iFormItem prop="supplierName">
           <iLabel
-            :label="language('GONGYINGSHANGMINGCHENG', '供应商名称')"
+            :label="language('规则类型', '规则类型')"
             slot="label"
             :required="true"
           ></iLabel>
           <i-select
-            v-model="contractForm.supplierName"
-            clearable
-            filterable
+            v-model="contractForm.method"
             :placeholder="language('QINGSHURU', '请输入')"
-            @change="supplierNC"
           >
             <el-option
-              v-for="item in supplierList"
-              :key="item.message"
-              :label="item.message"
-              :value="item.message"
+              v-for="item in methodList"
+              :key="item.code"
+              :label="item.name"
+              :value="item.code"
             >
             </el-option>
           </i-select>
@@ -353,7 +350,37 @@
             :disabled="disabled"
           />
         </iFormItem>
- 
+         <iFormItem prop="compensationPeriod">
+          <iLabel
+            :label="language('BUCHAZHOUQI', '补差周期')"
+            slot="label"
+            :required="true"
+          ></iLabel>
+          <!-- <custom-select
+            v-model="contractForm.compensationPeriod"
+            :user-options="compensationPeriod"
+            clearable
+            :placeholder="language('QINGXUANZE', '请选择')"
+            display-member="message"
+            value-member="code"
+            value-key="code"
+          >
+          </custom-select> -->
+
+          <i-select
+            v-model="contractForm.compensationPeriod"
+            clearable
+            :placeholder="language('QINGXUANZE', '请选择')"
+          >
+            <el-option
+              v-for="item in compensationPeriod"
+              :key="item.code"
+              :label="item.message"
+              :value="item.code"
+            >
+            </el-option>
+          </i-select>
+        </iFormItem>
         <!-- <iFormItem class="box">
           <iLabel
               :label="''"
@@ -584,7 +611,7 @@ import { getRawMaterialNos } from '@/api/mtz/annualGeneralBudget/replenishmentMa
 import {
   fetchRemoteMtzMaterial //查询MTZ材料组
 } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
-import { partBalanceCountTypeList } from "./data";
+import { partBalanceCountTypeList,methodList } from "./data";
 
 import {
   isNumber,
@@ -718,6 +745,7 @@ export default {
           message: '月度'
         }
       ],
+      methodList,
       tcCurrence: [],
       supplierList: [], //供应商
       carline: [], //车型

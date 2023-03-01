@@ -37,7 +37,7 @@
         </el-table-column>
         <el-table-column label="#" fixed type="index" width="40" align="center">
         </el-table-column>
-        <el-table-column prop="ruleNo" align="center" width="90" :label="language('GUIZEBIANHAO', '规则编号')">
+        <el-table-column prop="ruleNo" align="center"  :label="language('GUIZEBIANHAO', '规则编号')">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'ruleNo'"
               :rules="formRules.ruleNo ? formRules.ruleNo : ''">
@@ -47,12 +47,17 @@
           </template>
         </el-table-column>
         <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-        <el-table-column prop="method" align="center" width="85" :label="language('规则类型')">
+        <el-table-column prop="method" align="center"  :label="language('规则类型')">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'method'"
               :rules="formRules.method ? formRules.method : ''">
+              <el-select v-model="scope.row.method" clearable :placeholder="language('QINGSHURU', '请输入')"
+                v-if="editId.indexOf(scope.row.id) !== -1">
+                <el-option v-for="item in methodList" :key="item.code" :label="item.name" :value="item.code">
+                </el-option>
+              </el-select>
               <!-- <iInput v-model="scope.row.ruleNo" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
-              <span>{{ scope.row.method=='1'?'一次性补差':scope.row.method=='2'?'变价单补差':'' }}</span>
+              <span v-else> {{ scope.row.method=='1'?'一次性补差':scope.row.method=='2'?'变价单补差':'' }}</span>
             </el-form-item>
           </template>
         </el-table-column>
@@ -67,7 +72,7 @@
             </el-form-item>
           </template>
         </el-table-column>
-        <el-table-column prop="sapCode" align="center" :width="isTitle ? '100' : ''"
+        <el-table-column prop="sapCode" align="center" 
           :label="language('GONGYINGSHANGBIANHAOMINGCHENG', '供应商编号/名称')">
           <template slot-scope="scope">
           <el-form-item :prop="'tableData.' + scope.$index + '.' + 'sapCode'"
@@ -91,7 +96,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column prop="materialCode" align="center" :width="isTitle ? '80' : ''"
+        <el-table-column prop="materialCode" align="center" 
           :label="language('YUANCAILIAOPAIHAO', '原材料牌号')">
           <template slot-scope="scope">
           <el-form-item :prop="'tableData.' + scope.$index + '.' + 'materialCode'"
@@ -114,7 +119,7 @@
             </el-form-item>
           </template>
         </el-table-column>
-        <el-table-column prop="startDate" align="center" width="80" :label="language('YOUXIAOQIQI', '有效期起')">
+        <el-table-column prop="startDate" align="center"  :label="language('YOUXIAOQIQI', '有效期起')">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'startDate'"
               :rules="formRules.startDate ? formRules.startDate : ''">
@@ -126,7 +131,7 @@
             </el-form-item>
           </template>
         </el-table-column>
-        <el-table-column prop="endDate" align="center" width="80" :label="language('YOUXIAOQIZHI', '有效期止')">
+        <el-table-column prop="endDate" align="center"  :label="language('YOUXIAOQIZHI', '有效期止')">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'endDate'"
               :rules="formRules.endDate ? formRules.endDate : ''">
@@ -274,7 +279,7 @@
             </el-form-item>
           </template>
         </el-table-column>
-        <el-table-column prop="priceMeasureUnit" align="center" width="80"
+        <el-table-column prop="priceMeasureUnit" align="center" 
           :label="language('JIJIAJILIANGDANWEI', '基价计量单位')">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'priceMeasureUnit'" :rules="
@@ -300,7 +305,7 @@
             </el-form-item>
           </template>
         </el-table-column>
-        <el-table-column prop="threshold" align="center" :label="language('YUZHI', '阈值')" width="60">
+        <el-table-column prop="threshold" align="center" width="60" :label="language('YUZHI', '阈值')" >
           <template slot="header" slot-scope="scope">
             <span>{{ language('YUZHI', '阈值') }}<iTooltip :txtInfo="tipList[3]" :num="'4'"></iTooltip></span>
           </template>
@@ -350,7 +355,7 @@
             </el-form-item>
           </template>
         </el-table-column>
-        <el-table-column prop="compensationRatio" align="center" width="90" :label="language('BUCHAXISHU', '补差系数')">
+        <el-table-column prop="compensationRatio" align="center"  :label="language('BUCHAXISHU', '补差系数')">
           <template slot="header" slot-scope="scope">
             <span>{{ language('BUCHAXISHU', '补差系数') }}<iTooltip :txtInfo="tipList[5]" :num="'6'"></iTooltip></span>
           </template>
@@ -364,7 +369,7 @@
             </el-form-item>
           </template>
         </el-table-column>
-        <el-table-column prop="compensationPeriod" align="center" width="85" :label="language('BUCHAZHOUQI', '补差周期')">
+        <el-table-column prop="compensationPeriod" align="center"  :label="language('BUCHAZHOUQI', '补差周期')">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'compensationPeriod'" :rules="
               formRules.compensationPeriod ? formRules.compensationPeriod : ''
@@ -764,7 +769,7 @@ import iTooltip from "./iTooltip";
 import continueBox from './continueBox'
 import addGZ from './addGZ'
 import { deepClone, isNumber } from './util'
-import { formRulesGZ, tipList,partBalanceCountTypeList } from './data'
+import { formRulesGZ, tipList,partBalanceCountTypeList,methodList } from './data'
 import store from '@/store'
 // import {
 //   getMtzSupplierList,//获取原材料牌号
@@ -814,6 +819,7 @@ export default {
   //   mixins: [pageMixins],
   data() {
     return {
+      methodList,
       partBalanceCountTypeList,
       tipList,
       isTitle: false,
@@ -1456,7 +1462,7 @@ export default {
   position: absolute;
   right: -10px;
   top: 20px;
-  z-index: 10000;
+  z-index: 100;
 }
 
 ::v-deep .el-select__tags {

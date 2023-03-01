@@ -1689,7 +1689,7 @@ export default {
     position: absolute;
     right: -10px;
     top: 10px;
-    z-index: 10000;
+    z-index: 100;
   }
 
 ::v-deep.el-table th > .cell{
