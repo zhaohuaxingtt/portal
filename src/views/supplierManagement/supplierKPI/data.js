@@ -51,6 +51,12 @@ export const tableTitle2 = [
     name: '供应商名称',
     key: '供应商名称',
     align: 'center'
+  },
+  {
+    props: 'supplierName',
+    name: 'CS打分科室',
+    key: 'CS打分科室',
+    align: 'center'
   }
 ]
 export const tableTitle = [

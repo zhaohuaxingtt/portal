@@ -1,6 +1,11 @@
 <template>
     <div>
-        <el-tabs class="tabsHeader" type="card" style="margin-top: 40px" v-model="tabVal" @tab-click="changeTab">
+        <div style="margin-top: 40px" class="boxBtn">
+            <iButton @click="add">添加</iButton>
+            <iButton @click="edit">修改</iButton>
+            <iButton @click="del">删除</iButton>
+        </div>
+        <el-tabs class="tabsHeader" type="card" v-model="tabVal" @tab-click="changeTab">
             <el-tab-pane name="DEPT" :label="language('评分科室设置', '评分科室设置')">
                 <tableList v-update :tableLoading="tableLoading1" ref="table" @handleSelectionChange="handleSelectionChange"
                     style="margin: 20px 0" border :tableData="tableListData1" :tableTitle="tableTitle1"> </tableList>
@@ -10,7 +15,31 @@
                     style="margin: 20px 0" border :tableData="tableListData2" :tableTitle="tableTitle2"> </tableList>
             </el-tab-pane>
         </el-tabs>
-
+        <iDialog append-to-body :title="tabVal == 'MODEL' ? $t('添加编辑权限') : $t('添加评分部门/科室')" :visible.sync="addDialog"
+            width="40%" @close="clearDiolog">
+            <el-form :label-position="'left'" label-width="160px" :model="form" :rules="rules" ref="ruleForm">
+                <el-form-item :label="$t('l1类型')" prop="nameZh">
+                    <i-input style="width: 200px" :placeholder="$t('partsprocure.PLEENTER')" v-model="form.nameZh">
+                    </i-input>
+                </el-form-item>
+                <el-form-item v-if="tabVal == 'MODEL'" :label="$t('编辑者')" prop="nameEn">
+                    <i-input style="width: 200px" :placeholder="$t('partsprocure.PLEENTER')" v-model="form.nameEn">
+                    </i-input>
+                </el-form-item>
+                <el-form-item v-if="tabVal == 'DEPT'" :label="$t('部门/科室')" prop="deptCode">
+                    <iSelect filterable clearable multiple style="width: 200px" :placeholder="$t('partsprocure.PLEENTER')"
+                        v-model="form.deptCode">
+                        <el-option v-for="(item, index) in deptList" :key="index" :value="item.deptNum"
+                            :label="item.deptNum">
+                        </el-option>
+                    </iSelect>
+                </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <iButton @click="submit">{{ $t('LK_QUEREN') }}</iButton>
+                <iButton @click="canel">{{ $t('LK_QUXIAO') }}</iButton>
+            </span>
+        </iDialog>
 
     </div>
 </template>
@@ -40,7 +69,9 @@ export default {
             tableListData2: [],
             tableLoading1: false,
             tableLoading2: false,
-            tabVal: 'DEPT'
+            tabVal: 'DEPT',
+            form: {},
+            addDialog: false,
         }
     },
     created() {
@@ -49,12 +80,31 @@ export default {
     methods: {
         changeTab(val) {
             console.log(this.tabVal)
-        }
+        },
+        add() {
+            this.addDialog = true
+        },
+        del() {
+
+        },
+        edit() {
+
+        },
+        clearDiolog() {
+            this.addDialog = false
+            this.form = {}
+        },
     },
 }
 </script>
 <style lang="scss" scoped>
+.boxBtn {
+    // display: flex;
+    text-align: right;
+}
+
 .tabsHeader {
+
     margin-left: 0 !important;
 
     ::v-deep .el-tabs__item.is-active {

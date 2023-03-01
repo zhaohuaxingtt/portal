@@ -191,6 +191,7 @@
         <div class="dialogButon">
           <iButton @click="addSupplier">添加</iButton>
           <iButton @click="delSupplier">移除</iButton>
+          <iButton @click="exportAll">全部导出</iButton>
           <iButton @click="exportFile">模板下载</iButton>
           <el-upload
             style="margin-left: 10px"
