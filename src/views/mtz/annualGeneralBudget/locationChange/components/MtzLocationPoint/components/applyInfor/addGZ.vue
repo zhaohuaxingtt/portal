@@ -1201,3 +1201,4 @@ export default {
   width: 13.5rem !important;
 }
 </style>
+

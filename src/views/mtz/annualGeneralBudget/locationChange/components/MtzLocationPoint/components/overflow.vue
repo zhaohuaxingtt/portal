@@ -518,8 +518,19 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+::v-deep.el-button--default{
+  font-size: 20px!important;
+}
+.font18_b {
+  font-size: 18px;
+  font-weight: bold;
+}
+.font18 {
+  font-size: 18px;
+  font-weight: bold;
+}
 .title_name {
-  font-size: 20px;
+  font-size: 24px;
   font-weight: bold;
 }
 .opration {
@@ -558,7 +569,7 @@ export default {
     }
     span {
       display: inline-block;
-      font-size: 18px;
+      font-size: 20px;
       font-weight: bold;
       margin-top: 10px;
       color: #5d5d5d;
@@ -588,4 +599,7 @@ export default {
     width: auto !important;
   }
 }
+</style>
+<style lang='scss'>
+
 </style>

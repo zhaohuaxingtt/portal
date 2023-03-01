@@ -119,7 +119,6 @@ export const ruleTableTitle1_2 = [
     key: '铂基价',
     overlap: true,
     overlapbottom: 'Pt Base Price',
-    width: 70
   },
   {
     props: 'platinumDosage',
@@ -127,7 +126,6 @@ export const ruleTableTitle1_2 = [
     key: '铂用量',
     overlap: true,
     overlapbottom: 'Pt Consumption',
-    width: 70
   },
 
   {
@@ -136,7 +134,6 @@ export const ruleTableTitle1_2 = [
     key: '钯基价',
     overlap: true,
     overlapbottom: 'Pd Base Price',
-    width: 70
   },
   {
     props: 'palladiumDosage',
@@ -144,7 +141,6 @@ export const ruleTableTitle1_2 = [
     key: '钯用量',
     overlap: true,
     overlapbottom: 'Pd Consumption',
-    width: 70
   },
   {
     props: 'rhodiumPrice',
@@ -152,7 +148,6 @@ export const ruleTableTitle1_2 = [
     key: '铑基价',
     overlap: true,
     overlapbottom: 'Kr Base Price',
-    width: 70
   },
   {
     props: 'rhodiumDosage',
@@ -160,7 +155,6 @@ export const ruleTableTitle1_2 = [
     key: '铑用量',
     overlap: true,
     overlapbottom: 'Kr Consumption',
-    width: 70
   },
   {
     props: 'preciousMetalDosageUnit',
@@ -168,7 +162,6 @@ export const ruleTableTitle1_2 = [
     key: '贵金属用量&基价单位',
     overlap: true,
     overlapbottom: 'Precious Metal Consumption & Base Price Unit',
-    width: 150
   },
   {
     props: 'substrateExw',
@@ -176,7 +169,6 @@ export const ruleTableTitle1_2 = [
     key: '载体费用',
     overlap: true,
     overlapbottom: 'substrate Exw',
-    width: 100
   },
   {
     props: 'substrateImpDuty',
@@ -184,7 +176,6 @@ export const ruleTableTitle1_2 = [
     key: '载体税率(%)',
     overlap: true,
     overlapbottom: 'substrate ImpDuty',
-    width: 100
   },
   {
     props: 'substrateHandling',
@@ -192,7 +183,6 @@ export const ruleTableTitle1_2 = [
     key: '载体管理费率(%)',
     overlap: true,
     overlapbottom: 'substrate Handling',
-    width: 120
   },
   {
     props: 'pgmHandling',
@@ -200,7 +190,6 @@ export const ruleTableTitle1_2 = [
     key: '贵金属管理费率(%)',
     overlap: true,
     overlapbottom: 'pgm Handling',
-    width: 130
   },
   {
     props: 'manufacture',
@@ -208,7 +197,6 @@ export const ruleTableTitle1_2 = [
     key: '制造费用',
     overlap: true,
     overlapbottom: 'manufacture',
-    width: 70
   },
   {
     props: 'transport',
@@ -216,7 +204,6 @@ export const ruleTableTitle1_2 = [
     key: '运输费用',
     overlap: true,
     overlapbottom: 'transport',
-    width: 70
   },
   {
     props: 'ruleVersion',
@@ -224,7 +211,6 @@ export const ruleTableTitle1_2 = [
     key: '版本',
     overlap: true,
     overlapbottom: 'version',
-    width: 70
   },
 ]
 
@@ -760,7 +746,6 @@ export const partTableTitle1_2 =[
     key: '汇率',
     overlap: true,
     overlapbottom: 'Exch. Rate',
-    width: 60
   },
   {
     props: 'priceMeasureUnit',
@@ -768,7 +753,6 @@ export const partTableTitle1_2 =[
     key: 'JIJIAJILIANGDANWEI',
     overlap: true,
     overlapbottom: 'Base price Unit',
-    minWidth: 110
   },
   {
     props: 'threshold',
@@ -776,7 +760,6 @@ export const partTableTitle1_2 =[
     key: 'YUZHI',
     overlap: true,
     overlapbottom: 'Threhold',
-    minWidth: 60
   },
   {
     props: 'thresholdCompensationLogic',
@@ -784,7 +767,6 @@ export const partTableTitle1_2 =[
     key: 'YUZHIBUCHALUOJI',
     overlap: true,
     overlapbottom: 'Threhold',
-    minWidth: 100
   },
 
 
@@ -794,7 +776,6 @@ export const partTableTitle1_2 =[
     key: 'BUCHAXISHU',
     overlap: true,
     overlapbottom: 'Ratio',
-    minWidth: 80
   },
   {
     props: 'partBalanceCountType',
@@ -802,7 +783,6 @@ export const partTableTitle1_2 =[
     key: '零件结算数量类型',
     overlap: true,
     overlapbottom: 'part Balance Count Type',
-    minWidth: 100
   },
   {
     props: 'priceSource',
@@ -810,20 +790,17 @@ export const partTableTitle1_2 =[
     key: 'SHICHANGJIALAIYUAN',
     overlap: true,
     overlapbottom: 'Market',
-    minWidth: 90
   },
   {
     props: 'avgPeriod',
     name: '均值计算周期',
     key: '均值计算周期',
-    width: 110,
     overlap: true,
     // overlapbottom: 'Market'
   },
   {
     props: 'offsetMonth',
     name: '计算偏移量',
-    width: 100,
     key: '计算偏移量',
     overlap: true,
     // overlapbottom: 'Market'
@@ -835,7 +812,6 @@ export const partTableTitle1_2 =[
     key: 'BUCHAZHOUQI',
     overlap: true,
     overlapbottom: 'Period',
-    minWidth: 80
   },
   {
     props: 'mark',
@@ -843,7 +819,6 @@ export const partTableTitle1_2 =[
     key: '备注',
     overlap: true,
     overlapbottom: 'remark',
-    width: 70
   },
   {
     props: 'ruleVersion',
@@ -851,15 +826,18 @@ export const partTableTitle1_2 =[
     key: '版本',
     overlap: true,
     overlapbottom: 'version',
-    width: 70
   },
+
+
+]
+export const partTableTitle1_3 =[
+ 
 {
     props: 'platinumPrice',
     name: '铂基价',
     key: '铂基价',
     overlap: true,
     overlapbottom: 'Pt Base Price',
-    width: 70
   },
   {
     props: 'platinumDosage',
@@ -867,7 +845,6 @@ export const partTableTitle1_2 =[
     key: '铂用量',
     overlap: true,
     overlapbottom: 'Pt Consumption',
-    width: 70
   },
 
   {
@@ -876,7 +853,6 @@ export const partTableTitle1_2 =[
     key: '钯基价',
     overlap: true,
     overlapbottom: 'Pd Base Price',
-    width: 70
   },
   {
     props: 'palladiumDosage',
@@ -884,7 +860,6 @@ export const partTableTitle1_2 =[
     key: '钯用量',
     overlap: true,
     overlapbottom: 'Pd Consumption',
-    width: 70
   },
   {
     props: 'rhodiumPrice',
@@ -892,7 +867,6 @@ export const partTableTitle1_2 =[
     key: '铑基价',
     overlap: true,
     overlapbottom: 'Kr Base Price',
-    width: 70
   },
   {
     props: 'rhodiumDosage',
@@ -900,7 +874,6 @@ export const partTableTitle1_2 =[
     key: '铑用量',
     overlap: true,
     overlapbottom: 'Kr Consumption',
-    width: 70
   },
   {
     props: 'preciousMetalDosageUnit',
@@ -908,7 +881,6 @@ export const partTableTitle1_2 =[
     key: '贵金属用量&基价单位',
     overlap: true,
     overlapbottom: 'Precious Metal Consumption & Base Price Unit',
-    width: 150
   },
   {
     props: 'substrateExw',
@@ -916,7 +888,6 @@ export const partTableTitle1_2 =[
     key: '载体费用',
     overlap: true,
     overlapbottom: 'substrate Exw',
-    width: 100
   },
   {
     props: 'substrateImpDuty',
@@ -924,7 +895,6 @@ export const partTableTitle1_2 =[
     key: '载体税率(%)',
     overlap: true,
     overlapbottom: 'substrate ImpDuty',
-    width: 100
   },
   {
     props: 'substrateHandling',
@@ -932,7 +902,6 @@ export const partTableTitle1_2 =[
     key: '载体管理费率(%)',
     overlap: true,
     overlapbottom: 'substrate Handling',
-    width: 120
   },
   {
     props: 'pgmHandling',
@@ -940,7 +909,6 @@ export const partTableTitle1_2 =[
     key: '贵金属管理费率(%)',
     overlap: true,
     overlapbottom: 'pgm Handling',
-    width: 130
   },
   {
     props: 'manufacture',
@@ -948,7 +916,6 @@ export const partTableTitle1_2 =[
     key: '制造费用',
     overlap: true,
     overlapbottom: 'manufacture',
-    width: 70
   },
   {
     props: 'transport',
@@ -956,7 +923,6 @@ export const partTableTitle1_2 =[
     key: '运输费用',
     overlap: true,
     overlapbottom: 'transport',
-    width: 70
   },
 
 

@@ -1681,6 +1681,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+::v-deep.el-button--default{
+  font-size: 20px!important;
+}
+
+::v-deep.el-table .cell {
+  // line-height: 0;
+  // padding: 0px 4px;
+  font-size: 18px;
+
+}
+.formStyle ::v-deep.el-form-item__content {
+  line-height: normal !important;
+  font-size: 18px;
+}
+
 .formStyle {
   position: relative;
 
@@ -1697,6 +1712,7 @@ export default {
 
 ::v-deep.el-table th > .cell{
   white-space:normal;
+  
 }
 ::v-deep .el-table .el-table__row .el-input {
   width: 100% !important;
