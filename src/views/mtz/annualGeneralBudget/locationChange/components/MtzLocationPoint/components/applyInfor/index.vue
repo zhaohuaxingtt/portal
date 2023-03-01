@@ -389,11 +389,13 @@ export default {
 
 <style lang="scss" scoped>
 $tabsInforHeight: 35px;
-
+::v-deep.el-button--default{
+  font-size: 20px!important;
+}
 .centerBox {
   margin: 20px 0;
   p{
-    font-size: 16px;
+    font-size: 18px;
   }
 }
 
@@ -404,18 +406,18 @@ $tabsInforHeight: 35px;
   cursor: pointer;
   width: 90%;
 }
-.font18_b{
-  font-size: 18px;
-font-weight: bold;
-}
+
 .operation {
   display: none !important;
 }
-
+.font18{
+  font-size: 18px;
+}
 .font18_b{
   font-size: 18px;
-font-weight: bold;
-}.serch {
+  font-weight: bold;
+}
+.serch {
   margin-right: 0 !important;
 }
 ::v-deep.el-button--mini.is-circle{
@@ -431,15 +433,14 @@ font-weight: bold;
     // height: $tabsInforHeight;
     margin-top: 0;
     margin-left: 20px;
-
     span {
-      font-size: 15px;
+      font-size: 18px;
       display: block;
       height: 40px;
     }
 
     .inforText {
-      font-size: 14px;
+      font-size: 18px;
       width: 300px;
       height: 60px;
       background: #f8f8fa;

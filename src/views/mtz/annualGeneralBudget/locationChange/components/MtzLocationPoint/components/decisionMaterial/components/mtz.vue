@@ -82,10 +82,10 @@
             <span class="big_small">When:effective price > base price *(1+threshold)</span>
           </div>
 
-          <p class="tableTitle" v-if="RsObject">
+          <p class="tableTitle font20_b" v-if="RsObject">
             {{ language('GUIZEQINGDAN', '规则清单') }}-Regulation
           </p>
-          <p class="tableTitle" v-if="!RsObject && ruleTableListData.length > 0">
+          <p class="tableTitle font20_b" v-if="!RsObject && ruleTableListData.length > 0">
             {{ language('GUIZEQINGDAN', '规则清单') }}-Regulation
           </p>
         </div>
@@ -124,11 +124,11 @@
             </template>
             <template slot-scope="scope" slot="sapCode">
               <span>{{ scope.row.sapCode }}</span><br />
-              <span>{{ scope.row.supplierName }}</span>
+              <iText>{{ scope.row.supplierName }}</iText>
             </template>
             <template slot-scope="scope" slot="materialCode">
-              <span>{{ scope.row.materialCode }}</span><br />
-              <span>{{ scope.row.materialName }}</span>
+              <iText>{{ scope.row.materialCode }}</iText><br />
+              <iText>{{ scope.row.materialName }}</iText>
             </template>
             <template slot-scope="scope" slot="formalFlag">
               <span>{{ scope.row.formalFlag == 'Y' ? '否' : '是' }}</span>
@@ -204,10 +204,10 @@
         <div ref="partTableTitle">
           <el-divider v-if="RsObject" />
           <el-divider class="margin-top20" v-if="!RsObject && partTableListData.length > 0" />
-          <p class="tableTitle" v-if="RsObject">
+          <p class="tableTitle font20_b" v-if="RsObject">
             {{ language('LJQD', '零件清单') }}-Part List
           </p>
-          <p class="tableTitle" v-if="!RsObject && partTableListData.length > 0">
+          <p class="tableTitle font20_b" v-if="!RsObject && partTableListData.length > 0">
             {{ language('LJQD', '零件清单') }}-Part List
           </p>
         </div>
@@ -239,11 +239,11 @@
                   </template> -->
             <template slot-scope="scope" slot="sapCode">
               <span>{{ scope.row.sapCode }}</span><br />
-              <span>{{ scope.row.supplierName }}</span>
+              <iText>{{ scope.row.supplierName }}</iText>
             </template>
             <template slot-scope="scope" slot="materialCode">
-              <span>{{ scope.row.materialCode }}</span><br />
-              <span>{{ scope.row.materialName }}</span>
+              <iText>{{ scope.row.materialCode }}</iText><br />
+              <iText>{{ scope.row.materialName }}</iText>
             </template>
             <template slot-scope="scope" slot="materialDoseSource">
               <span>{{
@@ -317,8 +317,11 @@
             <template slot-scope="scope" slot="offset">
               <span>{{ scope.row.offset ? offsetList.find(val => val.code == scope.row.offset).name : '' }}</span>
             </template>
-
           </tableList>
+          <tableList border class="margin-top20 " :tableData="partTableListData" :tableTitle="partTableTitle1_3"
+              :tableLoading="loadingPart" v-if="!RsObject && partTableListData.length > 0 && partTableListData.some((val)=>{if(val.platinumPrice!='') return true})" :index="true"
+              :selection="false">
+            </tableList>
         </div>
 
         <div class="padding-bottom30" ref="padding"></div>
@@ -491,10 +494,10 @@
               <span class="big_small">When:effective price > base price *(1+threshold)</span>
             </div>
 
-            <p class="tableTitle" v-if="RsObject">
+            <p class="tableTitle font20_b" v-if="RsObject">
               {{ language('GUIZEQINGDAN', '规则清单') }}-Regulation
             </p>
-            <p class="tableTitle" v-if="!RsObject && ruleTableListData.length > 0">
+            <p class="tableTitle font20_b" v-if="!RsObject && ruleTableListData.length > 0">
               {{ language('GUIZEQINGDAN', '规则清单') }}-Regulation
             </p>
             <!-- highlight-current-row -->
@@ -553,10 +556,7 @@
             <tableList class="margin-top20" :tableData="tableData" :tableTitle="ruleTableTitle1_1"
               :tableLoading="loadingRule" v-if="!RsObject && tableData.length > 0" :index="true" :selection="false"
               border>
-              <template slot-scope="scope" slot="supplierId">
-                <span>{{ scope.row.supplierId }}</span><br />
-                <span>{{ scope.row.supplierName }}</span>
-              </template>
+            
               <template slot-scope="scope" slot="compensationPeriod">
                 <span>{{
                   scope.row.compensationPeriod == 'A'
@@ -573,6 +573,10 @@
               <template slot-scope="scope" slot="materialCode">
                 <span>{{ scope.row.materialCode }}</span><br />
                 <span>{{ scope.row.materialName }}</span>
+              </template>
+              <template slot-scope="scope" slot="supplierId">
+                <span>{{ scope.row.supplierId }}</span><br />
+                <span>{{ scope.row.supplierName }}</span>
               </template>
               <template slot-scope="scope" slot="formalFlag">
                 <span>{{ scope.row.formalFlag == 'Y' ? '否' : '是' }}</span>
@@ -651,10 +655,10 @@
               <span class="big_small">When:effective price > base price *(1+threshold)</span>
             </div>
 
-            <p class="tableTitle" v-if="RsObject">
+            <p class="tableTitle font20_b" v-if="RsObject">
               {{ language('LJQD', '零件清单') }}-Part List
             </p>
-            <p class="tableTitle" v-if="!RsObject && partTableListData.length > 0">
+            <p class="tableTitle font20_b" v-if="!RsObject && partTableListData.length > 0">
               {{ language('LJQD', '零件清单') }}-Part List
             </p>
             <tableList class="margin-top20 over_flow_y_ture" :tableData="tableData" :tableTitle="partTableTitle1_1"
@@ -699,10 +703,7 @@
             <tableList border class="margin-top20" :tableData="tableData" :tableTitle="partTableTitle1_1"
               :tableLoading="loadingPart" v-if="!RsObject && partTableListData.length > 0" :index="true"
               :selection="false">
-              <template slot-scope="scope" slot="supplierId">
-                <span>{{ scope.row.supplierId }}</span><br />
-                <span>{{ scope.row.supplierName }}</span>
-              </template>
+          
               <template slot-scope="scope" slot="compensationPeriod">
                 <span>{{
                   scope.row.compensationPeriod == 'A'
@@ -726,6 +727,10 @@
                   scope.row.materialDoseSource ? materialDoseSourceList.find(val => val.code == scope.row.materialDoseSource).name : ''
                 }}</span>
               </template>
+              <template slot-scope="scope" slot="supplierId">
+                <span>{{ scope.row.supplierId }}</span><br />
+                <span>{{ scope.row.supplierName }}</span>
+              </template>
               <template slot-scope="scope" slot="method">
                 <span>{{ scope.row.method == '1' ? '一次性补差' : scope.row.method == '2' ? '变价单补差' : '' }}</span>
               </template>
@@ -738,6 +743,24 @@
             </tableList>
             <tableList border class="margin-top20 " :tableData="tableData" :tableTitle="partTableTitle1_2"
               :tableLoading="loadingPart" v-if="!RsObject && partTableListData.length > 0" :index="true"
+              :selection="false">
+              <template slot-scope="scope" slot="materialDoseSource">
+              <span>{{
+                scope.row.materialDoseSource ? materialDoseSourceList.find(val => val.code == scope.row.materialDoseSource).name : ''
+              }}</span>
+            </template>
+            <template slot-scope="scope" slot="method">
+              <span>{{ scope.row.method == '1' ? '一次性补差' : scope.row.method == '2' ? '变价单补差' : '' }}</span>
+            </template>
+            <template slot-scope="scope" slot="avgPeriod">
+              <span>{{ scope.row.avgPeriod ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+            </template>
+            <template slot-scope="scope" slot="offset">
+              <span>{{ scope.row.offset ? offsetList.find(val => val.code == scope.row.offset).name : '' }}</span>
+            </template>
+            </tableList>
+            <tableList border class="margin-top20 " :tableData="tableData" :tableTitle="partTableTitle1_3"
+              :tableLoading="loadingPart" v-if="!RsObject && partTableListData.length > 0 && partTableListData.some((val)=>{if(val.platinumPrice!='') return true})" :index="true"
               :selection="false">
             </tableList>
           </iCard>
@@ -908,11 +931,11 @@
 </template>
 
 <script>
-import { iCard, icon, iInput, iButton, iMessage, iPagination } from 'rise'
+import { iText,iCard, icon, iInput, iButton, iMessage, iPagination } from 'rise'
 import { formList, avgPeriodList, offsetList, materialDoseSourceList } from './data'
 import signExport from './signExport.vue'
 import tableList from '@/components/commonTable/index.vue'
-import { ruleTableTitle1_1, ruleTableTitle1_all, partTableTitle1_1, partTableTitle1_all, ruleTableTitle1_2, partTableTitle1_2 } from './data'
+import { partTableTitle1_3,ruleTableTitle1_1, ruleTableTitle1_all, partTableTitle1_1, partTableTitle1_all, ruleTableTitle1_2, partTableTitle1_2 } from './data'
 import iTooltip from "../../applyInfor/iTooltip";
 import { tipList } from '../../applyInfor/data'
 import {
@@ -924,12 +947,13 @@ import {
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageApprove } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/approve'
 import { pageMixins } from '@/utils/pageMixins'
-import { downloadPDF, dataURLtoFile, transverseDownloadPDF } from '@/utils/pdf'
+import { downloadMultiPDF, dataURLtoFile, transverseDownloadPDF } from '@/utils/pdf'
 import JsPDF from 'jspdf'
 import html2canvas from 'html2canvas'
 export default {
   mixins: [pageMixins],
   components: {
+    iText,
     iTooltip,
     iCard,
     icon,
@@ -956,6 +980,7 @@ export default {
       tipList,
       formData: {},
       formList,
+      partTableTitle1_3,
       partTableTitle1_2,
       ruleTableTitle1_2,
       partTableTitle1_all,
@@ -1462,6 +1487,7 @@ export default {
       })
         .then((canvas) => {
           this.change(j)
+          console.log(canvas)
           var contentWidth = canvas.width //
           var contentHeight = canvas.height //
           var imgWidth = 841.89
@@ -1484,11 +1510,37 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+::v-deep.el-form .el-table .cell  {
+  font-size: 18px!important;
+}
+::v-deep.el-table td div {
+  line-height: normal !important;
+  font-size: 18px!important;
+}
+::v-deep.el-form .el-table .cell span{
+  line-height: normal !important;
+  font-size: 18px!important;
+}
+.font18{
+  font-size: 18px;
+}
+.font20_b{
+  font-size: 20px;
+  font-weight: bold;
+}
+.font18_b{
+  font-size: 18px;
+  font-weight: bold;
+}
+::v-deep.el-button--default{
+  font-size: 20px!important;
+}
 .centerBox {
   margin: 20px 0;
 
   p {
-    font-size: 16px;
+    font-size: 18px;
   }
 }
 
@@ -1514,7 +1566,7 @@ $tabsInforHeight: 35px;
   font-family: Arial;
   color: #000000;
   opacity: 1;
-  font-size: 18px;
+  font-size: 20px;
 }
 
 .table_right {
@@ -1723,7 +1775,7 @@ $tabsInforHeight: 35px;
 }
 
 ::v-deep .el-form-item__content {
-  line-height: 20px !important;
+  line-height: 0px !important;
 }
 
 .pdf-containr {

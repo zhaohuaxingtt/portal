@@ -11,7 +11,7 @@
   <iPage>
     <iCard>
       <div class="title">
-        <span class="font18_b">{{ language('关联定点申请', "关联定点申请") }}</span>
+        <span class="font20_b">{{ language('关联定点申请', "关联定点申请") }}</span>
         <div>
           <iButton @click="relation" v-permission="PORTAL_MTZ_POINT_INFOR_GLLJDDSQ" v-if="applyNumber === '' && showType">
             {{
@@ -24,10 +24,10 @@
         </div>
       </div>
       <div class="info" style="margin-top:30px">
-        <span>{{ language('定点申请单号', '定点申请单号') }}：</span>
-        <iInput style="width:100px;margin-right:20px" v-model="inforData.ttNominateAppId" :disabled="true" />
-        <span>{{ language('定点申请单名称', '定点申请单名称') }}：</span>
-        <iText class="text" style="width:300px">{{ inforData.ttNominateAppName}}</iText>
+        <span class="font18">{{ language('定点申请单号', '定点申请单号') }}：</span>
+        <iInput class="font18" style="width:300px;margin-right:20px" v-model="inforData.ttNominateAppId" :disabled="true" />
+        <span class="font18">{{ language('定点申请单名称', '定点申请单名称') }}：</span>
+        <iText  class="text font18" style="width:300px">{{ inforData.ttNominateAppName}}</iText>
       </div>
 
     </iCard>
@@ -196,6 +196,10 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+
+::v-deep.el-button--default{
+  font-size: 20px!important;
+}
 .info {
   display: flex;
   align-items: center;
@@ -211,8 +215,15 @@ export default {
   align-items: center;
   justify-content: space-between;
 }
+.font18{
+  font-size: 18px!important;
+}
+.font20_b{
+  font-size: 20px!important;
+font-weight: bold;
+}
 .font18_b{
-  font-size: 18px;
+  font-size: 18px!important;
 font-weight: bold;
 }
 </style>
