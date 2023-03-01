@@ -18,7 +18,7 @@
       <el-option
         v-for="item in supplierList"
         :key="item.factoryId"
-        :label="item.supplierNameCn + (item.factoryName?('-' + item.factoryName):'')"
+        :label="(item.supplierNameCn || item.supplierName) + (item.factoryName?('-' + item.factoryName):'')"
         :value="item"
       ></el-option>
     </el-select>
