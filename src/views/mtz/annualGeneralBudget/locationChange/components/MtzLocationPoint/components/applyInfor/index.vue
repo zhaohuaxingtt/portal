@@ -422,26 +422,25 @@ font-weight: bold;
   padding: 3px 4px;
 }
 .tabsBoxInfor {
+  width: 100%;
   margin-bottom: 10px;
   display: flex;
   flex-flow: wrap;
 
   .inforDiv {
-    height: $tabsInforHeight;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    // height: $tabsInforHeight;
     margin-top: 0;
-    margin-bottom: 20px;
-    margin-left: 3.5%;
+    margin-left: 20px;
 
     span {
       font-size: 15px;
+      display: block;
+      height: 40px;
     }
 
     .inforText {
       font-size: 14px;
-      width: 68%;
+      width: 300px;
       height: 60px;
       background: #f8f8fa;
       text-align: center;
