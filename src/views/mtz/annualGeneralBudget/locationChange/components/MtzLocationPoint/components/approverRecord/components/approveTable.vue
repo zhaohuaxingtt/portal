@@ -12,7 +12,7 @@
       <span class="font18_b"> {{language('SHENPIRENLIEBIAO', '审批人列表') }}</span>
       <div v-if="!editFlag">
         <iButton type="text"
-                 class="margin-right20"
+                 class="margin-right20 font18_b"
                  @click="handleSyncClick('')"
                  v-show="!flag"
                  :disabled="disabled"
@@ -38,7 +38,7 @@
     <el-form :rules="rules"
              ref="tableForm"
              :model="{tableData}">
-      <el-table :data="tableData"
+      <el-table class="formStyle" :data="tableData"
                 v-loading="tableLoading"
                 ref="approveTable"
                 tooltip-effect="light"
@@ -645,6 +645,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+::v-deep.el-table .cell {
+  font-size: 18px;
+}
+.formStyle ::v-deep.el-form-item__content {
+  line-height: normal !important;
+  font-size: 18px;
+}
+::v-deep.el-button--default{
+  font-size: 20px!important;
+}
 ::v-deep .el-table .el-table__row .el-input {
   width: 200px !important;
 }

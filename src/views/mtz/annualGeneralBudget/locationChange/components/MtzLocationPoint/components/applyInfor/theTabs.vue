@@ -1432,14 +1432,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+::v-deep.el-button--default{
+  font-size: 20px!important;
+}
 ::v-deep.el-table .cell {
   line-height: 0;
   padding: 0px 4px;
-
+  font-size: 18px;
 }
 
 .formStyle ::v-deep.el-form-item__content {
   line-height: normal !important;
+  font-size: 18px;
 }
 
 ::v-deep.el-table th>.cell {

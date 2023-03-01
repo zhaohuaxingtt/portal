@@ -54,7 +54,7 @@
         </span>
       </div>
       <tableList
-        class="margin-top20"
+        class="margin-top20 formStyle"
         :tableData="tableListData"
         :tableTitle="uploadTableTitle"
         :tableLoading="loading"
@@ -264,6 +264,16 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+::v-deep.el-button--default{
+  font-size: 20px!important;
+}
+::v-deep.el-table th > .cell  {
+  font-size: 18px!important;
+}
+ ::v-deep.el-form-item__content {
+  line-height: normal !important;
+  font-size: 18px;
+}
 .headBox {
   position: relative;
   justify-content: space-between;

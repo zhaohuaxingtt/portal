@@ -17,7 +17,7 @@
         <span class="title_name">-{{mtzAppName}}-{{user}}-{{dept}}</span>
         <div class="title_type">
           <div class="title_block">
-            <span>申请单类型：</span>
+            <span class="font18">申请单类型：</span>
             <iSelect :disabled="(appStatus !== '草稿' && appStatus !== '未通过') || formInfor.ttNominateAppId !== ''"
                      :value="formInfor.flowType"
                      v-permission.edit="PORTAL_MTZ_POINT_INFOR_SHENQINGDANLEIXING"
@@ -509,8 +509,19 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+::v-deep.el-button--default{
+  font-size: 20px!important;
+}
+.font18_b {
+  font-size: 18px;
+  font-weight: bold;
+}
+.font18 {
+  font-size: 18px;
+  font-weight: bold;
+}
 .title_name {
-  font-size: 20px;
+  font-size: 24px;
   font-weight: bold;
 }
 .opration {
@@ -549,7 +560,7 @@ export default {
     }
     span {
       display: inline-block;
-      font-size: 18px;
+      font-size: 20px;
       font-weight: bold;
       margin-top: 10px;
       color: #5d5d5d;
@@ -579,4 +590,7 @@ export default {
     width: auto !important;
   }
 }
+</style>
+<style lang='scss'>
+
 </style>
