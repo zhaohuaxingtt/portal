@@ -141,6 +141,15 @@ export const tableSetting = [
     width: 150
   },
   {
+    prop: 'method',
+    label: '补差方式',
+    minWidth: 120,
+    tooltip: true,
+    customRender:(h, scope, c, extraData)=>{
+      return <span>{ scope.row.method == '1' ? extraData.language('一次性补差') : scope.row.method == '2' ?extraData.language('变价单补差') : '' }</span>
+    }
+  },
+  {
     prop: 'materialCode',
     label: '原材料牌号',
     align: 'center',
@@ -992,4 +1001,15 @@ export const relationalValidityTableSetting = [
   { prop: 'dosage', label: '用量', align: 'center', i18n: '用量' },
   { prop: 'createDate', label: '上传时间', align: 'center', i18n: '上传时间' },
   { prop: 'isValid', label: '是否生效', align: 'center', i18n: '是否生效' }
+]
+
+export const methodList = [
+  {
+  code: '1',
+  message: '一次性补差',
+  },
+  {
+  code: '2',
+  message: '变价单补差'
+  }
 ]

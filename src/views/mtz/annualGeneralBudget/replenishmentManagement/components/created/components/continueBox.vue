@@ -118,7 +118,7 @@ export default {
       changeData:[],
       searchForm: {
         ruleNo: '',
-        method: '',
+        method: 1,
         materialGroup: '',
         partNum: '',
         partName: '',
@@ -183,6 +183,7 @@ export default {
           .format('YYYY-MM-DD 23:59:59')
       let params = {
         ...searchForm,
+        effectFlag: 1,  // 是否生效
         pageSize: this.page.pageSize,
         currentPage: this.page.currPage,
         isPrimary:this.$route.query.type == 1
@@ -204,7 +205,7 @@ export default {
       this.page.currPage = 1
       this.searchForm = {
         ruleNo: '',
-        method: '',
+        method: 1,
         materialGroup: '',
         partNum: '',
         partName: '',
