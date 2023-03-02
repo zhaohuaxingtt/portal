@@ -1,7 +1,7 @@
 <!--
  * @Author: tanmou
  * @Date: 2021-08-27 16:29:54
- * @LastEditTime: 2023-02-13 23:45:20
+ * @LastEditTime: 2023-02-22 11:20:25
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\search.vue
@@ -81,6 +81,7 @@
         :rows="2"
         placeholder="请输入备注"
         v-model="inforData.remark"
+        :disabled="disablied"
       ></el-input>
 
       <el-divider class="margin-top20"></el-divider>
@@ -115,10 +116,12 @@
       <tabs1
         :tableListData="agreementSummaryList"
         v-if="tabsValue == 1"
+        ref="tabs"
       ></tabs1>
       <tabs2
         :tableListData="detailTableData"
-        v-show="tabsValue == 2"
+        v-if="tabsValue == 2"
+        ref="tabs"
       ></tabs2>
       <!-- </div> -->
     </iDialog>
@@ -218,6 +221,11 @@ export default {
       }
     }
   },
+  computed:{
+    disablied(){
+      return !['草稿','待供应商确认','供应商确认','审批不通过','供应商拒绝','审批退回'].includes(this.inforData.statusName)
+    }
+  },
   created() {
     this.balanceId = this.detailObj?.id || ''
     this.dialogTitle = '补差单号-' + this.detailObj.balanceNo
@@ -282,6 +290,7 @@ export default {
           supplierConfirm({ approveFlag: true }, data).then((res) => {
             iMessage.success('提交确认成功！')
             that.closeDiolog()
+            that.$emit('getmakeUpPageList')
           })
         })
         .catch((err) => {
@@ -350,9 +359,11 @@ export default {
             isOnlyMyself:true,
             makeEndDate:this.detailObj.endTo,
             makeStartDate:this.detailObj.startFrom,
-            ...this.page,
+            currentPage:this.$refs.tabs.page.currPage,
+            pageSize:this.$refs.tabs.page.pageSize,
             balanceSapCode:this.detailObj.id,
-            agreementNo:this.detailObj.id,
+            balanceId:this.balanceId,
+            agreementNo:this.agreementSummaryList[0].agreementNo,
           } : {
             balanceId:this.balanceId,
           }

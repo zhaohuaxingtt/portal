@@ -1,8 +1,8 @@
 /*
  * @Author: youyuan
  * @Date: 2021-10-28 16:31:29
- * @LastEditTime: 2022-03-03 16:25:20
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-02-23 11:09:18
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\data.js
  */
@@ -1023,6 +1023,14 @@ export const partTableTitle1_all = [
   },
   {
     props: 'method',
+    name: '补差方式',
+    key: '补差方式',
+    overlap: true,
+    overlapbottom: 'Formal Flag',
+    minWidth: 90
+  },
+  {
+    props: 'method',
     name: '规则类型',
     key: '规则类型',
     overlap: true,
@@ -1030,7 +1038,7 @@ export const partTableTitle1_all = [
     minWidth: 90
   },
   {
-    props: 'materialCode',
+    props: 'materialName',
     name: '原材料',
     key: 'YUANCAILIAO',
     overlap: true,

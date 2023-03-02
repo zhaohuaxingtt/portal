@@ -116,6 +116,24 @@
                                     value-key="code">
                         </custom-select>
                     </el-form-item>
+                    <el-form-item style="marginRight:68px;width:180px" :label="language('补差方式', '补差方式')" class="formItem">
+                        <i-select
+                            v-model="searchForm.method"
+                            :placeholder="language('QINGSHURU', '请输入')"
+                        >
+                            <el-option
+                            :label="language('全部','ALL')"
+                            value="">
+                            </el-option>
+                            <el-option
+                            v-for="item in methodList"
+                            :key="item.code"
+                            :label="item.message"
+                            :value="item.code"
+                            >
+                            </el-option>
+                        </i-select>
+                    </el-form-item>
                 </el-form>
             </iSearch>
         </div>
@@ -137,6 +155,9 @@
             :tableTitle="tableTitle"
             :tableLoading="loading"
             :index="true">
+            <template #method="scope">
+              <span>{{ scope.row.method == '1' ? language('一次性补差','一次性补差') : scope.row.method == '2' ? language('变价单补差','变价单补差') : '' }}</span>
+            </template>
         </tableList>
         <iPagination @size-change="handleSizeChange($event, getTableList)"
                     @current-change="handleCurrentChange($event, getTableList)"
@@ -150,7 +171,7 @@
 </template>
 
 <script>
-import { iDatePicker, iMessage,iButton,iPagination,iSearch } from 'rise'
+import { iDatePicker, iSelect, iMessage,iButton,iPagination,iSearch } from 'rise'
 import { pageMixins } from "@/utils/pageMixins"
 import { tableTitleHistory } from "./data";
 import inputCustom from '@/components/inputCustom'
@@ -165,11 +186,13 @@ import {
   getMtzRuleCode,//获取MTZ规则编号
   getOneSecondPartNo,//一次、二次零件号下拉选择
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
+import { methodList } from "./data";
 
 export default {
     name:"",
     components:{
         iDatePicker,
+        iSelect,
         iButton,
         iPagination,
         inputCustom,
@@ -179,6 +202,7 @@ export default {
     mixins: [pageMixins],
     data(){
         return{
+            methodList,
             partnumList:[],
             supplierSapList:[],
             materialCodeList:[],
@@ -187,7 +211,9 @@ export default {
             buyerIds:[],
             marketSource:[],
 
-            searchForm:{},
+            searchForm:{
+                method:''
+            },
             tableData:[],
             tableTitle:tableTitleHistory,
             loading:false,
@@ -258,6 +284,7 @@ export default {
                 partnumList:[],
                 startDate:"",
                 endDate:"",
+                method:''
             }
             this.page.pageSize = 10;
             this.page.currPage = 1;

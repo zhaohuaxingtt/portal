@@ -188,7 +188,7 @@ export const tableTitle = [
 // 沿用补差规则查询
 export const QueryFormData = [
   { props: 'ruleNo', name: '规则编号', key: 'GUIZHEBIANHAO' },
-  { props: 'method', name: '补差方式', key: '补差方式', type: 'select', selectOption: 'methodList' },
+  { props: 'method', name: '补差方式', key: '补差方式', type: 'select', selectOption: 'methodList', disabled: true },
   // { props: 'materialGroup', name: '材料组', key: 'LK_CAILIAOZHU' },
   { props: 'partNum', name: '零件号', key: 'LK_LINGJIANHAO', type: "iMultiLineInput" },
   { props: 'partName', name: '零件名称', key: 'LK_LINGJIANMINGCHENG' },
@@ -382,7 +382,7 @@ export const infoFormData = [
   {
     props: 'dateRange', name: '补差时间段', key: '补差时间段', type: 'daterange', disabled: true
   },
-  { props: 'statusName', name: '状态', key: '状态', type: 'input', disabled: true },
+  { props: 'taskStatusName', name: '状态', key: '状态', type: 'input', disabled: true },
   { props: 'balanceNo', name: '补差单编号', key: '补差单编号', type: 'input', disabled: true },
   { props: 'totalAmount', name: '补差金额（总计）', key: '补差金额（总计）', type: 'thousands', disabled: true },
   { props: 'submittedAmount', name: '已发起凭证', key: '已发起凭证', type: 'thousands', disabled: true },
