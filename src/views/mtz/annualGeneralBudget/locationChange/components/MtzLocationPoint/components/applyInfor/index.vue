@@ -60,8 +60,8 @@
             class="inforText" v-model="inforData[item.prop]" v-else></iInput>
         </div>
       </div>
-      <span style="display:block;margin-bottom:20px;">{{ language("LINIEBEIAN", "Linie备注") }}</span>
-      <el-input :disabled="disabled" type="textarea" :rows="2" :placeholder="language('QINGSHURUBEIAN', '请输入备注')"
+      <span class="font18" style="display:block;margin-bottom:20px;">{{ language("LINIEBEIAN", "Linie备注") }}</span>
+      <el-input class="font18" :disabled="disabled" type="textarea" :rows="2" :placeholder="language('QINGSHURUBEIAN', '请输入备注')"
         v-model="inforData.linieMeetingMemo"></el-input>
     </iCard>
     <div class="centerBox">

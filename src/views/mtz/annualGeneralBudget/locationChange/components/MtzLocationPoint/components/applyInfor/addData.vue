@@ -521,6 +521,10 @@ export default {
 </script>
 
 <style style="scss" scoped>
+
+::v-deep.row4{
+    margin-bottom:0!important;
+}
 ::v-deep .dialog-footer {
     display: flex;
     justify-content: flex-end;

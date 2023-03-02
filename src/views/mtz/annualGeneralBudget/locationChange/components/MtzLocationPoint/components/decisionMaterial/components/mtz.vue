@@ -1498,6 +1498,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.itext{
+  background:transparent!important;
+}
 
 ::v-deep.el-form .el-table .cell  {
   font-size: 18px!important;
