@@ -1501,6 +1501,7 @@ export default {
 .titleHeader{
   display: flex;
   flex-wrap: wrap;
+ 
 }
 .itext{
   background:transparent!important;
@@ -1508,15 +1509,7 @@ export default {
 
 ::v-deep.el-form .el-table .cell  {
   font-size: 18px!important;
-  .titleHeader{
-    line-height: normal;
-    span{
-      display: inline-block;
-    word-wrap: break-word;
-    white-space: normal;
-    }
-
-  }
+ 
  
 }
 ::v-deep.el-table td div {

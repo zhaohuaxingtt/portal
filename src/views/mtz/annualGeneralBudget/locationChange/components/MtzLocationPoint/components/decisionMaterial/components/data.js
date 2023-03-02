@@ -506,12 +506,11 @@ export const ruleTableTitle1_1 = [
     key: '有效期止Valid To',
     width: 80
   },
-  {
+{
     width: 120,
     props: 'partBalanceCountType',
-    name: '零件结算数量Invoiced Part Source', 
+    name: '零件结算数量Invoiced Part Source',
     key: '零件结算数量Invoiced Part Source',
-    overlap:false,
     iconTextKey: '一般供应商：SAP系统读取；特殊供应商（VWPT等）：手工上传',
     typeIcon: 'num',
     num: '1'

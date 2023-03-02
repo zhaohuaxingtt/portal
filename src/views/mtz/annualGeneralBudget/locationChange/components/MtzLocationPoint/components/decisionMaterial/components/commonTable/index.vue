@@ -107,7 +107,7 @@
                   ? language(items.iconTextKey)
                   : items.iconText
               " placement="top-start">
-                <el-button v-if="items.typeIcon == 'num'" slot="reference" size="mini" circle type="primary">{{ items.num
+                <el-button class="btnpors" v-if="items.typeIcon == 'num'" slot="reference" size="mini" circle type="primary">{{ items.num
                 }}</el-button>
                 <icon v-else slot="reference" symbol v-if="items.icon" :name="items.icon"
                   class="font-size16 marin-left5" />
@@ -262,6 +262,25 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
+::v-deep.el-form .el-table .cell{
+  height: 70px;
+}
+  .titleHeader{
+    position: relative;
+    line-height: normal;
+    .btnpors{
+      // z-index: 1000;
+    position: absolute;
+    left: 0px;
+    top: 44px;
+  }
+    span{
+      display: inline-block;
+    word-wrap: break-word;
+    white-space: normal;
+    }
+
+  }
 .openLinkText {
   color: $color-blue;
 }
