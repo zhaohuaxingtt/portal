@@ -1168,6 +1168,9 @@ export default {
 </script>
 
 <style style="scss" scoped>
+::v-deep.row4{
+    margin-bottom:0!important;
+}
 .row4{
  display: inline-block!important;
  float: none;

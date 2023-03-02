@@ -952,7 +952,7 @@
 import { iText,iCard, icon, iInput, iButton, iMessage, iPagination } from 'rise'
 import { formList, avgPeriodList, offsetList, materialDoseSourceList } from './data'
 import signExport from './signExport.vue'
-import tableList from '@/components/commonTable/index.vue'
+import tableList from './commonTable/index.vue'
 import { partTableTitle1_3,ruleTableTitle1_1, ruleTableTitle1_all, partTableTitle1_1, partTableTitle1_all, ruleTableTitle1_2, partTableTitle1_2 } from './data'
 import iTooltip from "../../applyInfor/iTooltip";
 import { tipList } from '../../applyInfor/data'
@@ -1528,9 +1528,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.titleHeader{
+  display: flex;
+  flex-wrap: wrap;
+ 
+}
+.itext{
+  background:transparent!important;
+}
 
 ::v-deep.el-form .el-table .cell  {
   font-size: 18px!important;
+ 
+ 
 }
 ::v-deep.el-table td div {
   line-height: normal !important;
@@ -1539,6 +1549,7 @@ export default {
 ::v-deep.el-form .el-table .cell span{
   line-height: normal !important;
   font-size: 18px!important;
+
 }
 .font18{
   font-size: 18px;
