@@ -858,8 +858,8 @@ export const partTableTitle1_all = [
   },
   {
     props: 'method',
-    name: 'Rule Type',
-    key: 'Rule Type',
+    name: '规则类型Rule Type',
+    key: '规则类型Rule Type',
     minWidth: 90
   },
   {
