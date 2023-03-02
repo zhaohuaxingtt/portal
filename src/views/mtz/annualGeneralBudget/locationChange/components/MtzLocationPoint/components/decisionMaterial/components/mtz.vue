@@ -321,7 +321,7 @@
             </template>
           </tableList>
           <tableList border class="margin-top20 " :tableData="partTableListData" :tableTitle="partTableTitle1_3"
-              :tableLoading="loadingPart" v-if="!RsObject && partTableListData.length > 0 && partTableListData.some((val)=>{if(val.platinumPrice!='') return true})" :index="true"
+              :tableLoading="loadingPart" v-if="!RsObject && partTableListData.length > 0 && partTableListData.some((val)=>{if(val.platinumPrice) return true})" :index="true"
               :selection="false">
             </tableList>
         </div>
@@ -754,7 +754,7 @@
             </template>
             </tableList>
             <tableList border class="margin-top20 " :tableData="tableData" :tableTitle="partTableTitle1_3"
-              :tableLoading="loadingPart" v-if="!RsObject && partTableListData.length > 0 && partTableListData.some((val)=>{if(val.platinumPrice!='') return true})" :index="true"
+              :tableLoading="loadingPart" v-if="!RsObject && partTableListData.length > 0 && partTableListData.some((val)=>{if(val.platinumPrice) return true})" :index="true"
               :selection="false">
             </tableList>
           </iCard>
