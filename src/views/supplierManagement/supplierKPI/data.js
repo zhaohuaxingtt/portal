@@ -6,14 +6,14 @@
  */
 export const tableTitleDept = [
   {
-    props: 'sapCode',
+    props: 'modelInfoName',
     name: 'L1类型',
     key: 'L1类型',
     align: 'center',
     width:300
   },
   {
-    props: 'sapCode',
+    props: 'deptCode',
     name: '评分部门/科室',
     key: '评分部门/科室',
     align: 'center',
@@ -23,7 +23,7 @@ export const tableTitleDept = [
 ]
 export const tableTitleModel = [
   {
-    props: 'sapCode',
+    props: 'modelInfoName',
     name: 'L1类型',
     key: 'L1类型',
     align: 'center',
@@ -31,7 +31,7 @@ export const tableTitleModel = [
 
   },
   {
-    props: 'sapCode',
+    props: 'userName',
     name: '编辑者',
     key: '编辑者',
     align: 'center',
@@ -53,7 +53,7 @@ export const tableTitle2 = [
     align: 'center'
   },
   {
-    props: 'supplierName',
+    props: 'deptCode',
     name: 'CS打分科室',
     key: 'CS打分科室',
     align: 'center'
