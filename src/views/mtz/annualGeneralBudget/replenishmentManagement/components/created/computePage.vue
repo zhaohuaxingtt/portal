@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-14 14:44:54
- * @LastEditTime: 2023-02-22 11:26:05
+ * @LastEditTime: 2023-03-02 09:41:15
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\created\computePage.vue
@@ -269,7 +269,7 @@ export default {
     },
     // 禁用创建按钮
     disabled(){
-      return ['审批不通过'].includes(this.statusName)
+      return !['草稿','撤回'].includes(this.statusName)
     }
   },
   created() {
@@ -384,6 +384,9 @@ export default {
       }
       if (this.detailInfo.actualMakeAmount > this.detailInfo.toBeSubmitAmount) {
         return iMessage.warn('实补金额不能超出待发起凭证金额')
+      }
+      if(this.detailInfo.balanceNo){
+        return iMessage.warn('不能重复提交')
       }
       updateBalance(this.info).then((res) => {
         if (res?.code == '200') {
