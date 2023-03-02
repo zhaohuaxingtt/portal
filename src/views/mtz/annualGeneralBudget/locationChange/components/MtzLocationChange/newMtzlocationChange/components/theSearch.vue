@@ -1,10 +1,10 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2022-05-13 14:18:43
- * @LastEditors: zhaohuaxing 5359314+zhaohuaxing@user.noreply.gitee.com
+ * @LastEditTime: 2023-02-23 11:25:31
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
- * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
+ * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\newMtzlocationChange\components\theSearch.vue
 -->
 <template>
   <div>
@@ -173,6 +173,25 @@
                          value-member="code"
                          value-key="code" />
         </iFormItem>
+        <iFormItem :label="language('补差方式','补差方式')"
+                   class="searchFormItem">
+                <el-select
+                  v-model="searchForm.method"
+                  clearable
+                  :placeholder="language('QINGSHURU', '请输入')"
+                >
+                  <el-option
+                  :label="language('全部','ALL')"
+                  value=""></el-option>
+                  <el-option
+                    v-for="item in methodList"
+                    :key="item.code"
+                    :label="item.message"
+                    :value="item.code"
+                  >
+                  </el-option>
+                </el-select>
+        </iFormItem>
       </iFormGroup>
     </iSearch>
   </div>
@@ -184,6 +203,7 @@ import inputCustom from '@/components/inputCustom'
 import { fetchRemoteDept } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
 import { mtzBasePricePageFilterPartName, mtzBasePricePageFilterPeriod, mtzBasePricePageFilterRule, mtzBasePricePageFilterSource, mtzBasePricePageFilterSupplierName, mtzBasePricePageFilterSupplierSap, mtzBasePricePageFilterUser } from '@/api/mtz/annualGeneralBudget/mtzChange'
 import { getRawMaterialNos } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
+import { methodList } from "../../../components/data";
 export default {
   name: "Search",
   componentName: "searchBox",
@@ -199,7 +219,10 @@ export default {
   },
   data () {
     return {
-      searchForm: {},
+      methodList,
+      searchForm: {
+        method:''
+      },
       deptList: [],
       rawMaterialNos: [],
       mtzPartNameList: [],
@@ -357,6 +380,7 @@ export default {
       this.searchForm.compensationPeriod = []
       this.searchForm.endDate = ""
       this.searchForm.startDate = ""
+      this.searchForm.method = ''
       this.$parent.$refs.theTable.getTableList()
     },
     handleSubmitSearch () {
