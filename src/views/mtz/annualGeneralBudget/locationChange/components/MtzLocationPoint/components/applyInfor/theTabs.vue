@@ -173,7 +173,7 @@
                     </el-option>
               </el-select> -->
 
-            <!-- <i-select
+            <i-select
                 v-model="scope.row.source"
                 clearable
                 @change="sourceChange(scope.row, $event)"
@@ -187,9 +187,9 @@
                   :value="item.code"
                     >
                     </el-option>
-                  </i-select> -->
+                  </i-select>
 
-              <span>{{ scope.row.source }}</span>
+              <span v-else>{{ scope.row.source }}</span>
             </el-form-item>
           </template>
         </el-table-column>
@@ -285,7 +285,7 @@
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'priceMeasureUnit'" :rules="
               formRules.priceMeasureUnit ? formRules.priceMeasureUnit : ''
             ">
-            <!-- <el-select v-model="scope.row.priceMeasureUnit"
+            <el-select v-model="scope.row.priceMeasureUnit"
                             clearable
                             :placeholder="language('QINGSHURU', '请输入')"
                             v-if="editId.indexOf(scope.row.id)!==-1"
@@ -296,12 +296,12 @@
                                 :label="item.message"
                                     :value="item.code">
                             </el-option>
-                        </el-select> -->
+                        </el-select>
             <!-- <iInput
                                 v-model="scope.row.priceMeasureUnit"
                                 v-if="editId.indexOf(scope.row.id)!==-1"
                             ></iInput> -->
-              <span>{{ scope.row.priceMeasureUnit }}</span>
+              <span v-else>{{ scope.row.priceMeasureUnit }}</span>
             </el-form-item>
           </template>
         </el-table-column>
@@ -374,7 +374,7 @@
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'compensationPeriod'" :rules="
               formRules.compensationPeriod ? formRules.compensationPeriod : ''
             ">
-            <!-- <el-select
+            <el-select
                 v-model="scope.row.compensationPeriod"
                 clearable
                 :placeholder="language('QINGSHURU', '请输入')"
@@ -387,8 +387,8 @@
                   :value="item.code"
                     >
                     </el-option>
-                  </el-select> -->
-              <span>{{
+                  </el-select>
+              <span v-else>{{
                 scope.row.compensationPeriod == 'A'
                 ? '年度'
                 : scope.row.compensationPeriod == 'H'
