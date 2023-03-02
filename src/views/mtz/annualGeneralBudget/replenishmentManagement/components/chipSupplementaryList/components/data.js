@@ -11,7 +11,7 @@ import language from "@/utils/language";
 // 首页查询条件
 export const queryFormData = [
   { props: 'balanceNo', name: '补差单号', key: '补差单号', type: 'input' },
-  { props: 'sapPayBalanceNo', name: '凭证Id', key: '凭证Id', type: 'input' },
+  { props: 'balanceId', name: '凭证Id', key: '凭证Id', type: 'input' },
   {
     props: 'primarySupplier', name: '一次件供应商', key: '一次件供应商', type: 'select', selectOption: 'fsupplierList', optionLabel: 'message',
     optionValue: 'code', clearable: true, showAll: true
