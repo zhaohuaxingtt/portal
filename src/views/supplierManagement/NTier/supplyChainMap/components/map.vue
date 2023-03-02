@@ -103,11 +103,27 @@ export default {
           this.svwList.push({ ...item.addressInfo, lat: item.addressInfo.latitude, lon: item.addressInfo.longitude, procureFactory: item.procureFactory })
         }
       })
+      let obj = {}
       this.markerList = this.markerList.filter(item => {
         if (item.lon && item.lat) {
+          if(obj[item.lat+'-'+item.lon]){
+            obj[item.lat+'-'+item.lon].push(item)
+          } else{
+            obj[item.lat+'-'+item.lon] = [item]
+          }
           return item
         }
       })
+      this.obj= obj
+      // this.markerList = Object.keys(this.obj).map(key=>{
+      //   let item = this.obj[key][0]
+      //   return {
+      //     lat: item.lat,
+      //     lon: item.lon,
+      //     children: this.obj[key]
+      //   }
+      // })
+      console.log(obj);
     },
     showCityInfo () {
       this.map = new AMap.Map('container', {
@@ -168,6 +184,12 @@ export default {
           topWhenClick: true,//鼠标点击时marker是否置顶
           clickable: true
         });
+        // if(this.obj[item.lat+'-'+item.lon].length>1)
+        // this.marker[index].setLabel({
+        //   offset: new AMap.Pixel(0, 0), //设置文本标注偏移量
+        //   content:"<div>"+this.obj[item.lat+'-'+item.lon].length+"</div>",//设置文本标注内容
+        //   direction:'bottom'//设置文本标注方位
+        // })
         this.marker[index].setMap(this.map)
         this.marker[index].on('click', (e) => {
           this.marker.forEach((i, index) => {
@@ -189,10 +211,8 @@ export default {
             size: new AMap.Size(30, 30),
             imageSize: new AMap.Size(30, 30)
           }))
-          this.getChainPart(this.marker[index]._opts.extData, item)
-          // if (e.target._opts.extData.viewType) {
-
-          // }
+          let item_ = item.children ? item.children[0] : item
+          this.getChainPart(this.marker[index]._opts.extData, item_)
         })
       })
     },
@@ -213,16 +233,19 @@ export default {
           content: '',
           offset: new AMap.Pixel(0, -320),
         })
+        let supplierList = this.obj[item.lat+'-'+item.lon] || []
         const infowindowWrap = Vue.extend({
-          template: `<tipTable :rate="rate" :tableDataList="tableDataList"> </tipTable>`,
+          template: `<tipTable :rate="rate" :tableDataList="tableDataList" :supplierDetail="supplierDetail" :supplierList="supplierList"> </tipTable>`,
           name: "infowindowWrap",
           components: {
             tipTable: tipTable
           },
           data () {
             return {
-              tableDataList: res.data,
-              rate: rate.data
+              tableDataList: res?.data || [],
+              rate: rate?.data || {},
+              supplierDetail: supplierList[0],
+              supplierList: supplierList
             };
           },
         });

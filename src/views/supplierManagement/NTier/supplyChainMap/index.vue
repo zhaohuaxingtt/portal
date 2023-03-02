@@ -68,6 +68,7 @@ export default {
       this.area = pms.area
       const res = await getNTierMap(pms)
       this.object = res.data
+      console.log(this.object);
       this.tableLoading = false
     },
     async handleSave (params, id) {
