@@ -178,7 +178,7 @@
                 clearable
                 @change="sourceChange(scope.row, $event)"
                 :placeholder="language('QINGSHURU', '请输入')"
-                v-if="editId.indexOf(scope.row.id) !== -1"
+                v-if="editId.indexOf(scope.row.id) !== -1&&!editTypeNo"
               >
                 <el-option
                   v-for="item in getMtzMarketSourceList"
@@ -288,7 +288,7 @@
             <el-select v-model="scope.row.priceMeasureUnit"
                             clearable
                             :placeholder="language('QINGSHURU', '请输入')"
-                            v-if="editId.indexOf(scope.row.id)!==-1"
+                            v-if="editId.indexOf(scope.row.id)!==-1&&!editTypeNo"
                             >
                             <el-option
                                 v-for="item in priceMeasureUnit"
@@ -378,7 +378,7 @@
                 v-model="scope.row.compensationPeriod"
                 clearable
                 :placeholder="language('QINGSHURU', '请输入')"
-                v-if="editId.indexOf(scope.row.id) !== -1"
+                v-if="editId.indexOf(scope.row.id) !== -1&&!editTypeNo"
               >
                 <el-option
                   v-for="item in compensationPeriod"
@@ -835,7 +835,7 @@ export default {
       loading: false,
       listData: {},
       selectData: {},
-
+      editTypeNo : false,
       effectFlag: [
         {
           code: 0,
@@ -1023,6 +1023,7 @@ export default {
     edit() {
       //编辑
       if (this.selectList.length > 0) {
+        this.editTypeNo = true
         this.editType = true
         var changeArrayList = []
         this.selectList.forEach((item) => {
@@ -1071,6 +1072,7 @@ export default {
                       iMessage.success(this.language(res.desEn, res.desZh))
                       this.editId = ''
                       this.editType = false
+                      this.editTypeNo = false
                       setTimeout(() => {
                         this.$parent.$refs.theDataTabs.pageAppRequest()
                         if (!this.$parent.$refs.theDataTabs.editType) {
@@ -1093,6 +1095,7 @@ export default {
                     if (res.code == 200) {
                       iMessage.success(this.language(res.desEn, res.desZh))
                       this.editId = ''
+                      this.editTypeNo = false
                       this.editType = false
                       // this.page.currPage = 1;
                       // this.page.pageSize = 10;
@@ -1156,6 +1159,7 @@ export default {
                 if (res.code == 200) {
                   this.editId = ''
                   this.editType = false
+                  this.editTypeNo = false
                   setTimeout(() => {
                     this.$parent.$refs.theDataTabs.pageAppRequest()
                     if (!this.$parent.$refs.theDataTabs.editType) {
@@ -1192,6 +1196,7 @@ export default {
       )
         .then((res) => {
           this.editType = false
+          this.editTypeNo = false
           if (this.dialogEditType) {
             this.editId.forEach((e) => {
               this.tableData.splice(0, 1)
