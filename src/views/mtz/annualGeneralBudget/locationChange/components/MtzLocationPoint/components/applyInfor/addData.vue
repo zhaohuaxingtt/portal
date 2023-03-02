@@ -32,6 +32,25 @@
                             :label="item.ruleNo"></el-option>
                 </iSelect>
             </iFormItem>
+            <iFormItem prop="method">
+            <iLabel
+                :label="language('补差方式', '补差方式')"
+                slot="label"
+                :required="true"
+            ></iLabel>
+            <i-select
+                v-model="contractForm.method"
+                :placeholder="language('QINGSHURU', '请输入')"
+            >
+                <el-option
+                v-for="item in methodList"
+                :key="item.code"
+                :label="item.message"
+                :value="item.code"
+                >
+                </el-option>
+            </i-select>
+            </iFormItem>
             <iFormItem prop="ruleVersion">
                 <iLabel :label="language('版本编号','版本编号')" slot="label"></iLabel>
                 <iInput
@@ -405,6 +424,7 @@ import {
   iDialog,
 } from 'rise'
 import inputCustom from '@/components/inputCustom'
+import { methodList } from "./data";
 export default {components: {
     iButton,
     iMessage,
@@ -451,6 +471,7 @@ export default {components: {
         })
     };
     return {
+        methodList,
         companyType:false,
         supplierList:[],//供应商编号
         contractForm: {

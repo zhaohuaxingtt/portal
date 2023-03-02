@@ -1,16 +1,17 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-14 14:44:54
- * @LastEditTime: 2023-02-15 15:04:57
+ * @LastEditTime: 2023-03-02 09:41:15
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\created\computePage.vue
 -->
 <template>
-  <iPage :loading="loading">
+<div class="page-box" v-loading="loading">
+  <iPage>
     <div class="header">
-      <h1>{{ supplierType }}供应商芯片补差计算（{{ statusName }}）</h1>
-      <div>
+      <h1>{{ supplierType }}供应商芯片补差计算（{{ taskStatusName }}）</h1>
+      <div v-if="!disabled">
         <iButton @click="updateBalance">保存</iButton>
         <iButton @click="submit">创建补差单</iButton>
       </div>
@@ -31,7 +32,6 @@
       <iTableCustom
         :data="ruleTableData"
         :columns="tableTitleRule"
-        :tableLoading="loading"
       />
       <iPagination
         @size-change="handleSizeChange($event, getTableList)"
@@ -72,7 +72,7 @@
     <iCard>
       <div class="contentBox">
         <div class="tableOptionBox">
-          <iButton @click="deleteBalanceItem" v-if="tabsValue == 1">{{
+          <iButton @click="deleteBalanceItem" v-if="tabsValue == 1 && !disabled">{{
             language('冲销', '冲销')
           }}</iButton>
           <iButton
@@ -86,7 +86,6 @@
         <iTableCustom
           :data="balanceItemList"
           :columns="tableTitleBE"
-          :tableLoading="loading"
           @handle-selection-change="handleSelectionChange"
         />
         <iPagination
@@ -105,7 +104,6 @@
         <iTableCustom
           :data="savedBalanceItemList"
           :columns="tableTitle"
-          :tableLoading="loading"
         />
         <iPagination
           @size-change="saveBalanceSizeChange"
@@ -120,6 +118,7 @@
       </div>
     </iCard>
   </iPage>
+  </div>
 </template>
 
 <script>
@@ -226,7 +225,9 @@ export default {
       selection: [],
       ruleDataAll: [],
       balanceDataAll: [],
-      saveBalanceDataAll: []
+      saveBalanceDataAll: [],
+      taskStatusName:'',
+      statusName:''
     }
   },
   watch: {
@@ -265,6 +266,10 @@ export default {
     },
     savedBalanceItemList() {
       return this.saveBalancePageData[this.saveBalancePage.currPage - 1] || []
+    },
+    // 禁用创建按钮
+    disabled(){
+      return !['草稿','撤回'].includes(this.statusName)
     }
   },
   created() {
@@ -312,7 +317,8 @@ export default {
         .then((res) => {
           if (res?.code == '200') {
             this.info = res.data
-            this.statusName = res.data.balanceTaskBase?.taskStatusName||''
+            this.taskStatusName = res.data.balanceTaskBase?.taskStatusName||''
+            this.statusName = res.data.balanceBase?.statusName||''
             let detailInfo = res.data.balanceBase
             detailInfo.supplier =
               res.data.balanceBase.supplierSapCode +
@@ -329,7 +335,7 @@ export default {
               res.data.balanceBase.actualMakeAmount ||
               res.data.balanceBase.toBeSubmitAmount
 
-            detailInfo.statusName = res.data.balanceTaskBase?.taskStatusName||''
+            detailInfo.taskStatusName = res.data.balanceTaskBase?.taskStatusName||''
             detailInfo.submittedAmount = res.data.submittedAmount
             detailInfo.toBeSubmitAmount = res.data.toBeSubmitAmount
             this.$set(this, 'detailInfo', detailInfo)
@@ -358,13 +364,17 @@ export default {
       if (this.detailInfo.actualMakeAmount > this.detailInfo.toBeSubmitAmount) {
         return iMessage.warn('实补金额不能超出待发起凭证金额')
       }
+      this.loading = true
       updateBalance(this.info).then((res) => {
         if (res?.code == '200') {
           iMessage.success(this.$i18n.locale == 'zh' ? res.desZh : res.desEn)
           this.findBalanceById()
         } else {
+          this.loading = false
           iMessage.error(this.$i18n.locale == 'zh' ? res1.desZh : res1.desEn)
         }
+      }).catch(()=>{
+        this.loading = false
       })
     },
     // 创建补差单:获取补差单号
@@ -374,6 +384,9 @@ export default {
       }
       if (this.detailInfo.actualMakeAmount > this.detailInfo.toBeSubmitAmount) {
         return iMessage.warn('实补金额不能超出待发起凭证金额')
+      }
+      if(this.detailInfo.balanceNo){
+        return iMessage.warn('不能重复提交')
       }
       updateBalance(this.info).then((res) => {
         if (res?.code == '200') {
@@ -453,6 +466,9 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+.page-box{
+  height: 100%;
+}
 .header {
   display: flex;
   justify-content: space-between;
