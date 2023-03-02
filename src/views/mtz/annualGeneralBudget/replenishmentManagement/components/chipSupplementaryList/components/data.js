@@ -59,7 +59,7 @@ export const tableTitle = [
       return <span class="link">{scope.row.balanceNo}</span>
     }
   }, {
-    prop: 'balanceSapCode',
+    prop: 'id',
     label: '凭证ID',
     i18n: 'PINGZHENGID',
     align: 'center',
