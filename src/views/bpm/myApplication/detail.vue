@@ -19,7 +19,7 @@
               <div class="operation-btn">
                 <viewFlow :detail="form" />
                 <!-- 撤回 -->
-                <iButton v-if="buttonRecallVisible" @click="dialogRecallVisible = true">
+                <iButton  v-if="buttonRecallVisible&&!loading" @click="dialogRecallVisible = true">
                   {{ language('撤回') }}
                 </iButton>
                 <!-- 补充材料 -->
