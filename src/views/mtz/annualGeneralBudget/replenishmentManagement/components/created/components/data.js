@@ -500,7 +500,7 @@ export const tableTitleBE1 = [
     width: 100
   },
   {
-    prop: 'deptCode',
+    prop: 'departmentCode',
     label: '科室',
     width: '100px',
     align: 'center',
@@ -591,9 +591,9 @@ export const tableTitleComplete1 = [
 
   { prop: 'receiveQuantity', label: '结算数量', i18n: '结算数量', width: 120 },
   { prop: 'requestAmount', label: '应补总额', i18n: '应补总额', width: 120 },
-  { prop: 'approveAmount', label: '实补总额', i18n: '实补总额', width: 120 },
+  { prop: 'actualMakeAmount', label: '实补总额', i18n: '实补总额', width: 120 },
   {
-    prop: 'sourceCode',
+    prop: 'balanceNo',
     label: '补差单编号',
     align: 'center',
     i18n: '补差单编号',
@@ -608,7 +608,7 @@ export const tableTitleComplete1 = [
     width: 100
   },
   {
-    prop: 'deptCode',
+    prop: 'departmentCode',
     label: '科室',
     width: '100px',
     align: 'center',
@@ -713,7 +713,7 @@ export const tableTitleBE2 = [
 
   { prop: 'receiveQuantity', label: '结算数量', i18n: '结算数量', width: 120 },
   { prop: 'requestAmount', label: '应补总额', i18n: '应补总额', width: 120 },
-  { prop: 'approveAmount', label: '实补总额', i18n: '实补总额', width: 120 },
+  { prop: 'actualMakeAmount', label: '实补总额', i18n: '实补总额', width: 120 },
   {
     prop: 'buyerName',
     label: '采购员',
@@ -723,7 +723,7 @@ export const tableTitleBE2 = [
     width: 100
   },
   {
-    prop: 'deptCode',
+    prop: 'departmentCode',
     label: '科室',
     width: '100px',
     align: 'center',

@@ -156,12 +156,12 @@ export const tabsInforList = [
   {
     name: '应补总额 (RMB)',
     key: 'YINGBUZONGE',
-    prop: 'invoiceAmount'
+    prop: 'requestAmount'
   },
   {
     name: '实补总额 (RMB)',
     key: 'SHIBUZONGE',
-    prop: 'approvedAmount'
+    prop: 'actualMakeAmount'
   }
 ]
 // 补差单汇总TAB
@@ -172,7 +172,7 @@ export const tableTitleOverview = [
   { props: 'invoiceQuantity', name: '零件数量', key: 'LINGJIANSHULIANG' },
   { props: 'makeAmount', name: '补差金额', key: '补差金额' },
   { props: 'requestAmount', name: '应补总额', key: '应补总额' },
-  { props: 'approveAmount', name: '实际补差总额', key: '实际补差总额' },
+  { props: 'actualMakeAmount', name: '实际补差总额', key: '实际补差总额' },
 ]
 // 补差单明细TAB
 export const tableTitleDetail = [
@@ -234,7 +234,8 @@ export const tableTitleDetail = [
   },
   { props: 'receiveQuantity', name: '结算数量', key: '结算数量', width: 120 },
   { props: 'requestAmount', name: '应补总额', key: '应补总额', width: 120 },
-  { props: 'approveAmount', name: '实补总额', key: '实补总额', width: 120 },
+  { props: 'actualMakeAmount', name: '实补总额', key: '实补总额', width: 120 },
+  // { props: 'approvedAmount', name: '审批总额', key: '审批总额', width: 120 },
 ]
 
 export const tableTitleNegative = [
@@ -550,6 +551,10 @@ export const searchFormData = [
     props: 'primaryPartNum', name: '一次件零件号', key: 'YICIJIANLINGJIANHAO', type: 'input'
   },
   { props: 'secondPartNum', name: '二次件零件号', key: 'ERCIJIANLINGJIANHAO', type: 'input' },
-  { props: 'secondSupplierSapCode', name: '二次件供应商', key: 'ECJGYS', type: 'select', selectOption: 'getSecondSupplierList', clearable: true, showAll: true },
+  {
+    props: 'secondSupplierSapCode', name: '二次件供应商', key: 'ECJGYS', type: 'select', selectOption: 'secondSupplierList', clearable: true, showAll: true, optionLabel: 'message',
+    optionValue: 'code',
+    optionLabelEn: 'message'
+  },
   { props: 'dateTime', name: '补差时间段', key: 'BUCHASHIJIANDUAN', type: 'daterange' },
 ]
