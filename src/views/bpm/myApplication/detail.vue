@@ -19,7 +19,7 @@
               <div class="operation-btn">
                 <viewFlow :detail="form" />
                 <!-- 撤回 -->
-                <iButton  v-if="buttonRecallVisible&&!loading" @click="dialogRecallVisible = true">
+                <iButton  v-if="buttonRecallVisible&&isBtn" @click="dialogRecallVisible = true">
                   {{ language('撤回') }}
                 </iButton>
                 <!-- 补充材料 -->
@@ -134,6 +134,7 @@ export default {
       form: {
         histories: []
       },
+      isBtn:false,
       loading: false,
       historyTableTitle: [
         {
@@ -269,6 +270,9 @@ export default {
   created() {
     if (this.$route.params.instanceId) {
       this.getDetail()
+    }else{
+      this.isBtn=true
+
     }
   },
   methods: {
@@ -313,9 +317,12 @@ export default {
               iMessage.error(res.desZh || '获取数据失败')
             }
             this.loading = false
+            this.isBtn=true
+
           })
           .catch((error) => {
             this.loading = false
+            this.isBtn=true
             iMessage.error(error.desZh || '获取数据失败')
           })
       }
