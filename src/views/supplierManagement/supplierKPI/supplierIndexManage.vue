@@ -34,7 +34,7 @@
       </div>
     </iCard>
     <indexManage @updata="updata" v-permission="SUPPLIER_WORKBENCH_JIXIAO_SUPPLIERINDEXMANAGE_ZHIBIAOKU" v-if="isShow" />
-    <kpiStructure @back="back" :infoData="infoData" @submit0="submit0" ref="model" :isEdit="isEdit" style="margin-top: 20px"
+    <kpiStructure  @back="back" :infoData="infoData" @submit0="submit0" ref="model" :isEdit="isEdit" style="margin-top: 20px"
       :treeData="allData" :temId="selectValue" :templateName="templateName" @click="changeSaveData" @init="init"
       :isShow="isShow"></kpiStructure>
   </div>
@@ -187,8 +187,8 @@ export default {
     },
     changVersion(v) {
       this.info = this.dropDownOptions.find((val) => val.modelId == v)
-      this.allData.fileId = this.dropDownOptions[0].fileId
-      this.allData.fileName = this.dropDownOptions[0].fileName
+      this.allData.fileId = this.info.fileId
+      this.allData.fileName = this.info.fileName
       getModelTree(this.allData.modelId).then((res) => {
         if (res.code == '200') {
           if (res.data.id != null) {

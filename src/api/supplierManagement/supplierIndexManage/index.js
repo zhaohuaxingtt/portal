@@ -42,6 +42,13 @@ export function updateIndicator(parmars) {
     data: parmars
   })
 }
+// 是否展示所有的节点
+export function getAllModelTree(id) {
+  return requst({
+    url: '/performanceModel/getAllModelTree?modelId=' + id,
+    method: 'GET',
+  })
+}
 // 根据模板id获取指标树
 export function getModelTree(id) {
   return requst({

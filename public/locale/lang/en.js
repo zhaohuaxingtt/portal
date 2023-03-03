@@ -833,6 +833,8 @@
       APPROVAL_SUCCESS: 'Approval successful',
       APPROVAL_FAILED: 'Approval failed',
       NODE_REQUIRED: 'Required for supplementary material nodes',
+      NO_APPROVAL_TODO: 'No pending approval data',
+      NO_MY_APPLICATION: 'No my application data',
       EXIT_EDIT: 'exit edit',
       LK_ZP: 'task transfer',
       LK_ZGZJ: 'give it to yourself'
@@ -2066,7 +2068,8 @@
       HOME_MODULE_I_FACT: 'iFact',
       HOME_MODULE_VOLUME: 'Volume Pricing',
       HOME_MODULE_NEWS: 'News',
-      HOME_MODULE_PROVIDER_RATE: 'Spare Supply Rate'
+      HOME_MODULE_PROVIDER_RATE: 'Spare Supply Rate',
+      NO_TASK_DATA: 'No task data'
     },
     //会议中英文
     MT_HUIYIMINGCHENG: 'Meeting name',

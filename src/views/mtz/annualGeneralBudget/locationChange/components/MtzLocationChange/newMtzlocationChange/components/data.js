@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2021-10-26 20:16:30
- * @LastEditTime: 2022-03-09 10:51:27
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-02-23 11:36:59
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\newMtzlocationChange\components\data.js
  */
@@ -19,10 +19,6 @@ export const TABLE_COLUMNS = [
   {
     prop: 'assemblyPartnum',
     label: '一次件零件号',
-    emit: 'go-detail',
-    // customRender: (h, scope) => {
-    //   return <span class="open-link-text">{scope.row.assemblyPartnum}</span>
-    // },
     minWidth: 120,
     tooltip: true
   },
@@ -92,6 +88,15 @@ export const TABLE_COLUMNS = [
     label: '规则编号',
     minWidth: 120,
     tooltip: true
+  },
+  {
+    prop: 'method',
+    label: '补差方式',
+    minWidth: 120,
+    tooltip: true,
+    customRender:(h, scope, c, extraData)=>{
+      return <span>{ scope.row.method == '1' ? extraData.language('一次性补差') : scope.row.method == '2' ?extraData.language('变价单补差') : '' }</span>
+    }
   },
   {
     prop: 'materialCode',

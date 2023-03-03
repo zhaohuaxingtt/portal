@@ -3,23 +3,24 @@
     <i-drawer
       class="messageDrawer1"
       :visible.sync="visible"
-      v-loading="loading"
       wrapper-closable
       modal
     >
-      <iCard class="todo-task-list-info-card">
+      <iCard class="todo-task-list-info-card" v-loading="loading">
         <div class="todo-task-list-info-div">
           <div class="todo-task-list-title">{{ $t('APPROVAL_TODO_LIST') }}</div>
-          <div class="todo-task-list-info-list">
+          <div class="todo-task-list-info-list" v-infinite-scroll="handleLoadMore" :infinite-scroll-distance="20" :infinite-scroll-disabled="disabled">
             <div class="todo-task-list-info" v-for="(item, index) in todoTaskList">
               <div class="todo-task-list-info-title" @click="gotoDetailPage(item)">
-                {{ item.itemName + '-' + item.itemContent }}
+<!--                {{ item.itemName + '-' + (isFinished ? item.itemContent : item.itemEvent) }}-->
+                {{ item.itemName + '-' + item.itemEvent }}
               </div>
               <div class="todo-task-list-info-content">
                 <span>{{ item.businessId }}</span>
                 <span>{{ item.applyUserName }}</span>
               </div>
             </div>
+            <p class="no-more-text" v-if="noMore">{{ $t("MAIL.NOMORE") }}</p>
           </div>
         </div>
       </iCard>
@@ -50,6 +51,11 @@
         default: false
       }
     },
+    computed: {
+      disabled () {
+        return this.loading || this.noMore
+      }
+    },
     watch: {
       visible(val) {
       }
@@ -59,6 +65,7 @@
     beforeDestroy() {
     },
     created() {
+      this.initQueryDataAndParams()
       this.getTodoTaskList()
     },
     data() {
@@ -67,14 +74,61 @@
         loading: false,
         todoTaskList: [],
         pageInfo: {
-          pageNum: 0,
-          pageSize: 1000,
+          pageNum: 1,
+          pageSize: 20,
           total: 0,
         },
+        queryData: null,
+        reverseMode: false,
+        noMore: false,
         QUERY_DRAWER_TYPES
       }
     },
     methods: {
+      handleFinishCurrentTask(instanceId) {
+        if(this.todoTaskList?.length >= 2) {
+          return this.gotoNextTask(instanceId)
+        } else {
+          this.$message.info(`已经是最后一条`)
+          return false
+        }
+      },
+      handleLoopTask(instanceId, goPreTask) {
+        if(this.todoTaskList?.length >= 2) {
+          let curIndex = -1
+          this.todoTaskList.find((item,index) => {
+            if(item.instanceId === instanceId) {
+              curIndex = index
+            }
+          })
+          // 找到当前finish了的Index
+          if(goPreTask) {
+            if((curIndex - 1) < 0 ) {
+              this.$nextTick(() => {
+                this.gotoDetailPage(this.todoTaskList[this.todoTaskList.length - 1])
+              })
+            } else {
+              this.$nextTick(() => {
+                this.gotoDetailPage(this.todoTaskList[curIndex - 1])
+              })
+            }
+          } else {
+            if((curIndex + 1) >= this.todoTaskList.length) {
+              this.$nextTick(() => {
+                this.gotoDetailPage(this.todoTaskList[0])
+              })
+            } else {
+              this.$nextTick(() => {
+                this.gotoDetailPage(this.todoTaskList[curIndex + 1])
+              })
+            }
+          }
+          return true
+        } else {
+          this.$message.info(`已经是最后一条`)
+          return false
+        }
+      },
       gotoPreTask(instanceId) {
         if(this.todoTaskList?.length > 0) {
           let curIndex = -1
@@ -88,10 +142,13 @@
             this.$nextTick(() => {
               this.gotoDetailPage(this.todoTaskList[curIndex])
             })
+            return true
           } else {
-            this.$message.info(`已经是最后一条`)
-            this.$emit("showMoreTaskNeedClose")
+            return this.handleLoopTask(instanceId, true)
           }
+        } else {
+          this.$message.info(`已经是最后一条`)
+          return false
         }
       },
       gotoNextTask(instanceId) {
@@ -107,10 +164,13 @@
             this.$nextTick(() => {
               this.gotoDetailPage(this.todoTaskList[curIndex])
             })
+            return true
           } else {
-            this.$message.info(`已经是最后一条`)
-            this.$emit("showMoreTaskNeedClose")
+            return this.handleLoopTask(instanceId, false)
           }
+        } else {
+          this.$message.info(`已经是最后一条`)
+          return false
         }
       },
       getQueryTodoListFunc() {
@@ -122,50 +182,132 @@
           return queryApplications
         }
       },
+      initQueryDataAndParams() {
+        let page = null
+        let queryData = null
+        if(this.$route.params.queryData) {
+          queryData = JSON.parse(decodeURIComponent(this.$route.params.queryData))
+          page = queryData.page
+          if(queryData.page) {
+            delete queryData.page
+          }
+        }
+        if(page) {
+          this.pageInfo.pageNum = page.currPage
+          this.pageInfo.pageSize = page.pageSize
+          this.pageInfo.total = page.totalCount
+        }
+        if(queryData) {
+          this.queryData = queryData
+        }
+      },
       genQueryListParams() {
         const params = {
-          pageNum: 1,
-          pageSize: 1000
+          pageNum: this.pageInfo.pageNum,
+          pageSize: this.pageInfo.pageSize
         }
         return params
       },
       genQueryListData() {
+        if(this.queryData) {
+          return this.queryData
+        }
+        if(this.queryType === QUERY_DRAWER_TYPES.APPLY_TODO) {
+          return {
+            "taskType": 0,
+            "userID": this.$store.state.permission.userInfo.id,
+            "reApprove": false,
+            "isAeko": false
+          }
+        } else {
+          return {
+            applyUserId: this.$store.state.permission.userInfo.id,
+            isFinished: this.isFinished
+          }
+        }
+      },
+      getPageInfoByInstanceId(instanceId) {
+        let curIndex = -1
+        this.todoTaskList.find((item, index) => {
+          if(item.instanceId === instanceId) {
+            curIndex = index
+          }
+        })
+        curIndex += 1
         return {
-          applyUserId: this.$store.state.permission.userInfo.id,
-          isFinished: this.isFinished
+          currPage: this.reverseMode ? this.pageInfo.pageNum + Math.floor(curIndex/this.pageInfo.pageSize) : Math.floor(curIndex/this.pageInfo.pageSize),
+          pageSize: this.pageInfo.pageSize,
+          totalCount: this.pageInfo.total
         }
       },
       //打开详情页
       gotoDetailPage(item) {
         this.$emit("showMoreTaskNeedClose")
         this.$nextTick(() => {
-          if(this.queryType === QUERY_DRAWER_TYPES.APPLY_TODOQ || this.queryType === QUERY_DRAWER_TYPES.APPLY_FINISH) {
-            if (this.isFinished === 1) {
-              window.location.href = `/portal/#/bpm/finishList/detail/${item.instanceId}/${item.taskId}/${this.isFinished ? 'yes' : 'no'}`
+          let queryDataStr = ''
+          let queryDataObj = { page: this.getPageInfoByInstanceId(item.instanceId) }
+          if(this.queryData) {
+            queryDataObj = { ...queryDataObj, ...this.queryData }
+          }
+          queryDataStr = encodeURIComponent(JSON.stringify(queryDataObj))
+          if(this.queryType === QUERY_DRAWER_TYPES.APPLY_TODO || this.queryType === QUERY_DRAWER_TYPES.APPLY_FINISH) {
+            if (this.isFinished) {
+              window.location.href = `/portal/#/bpm/finishList/detail/${item.instanceId}/${item.taskId}/${this.isFinished ? 'yes' : 'no'}/${queryDataStr}`
             } else {
-              window.location.href = `/portal/#/bpm/todoList/detail/${item.instanceId}/${item.taskId}/${this.isFinished ? 'yes' : 'no'}`
+              window.location.href = `/portal/#/bpm/todoList/detail/${item.instanceId}/${item.taskId}/${this.isFinished ? 'yes' : 'no'}/${queryDataStr}`
             }
           } else {
             // http://localhost:8080/portal/#/bpm/myApply/detail/2423548/no
-            window.location.href = `/portal/#/bpm/myApply/detail/${item.instanceId}/${this.isFinished ? 'yes' : 'no'}`
+            window.location.href = `/portal/#/bpm/myApply/detail/${item.instanceId}/${this.isFinished ? 'yes' : 'no'}/${queryDataStr}`
           }
           // this.showDialog = true
         })
+      },
+      getTotalPageNum() {
+        return Math.ceil(this.pageInfo.total/this.pageInfo.pageSize)
+      },
+      handleLoadMore() {
+        if(this.noMore) {
+          return
+        }
+        if(this.reverseMode) {
+          this.pageInfo.pageNum = (this.getTotalPageNum() - Math.ceil(this.todoTaskList.length/this.pageInfo.pageSize))
+        } else {
+          this.pageInfo.pageNum += 1
+        }
+        this.getTodoTaskList()
       },
       getTodoTaskList() {
         const queryTodoListFunc = this.getQueryTodoListFunc()
         this.loading = true
         queryTodoListFunc(this.genQueryListParams(), this.genQueryListData()).then((res) => {
-          this.loading = false
+          // this.loading = false
           const { current, size, total, records } = res.data
           this.pageInfo.pageNum = current
           this.pageInfo.pageSize = size
           this.pageInfo.total = total
-          this.todoTaskList = records
+          if(this.todoTaskList?.length >= 0) {
+            if(this.reverseMode) {
+              this.todoTaskList = records.concat(this.todoTaskList)
+            } else {
+              this.todoTaskList = this.todoTaskList.concat(records)
+            }
+          } else {
+            this.todoTaskList = records
+          }
+          if(this.todoTaskList.length >= total) {
+            this.noMore = true
+          } else if(this.pageInfo.pageNum >= this.getTotalPageNum()) {
+            this.reverseMode = true
+          }
           if(!this.isFinished) {
             this.$emit("totalTaskNum", total)
           }
-        }).catch(() => (this.loading = false))
+        }).catch(error => {
+          console.log("getTodoTaskList...", error)
+        }).finally(() => {
+          this.loading = false
+        })
       },
       close(val) {
         this.show = val
@@ -195,6 +337,7 @@
         padding-left: 0;
       }
     }
+    z-index: 101 !important;
   }
   ::-webkit-scrollbar {
     //width: 4px !important;
@@ -250,8 +393,13 @@
         border-bottom: 1px solid rgb(142, 142, 142);
         margin-bottom: 10px;
       }
-      max-height: calc(100vh);
+      max-height: calc(100vh - 140px);
       overflow-y: scroll;
+    }
+    .no-more-text {
+      text-align: center;
+      height: 30px;
+      line-height: 30px;
     }
   }
 </style>

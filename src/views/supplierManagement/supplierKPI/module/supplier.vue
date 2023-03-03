@@ -79,6 +79,11 @@
           pageNo: this.page.currPage,
           pageSize: this.page.pageSize,
           ...this.formData,
+          sortColumn: 'string',
+        sortType: 'ASC',
+        stepCode: 'string',
+        tagNameList: ["正式供应商"],
+          supplierType:'PP',
         }
         getBasicList(req).then((res) => {
           if (res.code == '200') {

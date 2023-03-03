@@ -1,31 +1,38 @@
 <template>
-  <div class="task-container">
-    <div v-for="item in moduleData" :key="item.id" class="task-card">
-      <div class="top">
-        <div class="name single-no-ellipsis">{{ item.value }}</div>
-<!--        <div class="abs single-ellipsis">{{ getAbs(item.typeName) }}</div>-->
-      </div>
-      <div class="bottom">
-        <div v-if="!showPendingApproval" class="overdue" @click="handleToApply(item)">
-          <div :class="item.overdue">
-            {{ getLaunchNum(item.subType) | overNum }}
-            <span v-if="getLaunchNum(item.subType) > 99">+</span>
+  <div class="task-container-div" v-loading="loadingApproveData">
+    <div class="no-data-text" v-if="!loadingApproveData && (!curModuleData || curModuleData.length === 0)">
+      <span> {{ showPendingApproval ? $t("APPROVAL.NO_APPROVAL_TODO") : $t("APPROVAL.NO_MY_APPLICATION") }}  </span>
+    </div>
+    <div class="task-container" v-else>
+      <template v-for="item in curModuleData">
+        <div :key="item.value" class="task-card">
+          <div class="top">
+            <div class="name single-no-ellipsis">{{ item.value }}</div>
+    <!--        <div class="abs single-ellipsis">{{ getAbs(item.typeName) }}</div>-->
           </div>
-          <div class="numName flex-align-center">
-            <div>{{ $t('HOME_CARD.MY_APPLICATION') }}</div>
+          <div class="bottom">
+            <div v-if="!showPendingApproval" class="overdue" @click="handleToApply(item)">
+              <div :class="item.overdue">
+                {{ getLaunchNum(item.subType) | overNum }}
+                <span v-if="getLaunchNum(item.subType) > 99"></span>
+              </div>
+              <div class="numName flex-align-center">
+                <div>{{ $t('HOME_CARD.MY_APPLICATION') }}</div>
+              </div>
+            </div>
+    <!--        <div v-if="showPendingApproval" class="line">/</div>-->
+            <div v-if="showPendingApproval" class="approval" @click="handleToApproval(item)">
+              <div>
+                {{ getTodoNum(item.subType) | overNum }}
+                <span v-if="getTodoNum(item.subType) > 99"></span>
+              </div>
+              <div class="numName flex-align-center">
+                <div>{{ $t('HOME_CARD.MY_APPROVAL') }}</div>
+              </div>
+            </div>
           </div>
         </div>
-<!--        <div v-if="showPendingApproval" class="line">/</div>-->
-        <div v-if="showPendingApproval" class="approval" @click="handleToApproval(item)">
-          <div>
-            {{ getTodoNum(item.subType) | overNum }}
-            <span v-if="getTodoNum(item.subType) > 99">+</span>
-          </div>
-          <div class="numName flex-align-center">
-            <div>{{ $t('HOME_CARD.MY_APPROVAL') }}</div>
-          </div>
-        </div>
-      </div>
+      </template>
     </div>
   </div>
 </template>
@@ -56,7 +63,14 @@ export default {
     // eslint-disable-next-line no-undef
     ...Vuex.mapState({
       userInfo: state => state.permission.userInfo
-    })
+    }),
+    curModuleData: function() {
+      if(this.showPendingApproval) {
+        return this.todoModuleData
+      } else {
+        return this.launchModuleData
+      }
+    }
   },
   filters: {
     overNum: function(value) {
@@ -67,6 +81,8 @@ export default {
     return {
       valueNumbers: {},
       moduleData: [],
+      todoModuleData: [], //待办的data，已经排序
+      launchModuleData: [], //我的申请的data，已经排序
       absMap: {},
       dataList:[],
       dataListNow:[],
@@ -75,22 +91,24 @@ export default {
         name:"",
         applyNumber:"",//申请
         approvalNumber:"",//审批
-      }
+      },
+      loadingApproveData: false
     }
   },
   watch: {
-    data() {
-      this.initModuleData()
-    }
+    // data() {
+    //   this.initModuleData()
+    //   console.log("moduleData, approvalToDoNum watch...", this.moduleData)
+    // }
   },
-  created() {
-    this.queryAllData()
-    this.initModuleData()
+  async created() {
+    await this.queryAllData()
+    // this.initModuleData()
   },
   mounted(){
-    this.$nextTick(()=>{
-      this.queryApplyOverview();
-    })
+    // this.$nextTick(()=>{
+    //   this.queryApplyOverview();
+    // })
   },
   methods: {
     queryApplyOverview(){//我的申请
@@ -141,53 +159,81 @@ export default {
       })
     },
     initModuleData() {
-      const data = JSON.parse(this.data.moduleData)
-      if(data && data.length > 0) {
-        let approvalToDoNum = 0
-        data.forEach(item => {
-          approvalToDoNum += item.todoNum
+      // const data = JSON.parse(this.data.moduleData)
+      let approvalToDoNum = 0
+      let moduleData = []
+      if(this.data?.length > 0) {
+        this.data.forEach(dataItem => {
+          if(dataItem.wfCategoryList?.length>0){
+            dataItem.wfCategoryList.forEach(wfCategoryListItem=>{
+              let foundModuleDataItem = moduleData.find(moduleDataItem => {
+                 return (moduleDataItem.value == wfCategoryListItem.value)
+              })
+              if(foundModuleDataItem) {
+                foundModuleDataItem.launchNum += wfCategoryListItem.launchNum
+                foundModuleDataItem.todoNum += wfCategoryListItem.todoNum
+                foundModuleDataItem.overDueNum += wfCategoryListItem.overDueNum
+                foundModuleDataItem.cardUrl = wfCategoryListItem.cardUrl
+              } else {
+                let newModuleDataItem = {
+                  ...wfCategoryListItem
+                }
+                moduleData.push(newModuleDataItem)
+              }
+              approvalToDoNum += ( this.valueNumbers[wfCategoryListItem.subType] && this.valueNumbers[wfCategoryListItem.subType].todoNum || 0)
+            })
+          }
         })
-        this.$emit("approvalToDoNum", approvalToDoNum)
       }
-      console.log('data=>',data);
-      if (data.length <= 5) {
-        this.moduleData = data
+      this.$emit("approvalToDoNum", approvalToDoNum)
+      const filteredModuleData = moduleData.filter(e=>!(e.launchNum==0 && e.todoNum==0))
+      // console.log('data=>',data);
+      // if (filteredModuleData.length <= 5) {
+      this.moduleData = filteredModuleData
+      if(this.moduleData && this.moduleData.length > 0) {
+        this.todoModuleData = this.moduleData.filter(e => e.todoNum).sort((a, b) => {
+          return b.todoNum - a.todoNum
+        })
+        this.launchModuleData = this.moduleData.filter(e => e.launchNum).sort((a, b) => {
+          return b.launchNum - a.launchNum
+        })
       }
-      this.moduleData = data.slice(0, 5)
+        // console.log("moduleData, approvalToDoNum...", this.moduleData, approvalToDoNum)
+      // } else {
+      //   this.moduleData = filteredModuleData.slice(0, 5)
+      // }
     },
     async queryAllData() {
-      const result = await getApprovalList({ userID: this.userInfo.id })
-      console.log('result=>',result);
-      const data = result?.data || []
-      data.forEach(item => {
-        this.absMap[item.typeName] = item.typeValue
-        item.wfCategoryList.forEach(e => {
-          this.valueNumbers[e.subType] = { ...e }
+      this.loadingApproveData = true
+      try {
+        const result = await getApprovalList({ userID: this.userInfo.id })
+        // console.log('queryAllData getApprovalList result=>',result);
+        const data = result?.data || []
+        data.forEach(item => {
+          this.absMap[item.typeName] = item.typeValue
+          item.wfCategoryList.forEach(e => {
+            this.valueNumbers[e.subType] = { ...e }
+          })
         })
-      })
-      this.initModuleData()
+        this.data = data
+        this.initModuleData()
+      } catch (error) {
+        console.log(error)
+      } finally {
+        this.loadingApproveData = false
+      }
     },
     getLaunchNum(subType) {
-      // if (this.valueNumbers[subType]) {
-      //   return this.valueNumbers[subType].launchNum || 0
-      // }
-      // return 0
-      if(Number(subType)>99){
-        return "99+"
-      }else{
+      if (this.valueNumbers[subType]) {
         return this.valueNumbers[subType].launchNum || 0
       }
+      return 0
     },
     getTodoNum(subType) {
-      // if (this.valueNumbers[subType]) {
-      //   return this.valueNumbers[subType].todoNum || 0
-      // }
-      // return 0
-      if(Number(subType)>99){
-        return "99+"
-      }else{
-        return this.valueNumbers[subType].launchNum || 0
+      if (this.valueNumbers[subType]) {
+        return this.valueNumbers[subType].todoNum || 0
       }
+      return 0
     },
     getAbs(typeName) {
       if (this.absMap[typeName]) {
@@ -285,6 +331,20 @@ export default {
 .single-no-ellipsis {
   white-space: normal;
   overflow: auto;
+}
+.task-container-div {
+  height: 100%;
+  .no-data-text {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    span {
+      height: 30px;
+      line-height: 30px;
+    }
+  }
 }
 .task-container {
   display: flex;

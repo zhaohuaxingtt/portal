@@ -4,14 +4,14 @@
       <div class="cus-approval-detail-title">
         <div class="cus-approval-detail-title-info">
           <detailTitle :form="form" />
-          <taskNavigation :queryType="queryType" :isFinished="finished"/>
+          <taskNavigation ref="taskNavigation" :queryType="queryType" :isFinished="finished"/>
         </div>
         <div style="padding-left: 40px">
           <el-row :gutter="20">
-          <el-col :span="8">
+          <el-col :span="12">
             <processNodeAnchors />
           </el-col>
-          <el-col :span="8">
+          <el-col :span="12">
             <div class="operation-btn">
               <!--        <viewFlow :detail="form" />-->
               <!-- 批准 -->
@@ -379,8 +379,11 @@ export default {
             if (res.result) {
               this.$message.success(res.desZh || this.language('操作成功'))
 
-              reloadOpener()
-              this.replaceUrl()
+              const finished = this.$refs.taskNavigation.handleFinishCurrentTask()
+              if(!finished) {
+                reloadOpener()
+                this.replaceUrl()
+              }
             } else {
               this.$message.error(res.desZh || this.language('操作失败'))
             }
@@ -396,9 +399,12 @@ export default {
       }
     },
     approvelSuccess() {
-      reloadOpener()
       this.dialogApprovalVisible = false
-      this.replaceUrl()
+      const isFinished = this.$refs.taskNavigation.handleFinishCurrentTask()
+      if(!isFinished) {
+        reloadOpener()
+        this.replaceUrl()
+      }
     },
     //导出
     exportTemplate() {
@@ -440,6 +446,7 @@ export default {
       align-items: center;
     }
   }
+  z-index: 100 !important;
 }
 .el-link {
   line-height: 1em;
@@ -465,5 +472,9 @@ export default {
   flex-grow: 1;
   min-width: 350px;
   text-align: right;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  height: 80px;
 }
 </style>

@@ -2,12 +2,13 @@
  * @Author: 余继鹏 917955345@qq.com
  * @Date: 2023-02-08 15:45:59
  * @LastEditors: YoHo && 917955345@qq.com
- * @LastEditTime: 2023-02-13 23:25:56
+ * @LastEditTime: 2023-02-20 16:12:53
  * @FilePath: \front-portal\src\views\meeting\specialDetails\component\attch.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
   <div class="designate-attachment" v-loading="loading">
+    <div class="content">
     <div class="el-card left-list" :class="{ show: collapseValue }">
       <div class="collapse-transition margin-right5" v-show="!collapseValue">
           <ul class="file-ul">
@@ -34,6 +35,7 @@
     <div class="right-preview">
       <img class="preview" v-if="['PNG','JPG','JIF'].includes(detail.type)" :src="detail.attachmentUrl"/>
       <iframe class="preview" v-else :src="detail.attachmentUrl" frameborder="0"></iframe>
+    </div>
     </div>
   </div>
 </template>
@@ -81,8 +83,14 @@ export default {
   height: calc(100% - 20px);
   position: relative;
   display: flex;
+  padding:  54px 80px 20px;
+  .content{
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
   .left-list {
-    height: calc(100% - 20px);
+    height: 100%;
     max-width: 500px;
     position: absolute;
     display: flex;
@@ -124,6 +132,7 @@ export default {
     flex: 1;
     font-size: 0;
     padding-left: 70px;
+    height: 100%;
     .preview {
       width: 100%;
       height: 100%;

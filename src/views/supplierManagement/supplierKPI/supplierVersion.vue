@@ -20,13 +20,13 @@
             </el-option>
           </iSelect>
         </el-form-item>
-      </el-form>
+    </el-form>
     </iSearch>
     <iCard style="margin-top: 20px">
       <template #header-control>
         <!-- <iButton @click="initiate">供应商导入模板下载</iButton> -->
         <!-- <iButton @click="update">CS科室打分权重设置</iButton>
-        <iButton @click="exportFile">定时规则设置</iButton> -->
+          <iButton @click="exportFile">定时规则设置</iButton> -->
         <iButton v-permission="SUPPLIER_WORKBENCH_SUPPLIERBERSION_ADD" @click="addVersion">创建版本</iButton>
       </template>
       <tableList openPageProps="dataTime" :openPageGetRowData="true" @openPage="handleOpenPage" border
@@ -34,15 +34,15 @@
         <template #editionType="scope">
           <span>{{
             scope.row.editionType != null
-              ? typeList.find((val) => val.code == scope.row.editionType).name
-              : ''
+            ? typeList.find((val) => val.code == scope.row.editionType).name
+            : ''
           }}</span>
         </template>
         <template #status="scope">
           <span>{{
             scope.row.status != null
-              ? statusList.find((val) => val.code == scope.row.status).name
-              : ''
+            ? statusList.find((val) => val.code == scope.row.status).name
+            : ''
           }}</span>
         </template>
         <template #caozuo="scope">
@@ -76,7 +76,7 @@
           <i-input :disabled="true" style="width: 200px" :placeholder="$t('partsprocure.PLEENTER')"
             v-model="form.modelVersion">
           </i-input>
-          {{ ('此版本包含手工指标') }}
+          {{ '此版本包含手工指标' }}
         </el-form-item>
         <el-form-item v-if="active == 0 || active == 3" :label="$t('类型：')">
           <el-radio-group v-model="form.editionType">
@@ -89,7 +89,8 @@
           <el-date-picker style="width: 200px" v-model="form.endDate" type="datetime" value-format="yyyy-MM-dd hh:mm:ss"
             placeholder="选择日期时间">
           </el-date-picker>
-          <span v-if="form.endDate"> (还剩{{ DateDiffer(form.endDate) }}天)</span>
+          <span v-if="form.endDate">
+            (还剩{{ DateDiffer(form.endDate) }}天)</span>
         </el-form-item>
         <el-form-item v-if="active == 1" :label="$t('统计周期：')">
           <el-date-picker type="monthrange" v-model="dataTime" align="right" unlink-panels
@@ -102,6 +103,7 @@
         <div class="dialogButon">
           <iButton @click="addSupplier">添加</iButton>
           <iButton @click="delSupplier">移除</iButton>
+          <iButton @click="exportAll">全部导出</iButton>
           <iButton @click="exportFile">模板下载</iButton>
           <el-upload style="margin-left: 10px" action="1" :accept="'.xlsx,.xls'" :before-upload="beforeAvatarUpload"
             :show-file-list="false" :http-request="httpUpload" :disabled="importLoading">
@@ -110,7 +112,7 @@
             </div>
           </el-upload>
         </div>
-        <tableList style="margin-top: 20px" border :tableData="tableListData2" :tableTitle="tableTitle2"
+        <tableList :index="true" style="margin-top: 20px" border :tableData="tableListData2" :tableTitle="tableTitle2"
           @handleSelectionChange="handleSelectionChange">
         </tableList>
       </div>
@@ -119,7 +121,7 @@
         <iButton v-if="active != 3" @click="submit('canle')">{{
           $t('LK_QUXIAO')
         }}</iButton>
-        <iButton v-if="active != 3 || active != 0" @click="submit('back')">{{
+        <iButton v-if="active != 3 && active != 0" @click="submit('back')">{{
           $t('上一步')
         }}</iButton>
         <iButton v-if="active != 3" @click="submit('to')">{{
@@ -149,6 +151,7 @@ import {
   delEditionTask,
   sendPerformanceTask
 } from '@/api/supplierManagement/supplierIndexManage/index'
+import { excelExport } from '@/utils/filedowLoad' //导出
 import { pageMixins } from '@/utils/pageMixins'
 import tableList from '@/components/commonTable'
 import supplier from './module/supplier'
@@ -186,65 +189,7 @@ export default {
     return {
       importLoading: false,
       typeList: [],
-      statusList: [
-        {
-          "id": "1004949",
-          "name": "进行中",
-          "nameEn": "1",
-          "nameDe": null,
-          "code": "1",
-          "describe": "进行中",
-          "remark": null,
-          "orderNum": "1",
-          "parentId": "1004947",
-          "type": null,
-          "level": "2",
-          "createBy": "1",
-          "createDate": "2023-02-07 14:06:06",
-          "updateBy": "1",
-          "state": 1,
-          "updateDate": "2023-02-15 10:01:33",
-          "subDictResultVo": null
-        },
-        {
-          "id": "1004948",
-          "name": "草稿",
-          "nameEn": "0",
-          "nameDe": null,
-          "code": "0",
-          "describe": "草稿",
-          "remark": null,
-          "orderNum": "1",
-          "parentId": "1004947",
-          "type": null,
-          "level": "2",
-          "createBy": "1",
-          "createDate": "2023-02-07 14:05:40",
-          "updateBy": null,
-          "state": 1,
-          "updateDate": null,
-          "subDictResultVo": null
-        },
-        {
-          "id": "1004950",
-          "name": "已结束",
-          "nameEn": "2",
-          "nameDe": null,
-          "code": "2",
-          "describe": "已结束",
-          "remark": null,
-          "orderNum": "1",
-          "parentId": "1004947",
-          "type": null,
-          "level": "2",
-          "createBy": "1",
-          "createDate": "2023-02-07 14:05:40",
-          "updateBy": null,
-          "state": 1,
-          "updateDate": null,
-          "subDictResultVo": null
-        }
-      ],
+      statusList: [],
       supplierDiolog: false,
       pickerOptions: pickerOptions,
       dataTime: [],
@@ -275,13 +220,13 @@ export default {
           }
         })
         .catch(() => { })
-      // getDictByCode('SUPPLIER_PERFORMANCE_MODEL_STATUS')
-      //   .then((res) => {
-      //     if (res.data) {
-      //       this.statusList = res?.data[0]?.subDictResultVo
-      //     }
-      //   })
-      //   .catch(() => { })
+      getDictByCode('SUPPLIER_PERFORMANCE_MODEL_STATUS')
+        .then((res) => {
+          if (res.data) {
+            this.statusList = res?.data[0]?.subDictResultVo
+          }
+        })
+        .catch(() => { })
     },
     openPreDetail(item) {
       let routeUrl = this.$router.resolve({
@@ -311,23 +256,23 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-
-      }).then(() => {
-        delEditionTask(row.id).then((res) => {
-          if (res.code == 200) {
-            this.getTableList()
-            this.$message.success('删除成功')
-          } else {
-            this.$message.error(res.desZh)
-          }
+      })
+        .then(() => {
+          delEditionTask(row.id).then((res) => {
+            if (res.code == 200) {
+              this.getTableList()
+              this.$message.success('删除成功')
+            } else {
+              this.$message.error(res.desZh)
+            }
+          })
         })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        });
-      });
-
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
+        })
     },
     sure() {
       console.log(this.tableTitle)
@@ -365,18 +310,35 @@ export default {
       }
       return isLt10M
     },
+
     //导入
     async httpUpload(info) {
       this.importLoading = true
+      let time = parseInt(new Date().getTime() / 1000) + ''
       let formData = new FormData()
       formData.append('file', info.file)
       await supplierImport(formData).then((res) => {
-        if (res.code == 200 && res) {
+        if (res.code == 200 && res.data) {
+          const data = res.data.map((val) => {
+            return {
+              sapCode: val.sapCode,
+              supplierId: val.supplierId,
+              supplierName: val.nameZh
+            }
+          })
+          data.forEach((v, i) => {
+            this.tableListData2.forEach((k, j) => {
+              if (v.sapCode == k.sapCode) {
+                this.tableListData2.splice(j, 1)
+              }
+            })
+          })
+          this.tableListData2 = [...this.tableListData2, ...data]
+          console.log(this.tableListData2)
           this.importDialog = true
-          this.tableListData2 = [...this.tableListData2, ...res.data]
           this.$message.success(this.language('DAORUCHENGGONG', '导入成功'))
         } else {
-          this.$message.error(res.desZh)
+          this.$message.error('导入失败')
         }
       })
       this.importLoading = false
@@ -430,13 +392,21 @@ export default {
     },
     //点击创建绩效版本供应商
     addsupplier(v) {
-      this.tableListData2 = v.map((val) => {
+      const data = v.map((val) => {
         return {
           sapCode: val.sapCode,
           supplierId: val.subSupplierId,
           supplierName: val.shortNameZh
         }
       })
+      data.forEach((v, i) => {
+        this.tableListData2.forEach((k, j) => {
+          if (v.sapCode == k.sapCode) {
+            this.tableListData2.splice(j, 1)
+          }
+        })
+      })
+      this.tableListData2 = [...data, ...this.tableListData2]
       console.log(this.tableListData2)
     },
     delSupplier() {
@@ -456,15 +426,16 @@ export default {
       this.addVersionDiolog = false
       this.form = {}
     },
+
     DateDiffer(Date_end) {
       //date1结束时间
-      let date1 = new Date(Date_end);
+      let date1 = new Date(Date_end)
       //date2当前时间
-      let date2 = new Date();
-      date1 = new Date(date1.getFullYear(), date1.getMonth(), date1.getDate());
-      date2 = new Date(date2.getFullYear(), date2.getMonth(), date2.getDate());
-      const diff = date1.getTime() - date2.getTime(); //目标时间减去当前时间
-      const diffDate = diff / (24 * 60 * 60 * 1000);  //计算当前时间与结束时间之间相差天数
+      let date2 = new Date()
+      date1 = new Date(date1.getFullYear(), date1.getMonth(), date1.getDate())
+      date2 = new Date(date2.getFullYear(), date2.getMonth(), date2.getDate())
+      const diff = date1.getTime() - date2.getTime() //目标时间减去当前时间
+      const diffDate = diff / (24 * 60 * 60 * 1000) //计算当前时间与结束时间之间相差天数
       return diffDate
     },
     getTableList() {
@@ -487,7 +458,10 @@ export default {
     //导出文件
     async exportFile() {
       getTemplate().then((res) => { })
-    }
+    },
+    exportAll() {
+      excelExport(this.tableListData2, this.tableTitle2)
+    },
   }
 }
 </script>

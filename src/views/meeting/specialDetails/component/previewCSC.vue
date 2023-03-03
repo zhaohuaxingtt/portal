@@ -6,28 +6,24 @@
  * @FilePath: \front-portal\src\views\meeting\specialDetails\component\previewCSC.vue
 -->
 <template>
-  <div class="page">
+  <div class="page" ref="page">
     <div class="content">
       <div class="header">
-        <div>
-          <p class="title">{{ meetingInfo.name || '-' }}</p>
-          <p class="subTitle">{{ 1 + index }}.{{ detail.topic || '-' }}</p>
-        </div>
-        <div class="infos">
+        <div class="title">
           <div class="item">
-            <div class="name">Agenda No.:</div>
-            <div class="value">
+            <span>{{ meetingInfo.name || '' }}</span>
+            <span class="value">
               <img
                 @click="prev"
-                class="list-icon cursor"
-                :src="upAllow"
+                class="list-icon cursor left"
+                :src="allow"
                 alt="上箭头"
               />
               <span class="count"> {{ 1 + index }}/{{ themens.length }} </span>
               <img
                 @click="next"
-                class="list-icon cursor"
-                :src="downAllow"
+                class="list-icon cursor right"
+                :src="allow"
                 alt="下箭头"
               />
               <el-popover
@@ -36,6 +32,7 @@
                 :visible-arrow="false"
                 width="330"
                 trigger="click"
+                class="menu"
               >
                 <ul class="item-list">
                   <li
@@ -48,41 +45,52 @@
                       'is-active': i == index
                     }"
                   >
-                  <div class="content">
-                    <p class="text margin-bottom5">
-                      <span>{{ 1 + i }}</span
-                      ><span
-                        >{{ item.presenterDept }} {{ item.presenterEn }}</span
-                      >
-                    </p>
-                    <p>{{ item.topic }}</p>
-                  </div>
+                    <div class="content">
+                      <p class="text margin-bottom5">
+                        <span>{{ 1 + i }}</span
+                        ><span
+                          >{{ item.presenterDept }} {{ item.presenterEn }}</span
+                        >
+                      </p>
+                      <p>{{ item.topic }}</p>
+                    </div>
                   </li>
                 </ul>
                 <img
-                  class="list-icon cursor"
+                  class="list-icon-menu cursor"
                   slot="reference"
                   :src="menu"
                   alt="数据列表"
                 />
               </el-popover>
-            </div>
+            </span>
           </div>
-          <div class="item">
-            <div class="name">Timing:</div>
-            <div class="value">{{ time | handleTransTime }}</div>
+          <div class="item" v-if="index > -1">
+            <span> {{ 1 + index }}. {{ detail.topic || '' }} </span>
+            <span class="value">
+              <img :src="alarm" class="icon" alt="" />
+              <span class="value margin-right20">
+                {{ time | handleTransTime }}</span
+              >
+              <img :src="clock" class="icon" alt="" />
+              <span class="value">{{ newDate }}</span>
+            </span>
           </div>
         </div>
       </div>
-      <attch v-if="detail.type=='MANUAL'" :key="detail.id" :attachments="detail.attachments"/>
+      <attch
+        v-if="detail.type == 'MANUAL'"
+        :key="detail.id"
+        :attachments="detail.attachments"
+      />
       <iframe
-        v-else-if="detail.source=='04'"
+        v-else-if="detail.source == '04'"
         :key="detail.id"
         :src="src"
         frameborder="0"
         width="100%"
         height="100%"
-        class="iframe margin-top20"
+        class="iframe margin-top5"
       ></iframe>
       <div v-else>-</div>
     </div>
@@ -91,9 +99,10 @@
 
 <script>
 import { iPage, icon } from 'rise'
-import upAllow from '@/assets/images/icon/up.png'
-import downAllow from '@/assets/images/icon/down.png'
-import menu from '@/assets/images/icon/menu.png'
+import allow from '@/assets/images/icon/right.svg'
+import menu from '@/assets/images/icon/menu.svg'
+import alarm from '@/assets/images/icon/alarm.svg'
+import clock from '@/assets/images/icon/clock.svg'
 import attch from './attch.vue'
 import { findThemenById } from '@/api/meeting/details'
 export default {
@@ -104,16 +113,18 @@ export default {
   },
   data() {
     return {
-      upAllow,
-      downAllow,
+      allow,
       menu,
+      alarm,
+      clock,
       time: 0,
       index: -1,
       meetingInfo: {},
       themens: [],
       detail: {},
       timer: null,
-      
+      timer2: null,
+      newDate: ''
     }
   },
   async created() {
@@ -129,7 +140,26 @@ export default {
       this.time += 1000
     }, 1000)
   },
+  mounted() {
+    window.addEventListener('message', this.closePop, false)
+    this.getNewDate()
+  },
   methods: {
+    getNewDate() {
+      this.timer2 = setInterval(() => {
+        let h = new Date().getHours()
+        let m = new Date().getMinutes()
+        h = h < 10 ? '0' + h : h
+        m = m < 10 ? '0' + m : m
+        this.newDate = h + ':' + m
+      }, 1000)
+    },
+    closePop(message) {
+      console.log(message)
+      if (message.data && message.data.type == 'click') {
+        this.$refs.page.click()
+      }
+    },
     prev() {
       if (this.index > 0) {
         this.click(this.themens[this.index - 1], this.index - 1)
@@ -147,8 +177,8 @@ export default {
       this.detail = item
       this.index = index
       let local
-      // let local = 'http://localhost:8080/sourcing/#'
-      if(item.source == '04'){
+      // = 'http://localhost:8080/sourcing/#'
+      if (item.source == '04') {
         if (item.type === 'FS+MTZ') {
           this.src =
             (local || process.env.VUE_APP_POINT) +
@@ -163,6 +193,8 @@ export default {
   },
   destroyed() {
     if (this.timer) clearInterval(this.timer)
+    if (this.timer2) clearInterval(this.timer2)
+    window.removeEventListener('message', this.closePop)
   },
   filters: {
     handleTransTime(longTime) {
@@ -183,7 +215,7 @@ export default {
 <style lang="scss" scoped>
 .page {
   height: 100%;
-  padding: 30px 80px 20px;
+  // padding: 30px 80px 20px;
   background: #fff;
   * {
     font-family: 'Arial', 'Helvetica', 'sans-serif';
@@ -196,65 +228,47 @@ export default {
   flex-flow: column;
 }
 .header {
-  display: flex;
-  flex-flow: row;
-  justify-content: space-between;
-  flex: 0 0 auto;
+  padding: 30px 80px 0;
 }
 .iframe {
   flex: 1 1 auto;
   width: 100%;
 }
 .title {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: bold;
-}
-.subTitle {
-  font-size: 20px;
-  font-weight: bold;
-}
-.infos {
-  height: 60px;
-  display: flex;
-  flex-flow: column;
   .item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border: 1px solid #d9d9d9;
-    line-height: 30px;
-    font-weight: bold;
-    &:first-child {
-      border-bottom: 0;
+
+    .icon {
+      height: 24px;
+      margin-right: 5px;
     }
-    .name {
-      width: 120px;
-      text-align: right;
-      font-size: 16px;
-    }
-    .value {
-      padding-left: 10px;
-      text-align: center;
-      font-size: 16px;
-      align-items: flex-start;
-      justify-content: center;
-      display: flex;
-      flex: 1;
+    .value{
+      display: inline-flex;
+      align-items: center;
       .count {
-        width: 50px;
+        min-width: 60px;
+        text-align: center;
+        display: inline-block;
       }
     }
   }
+  ::v-deep .el-popover__reference-wrapper {
+    font-size: 0;
+  }
 }
 .item-list {
-  max-height: 500px;
+  height: 450px;
   overflow: auto;
   padding-right: 20px;
   padding: 0;
   color: #4f4f4f;
   .list-item {
     padding: 0 18px;
-    .content{
+    .content {
       padding: 12px 0;
       border-bottom: 1px solid #efefef;
     }
@@ -267,11 +281,11 @@ export default {
   .is-active {
     background: #364d6e;
     color: #fff;
-    .content{
+    .content {
       padding: 12px 0;
       border-bottom: 0px;
     }
-    &:hover{
+    &:hover {
       background: #364d6e;
       color: #fff;
       opacity: 1;
@@ -292,8 +306,18 @@ export default {
 }
 .list-icon {
   margin: 0 5px;
-  vertical-align: top;
-  width: 30px;
+  height: 32px;
+  &.right{
+    transform: rotateZ(90deg);
+  }
+  &.left{
+    transform: rotateZ(-90deg);
+  }
+}
+.list-icon-menu{
+  margin: 0 5px;
+  height: 32px;
+  vertical-align: bottom;
 }
 .is-disabled {
   cursor: not-allowed;

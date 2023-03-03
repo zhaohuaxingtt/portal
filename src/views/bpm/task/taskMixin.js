@@ -14,7 +14,7 @@ export default {
      * @param row
      * @param taskType
      */
-    goDetail(row, taskType) {
+    goDetail(row, taskType, queryData) {
       if (row.formUrl && row.formUrl.indexOf('vhttp') === 0) {
         const url = row.formUrl.substring(1, row.formUrl.length)
         window.location.href = url
@@ -22,13 +22,17 @@ export default {
         const { instanceId, taskId } = row
         const finished = taskType === 1 ? 'yes' : 'no'
 
+        let queryDataStr = ''
+        if(queryData) {
+          queryDataStr = encodeURIComponent(JSON.stringify(queryData))
+        }
         if (taskType === 1) {
           window.open(
-            `/portal/#/bpm/finishList/detail/${instanceId}/${taskId}/${finished}`
+            `/portal/#/bpm/finishList/detail/${instanceId}/${taskId}/${finished}/${queryDataStr}`
           )
         } else {
           window.open(
-            `/portal/#/bpm/todoList/detail/${instanceId}/${taskId}/${finished}`
+            `/portal/#/bpm/todoList/detail/${instanceId}/${taskId}/${finished}/${queryDataStr}`
           )
         }
       }

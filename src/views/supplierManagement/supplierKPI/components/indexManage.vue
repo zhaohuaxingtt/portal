@@ -149,7 +149,8 @@ export default {
         delIndicator({ ids: [item.id] }).then((res) => {
           if (res.code == '200') {
             this.getInfo()
-            iMessage.success(res.desZh || '删除成功')
+            this.$emit('updata')
+            iMessage.success('删除成功')
           } else iMessage.error(res.desZh)
         })
       }).catch(() => {
@@ -195,7 +196,7 @@ export default {
                 this.canel()
                 this.$emit('updata')
 
-                iMessage.success(res.desZh || '更新成功')
+                iMessage.success('编辑成功')
               } else iMessage.error(res.desZh)
             })
           } else {
@@ -204,7 +205,7 @@ export default {
                 this.getInfo()
                 this.$emit('updata')
                 this.canel()
-                iMessage.success(res.desZh || '新增成功')
+                iMessage.success('新增成功')
               } else iMessage.error(res.desZh)
             })
           }
@@ -281,7 +282,7 @@ export default {
   }
 
   .infocard {
-    height: 400px;
+    max-height: 200px;
     overflow: auto !important;
 
 

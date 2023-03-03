@@ -9,10 +9,10 @@
 <template>
   <iCard>
     <template slot="header">
-      <span>{{language('SHENPIRENLIEBIAO', '审批人列表') }}</span>
+      <span class="font18_b"> {{language('SHENPIRENLIEBIAO', '审批人列表') }}</span>
       <div v-if="!editFlag">
         <iButton type="text"
-                 class="margin-right20"
+                 class="margin-right20 font18_b"
                  @click="handleSyncClick('')"
                  v-show="!flag"
                  :disabled="disabled"
@@ -38,7 +38,7 @@
     <el-form :rules="rules"
              ref="tableForm"
              :model="{tableData}">
-      <el-table :data="tableData"
+      <el-table class="formStyle" :data="tableData"
                 v-loading="tableLoading"
                 ref="approveTable"
                 tooltip-effect="light"
@@ -256,7 +256,7 @@ export default {
       return this.$store.state.location.mtzObject;
     },
     isEditNew: function () {
-      return ((this.appStatus == '草稿' || this.appStatus == '未通过')||((this.flowType=='SIGN'||this.flowType=='FILING')&&this.appStatus=='已提交'))
+      return (this.appStatus == '草稿' || this.appStatus == '未通过')||(((this.flowType=='SIGN'||this.flowType=='FILING')&&this.appStatus=='已提交')||(this.appStatus!='冻结'&&this.flowType=="MEETING"))
     }
   },
   watch: {
@@ -290,6 +290,7 @@ export default {
           this.page.pageSize = res.pageSize
           this.page.totalCount = res.total
           this.tableLoading = false
+          console.log(this.tableData)
         } else {
           iMessage.error(res.desZh)
           this.tableLoading = false
@@ -516,7 +517,8 @@ export default {
         mtzAppId: this.mtzAppId || ''
       }).then(res => {
         if (res?.code === '200') {
-          if ((res.data.appStatus == '草稿' || res.data.appStatus == '未通过')||(((res.data.flowType=='SIGN'||res.data.flowType=='FILING')||(['02','03',null,'01'].includes(res.data.meetingStatus)&&res.data.flowType=='MEETING'))&&res.data.appStatus=='已提交')) {
+          
+          if ((res.data.appStatus == '草稿' || res.data.appStatus == '未通过')||(((res.data.flowType=='SIGN'||res.data.flowType=='FILING')&&res.data.appStatus=='已提交')||(res.data.appStatus!='冻结'&&res.data.flowType=="MEETING"))) {
             this.flag = false;
           } else {
             this.flag = true;
@@ -538,6 +540,7 @@ export default {
             // this.disabled = true
           }
           this.formInfor = res.data;
+          console.log(11111)
           this.handleSync('1')
         }
       })
@@ -645,6 +648,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+::v-deep.el-table .cell {
+  font-size: 18px;
+}
+.formStyle ::v-deep.el-form-item__content {
+  line-height: normal !important;
+  font-size: 18px;
+}
+::v-deep.el-button--default{
+  font-size: 20px!important;
+}
 ::v-deep .el-table .el-table__row .el-input {
   width: 200px !important;
 }

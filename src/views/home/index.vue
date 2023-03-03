@@ -47,7 +47,9 @@ import { updateBatchModules } from '@/api/home'
 export default {
   components: { moduleCard, greetCard, iPage, carouselItem },
   data() {
-    return {}
+    return {
+      fixedCardsComponentNames: ['Approve', 'Task', 'Schedule']
+    }
   },
   computed: {
     // eslint-disable-next-line no-undef
@@ -76,9 +78,10 @@ export default {
       return cards
     },
     fixedCards() {
-      let cards = this.cardList.filter((li) =>
-        ['Approve', 'Task', 'Schedule'].includes(li.component)
-      )
+      const cards = []
+      this.fixedCardsComponentNames.forEach(componentName => {
+        this.addFixedCards(cards, componentName)
+      })
       return cards
       // return this.cardList.filter(li => li.name ==`EKL`)
     },
@@ -95,6 +98,14 @@ export default {
     // })
   },
   methods: {
+    addFixedCards(cards, componentName) {
+      let card = this.cardList.find((li) =>
+        componentName === li.component
+      )
+      if(card) {
+        cards.push(card)
+      }
+    },
     handleDragEnd(event) {
       console.log('handleDragEnd', event)
     },
@@ -140,7 +151,7 @@ export default {
     ::v-deep .el-carousel__indicators.el-carousel__indicators--horizontal {
       background-color: transparent;
       z-index: 30;
-      bottom: 60px;
+      bottom: 3%;
       .el-carousel__button {
         background-color: rgb(192,192,192) !important;
         border-radius: 50% !important;
@@ -156,7 +167,7 @@ export default {
     }
   }
 .carousel-card {
-  height: 565px;
+  //height: 565px;
   margin-bottom: 20px;
   border-radius: 20px;
   .title {
@@ -166,7 +177,8 @@ export default {
     cursor: pointer;
   }
   ::v-deep .el-card__body{
-    height: 550px;
+    //height: 550px;
+    height: calc(100vh - 420px);
     overflow: auto;
     //padding-right: 0px;
     .carousel{
@@ -193,9 +205,11 @@ export default {
     border-color: rgb(234, 240, 249);
   }
   ::v-deep .module-card .el-card__body {
+    min-height: 230px;
     height: 230px;
-    background-color: rgb(234, 240, 249);
-    border-color: rgb(234, 240, 249);
+    background-color: rgb(238, 244, 254);
+    border-color: rgb(238, 244, 254);
+    padding: 5px;
   }
 }
 .blue-header-div {

@@ -262,7 +262,8 @@ export default {
     z-index: 10;
   }
   .flex-between-center-center {
-    align-items: start;
+    align-items: center;
+    height: 65px;
   }
   .module-card-btn {
     color: #4d4d4d;
@@ -337,7 +338,7 @@ export default {
   margin-bottom: 20px;
   &.deep-blue-header {
     .el-card__header {
-      background-color: rgb(29, 51, 88);
+      background-color: rgb(45, 84, 132);
       .title {
         color: rgb(255, 255, 255);
       }
@@ -357,11 +358,14 @@ export default {
   .el-card__header {
     height: 65px;
     border-bottom: none;
+    padding-top: 0;
+    padding-bottom: 0;
     //padding-top: 4px;
     //padding-bottom: 4px;
   }
   .el-card__body {
-    height: 520px;
+    //height: 520px;
+    height: calc(100vh - 420px);
   }
   .card-dropdown {
     margin: 0 !important;

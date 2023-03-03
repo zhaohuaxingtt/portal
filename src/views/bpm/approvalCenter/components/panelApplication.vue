@@ -79,8 +79,9 @@ export default {
   },
   computed: {
     activeDataList() {
+      const data = _.cloneDeep(this.data)
+      // -1的时候显示全部的已申请
       if (this.activeIndex === -1) {
-        const data = _.cloneDeep(this.data)
         const hasValueData = data.filter((e) => {
           const wfList = e?.wfCategoryList?.filter((wf) => {
             return wf.todoNum
@@ -106,28 +107,39 @@ export default {
         return activeDataList
       } else {
         // console.log('activeDataList...', this.data[this.activeIndex])
-        return [this.data[this.activeIndex]]
-      }
-    },
-    activeData() {
-      if (this.activeIndex === -1) {
-        const data = _.cloneDeep(this.data)
-        // CRW-7138 在全部Tab下只显示有待办任务的卡片，点击后面的分类Tab会将此分类下的全部卡片显示，包含审批任务为0的卡片
+
+        // 不是-1的时候
         const hasValueData = data.filter((e) => {
           const wfList = e?.wfCategoryList?.filter((wf) => {
             return wf.todoNum
           })
           if (wfList.length) {
-            e.wfCategoryList = wfList
             return true
           }
           return false
         })
-        return hasValueData
+        return [hasValueData[this.activeIndex]]
       }
-
-      return [this.data[this.activeIndex]]
-    }
+    },
+    // activeData() {
+    //   if (this.activeIndex === -1) {
+    //     const data = _.cloneDeep(this.data)
+    //     // CRW-7138 在全部Tab下只显示有待办任务的卡片，点击后面的分类Tab会将此分类下的全部卡片显示，包含审批任务为0的卡片
+    //     const hasValueData = data.filter((e) => {
+    //       const wfList = e?.wfCategoryList?.filter((wf) => {
+    //         return wf.todoNum
+    //       })
+    //       if (wfList.length) {
+    //         e.wfCategoryList = wfList
+    //         return true
+    //       }
+    //       return false
+    //     })
+    //     return hasValueData
+    //   }
+    //
+    //   return [this.data[this.activeIndex]]
+    // }
   },
   watch:{
     '$i18n.locale'(val){

@@ -2,7 +2,7 @@
 <template>
   <iCard class="margin-top20">
     <template v-slot:header>
-      <span>
+      <span class="font18_b">
         {{ language('WHMTZLLZSJ', '维护MTZ零件主数据') }}
       </span>
       <div>
@@ -93,6 +93,9 @@
       ref="contractForm"
       class="formStyle"
     >
+    <div class="btn">
+        <el-button type="primary" size="mini" circle @click="isTitle=!isTitle">{{isTitle?'-':'+'}}</el-button>
+      </div>
       <el-table
         :data="tableData"
         ref="moviesTable"
@@ -104,17 +107,17 @@
           type="selection"
           :selectable="selectionType"
           fixed
-          width="60"
+          width="40"
           align="center"
         >
         </el-table-column>
-        <el-table-column label="#" fixed type="index" width="60" align="center">
+        <el-table-column label="#" fixed type="index" width="40" align="center">
         </el-table-column>
         <el-table-column
           prop="assemblyPartnum"
           align="center"
-          show-overflow-tooltip
-          width="130"
+          
+          width="120"
           :label="language('LINGJIANHAO', '零件号')"
         >
           <template slot-scope="scope">
@@ -132,20 +135,242 @@
         <el-table-column
           prop="partName"
           align="center"
-          show-overflow-tooltip
+          
           :label="language('LINGJIANMINGCHENG', '零件名称')"
-          width="120"
+          width="90"
         >
           <template slot-scope="scope">
             <span>{{ scope.row.partName }}</span>
           </template>
         </el-table-column>
         <el-table-column
+          prop="method"
+          align="center"
+          :label="language('补差方式', '补差方式')"
+          show-overflow-tooltip
+          width="130"
+        >
+          <template slot-scope="scope">
+            <el-form-item
+              :prop="'tableData.' + scope.$index + '.' + 'method'"
+              :rules="formRules.method ? formRules.method : ''"
+            >
+                <el-select
+                  v-model="scope.row.method"
+                  v-if="editId.indexOf(scope.row.id) !== -1"
+                  clearable
+                  :placeholder="language('QINGSHURU', '请输入')"
+                  @change="choiseGZ(scope, $event)"
+                >
+                  <el-option
+                    v-for="item in methodList"
+                    :key="item.code"
+                    :label="item.message"
+                    :value="item.code"
+                  >
+                  </el-option>
+                </el-select>
+              <span v-else>{{ scope.row.method == '1' ? language('一次性补差','一次性补差') : scope.row.method == '2' ? language('变价单补差','变价单补差') : '' }}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="sapCode"
+          align="center"
+          :label="language('GONGYINGSHANGBIANHAOMINGCHENG', '供应商')"
+          
+        >
+          <!-- supplierName供应商名称 -->
+          <template slot-scope="scope">
+            <el-form-item
+              :prop="'tableData.' + scope.$index + '.' + 'sapCode'"
+              :rules="formRules.sapCode ? formRules.sapCode : ''"
+            >
+              <!-- <el-select v-model="scope.row.supplierId"
+                                clearable
+                                filterable
+                                :disabled="true"
+                                v-if="editId.indexOf(scope.row.id)!==-1"
+                                :placeholder="language('QINGSHURU', '请输入')"
+                                >
+                            <el-option
+                                v-for="item in supplierList"
+                                :key="item.code"
+                                :label="item.codeMessage"
+                                :value="item.code">
+                            </el-option>
+                        </el-select> -->
+              <span>{{ scope.row.sapCode }}/{{ scope.row.supplierName }}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="partUnit"
+          align="center"
+          :label="language('LINGJIANSHULIANGDANWEI', '零件数量单位')"
+          
+        >
+          <template slot-scope="scope">
+            <el-form-item
+              :prop="'tableData.' + scope.$index + '.' + 'partUnit'"
+              :rules="formRules.partUnit ? formRules.partUnit : ''"
+            >
+              <!-- <iInput v-model="scope.row.partUnit" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
+              <span>{{ scope.row.partUnit }}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="priceUnit"
+          align="center"
+          :label="language('MEI', '每')"
+          
+          width="50"
+        >
+          <template slot-scope="scope">
+            <el-form-item
+              :prop="'tableData.' + scope.$index + '.' + 'priceUnit'"
+              :rules="formRules.priceUnit ? formRules.priceUnit : ''"
+            >
+              <iInput
+                v-model="scope.row.priceUnit"
+                v-if="editId.indexOf(scope.row.id) !== -1"
+              ></iInput>
+              <span v-else>{{ scope.row.priceUnit }}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="dosage"
+          align="center"
+          width="80"
+          :label="language('YONGLIANG', '用量')"
+          
+        >
+          <template slot-scope="scope">
+            <el-form-item
+              :prop="'tableData.' + scope.$index + '.' + 'dosage'"
+              :rules="formRules.dosage ? formRules.dosage : ''"
+            >
+              <iInput
+                v-model="scope.row.dosage"
+                v-if="editId.indexOf(scope.row.id) !== -1"
+              ></iInput>
+              <span v-else>{{ scope.row.dosage }}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="dosageMeasureUnit"
+          align="center"
+          :label="language('YONGLIANGJILIANGDANEWI', '用量计量单位')"
+          
+        >
+        <template slot="header" slot-scope="scope">
+            <span>{{language('YONGLIANGJILIANGDANEWI', '用量计量单位')}}<iTooltip :txtInfo="tipList[4]" :num="'1'"></iTooltip></span>
+          </template>
+          <template slot-scope="scope">
+            <el-form-item
+              :prop="'tableData.' + scope.$index + '.' + 'dosageMeasureUnit'"
+              :rules="
+                formRules.dosageMeasureUnit ? formRules.dosageMeasureUnit : ''
+              "
+            >
+              <el-select
+                v-model="scope.row.dosageMeasureUnit"
+                clearable
+                filterable
+                :placeholder="language('QINGSHURU', '请输入')"
+                v-if="
+                  editId.indexOf(scope.row.id) !== -1 &&
+                  scope.row.priceMeasureUnit !== 'PC'
+                "
+              >
+                <el-option
+                  v-for="item in dosageMeasureUnit"
+                  :key="item.code"
+                  :label="item.code"
+                  :value="item.code"
+                >
+                </el-option>
+              </el-select>
+              <span v-else>{{ scope.row.dosageMeasureUnit }}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="materialDoseSource"
+          align="center"
+          :label="language('原材料用量来源', '原材料用量来源')"
+          
+        >
+          <template slot-scope="scope">
+            <el-form-item
+              :prop="'tableData.' + scope.$index + '.' + 'materialDoseSource'"
+              :rules="formRules.materialDoseSource ? formRules.materialDoseSource : ''"
+            >
+            <el-select
+                v-model="scope.row.materialDoseSource"
+                clearable
+                :placeholder="language('QINGSHURU', '请输入')"
+                v-if="
+                  editId.indexOf(scope.row.id) !== -1 &&
+                  scope.row.priceMeasureUnit !== 'PC'
+                "
+              >
+                <el-option
+                  v-for="item in materialDoseSourceList"
+                  :key="item.code"
+                  :label="item.name"
+                  :value="item.code"
+                >
+                </el-option>
+              </el-select>
+              <!-- <iInput v-model="scope.row.materialDoseSource" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
+              <span v-else>{{ scope.row.materialDoseSource?materialDoseSourceList.find(val=>val.code==scope.row.materialDoseSource).name:'' }}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="startDate"
+          align="center"
+          :label="language('YOUXIAOQIQI', '有效期起')"
+          
+        >
+          <template slot-scope="scope">
+            <!-- <iDatePicker v-model="scope.row.startDate"
+                                style="width: 180px!important;"
+                                :disabled="true"
+                                type="datetime"
+                                v-if="editId.indexOf(scope.row.id)!==-1"
+                                >
+                    </iDatePicker> -->
+            <span>{{ scope.row.startDate }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="endDate"
+          align="center"
+          :label="language('YOUXIAOQIZHI', '有效期止')"
+          
+        >
+          <template slot-scope="scope">
+            <!-- <iDatePicker v-model="scope.row.endDate"
+                                style="width: 180px!important;"
+                                :disabled="true"
+                                type="datetime"
+                                v-if="editId.indexOf(scope.row.id)!==-1"
+                                >
+                    </iDatePicker> -->
+            <span>{{ scope.row.endDate }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
           prop="ruleNo"
           align="center"
           :label="language('GUIZEBIANHAO', '规则编号')"
-          show-overflow-tooltip
-          width="130"
+          
+          width="110"
         >
           <template slot-scope="scope">
             <el-form-item
@@ -186,192 +411,21 @@
             </el-form-item>
           </template>
         </el-table-column>
-        <el-table-column
-          prop="sapCode"
-          align="center"
-          :label="language('GONGYINGSHANGBIANHAOMINGCHENG', '供应商编号/名称')"
-          show-overflow-tooltip
-          width="150"
-        >
-          <!-- supplierName供应商名称 -->
+   
+        <el-table-column prop="method" align="center"  width="90" :label="language('规则类型')">
           <template slot-scope="scope">
-            <el-form-item
-              :prop="'tableData.' + scope.$index + '.' + 'sapCode'"
-              :rules="formRules.sapCode ? formRules.sapCode : ''"
-            >
-              <!-- <el-select v-model="scope.row.supplierId"
-                                clearable
-                                filterable
-                                :disabled="true"
-                                v-if="editId.indexOf(scope.row.id)!==-1"
-                                :placeholder="language('QINGSHURU', '请输入')"
-                                >
-                            <el-option
-                                v-for="item in supplierList"
-                                :key="item.code"
-                                :label="item.codeMessage"
-                                :value="item.code">
-                            </el-option>
-                        </el-select> -->
-              <span>{{ scope.row.sapCode }}/{{ scope.row.supplierName }}</span>
-            </el-form-item>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="partUnit"
-          align="center"
-          width="130"
-          :label="language('LINGJIANSHULIANGDANWEI', '零件数量单位')"
-          show-overflow-tooltip
-        >
-          <template slot-scope="scope">
-            <el-form-item
-              :prop="'tableData.' + scope.$index + '.' + 'partUnit'"
-              :rules="formRules.partUnit ? formRules.partUnit : ''"
-            >
-              <!-- <iInput v-model="scope.row.partUnit" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
-              <span>{{ scope.row.partUnit }}</span>
-            </el-form-item>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="priceUnit"
-          align="center"
-          :label="language('MEI', '每')"
-          show-overflow-tooltip
-          width="60"
-        >
-          <template slot-scope="scope">
-            <el-form-item
-              :prop="'tableData.' + scope.$index + '.' + 'priceUnit'"
-              :rules="formRules.priceUnit ? formRules.priceUnit : ''"
-            >
-              <iInput
-                v-model="scope.row.priceUnit"
-                v-if="editId.indexOf(scope.row.id) !== -1"
-              ></iInput>
-              <span v-else>{{ scope.row.priceUnit }}</span>
-            </el-form-item>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="dosage"
-          align="center"
-          width="70"
-          :label="language('YONGLIANG', '用量')"
-          show-overflow-tooltip
-        >
-          <template slot-scope="scope">
-            <el-form-item
-              :prop="'tableData.' + scope.$index + '.' + 'dosage'"
-              :rules="formRules.dosage ? formRules.dosage : ''"
-            >
-              <iInput
-                v-model="scope.row.dosage"
-                v-if="editId.indexOf(scope.row.id) !== -1"
-              ></iInput>
-              <span v-else>{{ scope.row.dosage }}</span>
-            </el-form-item>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="dosageMeasureUnit"
-          align="center"
-          width="120"
-          :label="language('YONGLIANGJILIANGDANEWI', '用量计量单位')"
-          show-overflow-tooltip
-        >
-          <template slot-scope="scope">
-            <el-form-item
-              :prop="'tableData.' + scope.$index + '.' + 'dosageMeasureUnit'"
-              :rules="
-                formRules.dosageMeasureUnit ? formRules.dosageMeasureUnit : ''
-              "
-            >
-              <el-select
-                v-model="scope.row.dosageMeasureUnit"
-                clearable
-                filterable
-                :placeholder="language('QINGSHURU', '请输入')"
-                v-if="
-                  editId.indexOf(scope.row.id) !== -1 &&
-                  scope.row.priceMeasureUnit !== 'PC'
-                "
-              >
-                <el-option
-                  v-for="item in dosageMeasureUnit"
-                  :key="item.code"
-                  :label="item.code"
-                  :value="item.code"
-                >
-                </el-option>
-              </el-select>
-              <span v-else>{{ scope.row.dosageMeasureUnit }}</span>
-            </el-form-item>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="startDate"
-          align="center"
-          width="110"
-          :label="language('YOUXIAOQIQI', '有效期起')"
-          show-overflow-tooltip
-        >
-          <template slot-scope="scope">
-            <!-- <iDatePicker v-model="scope.row.startDate"
-                                style="width: 180px!important;"
-                                :disabled="true"
-                                type="datetime"
-                                v-if="editId.indexOf(scope.row.id)!==-1"
-                                >
-                    </iDatePicker> -->
-            <span>{{ scope.row.startDate }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="endDate"
-          align="center"
-          width="110"
-          :label="language('YOUXIAOQIZHI', '有效期止')"
-          show-overflow-tooltip
-        >
-          <template slot-scope="scope">
-            <!-- <iDatePicker v-model="scope.row.endDate"
-                                style="width: 180px!important;"
-                                :disabled="true"
-                                type="datetime"
-                                v-if="editId.indexOf(scope.row.id)!==-1"
-                                >
-                    </iDatePicker> -->
-            <span>{{ scope.row.endDate }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="mark"
-          align="center"
-          width="200"
-          :label="language('BEIZHU', '备注')"
-          show-overflow-tooltip
-        >
-          <template slot-scope="scope">
-            <el-form-item
-              :prop="'tableData.' + scope.$index + '.' + 'mark'"
-              :rules="formRules.mark ? formRules.mark : ''"
-            >
-              <iInput
-                v-model="scope.row.mark"
-                v-if="editId.indexOf(scope.row.id) !== -1"
-              ></iInput>
-              <span v-else>{{ scope.row.mark }}</span>
+            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'method'"
+              :rules="formRules.method ? formRules.method : ''">
+              <span>{{ scope.row.method=='1'?'一次性补差':scope.row.method=='2'?'变价单补差':'' }}</span>
             </el-form-item>
           </template>
         </el-table-column>
         <el-table-column
           prop="materialCode"
           align="center"
-          width="120"
-          :label="language('YUANCAILIAOPAIHAO', '原材料牌号')"
-          show-overflow-tooltip
+          :label="language('原材料牌号-名称', '原材料牌号-名称')"
+          :width="isTitle?'140':''"
+
         >
           <template slot-scope="scope">
             <!-- <el-select v-model="scope.row.materialCode"
@@ -387,26 +441,15 @@
                             :value="item.code">
                         </el-option>
                     </el-select> -->
-            <span>{{ scope.row.materialCode }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="materialName"
-          align="center"
-          width="150"
-          :label="language('YUANCAILIAO', '原材料')"
-          show-overflow-tooltip
-        >
-          <template slot-scope="scope">
-            <span>{{ scope.row.materialName }}</span>
+            <span>{{ scope.row.materialCode }}-{{ scope.row.materialName }}</span>
           </template>
         </el-table-column>
         <el-table-column
           prop="price"
           align="center"
-          width="120"
+          width="80"
           :label="language('JIJIA', '基价')"
-          show-overflow-tooltip
+          
         >
           <template slot-scope="scope">
             <!-- <iInput :disabled="true" v-model="scope.row.price" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
@@ -414,35 +457,28 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="priceMeasureUnit"
-          align="center"
-          width="120"
-          :label="language('JIJIAJILIANGDANWEI', '基价计量单位')"
-          show-overflow-tooltip
-        >
-          <template slot-scope="scope">
-            <!-- <iInput v-model="scope.row.priceMeasureUnit" :disabled="true" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
-            <span>{{ scope.row.priceMeasureUnit }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column
           prop="tcCurrence"
           align="center"
-          width="80"
+          width="60"
           :label="language('HUOBI', '货币')"
-          show-overflow-tooltip
+          
         >
           <template slot-scope="scope">
             <!-- <iInput v-model="scope.row.tcCurrence" :disabled="true" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
             <span>{{ scope.row.tcCurrence }}</span>
           </template>
         </el-table-column>
+
+<!-- ----------------------------------------------------------------------------------------------------------------------- -->
+
+ 
+<template v-if="isTitle">
         <el-table-column
           prop="tcExchangeRate"
           align="center"
           width="120"
           :label="language('HUILV', '汇率')"
-          show-overflow-tooltip
+          
         >
           <template slot-scope="scope">
             <!-- <iInput v-model="scope.row.tcExchangeRate" :disabled="true" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
@@ -450,49 +486,15 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="priceSource"
-          align="center"
-          width="200"
-          :label="language('SHICHANGJIALAIYUAN', '市场价来源')"
-          show-overflow-tooltip
-        >
-          <template slot-scope="scope">
-            <!-- <iInput v-model="scope.row.priceSource" :disabled="true" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
-            <span>{{ scope.row.priceSource }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="compensationRatio"
+          prop="priceMeasureUnit"
           align="center"
           width="120"
-          :label="language('BUCHAXISHU', '补差系数')"
-          show-overflow-tooltip
+          :label="language('JIJIAJILIANGDANWEI', '基价计量单位')"
+          
         >
           <template slot-scope="scope">
-            <!-- <iInput v-model="scope.row.compensationRatio" :disabled="true" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
-            <span>{{ scope.row.compensationRatio }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="compensationPeriod"
-          align="center"
-          width="120"
-          :label="language('BUCHAZHOUQI', '补差周期')"
-          show-overflow-tooltip
-        >
-          <template slot-scope="scope">
-            <!-- <iInput v-model="scope.row.compensationPeriod" :disabled="true" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
-            <span>{{
-              scope.row.compensationPeriod == 'A'
-                ? '年度'
-                : scope.row.compensationPeriod == 'H'
-                ? '半年度'
-                : scope.row.compensationPeriod == 'Q'
-                ? '季度'
-                : scope.row.compensationPeriod == 'M'
-                ? '月度'
-                : ''
-            }}</span>
+            <!-- <iInput v-model="scope.row.priceMeasureUnit" :disabled="true" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
+            <span>{{ scope.row.priceMeasureUnit }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -500,7 +502,7 @@
           align="center"
           width="100"
           :label="language('YUZHI', '阈值')"
-          show-overflow-tooltip
+          
         >
           <template slot-scope="scope">
             <!-- <iInput v-model="scope.row.threshold" :disabled="true" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
@@ -512,7 +514,7 @@
           align="center"
           width="130"
           :label="language('YUZHIBUCHALUOJI', '阈值补差逻辑')"
-          show-overflow-tooltip
+          
         >
           <template slot-scope="scope">
             <!-- <el-select v-model="scope.row.thresholdCompensationLogic"
@@ -537,12 +539,124 @@
             }}</span>
           </template>
         </el-table-column>
+        <el-table-column
+          prop="compensationRatio"
+          align="center"
+          width="120"
+          :label="language('BUCHAXISHU', '补差系数')"
+          
+        >
+          <template slot-scope="scope">
+            <!-- <iInput v-model="scope.row.compensationRatio" :disabled="true" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
+            <span>{{ scope.row.compensationRatio }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="partBalanceCountType" align="center" width="90" :label="language('零件结算数量', '零件结算数量')">
+          <template slot-scope="scope">
+            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'partBalanceCountType'"
+              :rules="formRules.partBalanceCountType ? formRules.partBalanceCountType : ''">
+              <span>{{ scope.row.partBalanceCountType=='SYSTEM'?'系统预读':scope.row.partBalanceCountType=='HANDWORK'?'手工上传':'' }}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
+        
+        <el-table-column
+          prop="priceSource"
+          align="center"
+          width="200"
+          :label="language('SHICHANGJIALAIYUAN', '市场价来源')"
+          
+        >
+          <template slot-scope="scope">
+            <!-- <iInput v-model="scope.row.priceSource" :disabled="true" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
+            <span>{{ scope.row.priceSource }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="avgPeriod" align="center" width="80" :label="language('均值计算周期', '均值计算周期')">
+     
+          <template slot-scope="scope">
+          <el-form-item :prop="'tableData.' + scope.$index + '.' + 'avgPeriod'"
+            :rules="formRules.avgPeriod ? formRules.avgPeriod : ''">
+          
+                <span >{{ scope.row.avgPeriod?avgPeriodList.find(val=>val.code==scope.row.avgPeriod).name:'' }}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
+        <el-table-column prop="offsetMonth" align="center" width="80" :label="language('计算偏移量', '计算偏移量')">
+ 
+          <template slot-scope="scope">
+          <el-form-item :prop="'tableData.' + scope.$index + '.' + 'offsetMonth'"
+            :rules="formRules.offsetMonth ? formRules.offsetMonth : ''">
+        
+                <span >{{ scope.row.offsetMonth?offsetList.find(val=>val.code==scope.row.offsetMonth).name:'' }}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="compensationPeriod"
+          align="center"
+          width="120"
+          :label="language('BUCHAZHOUQI', '补差周期')"
+          
+        >
+          <template slot-scope="scope">
+            <!-- <iInput v-model="scope.row.compensationPeriod" :disabled="true" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
+            <span>{{
+              scope.row.compensationPeriod == 'A'
+                ? '年度'
+                : scope.row.compensationPeriod == 'H'
+                ? '半年度'
+                : scope.row.compensationPeriod == 'Q'
+                ? '季度'
+                : scope.row.compensationPeriod == 'M'
+                ? '月度'
+                : ''
+            }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="mark"
+          align="center"
+          width="200"
+          :label="language('BEIZHU', '备注')"
+          
+        >
+          <template slot-scope="scope">
+            <el-form-item
+              :prop="'tableData.' + scope.$index + '.' + 'mark'"
+              :rules="formRules.mark ? formRules.mark : ''"
+            >
+              <iInput
+                v-model="scope.row.mark"
+                v-if="editId.indexOf(scope.row.id) !== -1"
+              ></iInput>
+              <span v-else>{{ scope.row.mark }}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="ruleVersion"
+          align="center"
+          
+          width="80"
+          :label="language('版本')"
+        >
+          <template slot-scope="scope">
+            <el-form-item
+              :prop="'tableData.' + scope.$index + '.' + 'ruleVersion'"
+              :rules="formRules.ruleVersion ? formRules.ruleVersion : ''"
+            >
+              <span>{{ scope.row.ruleVersion }}</span>
+              </el-form-item>
+            </template>
+          </el-table-column>
+
 
         <el-table-column
           prop="platinumPrice"
           align="center"
           width="120"
-          show-overflow-tooltip
+          
         >
           <template slot="header">
             <div>
@@ -567,7 +681,7 @@
           prop="platinumDosage"
           align="center"
           width="130"
-          show-overflow-tooltip
+          
         >
           <template slot="header">
             <div>
@@ -592,7 +706,7 @@
           prop="palladiumPrice"
           align="center"
           width="120"
-          show-overflow-tooltip
+          
         >
           <template slot="header">
             <div>
@@ -617,7 +731,7 @@
           prop="palladiumDosage"
           align="center"
           width="130"
-          show-overflow-tooltip
+          
         >
           <template slot="header">
             <div>
@@ -642,7 +756,7 @@
           prop="rhodiumPrice"
           align="center"
           width="120"
-          show-overflow-tooltip
+          
         >
           <template slot="header">
             <div>
@@ -667,7 +781,7 @@
           prop="rhodiumDosage"
           align="center"
           width="130"
-          show-overflow-tooltip
+          
         >
           <template slot="header">
             <div>
@@ -811,6 +925,7 @@
             </el-form-item>
           </template>
         </el-table-column>
+        </template>
       </el-table>
     </el-form>
     <iPagination
@@ -919,15 +1034,16 @@ import {
 // import {
 //   getMtzSupplierList,//获取原材料牌号
 // } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview';
-
+import iTooltip from "./iTooltip";
 import { deepClone } from './util'
 import { getToken } from '@/utils'
-
+import { tipList,offsetList,avgPeriodList,materialDoseSourceList, methodList} from './data'
 export default {
   name: 'Search',
   componentName: 'theDataTabs',
   props: ['appStatus', 'inforData', 'applyNumber','flowType','meetingStatus'],
   components: {
+    iTooltip,
     iCard,
     iButton,
     iPagination,
@@ -960,6 +1076,12 @@ export default {
       }
     }
     return {
+      methodList,
+      materialDoseSourceList,
+      avgPeriodList,
+      offsetList,
+      tipList,
+      isTitle:false,
       formRules: {
         assemblyPartnum: [
           { required: true, message: '请选择', trigger: 'blur' }
@@ -1013,7 +1135,7 @@ export default {
       return this.$store.state.location.mtzObject
     },
     isEditNew: function () {
-      return (this.appStatus == '草稿' || this.appStatus == '未通过')||(((this.flowType=='SIGN'||this.flowType=='FILING')||(['02','03',null,'01'].includes(this.meetingStatus)&&this.flowType=='MEETING'))&&this.appStatus=='已提交')
+      return (this.appStatus == '草稿' || this.appStatus == '未通过')||(((this.flowType=='SIGN'||this.flowType=='FILING')&&this.appStatus=='已提交')||(this.appStatus!='冻结'&&this.flowType=="MEETING"))
     }
   },
   watch: {
@@ -1041,7 +1163,6 @@ export default {
   methods: {
     getToken,
     init() {
-      console.log(this.$route.query.item)
       if (this.$route.query.item == undefined) {
         this.getTableList()
       } else {
@@ -1592,12 +1713,46 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+::v-deep.el-button--default{
+  font-size: 20px!important;
+}
+
+::v-deep.el-table .cell {
+  // line-height: 0;
+  // padding: 0px 4px;
+  font-size: 18px;
+
+}
+.formStyle ::v-deep.el-form-item__content {
+  line-height: normal !important;
+  font-size: 18px;
+}
+
+.formStyle {
+  position: relative;
+
+}
+::v-deep.el-button--mini.is-circle{
+  padding: 3px 4px;
+}
+.btn{
+    position: absolute;
+    right: -10px;
+    top: 10px;
+    z-index: 100;
+  }
+
+::v-deep.el-table th > .cell{
+  white-space:normal;
+  
+}
 ::v-deep .el-table .el-table__row .el-input {
   width: 100% !important;
 }
 ::v-deep .el-select__tags {
   max-width: 100% !important;
 }
+
 .formStyle ::v-deep .el-form-item {
   margin-top: 0;
   margin-bottom: 0;
@@ -1606,6 +1761,13 @@ export default {
   ::v-deep .el-dialog__title {
     color: red;
   }
+}
+.formStyle ::v-deep.el-form-item__content {
+  line-height: normal !important;
+}
+.font18_b{
+  font-size: 18px;
+font-weight: bold;
 }
 </style>
 <style lang="scss">

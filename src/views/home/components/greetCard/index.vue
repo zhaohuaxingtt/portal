@@ -14,7 +14,9 @@
         <div class="user-greet-info greetings-info">{{ greetingsInfo }}</div>
       </div>
       <div class="greeting-pics">
-        <img src="../../../../assets/images/greetings.png" />
+<!--        <img src="../../../../assets/images/greetings.png" />-->
+        <img :src="require('@/assets/images/home-digital-purchasing.svg')"/>
+        <img class="home-rise-icon" :src="require('@/assets/images/home-rise-icon.svg')"/>
       </div>
     </div>
   </el-card>
@@ -29,7 +31,12 @@ export default {
     }),
     userGreetInfoStr: function() {
       const name = this.$i18n.locale === "zh" ? this.userInfo.nameZh : this.userInfo.nameEn
-      return this.getGreetingStr() + ',' + name + ',' + this.language('欢迎登录RiSE')
+      const greetingStr = this.getGreetingStr()
+      if(greetingStr) {
+        return greetingStr + ',' + name + ',' + this.language('欢迎登录RiSE')
+      } else {
+        return name + ',' + this.language('欢迎登录RiSE')
+      }
     },
     greetingsInfo() {
       return this.$i18n.locale === "zh" ? this.greetingValues.zh : this.greetingValues.en
@@ -50,7 +57,6 @@ export default {
     queryGreetingDict() {
       selectDictByKeys("keys=HOME_GREETING").then((res) => {
         if(res && res.data && res.data['HOME_GREETING'] && res.data['HOME_GREETING'].length > 0) {
-          debugger
           if(res.data['HOME_GREETING'][0]) {
             this.greetingValues.zh = res.data['HOME_GREETING'][0].describe
           }
@@ -70,7 +76,7 @@ export default {
         greetingStr = this.language('中午好')
       } else if(hours >= 14 && hours <= 18) {
         greetingStr = this.language('下午好')
-      } else if(hours > 19 && hours <=23 ) {
+      } else if(hours >= 19 && hours <= 23) {
         greetingStr = this.language('晚上好')
       }
       return greetingStr
@@ -83,7 +89,7 @@ export default {
     border-radius: 20px;
   }
 .greet-card {
-  border-radius: 20px;
+  border-radius: 20px !important;
   .greet-card-div {
     display: flex;
     justify-content: space-between;
@@ -91,7 +97,7 @@ export default {
     padding-left: 50px;
     .greeting-copy {
       .user-greet-info {
-        margin-top: 20px;
+        margin-top: 50px;
         color: #003595;
         font-size: 20px;
         font-weight: bold;
@@ -99,12 +105,17 @@ export default {
         height: 30px;
       }
       .greetings-info {
-        margin-top: 20px;
+        margin-top: 5px;
         font-size: 16px;
         font-weight: normal;
       }
     }
     .greeting-pics {
+      display: flex;
+      align-items: center;
+      margin-right: 100px;
+    }
+    .home-rise-icon {
 
     }
   }

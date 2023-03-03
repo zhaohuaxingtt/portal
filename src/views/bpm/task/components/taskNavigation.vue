@@ -1,23 +1,42 @@
 <template>
   <div class="task-navigation-div">
-    <div class="task-navigation-div-icon" @click="gotoPreTask">
-      <div class="task-nav-icon el-icon-arrow-up"></div>
-    </div>
-    <div class="task-navigation-div-icon" @click="gotoNextTask">
-      <div class="task-nav-icon el-icon-arrow-down"></div>
-    </div>
-    <div @click="clickShowMoreTask" class="task-navigation-div-icon message">
-      <el-badge :value="totalTaskNum" :hidden="!totalTaskNum" :max="99">
-        <icon symbol class="icon" name="iconxiaoxi" />
+<!--    <div class="task-navigation-div-icon" @click="gotoPreTask">-->
+<!--      <div class="task-nav-icon"></div>-->
+      <img
+        @click="gotoPreTask"
+        class="list-icon cursor left"
+        :src="allow"
+        alt="上箭头"
+      />
+<!--    </div>-->
+<!--    <div class="task-navigation-div-icon" @click="gotoNextTask">-->
+      <img
+        @click="gotoNextTask"
+        class="list-icon cursor right"
+        :src="allow"
+        alt="下箭头"
+      />
+<!--    </div>-->
+<!--    <div @click="clickShowMoreTask" class="task-navigation-div-icon message">-->
+      <el-badge class="message" :value="totalTaskNum" :hidden="!totalTaskNum" :max="99">
+<!--        <icon symbol class="icon" name="iconxiaoxi" />-->
+        <img
+          @click="clickShowMoreTask"
+          class="list-icon-menu cursor"
+          :src="menu"
+          alt="数据列表"
+        />
       </el-badge>
       <taskNavigationDrawer @showMoreTaskNeedClose="handleShowMoreTaskNeedClose" @totalTaskNum="updateTotalTaskNum" ref="taskNavigationDrawer" :visible="showMoreTask" :isFinished="isFinished" :queryType="queryType" />
-    </div>
+<!--    </div>-->
   </div>
 </template>
 <script>
   import taskNavigationDrawer from './taskNavigationDrawer'
   import { icon } from 'rise'
   import { QUERY_DRAWER_TYPES } from '@/constants'
+  import allow from '@/assets/images/icon/right.svg'
+  import menu from '@/assets/images/icon/menu.svg'
   export default {
     name: "taskNavigation",
     components: { taskNavigationDrawer, icon },
@@ -33,11 +52,17 @@
     },
     data() {
       return {
+        allow,
+        menu,
         showMoreTask: false,
         totalTaskNum: 0,
       }
     },
     methods: {
+      handleFinishCurrentTask() {
+        this.showMoreTask = false
+        return this.$refs.taskNavigationDrawer.handleFinishCurrentTask(this.$route.params.instanceId)
+      },
       gotoPreTask() {
         this.$nextTick(() => {
           this.showMoreTask = false
@@ -70,9 +95,9 @@
   justify-content: center;
   align-items: center;
   .task-navigation-div-icon {
-    background-color: rgb(255, 255, 255);
-    margin-left: 15px;
-    padding: 5px;
+    //background-color: rgb(255, 255, 255);
+    //margin-left: 15px;
+    //padding: 5px;
   }
 }
 .task-nav-icon {
@@ -82,26 +107,26 @@
 .task-nav-icon:hover {
   cursor: pointer;
 }
-.message {
-  margin-left: 30px;
-  cursor: pointer;
-  .icon {
-    line-height: 97px;
-    font-size: 25px;
-  }
-}
+//.message {
+//  margin-left: 30px;
+//  cursor: pointer;
+//  .icon {
+//    line-height: 97px;
+//    font-size: 25px;
+//  }
+//}
 .task-navigation-div {
   .icon {
     line-height: 97px;
     font-size: 25px;
   }
 }
-.message {
-  ::v-deep .el-badge {
+.message.el-badge {
+  ::v-deep {
     .el-badge__content {
       background: #e30d0d;
       top: auto;
-      bottom: -3px;
+      //bottom: -3px;
       min-width: 25px;
       height: 25px;
       padding: 0;
@@ -109,5 +134,20 @@
       text-align: center;
     }
   }
+}
+.list-icon {
+  margin: 0 5px;
+  height: 32px;
+  &.right{
+    transform: rotateZ(90deg);
+  }
+  &.left{
+    transform: rotateZ(-90deg);
+  }
+}
+.list-icon-menu{
+  margin: 0 5px;
+  height: 32px;
+  vertical-align: bottom;
 }
 </style>

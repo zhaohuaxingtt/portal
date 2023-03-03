@@ -42,7 +42,7 @@
           <iButton @click="submit"
                    v-show="locationNow==3&&meetingNumber == 0"
                    v-permission="PORTAL_MTZ_POINT_INFOR_TIJIAO"
-                   :disabled="!isEditNew || ttNominateAppId !== ''">{{ language('TIJIAO', '提交') }}</iButton>
+                   :disabled="!isEditNew || ttNominateAppId !== ''||appStatus == '已提交'">{{ language('TIJIAO', '提交') }}</iButton>
                    <!-- (appStatus !== '草稿' && appStatus !== '未通过') -->
         </template>
         <iButton @click="downRS">{{ language('YULAN', '预览') }}</iButton>
@@ -177,7 +177,9 @@ export default {
       return this.$store.state.location.submitInfor;
     },
     isEditNew: function () {
-      return (this.appStatus == '草稿' || this.appStatus == '未通过')||(((this.flowType=='SIGN'||this.flowType=='FILING')||(['02','03',null,'01'].includes(this.meetingStatus)&&this.flowType=='MEETING'))&&this.appStatus=='已提交')
+            return (this.appStatus == '草稿' || this.appStatus == '未通过')||(((this.flowType=='SIGN'||this.flowType=='FILING')&&this.appStatus=='已提交')||(this.appStatus!='冻结'&&this.flowType=="MEETING"))
+
+      // return (this.appStatus == '草稿' || this.appStatus == '未通过')||(((this.flowType=='SIGN'||this.flowType=='FILING')||(['02','03',null,'01'].includes(this.meetingStatus)&&this.flowType=='MEETING'))&&this.appStatus=='已提交')
     }
   },
 
@@ -516,8 +518,19 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+::v-deep.el-button--default{
+  font-size: 20px!important;
+}
+.font18_b {
+  font-size: 18px;
+  font-weight: bold;
+}
+.font18 {
+  font-size: 18px;
+  font-weight: bold;
+}
 .title_name {
-  font-size: 20px;
+  font-size: 24px;
   font-weight: bold;
 }
 .opration {
@@ -556,7 +569,7 @@ export default {
     }
     span {
       display: inline-block;
-      font-size: 18px;
+      font-size: 20px;
       font-weight: bold;
       margin-top: 10px;
       color: #5d5d5d;
@@ -586,4 +599,7 @@ export default {
     width: auto !important;
   }
 }
+</style>
+<style lang='scss'>
+
 </style>
