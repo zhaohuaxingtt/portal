@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-17 13:17:43
- * @LastEditTime: 2023-02-15 15:36:58
+ * @LastEditTime: 2023-03-03 17:01:16
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\theSearch.vue
@@ -49,10 +49,32 @@ export default {
       },
     }
   },
+  watch: {
+    'searchForm.compDate': {
+      handler(val) {
+        if (Array.isArray(val) && val.length) {
+          this.searchForm.makeStartDate = this.formatDate(
+            this.searchForm.compDate[0],
+            'YYYY-MM-DD 00:00:00'
+          )
+          this.searchForm.makeEndDate = this.formatDate(
+            this.searchForm.compDate[1],
+            'YYYY-MM-DD 23:59:59'
+          )
+        } else {
+          this.searchForm.makeStartDate = ''
+          this.searchForm.makeEndDate = ''
+        }
+      }
+    }
+  },
   created() {
     this.init()
   },
   methods: {
+    formatDate(date, format = 'YYYY-MM-DD') {
+      return window.moment(date).format(format)
+    },
     init() {
       this.getTaskBuyerList()
       this.getTaskDepartmentList()

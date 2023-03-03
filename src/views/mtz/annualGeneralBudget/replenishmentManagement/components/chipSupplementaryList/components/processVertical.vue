@@ -1,10 +1,10 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-25 14:32:30
- * @LastEditTime: 2022-05-18 15:03:52
- * @LastEditors: zhaohuaxing 5359314+zhaohuaxing@user.noreply.gitee.com
+ * @LastEditTime: 2023-03-03 17:34:40
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
- * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\supplementaryList\components\processVertical.vue
+ * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\processVertical.vue
 -->
 <template>
   <div class="process-vertical">
@@ -119,7 +119,7 @@ import { queryWorkflowDetail } from '@/api/approval/myApplication'
 import { approvalStatus } from '@/api/mtz/annualGeneralBudget/supplementaryList'
 import { Icon } from 'rise'
 export default {
-  name: 'ProcessVertical',
+  name: 'processVertical',
   components: {
     Icon
   },
