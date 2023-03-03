@@ -10,9 +10,8 @@
     <tableList
       class="margin-top20"
       :selection="false"
-      :tableData="tableListData"
+      :tableData="tableData"
       :tableTitle="tableTitle"
-      :tableLoading="loading"
       max-height="400px"
       :index="true"
     >
@@ -37,8 +36,8 @@
     <iPagination
       v-update
       class="padding-bottom20"
-      @size-change="handleSizeChange($event, getList)"
-      @current-change="handleCurrentChange($event, getList)"
+      @size-change="sizeChange"
+      @current-change="currentChange"
       background
       :current-page="page.currPage"
       :page-sizes="page.pageSizes"
@@ -54,11 +53,9 @@
 import { iPagination } from 'rise'
 import { tableTitleDetail } from './data'
 import tableList from '@/components/commonTable/index.vue'
-import { pageMixins } from '@/utils/pageMixins'
 
 export default {
   name: 'tabs2',
-  mixins: [pageMixins],
   components: {
     tableList,
     iPagination
@@ -66,26 +63,40 @@ export default {
   props: ['tableListData'],
   data() {
     return {
-      loading: false,
       tableTitle: tableTitleDetail,
+      page: {
+        totalCount: 0,
+        pageSize: 10, //每页多少条
+        pageSizes: [10, 20, 50, 100], //每页条数切换
+        currPage: 1, //当前页
+        layout: 'sizes, prev, pager, next, jumper'
+      },
     }
   },
-  // watch:{
-  //   tableListData:{
-  //     handler(val){
-  //       this.page.totalCount = val?.length || 0
-  //     },
-  //     deep:true,
-  //     immediate:true
-  //   }
-  // },
+  computed:{
+    tablePageData() {
+      return _.chunk(this.tableListData, this.page.pageSize)
+    },
+    tableData() {
+      return this.tablePageData[this.page.currPage - 1] || []
+    },
+  },
+  watch:{
+    tableListData(val){
+      this.page.totalCount = val.length
+    }
+  },
   methods: {
     formatterNumber(cellValue) {
       return VueUtil.formatNumber(cellValue)
     },
-    getList() {
-      this.$emit('getTableData')
-    }
+    sizeChange(val) {
+      this.page.currPage = 1
+      this.page.pageSize = val
+    },
+    currentChange(val) {
+      this.page.currPage = val
+    },
   }
 }
 </script>
