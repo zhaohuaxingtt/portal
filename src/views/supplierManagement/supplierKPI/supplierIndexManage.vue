@@ -34,7 +34,7 @@
       </div>
     </iCard>
     <indexManage @updata="updata" v-permission="SUPPLIER_WORKBENCH_JIXIAO_SUPPLIERINDEXMANAGE_ZHIBIAOKU" v-if="isShow" />
-    <kpiStructure @back="back" :infoData="infoData" @submit0="submit0" ref="model" :isEdit="isEdit" style="margin-top: 20px"
+    <kpiStructure  @back="back" :infoData="infoData" @submit0="submit0" ref="model" :isEdit="isEdit" style="margin-top: 20px"
       :treeData="allData" :temId="selectValue" :templateName="templateName" @click="changeSaveData" @init="init"
       :isShow="isShow"></kpiStructure>
   </div>

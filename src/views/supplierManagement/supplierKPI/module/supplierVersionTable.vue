@@ -74,6 +74,7 @@
         >
         </el-table-column>
         <el-table-column
+        v-if="isAll"
           align="center"
           prop="allScore"
           label="总体KPI"
@@ -118,7 +119,8 @@ import {
   exportL2SupplierPerforManceScoreExcel,
   saveSystemPerformance,
   saveManualPerformance,
-  sendPerformanceTask
+  sendPerformanceTask,
+  getAllModelTree
 } from '@/api/supplierManagement/supplierIndexManage/index'
 import { pageMixins } from '@/utils/pageMixins'
 import tableList from '@/components/commonTable'
@@ -171,7 +173,8 @@ export default {
       tableData: [],
       theadData: [],
       berforTheadData: [],
-      allData: []
+      allData: [],
+      isAll:true
     }
   },
   created() {
@@ -182,7 +185,11 @@ export default {
     closeDiolog() {
       this.viewProgressIs = false
     },
-    init() {},
+    init() {
+      getAllModelTree(this.$route.query.modelId).then((res) => {
+        this.isAll = res.data
+      })
+    },
     getTableList() {
       let id = ''
       if (this.isShow) {
