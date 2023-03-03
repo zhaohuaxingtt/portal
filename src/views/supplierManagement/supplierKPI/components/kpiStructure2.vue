@@ -65,33 +65,7 @@
                     </el-option>
                   </iSelect>
                 </div>
-                <!-- <div class="line bottomcard">
-                  <div style="border-right: 1px solid #909091">
-                    <iButton
-                      v-if="!modeAll"
-                      @click="deleteTemplate"
-                      icon="el-icon-delete"
-                      >删除</iButton
-                    >
-                    <iButton v-else @click="canelAll" icon="el-icon-delete"
-                      >取消</iButton
-                    >
-                  </div>
-                  <div>
-                    <iButton
-                      v-if="!modeAll"
-                      @click="modeAll = true"
-                      icon="el-icon-edit-outline"
-                      >编辑</iButton
-                    >
-                    <iButton
-                      v-else
-                      @click="modeAll = false"
-                      icon="el-icon-edit-outline"
-                      >提交</iButton
-                    >
-                  </div>
-                </div> -->
+
                 <i
                   v-if="isEdit"
                   class="el-icon-circle-plus-outline iconbtn"
@@ -100,26 +74,6 @@
               </div>
             </div>
           </div>
-          <!-- <div class="tab2">
-            <div class="head">
-              <p class="border-class">指标1</p>
-            </div>
-          </div>
-          <div class="tab3">
-            <div class="head">
-              <p class="border-class">指标2</p>
-            </div>
-          </div>
-          <div class="tab4">
-            <div class="head">
-              <p class="border-class">指标3</p>
-            </div>
-          </div>
-          <div class="tab5">
-            <div class="head">
-              <p class="border-class">指标4</p>
-            </div>
-          </div> -->
         </div>
         <div class="list2">
           <div
@@ -379,7 +333,9 @@
                         <i
                           v-if="isEdit"
                           class="less el-icon-remove-outline"
-                          @click="handleLess(index, index3, index4, '5', index5)"
+                          @click="
+                            handleLess(index, index3, index4, '5', index5)
+                          "
                         ></i>
                       </div>
                     </div>
@@ -397,6 +353,7 @@
 <script>
 import { iCard, iInput, iButton, iSelect } from 'rise'
 import {
+  getAllModelTree,
   getModelTree,
   addModelTree,
   uploadPerformanceModelFile,
@@ -412,7 +369,10 @@ export default {
   props: {
     isShow: { type: Boolean, default: true },
     treeData: {
-      type: Array
+      type: Object
+    },
+    modelId: {
+      type: String
     },
     temId: {
       type: String
@@ -439,12 +399,21 @@ export default {
       formDataLevel2: {},
       form: {},
       modeAll: false,
-      infoList: []
+      infoList: [],
+      isAll: true,
+      modelId: ''
     }
   },
-  mounted() {
+   mounted() {
     this.getInfo()
     this.formDataLevel2 = this.treeData
+    console.log(this.formDataLevel2)
+    setTimeout(() => {
+      console.log(this.treeData.modelId)
+      getAllModelTree(this.treeData.modelId).then((res) => {
+        this.isAll = res.data
+      })
+    }, 3000);
   },
   watch: {
     treeData: {
@@ -456,10 +425,9 @@ export default {
     }
   },
   methods: {
-    getInfo() {
+    async getInfo() {
       getIndicatorList().then((res) => {
         this.infoList = res.data
-        console.log(this.infoList)
       })
     },
     edit() {

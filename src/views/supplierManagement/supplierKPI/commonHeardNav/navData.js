@@ -107,6 +107,14 @@ export const categoryManagementAssistantList = [
     activePath: '/supplier/spiIndex/kpi',
     key: 'KPI',
     permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_KPI'
+  },
+  {
+    value: 7,
+    name: '设置',
+    url: '/supplier/spiIndex/system',
+    activePath: '/supplier/spiIndex/system',
+    key: '设置',
+    permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_SYSTEM'
   }
 ]
 
