@@ -1,7 +1,7 @@
 /*
  * @Author: youyuan
  * @Date: 2021-09-09 14:02:54
- * @LastEditTime: 2023-02-15 15:04:44
+ * @LastEditTime: 2023-03-03 16:43:56
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 年度预算编辑
  * @FilePath: \front-portal\src\api\mtz\annualGeneralBudget\chipReplenishment.js
@@ -250,7 +250,17 @@ export function exportBalanceItemList(data) {
   })
 }
 
-// 凭证PDF导出
+// 单个补差单汇总凭证Excel导出
+export function balanceSummaryExport(data) {
+  return downloadChip({
+    url: '/balanceSummaryExport',
+    method: 'POST',
+    responseType: 'blob',
+    data
+  })
+}
+
+// 凭证明细PDF导出
 export function balanceDetailPdfExport(params) {
   return requestChip({
     url: '/balanceDetailPdfExport',
@@ -261,11 +271,11 @@ export function balanceDetailPdfExport(params) {
 }
 
 // 单个补差单明细凭证Excel导出
-export function balanceDetailExport(params) {
+export function balanceDetailExport(data) {
   return downloadChip({
     url: '/balanceDetailExport',
     method: 'POST',
-    params,
+    data,
     responseType: 'blob'
   })
 }

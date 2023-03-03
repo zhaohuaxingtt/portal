@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-09 15:06:29
- * @LastEditTime: 2023-02-14 17:37:43
+ * @LastEditTime: 2023-03-03 16:32:15
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipReplenishmentOverview\components\data.js
@@ -188,7 +188,7 @@ export const tableTitle1 = [
       return <span class="link">{scope.row.supplierName}</span>
     }
   }, {
-    prop: 'waitLaunchedDocMoney',
+    prop: 'toBeSubmitAmount',
     label: '待发起凭证',
     i18n: 'DAIFAQIPINZHENG',
     align: 'center',
@@ -200,7 +200,7 @@ export const tableTitle1 = [
       )}></tooltip>
     },
     customRender: (h, scope) => {
-      return <span>{VueUtil.formatNumber(scope.row.waitLaunchedDocMoney)}</span>
+      return <span>{VueUtil.formatNumber(scope.row.toBeSubmitAmount)}</span>
     }
   }, {
     prop: 'balanceAmount',
@@ -353,17 +353,17 @@ export const tableTitle2 = [
     type: 'index',
     label: '#',
   }, {
-    prop: 'firstSupplierName',
-    label: '散件供应商',
-    i18n: 'SHANJIANGONGYINGSHANG',
+    prop: 'supplierName',
+    label: '一次件供应商',
+    i18n: 'YICIJIANGONGYINGSHANG',
     align: 'center',
     minWidth: 150,
     emit: 'handleClickFsupplierName',
     customRender: (h, scope) => {
-      return <span class="link">{scope.row.firstSupplierName}</span>
+      return <span class="link">{scope.row.supplierName}</span>
     }
   }, {
-    prop: 'waitLaunchedDocMoney',
+    prop: 'toBeSubmitAmount',
     label: '待发起凭证',
     i18n: 'DAIFAQIPINZHENG',
     align: 'center',
@@ -375,10 +375,10 @@ export const tableTitle2 = [
       )}></tooltip>
     },
     customRender: (h, scope) => {
-      return <span>{VueUtil.formatNumber(scope.row.waitLaunchedDocMoney)}</span>
+      return <span>{VueUtil.formatNumber(scope.row.toBeSubmitAmount)}</span>
     }
   }, {
-    prop: 'hasLaunchedDocMoney',
+    prop: 'balanceAmount',
     label: '已发起凭证',
     i18n: 'YIFAQIPINZHENG',
     align: 'center',
@@ -390,10 +390,10 @@ export const tableTitle2 = [
       )}></tooltip>
     },
     customRender: (h, scope) => {
-      return <span>{VueUtil.formatNumber(scope.row.hasLaunchedDocMoney)}</span>
+      return <span>{VueUtil.formatNumber(scope.row.balanceAmount)}</span>
     }
   }, {
-    prop: 'trueCompMoney',
+    prop: 'actualMakeAmount',
     label: '实际补差金额',
     i18n: 'SHIJIBUCHAJINE',
     align: 'center',
@@ -421,10 +421,10 @@ export const tableTitle2 = [
       </tooltip>
     },
     customRender: (h, scope) => {
-      return <span>{VueUtil.formatNumber(scope.row.trueCompMoney)}</span>
+      return <span>{VueUtil.formatNumber(scope.row.actualMakeAmount)}</span>
     }
   }, {
-    prop: 'waitVerifyMoney',
+    prop: 'confirmingAmount',
     label: '待确认金额',
     i18n: 'DAIQUERENJINE',
     align: 'center',
@@ -451,10 +451,13 @@ export const tableTitle2 = [
           </p>
         </div>
       </tooltip>
+    },
+    customRender: (h, scope) => {
+      return <span>{VueUtil.formatNumber(scope.row.confirmingAmount)}</span>
     }
   },
   {
-    prop: 'hasVerifyMoney',
+    prop: 'confirmedAmount',
     label: '已确认金额',
     i18n: 'YIQUERENJINE',
     align: 'center',
@@ -482,11 +485,11 @@ export const tableTitle2 = [
       </tooltip>
     },
     customRender: (h, scope) => {
-      return <span>{VueUtil.formatNumber(scope.row.hasVerifyMoney)}</span>
+      return <span>{VueUtil.formatNumber(scope.row.confirmedAmount)}</span>
     }
   },
   {
-    prop: 'hasRatifyMoney',
+    prop: 'approvedAmount',
     label: '已批准金额',
     i18n: 'YIPIZHENGJINE',
     align: 'center',
@@ -499,7 +502,7 @@ export const tableTitle2 = [
       )}></tooltip>
     },
     customRender: (h, scope) => {
-      return <span>{VueUtil.formatNumber(scope.row.hasRatifyMoney)}</span>
+      return <span>{VueUtil.formatNumber(scope.row.approvedAmount)}</span>
     }
   },
 ]

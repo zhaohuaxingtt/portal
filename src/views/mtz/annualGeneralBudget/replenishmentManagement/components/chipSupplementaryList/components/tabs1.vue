@@ -10,18 +10,26 @@
     <tableList
       class="margin-top20"
       :selection="false"
-      :tableData="tableListData"
+      :tableData="tableData"
       :tableTitle="tableTitle"
-      :tableLoading="loading"
       max-height="400px"
       :index="true"
     >
+      <template #makeAmount="scope">
+        {{ formatterNumber(scope.row.makeAmount) }}
+      </template>
+      <template #requestAmount="scope">
+        {{ formatterNumber(scope.row.requestAmount) }}
+      </template>
+      <template #approveAmount="scope">
+        {{ formatterNumber(scope.row.approveAmount) }}
+      </template>
     </tableList>
     <iPagination
       v-update
       class="padding-bottom20"
-      @size-change="handleSizeChange($event, getList)"
-      @current-change="handleCurrentChange($event, getList)"
+      @size-change="sizeChange"
+      @current-change="currentChange"
       background
       :current-page="page.currPage"
       :page-sizes="page.pageSizes"
@@ -37,10 +45,8 @@
 import { iPagination } from 'rise'
 import { tableTitleOverview } from './data'
 import tableList from '@/components/commonTable/index.vue'
-import { pageMixins } from '@/utils/pageMixins'
 export default {
   name: 'tabs1',
-  mixins: [pageMixins],
   components: {
     tableList,
     iPagination
@@ -48,14 +54,41 @@ export default {
   props: ['tableListData'],
   data() {
     return {
-      loading: false,
-      tableTitle: tableTitleOverview
+      tableTitle: tableTitleOverview,
+      page: {
+        totalCount: 0,
+        pageSize: 10, //每页多少条
+        pageSizes: [10, 20, 50, 100], //每页条数切换
+        currPage: 1, //当前页
+        layout: 'sizes, prev, pager, next, jumper'
+      },
+    }
+  },
+  computed:{
+    tablePageData() {
+      return _.chunk(this.tableListData, this.page.pageSize)
+    },
+    tableData() {
+      return this.tablePageData[this.page.currPage - 1] || []
+    },
+  },
+  watch:{
+    tableListData(val){
+      this.page.totalCount = val.length
     }
   },
   methods: {
-    getList() {
-      this.$emit('getTableData')
-    }
+    formatterNumber(cellValue) {
+      return VueUtil.formatNumber(cellValue)
+    },
+    // 待发起
+    sizeChange(val) {
+      this.page.currPage = 1
+      this.page.pageSize = val
+    },
+    currentChange(val) {
+      this.page.currPage = val
+    },
   }
 }
 </script>

@@ -1,7 +1,7 @@
 <!--
  * @Author: tanmou
  * @Date: 2021-08-27 16:29:54
- * @LastEditTime: 2023-02-22 11:20:25
+ * @LastEditTime: 2023-03-03 16:42:03
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\search.vue
@@ -115,15 +115,12 @@
       </div>
       <tabs1
         :tableListData="agreementSummaryList"
-        v-if="tabsValue == 1"
-        ref="tabs"
+        v-show="tabsValue == 1"
       ></tabs1>
       <tabs2
         :tableListData="detailTableData"
-        v-if="tabsValue == 2"
-        ref="tabs"
+        v-show="tabsValue == 2"
       ></tabs2>
-      <!-- </div> -->
     </iDialog>
   </div>
 </template>
@@ -145,11 +142,10 @@ import { searchFormData, tabsInforList } from './data.js'
 import {
   findBalanceById,
   supplierConfirm,
-  exportSupplierBalanceSummary,
-  exportSupplierBalanceSummaryDetail,
   updateBalance,
   getTaskSecondSupplierList,
   balanceDetailPdfExport,
+  balanceSummaryExport,
   balanceDetailExport,
 } from '@/api/mtz/annualGeneralBudget/chipReplenishment'
 import tabs1 from './tabs1'
@@ -330,7 +326,7 @@ export default {
               let objectUrl = URL.createObjectURL(blob)
               let link = document.createElement('a')
               link.href = objectUrl
-              let fname = 'MTZ补差单汇总凭证' + this.detailObj.bizNo + '.pdf'
+              let fname = '芯片补差单汇总凭证' + this.detailObj.balanceNo + '.pdf'
               link.setAttribute('download', fname)
               document.body.appendChild(link)
               link.click()
@@ -351,7 +347,7 @@ export default {
         confirmButtonText: this.language('QUEREN', '确认')
       })
         .then(() => {
-          let exportFun = this.tabsValue == 1 ? exportSupplierBalanceSummary : balanceDetailExport
+          let exportFun = this.tabsValue == 1 ? balanceSummaryExport : balanceDetailExport
           let params = this.tabsValue == 1 ? {
             ...this.detailObj,
             ...this.searchForm,
@@ -359,8 +355,6 @@ export default {
             isOnlyMyself:true,
             makeEndDate:this.detailObj.endTo,
             makeStartDate:this.detailObj.startFrom,
-            currentPage:this.$refs.tabs.page.currPage,
-            pageSize:this.$refs.tabs.page.pageSize,
             balanceSapCode:this.detailObj.id,
             balanceId:this.balanceId,
             agreementNo:this.agreementSummaryList[0].agreementNo,
@@ -377,11 +371,6 @@ export default {
     },
     closeDiolog() {
       this.$emit('dialogShowFun', '')
-      this.$parent.$children.forEach((item) => {
-        if (item.$options._componentTag === 'theTable') {
-          item.getmakeUpPageList()
-        }
-      })
     }
   },
   destroyed() {
