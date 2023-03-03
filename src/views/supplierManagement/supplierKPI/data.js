@@ -4,6 +4,41 @@
  * @LastEditTime: 2022-09-28 14:13:24
  * @FilePath: \front-order\src\views\ws2\productionCapacity\Bom\page\detail\contrast\data.js
  */
+export const tableTitleDept = [
+  {
+    props: 'modelInfoName',
+    name: 'L1类型',
+    key: 'L1类型',
+    align: 'center',
+    width:300
+  },
+  {
+    props: 'deptCode',
+    name: '评分部门/科室',
+    key: '评分部门/科室',
+    align: 'center',
+    width:300
+
+  },
+]
+export const tableTitleModel = [
+  {
+    props: 'modelInfoName',
+    name: 'L1类型',
+    key: 'L1类型',
+    align: 'center',
+    width:300
+
+  },
+  {
+    props: 'userName',
+    name: '编辑者',
+    key: '编辑者',
+    align: 'center',
+    width:300
+
+  },
+]
 export const tableTitle2 = [
   {
     props: 'sapCode',
@@ -15,6 +50,12 @@ export const tableTitle2 = [
     props: 'supplierName',
     name: '供应商名称',
     key: '供应商名称',
+    align: 'center'
+  },
+  {
+    props: 'deptCode',
+    name: 'CS打分科室',
+    key: 'CS打分科室',
     align: 'center'
   }
 ]

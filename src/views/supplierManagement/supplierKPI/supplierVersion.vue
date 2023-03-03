@@ -9,143 +9,72 @@
     <iSearch @sure="sure" @reset="handleSearchReset">
       <el-form>
         <el-form-item :label="$t('ROLE.TYPE')">
-          <iSelect
-            clearable
-            :placeholder="$t('partsprocure.PLEENTER')"
-            v-model="formData.editionType"
-          >
-            <el-option
-              v-for="(j, index) in typeList"
-              :key="index"
-              :value="j.code"
-              :label="j.name"
-            >
+          <iSelect clearable :placeholder="$t('partsprocure.PLEENTER')" v-model="formData.editionType">
+            <el-option v-for="(j, index) in typeList" :key="index" :value="j.code" :label="j.name">
             </el-option>
           </iSelect>
         </el-form-item>
         <el-form-item :label="$t('LK_ZHUANGTAI')">
-          <iSelect
-            clearable
-            :placeholder="$t('partsprocure.PLEENTER')"
-            v-model="formData.status"
-          >
-            <el-option
-              v-for="(j, index) in statusList"
-              :key="index"
-              :value="j.code"
-              :label="j.name"
-            >
+          <iSelect clearable :placeholder="$t('partsprocure.PLEENTER')" v-model="formData.status">
+            <el-option v-for="(j, index) in statusList" :key="index" :value="j.code" :label="j.name">
             </el-option>
           </iSelect>
         </el-form-item>
-      </el-form>
+    </el-form>
     </iSearch>
     <iCard style="margin-top: 20px">
       <template #header-control>
         <!-- <iButton @click="initiate">供应商导入模板下载</iButton> -->
         <!-- <iButton @click="update">CS科室打分权重设置</iButton>
-        <iButton @click="exportFile">定时规则设置</iButton> -->
-        <iButton
-          v-permission="SUPPLIER_WORKBENCH_SUPPLIERBERSION_ADD"
-          @click="addVersion"
-          >创建版本</iButton
-        >
+          <iButton @click="exportFile">定时规则设置</iButton> -->
+        <iButton v-permission="SUPPLIER_WORKBENCH_SUPPLIERBERSION_ADD" @click="addVersion">创建版本</iButton>
       </template>
-      <tableList
-        openPageProps="dataTime"
-        :openPageGetRowData="true"
-        @openPage="handleOpenPage"
-        border
-        :tableData="tableListData"
-        :tableTitle="tableTitle"
-        :tableLoading="tableLoading"
-      >
+      <tableList openPageProps="dataTime" :openPageGetRowData="true" @openPage="handleOpenPage" border
+        :tableData="tableListData" :tableTitle="tableTitle" :tableLoading="tableLoading">
         <template #editionType="scope">
           <span>{{
             scope.row.editionType != null
-              ? typeList.find((val) => val.code == scope.row.editionType).name
-              : ''
+            ? typeList.find((val) => val.code == scope.row.editionType).name
+            : ''
           }}</span>
         </template>
         <template #status="scope">
           <span>{{
             scope.row.status != null
-              ? statusList.find((val) => val.code == scope.row.status).name
-              : ''
+            ? statusList.find((val) => val.code == scope.row.status).name
+            : ''
           }}</span>
         </template>
         <template #caozuo="scope">
-          <iButton
-            v-permission="SUPPLIER_WORKBENCH_SUPPLIERBERSION_DEL"
-            type="text"
-            @click="delRow(scope.row)"
-            >删除
+          <iButton v-permission="SUPPLIER_WORKBENCH_SUPPLIERBERSION_DEL" type="text" @click="delRow(scope.row)">删除
           </iButton>
         </template>
       </tableList>
-      <iPagination
-        v-update
-        @size-change="handleSizeChange($event, getTableList)"
-        @current-change="handleCurrentChange($event, getTableList)"
-        background
-        :page-sizes="page.pageSizes"
-        :page-size="page.pageSize"
-        :layout="page.layout"
-        :current-page="page.currPage"
-        :total="page.totalCount"
-      />
+      <iPagination v-update @size-change="handleSizeChange($event, getTableList)"
+        @current-change="handleCurrentChange($event, getTableList)" background :page-sizes="page.pageSizes"
+        :page-size="page.pageSize" :layout="page.layout" :current-page="page.currPage" :total="page.totalCount" />
     </iCard>
-    <iDialog
-      append-to-body
-      :title="$t('创建绩效版本')"
-      :visible.sync="addVersionDiolog"
-      width="60%"
-      @close="clearDiolog"
-    >
+    <iDialog append-to-body :title="$t('创建绩效版本')" :visible.sync="addVersionDiolog" width="60%" @close="clearDiolog">
       <el-steps finish-status="success" align-center :active="active">
         <el-step title="基本信息"></el-step>
         <el-step title="确认统计周期"></el-step>
         <el-step title="确认供应商范围"></el-step>
         <el-step title="完成"></el-step>
       </el-steps>
-      <el-form
-        :disabled="active == 3"
-        style="margin-top: 20px"
-        :label-position="'left'"
-        label-width="120px"
-      >
+      <el-form :disabled="active == 3" style="margin-top: 20px" :label-position="'left'" label-width="120px">
         <el-form-item v-if="active == 0 || active == 3" :label="$t('标题：')">
-          <i-input
-            style="width: 200px"
-            :placeholder="$t('partsprocure.PLEENTER')"
-            v-model="form.name"
-          >
+          <i-input style="width: 200px" :placeholder="$t('partsprocure.PLEENTER')" v-model="form.name">
           </i-input>
         </el-form-item>
 
-        <el-form-item
-          v-if="active == 0 || active == 3"
-          :label="$t('数据日期：')"
-        >
-          <el-date-picker
-            style="width: 200px"
-            value-format="yyyy-MM-dd"
-            v-model="form.dataTime"
-            type="date"
-            placeholder="选择日期"
-          >
+        <el-form-item v-if="active == 0 || active == 3" :label="$t('数据日期：')">
+          <el-date-picker style="width: 200px" value-format="yyyy-MM-dd" v-model="form.dataTime" type="date"
+            placeholder="选择日期">
           </el-date-picker>
         </el-form-item>
-        <el-form-item
-          v-if="active == 0 || active == 3"
-          :label="$t('绩效模型版本：')"
-        >
-          <i-input
-            :disabled="true"
-            style="width: 200px"
-            :placeholder="$t('partsprocure.PLEENTER')"
-            v-model="form.modelVersion"
-          >
+        <el-form-item v-if="active == 0 || active == 3" :label="$t('绩效模型版本：')">
+          <i-input :disabled="true" style="width: 200px" :placeholder="$t('partsprocure.PLEENTER')"
+            v-model="form.modelVersion">
           </i-input>
           {{ '此版本包含手工指标' }}
         </el-form-item>
@@ -156,34 +85,17 @@
             }}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item
-          v-if="active == 0 || active == 3"
-          :label="$t('截止时间：')"
-        >
-          <el-date-picker
-            style="width: 200px"
-            v-model="form.endDate"
-            type="datetime"
-            value-format="yyyy-MM-dd hh:mm:ss"
-            placeholder="选择日期时间"
-          >
+        <el-form-item v-if="active == 0 || active == 3" :label="$t('截止时间：')">
+          <el-date-picker style="width: 200px" v-model="form.endDate" type="datetime" value-format="yyyy-MM-dd hh:mm:ss"
+            placeholder="选择日期时间">
           </el-date-picker>
           <span v-if="form.endDate">
-            (还剩{{ DateDiffer(form.endDate) }}天)</span
-          >
+            (还剩{{ DateDiffer(form.endDate) }}天)</span>
         </el-form-item>
         <el-form-item v-if="active == 1" :label="$t('统计周期：')">
-          <el-date-picker
-            type="monthrange"
-            v-model="dataTime"
-            align="right"
-            unlink-panels
-            value-format="yyyy-MM-dd 00:00:00"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            :picker-options="pickerOptions"
-          >
+          <el-date-picker type="monthrange" v-model="dataTime" align="right" unlink-panels
+            value-format="yyyy-MM-dd 00:00:00" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
+            :picker-options="pickerOptions">
           </el-date-picker>
         </el-form-item>
       </el-form>
@@ -191,29 +103,17 @@
         <div class="dialogButon">
           <iButton @click="addSupplier">添加</iButton>
           <iButton @click="delSupplier">移除</iButton>
+          <iButton @click="exportAll">全部导出</iButton>
           <iButton @click="exportFile">模板下载</iButton>
-          <el-upload
-            style="margin-left: 10px"
-            action="1"
-            :accept="'.xlsx,.xls'"
-            :before-upload="beforeAvatarUpload"
-            :show-file-list="false"
-            :http-request="httpUpload"
-            :disabled="importLoading"
-          >
+          <el-upload style="margin-left: 10px" action="1" :accept="'.xlsx,.xls'" :before-upload="beforeAvatarUpload"
+            :show-file-list="false" :http-request="httpUpload" :disabled="importLoading">
             <div>
               <i-button>{{ language('PILIANGDAORU', '批量导入') }} </i-button>
             </div>
           </el-upload>
         </div>
-        <tableList
-          :index="true"
-          style="margin-top: 20px"
-          border
-          :tableData="tableListData2"
-          :tableTitle="tableTitle2"
-          @handleSelectionChange="handleSelectionChange"
-        >
+        <tableList :index="true" style="margin-top: 20px" border :tableData="tableListData2" :tableTitle="tableTitle2"
+          @handleSelectionChange="handleSelectionChange">
         </tableList>
       </div>
 
@@ -236,12 +136,7 @@
         }}</iButton>
       </span>
     </iDialog>
-    <supplier
-      ref="supplier"
-      @addsupplier="addsupplier"
-      v-if="supplierDiolog"
-      v-model="supplierDiolog"
-    ></supplier>
+    <supplier ref="supplier" @addsupplier="addsupplier" v-if="supplierDiolog" v-model="supplierDiolog"></supplier>
   </div>
 </template>
 
@@ -256,6 +151,7 @@ import {
   delEditionTask,
   sendPerformanceTask
 } from '@/api/supplierManagement/supplierIndexManage/index'
+import { excelExport } from '@/utils/filedowLoad' //导出
 import { pageMixins } from '@/utils/pageMixins'
 import tableList from '@/components/commonTable'
 import supplier from './module/supplier'
@@ -293,65 +189,7 @@ export default {
     return {
       importLoading: false,
       typeList: [],
-      statusList: [
-        {
-          id: '1004949',
-          name: '进行中',
-          nameEn: '1',
-          nameDe: null,
-          code: '1',
-          describe: '进行中',
-          remark: null,
-          orderNum: '1',
-          parentId: '1004947',
-          type: null,
-          level: '2',
-          createBy: '1',
-          createDate: '2023-02-07 14:06:06',
-          updateBy: '1',
-          state: 1,
-          updateDate: '2023-02-15 10:01:33',
-          subDictResultVo: null
-        },
-        {
-          id: '1004948',
-          name: '草稿',
-          nameEn: '0',
-          nameDe: null,
-          code: '0',
-          describe: '草稿',
-          remark: null,
-          orderNum: '1',
-          parentId: '1004947',
-          type: null,
-          level: '2',
-          createBy: '1',
-          createDate: '2023-02-07 14:05:40',
-          updateBy: null,
-          state: 1,
-          updateDate: null,
-          subDictResultVo: null
-        },
-        {
-          id: '1004950',
-          name: '已结束',
-          nameEn: '2',
-          nameDe: null,
-          code: '2',
-          describe: '已结束',
-          remark: null,
-          orderNum: '1',
-          parentId: '1004947',
-          type: null,
-          level: '2',
-          createBy: '1',
-          createDate: '2023-02-07 14:05:40',
-          updateBy: null,
-          state: 1,
-          updateDate: null,
-          subDictResultVo: null
-        }
-      ],
+      statusList: [],
       supplierDiolog: false,
       pickerOptions: pickerOptions,
       dataTime: [],
@@ -381,14 +219,14 @@ export default {
             this.typeList = res?.data[0]?.subDictResultVo
           }
         })
-        .catch(() => {})
-      // getDictByCode('SUPPLIER_PERFORMANCE_MODEL_STATUS')
-      //   .then((res) => {
-      //     if (res.data) {
-      //       this.statusList = res?.data[0]?.subDictResultVo
-      //     }
-      //   })
-      //   .catch(() => { })
+        .catch(() => { })
+      getDictByCode('SUPPLIER_PERFORMANCE_MODEL_STATUS')
+        .then((res) => {
+          if (res.data) {
+            this.statusList = res?.data[0]?.subDictResultVo
+          }
+        })
+        .catch(() => { })
     },
     openPreDetail(item) {
       let routeUrl = this.$router.resolve({
@@ -490,13 +328,13 @@ export default {
           })
           data.forEach((v, i) => {
             this.tableListData2.forEach((k, j) => {
-              if (v.supplierId == k.supplierId) {
+              if (v.sapCode == k.sapCode) {
                 this.tableListData2.splice(j, 1)
               }
             })
           })
           this.tableListData2 = [...this.tableListData2, ...data]
-          console.log(this.tableListData2 )
+          console.log(this.tableListData2)
           this.importDialog = true
           this.$message.success(this.language('DAORUCHENGGONG', '导入成功'))
         } else {
@@ -563,7 +401,7 @@ export default {
       })
       data.forEach((v, i) => {
         this.tableListData2.forEach((k, j) => {
-          if (v.supplierId == k.supplierId) {
+          if (v.sapCode == k.sapCode) {
             this.tableListData2.splice(j, 1)
           }
         })
@@ -588,6 +426,7 @@ export default {
       this.addVersionDiolog = false
       this.form = {}
     },
+
     DateDiffer(Date_end) {
       //date1结束时间
       let date1 = new Date(Date_end)
@@ -618,8 +457,11 @@ export default {
     },
     //导出文件
     async exportFile() {
-      getTemplate().then((res) => {})
-    }
+      getTemplate().then((res) => { })
+    },
+    exportAll() {
+      excelExport(this.tableListData2, this.tableTitle2)
+    },
   }
 }
 </script>
