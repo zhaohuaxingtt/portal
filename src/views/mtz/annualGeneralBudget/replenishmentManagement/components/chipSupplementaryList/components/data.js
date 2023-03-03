@@ -6,7 +6,7 @@
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\data.js
  */
-import language from "@/utils/language";
+import popover from "./popover.vue";
 
 // 首页查询条件
 export const queryFormData = [
@@ -118,7 +118,15 @@ export const tableTitle = [
     i18n: 'DANJUZHUANGTAI',
     align: 'center',
     tooltip: true,
-    minWidth: 150
+    minWidth: 150,
+    customRender: (h, scope, c, e) => {
+      console.log(scope.row);
+      if (['审批中', '审批通过', '审批不通过', '审批退回-补充材料', 'EPMS审批中', 'EPMS审批不通过', 'EPMS审批通过', 'EPMS审批退回-补充材料'].includes(scope.row.statusName)) {
+        return <popover instanceId={scope.row.workflowId} epmsId={scope.row.id} statusName={scope.row.statusName}></popover>
+      } else {
+        return <span> {scope.row.statusName}</span>
+      }
+    }
   },
 ]
 // 补差单明细信息
