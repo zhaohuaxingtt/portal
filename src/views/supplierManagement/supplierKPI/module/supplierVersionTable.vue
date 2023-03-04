@@ -74,7 +74,7 @@
         >
         </el-table-column>
         <el-table-column
-        v-if="isAll"
+          v-if="isAll"
           align="center"
           prop="allScore"
           label="总体KPI"
