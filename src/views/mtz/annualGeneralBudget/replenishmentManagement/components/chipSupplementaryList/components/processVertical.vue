@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-25 14:32:30
- * @LastEditTime: 2023-03-03 17:34:40
+ * @LastEditTime: 2023-03-05 19:18:36
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\processVertical.vue
@@ -11,7 +11,7 @@
     <div class="loading"
          v-loading="loading"></div>
     <div v-if="instanceId">
-      <div v-for="(item, index) of panorama"
+      <div v-for="(item, index) of panorama.workflow"
            :key="index"
            class="node"
            :class="{
@@ -85,7 +85,7 @@
       </div>
     </div>
     <div v-if="epmsId">
-      <div v-for="(item, index) of panorama"
+      <div v-for="(item, index) of panorama.epms"
            :key="index"
            class="node"
            :class="{
@@ -117,6 +117,9 @@
 <script>
 import { queryWorkflowDetail } from '@/api/approval/myApplication'
 import { approvalStatus } from '@/api/mtz/annualGeneralBudget/supplementaryList'
+import {
+  getEpmsApprovalRecord,
+} from '@/api/mtz/annualGeneralBudget/chipReplenishment'
 import { Icon } from 'rise'
 export default {
   name: 'processVertical',
@@ -133,7 +136,7 @@ export default {
   },
   data () {
     return {
-      panorama: [],
+      panorama: {},
       detail: {},
       loading: false
     }
@@ -165,7 +168,7 @@ export default {
         queryWorkflowDetail(params)
           .then(res => {
             const { data } = res
-            this.panorama = data.panorama || []
+            this.panorama.workflow = data.panorama || []
             this.detail = data
             this.loading = false
           })
@@ -174,12 +177,11 @@ export default {
           })
       }
       if (this.epmsId) {
-        // const params = { id: '1000000002', "isDeptLead": true }
-        const params = { id: this.epmsId, "isDeptLead": true }
-        approvalStatus(params)
+        const params = { balanceId: this.epmsId }
+        getEpmsApprovalRecord(params)
           .then(res => {
             const { data } = res
-            this.panorama = data.epmsApprovalFlow || []
+            this.panorama.epms = data || []
             this.detail = data
             this.loading = false
           })
