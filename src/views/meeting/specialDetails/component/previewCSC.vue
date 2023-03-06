@@ -133,7 +133,7 @@ export default {
     this.meetingInfo = await findThemenById({ id: query.id })
     this.themens = this.meetingInfo?.themens
     this.meetingInfo.themens.forEach((item, index) => {
-      if (item.fixedPointApplyId == query.desinateId) {
+      if (item.id == query.rowId) {
         this.click(item, index)
       }
     })
