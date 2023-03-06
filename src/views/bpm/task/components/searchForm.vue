@@ -221,14 +221,22 @@ export default {
     this.refresh();
   },
   methods: {
-    getOverview(onlyUpdateActiveData = false) {
-      this.$refs.taskPanelCategory.getOverview(onlyUpdateActiveData)
+    async getOverview(onlyUpdateActiveData = false) {
+      await this.$refs.taskPanelCategory.getOverview(onlyUpdateActiveData)
+      if(onlyUpdateActiveData) {
+        const newItem = this.dOptions.find(item => {
+          return this.curTypeName == item.typeName
+        })
+        if(newItem) {
+          this.$refs.taskPanelCategory.updateActiveDataByTypeName(newItem.typeName)
+        } else {
+          this.$refs.taskPanelCategory.updateActiveDataByTypeName(null)
+        }
+      }
     },
     refresh() {
-      console.log("this.isFinished...", this.isFinished, this.$route.query.modelTemplate)
       if (this.$route.query.modelTemplate) {
         const moduleTemplate = JSON.parse(this.$route.query.modelTemplate)
-        console.log('module-template', moduleTemplate)
         if (
           moduleTemplate.length === 1 &&
           BPM_SINGL_CATEGORY_LIST.includes(moduleTemplate[0])
@@ -240,7 +248,6 @@ export default {
           this.form.categoryList = moduleTemplate[0]
         }
         this.curSubTypeName = moduleTemplate[0]
-        // console.log(this.form);
         // this.queryModelTemplate()
       }
       // CRW-8311
@@ -253,14 +260,9 @@ export default {
             )
             this.dataList = _.cloneDeep(queryForm)
 
-            console.log(this.dataList)
             // return;
             this.$set(this, "form", _.cloneDeep(queryForm))
             this.form.categoryList = [this.dataList.categoryList]
-            console.log(this.form)
-            console.log(this.form.categoryList)
-            console.log(JSON.stringify(this.form))
-
             if (this.form.startTime && this.form.endTime) {
               this.date = [
                 moment(this.form.startTime).format('YYYY-MM-DD'),
@@ -278,13 +280,11 @@ export default {
           }
         }
       } else {//待审批
-        console.log(this.$route.query)
         if (this.$route.query.doneQueryStr) {
           try {
             const queryForm = JSON.parse(
               decodeURIComponent(this.$route.query.doneQueryStr)
             )
-            console.log(queryForm)
             if (queryForm.startTime && queryForm.endTime) {
               this.date = [
                 moment(queryForm.startTime).format('YYYY-MM-DD'),
@@ -308,7 +308,6 @@ export default {
           } catch (err) {
             console.log(err)
           }
-          console.log('this.form2...', this.form)
           if (this.form.applyUserId) {
             this.queryUserOptions()
           }
@@ -392,7 +391,6 @@ export default {
       const newItem = this.dOptions.find(item => {
         return newValue == item.value
       })
-      console.log("newItem, newValue", newItem, newValue)
       if(newItem) {
         this.curTypeName = newItem.typeName
         this.curActiveIndex = -1
@@ -434,7 +432,6 @@ export default {
       this.$refs.taskPanelCategory.reset("-1")
     },
     async queryModelTemplate(update = true) {
-      console.log(this.form);
       const data = {
         pageNo: 1,
         pageSize: 100,

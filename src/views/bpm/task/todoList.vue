@@ -17,6 +17,7 @@
           :todo-total="todoTotal"
           :task-type="0"
           :search-form="queryData"
+          @getActiveIndex="getActiveIndex"
         />
       </div>
       <actionButtons
@@ -254,6 +255,9 @@ export default {
       this.page.currPage = 1
       this.getTableList()
     },
+    getActiveIndex(callback){
+      callback(this.$refs.searchForm.curActiveIndex)
+    },
     genQueryData: function() {
       const searchData = filterEmptyValue(this.form)
 
@@ -364,8 +368,8 @@ export default {
           iMessage.success(this.language('审批成功'))
         }
         this.getTableList()
-        this.$nextTick(() => {
-          this.$refs.searchForm.getOverview(true)
+        this.$nextTick(async () => {
+          await this.$refs.searchForm.getOverview(true)
         })
         this.loading = false
       } else {
@@ -380,8 +384,8 @@ export default {
     approvelSuccess() {
       this.dialogApprovalVisible = false
       this.getTableList()
-      this.$nextTick(() => {
-        this.$refs.searchForm.getOverview(true)
+      this.$nextTick(async () => {
+        await this.$refs.searchForm.getOverview(true)
       })
     },
 

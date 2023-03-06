@@ -37,8 +37,8 @@
                      :picker-options="pickerOptions"
                      type="daterange"
                      range-separator="-"
-                     start-placeholder="开始日期"
-                     end-placeholder="结束日期"
+                    :start-placeholder="language('开始日期')"
+                    :end-placeholder="language('结束日期')"
                      :placeholder="$t('LK_QINGSHURU')"></iDatePicker>
       </el-form-item>
       <el-form-item :label="language('CHUANGJIANFANGSHI','创建方式')">

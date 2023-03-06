@@ -119,17 +119,17 @@ export default {
         return activeDataList
       } else {
         // console.log('activeDataList...', this.data[this.activeIndex])
-        const hasValueData = data.filter((e) => {
-          const wfList = e?.wfCategoryList?.filter((wf) => {
-            return wf.todoNum
-          })
-          if (wfList.length) {
-            return true
-          }
-          return false
-        })
-        return [hasValueData[this.activeIndex]]
-        // return [this.data[this.activeIndex]]
+        // const hasValueData = data.filter((e) => {  // 会导致上下数据不一致出现报错
+        //   const wfList = e?.wfCategoryList?.filter((wf) => {
+        //     return wf.todoNum
+        //   })
+        //   if (wfList.length) {
+        //     return true
+        //   }
+        //   return false
+        // })
+        // return [hasValueData[this.activeIndex]]
+        return [this.data[this.activeIndex]]
       }
     },
     activeData() {

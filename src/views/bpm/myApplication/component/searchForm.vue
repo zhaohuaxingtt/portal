@@ -308,11 +308,11 @@ export default {
       this.templates = list.filter((e) => !AEKO_CATEGORY_LIST.includes(e.name))
     },
     sure() {
-      const searchData = { ...this.form }
-      if (this.date) {
-        searchData.startTime = this.date[0]
-        searchData.endTime = this.date[1]
-      }
+      // const searchData = { ...this.form }
+      // if (this.date) {
+      //   searchData.startTime = this.date[0]
+      //   searchData.endTime = this.date[1]
+      // }
       // this.$emit('search', searchData, this.templates)
       this.search()
     },
@@ -325,7 +325,12 @@ export default {
       this.$refs.taskPanelCategory.reset("-1")
     },
     search() {
-      this.$emit('search', { ...this.form, itemTypeList: this.form.itemTypeList ? [this.form.itemTypeList] : []}, this.templates)
+      const searchData = { ...this.form }
+      if (this.date) {
+        searchData.startTime = moment(this.date[0]).format('YYYY-MM-DD') + ' 00:00:00'
+        searchData.endTime = moment(this.date[1]).format('YYYY-MM-DD') + ' 23:59:59'
+      }
+      this.$emit('search', { ...searchData, itemTypeList: this.form.itemTypeList ? [this.form.itemTypeList] : []}, this.templates)
       // this.$emit('search', this.form, this.templates)
     },
     handleProcProgressChange(val) {

@@ -33,8 +33,9 @@
                 width="330"
                 trigger="click"
                 class="menu"
+                @show="showItem"
               >
-                <ul class="item-list">
+                <ul class="item-list" ref='menu'>
                   <li
                     class="list-item cursor"
                     @click="click(item, i)"
@@ -145,6 +146,14 @@ export default {
     this.getNewDate()
   },
   methods: {
+    // 滚动到当前议题
+    showItem(){
+      this.$nextTick(()=>{
+        let active = this.$refs.menu.getElementsByClassName('is-active')[0]
+        if(active)
+        this.$refs.menu.scrollTo(0,[active][0].offsetTop - this.$refs.menu.offsetHeight / 2)
+      })
+    },
     getNewDate() {
       this.timer2 = setInterval(() => {
         let h = new Date().getHours()
@@ -155,7 +164,6 @@ export default {
       }, 1000)
     },
     closePop(message) {
-      console.log(message)
       if (message.data && message.data.type == 'click') {
         this.$refs.page.click()
       }

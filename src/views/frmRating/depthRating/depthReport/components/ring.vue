@@ -37,12 +37,17 @@ export default {
                           show: true,
                           fontSize: '12',
                           fontWeight: 'bold',
-                          formatter: '{b}  {d}%',
+                          formatter: function (params) {
+                          return params.data.key+params.data.value
+                        },
                       }
                   },
                   label:{
                     show: true,
-                    formatter: '{d}%',
+                    formatter: function (params) {
+                      console.log(params)
+                      return params.data.value
+                    },
                   },
                   labelLine: {
                       show: false
@@ -51,7 +56,6 @@ export default {
                     return {
                       ...item,
                       name:item.key
-
                     }
                   })
               }

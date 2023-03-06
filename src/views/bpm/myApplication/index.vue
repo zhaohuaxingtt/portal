@@ -144,7 +144,7 @@ export default {
     toggleFinished(isFinished) {
       this.finished = isFinished
       this.page.currPage = 1
-      this.form = { ...dataSearchForm }
+      this.form = { ...this.form, finished: this.finished }
       if (isFinished) {
         this.tableTitle = tableTitle.filter((e) => e.type !== 'selection')
       } else {
