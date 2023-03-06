@@ -66,7 +66,9 @@ import {
     delModelScorePermission,
     getIndicatorR2AndR1Dept,
     getModelEditPermission,
-    getModelScorePermission
+    getModelScorePermission,
+    updateModelScorePermission,
+    updateModelEditPermission
 } from '@/api/supplierManagement/supplierIndexManage/system'
 import {
     getIndicatorR2Dept,

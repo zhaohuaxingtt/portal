@@ -18,6 +18,14 @@ export function getModelPermissionsAdmin() {
     })
 }
 // 添加模型评分权限
+export function updateModelScorePermission(parmars) {
+    return requst({
+        url: '/performanceModelPermissions/updateModelScorePermission',
+        method: 'POST',
+        data: parmars
+    })
+}
+// 修改模型评分权限
 export function addModelScorePermission(parmars) {
     return requst({
         url: '/performanceModelPermissions/addModelScorePermission',
@@ -30,6 +38,14 @@ export function getModelPermissionsLevel(parmars) {
     return requst({
         url: '/performanceModelPermissions/getModelPermissionsLevel?modelId=' + parmars,
         method: 'GET',
+    })
+}
+// 添加绩效模型编辑权限
+export function updateModelEditPermission(parmars) {
+    return requst({
+        url: '/performanceModelPermissions/updateModelEditPermission',
+        method: 'POST',
+        data: parmars
     })
 }
 // 添加绩效模型编辑权限
