@@ -1,7 +1,7 @@
 <!--
  * @Author: yuszhou
  * @Date: 2021-02-19 15:12:20
- * @LastEditTime: 2023-02-02 00:13:19
+ * @LastEditTime: 2023-02-26 02:35:53
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 首页
  * @FilePath: \front-portal\src\views\home\index.vue
@@ -106,9 +106,9 @@ export default {
         cards.push(card)
       }
     },
-    handleDragEnd(event) {
-      console.log('handleDragEnd', event)
-    },
+    // handleDragEnd(event) {
+    //   console.log('handleDragEnd', event)
+    // },
     async handleDragUpdate(event) {
       const cards = _.cloneDeep(this.cards)
       const item = _.cloneDeep(cards[event.oldIndex])
@@ -134,7 +134,6 @@ export default {
         }
         return e
       })
-      console.log(this.cardList, newCards)
       const res = await updateBatchModules(newCards)
       if (res.result) {
         this.$store.dispatch('setModules', newCards)

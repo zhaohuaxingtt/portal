@@ -109,16 +109,17 @@ export default {
         // console.log('activeDataList...', this.data[this.activeIndex])
 
         // 不是-1的时候
-        const hasValueData = data.filter((e) => {
-          const wfList = e?.wfCategoryList?.filter((wf) => {
-            return wf.todoNum
-          })
-          if (wfList.length) {
-            return true
-          }
-          return false
-        })
-        return [hasValueData[this.activeIndex]]
+        // const hasValueData = data.filter((e) => {
+        //   const wfList = e?.wfCategoryList?.filter((wf) => {
+        //     return wf.todoNum
+        //   })
+        //   if (wfList.length) {
+        //     return true
+        //   }
+        //   return false
+        // })
+        // return [hasValueData[this.activeIndex]]
+        return [this.data[this.activeIndex]]
       }
     },
     // activeData() {

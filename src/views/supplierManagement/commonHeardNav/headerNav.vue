@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-08-23 14:32:45
- * @LastEditors: Please set LastEditors
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Descripttion: your project
 -->
 <template>
@@ -110,8 +110,16 @@ export default {
     right: 0;
   }
 
-  ::v-deep .nav div{
-    max-width: 170px!important;
+  ::v-deep .nav {
+    align-items: flex-end;
+    div {
+      max-width: 170px !important;
+      .name {
+        &::after {
+          top: calc(100% + 5px);
+        }
+      }
+    }
   }
 }
 
