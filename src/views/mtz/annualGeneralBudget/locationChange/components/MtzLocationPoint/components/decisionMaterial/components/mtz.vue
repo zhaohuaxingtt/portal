@@ -196,7 +196,7 @@
             </template>
 
           </tableList>
-          <tableList class="margin-top20 " ref="moviesTable" :tableData="ruleTableListData"
+          <tableList class="margin-top20 " ref="moviesTable1" :tableData="ruleTableListData"
             :tableTitle="ruleTableTitle1_2" :tableLoading="loadingRule" v-if="!RsObject && ruleTableListData.length > 0"
             :index="true" :rowClassName="'table-row'" :header-row-class-name="'ruleTableHeader'" :selection="false"
             border>
@@ -320,7 +320,7 @@
               <span>{{ scope.row.offset ? offsetList.find(val => val.code == scope.row.offset).name : '' }}</span>
             </template>
           </tableList>
-          <tableList border class="margin-top20 " :tableData="partTableListData" :tableTitle="partTableTitle1_3"
+          <tableList border class="margin-top20 " ref="partTable" :tableData="partTableListData" :tableTitle="partTableTitle1_3"
               :tableLoading="loadingPart" v-if="!RsObject && partTableListData.length > 0 && partTableListData.some((val)=>{if(val.platinumPrice) return true})" :index="true"
               :selection="false">
             </tableList>
@@ -453,7 +453,8 @@
             !RsObject &&
             (formData.appStatus == '流转完成' || formData.appStatus == '定点')
           "></div>
-          <iCard class="upload_hr" :style="{ height: pdfItemHeight + 'px' }">
+         
+          <iCard class="upload_hr"  :style="{ height: pdfItemHeight + 'px' }">
             <div slot="header" class="headBox">
               <p class="headTitle">{{ title }}</p>
               <!-- <div class="tabs_box_right"> -->
@@ -613,6 +614,7 @@
             !RsObject &&
             (formData.appStatus == '流转完成' || formData.appStatus == '定点')
           "></div>
+          
           <iCard class="upload_hr" :style="{ height: pdfItemHeight + 'px' }">
             <div slot="header" class="headBox">
               <p class="headTitle">{{ title }}</p>
@@ -941,7 +943,7 @@ import {
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageApprove } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/approve'
 import { pageMixins } from '@/utils/pageMixins'
-import { downloadMultiPDF, dataURLtoFile, transverseDownloadPDF } from '@/utils/pdf'
+import { downloadPDF , dataURLtoFile, transverseDownloadPDF } from '@/utils/pdf'
 import JsPDF from 'jspdf'
 import html2canvas from 'html2canvas'
 export default {
@@ -1281,45 +1283,7 @@ export default {
           })
         })
     },
-    computedRuleTableHeight() {
-      let rowList =
-        this.$refs['moviesTable']?.$el.getElementsByClassName('table-row') || []
-      let pageWidth = this.$refs.tabsBoxTitle?.$el.clientWidth || 0
-      let cardTitle =
-        this.$refs.tabsBoxTitle.$el.getElementsByClassName('cardHeader')[0]
-          .clientHeight
-      let ruleTableTitle = this.$refs.ruleTableTitle.offsetHeight
-      this.pageHeight = (pageWidth / 841.89) * 595.28
-      let ruleTableHeader =
-        this.$refs['moviesTable']?.$el.getElementsByClassName(
-          'ruleTableHeader'
-        )[0].offsetHeight || 0
-      let pageNumHeight = this.$refs.pageNum.offsetHeight // 页码高度
-      let sumHeight = 0
-      let arr = []
-      let tableList = []
-      this.pdfItemHeight = this.pageHeight - pageNumHeight
-      rowList.forEach((item, i) => {
-        sumHeight += item.clientHeight
-        // ruleTableHeader 表头高度
-        if (
-          sumHeight >
-          this.pageHeight -
-          ruleTableTitle -
-          cardTitle -
-          ruleTableHeader -
-          pageNumHeight
-        ) {
-          tableList.push(arr)
-          sumHeight = item.clientHeight
-          arr = [this.ruleTableListData[i]]
-        } else {
-          arr.push(this.ruleTableListData[i])
-        }
-      })
-      if (arr.length) tableList.push(arr)
-      this.ruleTableList = tableList
-    },
+
     // 获取零件清单表格数据
     getPagePartMasterData() {
       var list = {}
@@ -1382,6 +1346,59 @@ export default {
       if (arr.length) tableList.push(arr)
       this.partTableList = tableList
     },
+    computedRuleTableHeight() {
+      let rowList =
+        [...this.$refs['moviesTable']?.$el.getElementsByClassName('table-row') || []
+      ]
+        console.log(rowList)
+      
+      let pageWidth = this.$refs.tabsBoxTitle?.$el.clientWidth || 0
+      let cardTitle =
+        this.$refs.tabsBoxTitle.$el.getElementsByClassName('cardHeader')[0]
+          .clientHeight
+      let ruleTableTitle = this.$refs.ruleTableTitle.offsetHeight
+      this.pageHeight = (pageWidth / 841.89) * 595.28
+      let ruleTableHeader =
+        this.$refs['moviesTable']?.$el.getElementsByClassName(
+          'ruleTableHeader'
+        )[0].offsetHeight || 0
+        console.log(ruleTableHeader)
+      let pageNumHeight = this.$refs.pageNum.offsetHeight // 页码高度
+      let sumHeight = 0
+      let arr = []
+      let tableList = []
+      let rowHeight=0
+      this.pdfItemHeight = this.pageHeight - pageNumHeight
+      console.log(      this.pageHeight -
+          ruleTableTitle -
+          cardTitle -
+          ruleTableHeader -
+          pageNumHeight)
+      rowList.forEach((item, i) => {
+        rowHeight=item.clientHeight*2
+        console.log(rowHeight)
+        sumHeight += rowHeight
+
+        // ruleTableHeader 表头高度
+        if (
+          sumHeight >
+          this.pageHeight -
+          ruleTableTitle -
+          cardTitle -
+          ruleTableHeader -
+          pageNumHeight
+        ) {
+          tableList.push(arr)
+          sumHeight = item.clientHeight*2
+          arr = [this.ruleTableListData[i]]
+        } else {
+          arr.push(this.ruleTableListData[i])
+        }
+      })
+      if (arr.length) tableList.push(arr)
+      this.ruleTableList = tableList
+      console.log( this.ruleTableList)
+    },
     // 点击保存
     handleClickSave(el) {
       el.cancelBubble = true
@@ -1416,6 +1433,28 @@ export default {
     // 导出pdf
     handleExportPdf(name) {
       this.loading = true
+      // setTimeout(async () => {
+      //   this.$nextTick(async () => {
+      //     downloadPDF({
+      //     idEle: "pdfPage-box",
+      //     pdfName: name,
+      //     exportPdf: true,
+      //     waterMark: true,
+      //     callback: async (pdf, pdfName) => {
+      //       try {
+      //         loading.close()
+      //         const filename = pdfName.replaceAll(/\./g, '_') + ".pdf";
+      //         const pdfFile = pdf.output("datauristring");
+      //         const blob = dataURLtoFile(pdfFile, filename);
+      //         this.loading = false
+      //       } catch {
+      //         this.loading = false
+      //         // iMessage.error(this.language('SHENGCHENGSHIBAI', '生成失败'));
+      //       }
+      //     },
+      //   });
+      //   })
+      // }, 200)
       console.time('截图')
       this.fileList = []
       let elList = this.$refs['pdfPage-box'].getElementsByClassName('page-item')
@@ -1475,12 +1514,11 @@ export default {
       })
         .then((canvas) => {
           this.change(j)
-          console.log(canvas)
           var contentWidth = canvas.width //
           var contentHeight = canvas.height //
           var imgWidth = 841.89
           var imgHeight = (841.89 / contentWidth) * contentHeight
-          let pageData = canvas.toDataURL('image/jpeg', 0.5) //压缩倍率
+          let pageData = canvas.toDataURL('image/jpeg', 1) //压缩倍率
           if (j != 0) this.pdf.addPage()
           this.pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight)
           console.timeEnd(`img${j}`)

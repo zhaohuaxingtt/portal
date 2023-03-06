@@ -21,13 +21,12 @@ export function downloadPDF({
   var abs = 0
   let win_in = document.documentElement.clientWidth || document.body.clientWidth // 获得当前可视窗口的宽度（不包含滚动条）
   let win_out = window.innerWidth // 获得当前窗口的宽度（包含滚动条）
-
   if (win_out > win_in) {
     abs = (win_out - win_in) / 2 // 获得滚动条宽度的一半
   }
   canvas.width = eleW * 2 // 将画布宽&&高放大两倍
   canvas.height = eleH * 2
-
+  console.log(el)
   var context = canvas.getContext('2d')
   context.scale(2, 2)
   context.translate(-eleOffsetLeft - abs, -eleOffsetTop)
@@ -41,8 +40,12 @@ export function downloadPDF({
     logging: false, //打印日志用的 可以不加默认为false
   }).then((canvas) => {
     // el.setAttribute("crossOrigin",'anonymous');
+    console.log(canvas)
     var contentWidth = canvas.width
     var contentHeight = canvas.height
+  console.log(contentHeight)
+  console.log(contentWidth)
+
     //一页pdf显示html页面生成的canvas高度;
     var pageHeight = (contentWidth / 592.28) * 841.89
     //未生成pdf的html页面高度
@@ -52,6 +55,8 @@ export function downloadPDF({
     //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
     var imgWidth = 595.28
     var imgHeight = (595.28 / contentWidth) * contentHeight
+    console.log(leftHeight)
+    console.log(pageHeight)
     let pageData = canvas.toDataURL('image/jpeg', 1.0)
     var pdf = new JsPDF('', 'pt', 'a4')
     if (leftHeight < pageHeight) {
