@@ -9,6 +9,7 @@
   var oldLanguage = {
     ZHIBIAOKU:'指标库',
     ZHIBIAOGUANLI:'ZHIBIAOGUANLI',
+    FENGXAINXINHAOTIAOZHENGFEN:'Adjustment points',
     CSQCAIGOUYUAN:'CSQ采购员',
     QUERENRENKESHI:'确认人科室',
     delete: 'delete',

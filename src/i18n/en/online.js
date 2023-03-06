@@ -3928,4 +3928,5 @@ export default {
   XIANGQING:"Details",
   NIANDUZHONGDIANZHUIZONG: 'Annual key tracking',
   'BANNIANBAOHUIGU': 'Semi annual report review',
+  TUFASHIJIANZONGLAN1: 'Event list',
 }

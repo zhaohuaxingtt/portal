@@ -40,8 +40,10 @@ export default {
   },
   methods: {
     tabChange(path) {
-      console.log('this.searchFrom', this.searchForm)
-      console.log("this.$route.query...." + this.$route.query);
+      let curActiveIndex = ''
+      this.$emit('getActiveIndex',(activeIndex)=>{
+        curActiveIndex = activeIndex
+      });
       // CRW-8311
       // 【CF】审批人界面从[已审批]切换到[待审批]查不到待审批单据
       const query = {}
@@ -63,7 +65,6 @@ export default {
           }
           query.modelTemplate = [modelTemplate]
         }
-        console.log(query);
       } else if (this.taskType === 1) {//已审批
         try {
           let queryForm = {}
@@ -76,7 +77,6 @@ export default {
            }
           this.searchForm.reApprove = queryForm.reApprove
           delete this.$route.query.todoQueryStr
-          console.log(queryForm)
           query.doneQueryStr = encodeURIComponent(JSON.stringify(this.searchForm))
           if (this.searchForm.categoryList) {
             let modelTemplate = ''
@@ -103,7 +103,10 @@ export default {
       // return;
       this.$router.push({
         path,
-        query
+        query:{
+          ...query,
+          curActiveIndex
+        }
       })
     }
   }

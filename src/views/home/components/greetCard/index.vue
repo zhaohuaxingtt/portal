@@ -15,7 +15,7 @@
       </div>
       <div class="greeting-pics">
 <!--        <img src="../../../../assets/images/greetings.png" />-->
-        <img :src="require('@/assets/images/home-digital-purchasing.svg')"/>
+        <img class="home-rise-icon" :src="require('@/assets/images/home-digital-purchasing.svg')"/>
         <img class="home-rise-icon" :src="require('@/assets/images/home-rise-icon.svg')"/>
       </div>
     </div>
@@ -72,7 +72,7 @@ export default {
       let greetingStr = ''
       if(hours >= 6 && hours <= 10) {
         greetingStr = this.language('早上好')
-      } else if(hours > 11 && hours <= 13) {
+      } else if(hours >= 11 && hours <= 13) {
         greetingStr = this.language('中午好')
       } else if(hours >= 14 && hours <= 18) {
         greetingStr = this.language('下午好')
@@ -91,6 +91,7 @@ export default {
 .greet-card {
   border-radius: 20px !important;
   .greet-card-div {
+    height: 100%;
     display: flex;
     justify-content: space-between;
     //padding-top: 40px;
@@ -116,7 +117,7 @@ export default {
       margin-right: 100px;
     }
     .home-rise-icon {
-
+      height: 100%;
     }
   }
 }

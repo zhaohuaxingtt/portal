@@ -23,5 +23,5 @@ export const tableTitle = [
     width: 300
   },
   { props: 'updateByZh', name: '修改人', key: 'SUPPLIER_XIUGAIREN', width: 150 },
-  { props: 'updateDate', name: '修改日期', key: 'SUPPLIER_XIUGAIRQI', width: 180 }
+  { props: 'updateDate', name: '生效日期', key: '生效日期', width: 180 }
 ]
