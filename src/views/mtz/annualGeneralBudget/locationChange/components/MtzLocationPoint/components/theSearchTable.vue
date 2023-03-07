@@ -19,10 +19,19 @@
             value-key="code"
           >
           </custom-select>
-          <!-- <input-custom v-model="searchForm.mtzAppId"
-                        :editPlaceholder="language('QINGSHURU','请输入')"
-                        :placeholder="language('QINGSHURU','请输入')">
-          </input-custom> -->
+        </el-form-item>
+        <el-form-item :label="language('GUANLIANDANHAO', '关联单号')">
+          <custom-select
+            v-model="searchForm.ttNominateAppId"
+            :user-options="ttNominateAppId"
+            multiple
+            clearable
+            :placeholder="language('QINGXUANZE', '请选择')"
+            display-member="message"
+            value-member="code"
+            value-key="code"
+          >
+          </custom-select>
         </el-form-item>
         <el-form-item :label="language('LIUCHENGLEIXING', '流程类型')">
           <custom-select
@@ -50,26 +59,30 @@
           >
           </custom-select>
         </el-form-item>
-        <el-form-item :label="language('YUANCAILIAOPAIHAO', '原材料牌号')">
+        <el-form-item :label="language('GONGYINGSHANG', '供应商')">
           <custom-select
-            v-model="searchForm.materialCode"
-            :user-options="materialCode"
+            v-model="searchForm.supplier"
+            :user-options="supplierList||[]"
             multiple
             clearable
-            :placeholder="language('QINGXUANZE', '请选择')"
-            display-member="codeMessage"
+            :placeholder="language('QINGSHURU', '请输入')"
+            display-member="message"
             value-member="code"
             value-key="code"
           >
           </custom-select>
         </el-form-item>
-        <el-form-item :label="language('LINGJIANHAO', '零件号')">
-          <input-custom
-            v-model="searchForm.assemblyPartnum"
-            :editPlaceholder="language('QINGSHURU', '请输入')"
-            :placeholder="language('QINGSHURU', '请输入')"
+        <el-form-item :label="language('DINGDIANSHIJIAN', '定点时间')">
+          <iDatePicker
+            style="width: 220px"
+            v-model="value1"
+            @change="handleChange1"
+            type="daterange"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
           >
-          </input-custom>
+          </iDatePicker>
         </el-form-item>
         <el-form-item :label="language('KESHI', '科室')">
           <custom-select
@@ -99,18 +112,22 @@
           >
           </custom-select>
         </el-form-item>
-        <el-form-item :label="language('GUANLIANDANHAO', '关联单号')">
-          <!-- <input-custom v-model="searchForm.ttNominateAppId"
-                        :editPlaceholder="language('QINGSHURU','请输入')"
-                        :placeholder="language('QINGSHURU','请输入')">
-          </input-custom> -->
+        <el-form-item :label="language('LINGJIANHAO', '零件号')">
+          <input-custom
+            v-model="searchForm.assemblyPartnum"
+            :editPlaceholder="language('QINGSHURU', '请输入')"
+            :placeholder="language('QINGSHURU', '请输入')"
+          >
+          </input-custom>
+        </el-form-item>
+        <el-form-item :label="language('YUANCAILIAOPAIHAO', '原材料牌号')">
           <custom-select
-            v-model="searchForm.ttNominateAppId"
-            :user-options="ttNominateAppId"
+            v-model="searchForm.materialCode"
+            :user-options="materialCode"
             multiple
             clearable
             :placeholder="language('QINGXUANZE', '请选择')"
-            display-member="message"
+            display-member="codeMessage"
             value-member="code"
             value-key="code"
           >
@@ -136,18 +153,6 @@
                        end-placeholder="结束日期">
           </iDatePicker>
         </el-form-item> -->
-        <el-form-item :label="language('DINGDIANSHIJIAN', '定点时间')">
-          <iDatePicker
-            style="width: 220px"
-            v-model="value1"
-            @change="handleChange1"
-            type="daterange"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-          >
-          </iDatePicker>
-        </el-form-item>
 
         <!-- 测试 -->
         <!-- <el-form-item :label="language('DINGDIANSHIJIAN','定点时间')">
@@ -1147,7 +1152,7 @@ export default {
 
 <style lang="scss" scoped>
 .search-table {
-  height: calc(100vh - 183px);
+  height: calc(100vh - 190px);
   display: flex;
   flex-flow: column;
   // mtz 页面演示使用样式
@@ -1160,6 +1165,7 @@ export default {
       }
       .el-range-separator{
         width: auto;
+        height: auto;
       }
       .el-range-input, .el-input__inner, .el-range-separator{
         font-size: 18px !important;

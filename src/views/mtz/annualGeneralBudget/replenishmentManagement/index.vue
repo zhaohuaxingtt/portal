@@ -1,6 +1,6 @@
 <!--
  * @Author: YoHo
- * @Date: 2022-12-23 19:20:40
+ * @Date: 2023-03-07 14:51:13
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\index.vue
@@ -11,6 +11,9 @@
 -->
 <template>
   <div>
+    <!-- <div class="nav2 flex-align-center">
+      <iNavMvp :lev="2" :list="navList" :lang="true" routerPage />
+    </div> -->
     <router-view></router-view>
   </div>
 </template>
