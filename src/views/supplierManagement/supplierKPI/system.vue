@@ -197,6 +197,7 @@ export default {
                 }
 
             } else {
+                this.form.userName = this.userList.find(val => val.id == this.form.userId).nameZh
                 if (this.form.id) {
                     updateModelEditPermission(this.form).then(res => {
                         if (res.code == '200') {
@@ -205,7 +206,6 @@ export default {
                         } else iMessage.error(res.desZh)
                     })
                 } else {
-                    this.form.userName = this.userList.find(val => val.id == this.form.userId).nameZh
                     addModelEditPermission({ deptPermissionDTOS: [{ ...this.form }] }).then(res => {
                         if (res.code == '200') {
                             this.clearDiolog()
