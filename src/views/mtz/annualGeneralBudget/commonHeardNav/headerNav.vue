@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-06 21:19:27
- * @LastEditTime: 2023-01-05 16:11:40
+ * @LastEditTime: 2023-03-07 23:26:19
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\commonHeardNav\headerNav.vue
@@ -46,7 +46,7 @@ export default {
   },
   created() {
     this.group =
-      this.rightNavList.find((i) => i.url == this.$route.path)?.group || ''
+      this.rightNavList.find((i) => this.$route.path.indexOf(i.activePath)>-1)?.group || ''
     this.checkHasEnterMenu()
   },
   data() {
@@ -135,13 +135,33 @@ export default {
 		left: 0px;
 		bottom: -0.5rem;
 	}
+  ::v-deep .nav{
+    &.lev1 {
+      .name{
+        font-size: 22px !important;
+        &.active{
+          font-size: 22px !important;
+        }
+      }
+    }
+    &.lev2 {
+      .name{
+        font-size: 20px !important;
+        &.active{
+          font-size: 20px !important;
+        }
+      }
+    }
+  }
   .rightNav {
     display: flex;
-    .logButton{
-      flex: 0 0 auto;
-    }
-    .nav{
-      max-width: 870px;
+    position: absolute;
+    align-items: center;
+    top: 0;
+    right: 0;
+    ::v-deep .log-word{
+      font-size: 20px !important;
+      margin-left: 10px;
     }
   }
 }
