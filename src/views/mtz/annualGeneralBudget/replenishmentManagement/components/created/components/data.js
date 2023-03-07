@@ -489,8 +489,8 @@ export const tableTitleBE1 = [
   { prop: 'exchangeRate', label: '汇率', align: 'center', i18n: 'HUILV' },
 
   { prop: 'receiveQuantity', label: '结算数量', i18n: '结算数量', width: 120 },
-  { prop: 'requestAmount', label: '应补总额', i18n: '应补总额', width: 120 },
-  { prop: 'actualMakeAmount', label: '实补总额', i18n: '实补总额', width: 120 },
+  { prop: 'requestAmount', label: '应补金额', i18n: '应补金额', width: 120 },
+  { prop: 'actualMakeAmount', label: '实补金额', i18n: '实补金额', width: 120 },
   {
     prop: 'buyerName',
     label: '采购员',
@@ -590,8 +590,8 @@ export const tableTitleComplete1 = [
   { prop: 'exchangeRate', label: '汇率', align: 'center', i18n: 'HUILV' },
 
   { prop: 'receiveQuantity', label: '结算数量', i18n: '结算数量', width: 120 },
-  { prop: 'requestAmount', label: '应补总额', i18n: '应补总额', width: 120 },
-  { prop: 'actualMakeAmount', label: '实补总额', i18n: '实补总额', width: 120 },
+  { prop: 'requestAmount', label: '应补金额', i18n: '应补金额', width: 120 },
+  { prop: 'actualMakeAmount', label: '实补金额', i18n: '实补金额', width: 120 },
   {
     prop: 'balanceNo',
     label: '补差单编号',
@@ -712,8 +712,8 @@ export const tableTitleBE2 = [
   { prop: 'exchangeRate', label: '汇率', align: 'center', i18n: 'HUILV' },
 
   { prop: 'receiveQuantity', label: '结算数量', i18n: '结算数量', width: 120 },
-  { prop: 'requestAmount', label: '应补总额', i18n: '应补总额', width: 120 },
-  { prop: 'actualMakeAmount', label: '实补总额', i18n: '实补总额', width: 120 },
+  { prop: 'requestAmount', label: '应补金额', i18n: '应补金额', width: 120 },
+  { prop: 'actualMakeAmount', label: '实补金额', i18n: '实补金额', width: 120 },
   {
     prop: 'buyerName',
     label: '采购员',
