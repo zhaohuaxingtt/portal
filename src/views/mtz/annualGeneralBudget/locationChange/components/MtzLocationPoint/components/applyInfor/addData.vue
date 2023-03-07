@@ -44,12 +44,12 @@
                 </iFormItem>
                 <iFormItem prop="startDate">
                     <iLabel :label="language('YOUXIAOQIQI', '有效期起')" slot="label"></iLabel>
-                    <iDatePicker v-model="contractForm.startDate" type="datetime">
+                    <iDatePicker :picker-options="pickerOptionsStar" v-model="contractForm.startDate" type="datetime">
                     </iDatePicker>
                 </iFormItem>
                 <iFormItem prop="endDate">
                     <iLabel :label="language('YOUXIAOQIZHI', '有效期止')" slot="label"></iLabel>
-                    <iDatePicker v-model="contractForm.endDate" type="datetime">
+                    <iDatePicker :picker-options="pickerOptionsEnd" v-model="contractForm.endDate" type="datetime">
                     </iDatePicker>
                 </iFormItem>
                 <iFormItem prop="ruleNo">
@@ -408,6 +408,22 @@ export default {
             materialCode: [],
             partType: false,
             saveLoading: false,
+            pickerOptionsStar: {
+                disabledDate: time => {
+                let starDateVal = this.contractForm.startDate;
+                if (starDateVal) {
+                    return time.getTime() < new Date(starDateVal).getTime() - 86400000;
+                }
+                }
+            },
+            pickerOptionsEnd: {
+                disabledDate: time => {
+                let endDateVal = this.contractForm.endDate;
+                if (endDateVal) {
+                    return time.getTime() > new Date(endDateVal).getTime();
+                }
+                }
+            }
         }
     },
     created() {

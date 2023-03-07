@@ -307,14 +307,16 @@
           
         >
           <template slot-scope="scope">
-            <!-- <iDatePicker v-model="scope.row.startDate"
+            <iDatePicker
+            @focus="chaneDate($event, scope.row)"
+            :picker-options="pickerOptionsStar"
+             v-model="scope.row.startDate"
                                 style="width: 180px!important;"
-                                :disabled="true"
                                 type="datetime"
                                 v-if="editId.indexOf(scope.row.id)!==-1"
                                 >
-                    </iDatePicker> -->
-            <span>{{ scope.row.startDate }}</span>
+                    </iDatePicker>
+            <span v-else>{{ scope.row.startDate }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -324,14 +326,16 @@
           
         >
           <template slot-scope="scope">
-            <!-- <iDatePicker v-model="scope.row.endDate"
+            <iDatePicker 
+            @focus="chaneDate($event, scope.row)"
+            :picker-options="pickerOptionsEnd"
+            v-model="scope.row.endDate"
                                 style="width: 180px!important;"
-                                :disabled="true"
                                 type="datetime"
                                 v-if="editId.indexOf(scope.row.id)!==-1"
                                 >
-                    </iDatePicker> -->
-            <span>{{ scope.row.endDate }}</span>
+                    </iDatePicker>
+            <span v-else>{{ scope.row.endDate }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -998,7 +1002,8 @@ import {
   pageAppRule,
   removePartMasterData, //清空维护mtz零件主数据
   getDosageUnitList,
-  downloadFile //下载
+  downloadFile, //下载
+  getFirstRuleByNos
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 // import {
 //   getMtzSupplierList,//获取原材料牌号
@@ -1095,7 +1100,25 @@ export default {
       dataCloseAllRequest: false, //判断是否为选择维护mtz零件主数据
       listData: [],
       cancelNo: false,
-      errorList: []
+      errorList: [],
+      startDate:'',
+      endDate:'',
+      pickerOptionsStar: {
+        disabledDate: time => {
+        let starDateVal = this.startDate;
+        if (starDateVal) {
+            return time.getTime() < new Date(starDateVal).getTime() - 86400000;
+        }
+        }
+    },
+    pickerOptionsEnd: {
+        disabledDate: time => {
+        let endDateVal = this.endDate;
+        if (endDateVal) {
+            return time.getTime() > new Date(endDateVal).getTime();
+        }
+        }
+    }
     }
   },
   computed: {
@@ -1136,6 +1159,17 @@ export default {
       // getRawMaterialNos({}).then(res => {
       //   this.materialCode = res.data;
       // })
+    },
+    chaneDate(val, row) {
+      console.log(val)
+      console.log(row)
+      getFirstRuleByNos([row.ruleNo]).then(res => {
+        const { startDate, endDate } = res.data[row.ruleNo]
+        console.log(res.data[row.ruleNo])
+        this.startDate = startDate
+        this.endDate = endDate
+        console.log(this.endDate)
+      })
     },
     download() {
       iMessageBox(

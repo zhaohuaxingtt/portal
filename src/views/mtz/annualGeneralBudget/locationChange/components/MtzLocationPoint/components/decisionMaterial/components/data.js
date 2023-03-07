@@ -224,7 +224,6 @@ export const ruleTableTitle1_all = [
     props: 'sapCode',
     name: '供应商Supplier',
     key: '供应商Supplier',
-    tooltip: true,
     minWidth: 80
   },
   {
@@ -485,7 +484,6 @@ export const ruleTableTitle1_1 = [
     props: 'sapCode',
     name: '供应商Supplier',
     key: '供应商Supplier',
-    tooltip: true,
     minWidth: 80
   },
   {
