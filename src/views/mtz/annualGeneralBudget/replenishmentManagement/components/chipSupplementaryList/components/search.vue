@@ -1,7 +1,7 @@
 <!--
  * @Author: tanmou
  * @Date: 2021-08-27 16:29:54
- * @LastEditTime: 2023-03-03 16:42:03
+ * @LastEditTime: 2023-03-07 14:30:19
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\search.vue
@@ -23,7 +23,6 @@
         :options="options"
       />
       <el-divider class="margin-top20"></el-divider>
-      <!-- <div class="contentBox"> -->
       <iTabsList
         v-model="tabsValue"
         @tab-click="tableChange"
@@ -65,8 +64,8 @@
               {{ inforData['supplierName'] }}
             </template>
             <!-- 应补总额 -->
-            <template v-else-if="item.prop == 'invoiceAmount'">
-              {{ formatterNumber(inforData['invoiceAmount']) }}
+            <template v-else-if="item.prop == 'requestAmount'">
+              {{ formatterNumber(inforData['requestAmount']) }}
             </template>
             <!-- 实补总额 -->
             <template v-else-if="item.prop == 'approvedAmount'">
