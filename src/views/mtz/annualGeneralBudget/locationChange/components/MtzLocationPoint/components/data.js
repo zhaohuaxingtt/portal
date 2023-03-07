@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-02-07 10:34:32
- * @LastEditTime: 2023-03-07 18:53:57
+ * @LastEditTime: 2023-03-07 22:48:15
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\data.js
@@ -69,15 +69,15 @@ export const tableTitle1 = [
     }
   },
   {
-    prop: 'ttNominateAppId', name: '关联申请单号', i18n: 'GLSQDH', width: 160, emit: 'handleClickTtNominateAppId', customRender: (h, scope, c, extraData) => {
+    prop: 'ttNominateAppId', name: '关联单号', i18n: '关联单号', width: 120, emit: 'handleClickTtNominateAppId', customRender: (h, scope, c, extraData) => {
       return <span class="link">{scope.row.ttNominateAppId}</span>
     }
   },
   {
     prop: 'appName',
-    name: '申请单名称',
-    i18n: 'SHENQINGDANMINGCHENG',
-    width: 300,
+    name: '申请单名',
+    i18n: '申请单名',
+    width: 250,
     tooltip: true
   },
   {
@@ -93,22 +93,31 @@ export const tableTitle1 = [
     width: 100
   },
   {
+    prop: 'supplier',
+    name: '供应商',
+    i18n: 'GONGYINGSHANG',
+    width: 100,
+    customRender: (h, scope, c, extraData) => {
+      return <span>{scope.row.supplierSap}-{scope.row.supplier}</span>
+    }
+  },
+  {
     prop: 'meetingName',
     name: '会议',
     i18n: 'HUIYI',
     width: 300
   },
   {
-    prop: 'freezeDate',
-    name: '冻结时间',
-    i18n: 'DONGJIESHIJIAN',
+    prop: 'createDate',
+    name: '创建时间',
+    i18n: '创建时间',
     width: 125,
     customRender: (h, scope, c, extraData) => {
       return <div><p class="date-time-cell">
-        {scope.row.freezeDate ? scope.row.freezeDate.split(' ')[0] : ''}
+        {scope.row.createDate ? scope.row.createDate.split(' ')[0] : ''}
       </p>
         <p class="date-time-cell">
-          {scope.row.freezeDate ? scope.row.freezeDate.split(' ')[1] : ''}
+          {scope.row.createDate ? scope.row.createDate.split(' ')[1] : ''}
         </p></div>
     }
   },
@@ -126,8 +135,8 @@ export const tableTitle1 = [
         </p></div>
     }
   },
+  { prop: 'linieDeptName', name: '科室', i18n: 'KESHI' },
   { prop: 'buyer', name: '采购员', i18n: 'CAIGOUYUAN' },
-  { prop: 'linieDeptName', name: '科室', i18n: 'KESHI' }
   // { prop: 'isRsFreezed', name: 'RS单状态', i18n: 'RSDANZHUANGTAI' },
   // { prop: 'rsFreezeDate', name: 'RS冻结时间', i18n: 'RSDONGJIESHIJIAN' },
 ]
