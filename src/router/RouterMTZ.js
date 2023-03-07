@@ -18,6 +18,16 @@ export default [
         redirect: 'annualGeneralBudget/annualBudget',
         children: [
           {
+            path: 'overview',
+            name: 'overview',
+            meta: {
+              title: '总览',
+              showFooter: true //跳转路由判断是否隐藏父级及以上层级样式
+            },
+            component: () =>
+              import('@/views/mtz/annualGeneralBudget/overview/index.vue')
+          },
+          {
             path: 'annualBudget',
             name: 'annualBudget',
             meta: {

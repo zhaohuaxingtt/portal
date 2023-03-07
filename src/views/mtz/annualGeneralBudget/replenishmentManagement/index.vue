@@ -1,12 +1,19 @@
 <!--
+ * @Author: YoHo
+ * @Date: 2023-03-07 14:51:13
+ * @LastEditors: YoHo && 917955345@qq.com
+ * @Description: In User Settings Edit
+ * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\index.vue
+-->
+<!--
  * @Author: moxuan
  * @Description: 补差管理
 -->
 <template>
   <div>
-    <div class="nav2 flex-align-center">
+    <!-- <div class="nav2 flex-align-center">
       <iNavMvp :lev="2" :list="navList" :lang="true" routerPage />
-    </div>
+    </div> -->
     <router-view></router-view>
   </div>
 </template>

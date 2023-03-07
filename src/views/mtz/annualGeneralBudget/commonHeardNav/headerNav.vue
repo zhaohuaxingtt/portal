@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-06 21:19:27
- * @LastEditTime: 2021-10-28 16:35:17
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-03-07 23:26:19
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\commonHeardNav\headerNav.vue
 -->
@@ -28,8 +28,8 @@
         />
         <iUserLog :show.sync="showDialog" menuId="MTZ-013" is-page />
       </div>
-      <router-view />
     </div>
+    <router-view />
   </div>
 </template>
 
@@ -47,7 +47,7 @@ export default {
   },
   created() {
     this.group =
-      this.rightNavList.find((i) => i.url == this.$route.path)?.group || ''
+      this.rightNavList.find((i) => this.$route.path.indexOf(i.activePath)>-1)?.group || ''
     this.checkHasEnterMenu()
   },
   data() {
@@ -127,12 +127,34 @@ export default {
 }
 .navBox {
   position: relative;
+  ::v-deep .nav{
+    &.lev1 {
+      .name{
+        font-size: 22px !important;
+        &.active{
+          font-size: 22px !important;
+        }
+      }
+    }
+    &.lev2 {
+      .name{
+        font-size: 20px !important;
+        &.active{
+          font-size: 20px !important;
+        }
+      }
+    }
+  }
   .rightNav {
     display: flex;
     position: absolute;
     align-items: center;
     top: 0;
     right: 0;
+    ::v-deep .log-word{
+      font-size: 20px !important;
+      margin-left: 10px;
+    }
   }
 }
 </style>
