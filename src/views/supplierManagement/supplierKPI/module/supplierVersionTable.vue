@@ -84,6 +84,7 @@
         </el-table-column>
 
         <column
+        v-if="item.isShow"
           v-for="(item, index) in tittleData"
           :key="index"
           :col="item"
@@ -114,7 +115,7 @@ import viewProgress from './viewProgress'
 import column from './column'
 import {
   getSupplierPerforManceScorePage,
-  getModelTree,
+  getModelTreeTitle,
   exportManualSupplierPerforManceScoreExcel,
   exportL2SupplierPerforManceScoreExcel,
   saveSystemPerformance,
@@ -197,7 +198,7 @@ export default {
       } else {
         id = this.infoData.modelId
       }
-      getModelTree(id).then((res) => {
+      getModelTreeTitle(id).then((res) => {
         if (res.code == '200') {
           this.tittleData = JSON.parse(JSON.stringify(res.data.childVo))
           let titleCopy = JSON.parse(JSON.stringify(res.data.childVo))
@@ -210,7 +211,8 @@ export default {
                   weight: lev1.weight,
                   title: '总分',
                   childVo: [],
-                  width: '60'
+                  width: '60',
+                  isShow:true
                 })
                 lev1.childVo.forEach((lev2) => {
                   lev2.id = lev2.id.toString()
@@ -220,7 +222,9 @@ export default {
                       weight: lev2.weight,
                       title: '总分',
                       childVo: [],
-                      width: '60'
+                      width: '60',
+                      isShow:true
+
                     })
                     lev2.childVo.forEach((lev3) => {
                       lev3.id = lev3.id.toString()
@@ -230,7 +234,9 @@ export default {
                           weight: lev3.weight,
                           title: '总分',
                           childVo: [],
-                          width: '60'
+                          width: '60',
+                          isShow:true
+
                         })
                         lev3.childVo.forEach((lev4) => {
                           lev4.id = lev4.id.toString()
