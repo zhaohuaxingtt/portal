@@ -56,6 +56,13 @@ export function getModelTree(id) {
     method: 'GET',
   })
 }
+// 根据模板id获取指标树
+export function getModelTreeTitle(id) {
+  return requst({
+    url: '/performanceModel/getModelTreeTitle?modelId=' + id,
+    method: 'GET',
+  })
+}
 // 添加模型指标
 export function addModelTree(parmars) {
   return requst({
