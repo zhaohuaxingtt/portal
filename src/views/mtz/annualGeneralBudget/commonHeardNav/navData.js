@@ -130,14 +130,44 @@ export const rightNavList = [
     activePath: '/mtz/annualGeneralBudget/replenishmentManagement/vwptUploadQuantity',
     key: 'VWPT上载数量',
     permissionKey: 'MTZ_REPORT_BUCHAGUANLI_VWPTSHANGZAISHULIANG',
-  },{
+  },
+  {
+    value: 5,
+    group: 3,
+    name: '芯片补差总览',
+    url: '/mtz/annualGeneralBudget/replenishmentManagement/chipReplenishmentOverview',
+    activePath: '/mtz/annualGeneralBudget/replenishmentManagement/chipReplenishmentOverview',
+    key: '芯片补差总览',
+    permissionKey: 'MTZ_REPORT_BUCHAGUANLI_MTZBUCHAZONGLAN',
+  },
+  {
+    value: 6,
+    group: 3,
+    name: '芯片补差计算任务',
+    url: '/mtz/annualGeneralBudget/replenishmentManagement/chipCalculationTask',
+    activePath: '/mtz/annualGeneralBudget/replenishmentManagement/chipCalculationTask',
+    key: '芯片补差计算任务',
+    // permissionKey:'MTZ_REPORT_BUCHAGUANLI_MTZBUCHAJISUANRENWU',
+    permissionKey: 'MTZ_REPORT_BUCHAGUANLI_MTZBUCHAZONGLAN',
+  },
+  {
+    value: 7,
+    group: 3,
+    name: '芯片补差单列表',
+    url: '/mtz/annualGeneralBudget/replenishmentManagement/chipSupplementaryList',
+    activePath: '/mtz/annualGeneralBudget/replenishmentManagement/chipSupplementaryList',
+    key: '芯片补差单列表',
+    permissionKey: 'MTZ_REPORT_BUCHAGUANLI_BUCHADANLIEBIAO',
+  },
+
+  {
     value: 1,
     group: 4,
     name: '年度预算',
     url: '/mtz/annualGeneralBudget/reportsShow/mtzAnnualBudget',
     activePath: '/annualGeneralBudget/reportsShow/mtzAnnualBudget',
     key: '年度预算',
-    permissionKey:'MTZ_REPORT_ANNUAL_BUDGET',
+    permissionKey: 'MTZ_REPORT_ANNUAL_BUDGET',
 
   },
   {
@@ -147,6 +177,6 @@ export const rightNavList = [
     url: '/mtz/annualGeneralBudget/reportsShow/monthlyTracking',
     activePath: '/annualGeneralBudget/reportsShow/monthlyTracking',
     key: '月度跟踪',
-    permissionKey:'MTZ_REPORT_MONTHLY_TRACKING',
+    permissionKey: 'MTZ_REPORT_MONTHLY_TRACKING',
   },
 ];
