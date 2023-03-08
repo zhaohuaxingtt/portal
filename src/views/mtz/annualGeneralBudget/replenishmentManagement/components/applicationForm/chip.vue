@@ -57,15 +57,15 @@
         :rows="2"
         placeholder="请输入备注"
         v-model="inforData.remark"
-        disablied
+        disabled
       ></el-input>
       <el-divider class="margin-top20"></el-divider>
       <div class="BtnTitle">
         <span>{{ tabsValue == 1 ? '汇总列表' : '明细列表' }}</span>
       </div>
       <tabs1
-        :tableListData="detailTableData"
-        v-if="tabsValue == 1"
+        :tableListData="agreementSummaryList"
+        v-show="tabsValue == 1"
       ></tabs1>
       <tabs2
         :tableListData="detailTableData"
