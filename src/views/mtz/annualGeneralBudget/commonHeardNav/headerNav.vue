@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-06 21:19:27
- * @LastEditTime: 2023-03-07 23:26:19
+ * @LastEditTime: 2023-03-08 10:01:56
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\commonHeardNav\headerNav.vue
@@ -123,7 +123,8 @@ export default {
 .navBox {
   position: relative;
   display: flex;
-  align-items: center;
+  flex-flow: row;
+  align-items: flex-end;
   justify-content: space-between;
   &:after {
 		content: '';
@@ -139,6 +140,10 @@ export default {
     &.lev1 {
       .name{
         font-size: 22px !important;
+        margin-right: 20px;
+        &::after{
+            top: calc(100% + 10px);
+        }
         &.active{
           font-size: 22px !important;
         }
@@ -155,13 +160,13 @@ export default {
   }
   .rightNav {
     display: flex;
-    position: absolute;
     align-items: center;
-    top: 0;
-    right: 0;
     ::v-deep .log-word{
       font-size: 20px !important;
       margin-left: 10px;
+    }
+    .nav{
+      max-width: 850px;
     }
   }
 }
