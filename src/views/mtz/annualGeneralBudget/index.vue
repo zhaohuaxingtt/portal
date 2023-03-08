@@ -1,7 +1,7 @@
 <template>
   <iPage :class="padding?'padding':''">
-    <headerNav :class="padding?'nav':''" />
-<!--    <router-view />-->
+    <headerNav v-if="$route.meta.showFooter" :class="padding?'nav':''" />
+   <router-view />
   </iPage>
 </template>
 
