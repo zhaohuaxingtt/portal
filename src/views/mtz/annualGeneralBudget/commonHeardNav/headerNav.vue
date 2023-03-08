@@ -1,17 +1,16 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-06 21:19:27
- * @LastEditTime: 2023-03-08 09:33:34
+ * @LastEditTime: 2023-03-08 10:01:56
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\commonHeardNav\headerNav.vue
 -->
 <template>
   <div>
-    <div class="navBox">
+    <div class="navBox margin-bottom20 ">
       <iNavMvp
         :list="tabRouterList"
-        class="margin-bottom20 lines"
         routerPage
         @change="change"
         :lev="1"
@@ -121,19 +120,34 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.lines {
-  border-bottom: 1px #e1e2ed solid;
-  padding-bottom: 10px;
-}
+// .lines {
+//   border-bottom: 1px #e1e2ed solid;
+//   padding-bottom: 10px;
+// }
 .navBox {
   position: relative;
   display: flex;
   flex-flow: row;
   align-items: flex-end;
+  justify-content: space-between;
+  &:after {
+		content: '';
+		width: 100%;
+		height: 1px;
+		display: block;
+		background: rgba(197, 206, 229, 0.5);
+		position: absolute;
+		left: 0px;
+		bottom: -0.5rem;
+	}
   ::v-deep .nav{
     &.lev1 {
       .name{
         font-size: 22px !important;
+        margin-right: 20px;
+        &::after{
+            top: calc(100% + 10px);
+        }
         &.active{
           font-size: 22px !important;
         }
@@ -151,10 +165,12 @@ export default {
   .rightNav {
     display: flex;
     align-items: center;
-    max-width: 870px;
     ::v-deep .log-word{
       font-size: 20px !important;
       margin-left: 10px;
+    }
+    .nav{
+      max-width: 850px;
     }
   }
 }
