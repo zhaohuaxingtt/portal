@@ -8,7 +8,7 @@
           </template>
     <template v-if="col.childVo">
       <my-column
-      v-if="item.isShow"
+      v-if="item.isShow||isShow"
         v-for="(item, index) in col.childVo"
         :key="index"
         :col="item"
@@ -23,6 +23,9 @@ export default {
   props: {
     col: {
       type: Object
+    },
+    isShow:{
+      type:Boolean
     }
   }
 }

@@ -74,7 +74,7 @@
         >
         </el-table-column>
         <el-table-column
-          v-if="isAll"
+          v-if="isAll||this.isShow"
           align="center"
           prop="allScore"
           label="总体KPI"
@@ -84,7 +84,8 @@
         </el-table-column>
 
         <column
-        v-if="item.isShow"
+        :isShow="isShow"
+        v-if="item.isShow||isShow"
           v-for="(item, index) in tittleData"
           :key="index"
           :col="item"
@@ -121,7 +122,9 @@ import {
   saveSystemPerformance,
   saveManualPerformance,
   sendPerformanceTask,
-  getAllModelTree
+  getAllModelTree,
+  getAllSupplierPerforManceScorePage,
+      getAllModelTreeData,
 } from '@/api/supplierManagement/supplierIndexManage/index'
 import { pageMixins } from '@/utils/pageMixins'
 import tableList from '@/components/commonTable'
@@ -162,6 +165,7 @@ export default {
   },
   data() {
     return {
+   
       loadingFile:false,
       viewProgressIs: false,
       importLoading: false,
@@ -180,7 +184,13 @@ export default {
   },
   created() {
     this.init()
-    this.getTableList()
+    if(this.isShow){
+      this.getTableList2()
+
+    }else{
+      this.getTableList()
+
+    }
   },
   methods: {
     closeDiolog() {
@@ -265,6 +275,90 @@ export default {
         editionId: this.$route.query.editionId
       }
       getSupplierPerforManceScorePage(req).then((res) => {
+        this.tbodyData = res.data
+        this.tbodyData.map((val) => {
+          val.score.forEach((item) => {
+            val[item.modelLibaryId] = item.score
+          })
+        })
+        console.log( this.tbodyData)
+        this.page.totalCount = res.total
+      })
+    },
+    getTableList2() {
+      let id = ''
+      if (this.isShow) {
+        id = this.$route.query.modelId
+      } else {
+        id = this.infoData.modelId
+      }
+      getAllModelTreeData(id).then((res) => {
+        if (res.code == '200') {
+          this.tittleData = JSON.parse(JSON.stringify(res.data.childVo))
+          let titleCopy = JSON.parse(JSON.stringify(res.data.childVo))
+          if (titleCopy.length > 0) {
+            titleCopy.forEach((lev1) => {
+              lev1.id = lev1.id.toString()
+              if (lev1.childVo.length > 0) {
+                lev1.childVo.unshift({
+                  id: lev1.id,
+                  weight: lev1.weight,
+                  title: '总分',
+                  childVo: [],
+                  width: '60',
+                  isShow:true
+                })
+                lev1.childVo.forEach((lev2) => {
+                  lev2.id = lev2.id.toString()
+                  if (lev2.childVo.length > 0) {
+                    lev2.childVo.unshift({
+                      id: lev2.id,
+                      weight: lev2.weight,
+                      title: '总分',
+                      childVo: [],
+                      width: '60',
+                      isShow:true
+
+                    })
+                    lev2.childVo.forEach((lev3) => {
+                      lev3.id = lev3.id.toString()
+                      if (lev3.childVo.length > 0) {
+                        lev3.childVo.unshift({
+                          id: lev3.id,
+                          weight: lev3.weight,
+                          title: '总分',
+                          childVo: [],
+                          width: '60',
+                          isShow:true
+
+                        })
+                        lev3.childVo.forEach((lev4) => {
+                          lev4.id = lev4.id.toString()
+                          // lev4.childVo.unshift({
+                          //   id: 'val' + lev4.id,
+                          //   weight: lev4.weight,
+                          //   title: '总分',
+                          //   childVo: []
+                          // })
+                        })
+                      }
+                    })
+                  }
+                })
+              }
+            })
+          }
+
+          this.tittleData = titleCopy
+          console.log(titleCopy)
+        }
+      })
+      const req = {
+        pageNo: this.page.currPage,
+        pageSize: this.page.pageSize,
+        editionId: this.$route.query.editionId
+      }
+      getAllSupplierPerforManceScorePage(req).then((res) => {
         this.tbodyData = res.data
         this.tbodyData.map((val) => {
           val.score.forEach((item) => {

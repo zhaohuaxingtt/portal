@@ -49,6 +49,21 @@ export function getAllModelTree(id) {
     method: 'GET',
   })
 }
+// 根据模板id获取指标树所有节点
+export function getAllModelTreeData(id) {
+  return requst({
+    url: '/performanceModel/getAllModelTreeData?modelId=' + id,
+    method: 'GET',
+  })
+}
+// 是否展示所有的节点
+export function getAllSupplierPerforManceScorePage(parmars) {
+  return requst({
+    url: '/supplierPerformanceScore/getAllSupplierPerforManceScorePage',
+    method: 'POST',
+    data: parmars
+  })
+}
 // 根据模板id获取指标树
 export function getModelTree(id) {
   return requst({
