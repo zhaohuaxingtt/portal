@@ -1,7 +1,7 @@
 <!--
  * @Author: tanmou
  * @Date: 2021-08-27 16:29:54
- * @LastEditTime: 2023-03-07 14:30:19
+ * @LastEditTime: 2023-03-08 16:47:54
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\search.vue
@@ -283,7 +283,7 @@ export default {
           let data = [that.balanceId]
           // 代供应商确认:采购员只能同意,不能拒绝
           supplierConfirm({ approveFlag: true }, data).then((res) => {
-            iMessage.success('提交确认成功！')
+            iMessage.success(this.$i18n.locale == 'zh' ? res.desZh : res.desEn)
             that.closeDiolog()
             that.$emit('getmakeUpPageList')
           })
@@ -299,6 +299,7 @@ export default {
             balanceBase:this.inforData
           }).then(res=>{
         if(res?.code=='200'){
+          iMessage.success(this.$i18n.locale == 'zh' ? res.desZh : res.desEn)
           this.getInforData()
         }
       })
