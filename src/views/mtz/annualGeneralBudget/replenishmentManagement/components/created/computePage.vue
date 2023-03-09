@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-14 14:44:54
- * @LastEditTime: 2023-03-02 09:41:15
+ * @LastEditTime: 2023-03-09 15:12:09
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\created\computePage.vue
@@ -13,7 +13,7 @@
       <h1>{{ supplierType }}供应商芯片补差计算（{{ taskStatusName }}）</h1>
       <div v-if="!disabled">
         <iButton @click="updateBalance">保存</iButton>
-        <iButton @click="submit">创建补差单</iButton>
+        <iButton v-if="!detailInfo.balanceNo" @click="submit">创建补差单</iButton>
       </div>
     </div>
     <search :searchForm="detailInfo" :searchFormData="infoFormData">
@@ -269,7 +269,7 @@ export default {
     },
     // 禁用创建按钮
     disabled(){
-      return !['草稿','撤回'].includes(this.statusName)
+      return !['草稿'].includes(this.statusName)
     }
   },
   created() {
