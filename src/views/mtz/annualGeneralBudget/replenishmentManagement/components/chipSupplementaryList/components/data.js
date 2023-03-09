@@ -103,13 +103,13 @@ export const tableTitle = [
     }
   },
   {
-    prop: 'approvedAmount',
+    prop: 'actualMakeAmount',
     label: '实际补差金额',
     i18n: '实际补差金额',
     align: 'center',
     minWidth: 150,
     customRender: (h, scope) => {
-      return <span>{VueUtil.formatNumber(scope.row.approvedAmount)}</span>
+      return <span>{VueUtil.formatNumber(scope.row.actualMakeAmount)}</span>
     }
   },
   {
