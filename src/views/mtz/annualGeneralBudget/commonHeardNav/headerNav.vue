@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-06 21:19:27
- * @LastEditTime: 2023-03-08 10:01:56
+ * @LastEditTime: 2023-03-09 11:31:07
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\commonHeardNav\headerNav.vue
@@ -28,7 +28,7 @@
         <iUserLog :show.sync="showDialog" menuId="MTZ-013" is-page />
       </div>
     </div>
-    <router-view />
+    <!-- <router-view /> -->
   </div>
 </template>
 
