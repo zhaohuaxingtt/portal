@@ -93,7 +93,7 @@
         </iFormItem>
         <iFormItem prop="supplierName">
           <iLabel
-            :label="language('规则类型', '规则类型')"
+            :label="language('补差方式', '补差方式')"
             slot="label"
             :required="true"
           ></iLabel>
@@ -174,7 +174,7 @@
         </iFormItem>
         <iFormItem prop="partBalanceCountType">
           <iLabel
-            :label="language('零件结算数量', '零件结算数量')"
+            :label="language('结算数量来源', '结算数量来源')"
             slot="label"
             :required="true"
           ></iLabel>

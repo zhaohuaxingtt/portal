@@ -50,11 +50,18 @@
         >
       </div>
     </template>
-
+    <div class="centerBox">
+      <p>补差金额=零件结算数量 <iTooltip :txtInfo="tipList[0]" :num="'1'"></iTooltip>
+        *[原材料市场价<iTooltip :txtInfo="tipList[1]" :num="'2'"></iTooltip> -原材料基价<iTooltip :txtInfo="tipList[2]" :num="'3'">
+        </iTooltip> *(1+阈值<iTooltip :txtInfo="tipList[3]" :num="'4'"></iTooltip> )]*原材料用量
+        <iTooltip :txtInfo="tipList[4]" :num="'5'"></iTooltip> *补差系数<iTooltip :txtInfo="tipList[5]" :num="'6'"></iTooltip>
+      </p>
+      <p>MTZ Payment=Settle accounts Quantity*[Effective Price-Base Price(1+threshold)]*Raw Material Weight*Ratio</p>
+    </div>
     <el-form :rules="formRules" :model="{ tableData }" ref="contractForm" class="formStyle">
-      <div class="btn">
+      <!-- <div class="btn">
         <el-button type="primary" size="mini" circle @click="isTitle = !isTitle">{{ isTitle ? '-' : '+' }}</el-button>
-      </div>
+      </div> -->
       <el-table :data="tableData" ref="moviesTable" border v-loading="loading" @selection-change="handleSelectionChange">
         <el-table-column type="selection" :selectable="selectionType" fixed width="40" align="center">
         </el-table-column>
@@ -70,7 +77,7 @@
           </template>
         </el-table-column>
         <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-        <el-table-column prop="method" align="center"  :label="language('规则类型')">
+        <el-table-column prop="method" align="center"  :label="language('补差方式')">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'method'"
               :rules="formRules.method ? formRules.method : ''">
@@ -84,21 +91,10 @@
             </el-form-item>
           </template>
         </el-table-column>
-
-
-        <el-table-column prop="formalFlag" align="center"  :label="language('SHIFOUWEIXINGUIZE', '是否为新规则')">
+        <el-table-column width="120" prop="sapCode" align="center" 
+          :label="language('供应商', '供应商')">
           <template slot-scope="scope">
-            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'formalFlag'"
-              :rules="formRules.formalFlag ? formRules.formalFlag : ''">
-              <!-- <iInput v-model="scope.row.ruleNo" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
-              <span>{{ scope.row.formalFlag == 'Y' ? '否' : '是' }}</span>
-            </el-form-item>
-          </template>
-        </el-table-column>
-        <el-table-column prop="sapCode" align="center" 
-          :label="language('GONGYINGSHANGBIANHAOMINGCHENG', '供应商编号/名称')">
-          <template slot-scope="scope">
-          <el-form-item :prop="'tableData.' + scope.$index + '.' + 'sapCode'"
+          <el-form-item  :prop="'tableData.' + scope.$index + '.' + 'sapCode'"
             :rules="formRules.sapCode ? formRules.sapCode : ''">
             <!-- <el-select v-model="scope.row.supplierId"
                             clearable
@@ -114,12 +110,12 @@
                                     :value="item.code">
                                 </el-option>
                             </el-select> -->
-              <spa>{{ scope.row.sapCode }}-{{ scope.row.supplierName }}</spa>
+              <span>{{ scope.row.sapCode }}-{{ scope.row.supplierName }}</span>
             </el-form-item>
           </template>
         </el-table-column>
 
-        <el-table-column prop="materialCode" align="center" 
+        <el-table-column width="90" prop="materialCode" align="center" 
           :label="language('YUANCAILIAOPAIHAO', '原材料牌号')">
           <template slot-scope="scope">
           <el-form-item :prop="'tableData.' + scope.$index + '.' + 'materialCode'"
@@ -138,10 +134,21 @@
                                     :value="item.code">
                                 </el-option>
                             </el-select> -->
-              <span>{{ scope.row.materialCode }}</span>
+                            <span class='link' @click="openPageMarket(scope.row)">{{ scope.row.materialCode }}-{{ scope.row.materialName }}</span>
             </el-form-item>
           </template>
         </el-table-column>
+
+        <el-table-column prop="formalFlag" align="center"  :label="language('SHIFOUWEIXINGUIZE', '是否为新规则')">
+          <template slot-scope="scope">
+            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'formalFlag'"
+              :rules="formRules.formalFlag ? formRules.formalFlag : ''">
+              <!-- <iInput v-model="scope.row.ruleNo" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
+              <span>{{ scope.row.formalFlag == 'Y' ? '否' : '是' }}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
+
         <el-table-column prop="startDate" align="center"  :label="language('YOUXIAOQIQI', '有效期起')">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'startDate'"
@@ -167,9 +174,9 @@
           </template>
         </el-table-column>
         <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-        <el-table-column prop="partBalanceCountType" align="center"  :label="language('零件结算数量', '零件结算数量')">
+        <el-table-column prop="partBalanceCountType" align="center"  :label="language('结算数量来源', '结算数量来源')">
           <template slot="header" slot-scope="scope">
-            <span>{{ language('零件结算数量', '零件结算数量') }}<iTooltip :txtInfo="tipList[0]" :num="'1'"></iTooltip></span>
+            <span>{{ language('结算数量来源', '结算数量来源') }}<iTooltip :txtInfo="tipList[0]" :num="'1'"></iTooltip></span>
           </template>
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'partBalanceCountType'"
@@ -423,10 +430,19 @@
                       : ''
               }}</span>
             </el-form-item>
+            
           </template>
         </el-table-column>
+        <el-table-column prop="ruleVersion" align="center" width="60" :label="language('版本')">
+            <template slot-scope="scope">
+              <el-form-item :prop="'tableData.' + scope.$index + '.' + 'ruleVersion'"
+                :rules="formRules.ruleVersion ? formRules.ruleVersion : ''">
+                <span>{{ scope.row.ruleVersion }}</span>
+              </el-form-item>
+            </template>
+          </el-table-column>
         <!-- ----------------------------------------------------------------------------------------------------------------------- -->
-      <template v-if="isTitle">
+      <template v-if="tableData.some((val)=>{if(val.platinumPrice) return true})">
 
         <!-- <el-table-column prop="effectFlag" align="center" :label="language('SHIFOUSHENGXIAO', '是否生效')" width="100">
               <template slot-scope="scope">
@@ -1212,6 +1228,16 @@ export default {
         })
       }
     },
+    openPageMarket(row){
+      console.log(row)
+      let routeUrl = this.$router.resolve({
+        path: '/mtz/dataBase/marketPriceEnquiry',
+        query: {
+          materialCode: row.materialCode,
+        },
+      })
+      window.open(routeUrl.href, '_blank')
+    },
     cancel() {
       //取消
       var that = this
@@ -1466,6 +1492,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.link {
+  color: #1763f7;
+  cursor: pointer;
+}
 ::v-deep.el-button--default{
   font-size: 20px!important;
 }
@@ -1478,6 +1508,23 @@ export default {
 .formStyle ::v-deep.el-form-item__content {
   line-height: normal !important;
   font-size: 18px;
+}
+.formStyle ::v-deep.el-table th {
+  position:relative;
+}
+.formStyle ::v-deep.el-table th > .cell{
+  height:100%;
+  position:static;
+  .numIcon{
+    position:absolute;
+    bottom:4px;
+    left:0;
+  }
+  .logIcon{
+    position:absolute;
+    bottom:4px;
+    left:0;
+  }
 }
 
 ::v-deep.el-table th>.cell {
@@ -1526,5 +1573,11 @@ export default {
 .font18_b {
   font-size: 18px;
   font-weight: bold;
+}
+.centerBox {
+  margin: 20px 0;
+  p{
+    font-size: 18px;
+  }
 }
 </style>
