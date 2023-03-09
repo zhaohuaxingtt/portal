@@ -1,10 +1,10 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-09-23 16:23:09
- * @LastEditTime: 2021-12-28 17:50:57
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-03-08 18:13:01
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
- * @FilePath: \重庆软维科技\front-portal\src\views\mtz\dataBase\marketPriceEnquiry\components\index.vue
+ * @FilePath: \front-portal\src\views\mtz\dataBase\marketPriceEnquiry\components\marketPriceImg.vue
 -->
 <template>
   <div>
@@ -21,21 +21,15 @@
             collapse-tags>
             <el-option v-for="(item, index) in categoryDorpDownList" :key="index" :value="item.code" :label="item.code + '-' + item.message"></el-option>
           </iSelect>
-          <!-- <custom-select v-model="formData.materialNos"
-                         :user-options="categoryDorpDownList"
-                         filterable
-                         multiple
-                         :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                         display-member="message"
-                         value-member="code"
-                         value-key="code">
-            <template v-slot:selected="scope">
-              <span>{{scope.data.code + '-' + scope.data.message}}</span>
-            </template>
-            <template v-slot:unselected="scope">
-              <span>{{scope.data.code + '-' + scope.data.message}}</span>
-            </template>
-          </custom-select> -->
+        </el-form-item>
+        <el-form-item style="width: 200px;" :label="language('YUANCAILIAOPAIHAO','原材料牌号')">
+          <iSelect
+            v-model="formData['materialNos']"
+            filterable
+            multiple
+            collapse-tags>
+            <el-option v-for="(item, index) in []" :key="index" :value="item.code" :label="item.code + '-' + item.message"></el-option>
+          </iSelect>
         </el-form-item>
         <el-form-item :label="language('YUEDUQI','月度起')">
           <iDatePicker v-model="formData.periodStart"
