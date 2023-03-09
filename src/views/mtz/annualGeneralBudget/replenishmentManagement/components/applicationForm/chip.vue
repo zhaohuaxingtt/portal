@@ -115,6 +115,7 @@ export default {
         .then((res) => {
           if (res?.code == '200') {
             this.inforData = _.cloneDeep(res.data.balanceBase)
+            this.inforData.requestAmount = res.data.requestAmount || ''
             this.detailTableData = res.data.balanceItemList || []
             this.agreementSummaryList = res.data.agreementSummaryList || []
           } else {

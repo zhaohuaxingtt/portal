@@ -1,7 +1,7 @@
 <!--
  * @Author: tanmou
  * @Date: 2021-08-27 16:29:54
- * @LastEditTime: 2023-03-08 16:47:54
+ * @LastEditTime: 2023-03-09 13:45:16
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\search.vue
@@ -239,6 +239,7 @@ export default {
           if (res?.code == '200') {
             this.detail = res.data
             this.inforData = _.cloneDeep(res.data.balanceBase)
+            this.inforData.requestAmount = res.data.requestAmount || ''
             this.detailTableData = res.data.balanceItemList || []
             this.agreementSummaryList = res.data.agreementSummaryList || []
           } else {
