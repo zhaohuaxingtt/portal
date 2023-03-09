@@ -46,7 +46,7 @@
             </el-form>
             <span slot="footer" class="dialog-footer">
                 <iButton @click="save">{{ $t('LK_QUEREN') }}</iButton>
-                <iButton @click="canel">{{ $t('LK_QUXIAO') }}</iButton>
+                <iButton @click="clearDiolog">{{ $t('LK_QUXIAO') }}</iButton>
             </span>
         </iDialog>
 
@@ -66,7 +66,9 @@ import {
     delModelScorePermission,
     getIndicatorR2AndR1Dept,
     getModelEditPermission,
-    getModelScorePermission
+    getModelScorePermission,
+    updateModelScorePermission,
+    updateModelEditPermission
 } from '@/api/supplierManagement/supplierIndexManage/system'
 import {
     getIndicatorR2Dept,
@@ -177,11 +179,10 @@ export default {
             this.form.modelInfoName = this.levelList.find(val => val.id == this.form.modelInfoId).title
             if (this.tabVal == 'DEPT') {
                 if (this.form.id) {
-                    updateModelScorePermission({ modelId: this.modelId, permissionsDTOS: [{ ...this.form }] }).then(res => {
+                    updateModelScorePermission(this.form).then(res => {
                         if (res.code == '200') {
-                            this.getTableList()
                             this.clearDiolog()
-                            iMessage.success('保存成功')
+                            iMessage.success('修改成功')
                         } else iMessage.error(res.desZh)
                     })
                 } else {
@@ -189,7 +190,6 @@ export default {
                     this.form.modelId = this.modelId
                     addModelScorePermission({ modelId: this.modelId, permissionsDTOS: [{ ...this.form }] }).then(res => {
                         if (res.code == '200') {
-                            this.getTableList()
                             this.clearDiolog()
                             iMessage.success('保存成功')
                         } else iMessage.error(res.desZh)
@@ -197,19 +197,17 @@ export default {
                 }
 
             } else {
+                this.form.userName = this.userList.find(val => val.id == this.form.userId).nameZh
                 if (this.form.id) {
-                    updateModelEditPermission({ deptPermissionDTOS: [{ ...this.form }] }).then(res => {
+                    updateModelEditPermission(this.form).then(res => {
                         if (res.code == '200') {
-                            this.getTableList()
                             this.clearDiolog()
-                            iMessage.success('保存成功')
+                            iMessage.success('修改成功')
                         } else iMessage.error(res.desZh)
                     })
                 } else {
-                    this.form.userName = this.userList.find(val => val.id == this.form.userId).nameZh
                     addModelEditPermission({ deptPermissionDTOS: [{ ...this.form }] }).then(res => {
                         if (res.code == '200') {
-                            this.getTableList()
                             this.clearDiolog()
                             iMessage.success('保存成功')
                         } else iMessage.error(res.desZh)
@@ -219,8 +217,14 @@ export default {
             }
         },
         clearDiolog() {
+            console.log(111111)
+            this.getTableList()
             this.addDialog = false
-            this.form = {}
+            this.form = {
+                deptCode:'',
+                userId:'',
+                modelInfoId:''
+            }
         },
     },
 }

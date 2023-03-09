@@ -7,7 +7,7 @@
       <template v-for="item in curModuleData">
         <div :key="item.value" class="task-card">
           <div class="top">
-            <div class="name single-no-ellipsis">{{ item.value }}</div>
+            <div class="name single-ellipsis">{{ item.value }}</div>
     <!--        <div class="abs single-ellipsis">{{ getAbs(item.typeName) }}</div>-->
           </div>
           <div class="bottom">

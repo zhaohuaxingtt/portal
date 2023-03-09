@@ -323,7 +323,8 @@ export default {
             return {
               sapCode: val.sapCode,
               supplierId: val.supplierId,
-              supplierName: val.nameZh
+              supplierName: val.nameZh,
+              deptCode:val.deptCode
             }
           })
           data.forEach((v, i) => {
@@ -396,7 +397,8 @@ export default {
         return {
           sapCode: val.sapCode,
           supplierId: val.subSupplierId,
-          supplierName: val.shortNameZh
+          supplierName: val.shortNameZh,
+          deptCode:val.purchaserSection
         }
       })
       data.forEach((v, i) => {

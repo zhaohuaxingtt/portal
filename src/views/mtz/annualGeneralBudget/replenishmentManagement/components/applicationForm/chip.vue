@@ -41,8 +41,8 @@
               {{ inforData['supplierName'] }}
             </template>
             <!-- 应补总额 -->
-            <template v-else-if="item.prop == 'invoiceAmount'">
-              {{ formatterNumber(inforData['invoiceAmount']) }}
+            <template v-else-if="item.prop == 'requestAmount'">
+              {{ formatterNumber(inforData['requestAmount']) }}
             </template>
             <!-- 实补总额 -->
             <template v-else-if="item.prop == 'approvedAmount'">
@@ -57,20 +57,19 @@
         :rows="2"
         placeholder="请输入备注"
         v-model="inforData.remark"
+        disabled
       ></el-input>
       <el-divider class="margin-top20"></el-divider>
       <div class="BtnTitle">
         <span>{{ tabsValue == 1 ? '汇总列表' : '明细列表' }}</span>
       </div>
       <tabs1
-        :tableListData="detailTableData"
-        v-if="tabsValue == 1"
-        @componentHidden="btnHidden1"
+        :tableListData="agreementSummaryList"
+        v-show="tabsValue == 1"
       ></tabs1>
       <tabs2
         :tableListData="detailTableData"
         v-show="tabsValue == 2"
-        @componentHidden="btnHidden2"
       ></tabs2>
     </div>
   </div>
@@ -97,6 +96,7 @@ export default {
       tabsValue: 1,
       loading:false,
       balanceId: '',
+      agreementSummaryList: [],
       detailTableData: []
     }
   },
@@ -115,7 +115,9 @@ export default {
         .then((res) => {
           if (res?.code == '200') {
             this.inforData = _.cloneDeep(res.data.balanceBase)
+            this.inforData.requestAmount = res.data.requestAmount || ''
             this.detailTableData = res.data.balanceItemList || []
+            this.agreementSummaryList = res.data.agreementSummaryList || []
           } else {
             this.inforData = {}
           }

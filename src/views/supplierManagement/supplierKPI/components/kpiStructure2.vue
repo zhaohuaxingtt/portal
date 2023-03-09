@@ -23,14 +23,23 @@
             <!-- <div class="head">总体</div> -->
             <div class="cell">
               <div
+                :style="
+                  formDataLevel2.childVo.isShow ? ' ' : ' visibility: hidden'
+                "
                 :class="
-                  formDataLevel2.childVo.childVo.length > 0
-                    ? 'total first-cloum-after'
-                    : 'total'
+                  formDataLevel2.childVo.childVo.length > 0 &&
+                  formDataLevel2.childVo.isShow
+                    ? 'total first-cloum-after '
+                    : 'total '
                 "
               >
                 <div class="titleCard">
-                  <span>总分</span>
+                  <span v-if="!isEdit">{{ formDataLevel2.childVo.title }}</span>
+                  <iInput
+                    v-else
+                    class="kpi-input2 kpi-input3"
+                    v-model="formDataLevel2.childVo.title"
+                  ></iInput>
                 </div>
                 <div class="line">
                   <label>权重</label>
@@ -81,13 +90,14 @@
             v-for="(item, index) in formDataLevel2.childVo.childVo"
             :key="index"
             :class="
-              index < formDataLevel2.childVo.childVo.length - 1
+              index < formDataLevel2.childVo.childVo.length - 1&&formDataLevel2.childVo.isShow
                 ? 'second-cloum-before'
                 : ''
             "
           >
             <div class="cell">
               <div
+                v-show="item.isShow"
                 :class="
                   item.childVo.length > 0
                     ? 'content kpi-module second-before second-after'
@@ -154,9 +164,10 @@
                 :key="index3"
               >
                 <div
+                v-show="lev3.isShow"
                   class="cell third-cell"
                   :class="
-                    index3 < item.childVo.length - 1 ? 'cloum-before' : ''
+                    index3 < item.childVo.length - 1&&lev3.isShow ? 'cloum-before' : ''
                   "
                 >
                   <div
@@ -228,11 +239,12 @@
                   :key="index3 + 'lev3'"
                 >
                   <div
+                  v-show="lev4.isShow"
                     v-for="(lev4, index4) in lev3.childVo"
                     :key="index4 + 'lev4'"
                     class="box2"
                   >
-                    <div :class="index4 < lev4.childVo.length ? 'lev4 ' : ' '">
+                    <div   :class="index4 < lev4.childVo.length&&lev4.isShow ? 'lev4 ' : ' '">
                       <div class="content kpi-module kpi-module1 last-border">
                         <div class="titleCard">
                           <span v-if="!isEdit">{{ lev4.title }}</span>
@@ -292,6 +304,7 @@
                         class="content kpi-module kpi-module2 last-border"
                         v-for="(lev5, index5) in lev4.childVo"
                         :key="index5 + 'lev5'"
+                        v-show="lev5.isShow"
                       >
                         <div class="titleCard">
                           <!-- <span v-if="!modeAll">总分</span> -->
@@ -404,7 +417,7 @@ export default {
       modelId: ''
     }
   },
-   mounted() {
+  mounted() {
     this.getInfo()
     this.formDataLevel2 = this.treeData
     console.log(this.formDataLevel2)
@@ -413,7 +426,7 @@ export default {
       getAllModelTree(this.treeData.modelId).then((res) => {
         this.isAll = res.data
       })
-    }, 3000);
+    }, 3000)
   },
   watch: {
     treeData: {
@@ -455,6 +468,7 @@ export default {
           showClose: true
         })
       tableChild.push({
+        isShow:true,
         indicatorLibraryId: '',
         title: '',
         weight: '',
@@ -468,6 +482,7 @@ export default {
       const tableChild = this.formDataLevel2.childVo.childVo
 
       if (str === '2') {
+        console.log(tableChild)
         if (tableChild[index].childVo.length == 5)
           return this.$message({
             type: 'error',
@@ -476,6 +491,7 @@ export default {
             showClose: true
           })
         tableChild[index].childVo.push({
+          isShow:true,
           indicatorLibraryId: '',
           title: '',
           weight: '',
@@ -493,6 +509,8 @@ export default {
             showClose: true
           })
         tableChild[index].childVo[idx3].childVo.push({
+          isShow:true,
+
           indicatorLibraryId: '',
           title: '',
           weight: '',
@@ -510,6 +528,8 @@ export default {
             showClose: true
           })
         tableChild[index].childVo[idx3].childVo[idx4].childVo.push({
+          isShow:true,
+
           indicatorLibraryId: '',
           title: '',
           weight: '',
@@ -748,6 +768,9 @@ export default {
   color: #e30d0d;
 }
 
+.isHidden {
+  visibility: hidden;
+}
 .blue {
   color: #1763f7;
 }

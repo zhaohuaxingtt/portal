@@ -1,13 +1,13 @@
 <template>
   <iCard>
     <div class="btnList">
-      <iButton @click="del" :disabled="this.selectedItems.length == 0">
+      <iButton @click="del" :disabled="this.selectedItems.length == 0" v-permission="ADMIN_MAIN_DATA_SUPPLIER_DATA_N_TIER_DEL">
         {{ language('删除') }}
       </iButton>
-      <iButton @click="edit" :disabled="this.selectedItems.length != 1">
+      <iButton @click="edit" :disabled="this.selectedItems.length != 1" v-permission="ADMIN_MAIN_DATA_SUPPLIER_DATA_N_TIER_EDIT">
         {{ language('编辑') }}
       </iButton>
-      <buttonDownload :download-method="exportExcel">
+      <buttonDownload :download-method="exportExcel" v-permission="ADMIN_MAIN_DATA_SUPPLIER_DATA_N_TIER_DOWNLOAD">
         {{ language('导出') }}
       </buttonDownload>
     </div>

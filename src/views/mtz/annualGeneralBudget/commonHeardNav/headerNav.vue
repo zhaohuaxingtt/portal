@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-06 21:19:27
- * @LastEditTime: 2023-01-05 16:11:40
+ * @LastEditTime: 2023-03-08 10:01:56
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\commonHeardNav\headerNav.vue
@@ -46,7 +46,7 @@ export default {
   },
   created() {
     this.group =
-      this.rightNavList.find((i) => i.url == this.$route.path)?.group || ''
+      this.rightNavList.find((i) => this.$route.path.indexOf(i.activePath)>-1)?.group || ''
     this.checkHasEnterMenu()
   },
   data() {
@@ -123,7 +123,8 @@ export default {
 .navBox {
   position: relative;
   display: flex;
-  align-items: center;
+  flex-flow: row;
+  align-items: flex-end;
   justify-content: space-between;
   &:after {
 		content: '';
@@ -135,13 +136,37 @@ export default {
 		left: 0px;
 		bottom: -0.5rem;
 	}
+  ::v-deep .nav{
+    &.lev1 {
+      .name{
+        font-size: 22px !important;
+        margin-right: 20px;
+        &::after{
+            top: calc(100% + 10px);
+        }
+        &.active{
+          font-size: 22px !important;
+        }
+      }
+    }
+    &.lev2 {
+      .name{
+        font-size: 20px !important;
+        &.active{
+          font-size: 20px !important;
+        }
+      }
+    }
+  }
   .rightNav {
     display: flex;
-    .logButton{
-      flex: 0 0 auto;
+    align-items: center;
+    ::v-deep .log-word{
+      font-size: 20px !important;
+      margin-left: 10px;
     }
     .nav{
-      max-width: 870px;
+      max-width: 850px;
     }
   }
 }

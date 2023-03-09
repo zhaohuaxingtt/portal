@@ -1,7 +1,7 @@
 <!--
  * @Author: tanmou
  * @Date: 2021-08-27 16:29:54
- * @LastEditTime: 2023-03-03 16:42:03
+ * @LastEditTime: 2023-03-09 13:45:16
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\search.vue
@@ -23,7 +23,6 @@
         :options="options"
       />
       <el-divider class="margin-top20"></el-divider>
-      <!-- <div class="contentBox"> -->
       <iTabsList
         v-model="tabsValue"
         @tab-click="tableChange"
@@ -65,8 +64,8 @@
               {{ inforData['supplierName'] }}
             </template>
             <!-- 应补总额 -->
-            <template v-else-if="item.prop == 'invoiceAmount'">
-              {{ formatterNumber(inforData['invoiceAmount']) }}
+            <template v-else-if="item.prop == 'requestAmount'">
+              {{ formatterNumber(inforData['requestAmount']) }}
             </template>
             <!-- 实补总额 -->
             <template v-else-if="item.prop == 'approvedAmount'">
@@ -240,6 +239,7 @@ export default {
           if (res?.code == '200') {
             this.detail = res.data
             this.inforData = _.cloneDeep(res.data.balanceBase)
+            this.inforData.requestAmount = res.data.requestAmount || ''
             this.detailTableData = res.data.balanceItemList || []
             this.agreementSummaryList = res.data.agreementSummaryList || []
           } else {
@@ -284,7 +284,7 @@ export default {
           let data = [that.balanceId]
           // 代供应商确认:采购员只能同意,不能拒绝
           supplierConfirm({ approveFlag: true }, data).then((res) => {
-            iMessage.success('提交确认成功！')
+            iMessage.success(this.$i18n.locale == 'zh' ? res.desZh : res.desEn)
             that.closeDiolog()
             that.$emit('getmakeUpPageList')
           })
@@ -300,6 +300,7 @@ export default {
             balanceBase:this.inforData
           }).then(res=>{
         if(res?.code=='200'){
+          iMessage.success(this.$i18n.locale == 'zh' ? res.desZh : res.desEn)
           this.getInforData()
         }
       })

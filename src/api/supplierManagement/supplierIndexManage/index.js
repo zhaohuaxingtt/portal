@@ -49,10 +49,32 @@ export function getAllModelTree(id) {
     method: 'GET',
   })
 }
+// 根据模板id获取指标树所有节点
+export function getAllModelTreeData(id) {
+  return requst({
+    url: '/performanceModel/getAllModelTreeData?modelId=' + id,
+    method: 'GET',
+  })
+}
+// 是否展示所有的节点
+export function getAllSupplierPerforManceScorePage(parmars) {
+  return requst({
+    url: '/supplierPerformanceScore/getAllSupplierPerforManceScorePage',
+    method: 'POST',
+    data: parmars
+  })
+}
 // 根据模板id获取指标树
 export function getModelTree(id) {
   return requst({
     url: '/performanceModel/getModelTree?modelId=' + id,
+    method: 'GET',
+  })
+}
+// 根据模板id获取指标树
+export function getModelTreeTitle(id) {
+  return requst({
+    url: '/performanceModel/getModelTreeTitle?modelId=' + id,
     method: 'GET',
   })
 }
@@ -231,7 +253,7 @@ export function getSupplierPerforManceProcess(parmars) {
 //  R2科室
 export function getIndicatorR2Dept(parmars) {
   return requst({
-    url: '/indicatorLibrary/getIndicatorR2Dept',
+    url: '/indicatorLibrary/getIndicatorR2AndR1Dept',
     method: 'GET',
   })
 }
