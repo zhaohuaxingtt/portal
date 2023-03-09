@@ -476,12 +476,9 @@
             <el-divider class="hr_divider" />
 
             <div class="centerBox">
-              <p>补差金额=零件结算数量 <iTooltip :txtInfo="tipList[0]" :num="'1'"></iTooltip>
-                *[原材料市场价<iTooltip :txtInfo="tipList[1]" :num="'2'"></iTooltip> -原材料基价<iTooltip :txtInfo="tipList[2]"
-                  :num="'3'">
-                </iTooltip> *(1+阈值<iTooltip :txtInfo="tipList[3]" :num="'4'"></iTooltip> )]*原材料用量
-                <iTooltip :txtInfo="tipList[4]" :num="'5'"></iTooltip> *补差系数<iTooltip :txtInfo="tipList[5]" :num="'6'">
-                </iTooltip>
+              <p>补差金额=零件结算数量 
+                *[原材料市场价 -原材料基价*(1+阈值 )]*原材料用量
+                 *补差系数
               </p>
               <p>MTZ Payment=Settle accounts Quantity*[Effective Price-Base Price(1+threshold)]*Raw Material Weight*Ratio
               </p>
@@ -641,12 +638,9 @@
             </div>
             <el-divider class="hr_divider" />
             <div class="centerBox">
-              <p>补差金额=零件结算数量 <iTooltip :txtInfo="tipList[0]" :num="'1'"></iTooltip>
-                *[原材料市场价<iTooltip :txtInfo="tipList[1]" :num="'2'"></iTooltip> -原材料基价<iTooltip :txtInfo="tipList[2]"
-                  :num="'3'">
-                </iTooltip> *(1+阈值<iTooltip :txtInfo="tipList[3]" :num="'4'"></iTooltip> )]*原材料用量
-                <iTooltip :txtInfo="tipList[4]" :num="'5'"></iTooltip> *补差系数<iTooltip :txtInfo="tipList[5]" :num="'6'">
-                </iTooltip>
+              <p>补差金额=零件结算数量 
+                *[原材料市场价 -原材料基价*(1+阈值 )]*原材料用量
+                 *补差系数
               </p>
               <p>MTZ Payment=Settle accounts Quantity*[Effective Price-Base Price(1+threshold)]*Raw Material Weight*Ratio
               </p>
