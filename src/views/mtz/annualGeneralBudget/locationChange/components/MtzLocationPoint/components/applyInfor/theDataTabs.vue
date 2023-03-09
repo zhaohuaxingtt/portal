@@ -94,7 +94,7 @@
       class="formStyle"
     >
     <div class="btn">
-        <el-button type="primary" size="mini" circle @click="isTitle=!isTitle">{{isTitle?'-':'+'}}</el-button>
+        <span type="primary" size="mini" circle @click="isTitle=!isTitle">{{isTitle?'-':'+'}}</span>
       </div>
       <el-table
         :data="tableData"
@@ -143,67 +143,7 @@
             <span>{{ scope.row.partName }}</span>
           </template>
         </el-table-column>
-        <el-table-column
-          prop="method"
-          align="center"
-          :label="language('补差方式', '补差方式')"
-          show-overflow-tooltip
-          width="130"
-        >
-          <template slot-scope="scope">
-            <el-form-item
-              :prop="'tableData.' + scope.$index + '.' + 'method'"
-              :rules="formRules.method ? formRules.method : ''"
-            >
-                <el-select
-                  v-model="scope.row.method"
-                  v-if="editId.indexOf(scope.row.id) !== -1"
-                  clearable
-                  :placeholder="language('QINGSHURU', '请输入')"
-                  @change="choiseGZ(scope, $event)"
-                >
-                  <el-option
-                    v-for="item in methodList"
-                    :key="item.code"
-                    :label="item.message"
-                    :value="item.code"
-                  >
-                  </el-option>
-                </el-select>
-              <span v-else>{{ scope.row.method == '1' ? language('一次性补差','一次性补差') : scope.row.method == '2' ? language('变价单补差','变价单补差') : '' }}</span>
-            </el-form-item>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="sapCode"
-          align="center"
-          :label="language('GONGYINGSHANGBIANHAOMINGCHENG', '供应商')"
-          
-        >
-          <!-- supplierName供应商名称 -->
-          <template slot-scope="scope">
-            <el-form-item
-              :prop="'tableData.' + scope.$index + '.' + 'sapCode'"
-              :rules="formRules.sapCode ? formRules.sapCode : ''"
-            >
-              <!-- <el-select v-model="scope.row.supplierId"
-                                clearable
-                                filterable
-                                :disabled="true"
-                                v-if="editId.indexOf(scope.row.id)!==-1"
-                                :placeholder="language('QINGSHURU', '请输入')"
-                                >
-                            <el-option
-                                v-for="item in supplierList"
-                                :key="item.code"
-                                :label="item.codeMessage"
-                                :value="item.code">
-                            </el-option>
-                        </el-select> -->
-              <span>{{ scope.row.sapCode }}/{{ scope.row.supplierName }}</span>
-            </el-form-item>
-          </template>
-        </el-table-column>
+    
         <el-table-column
           prop="partUnit"
           align="center"
@@ -247,6 +187,9 @@
           :label="language('YONGLIANG', '用量')"
           
         >
+        <template slot="header" slot-scope="scope">
+            <span>{{language('YONGLIANG', '用量')}}<iTooltip :txtInfo="tipList[4]" :num="'5'"></iTooltip></span>
+          </template>
           <template slot-scope="scope">
             <el-form-item
               :prop="'tableData.' + scope.$index + '.' + 'dosage'"
@@ -266,9 +209,7 @@
           :label="language('YONGLIANGJILIANGDANEWI', '用量计量单位')"
           
         >
-        <template slot="header" slot-scope="scope">
-            <span>{{language('YONGLIANGJILIANGDANEWI', '用量计量单位')}}<iTooltip :txtInfo="tipList[4]" :num="'1'"></iTooltip></span>
-          </template>
+    
           <template slot-scope="scope">
             <el-form-item
               :prop="'tableData.' + scope.$index + '.' + 'dosageMeasureUnit'"
@@ -339,6 +280,7 @@
         >
           <template slot-scope="scope">
             <iDatePicker
+            value-format="yyyy-MM-dd"
             @focus="chaneDate($event, scope.row)"
             :picker-options="pickerOptionsStar"
              v-model="scope.row.startDate"
@@ -358,6 +300,7 @@
         >
           <template slot-scope="scope">
             <iDatePicker 
+            value-format="yyyy-MM-dd"
             @focus="chaneDate($event, scope.row)"
             :picker-options="pickerOptionsEnd"
             v-model="scope.row.endDate"
@@ -416,11 +359,41 @@
           </template>
         </el-table-column>
    
-        <el-table-column prop="method" align="center"  width="90" :label="language('规则类型')">
+        <el-table-column prop="method" align="center"  width="90" :label="language('补差方式')">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'method'"
               :rules="formRules.method ? formRules.method : ''">
               <span>{{ scope.row.method=='1'?'一次性补差':scope.row.method=='2'?'变价单补差':'' }}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="sapCode"
+          align="center"
+          :label="language('GONGYINGSHANGBIANHAOMINGCHENG', '供应商')"
+
+        >
+          <!-- supplierName供应商名称 -->
+          <template slot-scope="scope">
+            <el-form-item
+              :prop="'tableData.' + scope.$index + '.' + 'sapCode'"
+              :rules="formRules.sapCode ? formRules.sapCode : ''"
+            >
+              <!-- <el-select v-model="scope.row.supplierId"
+                                clearable
+                                filterable
+                                :disabled="true"
+                                v-if="editId.indexOf(scope.row.id)!==-1"
+                                :placeholder="language('QINGSHURU', '请输入')"
+                                >
+                            <el-option
+                                v-for="item in supplierList"
+                                :key="item.code"
+                                :label="item.codeMessage"
+                                :value="item.code">
+                            </el-option>
+                        </el-select> -->
+              <span>{{ scope.row.sapCode }}/{{ scope.row.supplierName }}</span>
             </el-form-item>
           </template>
         </el-table-column>
@@ -445,7 +418,7 @@
                             :value="item.code">
                         </el-option>
                     </el-select> -->
-            <span>{{ scope.row.materialCode }}-{{ scope.row.materialName }}</span>
+            <span class='link' @click="openPageMarket(scope.row)">{{ scope.row.materialCode }}-{{ scope.row.materialName }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -555,7 +528,7 @@
             <span>{{ scope.row.compensationRatio }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="partBalanceCountType" align="center" width="90" :label="language('零件结算数量', '零件结算数量')">
+        <el-table-column prop="partBalanceCountType" align="center" width="90" :label="language('结算数量来源', '结算数量来源')">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'partBalanceCountType'"
               :rules="formRules.partBalanceCountType ? formRules.partBalanceCountType : ''">
@@ -1285,6 +1258,16 @@ export default {
         return true
       }
     },
+    openPageMarket(row){
+      console.log(row)
+      let routeUrl = this.$router.resolve({
+        path: '/mtz/dataBase/marketPriceEnquiry',
+        query: {
+          materialCode: row.materialCode,
+        },
+      })
+      window.open(routeUrl.href, '_blank')
+    },
     add() {
       //新增
       var arr = []
@@ -1770,6 +1753,15 @@ export default {
   padding: 3px 4px;
 }
 .btn{
+  display:inline-block;
+    text-align:center;
+    line-height:20px;
+    width:20px;
+    height:20px;
+    font-size:14px;
+    background-color:#1763f7;
+    color:white;
+    border-radius:50%;
     position: absolute;
     right: -10px;
     top: 10px;
@@ -1802,6 +1794,23 @@ export default {
 .font18_b{
   font-size: 18px;
 font-weight: bold;
+}
+.formStyle ::v-deep.el-table th {
+  position:relative;
+}
+.formStyle ::v-deep.el-table th > .cell{
+  height:100%;
+  position:static;
+  .numIcon{
+    position:absolute;
+    bottom:4px;
+    left:0;
+  }
+  .logIcon{
+    position:absolute;
+    bottom:4px;
+    left:0;
+  }
 }
 </style>
 <style lang="scss">

@@ -107,12 +107,12 @@
                   ? language(items.iconTextKey)
                   : items.iconText
               " placement="top-start">
-                <el-button class="btnpors" v-if="items.typeIcon == 'num'" slot="reference" size="mini" circle type="primary">{{ items.num
-                }}</el-button>
+                <span class="numIcon" v-if="items.typeIcon == 'num'" slot="reference" size="mini" circle type="primary">{{ items.num
+                }}</span>
                 <icon v-else slot="reference" symbol v-if="items.icon" :name="items.icon"
-                  class="font-size16 marin-left5" />
+                  class="logIcon" />
               </el-popover>
-              <br />
+              <!-- <br /> -->
               <span style="margin-right: 10px; font-weight: initial">{{
                 items.overlapbottom
               }}</span>
@@ -121,7 +121,7 @@
               <span style="margin-right: 10px" v-html="
                 items.key ? language(items.key, items.name) : items.name
               "></span>
-              <br />
+              <!-- <br /> -->
               <span style="margin-right: 10px; font-weight: initial">{{
                 items.overlapbottom
               }}</span>
@@ -262,25 +262,51 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
-::v-deep.el-form .el-table .cell{
-  height: 70px;
+.numIcon{
+    display:inline-block;
+    text-align:center;
+    line-height:20px;
+    width:20px;
+    height:20px;
+    font-size:14px;
+    background-color:#1763f7;
+    color:white;
+    border-radius:50%;
+    
 }
-  .titleHeader{
-    position: relative;
-    line-height: normal;
-    .btnpors{
-      // z-index: 1000;
-    position: absolute;
-    left: 0px;
-    top: 44px;
+::v-deep.el-form .el-table .cell{
+  span{
+    display: block;
   }
+}
+
+  .titleHeader{
+    line-height: normal;
     span{
       display: inline-block;
     word-wrap: break-word;
     white-space: normal;
+    display:block;
     }
 
   }
+  .formStyle ::v-deep.el-table th {
+  position:relative;
+}
+.formStyle ::v-deep.el-table th > .cell{
+  height:100%;
+  position:static;
+  .numIcon{
+    position:absolute;
+    bottom:6px;
+    left:0;
+  }
+  .logIcon{
+    position:absolute;
+    bottom:6px;
+    left:0;
+  }
+}
 .openLinkText {
   color: $color-blue;
 }

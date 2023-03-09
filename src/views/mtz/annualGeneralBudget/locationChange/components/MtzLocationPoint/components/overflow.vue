@@ -558,7 +558,7 @@ export default {
   align-items: center;
   .stepBox_div {
     text-align: center;
-    width: 14%;
+    width: 20%;
     background: #f8f9fa;
 
     .car_img {
@@ -568,6 +568,7 @@ export default {
       cursor: pointer;
     }
     span {
+      text-align:center;
       display: inline-block;
       font-size: 20px;
       font-weight: bold;
