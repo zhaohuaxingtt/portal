@@ -76,13 +76,7 @@
             <p>MTZ Payment=Settle accounts Quantity*[Effective Price-Base Price(1+threshold)]*Raw Material Weight*Ratio
             </p>
           </div>
-          <div class="infor_futitle">
-            <span class="big_font">Regulation:</span>
-            <br />
-            <span class="big_font">MTZ Payment=(Effective Price-Base Price)*Raw Material
-              Weight*Settle accounts Quantity*Ratio</span>
-            <span class="big_small">When:effective price > base price *(1+threshold)</span>
-          </div>
+   
 
           <p class="tableTitle font20_b" v-if="RsObject">
             {{ language('GUIZEQINGDAN', '规则清单') }}-Regulation
@@ -94,8 +88,8 @@
         <!-- highlight-current-row -->
         <div class="margin-top20 formStyle">
           <div v-if="RsObject" class="btn ">
-            <el-button type="primary" size="mini" circle @click="isruleTitle1 = !isruleTitle1">{{ isruleTitle1 ? '-' : '+'
-            }}</el-button>
+            <span type="primary" size="mini" circle @click="isruleTitle1 = !isruleTitle1">{{ isruleTitle1 ? '-' : '+'
+            }}</span>
           </div>
           <tableList :tagNum="'1'" ref="moviesTable" :tableData="ruleTableListData"
             :tableTitle="isruleTitle1 ? ruleTableTitle1_all : ruleTableTitle1_1"
@@ -129,8 +123,8 @@
               <iText>{{ scope.row.supplierName }}</iText>
             </template>
             <template slot-scope="scope" slot="materialCode">
-              <iText>{{ scope.row.materialCode }}</iText><br />
-              <iText>{{ scope.row.materialName }}</iText>
+              <span class='link' @click="openPageMarket(scope.row)">{{ scope.row.materialCode }}</span><br />
+              <span class='link' @click="openPageMarket(scope.row)">{{ scope.row.materialName }}</span>
             </template>
             <template slot-scope="scope" slot="formalFlag">
               <span>{{ scope.row.formalFlag == 'Y' ? '否' : '是' }}</span>
@@ -174,8 +168,8 @@
               }}</span>
             </template>
             <template slot-scope="scope" slot="materialCode">
-              <span>{{ scope.row.materialCode }}</span><br />
-              <span>{{ scope.row.materialName }}</span>
+              <span class='link' @click="openPageMarket(scope.row)">{{ scope.row.materialCode }}</span><br />
+              <span class='link' @click="openPageMarket(scope.row)">{{ scope.row.materialName }}</span>
             </template>
             <template slot-scope="scope" slot="formalFlag">
               <span>{{ scope.row.formalFlag == 'Y' ? '否' : '是' }}</span>
@@ -197,7 +191,7 @@
 
           </tableList>
           <tableList class="margin-top20 " ref="moviesTable1" :tableData="ruleTableListData"
-            :tableTitle="ruleTableTitle1_2" :tableLoading="loadingRule" v-if="!RsObject && ruleTableListData.length > 0"
+            :tableTitle="ruleTableTitle1_2" :tableLoading="loadingRule" v-if="!RsObject && ruleTableListData.length > 0&& partTableListData.some((val)=>{if(val.platinumPrice) return true})"
             :index="true" :rowClassName="'table-row'" :header-row-class-name="'ruleTableHeader'" :selection="false"
             border>
           </tableList>
@@ -215,8 +209,8 @@
         </div>
         <div class="margin-top20 formStyle">
           <div v-if="RsObject" class="btn ">
-            <el-button type="primary" size="mini" circle @click="isruleTitle2 = !isruleTitle2">{{ isruleTitle2 ? '-' : '+'
-            }}</el-button>
+            <span type="primary" size="mini" circle @click="isruleTitle2 = !isruleTitle2">{{ isruleTitle2 ? '-' : '+'
+            }}</span>
           </div>
           <tableList :tagNum="'1'" class=" over_flow_y_ture" ref="partTable" :tableData="partTableListData"
             :tableTitle="isruleTitle2 ? partTableTitle1_all : partTableTitle1_1" :tableLoading="loadingPart"
@@ -244,8 +238,8 @@
               <iText>{{ scope.row.supplierName }}</iText>
             </template>
             <template slot-scope="scope" slot="materialCode">
-              <iText>{{ scope.row.materialCode }}</iText><br />
-              <iText>{{ scope.row.materialName }}</iText>
+              <span class='link' @click="openPageMarket(scope.row)">{{ scope.row.materialCode }}</span><br />
+              <span class='link' @click="openPageMarket(scope.row)">{{ scope.row.materialName }}</span>
             </template>
             <template slot-scope="scope" slot="materialDoseSource">
               <span>{{
@@ -284,8 +278,8 @@
               }}</span>
             </template>
             <template slot-scope="scope" slot="materialCode">
-              <span>{{ scope.row.materialCode }}</span><br />
-              <span>{{ scope.row.materialName }}</span>
+              <span class='link' @click="openPageMarket(scope.row)">{{ scope.row.materialCode }}</span><br />
+              <span class='link' @click="openPageMarket(scope.row)">{{ scope.row.materialName }}</span>
             </template>
             <template slot-scope="scope" slot="materialDoseSource">
               <span>{{
@@ -481,12 +475,16 @@
             </div>
             <el-divider class="hr_divider" />
 
-            <div class="infor_futitle">
-              <span class="big_font">Regulation:</span>
-              <br />
-              <span class="big_font">MTZ Payment=(Effective Price-Base Price)*Raw Material
-                Weight*Settle accounts Quantity*Ratio</span>
-              <span class="big_small">When:effective price > base price *(1+threshold)</span>
+            <div class="centerBox">
+              <p>补差金额=零件结算数量 <iTooltip :txtInfo="tipList[0]" :num="'1'"></iTooltip>
+                *[原材料市场价<iTooltip :txtInfo="tipList[1]" :num="'2'"></iTooltip> -原材料基价<iTooltip :txtInfo="tipList[2]"
+                  :num="'3'">
+                </iTooltip> *(1+阈值<iTooltip :txtInfo="tipList[3]" :num="'4'"></iTooltip> )]*原材料用量
+                <iTooltip :txtInfo="tipList[4]" :num="'5'"></iTooltip> *补差系数<iTooltip :txtInfo="tipList[5]" :num="'6'">
+                </iTooltip>
+              </p>
+              <p>MTZ Payment=Settle accounts Quantity*[Effective Price-Base Price(1+threshold)]*Raw Material Weight*Ratio
+              </p>
             </div>
 
             <p class="tableTitle font20_b" v-if="RsObject">
@@ -642,13 +640,16 @@
               </div>
             </div>
             <el-divider class="hr_divider" />
-
-            <div class="infor_futitle">
-              <span class="big_font">Regulation:</span>
-              <br />
-              <span class="big_font">MTZ Payment=(Effective Price-Base Price)*Raw Material
-                Weight*Settle accounts Quantity*Ratio</span>
-              <span class="big_small">When:effective price > base price *(1+threshold)</span>
+            <div class="centerBox">
+              <p>补差金额=零件结算数量 <iTooltip :txtInfo="tipList[0]" :num="'1'"></iTooltip>
+                *[原材料市场价<iTooltip :txtInfo="tipList[1]" :num="'2'"></iTooltip> -原材料基价<iTooltip :txtInfo="tipList[2]"
+                  :num="'3'">
+                </iTooltip> *(1+阈值<iTooltip :txtInfo="tipList[3]" :num="'4'"></iTooltip> )]*原材料用量
+                <iTooltip :txtInfo="tipList[4]" :num="'5'"></iTooltip> *补差系数<iTooltip :txtInfo="tipList[5]" :num="'6'">
+                </iTooltip>
+              </p>
+              <p>MTZ Payment=Settle accounts Quantity*[Effective Price-Base Price(1+threshold)]*Raw Material Weight*Ratio
+              </p>
             </div>
 
             <p class="tableTitle font20_b" v-if="RsObject">
@@ -1303,7 +1304,16 @@ export default {
           })
         })
     },
-
+    openPageMarket(row){
+      console.log(row)
+      let routeUrl = this.$router.resolve({
+        path: '/mtz/dataBase/marketPriceEnquiry',
+        query: {
+          materialCode: row.materialCode,
+        },
+      })
+      window.open(routeUrl.href, '_blank')
+    },
     computedPartTableHeight() {
       let rowList =
         this.$refs['partTable']?.$el.getElementsByClassName('part-table-row') ||
@@ -1543,17 +1553,17 @@ export default {
 }
 
 ::v-deep.el-form .el-table .cell  {
-  font-size: 18px!important;
+  // font-size: 18px!important;
  
  
 }
 ::v-deep.el-table td div {
   line-height: normal !important;
-  font-size: 18px!important;
+  // font-size: 18px!important;
 }
 ::v-deep.el-form .el-table .cell span{
   line-height: normal !important;
-  font-size: 18px!important;
+  // font-size: 18px!important;
 
 }
 .font18{
@@ -1684,12 +1694,21 @@ $tabsInforHeight: 35px;
 
 }
 
-.btn {
-  position: absolute;
-  right: -10px;
-  top: 25px;
-  z-index: 900;
-}
+.btn{
+  display:inline-block;
+    text-align:center;
+    line-height:20px;
+    width:20px;
+    height:20px;
+    font-size:14px;
+    background-color:#1763f7;
+    color:white;
+    border-radius:50%;
+    position: absolute;
+    right: -10px;
+    top: 10px;
+    z-index: 100;
+  }
 
 .tabsBoxInfor {
   margin-bottom: 10px;

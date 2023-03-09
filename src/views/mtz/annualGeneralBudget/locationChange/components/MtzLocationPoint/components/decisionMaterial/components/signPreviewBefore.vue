@@ -38,17 +38,22 @@
           </div>
         </div>
         <el-divider class="hr_divider" />
-        <div class="infor_futitle">
-          <span class="big_font">Regulation:</span>
-          <br />
-          <span class="big_font">MTZ Payment=(Effective Price-Base Price)*Raw Material Weight*Settle accounts Quantity*Ratio</span>
-          <span class="big_small">When:effective price > base price *(1+threshold)</span>
-        </div>
+        <div  class="centerBox">
+            <p>补差金额=零件结算数量 <iTooltip :txtInfo="tipList[0]" :num="'1'"></iTooltip>
+              *[原材料市场价<iTooltip :txtInfo="tipList[1]" :num="'2'"></iTooltip> -原材料基价<iTooltip :txtInfo="tipList[2]"
+                :num="'3'">
+              </iTooltip> *(1+阈值<iTooltip :txtInfo="tipList[3]" :num="'4'"></iTooltip> )]*原材料用量
+              <iTooltip :txtInfo="tipList[4]" :num="'5'"></iTooltip> *补差系数<iTooltip :txtInfo="tipList[5]" :num="'6'">
+              </iTooltip>
+            </p>
+            <p>MTZ Payment=Settle accounts Quantity*[Effective Price-Base Price(1+threshold)]*Raw Material Weight*Ratio
+            </p>
+          </div>
 
         <p class="tableTitle">{{language('GUIZEQINGDAN', '规则清单')}}-Regulation</p>
         <div class="margin-top20 formStyle">
           <div  class="btn ">
-            <el-button type="primary" size="mini" circle @click="isruleTitle1=!isruleTitle1">{{isruleTitle1?'-':'+'}}</el-button>
+            <span type="primary" size="mini" circle @click="isruleTitle1=!isruleTitle1">{{isruleTitle1?'-':'+'}}</span>
           </div>
           <tableList
             border
@@ -99,7 +104,7 @@
         <p class="tableTitle">{{language('LJQD', '零件清单')}}-Part List</p>
         <div class="margin-top20 formStyle">
           <div  class="btn ">
-            <el-button type="primary" size="mini" circle @click="isruleTitle2=!isruleTitle2">{{isruleTitle2?'-':'+'}}</el-button>
+            <span type="primary" size="mini" circle @click="isruleTitle2=!isruleTitle2">{{isruleTitle2?'-':'+'}}</span>
           </div>
           <tableList
           border
@@ -200,9 +205,13 @@ import { ruleTableTitle1_1,partTableTitle1_1,ruleTableTitle1_all,partTableTitle1
 import { getAppFormInfo, pageAppRule, pagePartMasterData,approvalList } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
 import signPreview from "./signPreview";
+import iTooltip from "../../applyInfor/iTooltip";
+import { tipList } from '../../applyInfor/data'
+
 export default {
   mixins: [pageMixins],
   components: {
+    iTooltip,
     iCard,
     icon,
     iInput,
@@ -217,6 +226,7 @@ export default {
   },
   data () {
     return {
+      tipList:[],
       avgPeriodList,
       offsetList,
       materialDoseSourceList,
@@ -421,10 +431,19 @@ $tabsInforHeight: 35px;
 
 }
 .btn{
+  display:inline-block;
+    text-align:center;
+    line-height:20px;
+    width:20px;
+    height:20px;
+    font-size:14px;
+    background-color:#1763f7;
+    color:white;
+    border-radius:50%;
     position: absolute;
     right: -10px;
-    top: 25px;
-    z-index: 900;
+    top: 10px;
+    z-index: 100;
   }
 .sign_swap{
   width:100%;
@@ -537,7 +556,13 @@ $tabsInforHeight: 35px;
   }
 }
 
+.centerBox {
+  margin: 20px 0;
 
+  p {
+    font-size: 16px;
+  }
+}
 
 .tabs_box_right{
   .samll_title{

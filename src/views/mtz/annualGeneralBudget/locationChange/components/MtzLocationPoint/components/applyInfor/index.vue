@@ -64,14 +64,7 @@
       <el-input class="font18" :disabled="disabled" type="textarea" :rows="2" :placeholder="language('QINGSHURUBEIAN', '请输入备注')"
         v-model="inforData.linieMeetingMemo"></el-input>
     </iCard>
-    <div class="centerBox">
-      <p>补差金额=零件结算数量 <iTooltip :txtInfo="tipList[0]" :num="'1'"></iTooltip>
-        *[原材料市场价<iTooltip :txtInfo="tipList[1]" :num="'2'"></iTooltip> -原材料基价<iTooltip :txtInfo="tipList[2]" :num="'3'">
-        </iTooltip> *(1+阈值<iTooltip :txtInfo="tipList[3]" :num="'4'"></iTooltip> )]*原材料用量
-        <iTooltip :txtInfo="tipList[4]" :num="'5'"></iTooltip> *补差系数<iTooltip :txtInfo="tipList[5]" :num="'6'"></iTooltip>
-      </p>
-      <p>MTZ Payment=Settle accounts Quantity*[Effective Price-Base Price(1+threshold)]*Raw Material Weight*Ratio</p>
-    </div>
+  
     <theTabs :avgPeriodList="avgPeriodList" :offsetList="offsetList" ref="theTabs" @handleReset="handleReset" v-if="beforReturn" :appStatus='inforData.appStatus'
       :flowType="inforData.flowType">
     </theTabs>
@@ -381,12 +374,7 @@ $tabsInforHeight: 35px;
 ::v-deep.el-button--default{
   font-size: 20px!important;
 }
-.centerBox {
-  margin: 20px 0;
-  p{
-    font-size: 18px;
-  }
-}
+
 
 .openPage {
   position: relative;

@@ -8,7 +8,7 @@
 -->
 
 <template>
-  <iPage>
+  <div>
     <iCard>
       <div class="title">
         <span class="font20_b">{{ language('关联定点申请', "关联定点申请") }}</span>
@@ -24,10 +24,14 @@
         </div>
       </div>
       <div class="info" style="margin-top:30px">
-        <span class="font18">{{ language('定点申请单号', '定点申请单号') }}：</span>
-        <iInput class="font18" style="width:300px;margin-right:20px" v-model="inforData.ttNominateAppId" :disabled="true" />
-        <span class="font18">{{ language('定点申请单名称', '定点申请单名称') }}：</span>
-        <iText  class="text font18" style="width:300px">{{ inforData.ttNominateAppName}}</iText>
+        <div>
+          <span class="font18 block">{{ language('定点申请单号', '定点申请单号') }}</span>
+          <iInput class="font18" style="width:300px;margin-right:20px" v-model="inforData.ttNominateAppId" :disabled="true" />
+        </div>
+        <div>
+          <span class="font18 block">{{ language('定点申请单名称', '定点申请单名称') }}</span>
+          <iText  class="text font18" style="width:300px">{{ inforData.ttNominateAppName}}</iText>
+        </div>
       </div>
 
     </iCard>
@@ -36,7 +40,7 @@
       width="85%" @close='closeDiolog'>
       <partApplication @close="saveClose" :numIsNomi="numIsNomi" :inforData="inforData"></partApplication>
     </iDialog>
-  </iPage>
+  </div>
 </template>
 
 <script>
@@ -196,6 +200,10 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+.block{
+  display:block;
+  margin-bottom:10px;
+}
 
 ::v-deep.el-button--default{
   font-size: 20px!important;

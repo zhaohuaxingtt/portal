@@ -44,12 +44,12 @@
                 </iFormItem>
                 <iFormItem prop="startDate">
                     <iLabel :label="language('YOUXIAOQIQI', '有效期起')" slot="label"></iLabel>
-                    <iDatePicker :picker-options="pickerOptionsStar" v-model="contractForm.startDate" type="datetime">
+                    <iDatePicker value-format="yyyy-MM-dd" :picker-options="pickerOptionsStar" v-model="contractForm.startDate" type="datetime">
                     </iDatePicker>
                 </iFormItem>
                 <iFormItem prop="endDate">
                     <iLabel :label="language('YOUXIAOQIZHI', '有效期止')" slot="label"></iLabel>
-                    <iDatePicker :picker-options="pickerOptionsEnd" v-model="contractForm.endDate" type="datetime">
+                    <iDatePicker value-format="yyyy-MM-dd" :picker-options="pickerOptionsEnd" v-model="contractForm.endDate" type="datetime">
                     </iDatePicker>
                 </iFormItem>
                 <iFormItem prop="ruleNo">
@@ -408,9 +408,11 @@ export default {
             materialCode: [],
             partType: false,
             saveLoading: false,
+            startDate:"",
+            endDate:"",
             pickerOptionsStar: {
                 disabledDate: time => {
-                let starDateVal = this.contractForm.startDate;
+                let starDateVal = this.startDate;
                 if (starDateVal) {
                     return time.getTime() < new Date(starDateVal).getTime() - 86400000;
                 }
@@ -418,7 +420,7 @@ export default {
             },
             pickerOptionsEnd: {
                 disabledDate: time => {
-                let endDateVal = this.contractForm.endDate;
+                let endDateVal = this.endDate;
                 if (endDateVal) {
                     return time.getTime() > new Date(endDateVal).getTime();
                 }
@@ -476,7 +478,7 @@ export default {
                         this.contractForm.supplierId = e.supplierId.toString();
                         this.contractForm.sapCode = e.sapCode.toString();
                         this.contractForm.priceSource = e.source;
-                     
+           
                         this.contractForm = Object.assign({ ...this.contractForm }, e);
                         if (e.priceMeasureUnit == "PC") {
                             this.contractForm.dosageMeasureUnit = "PC";
@@ -485,9 +487,11 @@ export default {
                             this.contractForm.dosageMeasureUnit = "KG";
                             this.companyType = false;
                         }
-                        this.contractForm.avgPeriod=e.avgPeriod.toString();
-                        this.contractForm.offsetMonth=e.offsetMonth.toString();
+                        this.contractForm.avgPeriod=e.avgPeriod?e.avgPeriod.toString():'';
+                        this.contractForm.offsetMonth=e.offsetMonth?e.offsetMonth.toString():'';
                         console.log(this.contractForm)
+                        this.startDate=this.contractForm.startDate
+                        this.endDate=this.contractForm.endDate
                         throw new Error("EndIterative");
                     }
                 });
