@@ -69,12 +69,12 @@
       <!--第二行-->
       <el-row class="margin-bottom20">
         <!--初步评级-->
-        <el-form-item :label="$t('SUPPLIER_CHUBUPINGJI1')">
+        <el-form-item :label="$t('SUPPLIER_TIAOZHENGHOUPINGJI')">
           <el-row gutter="5"
                   style="display: inline-block">
             <el-col :span="11">
               <iSelect :placeholder="$t('LK_QINGXUANZE')"
-                       v-model="form.gradeBegin">
+                       v-model="form.afterGradeBegin">
                 <!--                <el-option value="" :label="$t('all')"></el-option>-->
                 <el-option :value="item.name"
                            :label="$i18n.locale === 'zh'  ? item.name : item.nameEn"
@@ -85,7 +85,7 @@
             <el-col :span="2">-</el-col>
             <el-col :span="11">
               <iSelect :placeholder="$t('LK_QINGXUANZE')"
-                       v-model="form.gradeEnd">
+                       v-model="form.afterGradeEnd">
                 <!--                <el-option value="" :label="$t('all')"></el-option>-->
                 <el-option :value="item.name"
                            :label="$i18n.locale === 'zh'  ? item.name : item.nameEn"
@@ -173,8 +173,8 @@ export default {
         responsibleDepartment: '',
         externalBegin: '',
         externalEnd: '',
-        gradeBegin: '',
-        gradeEnd: '',
+        afterGradeBegin: '',
+        afterGradeEnd: '',
         createTime: '',
         isLow: '',
         isAddition: '',
