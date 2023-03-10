@@ -10,7 +10,7 @@
     <div class="header">
       <h1>{{ supplierType }}供应商芯片补差计算（{{statusName}}）</h1>
       <template v-if="showContent">
-        <iButton @click="computedData">计算</iButton>
+        <iButton @click="computedData" :loading="btnLoading">计算</iButton>
       </template>
     </div>
     <iCard>
@@ -164,6 +164,7 @@ export default {
       supplierType:'一次件',
       statusName: '-',
       tableLoading: false,
+      btnLoading: false,
       tableTitle,
       tableData: [],
       openDialogVisible: false
@@ -259,6 +260,7 @@ export default {
           balanceItemList: [],
           balanceRuleList: this.tableData
         }
+        this.btnLoading = true
         saveBalance(params).then((res) => {
           if (res?.code == '200') {
             calculate({ balanceId: res.data }).then((res) => {
@@ -267,13 +269,13 @@ export default {
                 this.$router.replace({
                   path:'/mtz/annualGeneralBudget/replenishmentManagement/chipCalculationTask'
                 })
-                // 不关闭窗口,跳转到任务页面
-                // setTimeout(()=>{
-                //   window.close()
-                // },2000)
+              }else{
+                this.btnLoading = false
               }
             })
           }
+        }).catch(()=>{
+          this.btnLoading = false
         })
       }else{
         iMessage.warn('请填写必要信息')
