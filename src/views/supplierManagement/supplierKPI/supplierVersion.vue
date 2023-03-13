@@ -29,7 +29,7 @@
           <iButton @click="exportFile">定时规则设置</iButton> -->
         <iButton v-permission="SUPPLIER_WORKBENCH_SUPPLIERBERSION_ADD" @click="addVersion">创建版本</iButton>
       </template>
-      <tableList openPageProps="dataTime" :openPageGetRowData="true" @openPage="handleOpenPage" border
+      <tableList :selection="false" :index="true" openPageProps="dataTime" :openPageGetRowData="true" @openPage="handleOpenPage" border
         :tableData="tableListData" :tableTitle="tableTitle" :tableLoading="tableLoading">
         <template #editionType="scope">
           <span>{{
@@ -46,7 +46,7 @@
           }}</span>
         </template>
         <template #caozuo="scope">
-          <iButton v-permission="SUPPLIER_WORKBENCH_SUPPLIERBERSION_DEL" type="text" @click="delRow(scope.row)">删除
+          <iButton v-if="scope.row.status==0" v-permission="SUPPLIER_WORKBENCH_SUPPLIERBERSION_DEL" type="text" @click="delRow(scope.row)">删除
           </iButton>
         </template>
       </tableList>

@@ -4,8 +4,18 @@
       <div class="title">
         <span class="blod">{{ infoData.name }}</span>
         <span>统计周期: {{ infoData.statisticsStartDate }}-{{ infoData.statisticsEndDate }}</span>
-        <span>截止时间: {{ infoData.endDate }}(距离截止日期还有{{ DateDiffer(infoData.endDate) }}天）</span>
-        <span class="link" @click="dowload(allData.fileId)">{{ allData.fileName }}</span>
+        <el-date-picker v-if="isTime" style="width: 200px" value-format="yyyy-MM-dd hh:mm:ss" v-model="dataTime" type="datetime"
+            placeholder="选择日期">
+          </el-date-picker>
+        <span v-else>截止时间: {{ infoData.endDate }}(距离截止日期还有{{ DateDiffer(infoData.endDate) }}天）</span>
+        <span  class="link" @click="dowload(allData.fileId)">{{ allData.fileName }}</span>
+       <div>
+        <iButton v-if="isTime==false&&DateDiffer(infoData.endDate)>=0" @click="isTime=!isTime">延期</iButton>
+        <iButton v-if="isTime" @click="saveTime">保存</iButton>
+        <iButton v-if="isTime" @click="canelTime">取消</iButton>
+
+       </div>
+
       </div>
     </iCard>
     <iCard style="margin-top: 20px">
@@ -27,7 +37,7 @@
 
 <script>
 import Completed from './Completed'
-import { getPerformanceEdition, updateSupplierPerforManceModel,submitPerformanceTask  } from '@/api/supplierManagement/supplierIndexManage/index'
+import { delayEdition,getPerformanceEdition, updateSupplierPerforManceModel,submitPerformanceTask  } from '@/api/supplierManagement/supplierIndexManage/index'
 import { downloadFileWithName } from '@/api/common'
 import { pageMixins } from '@/utils/pageMixins'
 import supplierIndexManage from '../supplierIndexManage'
@@ -67,6 +77,8 @@ export default {
   },
   data() {
     return {
+      dataTime:'',
+      isTime:false,
       active: 0,
       allData: {},
       infoData: {},
@@ -94,6 +106,7 @@ export default {
     init() {
       getPerformanceEdition(this.$route.query.editionId).then(res => {
         this.infoData = res.data
+        this.dataTime=this.infoData.endDate
         console.log(this.DateDiffer(this.infoData.endDate))
 
       })
@@ -108,6 +121,25 @@ export default {
 
       }
 
+    },
+    saveTime(){
+      const req={
+        id:this.$route.query.editionId,
+        endDate:this.dataTime
+      }
+      delayEdition(req).then(res=>{
+        if(res.code==200){
+          this.init()
+          this.isTime=false
+          iMessage.success(res.desZh || '修改成功')
+        }else{
+          iMessage.error(`${this.$i18n.locale === "zh" ? res.desZh : res.desEn}`)
+        }
+      })
+    },
+    canelTime(){
+      this.isTime=false
+      this.dataTime=''
     },
     getallData(val) {
       console.log(val)
