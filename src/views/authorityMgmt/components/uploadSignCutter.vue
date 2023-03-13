@@ -31,9 +31,11 @@
       <ImgCutter
         :cutWidth="400"
         :cutHeight="300"
+        v-if="visible"
         rate="4:3"
         fileType="png"
         @cutDown="handleCutDown"
+        @onChooseImg="onChooseImg"
       >
         <iInput
           :placeholder="
@@ -103,10 +105,20 @@ export default {
   data() {
     return {
       fileInfo: {},
-      uploadLoading: false
+      uploadLoading: false,
+      visible:true
     }
   },
   methods: {
+    onChooseImg(content){
+      if(content.type.indexOf('image')<0){
+        iMessage.error('请上传图片格式的文件')
+        this.visible = false
+        this.$nextTick(()=>{
+          this.visible = true
+        })
+      }
+    },
     handleCutDown(content) {
       this.uploadLoading = true
       let formData = new FormData()
@@ -126,10 +138,6 @@ export default {
           } else {
             iMessage.error(res.desZh || '文件仅支持图片格式，像素比列（4:3）')
           }
-        })
-        .catch((err) => {
-          console.log(err)
-          iMessage.error(err.desZh || '文件仅支持图片格式，像素比列（4:3）')
         })
         .finally(() => {
           this.uploadLoading = false
