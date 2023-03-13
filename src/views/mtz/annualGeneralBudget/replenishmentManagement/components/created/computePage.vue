@@ -197,7 +197,7 @@ export default {
       balancePage: {
         totalCount: 0, //总条数
         pageSize: 10, //每页多少条
-        pageSizes: [10, 20, 50, 100], //每页条数切换
+        pageSizes: [10, 20, 50, 100, 300], //每页条数切换
         currPage: 1, //当前页
         layout: 'sizes, prev, pager, next, jumper'
       },
@@ -390,7 +390,8 @@ export default {
       }
       updateBalance(this.info).then((res) => {
         if (res?.code == '200') {
-          createBalance({balanceId:this.balanceId}).then((res1) => {
+          
+          createBalance({balanceId:this.balanceId},this.selection.map((item) => item.id)).then((res1) => {
             if (res?.code == '200') {
               iMessage.success(
                 this.$i18n.locale == 'zh' ? res1.desZh : res1.desEn
