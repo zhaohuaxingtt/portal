@@ -13,9 +13,8 @@
           <p>其他科室打分状态：进行中（2/4）</p> -->
       </div>
       <div>
-        <iButton  @click="godept">{{
-          '发送评分部门'
-        }}</iButton>
+        <iButton @click="godept">{{ '发送评分部门' }}</iButton>
+        <iButton @click="exportalFile">导出 </iButton>
         <iButton @click="viewProgressIs = true">查看进度 </iButton>
       </div>
     </div>
@@ -24,7 +23,7 @@
         >{{ active == 1 ? '下载手工指标' : '导出Excel' }}
       </iButton>
       <el-upload
-      :disabled="importLoading"
+        :disabled="importLoading"
         style="margin-left: 10px"
         action="1"
         :accept="'.xlsx,.xls'"
@@ -33,13 +32,15 @@
         :http-request="httpUpload"
       >
         <div>
-          <iButton :loading="importLoading"  v-if="active == 1 && $route.query.type == 'edit'"
+          <iButton
+            :loading="importLoading"
+            v-if="active == 1 && $route.query.type == 'edit'"
             >{{ '上传手工指标' }}
           </iButton>
         </div>
       </el-upload>
       <el-upload
-      :disabled="importLoading"
+        :disabled="importLoading"
         style="margin-left: 10px"
         action="1"
         :accept="'.xlsx,.xls'"
@@ -48,7 +49,9 @@
         :http-request="httpUpload"
       >
         <div>
-          <iButton  :loading="importLoading" v-if="active == 2 && $route.query.type == 'edit'"
+          <iButton
+            :loading="importLoading"
+            v-if="active == 2 && $route.query.type == 'edit'"
             >{{ '上传主观打分' }}
           </iButton>
         </div>
@@ -64,28 +67,32 @@
       <!-- <iButton @click="back()">上一步 </iButton> -->
     </div>
     <div class="table">
-      <el-table style="width: 100%"  :data="tbodyData">
+      <el-table
+        :cell-class-name="cellClassName"
+        style="width: 100%"
+        :data="tbodyData"
+      >
         <el-table-column
           align="center"
           prop="supplierName"
           label="供应商"
-          width="120"
+          min-width="120"
           fixed
         >
         </el-table-column>
         <el-table-column
-          v-if="isAll||this.isShow"
+          v-if="isAll || this.isShow"
           align="center"
           prop="allScore"
           label="总体KPI"
-          width="80"
+          min-width="80"
           fixed
         >
         </el-table-column>
 
         <column
-        :isShow="isShow"
-        v-if="item.isShow||isShow"
+          :isShow="isShow"
+          v-if="item.isShow || isShow"
           v-for="(item, index) in tittleData"
           :key="index"
           :col="item"
@@ -124,7 +131,8 @@ import {
   sendPerformanceTask,
   getAllModelTree,
   getAllSupplierPerforManceScorePage,
-      getAllModelTreeData,
+  getAllModelTreeData,
+  exportSupplierPerforManceAllScoreExcel
 } from '@/api/supplierManagement/supplierIndexManage/index'
 import { pageMixins } from '@/utils/pageMixins'
 import tableList from '@/components/commonTable'
@@ -165,8 +173,8 @@ export default {
   },
   data() {
     return {
-   
-      loadingFile:false,
+      tbodyDataCopy: [],
+      loadingFile: false,
       viewProgressIs: false,
       importLoading: false,
       ipagnation: {
@@ -179,17 +187,15 @@ export default {
       theadData: [],
       berforTheadData: [],
       allData: [],
-      isAll:true
+      isAll: true
     }
   },
   created() {
     this.init()
-    if(this.isShow){
+    if (this.isShow) {
       this.getTableList2()
-
-    }else{
+    } else {
       this.getTableList()
-
     }
   },
   methods: {
@@ -221,8 +227,8 @@ export default {
                   weight: lev1.weight,
                   title: '总分',
                   childVo: [],
-                  width: '60',
-                  isShow:true
+                  'min-width': '60',
+                  isShow: true
                 })
                 lev1.childVo.forEach((lev2) => {
                   lev2.id = lev2.id.toString()
@@ -232,9 +238,8 @@ export default {
                       weight: lev2.weight,
                       title: '总分',
                       childVo: [],
-                      width: '60',
-                      isShow:true
-
+                      'min-width': '60',
+                      isShow: true
                     })
                     lev2.childVo.forEach((lev3) => {
                       lev3.id = lev3.id.toString()
@@ -244,9 +249,8 @@ export default {
                           weight: lev3.weight,
                           title: '总分',
                           childVo: [],
-                          width: '60',
-                          isShow:true
-
+                          'min-width': '60',
+                          isShow: true
                         })
                         lev3.childVo.forEach((lev4) => {
                           lev4.id = lev4.id.toString()
@@ -275,13 +279,16 @@ export default {
         editionId: this.$route.query.editionId
       }
       getSupplierPerforManceScorePage(req).then((res) => {
-        this.tbodyData = res.data
+     
+        this.tbodyData = JSON.parse(JSON.stringify(res.data))
         this.tbodyData.map((val) => {
-          val.score.forEach((item) => {
+          val.score.forEach((item, i) => {
+            val[item.modelLibaryId + item.modelLibaryId] = item.beforeScore
             val[item.modelLibaryId] = item.score
           })
         })
-        console.log( this.tbodyData)
+
+        console.log(this.tbodyData)
         this.page.totalCount = res.total
       })
     },
@@ -306,7 +313,7 @@ export default {
                   title: '总分',
                   childVo: [],
                   width: '60',
-                  isShow:true
+                  isShow: true
                 })
                 lev1.childVo.forEach((lev2) => {
                   lev2.id = lev2.id.toString()
@@ -317,8 +324,7 @@ export default {
                       title: '总分',
                       childVo: [],
                       width: '60',
-                      isShow:true
-
+                      isShow: true
                     })
                     lev2.childVo.forEach((lev3) => {
                       lev3.id = lev3.id.toString()
@@ -329,8 +335,7 @@ export default {
                           title: '总分',
                           childVo: [],
                           width: '60',
-                          isShow:true
-
+                          isShow: true
                         })
                         lev3.childVo.forEach((lev4) => {
                           lev4.id = lev4.id.toString()
@@ -359,21 +364,33 @@ export default {
         editionId: this.$route.query.editionId
       }
       getAllSupplierPerforManceScorePage(req).then((res) => {
-        this.tbodyData = res.data
+        this.tbodyData = JSON.parse(JSON.stringify(res.data))
         this.tbodyData.map((val) => {
-          val.score.forEach((item) => {
+          val.score.forEach((item,i) => {
             val[item.modelLibaryId] = item.score
           })
         })
-        console.log( this.tbodyData)
+
         this.page.totalCount = res.total
       })
+    },
+    cellClassName(obj) {
+    
+      // this.tbodyDataCopy.forEach((val,i)=>{
+      //   for (const key in val) {
+      // }
+      //   if(i==obj.rowIndex){
+      //     val
+      //   }
+      // })
+      // console.log(obj)
+      // console.log(this.tbodyDataCopy)
     },
     dowload() {
       if (this.active == 1) {
         exportManualSupplierPerforManceScoreExcel({
           editionId: this.$route.query.editionId,
-          taskId:this.$route.query.id,
+          taskId: this.$route.query.id
         })
       } else {
         exportL2SupplierPerforManceScoreExcel({
@@ -381,14 +398,20 @@ export default {
         })
       }
     },
-    godept(){
+
+    exportalFile() {
+      exportSupplierPerforManceAllScoreExcel({
+        editionId: this.$route.query.editionId
+      })
+    },
+    godept() {
       sendPerformanceTask(this.$route.query.editionId).then((res) => {
-            if (res.code == '200') {
-              iMessage.success('发送成功')
-            } else {
-              iMessage.error(res.desZh)
-            }
-          })
+        if (res.code == '200') {
+          iMessage.success('发送成功')
+        } else {
+          iMessage.error(res.desZh)
+        }
+      })
     },
     //导入
 
@@ -400,34 +423,36 @@ export default {
 
       formData.append('taskId', this.$route.query.id)
       if (this.active == 1) {
-        await saveManualPerformance(formData).then((res) => {
-          if (res.code == 200 && res) {
+        await saveManualPerformance(formData)
+          .then((res) => {
+            if (res.code == 200 && res) {
+              this.importLoading = false
+              this.$message.success(this.language('DAORUCHENGGONG', '导入成功'))
+              this.getTableList()
+            } else {
+              // this.$set(this.importLoading,'fasle')
+              this.importLoading = false
+              this.$message.error(res.desZh)
+            }
+          })
+          .catch(() => {
             this.importLoading = false
-            this.$message.success(this.language('DAORUCHENGGONG', '导入成功'))
-            this.getTableList()
-          } else {
-            // this.$set(this.importLoading,'fasle')
-            this.importLoading = false
-            this.$message.error(res.desZh)
-          }
-        })
-        .catch(( ) => {
-          this.importLoading = false;
-        });
+          })
       } else {
-        await saveSystemPerformance(formData).then((res) => {
-          if (res.code == 200 && res) {
+        await saveSystemPerformance(formData)
+          .then((res) => {
+            if (res.code == 200 && res) {
+              this.importLoading = false
+              this.getTableList()
+              this.$message.success(this.language('DAORUCHENGGONG', '导入成功'))
+            } else {
+              this.importLoading = false
+              this.$message.error(res.desZh)
+            }
+          })
+          .catch(() => {
             this.importLoading = false
-            this.getTableList()
-            this.$message.success(this.language('DAORUCHENGGONG', '导入成功'))
-          } else {
-            this.importLoading = false
-            this.$message.error(res.desZh)
-          }
-        })
-        .catch(( ) => {
-          this.importLoading = false;
-        });
+          })
       }
     },
     // 上传前校验

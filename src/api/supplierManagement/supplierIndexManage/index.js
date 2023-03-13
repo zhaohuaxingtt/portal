@@ -93,6 +93,14 @@ export function modelList(status) {
     method: 'GET',
   })
 }
+// 延期绩效版本
+export function delayEdition(parmars) {
+  return requst({
+    url: '/supplierPerformanceTask/delayEdition',
+    method: 'POST',
+    data: parmars
+  })
+}
 // 绩效版本列表
 export function getSupplierPerforManceModelPage(parmars) {
   return requst({
@@ -239,6 +247,14 @@ export function saveManualPerformance(parmars) {
     method: 'POST',
     data: parmars
 
+  })
+}
+//  导chu绩效打分excel
+export function exportSupplierPerforManceAllScoreExcel(parmars) {
+  return requestDownload({
+    url: '/supplierPerformanceScore/exportSupplierPerforManceAllScoreExcel',
+    method: 'POST',
+    data: parmars
   })
 }
 //  查看进度

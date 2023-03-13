@@ -61,6 +61,12 @@ export const tableTitle2 = [
 ]
 export const tableTitle = [
   {
+    props: 'name',
+    name: '标题',
+    key: '标题',
+    align: 'center'
+  },
+  {
     props: 'dataTime',
     name: '版本数据日期',
     key: '版本数据日期',
