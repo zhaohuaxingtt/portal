@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-14 14:44:54
- * @LastEditTime: 2023-03-09 15:12:09
+ * @LastEditTime: 2023-03-13 10:32:12
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\created\computePage.vue
@@ -361,7 +361,7 @@ export default {
       if (!this.detailInfo.actualMakeAmount) {
         return iMessage.warn('请填写实补金额')
       }
-      if (this.detailInfo.actualMakeAmount > this.detailInfo.toBeSubmitAmount) {
+      if (+this.detailInfo.actualMakeAmount > +this.detailInfo.toBeSubmitAmount) {
         return iMessage.warn('实补金额不能超出待发起凭证金额')
       }
       this.loading = true
@@ -382,7 +382,7 @@ export default {
       if (!this.detailInfo.actualMakeAmount) {
         return iMessage.warn('请填写实补金额')
       }
-      if (this.detailInfo.actualMakeAmount > this.detailInfo.toBeSubmitAmount) {
+      if (+this.detailInfo.actualMakeAmount > +this.detailInfo.toBeSubmitAmount) {
         return iMessage.warn('实补金额不能超出待发起凭证金额')
       }
       if(this.detailInfo.balanceNo){
