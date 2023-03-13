@@ -1,9 +1,9 @@
 <template>
     <div>
         <div style="margin-top: 40px" class="boxBtn">
-            <iButton @click="add">添加</iButton>
-            <iButton @click="edit">修改</iButton>
-            <iButton @click="del">删除</iButton>
+            <iButton @click="add" v-permission="SUPPLIER_WORKBENCH_SUPPLIERBERSION_SYSTEM_ADD">添加</iButton>
+            <iButton @click="edit" v-permission="SUPPLIER_WORKBENCH_SUPPLIERBERSION_SYSTEM_EDIT">修改</iButton>
+            <iButton @click="del" v-permission="SUPPLIER_WORKBENCH_SUPPLIERBERSION_SYSTEM_DEL">删除</iButton>
         </div>
         <el-tabs class="tabsHeader" type="card" v-model="tabVal" @tab-click="changeTab">
             <el-tab-pane name="DEPT" :label="language('评分科室设置', '评分科室设置')">
