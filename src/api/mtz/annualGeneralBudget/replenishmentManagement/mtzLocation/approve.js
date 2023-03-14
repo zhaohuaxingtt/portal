@@ -76,6 +76,13 @@ export function getSourceApproval(parmars) {
   })
 }
 
+export function getTransferUsers(parmars) {
+  //获取转人员信息
+  return requst({
+    url: '/mtzNomiList/getTransferUsers',
+    method: 'GET',  
+  })
+}
 export function syncAuther(parmars) {
   //获取审批流id
   return requst({
