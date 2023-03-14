@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-18 18:52:11
- * @LastEditTime: 2023-03-03 17:12:39
+ * @LastEditTime: 2023-03-14 11:06:21
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\theTable.vue
@@ -62,8 +62,10 @@
       :loading="loading"
       :data="tableData"
       :columns="tableTitle"
+      :extraData="{ locale: $i18n.locale, language: (key) => $t(key) }"
       @handle-selection-change="handleSelectionChange"
       @openPage="openPage"
+      @openFile="openFile"
     />
     <iPagination
       v-update
@@ -82,7 +84,25 @@
       v-on:dialogShowFun="dialogShowFun"
       @getmakeUpPageList="getmakeUpPageList"
     />
+    <el-dialog
+      :title="language('FUJIANQINGDAN', '附件清单')"
+      :visible.sync="dialogVisible"
+      width="30%"
+    >
+      <ul>
+        <li
+          class="fileList"
+          v-for="item in fileList"
+          :key="item.fileUrl"
+          @click="fileDown(item.fileUrl)"
+        >
+          {{ item.fileName }}
+        </li>
+      </ul>
+      <span slot="footer" class="dialog-footer"> </span>
+    </el-dialog>
   </iCard>
+  
 </template>
 
 <script>
@@ -119,6 +139,7 @@ export default {
       loading: false,
       detailObj: {},
       dialogShow: false,
+      dialogVisible: false,
       supplierType: '一次件供应商',
       typeList: [
         {
@@ -130,7 +151,8 @@ export default {
           key: '散件补差单'
         }
       ],
-      isOnlyMyself: false
+      isOnlyMyself: false,
+      fileList:[],
     }
   },
   created() {
@@ -313,6 +335,13 @@ export default {
           iMessage.error(res.desZh)
         }
       })
+    },
+    openFile(val) {
+      this.fileList = val
+      this.dialogVisible = true
+    },
+    fileDown(val) {
+      window.open(val)
     }
   }
 }

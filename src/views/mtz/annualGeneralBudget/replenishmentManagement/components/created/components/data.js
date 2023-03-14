@@ -26,12 +26,6 @@ export const tableTitle = [
       return <span>{scope.row.method == '1' ? '一次性补差' : '变价单补差'}</span>
     }
   }, {
-    //   prop: 'materialGroup',
-    //   label: '材料组',
-    //   i18n: '材料组',
-    //   align: 'center',
-    //   width: 150
-    // }, {
     prop: 'materialName',
     label: '原材料描述',
     i18n: '原材料描述',
@@ -68,19 +62,19 @@ export const tableTitle = [
     width: 150
   },
   {
-    prop: 'buyerName',
-    label: '采购员',
-    width: '100px',
-    align: 'center',
-    i18n: 'CAIGOUYUAN',
-    width: 100
-  },
-  {
     prop: 'deptCode',
     label: '科室',
     width: '100px',
     align: 'center',
     i18n: 'KESHI',
+    width: 100
+  },
+  {
+    prop: 'buyerName',
+    label: '采购员',
+    width: '100px',
+    align: 'center',
+    i18n: 'CAIGOUYUAN',
     width: 100
   }, {
     prop: 'partNameSec',
@@ -123,9 +117,13 @@ export const tableTitle = [
     prop: 'amount',
     label: '补差金额',
     width: '100px',
-    align: 'center',
+    align: 'right',
+    headerAlign: 'center',
     i18n: '补差金额',
-    width: 120
+    width: 120,
+    customRender: (h, scope) => {
+      return <span>{VueUtil.formatNumber(scope.row.amount)}</span>
+    }
   },
   {
     prop: 'currency',
@@ -255,21 +253,21 @@ export const continueBox = [
     width: 150
   },
   {
-    props: 'buyerName',
-    name: '采购员',
-    width: '100px',
-    align: 'center',
-    key: 'CAIGOUYUAN',
-    width: 100
-  },
-  {
     props: 'deptCode',
     name: '科室',
     width: '100px',
     align: 'center',
     key: 'KESHI',
     width: 100
-  }, {
+  }, 
+  {
+    props: 'buyerName',
+    name: '采购员',
+    width: '100px',
+    align: 'center',
+    key: 'CAIGOUYUAN',
+    width: 100
+  },{
     props: 'partNameSec',
     name: '二次零件号',
     key: '二次零件号',
@@ -311,9 +309,12 @@ export const continueBox = [
     props: 'amount',
     name: '补差金额',
     width: '100px',
-    align: 'center',
+    align: 'right',
+    headerAlign: 'center',
     key: '补差金额',
-    width: 150
+    customRender: (h, scope) => {
+      return <span>{VueUtil.formatNumber(scope.row.amount)}</span>
+    }
   },
   {
     props: 'currency',
@@ -391,10 +392,10 @@ export const infoFormData = [
 ]
 
 export const computedFormData = [
-  { props: 'primaryPartNum', name: '一次零件号', key: '一次零件号', type: 'input' },
-  { props: 'secondPartNum', name: '二次零件号', key: '二次零件号', type: 'input' },
+  { props: 'primaryPartNum', name: '一次零件号', key: '一次零件号', type: 'iMultiLineInput' },
+  { props: 'secondPartNum', name: '二次零件号', key: '二次零件号', type: 'iMultiLineInput' },
   {
-    props: 'secondSupplierSapCode', name: '二次件供应商', key: '二次件供应商', type: 'select', selectOption: 'sSupplierDropDownData', optionLabel: 'code', optionSubLabel:'message',
+    props: 'secondSupplierSapCode', name: '二次件供应商', key: '二次件供应商', type: 'select', selectOption: 'sSupplierDropDownData', optionLabel: 'code', optionSubLabel: 'message',
     optionValue: 'code',
     clearable: true,
   },
@@ -413,10 +414,16 @@ export const tableTitleBE1 = [
     i18n: '项次',
     align: 'center',
     width: 80
-  },{
+  }, {
     prop: 'primaryPartNum',
     label: '一次零件号',
     i18n: '一次零件号',
+    align: 'center',
+    width: 150
+  }, {
+    prop: 'primaryPartName',
+    label: '一次零件名称',
+    i18n: '一次零件名称',
     align: 'center',
     width: 150
   },
@@ -427,7 +434,12 @@ export const tableTitleBE1 = [
     align: 'center',
     i18n: '一次件供应商名称',
     tooltip: true,
-    width: 150
+    width: 150,
+    customRender: (h, scope) => {
+      if(scope.row.primarySupplierSapCode)
+      return <span>{scope.row.primarySupplierSapCode + '-' + scope.row.primarySupplierName}</span>
+      return ''
+    }
   },
   {
     prop: 'materialName',
@@ -441,6 +453,12 @@ export const tableTitleBE1 = [
     i18n: '二次零件号',
     align: 'center',
     width: 150
+  }, {
+    prop: 'secondPartName',
+    label: '二次零件名称',
+    i18n: '二次零件名称',
+    align: 'center',
+    width: 150
   },
   {
     prop: 'secondSupplierName',
@@ -449,7 +467,12 @@ export const tableTitleBE1 = [
     align: 'center',
     i18n: '二次件供应商名称',
     tooltip: true,
-    width: 150
+    width: 150,
+    customRender: (h, scope) => {
+      if(scope.row.secondSupplierSapCode)
+      return <span>{scope.row.secondSupplierSapCode + '-' + scope.row.secondSupplierName}</span>
+      return ''
+    }
   },
   {
     prop: 'secondPrimaryRatio',
@@ -475,9 +498,13 @@ export const tableTitleBE1 = [
     prop: 'makeAmount',
     label: '补差金额',
     width: '100px',
-    align: 'center',
+    align: 'right',
+    headerAlign: 'center',
     i18n: '补差金额',
-    width: 150
+    width: 150,
+    customRender: (h, scope) => {
+      return <span>{VueUtil.formatNumber(scope.row.makeAmount)}</span>
+    }
   },
   {
     prop: 'currency',
@@ -489,15 +516,21 @@ export const tableTitleBE1 = [
   { prop: 'exchangeRate', label: '汇率', align: 'center', i18n: 'HUILV' },
 
   { prop: 'receiveQuantity', label: '结算数量', i18n: '结算数量', width: 120 },
-  { prop: 'requestAmount', label: '应补金额', i18n: '应补金额', width: 120 },
-  { prop: 'actualMakeAmount', label: '实补金额', i18n: '实补金额', width: 120 },
   {
-    prop: 'buyerName',
-    label: '采购员',
-    width: '100px',
-    align: 'center',
-    i18n: 'CAIGOUYUAN',
-    width: 100
+    prop: 'requestAmount', label: '应补金额', i18n: '应补金额', width: 120,
+    align: 'right',
+    headerAlign: 'center',
+    customRender: (h, scope) => {
+      return <span>{VueUtil.formatNumber(scope.row.requestAmount)}</span>
+    }
+  },
+  {
+    prop: 'actualMakeAmount', label: '实补金额', i18n: '实补金额', width: 120,
+    align: 'right',
+    headerAlign: 'center',
+    customRender: (h, scope) => {
+      return <span>{VueUtil.formatNumber(scope.row.actualMakeAmount)}</span>
+    }
   },
   {
     prop: 'departmentCode',
@@ -505,6 +538,14 @@ export const tableTitleBE1 = [
     width: '100px',
     align: 'center',
     i18n: 'KESHI',
+    width: 100
+  },
+  {
+    prop: 'buyerName',
+    label: '采购员',
+    width: '100px',
+    align: 'center',
+    i18n: 'CAIGOUYUAN',
     width: 100
   }
 ]
@@ -520,6 +561,12 @@ export const tableTitleComplete1 = [
     i18n: '一次零件号',
     align: 'center',
     width: 150
+  }, {
+    prop: 'primaryPartName',
+    label: '一次零件名称',
+    i18n: '一次零件名称',
+    align: 'center',
+    width: 150
   },
   {
     prop: 'primarySupplierName',
@@ -528,7 +575,13 @@ export const tableTitleComplete1 = [
     align: 'center',
     i18n: '一次件供应商名称',
     tooltip: true,
-    width: 150
+    width: 150,
+    customRender: (h, scope) => {
+      if(scope.row.primarySupplierSapCode){
+        return <span>{scope.row.primarySupplierSapCode + '-' + scope.row.primarySupplierName}</span>
+      }
+      return ''
+    }
   },
   {
     prop: 'materialName',
@@ -542,6 +595,12 @@ export const tableTitleComplete1 = [
     i18n: '二次零件号',
     align: 'center',
     width: 150
+  }, {
+    prop: 'secondPartName',
+    label: '二次零件名称',
+    i18n: '二次零件名称',
+    align: 'center',
+    width: 150
   },
   {
     prop: 'secondSupplierName',
@@ -550,7 +609,13 @@ export const tableTitleComplete1 = [
     align: 'center',
     i18n: '二次件供应商名称',
     tooltip: true,
-    width: 150
+    width: 150,
+    customRender: (h, scope) => {
+      if(scope.row.secondSupplierSapCode){
+        return <span>{scope.row.secondSupplierSapCode + '-' + scope.row.secondSupplierName}</span>
+      }
+      return ''
+    }
   },
   {
     prop: 'secondPrimaryRatio',
@@ -576,9 +641,13 @@ export const tableTitleComplete1 = [
     prop: 'makeAmount',
     label: '补差金额',
     width: '100px',
-    align: 'center',
+    align: 'right',
+    headerAlign: 'center',
     i18n: '补差金额',
-    width: 150
+    width: 150,
+    customRender: (h, scope) => {
+      return <span>{VueUtil.formatNumber(scope.row.makeAmount)}</span>
+    }
   },
   {
     prop: 'currency',
@@ -590,8 +659,22 @@ export const tableTitleComplete1 = [
   { prop: 'exchangeRate', label: '汇率', align: 'center', i18n: 'HUILV' },
 
   { prop: 'receiveQuantity', label: '结算数量', i18n: '结算数量', width: 120 },
-  { prop: 'requestAmount', label: '应补金额', i18n: '应补金额', width: 120 },
-  { prop: 'actualMakeAmount', label: '实补金额', i18n: '实补金额', width: 120 },
+  {
+    prop: 'requestAmount', label: '应补金额', i18n: '应补金额', width: 120,
+    align: 'right',
+    headerAlign: 'center',
+    customRender: (h, scope) => {
+      return <span>{VueUtil.formatNumber(scope.row.requestAmount)}</span>
+    }
+  },
+  {
+    prop: 'actualMakeAmount', label: '实补金额', i18n: '实补金额', width: 120,
+    align: 'right',
+    headerAlign: 'center',
+    customRender: (h, scope) => {
+      return <span>{VueUtil.formatNumber(scope.row.actualMakeAmount)}</span>
+    }
+  },
   {
     prop: 'balanceNo',
     label: '补差单编号',
@@ -600,19 +683,19 @@ export const tableTitleComplete1 = [
     width: 150,
   },
   {
-    prop: 'buyerName',
-    label: '采购员',
-    width: '100px',
-    align: 'center',
-    i18n: 'CAIGOUYUAN',
-    width: 100
-  },
-  {
     prop: 'departmentCode',
     label: '科室',
     width: '100px',
     align: 'center',
     i18n: 'KESHI',
+    width: 100
+  },
+  {
+    prop: 'buyerName',
+    label: '采购员',
+    width: '100px',
+    align: 'center',
+    i18n: 'CAIGOUYUAN',
     width: 100
   }
 ]
@@ -636,6 +719,12 @@ export const tableTitleBE2 = [
     i18n: '一次零件号',
     align: 'center',
     width: 150
+  }, {
+    prop: 'primaryPartName',
+    label: '一次零件名称',
+    i18n: '一次零件名称',
+    align: 'center',
+    width: 150
   },
   {
     prop: 'primarySupplierName',
@@ -644,7 +733,12 @@ export const tableTitleBE2 = [
     align: 'center',
     i18n: '一次件供应商名称',
     tooltip: true,
-    width: 150
+    width: 150,
+    customRender: (h, scope) => {
+      if(scope.row.primarySupplierSapCode)
+      return <span>{scope.row.primarySupplierSapCode + '-' + scope.row.primarySupplierName}</span>
+      return ''
+    }
   },
   {
     prop: 'materialName',
@@ -658,6 +752,12 @@ export const tableTitleBE2 = [
     i18n: '二次零件号',
     align: 'center',
     width: 150
+  }, {
+    prop: 'secondPartName',
+    label: '二次零件名称',
+    i18n: '二次零件名称',
+    align: 'center',
+    width: 150
   },
   {
     prop: 'secondSupplierName',
@@ -666,7 +766,12 @@ export const tableTitleBE2 = [
     align: 'center',
     i18n: '二次件供应商名称',
     tooltip: true,
-    width: 150
+    width: 150,
+    customRender: (h, scope) => {
+      if(scope.row.secondSupplierSapCode)
+      return <span>{scope.row.secondSupplierSapCode + '-' + scope.row.secondSupplierName}</span>
+      return ''
+    }
   },
   {
     prop: 'secondPrimaryRatio',
@@ -687,20 +792,28 @@ export const tableTitleBE2 = [
     i18n: '采购框架',
     align: 'center',
     width: 150
-  },{
+  }, {
     prop: 'agreementPrice',
     label: '框架价格',
     i18n: '框架价格',
-    align: 'center',
-    width: 150
+    align: 'right',
+    headerAlign: 'center',
+    width: 150,
+    customRender: (h, scope) => {
+      return <span>{VueUtil.formatNumber(scope.row.agreementPrice)}</span>
+    }
   },
   {
     prop: 'makeAmount',
     label: '补差金额',
     width: '100px',
-    align: 'center',
+    align: 'right',
+    headerAlign: 'center',
     i18n: '补差金额',
-    width: 150
+    width: 150,
+    customRender: (h, scope) => {
+      return <span>{VueUtil.formatNumber(scope.row.makeAmount)}</span>
+    }
   },
   {
     prop: 'currency',
@@ -712,15 +825,21 @@ export const tableTitleBE2 = [
   { prop: 'exchangeRate', label: '汇率', align: 'center', i18n: 'HUILV' },
 
   { prop: 'receiveQuantity', label: '结算数量', i18n: '结算数量', width: 120 },
-  { prop: 'requestAmount', label: '应补金额', i18n: '应补金额', width: 120 },
-  { prop: 'actualMakeAmount', label: '实补金额', i18n: '实补金额', width: 120 },
   {
-    prop: 'buyerName',
-    label: '采购员',
-    width: '100px',
-    align: 'center',
-    i18n: 'CAIGOUYUAN',
-    width: 100
+    prop: 'requestAmount', label: '应补金额', i18n: '应补金额', width: 120,
+    align: 'right',
+    headerAlign: 'center',
+    customRender: (h, scope) => {
+      return <span>{VueUtil.formatNumber(scope.row.requestAmount)}</span>
+    }
+  },
+  {
+    prop: 'actualMakeAmount', label: '实补金额', i18n: '实补金额', width: 120,
+    align: 'right',
+    headerAlign: 'center',
+    customRender: (h, scope) => {
+      return <span>{VueUtil.formatNumber(scope.row.actualMakeAmount)}</span>
+    }
   },
   {
     prop: 'departmentCode',
@@ -728,6 +847,14 @@ export const tableTitleBE2 = [
     width: '100px',
     align: 'center',
     i18n: 'KESHI',
+    width: 100
+  },
+  {
+    prop: 'buyerName',
+    label: '采购员',
+    width: '100px',
+    align: 'center',
+    i18n: 'CAIGOUYUAN',
     width: 100
   }
 ]
