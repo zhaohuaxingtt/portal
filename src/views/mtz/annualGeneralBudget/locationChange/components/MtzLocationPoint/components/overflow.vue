@@ -177,10 +177,9 @@ export default {
       return this.$store.state.location.submitInfor;
     },
     isEditNew: function () {
-            return (this.appStatus == '草稿' || this.appStatus == '未通过')||(((this.flowType=='SIGN'||this.flowType=='FILING')&&this.appStatus=='已提交')||(this.appStatus!='冻结'&&this.flowType=="MEETING"))
-
-      // return (this.appStatus == '草稿' || this.appStatus == '未通过')||(((this.flowType=='SIGN'||this.flowType=='FILING')||(['02','03',null,'01'].includes(this.meetingStatus)&&this.flowType=='MEETING'))&&this.appStatus=='已提交')
-    }
+      const appStatusArr=['草稿','已提交','未通过','通过','复核未通过','M退回']
+      return (this.appStatus == '草稿' || this.appStatus == '未通过')||(((this.flowType=='SIGN'||this.flowType=='FILING')&&this.appStatus=='已提交')||(appStatusArr.indexOf(this.appStatus)>0&&this.flowType=="MEETING"))
+    },
   },
 
   watch: {
