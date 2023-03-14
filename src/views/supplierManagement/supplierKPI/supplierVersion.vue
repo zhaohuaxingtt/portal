@@ -276,7 +276,7 @@ export default {
     longTime(val){
       this.updataTimeDialog=true
       this.rowList=val
-      this.updataTime=val.endTime
+      this.updataTime=val.endDate
     },
     saveTime(){
       const req={
