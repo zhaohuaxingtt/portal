@@ -73,6 +73,12 @@ export const tableTitle = [
     align: 'center'
   },
   {
+    props: 'endDate',
+    name: '截止日期',
+    key: '截止日期',
+    align: 'center'
+  },
+  {
     props: 'editionType',
     name: '类型',
     key: '类型',

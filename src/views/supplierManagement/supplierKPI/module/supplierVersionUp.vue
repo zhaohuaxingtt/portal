@@ -10,7 +10,7 @@
         <span v-else>截止时间: {{ infoData.endDate }}(距离截止日期还有{{ DateDiffer(infoData.endDate) }}天）</span>
         <span  class="link" @click="dowload(allData.fileId)">{{ allData.fileName }}</span>
        <div>
-        <iButton v-if="isTime==false&&DateDiffer(infoData.endDate)>=0" @click="isTime=!isTime">延期</iButton>
+        <!-- <iButton v-if="isTime==false&&DateDiffer(infoData.endDate)>=0" @click="isTime=!isTime">延期</iButton> -->
         <iButton v-if="isTime" @click="saveTime">保存</iButton>
         <iButton v-if="isTime" @click="canelTime">取消</iButton>
 

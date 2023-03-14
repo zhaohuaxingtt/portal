@@ -79,6 +79,9 @@
           min-width="120"
           fixed
         >
+        <template slot-scope="scope">
+            <span>{{ scope.row.sapCode }}-{{ scope.row.supplierName }}</span>
+          </template>
         </el-table-column>
         <el-table-column
           v-if="isAll || this.isShow"
