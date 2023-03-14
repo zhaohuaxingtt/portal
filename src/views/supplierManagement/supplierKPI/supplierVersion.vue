@@ -48,6 +48,8 @@
         <template #caozuo="scope">
           <iButton v-if="scope.row.status==0" v-permission="SUPPLIER_WORKBENCH_SUPPLIERBERSION_DEL" type="text" @click="delRow(scope.row)">删除
           </iButton>
+          <iButton v-if="DateDiffer(scope.row.endDate)>=0" v-permission="SUPPLIER_WORKBENCH_SUPPLIERBERSION_DEL" type="text" @click="longTime(scope.row)">延期
+          </iButton>
         </template>
       </tableList>
       <iPagination v-update @size-change="handleSizeChange($event, getTableList)"
@@ -136,12 +138,25 @@
         }}</iButton>
       </span>
     </iDialog>
+    <iDialog append-to-body :title="$t('延期')" :visible.sync="updataTimeDialog" width="40%" @close="clearDiologTime">
+      <span>截止日期：</span>
+      <el-date-picker style="width: 200px" value-format="yyyy-MM-dd hh:mm:ss" v-model="updataTime" type="datetime"
+            placeholder="选择日期">
+          </el-date-picker>
+
+      <span slot="footer" class="dialog-footer">
+        <iButton  @click="saveTime()">{{
+          '确认'
+        }}</iButton>
+      </span>
+    </iDialog>
     <supplier ref="supplier" @addsupplier="addsupplier" v-if="supplierDiolog" v-model="supplierDiolog"></supplier>
   </div>
 </template>
 
 <script>
 import {
+  delayEdition,
   getSupplierPerforManceModelPage,
   addSupplierPerforManceModel,
   addSupplierPerforManceModelRelation,
@@ -187,6 +202,9 @@ export default {
   },
   data() {
     return {
+      rowList:{},
+      updataTime:'',
+      updataTimeDialog:false,
       importLoading: false,
       typeList: [],
       statusList: [],
@@ -250,6 +268,30 @@ export default {
         }
       })
       window.open(routeUrl.href, '_blank')
+    },
+    clearDiologTime(){
+      this.updataTime=''
+      this.updataTimeDialog=false
+    },
+    longTime(val){
+      this.updataTimeDialog=true
+      this.rowList=val
+      this.updataTime=val.endTime
+    },
+    saveTime(){
+      const req={
+        id:this.rowList.id,
+        endDate:this.updataTime
+      }
+      delayEdition(req).then(res=>{
+        if(res.code==200){
+          this.getTableList()
+          this.clearDiologTime()
+          iMessage.success(res.desZh || '修改成功')
+        }else{
+          iMessage.error(`${this.$i18n.locale === "zh" ? res.desZh : res.desEn}`)
+        }
+      })
     },
     delRow(row) {
       this.$confirm('是否确认删除', '删除', {
