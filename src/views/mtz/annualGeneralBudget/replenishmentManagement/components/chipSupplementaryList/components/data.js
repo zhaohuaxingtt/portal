@@ -120,12 +120,46 @@ export const tableTitle = [
     tooltip: true,
     minWidth: 150,
     customRender: (h, scope, c, e) => {
-      console.log(scope.row);
       if (['审批中', '审批通过', '审批不通过', '审批退回-补充材料', 'EPMS审批中', 'EPMS审批不通过', 'EPMS审批通过', 'EPMS审批退回-补充材料'].includes(scope.row.statusName)) {
         return <popover instanceId={scope.row.workflowId} epmsId={scope.row.id} statusName={scope.row.statusName}></popover>
       } else {
         return <span> {scope.row.statusName}</span>
       }
+    }
+  },
+  {
+    prop: 'remark',
+    label: '备注',
+    i18n: 'BEIZHU',
+    align: 'center',
+    tooltip: true,
+    minWidth: 150,
+    customRender: (h, scope, c, e) => {
+      if (scope.row.remark) {
+        return (<el-tooltip
+          class="item"
+          effect="light"
+          content={scope.row.remark}
+          placement="top"
+        >
+          <el-button type="text">{e.language('JUPEILIYOU')}</el-button>
+        </el-tooltip>)
+      }
+      return ''
+    }
+  },
+  {
+    prop: 'fileList',
+    label: '附件清单',
+    i18n: 'FUJIANQINGDAN',
+    align: 'center',
+    minWidth: 150,
+    emit: 'openFile',
+    customRender: (h, scope, c, e) => {
+      if (scope.row?.fileList?.length !== 0) {
+        return <iButton type="text" >{e.language('FUJIANQINGDAN')}</iButton>
+      }
+      return ''
     }
   },
 ]

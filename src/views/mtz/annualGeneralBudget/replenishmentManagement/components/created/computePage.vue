@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-14 14:44:54
- * @LastEditTime: 2023-03-13 10:32:12
+ * @LastEditTime: 2023-03-14 10:19:01
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\created\computePage.vue
@@ -86,6 +86,7 @@
         <iTableCustom
           :data="balanceItemList"
           :columns="tableTitleBE"
+          :key="tabsValue"
           @handle-selection-change="handleSelectionChange"
         />
         <iPagination
@@ -104,6 +105,7 @@
         <iTableCustom
           :data="savedBalanceItemList"
           :columns="tableTitle"
+          :key="tabsValue"
         />
         <iPagination
           @size-change="saveBalanceSizeChange"
@@ -135,7 +137,6 @@ import {
   iTableCustom,
   iMessageBox
 } from 'rise'
-import tableList from '@/components/commonTable/index.vue'
 import search from '../components/search.vue'
 import {
   getTaskSecondSupplierList,
@@ -149,7 +150,7 @@ import {
 } from '@/api/mtz/annualGeneralBudget/chipReplenishment'
 import {
   infoFormData,
-  tableTitle,
+  tableTitle as tableTitleRule,
   tableTitleBE1,
   tableTitleBE2,
   tableTitleComplete1,
@@ -163,25 +164,10 @@ export default {
     iButton,
     iDatePicker,
     iPagination,
-    tableList,
     iTabsList,
     iCard,
     iTableCustom,
     search
-  },
-  props: {
-    value: {
-      type: Boolean,
-      default: true
-    },
-    params: {
-      type: Object,
-      default: () => {}
-    },
-    supplierType: {
-      type: String,
-      default: '一次件供应商'
-    }
   },
   data() {
     return {
@@ -212,14 +198,15 @@ export default {
       detailInfo: {},
       infoFormData,
       tabsValue: '1',
-      supplierType: 1,
+      supplierType: '一次件',
       searchForm: {},
       computedFormData,
-      tableTitleRule: tableTitle,
+      tableTitleRule,
       options: {
         sSupplierDropDownData: [], //二次件供应商编号
       },
       loading: false,
+      tableTitle:[],
       tableTitleBE: [],
       tableListData: [],
       selection: [],
@@ -236,7 +223,8 @@ export default {
         if (val == 1) {
           // 待发起
           this.tableTitleBE =
-            this.supplierType == '一次件供应商' ? tableTitleBE1 : tableTitleBE2
+            this.supplierType == '一次件' ? tableTitleBE1 : tableTitleBE2
+            console.log(this.tableTitleBE);
         } else {
           // 已发起
           this.tableTitle = tableTitleComplete1
