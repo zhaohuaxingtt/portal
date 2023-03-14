@@ -35,7 +35,7 @@
                 class="menu"
                 @show="showItem"
               >
-                <ul class="item-list" ref='menu'>
+                <ul class="item-list" ref="menu">
                   <li
                     class="list-item cursor"
                     @click="click(item, i)"
@@ -106,6 +106,10 @@ import alarm from '@/assets/images/icon/alarm.svg'
 import clock from '@/assets/images/icon/clock.svg'
 import attch from './attch.vue'
 import { findThemenById } from '@/api/meeting/details'
+import {
+  findThemenById as GPFindThemenById,
+  endCscThemen
+} from '@/api/meeting/gpMeeting'
 export default {
   components: {
     iPage,
@@ -130,10 +134,14 @@ export default {
   },
   async created() {
     let query = this.$route.query
-    this.meetingInfo = await findThemenById({ id: query.id })
+    this.project = query.project
+    this.meetingInfo = await this.findThemenById(query)
     this.themens = this.meetingInfo?.themens
     this.meetingInfo.themens.forEach((item, index) => {
-      if (item.fixedPointApplyId == query.desinateId) {
+      if (
+        item.fixedPointApplyId == (query.desinateId ||
+        query.fixedPointApplyId)
+      ) {
         this.click(item, index)
       }
     })
@@ -146,12 +154,22 @@ export default {
     this.getNewDate()
   },
   methods: {
+    async findThemenById(query) {
+      if (this.project == 'GP') {
+        return await GPFindThemenById({ id: query.id })
+      } else {
+        return await findThemenById({ id: query.id })
+      }
+    },
     // 滚动到当前议题
-    showItem(){
-      this.$nextTick(()=>{
+    showItem() {
+      this.$nextTick(() => {
         let active = this.$refs.menu.getElementsByClassName('is-active')[0]
-        if(active)
-        this.$refs.menu.scrollTo(0,[active][0].offsetTop - this.$refs.menu.offsetHeight / 2)
+        if (active)
+          this.$refs.menu.scrollTo(
+            0,
+            [active][0].offsetTop - this.$refs.menu.offsetHeight / 2
+          )
       })
     },
     getNewDate() {
@@ -185,8 +203,27 @@ export default {
       this.detail = item
       this.index = index
       let local
-      // = 'http://localhost:8080/sourcing/#'
-      if (item.source == '04') {
+      //  = 'http://localhost:8081'
+      if (this.project == 'GP') {
+        let num = null
+        let documentType = this.$route.query.documentType
+        if (documentType == '13') {
+          num = 1
+        } else {
+          num = 3
+        }
+        const documentTypeList = ['14', '15']
+        if (documentTypeList.includes(documentType)) {
+          // window.open(`${process.env.VUE_APP_HOST}/gp-portal/#/auditChangeDetail/${row.fixedPointApplyId}?current=${1}`)
+          this.src = `${
+            local || process.env.VUE_APP_HOST
+          }/gp-portal/#/auditChangeDetail/${item.fixedPointApplyId}?current=1`
+        } else {
+          this.src = `${
+            local || process.env.VUE_APP_HOST
+          }/gp-portal/#/previewCSC/${item.fixedPointApplyId}?current=${num}`
+        }
+      } else if (item.source == '04') {
         if (item.type === 'FS+MTZ') {
           this.src =
             (local || process.env.VUE_APP_POINT) +
@@ -254,7 +291,7 @@ export default {
       height: 24px;
       margin-right: 5px;
     }
-    .value{
+    .value {
       display: inline-flex;
       align-items: center;
       .count {
@@ -315,14 +352,14 @@ export default {
 .list-icon {
   margin: 0 5px;
   height: 32px;
-  &.right{
+  &.right {
     transform: rotateZ(90deg);
   }
-  &.left{
+  &.left {
     transform: rotateZ(-90deg);
   }
 }
-.list-icon-menu{
+.list-icon-menu {
   margin: 0 5px;
   height: 32px;
   vertical-align: bottom;

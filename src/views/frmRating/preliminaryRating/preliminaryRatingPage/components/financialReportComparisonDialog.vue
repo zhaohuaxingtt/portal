@@ -85,7 +85,7 @@ export default {
           tids: this.tids,
         };
         const res = await financialReportRatingComparison(req);
-        this.handleTableTitle(res.data.tableTitle);
+        this.handleTableTitle(res);
         this.tableListData = res.data.detailList;
         this.tableLoading = false;
       } catch {
@@ -113,15 +113,24 @@ export default {
           level,
         };
         const res = await financialReportLevel3Comparison(req);
+        console.log(res)
         this.handleTableTitle(res.data.tableTitle);
         this.tableListData = res.data.detailList.map(item => {
           Object.keys(item).map(itemChildren => {
             if (!['field', 'zb', 'weight'].includes(itemChildren)) {
+              console.log(Number(item[itemChildren],10))
+              if(isNaN(Number(item[itemChildren],10))){
+                item[itemChildren]= item[itemChildren]
+              }else{
               item[itemChildren] = this.toFixed(item[itemChildren], 2).toString().replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, '$1,');
+
+              }
             }
           });
           return item;
         });
+        console.log( this.tableListData )
+
         this.tableLoading = false;
       } catch {
         this.tableListData = [];

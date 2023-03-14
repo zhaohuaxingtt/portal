@@ -1386,6 +1386,7 @@
     SUPPLIER_GAILAN: 'Overview', //概览
     SUPPLIER_FRMZONGHEGUANLI: 'FRM Comprehensive Management', //FRM综合管理
     SUPPLIER_XINGONGYINGSHANGPINGJI: 'New Supplier Rating', //新供应商评级
+    SUPPLIER_TIAOZHENGHOUPINGJI:'Initial Rating',
     SUPPLIER_CHUBUPINGJI1: 'Initial Rating', //初步评级
     SUPPLIER_SHENRUPINGJI: 'In-depth Analysis', //深入评级
     SUPPLIER_FENGXIANXINHAO: 'Risk Signal', //风险信号
