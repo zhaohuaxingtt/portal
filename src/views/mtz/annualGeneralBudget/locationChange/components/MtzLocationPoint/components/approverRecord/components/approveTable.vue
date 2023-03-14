@@ -256,8 +256,9 @@ export default {
       return this.$store.state.location.mtzObject;
     },
     isEditNew: function () {
-      return (this.appStatus == '草稿' || this.appStatus == '未通过')||(((this.flowType=='SIGN'||this.flowType=='FILING')&&this.appStatus=='已提交')||(this.appStatus!='冻结'&&this.flowType=="MEETING"))
-    }
+      const appStatusArr=['草稿','已提交','未通过','通过','复核未通过','M退回']
+      return (this.appStatus == '草稿' || this.appStatus == '未通过')||(((this.flowType=='SIGN'||this.flowType=='FILING')&&this.appStatus=='已提交')||(appStatusArr.indexOf(this.appStatus)>0&&this.flowType=="MEETING"))
+    },
   },
   watch: {
     mtzObject (newVlue, oldValue) {
@@ -518,8 +519,8 @@ export default {
       }).then(res => {
         if (res?.code === '200') {
           
-          if ((res.data.appStatus == '草稿' || res.data.appStatus == '未通过')||(((res.data.flowType=='SIGN'||res.data.flowType=='FILING')&&res.data.appStatus=='已提交')||(res.data.appStatus!='冻结'&&res.data.flowType=="MEETING"))) {
-            this.flag = false;
+        if (this.isEditNew) {           
+           this.flag = false;
           } else {
             this.flag = true;
           }
