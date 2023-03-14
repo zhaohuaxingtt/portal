@@ -198,7 +198,11 @@ export default {
       // 	this.$message.error(this.$t('SPR_FRM_DEP_CHECK'))
       // 	return
       // }
-      if ((this.info.deepCommentRatingResults == "" || this.info.deepCommentRatingResults == null) && (this.info.trackFrequencyAgain == "" || this.info.trackFrequencyAgain == null)) {
+      if (this.info.deepCommentRatingResults == "" || this.info.deepCommentRatingResults == null) {
+        iMessage.warn('Please fill in the status and follow-up frequency')
+        return false
+      }
+      if (this.info.trackFrequencyAgain == "" || this.info.trackFrequencyAgain == null) {
         iMessage.warn('Please fill in the status and follow-up frequency')
         return false
       }
