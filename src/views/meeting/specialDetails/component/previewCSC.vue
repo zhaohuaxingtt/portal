@@ -202,7 +202,8 @@ export default {
       this.time = 0
       this.detail = item
       this.index = index
-      // let local = 'http://localhost:8081'
+      let local
+      //  = 'http://localhost:8081'
       if (this.project == 'GP') {
         let num = null
         let documentType = this.$route.query.documentType
