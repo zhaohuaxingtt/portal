@@ -336,6 +336,14 @@
                 </iFormItem>
               </el-col>
             </el-row>
+            <!-- 暂时未确定要显示 -->
+            <el-row gutter="24" v-if="false">
+              <el-col :span="6">
+                <iFormItem :label="language('配附件采购员')">
+                  <iInput disabled v-model="accessoriesUserInfo"></iInput>
+                </iFormItem>
+              </el-col>
+            </el-row>
           </el-form>
         </div>
       </iCard>
@@ -509,6 +517,7 @@ export default {
           console.log('res res res:', res)
           if (res.code === '200') {
             this.purchaser = res?.data?.linieUserInfo?.userName || ''
+            this.accessoriesUserInfo = res?.data?.accessoriesUserInfo?.userName || ''
           }
         })
       }
@@ -1288,7 +1297,8 @@ export default {
         vos: []
       },
       datePickerStatus: false,
-      purchaser: '' // 采购员
+      purchaser: '', // 采购员
+      accessoriesUserInfo: '', // 配附件采购员
     }
   }
 }

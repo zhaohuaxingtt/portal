@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-28 16:45:22
- * @LastEditTime: 2023-01-17 18:47:19
+ * @LastEditTime: 2023-02-23 11:35:25
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: mtz
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\mtz.vue
@@ -629,6 +629,11 @@
               :selection="false"
               border
             >
+              <template slot-scope="scope" slot="method">
+                <span>{{
+                  scope.row.method == '1' ? '一次性补差' : scope.row.method == '2' ? '变价单补差' : ''
+                }}</span>
+              </template>
               <template slot-scope="scope" slot="compensationPeriod">
                 <span>{{
                   scope.row.compensationPeriod == 'A'
@@ -662,6 +667,11 @@
               :index="true"
               :selection="false"
             >
+              <template slot-scope="scope" slot="method">
+                <span>{{
+                  scope.row.method == '2' ? '变价单补差' : '一次性补差'
+                }}</span>
+              </template>
               <template slot-scope="scope" slot="supplierId">
                 <span>{{ scope.row.supplierId }}</span
                 ><br />
