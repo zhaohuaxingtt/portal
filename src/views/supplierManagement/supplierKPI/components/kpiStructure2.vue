@@ -132,12 +132,13 @@
                     :disabled="!isEdit"
                     class="kpi-input2"
                     clearable
+                    value-key="id"
                     :placeholder="$t('partsprocure.PLEENTER')"
                     v-model="item.indicatorLibraryId"
                   >
                     <el-option
                       v-for="(j, index) in infoList"
-                      :key="index"
+                      :key="j.id"
                       :value="j.id"
                       :label="j.nameZh"
                     >
@@ -475,7 +476,7 @@ export default {
         childVo: []
       })
       if (tableChild.length >= 1) {
-        this.formDataLevel2.childVo.indicatorLibraryId = ''
+        // this.formDataLevel2.childVo.indicatorLibraryId = ''
       }
     },
     handleAdd(index, idx3, str, idx4) {
@@ -498,7 +499,7 @@ export default {
           childVo: []
         })
         if (tableChild[index].childVo.length >= 1) {
-          tableChild[index].indicatorLibraryId = ''
+          // tableChild[index].indicatorLibraryId = ''
         }
       } else if (str === '3') {
         if (tableChild[index].childVo[idx3].childVo.length == 5)
@@ -517,7 +518,7 @@ export default {
           childVo: []
         })
         if (tableChild[index].childVo[idx3].childVo.length >= 1) {
-          tableChild[index].childVo[idx3].indicatorLibraryId = ''
+          // tableChild[index].childVo[idx3].indicatorLibraryId = ''
         }
       } else if (str === '4') {
         if (tableChild[index].childVo[idx3].childVo[idx4].childVo.length == 5)
@@ -536,7 +537,7 @@ export default {
           childVo: []
         })
         if (tableChild[index].childVo[idx3].childVo[idx4].childVo.length >= 1) {
-          tableChild[index].childVo[idx3].childVo[idx4].indicatorLibraryId = ''
+          // tableChild[index].childVo[idx3].childVo[idx4].indicatorLibraryId = ''
         }
       }
     },
@@ -568,22 +569,31 @@ export default {
       let lv4Weight = 0
       let lev4p = true
       let nameIsNull = true
+      this.formDataLevel2.childVo.indicatorType=this.formDataLevel2.childVo.indicatorLibraryId?this.infoList.find(val=>this.formDataLevel2.childVo.indicatorLibraryId==val.id).indicatorType:''
+
       if (tableChild.length > 0) {
         tableChild.forEach((x) => {
           if (!x.title || !x.weight) nameIsNull = false
           lv1Weight += Number(x.weight)
+          x.indicatorType=x.indicatorLibraryId?this.infoList.find(val=>x.indicatorLibraryId==val.id).indicatorType:''
           if (x.childVo.length > 0) {
             x.childVo.forEach((y) => {
               if (!y.title || !y.weight) nameIsNull = false
               lv2Weight += Number(y.weight)
+              y.indicatorType=y.indicatorLibraryId?this.infoList.find(val=>y.indicatorLibraryId==val.id).indicatorType:''
+
               if (y.childVo.length > 0) {
                 y.childVo.forEach((z) => {
                   if (!z.title || !z.weight) nameIsNull = false
                   lv3Weight += Number(z.weight)
+                  z.indicatorType=z.indicatorLibraryId?this.infoList.find(val=>z.indicatorLibraryId==val.id).indicatorType:''
+
                   if (z.childVo.length > 0) {
                     z.childVo.forEach((k) => {
                       if (!z.title || !z.weight) nameIsNull = false
                       lv4Weight += Number(k.weight)
+                      k.indicatorType=k.indicatorLibraryId?this.infoList.find(val=>k.indicatorLibraryId==val.id).indicatorType:''
+
                       lev4p = true
                       console.log(lv4Weight)
                     })
