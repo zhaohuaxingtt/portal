@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-09 15:06:29
- * @LastEditTime: 2023-03-03 16:32:15
+ * @LastEditTime: 2023-03-15 17:22:28
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipReplenishmentOverview\components\data.js
@@ -164,11 +164,11 @@ export const searchFormData = [
     clearable: true,
     'collapse- tags': true,
   },
-{
-  props: 'secondSupplier', name: '二次件供应商', key: 'ERCIJIANGONGYINGSHANG', type: 'select', selectOption: 'ssupplierList', optionLabel: 'message',
+  {
+    props: 'secondSupplier', name: '二次件供应商', key: 'ERCIJIANGONGYINGSHANG', type: 'select', selectOption: 'ssupplierList', optionLabel: 'message',
     optionValue: 'code'
-},
-{ props: 'compDate', name: '补差时间段', key: 'BUCHASHIJIANDUAN', type: 'daterange' },
+  },
+  { props: 'compDate', name: '补差时间段', key: 'BUCHASHIJIANDUAN', type: 'daterange' },
 ]
 
 
@@ -509,10 +509,10 @@ export const tableTitle2 = [
 
 // 供应商详情弹框查询
 export const searchFormData1 = [
-  {
-    props: 'secondSupplier', name: '二次件供应商', key: 'ERCIJIANGONGYINGSHANG', type: 'select', selectOption: 'sSupplierDropDownData', optionLabel: 'message',
-    optionValue: 'code'
-  },
+  // {
+  //   props: 'secondSupplier', name: '二次件供应商', key: 'ERCIJIANGONGYINGSHANG', type: 'input', selectOption: 'sSupplierDropDownData', optionLabel: 'message',
+  //   optionValue: 'code', disabled:true
+  // },
   { props: 'compDate', name: '补差时间段', key: 'BUCHASHIJIANDUAN', type: 'daterange' },
   {
     props: 'departmentCode', name: '科室', key: 'KESHI', type: 'select', selectOption: 'departmentDropDownData', optionLabel: 'departNameEn',
@@ -544,39 +544,49 @@ export const searchFormData2 = [
 
 // 一次件供应商详情弹框总览列表
 export const tableTitle1Overview = [
-  { props: 'assemblyPartnum', name: '一次件零件号', key: 'YCJLJH', width: 150 },
+  { props: 'primaryPartNum', name: '一次件零件号', key: 'YCJLJH', width: 150 },
   {
-    props: 'assemblyPartName',
+    props: 'primaryPartName',
     name: '一次件零件名称',
     key: 'YCJLJMC',
     width: 150
   },
-  { props: 'piecePartnum', name: '二次件零件号', key: 'ECJLJH', width: 150 },
+  { props: 'secondPartNum', name: '二次件零件号', key: 'ECJLJH', width: 150 },
   {
-    props: 'piecePartName',
+    props: 'secondPartName',
     name: '二次件零件名称',
     key: 'ECJLJMC',
     width: 150
   },
   {
-    props: 'ssupplier',
+    props: 'secondSupplierName',
     name: '二次件供应商',
     key: 'ERCIJIANGONGYINGSHANG',
-    width: 220
+    width: 220,
   },
   { props: 'departmentName', name: '科室', key: 'KESHI', width: 100 },
   { props: 'ekName', name: '采购员', key: 'CAIGOUYUAN', width: 100 },
   {
-    props: 'hasLaunchedDocMoney',
+    props: 'balanceAmount',
     name: '已发起凭证',
     key: 'YFQPZ',
-    width: 120
+    width: 120,
   },
-  { props: 'trueCompMoney', name: '实际补差金额', key: 'SJBCJE', width: 120 },
-  { props: 'waitVerifyMoney', name: '待确认金额', key: 'DQRJE', width: 120 },
-  { props: 'hasVerifyMoney', name: '已确认金额', key: 'YQRJE', width: 120 },
-  { props: 'hasRatifyMoney', name: '已批准金额', key: 'YPZJE', width: 120 },
-  { props: 'hasPayMoney', name: '已支付金额', key: 'YZFJE', width: 120 },
+  {
+    props: 'actualMakeAmount', name: '实际补差金额', key: 'SJBCJE', width: 120,
+  },
+  {
+    props: 'confirmingAmount', name: '待确认金额', key: 'DQRJE', width: 120,
+  },
+  {
+    props: 'confirmedAmount', name: '已确认金额', key: 'YQRJE', width: 120,
+  },
+  {
+    props: 'approvedAmount', name: '已批准金额', key: 'YPZJE', width: 120,
+  },
+  {
+    props: 'payedAmount', name: '已支付金额', key: 'YZFJE', width: 120,
+  },
 ]
 
 // 供应商详情弹框明细列表
@@ -648,15 +658,15 @@ export const tableTitle1Detail = [
 
 // 散件供应商详情弹框总览列表
 export const tableTitle2Overview = [
-  { props: 'Partnum', name: '零件号', key: 'LINGJIANHAO', width: 120 },
+  { props: 'primaryPartNum', name: '零件号', key: 'LINGJIANHAO', width: 120 },
   {
-    props: 'PartName',
+    props: 'primaryPartName',
     name: '零件名称',
     key: 'LINGJIANMINGCHENG',
     width: 150
   },
   {
-    props: 'ssupplier',
+    props: 'supplierName',
     name: '供应商',
     key: 'GONGYINGSHANG',
     width: 220
@@ -664,13 +674,13 @@ export const tableTitle2Overview = [
   { props: 'departmentName', name: '科室', key: 'KESHI', width: 120 },
   { props: 'ekName', name: '采购员', key: 'CAIGOUYUAN', width: 120 },
   {
-    props: 'hasLaunchedDocMoney',
+    props: 'balanceAmount',
     name: '已发起凭证',
     key: 'YFQPZ',
     width: 150
   },
-  { props: 'trueCompMoney', name: '实际补差金额', key: 'SJBCJE', width: 150 },
-  { props: 'waitVerifyMoney', name: '待确认金额', key: 'DQRJE', width: 150 },
-  { props: 'hasVerifyMoney', name: '已确认金额', key: 'YQRJE', width: 150 },
-  { props: 'hasRatifyMoney', name: '已批准金额', key: 'YPZJE', width: 150 },
+  { props: 'actualMakeAmount', name: '实际补差金额', key: 'SJBCJE', width: 150 },
+  { props: 'confirmingAmount', name: '待确认金额', key: 'DQRJE', width: 150 },
+  { props: 'confirmedAmount', name: '已确认金额', key: 'YQRJE', width: 150 },
+  { props: 'approvedAmount', name: '已批准金额', key: 'YPZJE', width: 150 },
 ]
