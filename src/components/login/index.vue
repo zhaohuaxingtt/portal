@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-10 15:22:16
- * @LastEditTime: 2023-03-14 15:09:40
+ * @LastEditTime: 2023-03-15 16:15:38
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\components\login\index.vue
@@ -104,7 +104,7 @@ export default {
     // 禁用 prod 环境小黑窗(superLogin)
     if (
       this.$route.path.indexOf('superLogin') > -1 &&
-      !['production','uat'].includes(process.env.NODE_ENV)
+      !['production'].includes(process.env.NODE_ENV)
     ) {
       //nothing to do
     } else {
