@@ -110,7 +110,9 @@ export default {
         } else {
           this.applyNumber = res.data.ttNominateAppId;
         }
-        if (res.data.appStatus == "草稿" || res.data.appStatus == "未通过") {
+        const appStatusArr=['草稿','已提交','未通过','通过','复核未通过','M退回']
+
+        if ((res.data.appStatus == '草稿' || res.data.appStatus == '未通过')||(((res.data.flowType=='SIGN'||res.data.flowType=='FILING')&&res.data.appStatus=='已提交')||(appStatusArr.indexOf(res.data.appStatus)>0&&res.data.flowType=="MEETING"))) {
           this.showType = true;
         } else {
           this.showType = false;
