@@ -1,7 +1,7 @@
 <!--
  * @Author: tanmou
  * @Date: 2021-08-27 16:29:54
- * @LastEditTime: 2023-03-09 13:45:16
+ * @LastEditTime: 2023-03-15 16:27:43
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\search.vue
@@ -68,8 +68,8 @@
               {{ formatterNumber(inforData['requestAmount']) }}
             </template>
             <!-- 实补总额 -->
-            <template v-else-if="item.prop == 'approvedAmount'">
-              {{ formatterNumber(inforData['approvedAmount']) }}
+            <template v-else-if="item.prop == 'actualMakeAmount'">
+              {{ formatterNumber(inforData['actualMakeAmount']) }}
             </template>
             <template v-else>{{ inforData[item.prop] }}</template>
           </div>

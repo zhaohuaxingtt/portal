@@ -29,8 +29,8 @@
       <template #requestAmount="scope">
         {{ formatterNumber(scope.row.requestAmount) }}
       </template>
-      <template #approveAmount="scope">
-        {{ formatterNumber(scope.row.approveAmount) }}
+      <template #actualMakeAmount="scope">
+        {{ formatterNumber(scope.row.actualMakeAmount) }}
       </template>
     </tableList>
     <iPagination

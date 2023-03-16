@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-18 18:52:11
- * @LastEditTime: 2023-03-14 11:06:21
+ * @LastEditTime: 2023-03-15 17:44:04
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\theTable.vue
@@ -87,6 +87,7 @@
     <el-dialog
       :title="language('FUJIANQINGDAN', '附件清单')"
       :visible.sync="dialogVisible"
+      v-if="dialogVisible"
       width="30%"
     >
       <ul>
@@ -291,7 +292,7 @@ export default {
         iMessage.error('请选择数据')
       }
       if (
-        ['草稿','待供应商确认','供应商拒绝','审批不通过'].includes(this.muiltSelectList[0].statusName)
+        ['草稿','待供应商确认','供应商拒绝','审批不通过', 'EPMS审批不通过'].includes(this.muiltSelectList[0].statusName)
       ) {
         let params = []
         this.muiltSelectList.forEach((item) => {
@@ -307,7 +308,7 @@ export default {
         })
       } else {
         iMessage.error(
-          "草稿、待供应商确认、供应商拒绝、审批不通过状态可以撤回"
+          "草稿、待供应商确认、供应商拒绝、审批不通过、EPMS审批不通过状态可以撤回"
         )
       }
     },
@@ -337,7 +338,7 @@ export default {
       })
     },
     openFile(val) {
-      this.fileList = val
+      this.fileList = val.fileList || []
       this.dialogVisible = true
     },
     fileDown(val) {

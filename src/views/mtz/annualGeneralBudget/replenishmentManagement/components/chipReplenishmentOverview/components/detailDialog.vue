@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-14 14:44:54
- * @LastEditTime: 2023-02-14 17:42:56
+ * @LastEditTime: 2023-03-15 17:35:37
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipReplenishmentOverview\components\detailDialog.vue
@@ -20,6 +20,7 @@
       :searchForm="searchForm"
       :searchFormData="searchFormData"
       :options="options"
+      :key="tabsValue"
     />
     <el-divider></el-divider>
     <iTabsList
@@ -59,6 +60,37 @@
         height="300"
         @handleSelectionChange="handleSelectionChange"
       >
+      
+      <template #secondSupplierName="scope">
+        <span>{{scope.row.secondSupplierSapCode}}-{{scope.row.secondSupplierName}}</span>
+      </template>
+      <template #supplierName="scope">
+        <span>{{scope.row.supplierSapCode}}-{{scope.row.supplierName}}</span>
+      </template>
+      <template #makeAmount="scope">
+        {{ formatterNumber(scope.row.makeAmount) }}
+      </template>
+      <template #requestAmount="scope">
+        {{ formatterNumber(scope.row.requestAmount) }}
+      </template>
+      <template #balanceAmount="scope">
+        {{ formatterNumber(scope.row.balanceAmount) }}
+      </template>
+      <template #actualMakeAmount="scope">
+        {{ formatterNumber(scope.row.actualMakeAmount) }}
+      </template>
+      <template #confirmingAmount="scope">
+        {{ formatterNumber(scope.row.confirmingAmount) }}
+      </template>
+      <template #confirmedAmount="scope">
+        {{ formatterNumber(scope.row.confirmedAmount) }}
+      </template>
+      <template #approvedAmount="scope">
+        {{ formatterNumber(scope.row.approvedAmount) }}
+      </template>
+      <template #payedAmount="scope">
+        {{ formatterNumber(scope.row.payedAmount) }}
+      </template>
       </tableList>
       <iPagination
         v-update
@@ -83,7 +115,7 @@ import {
   iButton,
   iDatePicker,
   iPagination,
-  iTabsList,
+  iTabsList
 } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import tableList from '@/components/commonTable/index.vue'
@@ -135,7 +167,6 @@ export default {
   data() {
     return {
       tabsValue: '1',
-      type: 1,
       searchForm: {},
       searchFormData: [],
       options: {
@@ -167,19 +198,27 @@ export default {
               ? searchFormData1
               : searchFormData2
         }
+        console.log(this.searchForm);
         this.getTableData()
       },
       immediate: true
     }
   },
   created() {
-    this.$nextTick((_) => {
+    this.searchForm = {
+      supplierSapCode: this.params.supplierSapCode
+      // secondSupplier: this.params.supplierSapCode + '-' +this.params.supplierName
+    }
+    this.$nextTick(() => {
       this.getDeptList()
       this.getSecondSupplier()
       this.getCurrentUser()
     })
   },
   methods: {
+    formatterNumber(cellValue) {
+      return VueUtil.formatNumber(cellValue)
+    },
     tableChange(val) {
       if (val.name !== this.tabsValue) {
         this.tabsValue = val.name
@@ -201,32 +240,37 @@ export default {
               .moment(this.searchForm.compDate[1])
               .format('YYYY-MM-DD 23:59:59'))
           : '',
-        isPrimary: this.supplierType == '一次件供应商',
         currentPage: this.page.currPage,
-        pageSize: this.page.pageSize
+        pageSize: this.page.pageSize,
+        supplierSapCode: this.params.supplierSapCode,
+        balanceType: this.supplierType == '一次件供应商' ? 1 : 2,
       }
       if (this.tabsValue == '1') {
-        findSupplierBalanceSummaryByPage(params).then((res) => {
-          if (res?.code == '200') {
-            this.tableListData = res.data.orders
-            this.page.totalCount = res.data.total
-          } else {
-            iMessage.error(this.$i18n.locale == 'zh' ? res.desZh : res.desEn)
-          }
-        }).finally(()=>{
-          this.loading = false
-        })
+        findSupplierBalanceSummaryByPage(params)
+          .then((res) => {
+            if (res?.code == '200') {
+              this.tableListData = res.data.records
+              this.page.totalCount = res.data.total
+            } else {
+              iMessage.error(this.$i18n.locale == 'zh' ? res.desZh : res.desEn)
+            }
+          })
+          .finally(() => {
+            this.loading = false
+          })
       } else {
-        findSupplierBalanceSummaryDetailList(params).then((res) => {
-          if (res?.code == '200') {
-            this.tableListData = res.data
-            this.page.totalCount = res.data.length
-          } else {
-            iMessage.error(this.$i18n.locale == 'zh' ? res.desZh : res.desEn)
-          }
-        }).finally(()=>{
-          this.loading = false
-        })
+        findSupplierBalanceSummaryDetailList(params)
+          .then((res) => {
+            if (res?.code == '200') {
+              this.tableListData = res.data
+              this.page.totalCount = res.data.length
+            } else {
+              iMessage.error(this.$i18n.locale == 'zh' ? res.desZh : res.desEn)
+            }
+          })
+          .finally(() => {
+            this.loading = false
+          })
       }
     },
     // 获取二次件供应商编号-名称
@@ -260,9 +304,12 @@ export default {
     },
     // 重置
     handleSearchReset() {
+      this.searchForm = {
+        supplierSapCode: this.params.supplierSapCode,
+        // secondSupplier: this.params.supplierSapCode + '-' +this.params.supplierName
+      }
       this.page.currPage = 1
       this.page.pageSize = 10
-      this.initSeachData('clear')
       this.getTableData()
     },
     // 选中项改变
@@ -290,9 +337,10 @@ export default {
               .moment(this.searchForm.compDate[1])
               .format('YYYY-MM-DD 23:59:59'))
           : '',
-        isPrimary: this.supplierType == '一次件供应商',
         currentPage: this.page.currPage,
-        pageSize: this.page.pageSize
+        pageSize: this.page.pageSize,
+        supplierSapCode: this.params.supplierSapCode,
+        balanceType: this.supplierType == '一次件供应商' ? 1 : 2,
       }
       if (this.tabsValue == '1') {
         exportSupplierBalanceSummary(params)
