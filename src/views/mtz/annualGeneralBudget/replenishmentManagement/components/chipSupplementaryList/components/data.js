@@ -128,18 +128,18 @@ export const tableTitle = [
     }
   },
   {
-    prop: 'remark',
-    label: '备注',
-    i18n: 'BEIZHU',
+    prop: 'supplierRejectReason',
+    label: '供应商备注',
+    i18n: '供应商备注',
     align: 'center',
     tooltip: true,
     minWidth: 150,
     customRender: (h, scope, c, e) => {
-      if (scope.row.remark) {
+      if (scope.row.supplierRejectReason) {
         return (<el-tooltip
           class="item"
           effect="light"
-          content={scope.row.remark}
+          content={scope.row.supplierRejectReason}
           placement="top"
         >
           <el-button type="text">{e.language('JUPEILIYOU')}</el-button>
@@ -150,13 +150,13 @@ export const tableTitle = [
   },
   {
     prop: 'fileList',
-    label: '附件清单',
-    i18n: 'FUJIANQINGDAN',
+    label: '供应商附件清单',
+    i18n: '供应商附件清单',
     align: 'center',
     minWidth: 150,
     emit: 'openFile',
     customRender: (h, scope, c, e) => {
-      if (scope.row?.fileList?.length !== 0) {
+      if (scope.row?.fileList?.length > 0) {
         return <iButton type="text" >{e.language('FUJIANQINGDAN')}</iButton>
       }
       return ''
