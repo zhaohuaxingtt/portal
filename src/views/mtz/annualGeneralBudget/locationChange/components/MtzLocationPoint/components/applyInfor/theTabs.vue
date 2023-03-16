@@ -49,7 +49,7 @@
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'ruleNo'"
               :rules="formRules.ruleNo ? formRules.ruleNo : ''">
               <!-- <iInput v-model="scope.row.ruleNo" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
-              <span>{{ scope.row.ruleNo }}<i v-if="scope.row.formalFlag=='Y'" style="color:#1763f7" class="el-icon-edit-outline"></i></span>
+              <span>{{ scope.row.ruleNo }}<i v-if="scope.row.formalFlag!='Y'" style="color:#1763f7" class="el-icon-edit-outline"></i></span>
             </el-form-item>
           </template>
         </el-table-column>
