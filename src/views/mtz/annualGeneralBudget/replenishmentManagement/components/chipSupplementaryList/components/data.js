@@ -157,7 +157,7 @@ export const tableTitle = [
     emit: 'openFile',
     customRender: (h, scope, c, e) => {
       if (scope.row?.fileList?.length > 0) {
-        return <iButton type="text" >{e.language('FUJIANQINGDAN')}</iButton>
+        return <el-button type="text" >{e.language('FUJIANQINGDAN')}</el-button>
       }
       return ''
     }

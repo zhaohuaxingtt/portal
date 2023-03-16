@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-18 18:52:11
- * @LastEditTime: 2023-03-15 17:44:04
+ * @LastEditTime: 2023-03-16 18:49:22
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\theTable.vue
@@ -94,10 +94,10 @@
         <li
           class="fileList"
           v-for="item in fileList"
-          :key="item.fileUrl"
-          @click="fileDown(item.fileUrl)"
+          :key="item.filePath"
+          @click="fileDown(item.filePath)"
         >
-          {{ item.fileName }}
+          {{ item.attachmentName }}
         </li>
       </ul>
       <span slot="footer" class="dialog-footer"> </span>
@@ -338,6 +338,7 @@ export default {
       })
     },
     openFile(val) {
+      console.log(val);
       this.fileList = val.fileList || []
       this.dialogVisible = true
     },
@@ -355,6 +356,12 @@ export default {
   font-size: 14px;
   cursor: pointer;
   width: 90%;
+}
+.fileList {
+  cursor: pointer;
+  color: rgb(55, 72, 231);
+  margin-bottom: 10px;
+  text-decoration: underline;
 }
 </style>
 <style lang="scss">
