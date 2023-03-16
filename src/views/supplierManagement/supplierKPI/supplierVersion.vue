@@ -263,7 +263,7 @@ export default {
         query: {
           editionId: item.id,
           dataTime: item.dataTime,
-
+          status:item.status,
           modelId: item.modelId
         }
       })

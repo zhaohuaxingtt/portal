@@ -13,7 +13,7 @@
           <p>其他科室打分状态：进行中（2/4）</p> -->
       </div>
       <div>
-        <iButton @click="godept">{{ '发送评分部门' }}</iButton>
+        <iButton v-if="$route.query.status==0 " @click="godept">{{ '发送评分部门' }}</iButton>
         <iButton @click="exportalFile">导出 </iButton>
         <iButton @click="viewProgressIs = true">查看进度 </iButton>
       </div>
