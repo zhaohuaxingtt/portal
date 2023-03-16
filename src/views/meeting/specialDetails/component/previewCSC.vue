@@ -207,22 +207,22 @@ export default {
       if (this.project == 'GP') {
         let num = null
         let documentType = this.$route.query.documentType
-        if (documentType == '13') {
+        const documentTypeList = ['13', '14', '15']
+        if (documentTypeList.includes(documentType)) {
           num = 1
         } else {
           num = 3
         }
-        const documentTypeList = ['14', '15']
-        if (documentTypeList.includes(documentType)) {
+        // if (documentTypeList.includes(documentType)) {
           // window.open(`${process.env.VUE_APP_HOST}/gp-portal/#/auditChangeDetail/${row.fixedPointApplyId}?current=${1}`)
-          this.src = `${
-            local || process.env.VUE_APP_HOST
-          }/gp-portal/#/auditChangeDetail/${item.fixedPointApplyId}?current=1`
-        } else {
+        //   this.src = `${
+        //     local || process.env.VUE_APP_HOST
+        //   }/gp-portal/#/auditChangeDetail/${item.fixedPointApplyId}?current=1`
+        // } else {
           this.src = `${
             local || process.env.VUE_APP_HOST
           }/gp-portal/#/previewCSC/${item.fixedPointApplyId}?current=${num}`
-        }
+        // }
       } else if (item.source == '04') {
         if (item.type === 'FS+MTZ') {
           this.src =
