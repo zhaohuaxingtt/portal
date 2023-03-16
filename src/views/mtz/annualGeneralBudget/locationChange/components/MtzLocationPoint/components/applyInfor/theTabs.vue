@@ -72,7 +72,7 @@
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'ruleNo'"
               :rules="formRules.ruleNo ? formRules.ruleNo : ''">
               <!-- <iInput v-model="scope.row.ruleNo" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
-              <span>{{ scope.row.ruleNo }}</span>
+              <span>{{ scope.row.ruleNo }}<i v-if="scope.row.formalFlag!='Y'" style="color:#1763f7" class="el-icon-edit-outline"></i></span>
             </el-form-item>
           </template>
         </el-table-column>
@@ -1073,7 +1073,9 @@ export default {
         this.editType = true
         var changeArrayList = []
         this.selectList.forEach((item) => {
-          changeArrayList.push(item.id)
+          if(item.formalFlag!='Y'){
+            changeArrayList.push(item.id)
+          }
           // checkPreciousMetal({code:item.materialCode}).then(res=>{
           //     this.$set(item,"metalType",res.data)
           // })
@@ -1111,7 +1113,8 @@ export default {
               .then((res) => {
                 if (this.mtzAddShowNum == '1') {
                   this.newDataList.forEach(val => {
-                    val.mtzAppId = this.$route.query.mtzAppId
+                    val.mtzAppId = this.$route.query.mtzAppId||
+                      JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
                   })
                   upAppRule(this.newDataList).then((res) => {
                     if (res.code == 200) {

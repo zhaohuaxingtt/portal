@@ -593,7 +593,7 @@
               </template>
             </tableList>
             <tableList class="margin-top20" :tableData="tableData" :tableTitle="ruleTableTitle1_2"
-              :tableLoading="loadingRule" v-if="!RsObject && tableData.length > 0" :index="true" :selection="false"
+              :tableLoading="loadingRule" v-if="!RsObject && tableData.length > 0&& partTableListData.some((val)=>{if(val.platinumPrice) return true})" :index="true" :selection="false"
               border>
             </tableList>
           </iCard>
