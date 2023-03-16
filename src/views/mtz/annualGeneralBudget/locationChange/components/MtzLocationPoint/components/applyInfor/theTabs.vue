@@ -1083,7 +1083,8 @@ export default {
               .then((res) => {
                 if (this.mtzAddShowNum == '1') {
                   this.newDataList.forEach(val => {
-                    val.mtzAppId = this.$route.query.mtzAppId
+                    val.mtzAppId = this.$route.query.mtzAppId||
+                      JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
                   })
                   upAppRule(this.newDataList).then((res) => {
                     if (res.code == 200) {
