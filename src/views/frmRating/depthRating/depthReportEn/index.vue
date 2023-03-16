@@ -187,8 +187,12 @@ export default {
 
     changeNav (val) {
       if (this.currentNav != val.value) {
-        this.save()
-        this.currentNav = val.value;
+        if(this.$route.query.status=='报告审批中'||this.$route.query.status=='生效'||this.$route.query.status=='终止'||this.$route.query.status=='终止审批中'||this.$route.query.status=='历史'){
+          this.currentNav = val.value;
+        }else{
+          this.save()
+          this.currentNav = val.value;
+        }
       }
     },
     // 打开会议纪要弹窗
