@@ -213,16 +213,9 @@ export default {
         } else {
           num = 3
         }
-        // if (documentTypeList.includes(documentType)) {
-          // window.open(`${process.env.VUE_APP_HOST}/gp-portal/#/auditChangeDetail/${row.fixedPointApplyId}?current=${1}`)
-        //   this.src = `${
-        //     local || process.env.VUE_APP_HOST
-        //   }/gp-portal/#/auditChangeDetail/${item.fixedPointApplyId}?current=1`
-        // } else {
-          this.src = `${
-            local || process.env.VUE_APP_HOST
-          }/gp-portal/#/previewCSC/${item.fixedPointApplyId}?current=${num}`
-        // }
+        this.src = `${
+          local || process.env.VUE_APP_HOST
+        }/gp-portal/#/previewCSC/${item.fixedPointApplyId}?current=${num}`
       } else if (item.source == '04') {
         if (item.type === 'FS+MTZ') {
           this.src =
