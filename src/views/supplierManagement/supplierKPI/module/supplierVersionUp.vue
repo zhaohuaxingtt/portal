@@ -13,9 +13,7 @@
         <!-- <iButton v-if="isTime==false&&DateDiffer(infoData.endDate)>=0" @click="isTime=!isTime">延期</iButton> -->
         <iButton v-if="isTime" @click="saveTime">保存</iButton>
         <iButton v-if="isTime" @click="canelTime">取消</iButton>
-
        </div>
-
       </div>
     </iCard>
     <iCard style="margin-top: 20px">
@@ -25,9 +23,11 @@
         <el-step v-if="activeIs" title="评分调整"></el-step>
         <el-step title="完成"></el-step>
       </el-steps>
-      <supplierIndexManage @changeTab="changeTab" @back="back" :infoData="infoData" @submit0="submit0"
-        @getallData="getallData" :isShow="false" v-if="active == 0">
-      </supplierIndexManage>
+      <!-- <supplierIndexManage @changeTab="changeTab" @back="back" :infoData="infoData" @submit0="submit0"
+        @getallData="getallData" :isShow="false" >
+      </supplierIndexManage> -->
+      <viewPdf v-if="active == 0" :src="protocolUrl" />
+
       <supplierVersionTable @back="back" :infoData="infoData" @submit12="submit12" :isShow="false"
         v-if="active == 1 || active == 2" :active="active"></supplierVersionTable>
       <Completed @back="back" :infoData="infoData" v-if="active == 3"> </Completed>
@@ -36,8 +36,9 @@
 </template>
 
 <script>
+import viewPdf from './viewPdf'
 import Completed from './Completed'
-import { delayEdition,getPerformanceEdition, updateSupplierPerforManceModel,submitPerformanceTask  } from '@/api/supplierManagement/supplierIndexManage/index'
+import {  modelList, delayEdition,getPerformanceEdition, updateSupplierPerforManceModel,submitPerformanceTask  } from '@/api/supplierManagement/supplierIndexManage/index'
 import { downloadFileWithName } from '@/api/common'
 import { pageMixins } from '@/utils/pageMixins'
 import supplierIndexManage from '../supplierIndexManage'
@@ -58,6 +59,7 @@ export default {
   mixins: [pageMixins],
 
   components: {
+    viewPdf,
     supplierVersionTable,
     Completed,
     supplierIndexManage,
@@ -75,8 +77,14 @@ export default {
       type: Object
     }
   },
+  computed: {
+    // protocolUrl () {
+    //   return process.env.VUE_APP_FILEAPI + '/fileud/getFileByFileId?isDown=false&fileId=' + (this.detailInfo.agreementAtachmentId || '')
+    // },
+  },
   data() {
     return {
+      protocolUrl:'',
       dataTime:'',
       isTime:false,
       active: 0,
@@ -109,6 +117,12 @@ export default {
         this.dataTime=this.infoData.endDate
         console.log(this.DateDiffer(this.infoData.endDate))
 
+      })
+      modelList(false).then((res) => {
+        const modelId=this.$route.query.modelId
+        const fileId=res.data.find(val=>val.modelId==modelId).fileId
+        console.log(res.data)
+        this.protocolUrl=process.env.VUE_APP_FILEAPI + '/fileud/getFileByFileId?isDown=false&fileId=' + (fileId || '')
       })
     },
     back() {
