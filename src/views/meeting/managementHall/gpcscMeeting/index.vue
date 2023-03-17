@@ -2489,23 +2489,10 @@ export default {
       } else if (row.type == 'MANUAL') {
         iMessage.error('该议题为临时议题')
       } else {
-        let num = null
-        if (row.documentType == '13') {
-          num = 1
-        } else {
-          num = 3
-        }
-        const documentTypeList = ['14', '15']
-        if (documentTypeList.includes(row.documentType)) {
-          window.open(`${process.env.VUE_APP_HOST}/gp-portal/#/auditChangeDetail/${row.fixedPointApplyId}?current=${1}`)
-          } else {
-            window.open(
-              `/portal/#/meeting/previewCSC?project=GP&documentType=${row.documentType}&fixedPointApplyId=${row.fixedPointApplyId}&id=${this.$route.query.id}`,
-              '_blank'
-            )
-            // window.open(`${process.env.VUE_APP_HOST}/gp-portal/#/myCscDetails/${row.fixedPointApplyId}?current=${num}`)
-
-          }
+        window.open(
+          `/portal/#/meeting/previewCSC?project=GP&documentType=${row.documentType}&fixedPointApplyId=${row.fixedPointApplyId}&id=${this.$route.query.id}`,
+          '_blank'
+        )
       }
     }
   }
