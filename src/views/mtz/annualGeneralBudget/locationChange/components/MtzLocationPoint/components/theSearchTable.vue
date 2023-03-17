@@ -283,6 +283,7 @@
         @handle-selection-change="handleSelectionChange"
       />
       <iPagination
+        :showBtn="true"
         class="footer-pagination"
         @size-change="handleSizeChange($event, getTableList)"
         @current-change="handleCurrentChange($event, getTableList)"
