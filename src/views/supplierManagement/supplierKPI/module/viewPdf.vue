@@ -1,13 +1,17 @@
 <template>
     <iCard class="page-preview">
+        <div style="text-align:right">
+            <iButton  @click="submit">下一步</iButton>
+        </div>
       <iframe :src="src" title="预览" width="100%" height="100%" class="preview-iframe"/>
     </iCard>
   </template>
   
   <script>
-  import { iCard } from "rise";
+  import { iCard ,iButton} from "rise";
   export default {
     components: {
+        iButton,
       iCard
     },
   
@@ -17,6 +21,11 @@
         default: ''
       }
     },
+    methods:{
+        submit() {
+      this.$emit('submit0')
+    },
+    }
   }
   </script>
   

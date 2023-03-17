@@ -26,7 +26,7 @@
       <!-- <supplierIndexManage @changeTab="changeTab" @back="back" :infoData="infoData" @submit0="submit0"
         @getallData="getallData" :isShow="false" >
       </supplierIndexManage> -->
-      <viewPdf v-if="active == 0" :src="protocolUrl" />
+      <viewPdf @submit0="submit0" v-if="active == 0" :src="protocolUrl" />
 
       <supplierVersionTable @back="back" :infoData="infoData" @submit12="submit12" :isShow="false"
         v-if="active == 1 || active == 2" :active="active"></supplierVersionTable>
