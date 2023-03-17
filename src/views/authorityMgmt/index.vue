@@ -51,7 +51,7 @@
                   <el-option
                     v-for="item in orgOptions"
                     :key="item.id"
-                    :label="item.nameZh"
+                    :label="item.deptNum"
                     :value="item.id"
                   >
                   </el-option>
