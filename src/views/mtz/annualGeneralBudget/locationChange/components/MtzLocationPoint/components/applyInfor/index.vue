@@ -23,7 +23,7 @@
         <div class="opration">
           <iButton @click="edit"
                   v-permission="PORTAL_MTZ_POINT_INFOR_BIANJI"
-                   v-show="disabled && appIdType && (inforData.appStatus == '草稿' || inforData.appStatus == '未通过')">{{ language('BIANJI', '编辑') }}</iButton>
+                   v-show="disabled && appIdType && isEditNew">{{ language('BIANJI', '编辑') }}</iButton>
           <!-- v-show="disabled && appIdType && inforData.appStatus!=='草稿'">{{ language('BIANJI', '编辑') }}</iButton> -->
           <iButton @click="cancel"
                    v-show="!disabled">{{ language('QUXIAO', '取消') }}</iButton>
@@ -89,6 +89,7 @@
              @isNomiNumber="isNomiNum"
              @handleReset="handleReset"
              v-if="beforReturn"
+             :meetingStatus="inforData.meetingStatus"
              :appStatus='inforData.appStatus'
              :flowType="inforData.flowType">
     </theTabs>
@@ -96,6 +97,7 @@
                  v-if="beforReturn"
                  :appStatus='inforData.appStatus'
                  :flowType="inforData.flowType"
+                 :meetingStatus="inforData.meetingStatus"
                  :inforData="inforData"
                  :applyNumber="applyNumber"
                  >
@@ -157,6 +159,7 @@ export default {
         linieName: "",
         flowType: "",
         appStatus: "",
+        meetingStatus:'',
         meetingName: "",
         linieMeetingMemo: '',
       },
@@ -200,7 +203,11 @@ export default {
   computed: {
     mtzObject () {
       return this.$store.state.location.mtzObject;
-    }
+    },
+    isEditNew: function () {
+      const appStatusArr=['草稿','已提交','未通过','通过','复核未通过','M退回']
+      return (this.appStatus == '草稿' || this.appStatus == '未通过')||(((this.flowType=='SIGN'||this.flowType=='FILING')&&this.appStatus=='已提交')||(appStatusArr.indexOf(this.appStatus)>0&&this.flowType=="MEETING"))
+    },
   },
   watch: {
     mtzObject (newVlue, oldValue) {
@@ -208,6 +215,9 @@ export default {
     }
   },
   created () {
+
+
+
     if (JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId == undefined && this.$route.query.mtzAppId == undefined) {
 
     } else {
@@ -223,12 +233,14 @@ export default {
       getAppFormInfo({
         mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
       }).then(res => {
+        this.inforData.meetingStatus = res.data.meetingStatus
         this.inforData.mtzAppId = res.data.mtzAppId;
         this.inforData.linieName = res.data.linieName
         this.inforData.appStatus = res.data.appStatus
         this.inforData.meetingName = res.data.meetingName
         this.inforData.linieMeetingMemo = res.data.linieMeetingMemo
-
+        this.inforData.appName = res.data.appName
+        this.inforData.flowType = res.data.flowType
         if (res.data.ttNominateAppId == null) {
           this.applyNumber = "";
         } else {
@@ -240,14 +252,16 @@ export default {
           store.commit("submitBtnInfor", { ...res.data });
         }
         // NOTPASS
-        if (res.data.appStatus == "草稿" || res.data.appStatus == "未通过") {
+        if (this.isEditNew) {
           this.showType = true;
         } else {
           this.showType = false;
         }
+        console.log((this.inforData.appStatus == '草稿' || this.inforData.appStatus == '未通过')||(((this.inforData.flowType=='SIGN'||this.inforData.flowType=='FILING')&&this.inforData.appStatus=='已提交')||(this.inforData.appStatus!='冻结'&&this.inforData.flowType=="MEETING")))
+    console.log(this.inforData.appStatus == '草稿' || this.inforData.appStatus == '未通过')
+    console.log((this.inforData.flowType=='SIGN'||this.inforData.flowType=='FILING')&&this.inforData.appStatus=='已提交')
+    console.log(this.inforData.appStatus!='冻结'&&this.inforData.flowType=="MEETING")
 
-        this.inforData.appName = res.data.appName
-        this.inforData.flowType = res.data.flowType
 
       }).then(res=>{
         this.beforReturn = true;

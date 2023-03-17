@@ -270,8 +270,7 @@
             <iButton
               v-if="
                 RsObject &&
-                (formData.appStatus == '草稿' ||
-                  formData.appStatus == '未通过') &&
+                isEditNew &&
                 meetingNumber == 0
               "
               @click="handleClickSave($event)"
@@ -284,8 +283,7 @@
           v-model="formData.linieMeetingMemo"
           :disabled="
             !(
-              (formData.appStatus == '草稿' ||
-                formData.appStatus == '未通过') &&
+              isEditNew &&
               RsObject &&
               meetingNumber == 0
             )
@@ -920,7 +918,10 @@ export default {
     signExport
   },
   props: {
-    RsType: { type: Boolean }
+    RsType: { type: Boolean },
+    flowType:{type:String},
+    appStatus:{type:String},
+    meetingStatus:{type:String},
   },
   inject: ['pageTitle'],
   data() {
@@ -983,6 +984,10 @@ export default {
   computed: {
     mtzObject() {
       return this.$store.state.location.mtzObject
+    },
+    isEditNew: function () {
+      const appStatusArr=['草稿','已提交','未通过','通过','复核未通过','M退回']
+      return (this.appStatus == '草稿' || this.appStatus == '未通过')||(((this.flowType=='SIGN'||this.flowType=='FILING')&&this.appStatus=='已提交')||(appStatusArr.indexOf(this.appStatus)>0&&this.flowType=="MEETING"))
     },
     title() {
       let res = ''
