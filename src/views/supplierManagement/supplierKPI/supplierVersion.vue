@@ -9,74 +9,153 @@
     <iSearch @sure="sure" @reset="handleSearchReset">
       <el-form>
         <el-form-item :label="$t('ROLE.TYPE')">
-          <iSelect clearable :placeholder="$t('partsprocure.PLEENTER')" v-model="formData.editionType">
-            <el-option v-for="(j, index) in typeList" :key="index" :value="j.code" :label="j.name">
+          <iSelect
+            clearable
+            :placeholder="$t('partsprocure.PLEENTER')"
+            v-model="formData.editionType"
+          >
+            <el-option
+              v-for="(j, index) in typeList"
+              :key="index"
+              :value="j.code"
+              :label="j.name"
+            >
             </el-option>
           </iSelect>
         </el-form-item>
         <el-form-item :label="$t('LK_ZHUANGTAI')">
-          <iSelect clearable :placeholder="$t('partsprocure.PLEENTER')" v-model="formData.status">
-            <el-option v-for="(j, index) in statusList" :key="index" :value="j.code" :label="j.name">
+          <iSelect
+            clearable
+            :placeholder="$t('partsprocure.PLEENTER')"
+            v-model="formData.status"
+          >
+            <el-option
+              v-for="(j, index) in statusList"
+              :key="index"
+              :value="j.code"
+              :label="j.name"
+            >
             </el-option>
           </iSelect>
         </el-form-item>
-    </el-form>
+      </el-form>
     </iSearch>
     <iCard style="margin-top: 20px">
       <template #header-control>
         <!-- <iButton @click="initiate">供应商导入模板下载</iButton> -->
         <!-- <iButton @click="update">CS科室打分权重设置</iButton>
           <iButton @click="exportFile">定时规则设置</iButton> -->
-        <iButton v-permission="SUPPLIER_WORKBENCH_SUPPLIERBERSION_ADD" @click="addVersion">创建版本</iButton>
+        <iButton
+          v-permission="SUPPLIER_WORKBENCH_SUPPLIERBERSION_ADD"
+          @click="addVersion"
+          >创建版本</iButton
+        >
       </template>
-      <tableList :selection="false" :index="true" openPageProps="dataTime" :openPageGetRowData="true" @openPage="handleOpenPage" border
-        :tableData="tableListData" :tableTitle="tableTitle" :tableLoading="tableLoading">
+      <tableList
+        :selection="false"
+        :index="true"
+        openPageProps="dataTime"
+        :openPageGetRowData="true"
+        @openPage="handleOpenPage"
+        border
+        :tableData="tableListData"
+        :tableTitle="tableTitle"
+        :tableLoading="tableLoading"
+      >
         <template #editionType="scope">
           <span>{{
             scope.row.editionType != null
-            ? typeList.find((val) => val.code == scope.row.editionType).name
-            : ''
+              ? typeList.find((val) => val.code == scope.row.editionType).name
+              : ''
           }}</span>
         </template>
         <template #status="scope">
           <span>{{
             scope.row.status != null
-            ? statusList.find((val) => val.code == scope.row.status).name
-            : ''
+              ? statusList.find((val) => val.code == scope.row.status).name
+              : ''
           }}</span>
         </template>
         <template #caozuo="scope">
-          <iButton v-if="scope.row.status==0" v-permission="SUPPLIER_WORKBENCH_SUPPLIERBERSION_DEL" type="text" @click="delRow(scope.row)">删除
+          <iButton
+            v-if="scope.row.status == 0"
+            v-permission="SUPPLIER_WORKBENCH_SUPPLIERBERSION_DEL"
+            type="text"
+            @click="delRow(scope.row)"
+            >删除
           </iButton>
-          <iButton v-if="DateDiffer(scope.row.endDate)>=0" v-permission="SUPPLIER_WORKBENCH_SUPPLIERBERSION_DEL" type="text" @click="longTime(scope.row)">延期
+          <iButton
+            v-if="DateDiffer(scope.row.endDate) >= 0"
+            v-permission="SUPPLIER_WORKBENCH_SUPPLIERBERSION_DEL"
+            type="text"
+            @click="longTime(scope.row)"
+            >延期
           </iButton>
         </template>
       </tableList>
-      <iPagination v-update @size-change="handleSizeChange($event, getTableList)"
-        @current-change="handleCurrentChange($event, getTableList)" background :page-sizes="page.pageSizes"
-        :page-size="page.pageSize" :layout="page.layout" :current-page="page.currPage" :total="page.totalCount" />
+      <iPagination
+        v-update
+        @size-change="handleSizeChange($event, getTableList)"
+        @current-change="handleCurrentChange($event, getTableList)"
+        background
+        :page-sizes="page.pageSizes"
+        :page-size="page.pageSize"
+        :layout="page.layout"
+        :current-page="page.currPage"
+        :total="page.totalCount"
+      />
     </iCard>
-    <iDialog append-to-body :title="$t('创建绩效版本')" :visible.sync="addVersionDiolog" width="60%" @close="clearDiolog">
+    <iDialog
+      append-to-body
+      :title="$t('创建绩效版本')"
+      :visible.sync="addVersionDiolog"
+      width="60%"
+      @close="clearDiolog"
+    >
       <el-steps finish-status="success" align-center :active="active">
         <el-step title="基本信息"></el-step>
         <el-step title="确认统计周期"></el-step>
         <el-step title="确认供应商范围"></el-step>
         <el-step title="完成"></el-step>
       </el-steps>
-      <el-form :disabled="active == 3" style="margin-top: 20px" :label-position="'left'" label-width="120px">
+      <el-form
+        :disabled="active == 3"
+        style="margin-top: 20px"
+        :label-position="'left'"
+        label-width="120px"
+      >
         <el-form-item v-if="active == 0 || active == 3" :label="$t('标题：')">
-          <i-input style="width: 200px" :placeholder="$t('partsprocure.PLEENTER')" v-model="form.name">
+          <i-input
+            style="width: 200px"
+            :placeholder="$t('partsprocure.PLEENTER')"
+            v-model="form.name"
+          >
           </i-input>
         </el-form-item>
 
-        <el-form-item v-if="active == 0 || active == 3" :label="$t('数据日期：')">
-          <el-date-picker style="width: 200px" value-format="yyyy-MM-dd" v-model="form.dataTime" type="date"
-            placeholder="选择日期">
+        <el-form-item
+          v-if="active == 0 || active == 3"
+          :label="$t('数据日期：')"
+        >
+          <el-date-picker
+            style="width: 200px"
+            value-format="yyyy-MM-dd"
+            v-model="form.dataTime"
+            type="date"
+            placeholder="选择日期"
+          >
           </el-date-picker>
         </el-form-item>
-        <el-form-item v-if="active == 0 || active == 3" :label="$t('绩效模型版本：')">
-          <i-input :disabled="true" style="width: 200px" :placeholder="$t('partsprocure.PLEENTER')"
-            v-model="form.modelVersion">
+        <el-form-item
+          v-if="active == 0 || active == 3"
+          :label="$t('绩效模型版本：')"
+        >
+          <i-input
+            :disabled="true"
+            style="width: 200px"
+            :placeholder="$t('partsprocure.PLEENTER')"
+            v-model="form.modelVersion"
+          >
           </i-input>
           {{ '此版本包含手工指标' }}
         </el-form-item>
@@ -87,18 +166,44 @@
             }}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item v-if="active == 0 || active == 3" :label="$t('截止时间：')">
-          <el-date-picker style="width: 200px" v-model="form.endDate" type="datetime" value-format="yyyy-MM-dd hh:mm:ss"
-            placeholder="选择日期时间">
+        <el-form-item
+          v-if="active == 0 || active == 3"
+          :label="$t('截止时间：')"
+        >
+          <el-date-picker
+            style="width: 200px"
+            v-model="form.endDate"
+            type="datetime"
+            value-format="yyyy-MM-dd hh:mm:ss"
+            placeholder="选择日期时间"
+          >
           </el-date-picker>
           <span v-if="form.endDate">
-            (还剩{{ DateDiffer(form.endDate) }}天)</span>
+            (还剩{{ DateDiffer(form.endDate) }}天)</span
+          >
         </el-form-item>
         <el-form-item v-if="active == 1" :label="$t('统计周期：')">
-          <el-date-picker type="monthrange" v-model="dataTime" align="right" unlink-panels
-            value-format="yyyy-MM-dd 00:00:00" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
-            :picker-options="pickerOptions">
+          <el-date-picker
+          :disabled="true"
+
+            style="width: 120px"
+            value-format="yyyy-MM-dd"
+            v-model="form.statisticsStartDate"
+            type="month"
+            placeholder="选择日期"
+          >
           </el-date-picker>
+          -至-
+          <el-date-picker
+          :picker-options="endDatePicker"
+            style="width: 120px"
+            value-format="yyyy-MM-dd"
+            v-model="form.statisticsEndDate"
+            type="month"
+            placeholder="选择日期"
+          >
+          </el-date-picker>
+     
         </el-form-item>
       </el-form>
       <div v-if="active == 2">
@@ -107,15 +212,28 @@
           <iButton @click="delSupplier">移除</iButton>
           <iButton @click="exportAll">全部导出</iButton>
           <iButton @click="exportFile">模板下载</iButton>
-          <el-upload style="margin-left: 10px" action="1" :accept="'.xlsx,.xls'" :before-upload="beforeAvatarUpload"
-            :show-file-list="false" :http-request="httpUpload" :disabled="importLoading">
+          <el-upload
+            style="margin-left: 10px"
+            action="1"
+            :accept="'.xlsx,.xls'"
+            :before-upload="beforeAvatarUpload"
+            :show-file-list="false"
+            :http-request="httpUpload"
+            :disabled="importLoading"
+          >
             <div>
               <i-button>{{ language('PILIANGDAORU', '批量导入') }} </i-button>
             </div>
           </el-upload>
         </div>
-        <tableList :index="true" style="margin-top: 20px" border :tableData="tableListData2" :tableTitle="tableTitle2"
-          @handleSelectionChange="handleSelectionChange">
+        <tableList
+          :index="true"
+          style="margin-top: 20px"
+          border
+          :tableData="tableListData2"
+          :tableTitle="tableTitle2"
+          @handleSelectionChange="handleSelectionChange"
+        >
         </tableList>
       </div>
 
@@ -138,19 +256,33 @@
         }}</iButton>
       </span>
     </iDialog>
-    <iDialog append-to-body :title="$t('延期')" :visible.sync="updataTimeDialog" width="40%" @close="clearDiologTime">
+    <iDialog
+      append-to-body
+      :title="$t('延期')"
+      :visible.sync="updataTimeDialog"
+      width="40%"
+      @close="clearDiologTime"
+    >
       <span>截止日期：</span>
-      <el-date-picker style="width: 200px" value-format="yyyy-MM-dd hh:mm:ss" v-model="updataTime" type="datetime"
-            placeholder="选择日期">
-          </el-date-picker>
+      <el-date-picker
+        style="width: 200px"
+        value-format="yyyy-MM-dd hh:mm:ss"
+        v-model="updataTime"
+        type="datetime"
+        placeholder="选择日期"
+      >
+      </el-date-picker>
 
       <span slot="footer" class="dialog-footer">
-        <iButton  @click="saveTime()">{{
-          '确认'
-        }}</iButton>
+        <iButton @click="saveTime()">{{ '确认' }}</iButton>
       </span>
     </iDialog>
-    <supplier ref="supplier" @addsupplier="addsupplier" v-if="supplierDiolog" v-model="supplierDiolog"></supplier>
+    <supplier
+      ref="supplier"
+      @addsupplier="addsupplier"
+      v-if="supplierDiolog"
+      v-model="supplierDiolog"
+    ></supplier>
   </div>
 </template>
 
@@ -202,19 +334,20 @@ export default {
   },
   data() {
     return {
-      rowList:{},
-      updataTime:'',
-      updataTimeDialog:false,
+      rowList: {},
+      updataTime: '',
+      updataTimeDialog: false,
       importLoading: false,
       typeList: [],
       statusList: [],
       supplierDiolog: false,
       pickerOptions: pickerOptions,
-      dataTime: [],
       active: 0,
       editionId: '',
-      dateTime: ['2023-1-1', '2023-12-31'],
-      form: {},
+      form: {
+        statisticsStartDate:'',
+        statisticsEndDate:''
+      },
       addVersionDiolog: false,
       tableListData2: [],
       tableTitle2: cloneDeep(tableTitle2),
@@ -222,7 +355,15 @@ export default {
       tableListData: [],
       tableTitle: cloneDeep(tableTitle),
       formData: {},
-      selectTableData: []
+      selectTableData: [],
+      endDatePicker: {
+        disabledDate: time => {
+          let starDateVal = this.form.statisticsStartDate;
+          if (starDateVal) {
+            return time.getTime() < new Date(starDateVal).getTime();
+          }
+        }
+      }
     }
   },
   created() {
@@ -230,6 +371,21 @@ export default {
     this.getTableList()
   },
   methods: {
+    dateYear(val) {
+      // 获取当前日期加一年
+      var date = new Date()
+      var year = date.getFullYear()
+      var month = date.getMonth() + 1
+      var day = date.getDate()
+      if (month < 10) {
+          month = "0" + month;
+      }
+      if (day < 10) {
+            day = "0" + day;
+      }
+      var enTime = year + val + '-' + month + '-' + '01'
+      return enTime 
+    },
     init() {
       getDictByCode('SUPPLIER_PERFORMANCE_MODEL_TYPE')
         .then((res) => {
@@ -237,14 +393,14 @@ export default {
             this.typeList = res?.data[0]?.subDictResultVo
           }
         })
-        .catch(() => { })
+        .catch(() => {})
       getDictByCode('SUPPLIER_PERFORMANCE_MODEL_STATUS')
         .then((res) => {
           if (res.data) {
             this.statusList = res?.data[0]?.subDictResultVo
           }
         })
-        .catch(() => { })
+        .catch(() => {})
     },
     openPreDetail(item) {
       let routeUrl = this.$router.resolve({
@@ -263,33 +419,35 @@ export default {
         query: {
           editionId: item.id,
           dataTime: item.dataTime,
-
+          status: item.status,
           modelId: item.modelId
         }
       })
       window.open(routeUrl.href, '_blank')
     },
-    clearDiologTime(){
-      this.updataTime=''
-      this.updataTimeDialog=false
+    clearDiologTime() {
+      this.updataTime = ''
+      this.updataTimeDialog = false
     },
-    longTime(val){
-      this.updataTimeDialog=true
-      this.rowList=val
-      this.updataTime=val.endDate
+    longTime(val) {
+      this.updataTimeDialog = true
+      this.rowList = val
+      this.updataTime = val.endDate
     },
-    saveTime(){
-      const req={
-        id:this.rowList.id,
-        endDate:this.updataTime
+    saveTime() {
+      const req = {
+        id: this.rowList.id,
+        endDate: this.updataTime
       }
-      delayEdition(req).then(res=>{
-        if(res.code==200){
+      delayEdition(req).then((res) => {
+        if (res.code == 200) {
           this.getTableList()
           this.clearDiologTime()
           iMessage.success(res.desZh || '修改成功')
-        }else{
-          iMessage.error(`${this.$i18n.locale === "zh" ? res.desZh : res.desEn}`)
+        } else {
+          iMessage.error(
+            `${this.$i18n.locale === 'zh' ? res.desZh : res.desEn}`
+          )
         }
       })
     },
@@ -334,7 +492,6 @@ export default {
     handleSearchReset() {
       this.page.pageSize = 10
       this.page.currPage = 1
-      this.dateTime = []
       this.formData = {}
       this.getTableList()
     },
@@ -366,7 +523,7 @@ export default {
               sapCode: val.sapCode,
               supplierId: val.supplierId,
               supplierName: val.nameZh,
-              deptCode:val.deptCode
+              deptCode: val.deptCode
             }
           })
           data.forEach((v, i) => {
@@ -390,8 +547,8 @@ export default {
     submit(v) {
       if (v == 'to' && this.active != 4) {
         if (this.active == 2) {
-          this.form.statisticsStartDate = this.dataTime[0]
-          this.form.statisticsEndDate = this.dataTime[1]
+          this.form.statisticsStartDate = this.form.statisticsStartDate +' '+'12:00:00'
+          this.form.statisticsEndDate = this.form.statisticsEndDate +' '+'12:00:00'
           addSupplierPerforManceModel(this.form).then((res) => {
             if (res.code == '200') {
               this.active = 3
@@ -414,6 +571,9 @@ export default {
             }
           })
         } else {
+          this.form.statisticsStartDate = this.dateYear(0)
+          this.form.statisticsEndDate = this.dateYear(1)
+          console.log(this.form)
           this.active = this.active + 1
         }
       } else if (v == 'back' && this.active != 0) {
@@ -440,7 +600,7 @@ export default {
           sapCode: val.sapCode,
           supplierId: val.subSupplierId,
           supplierName: val.shortNameZh,
-          deptCode:val.purchaserSection
+          deptCode: val.purchaserSection
         }
       })
       data.forEach((v, i) => {
@@ -501,11 +661,11 @@ export default {
     },
     //导出文件
     async exportFile() {
-      getTemplate().then((res) => { })
+      getTemplate().then((res) => {})
     },
     exportAll() {
       excelExport(this.tableListData2, this.tableTitle2)
-    },
+    }
   }
 }
 </script>
