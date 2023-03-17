@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-10 15:22:16
- * @LastEditTime: 2023-02-06 18:28:21
+ * @LastEditTime: 2023-03-15 16:15:38
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\components\login\index.vue
@@ -101,7 +101,11 @@ export default {
     }
   },
   created() {
-    if (this.$route.path.indexOf('superLogin') > -1) {
+    // 禁用 prod 环境小黑窗(superLogin)
+    if (
+      this.$route.path.indexOf('superLogin') > -1 &&
+      !['production'].includes(process.env.NODE_ENV)
+    ) {
       //nothing to do
     } else {
       const token = getToken()
@@ -111,10 +115,11 @@ export default {
           process.env.VUE_APP_LOGOUT_URL || process.env.VUE_APP_LOGIN_URL
       } else {
         redirectUrl =
-          process.env.VUE_APP_LOGIN_URL+`?state=${encodeURIComponent(this.$route.query.state)}` || process.env.VUE_APP_LOGOUT_URL
+          process.env.VUE_APP_LOGIN_URL +
+            `?state=${encodeURIComponent(this.$route.query.state)}` ||
+          process.env.VUE_APP_LOGOUT_URL
       }
-      // this.$route.query.state 有重定向地址就跳转
-      if (redirectUrl && this.$route.query.state) {
+      if (redirectUrl) {
         this.ssoLogin = true
         location.href = redirectUrl
       }

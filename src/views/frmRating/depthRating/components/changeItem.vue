@@ -20,6 +20,7 @@
     <p class="tip margin-bottom10">{{tip}}</p>
      <iSelect v-model='inquiryBuyer'
              :multiple='multiple'
+             clearable
              :filterable='true'>
       <el-option v-for="(items,index) in inquiryBuyerList"
                  :key='index'

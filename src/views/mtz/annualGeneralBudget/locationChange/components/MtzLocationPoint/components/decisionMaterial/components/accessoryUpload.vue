@@ -22,12 +22,12 @@
           @uploadedCallback="handleUpload($event)"/> -->
           <iButton
             @click="handleClickDel"
-            v-if="appStatus == '草稿' || appStatus == '未通过'"
+            v-if="isEditNew"
             >{{ language('SHANCHU', '删除') }}</iButton
           >
           <!-- <iButton @click="handleClickUpload" v-if="appStatus == '草稿' || appStatus == '未通过'" >{{language('SHANGCHUAN', '上传')}}</iButton> -->
           <el-upload
-            v-if="appStatus == '草稿' || appStatus == '未通过'"
+            v-if="isEditNew"
             class="upload-demo"
             style="margin-left: 10px"
             multiple
@@ -103,7 +103,7 @@ export default {
     tableList,
     uploadButton
   },
-  props: ['appStatus'],
+  props: ['appStatus','flowType','meetingStatus'],
   data() {
     return {
       tableListData: [],
@@ -122,7 +122,11 @@ export default {
   computed: {
     mtzObject() {
       return this.$store.state.location.mtzObject
-    }
+    },
+    isEditNew: function () {
+      const appStatusArr=['草稿','已提交','未通过','通过','复核未通过','M退回']
+      return (this.appStatus == '草稿' || this.appStatus == '未通过')||(((this.flowType=='SIGN'||this.flowType=='FILING')&&this.appStatus=='已提交')||(appStatusArr.indexOf(this.appStatus)>0&&this.flowType=="MEETING"))
+    },
   },
   watch: {
     mtzObject(newVlue, oldValue) {}
