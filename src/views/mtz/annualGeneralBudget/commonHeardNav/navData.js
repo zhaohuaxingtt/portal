@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-08-27 15:07:07
- * @LastEditTime: 2023-01-09 14:58:24
+ * @LastEditTime: 2023-03-19 16:00:55
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\commonHeardNav\navData.js
@@ -136,7 +136,7 @@ export const rightNavList = [
       url: '/mtz/annualGeneralBudget/replenishmentManagement/chipReplenishmentOverview',
       activePath: '/mtz/annualGeneralBudget/replenishmentManagement/chipReplenishmentOverview',
       key: '芯片补差总览',
-      permissionKey:'MTZ_REPORT_BUCHAGUANLI_MTZBUCHAZONGLAN',
+      permissionKey:'MTZ_REPORT_BUCHAGUANLI_CHIPBUCHAZONGLAN',
     },
     {
       value: 6,
@@ -145,8 +145,7 @@ export const rightNavList = [
       url: '/mtz/annualGeneralBudget/replenishmentManagement/chipCalculationTask',
       activePath: '/mtz/annualGeneralBudget/replenishmentManagement/chipCalculationTask',
       key: '芯片补差计算任务',
-      // permissionKey:'MTZ_REPORT_BUCHAGUANLI_MTZBUCHAJISUANRENWU',
-      permissionKey:'MTZ_REPORT_BUCHAGUANLI_MTZBUCHAZONGLAN',
+      permissionKey:'MTZ_REPORT_BUCHAGUANLI_CHIPJISUANRENWU',
     },
     {
       value: 7,
@@ -155,6 +154,6 @@ export const rightNavList = [
       url: '/mtz/annualGeneralBudget/replenishmentManagement/chipSupplementaryList',
       activePath: '/mtz/annualGeneralBudget/replenishmentManagement/chipSupplementaryList',
       key: '芯片补差单列表',
-      permissionKey:'MTZ_REPORT_BUCHAGUANLI_BUCHADANLIEBIAO',
+      permissionKey:'MTZ_REPORT_BUCHAGUANLI_CHIPBUCHADANLIEBIAO',
     },
 ];
