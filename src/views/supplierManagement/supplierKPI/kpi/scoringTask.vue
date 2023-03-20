@@ -6,7 +6,13 @@
 -->
 <template>
   <div class="page">
-    <p class="title">
+    <iTabsList v-model="activeName" type="card" slot="components" class="margin-top20">
+      <el-tab-pane :label="$t('打分任务')" name="task">      </el-tab-pane>
+      <el-tab-pane :label="$t('历史绩效评分')" name="history">      </el-tab-pane>
+      <el-tab-pane :label="$t('部门综合评分')" name="dept">      </el-tab-pane>
+    </iTabsList>
+    <div v-if="activeName=='task'">
+      <p class="title">
       {{ $t('LK_KESHI') }}：{{
         $store.state.permission.userInfo.deptDTO.deptNum.split('-')[0]
       }}
@@ -82,6 +88,9 @@
         </div>
       </div>
     </transition>
+    </div>
+    <deptPbi v-if="activeName=='history'"></deptPbi>
+    <historyPbi v-if="activeName=='dept'"></historyPbi>
 
   </div>
 </template>
@@ -94,11 +103,14 @@ import {
 } from '@/api/supplierManagement/supplierIndexManage/index'
 import { pageMixins } from '@/utils/pageMixins'
 import tableList from '@/components/commonTable'
+import historyPbi from './historyPbi'
+import deptPbi from './deptPbi'
 import { cloneDeep } from 'lodash'
 import { getDictByCode } from '@/api/dictionary'
 import { getPerformanceEdition } from '@/api/supplierManagement/supplierIndexManage/index'
 
 import {
+  iTabsList,
   iMessage,
   iMessageBox,
   iPagination,
@@ -114,6 +126,9 @@ export default {
   mixins: [pageMixins],
 
   components: {
+    iTabsList,
+    deptPbi,
+  historyPbi,
     iCard,
     iPagination,
     iSearch,
@@ -126,6 +141,7 @@ export default {
   },
   data() {
     return {
+    activeName:'task',
       isPage: true,
       statusList: [],
       infoList: [],
@@ -288,7 +304,24 @@ export default {
     background: #f8f9fa;
   }
 }
+.approvaltitle {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
+  p {
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  span {
+    font-weight: 400;
+    font-size: 16px;
+    display: inline-block;
+    margin-right: 30px;
+  }
+}
 .title {
   font-size: 18px;
   font-weight: 600;

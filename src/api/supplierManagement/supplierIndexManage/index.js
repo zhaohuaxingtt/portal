@@ -4,7 +4,22 @@ import axiosDownload from '@/utils/axios.download'
 
 const requst = axios(process.env.VUE_APP_SUPPLIER + '/web')
 const requestDownload = axiosDownload(process.env.VUE_APP_SUPPLIER+ '/web')
-
+// 获取历史评分
+export function getHistoryPbi(parmars) {
+  return requst({
+    url: '/supplierPerformanceKpi/getHistoryPbi',
+    method: 'POST',
+    data: parmars
+  })
+}
+// 获取历史部门综合评分
+export function getHistoryDeptSynthesisPbi(parmars) {
+  return requst({
+    url: '/supplierPerformanceKpi/getHistoryDeptSynthesisPbi',
+    method: 'POST',
+    data: parmars
+  })
+}
 export function getIndicator(id) {
   return requst({
     url: '/indicatorLibrary/getIndicator/?indicatorId=' + id,
