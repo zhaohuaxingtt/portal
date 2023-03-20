@@ -200,7 +200,7 @@ export default {
     getDeptDropDownList({}).then((res) => {
       this.organizationMenu = [
         {
-          nameZh: '未分配组织',
+          deptNum: '未分配组织',
           id: 0
         },
         ...res.data
@@ -217,11 +217,11 @@ export default {
         return (this.orgOptions = this.organizationMenu.slice(0, 100))
       }
       const filterLists = this.organizationMenu.filter((e) => {
-        const nameZh = e.nameZh || ''
+        const nameEn = e.nameEn || ''
         /* const nameEn = e.nameEn || ''
         const code = e.fullCode || '' */
         const q = query.toLowerCase()
-        return nameZh.toLowerCase().includes(q)
+        return nameEn.toLowerCase().includes(q)
       })
       if (filterLists.length > 100) {
         this.orgOptions = filterLists.slice(0, 200)

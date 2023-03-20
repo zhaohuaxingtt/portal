@@ -48,7 +48,7 @@ export default {
           i18n: '姓名'
         },
         {
-          prop: 'department',
+          prop: 'deptNumList',
           i18n: '所属部门'
         },
         {
