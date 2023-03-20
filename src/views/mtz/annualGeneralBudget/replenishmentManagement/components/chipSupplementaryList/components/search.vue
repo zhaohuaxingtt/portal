@@ -1,7 +1,7 @@
 <!--
  * @Author: tanmou
  * @Date: 2021-08-27 16:29:54
- * @LastEditTime: 2023-03-15 16:27:43
+ * @LastEditTime: 2023-03-17 17:20:35
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\search.vue
@@ -91,23 +91,23 @@
             @click="supplierConfirm"
             v-if="tabsValue == 1 && inforData.status == 'SUPPLIER_CONFIRMING'"
             v-permission="
-              PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_DAIGONGYINGSHANGQUEREN
+              PROTAL_MTZ_BUCHAGUANLI_CHIPBUCHALIEBIAO_DAIGONGYINGSHANGQUEREN
             "
             >{{ language('GONGYINGSHANGQUEREN', '代供应商确认') }}</iButton
           >
           <iButton
             @click="updateBalance"
-            v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_DAOCHUBEIZHU"
+            v-permission="PROTAL_MTZ_BUCHAGUANLI_CHIPBUCHALIEBIAO_DAOCHUBEIZHU"
             >{{ language('BAOCUNBEIZHU', '保存备注') }}</iButton
           >
           <iButton
             @click="balanceDetailPdfExport"
-            v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_PINGZHENGDAOCHU"
+            v-permission="PROTAL_MTZ_BUCHAGUANLI_CHIPBUCHALIEBIAO_PINGZHENGDAOCHU"
             >{{ language('PINGZHENGDAOCHU', '凭证导出') }}</iButton
           >
           <iButton
             @click="exportSupplierBalance"
-            v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_DAOCHU"
+            v-permission="PROTAL_MTZ_BUCHAGUANLI_CHIPBUCHALIEBIAO_DAOCHU_DIALOG"
             >{{ language('DAOCHU', '导出') }}</iButton
           >
         </div>

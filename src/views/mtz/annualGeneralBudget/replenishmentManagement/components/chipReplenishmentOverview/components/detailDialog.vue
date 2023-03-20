@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-14 14:44:54
- * @LastEditTime: 2023-03-15 17:35:37
+ * @LastEditTime: 2023-03-20 17:35:31
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipReplenishmentOverview\components\detailDialog.vue
@@ -45,7 +45,7 @@
         </div>
         <iButton
           @click="handleExportCurrent"
-          v-permission="MTZ_REPORT_BUCHAGUANLI_MTZBUCHAZONGLAN_DAOCHUDANGYE"
+          v-permission="MTZ_REPORT_CHIPBUCHAGUANLI_CHIPBUCHAZONGLAN_DAOCHUDANGYE"
           >{{ language('DAOCHU', '导出') }}</iButton
         >
       </div>
@@ -124,7 +124,7 @@ import {
   tableTitle1Overview,
   tableTitle1Detail,
   tableTitle2Overview,
-  tableTitle2Detail,
+  searchFormData1Overview,
   searchFormData1,
   searchFormData2
 } from './data'
@@ -185,7 +185,7 @@ export default {
       handler(val) {
         if (val == 1) {
           // 总览
-          this.searchFormData = searchFormData1
+          this.searchFormData = searchFormData1Overview
           this.tableTitle =
             this.supplierType == '一次件供应商'
               ? tableTitle1Overview
