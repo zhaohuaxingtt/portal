@@ -45,7 +45,6 @@ import {
   getTaskBuyerList,
   getTaskDepartmentList
 } from '@/api/mtz/annualGeneralBudget/chipReplenishment'
-import { getBuyers } from '@/api/mtz/mtzCalculationTask'
 import { pageMixins } from '@/utils/pageMixins'
 
 export default {

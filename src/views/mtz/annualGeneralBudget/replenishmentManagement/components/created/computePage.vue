@@ -1,19 +1,19 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-14 14:44:54
- * @LastEditTime: 2023-03-14 10:19:01
+ * @LastEditTime: 2023-03-17 17:10:32
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\created\computePage.vue
 -->
 <template>
-<div class="page-box" v-loading="loading">
+<div class="page-box" v-loading="loading" v-permission="MTZ_REPORT_BUCHAGUANLI_CHIPJISUANRENWU_DETAIL">
   <iPage>
     <div class="header">
       <h1>{{ supplierType }}供应商芯片补差计算（{{ taskStatusName }}）</h1>
       <div v-if="!disabled">
-        <iButton @click="updateBalance">保存</iButton>
-        <iButton v-if="!detailInfo.balanceNo" @click="submit">创建补差单</iButton>
+        <iButton @click="updateBalance" v-permission="MTZ_REPORT_BUCHAGUANLI_CHIPJISUANRENWU_DETAIL_BAOCUN">保存</iButton>
+        <iButton v-if="!detailInfo.balanceNo" @click="submit" v-permission="MTZ_REPORT_BUCHAGUANLI_CHIPJISUANRENWU_DETAIL_CHUANGJIAN">创建补差单</iButton>
       </div>
     </div>
     <search :searchForm="detailInfo" :searchFormData="infoFormData">
@@ -72,7 +72,7 @@
     <iCard>
       <div class="contentBox">
         <div class="tableOptionBox">
-          <iButton @click="deleteBalanceItem" v-if="tabsValue == 1 && !disabled">{{
+          <iButton @click="deleteBalanceItem" v-permission="MTZ_REPORT_BUCHAGUANLI_CHIPJISUANRENWU_DETAIL_CHONGXIAO" v-if="tabsValue == 1 && !disabled">{{
             language('冲销', '冲销')
           }}</iButton>
           <iButton

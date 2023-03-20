@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-18 18:52:11
- * @LastEditTime: 2023-03-16 18:49:22
+ * @LastEditTime: 2023-03-17 17:16:07
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\theTable.vue
@@ -28,32 +28,33 @@
         </el-radio-group>
       </div>
       <div class="opration">
-        <iButton @click="deleteBalance">{{
+        <iButton @click="deleteBalance"
+          v-permission="PROTAL_MTZ_BUCHAGUANLI_CHIPBUCHALIEBIAO_SHANCHU">{{
           language('SHANCHU', '删除')
         }}</iButton>
         <iButton
           @click="sendSupplier"
-          v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_FAQIGONGINGSHANG"
+          v-permission="PROTAL_MTZ_BUCHAGUANLI_CHIPBUCHALIEBIAO_FAQIGONGINGSHANG"
           >{{ language('FASONGGONGYINGSHANG', '发送供应商') }}</iButton
         >
         <iButton
           @click="handleClickEdit"
-          v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_EDIT"
+          v-permission="PROTAL_MTZ_BUCHAGUANLI_CHIPBUCHALIEBIAO_EDIT"
           >{{ language('BIANJI', '编辑') }}</iButton
         >
         <iButton
           @click="submit"
-          v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_SUBMIT"
+          v-permission="PROTAL_MTZ_BUCHAGUANLI_CHIPBUCHALIEBIAO_SUBMIT"
           >{{ language('TIJIAO', '提交') }}</iButton
         >
         <iButton
           @click="recall"
-          v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_CHEHUI"
+          v-permission="PROTAL_MTZ_BUCHAGUANLI_CHIPBUCHALIEBIAO_CHEHUI"
           >{{ language('CHEHUI ', '撤回') }}</iButton
         >
         <iButton
           @click="exportFile"
-          v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_DAOCHU"
+          v-permission="PROTAL_MTZ_BUCHAGUANLI_CHIPBUCHALIEBIAO_DAOCHU"
           >{{ language('DAOCHU ', '导出') }}</iButton
         >
       </div>

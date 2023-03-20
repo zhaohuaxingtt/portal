@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2023-02-15 16:07:15
+ * @LastEditTime: 2023-03-17 16:57:05
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipReplenishmentOverview\components\theTable.vue
@@ -31,7 +31,7 @@
           size="mini"
           @command="handleCommand"
         >
-          <iButton v-permission="PORTAL_MTZ_FAQIBUCHA"
+          <iButton v-permission="PORTAL_CHIP_FAQIBUCHA"
             >{{ $t('FAQIBUCHA')
             }}<i class="el-icon-arrow-down el-icon--right"></i>
           </iButton>
