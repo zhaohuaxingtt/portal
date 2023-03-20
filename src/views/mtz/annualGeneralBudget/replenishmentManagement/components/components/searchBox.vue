@@ -160,8 +160,9 @@ export default {
   }
   .search-content {
     display: inline-flex;
-    ::v-deep .el-form-item {
-      flex-direction: column;
+    width: 100%;
+    ::v-deep .el-form {
+      flex: 1;
     }
     ::v-deep .el-form-item {
       margin-bottom: 2px;
@@ -171,6 +172,7 @@ export default {
       padding-left: 2px;
       padding-top: 5px;
       padding-bottom: 5px;
+      flex-direction: column;
 
       .el-form-item__label {
         font-size: 14px;
