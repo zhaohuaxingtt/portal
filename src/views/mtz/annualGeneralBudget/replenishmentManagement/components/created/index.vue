@@ -6,7 +6,7 @@
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\created\index.vue
 -->
 <template>
-  <iPage>
+  <iPage v-permission="PORTAL_CHIP_FAQIBUCHA">
     <div class="header">
       <h1>{{ supplierType }}供应商芯片补差计算（{{statusName}}）</h1>
       <template v-if="showContent">
