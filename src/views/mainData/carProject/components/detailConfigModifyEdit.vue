@@ -20,6 +20,30 @@
         </template>
       </el-table-column> -->
       <el-table-column
+        :label="language('用于的车型项目')"
+        prop="vehicleProjectId"
+        header-align="center"
+        align="center"
+      >
+        <template slot-scope="scope">
+          <iSelect
+              :placeholder="language('请输入')"
+              v-model="scope.row.vehicleProjectId"
+              remote
+              filterable
+              :remote-method="querySearchCarTypeNameAsync"
+            >
+              <el-option
+                v-for="item in carTypeNames"
+                :key="item.name"
+                :label="item.name"
+                :value="item.id"
+              >
+              </el-option>
+            </iSelect>
+        </template>
+      </el-table-column>
+      <el-table-column
         :label="language('发动机类型')"
         prop="engineType"
         header-align="center"
@@ -131,6 +155,9 @@
 </template>
 
 <script>
+import {
+  carProjectNameList,
+} from '@/api/mainData/carProject'
 import { Icon, iInput, iSelect } from 'rise'
 export default {
   name: 'detailConfigModifyView',
@@ -181,9 +208,19 @@ export default {
     }
   },
   data() {
-    return {}
+    return {
+      carTypeNames:[]
+    }
   },
   methods: {
+    querySearchCarTypeNameAsync(keyword) {
+      let param = { param: keyword }
+      carProjectNameList(param).then((val) => {
+        if (val.code == 200) {
+          this.carTypeNames = val.data
+        }
+      })
+    },
     removeRow(index) {
       this.$emit('remove', index)
     },
