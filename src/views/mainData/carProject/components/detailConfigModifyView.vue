@@ -18,8 +18,7 @@
       <template slot-scope="scope">
         {{
           scope.row.vehicleProjectName
-            ? extraData.engineSelectMap[scope.row.vehicleProjectName]
-            : ''
+        
         }}
       </template>
     </el-table-column>
@@ -142,6 +141,9 @@ export default {
         }
       }
     }
+  },
+  created(){
+    console.log(this.extraData)
   },
   methods: {
     removeRow(index) {

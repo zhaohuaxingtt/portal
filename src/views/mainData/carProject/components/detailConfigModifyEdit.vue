@@ -29,9 +29,7 @@
           <iSelect
               :placeholder="language('请输入')"
               v-model="scope.row.vehicleProjectId"
-              remote
               filterable
-              :remote-method="querySearchCarTypeNameAsync"
             >
               <el-option
                 v-for="item in carTypeNames"
@@ -211,6 +209,9 @@ export default {
     return {
       carTypeNames:[]
     }
+  },
+  created(){
+    this.querySearchCarTypeNameAsync('')
   },
   methods: {
     querySearchCarTypeNameAsync(keyword) {
