@@ -571,8 +571,8 @@ export default {
             }
           })
         } else {
-          this.form.statisticsStartDate = this.dateYear(0)
-          this.form.statisticsEndDate = this.dateYear(1)
+          this.form.statisticsStartDate = this.dateYear(-1)
+          this.form.statisticsEndDate = this.dateYear(0)
           console.log(this.form)
           this.active = this.active + 1
         }
