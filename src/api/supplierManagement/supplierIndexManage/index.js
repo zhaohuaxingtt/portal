@@ -26,6 +26,13 @@ export function getIndicator(id) {
     method: 'GET',
   })
 }
+// 获取全部指标集合
+export function getIndicatorAllList() {
+  return requst({
+    url: '/indicatorLibrary/getIndicatorAllList',
+    method: 'GET',
+  })
+}
 // 获取指标集合
 export function getIndicatorList() {
   return requst({
