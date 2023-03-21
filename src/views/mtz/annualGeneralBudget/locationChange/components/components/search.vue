@@ -7,6 +7,7 @@
         :label="language(item.key, item.name)"
       >
         <iMultiLineInput
+          :disabled="item.disabled"
           v-if="item.type == 'iMultiLineInput'"
           :placeholder="
             language('partsprocure.PARTSPROCURE', '请输入零件号，多个逗号分隔')
@@ -18,6 +19,7 @@
           v-else-if="item.type == 'select'"
           v-model="searchForm[item.props]"
           :multiple="item.multiple || false"
+          :disabled="item.disabled"
           style="width: 100%"
           filterable
           collapse-tags
@@ -38,6 +40,7 @@
         <iDatePicker
           v-model="searchForm[item.props]"
           v-else-if="item.type == 'date'"
+          :disabled="item.disabled"
           valueFormat="yyyy-MM-dd"
           type="date"
           :placeholder="language('QINGXUANZE', '请选择')"
@@ -46,6 +49,7 @@
           style="width: 220px"
           v-else-if="item.type == 'daterange'"
           v-model="searchForm[item.props]"
+          :disabled="item.disabled"
           type="daterange"
           :range-separator="$t('至')"
           :start-placeholder="$t('开始日期')"
@@ -54,6 +58,7 @@
         </iDatePicker>
         <iInput
           v-else
+          :disabled="item.disabled"
           v-model="searchForm[item.props]"
           :placeholder="$t('staffManagement.INPUT_PLACEHOLDER')"
         ></iInput>
