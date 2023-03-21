@@ -70,11 +70,11 @@
           }}</span>
         </template>
         <template #status="scope">
-          <span>{{
+          <!-- <span>{{
             scope.row.status != null
               ? statusList.find((val) => val.code == scope.row.status).name
               : ''
-          }}</span>
+          }}</span> -->
         </template>
         <template #caozuo="scope">
           <iButton

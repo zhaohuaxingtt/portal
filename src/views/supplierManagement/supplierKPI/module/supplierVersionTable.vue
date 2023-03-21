@@ -212,11 +212,7 @@ export default {
     },
     getTableList() {
       let id = ''
-      if (this.isShow) {
         id = this.$route.query.modelId
-      } else {
-        id = this.infoData.modelId
-      }
       getModelTreeTitle(id).then((res) => {
         if (res.code == '200') {
           this.tittleData = JSON.parse(JSON.stringify(res.data.childVo))
@@ -297,11 +293,8 @@ export default {
     },
     getTableList2() {
       let id = ''
-      if (this.isShow) {
         id = this.$route.query.modelId
-      } else {
-        id = this.infoData.modelId
-      }
+    
       getAllModelTreeData(id).then((res) => {
         if (res.code == '200') {
           this.tittleData = JSON.parse(JSON.stringify(res.data.childVo))
@@ -410,6 +403,8 @@ export default {
     godept() {
       sendPerformanceTask(this.$route.query.editionId).then((res) => {
         if (res.code == '200') {
+          this.getTableList()
+
           iMessage.success('发送成功')
         } else {
           iMessage.error(res.desZh)
