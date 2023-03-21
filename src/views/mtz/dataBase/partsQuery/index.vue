@@ -23,19 +23,6 @@
           ></iInput>
         </iFormItem>
         <iFormItem label="科室" class="SearchOption">
-          <!-- <i-select
-                  v-model="formData.buyerDeptId	"
-                  multiple
-                  filterable
-                  collapse-tags
-                  :placeholder="language('QINGXUANZE', '请选择')">
-                    <el-option 
-                    v-for="(x,index) in departmentDrop" 
-                    :key="index"
-                    :label="x.existShareNum"
-                    :value="x.existShareId">
-                    </el-option>
-                  </i-select> -->
           <custom-select
             v-model="formData.buyerDeptId"
             :user-options="departmentDrop"
@@ -50,19 +37,6 @@
           />
         </iFormItem>
         <iFormItem label="市场价来源" class="SearchOption">
-          <!-- <i-select
-                  v-model="formData.marketSource"
-                  multiple
-                  filterable
-                  collapse-tags
-                  :placeholder="language('QINGXUANZE', '请选择')">
-                    <el-option 
-                    v-for="(x,index) in getMtzMarketSourceListDrop" 
-                    :key="index"
-                    :label="x.message"
-                    :value="x.code">
-                    </el-option>
-                  </i-select> -->
           <custom-select
             v-model="formData.marketSource"
             :user-options="getMtzMarketSourceListDrop"
@@ -93,20 +67,6 @@
           />
         </iFormItem>
         <iFormItem label="补差周期" class="SearchOption">
-          <!-- <i-select
-                  multiple
-                  collapse-tags
-                  filterable
-                  v-model="formData.compensationPeriod"
-                  :placeholder="language('QINGXUANZE', '请选择')"
-                >
-                    <el-option 
-                    v-for="(x,index) in sendersCycle" 
-                    :key="index"
-                    :label="x.name"
-                    :value="x.id"
-                    ></el-option>
-                  </i-select> -->
           <custom-select
             v-model="formData.compensationPeriod"
             :user-options="sendersCycle"
@@ -124,15 +84,6 @@
           :label="language('SHIFOUSHENGXIAO', '是否生效')"
           class="SearchOption"
         >
-          <!-- <i-select v-model="formData.effectFlag"
-                    :placeholder="language('QINGXUANZE', '请选择')">
-            <el-option :label="language('QUANBU', '全部')"
-                       value=""></el-option>
-            <el-option :label="language('SHENGXIAO', '生效')"
-                       value="1"></el-option>
-            <el-option :label="language('SHIXIAO', '失效')"
-                       value="0"></el-option>
-          </i-select> -->
           <custom-select
             v-model="formData.effectFlag"
             style="width: 100%"
@@ -142,6 +93,25 @@
             value-member="code"
             value-key="code"
           />
+        </iFormItem>
+        <iFormItem :label="language('补差方式','补差方式')"
+          class="searchFormItem">
+          <i-select
+            v-model="formData.method"
+            clearable
+            :placeholder="language('QINGSHURU', '请输入')"
+          >
+            <el-option
+            :label="language('全部','ALL')"
+            value=""></el-option>
+            <el-option
+              v-for="item in methodList"
+              :key="item.code"
+              :label="item.message"
+              :value="item.code"
+            >
+            </el-option>
+          </i-select>
         </iFormItem>
       </iFormGroup>
     </i-search>
@@ -203,6 +173,7 @@
           :loading="tableLoading"
           :data="tableListData"
           :columns="tableSetting"
+          :extraData="{ locale: $i18n.locale, language: (key) => $t(key) }"
           permissionKey="MTZ-partsQuery"
           @go-partNumber="handlePartNumberDetail"
           @go-source="handleSource"
@@ -275,11 +246,12 @@ import {
   iDialog,
   iDatePicker,
   iMessage,
-  iMultiLineInput
+  iMultiLineInput,
+  iTableCustom
 } from 'rise'
-import iTableCustom from '@/components/iTableCustom'
+// import iTableCustom from '@/components/iTableCustom'
 import { pageMixins } from '@/utils/pageMixins'
-import { tableSetting, exportTitle, formJSON } from './components/data'
+import { tableSetting, exportTitle, formJSON, methodList } from './components/data'
 import Detail from './components/detail'
 import buttonTableSetting from '@/components/buttonTableSetting'
 // import Source from './components/source'
@@ -303,7 +275,7 @@ export default {
   components: {
     iSearch,
     iInput,
-    // iSelect,
+    iSelect,
     // iPage,
     iCard,
     iButton,
@@ -323,10 +295,13 @@ export default {
   mixins: [pageMixins],
   data() {
     return {
+      methodList,
       isShow: false, //零件号
       isShowSource: false, //来源
       isShowRelationalValidity: false,
-      formData: {}, //表单数据
+      formData: {
+        method: ''
+      }, //表单数据
       tableListData: [], //表格数据
       tableSetting,
       exportTitle,
@@ -366,6 +341,7 @@ export default {
     // 初始化检索条件
     initSearchData() {
       for (let key in this.formData) {
+        if(!['method'].includes(key))
         this.formData[key] = []
       }
       const date = new Date()
@@ -487,7 +463,8 @@ export default {
       this.formData = {
         buyerDeptId: '',
         compensationPeriod: '',
-        marketSource: ''
+        marketSource: '',
+        method: ''
       }
       this.initSearchData()
       this.mtzBasePricePage()

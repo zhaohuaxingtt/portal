@@ -187,6 +187,37 @@
           </template>
         </el-table-column>
         <el-table-column
+          prop="method"
+          align="center"
+          :label="language('补差方式', '补差方式')"
+          show-overflow-tooltip
+          width="130"
+        >
+          <template slot-scope="scope">
+            <el-form-item
+              :prop="'tableData.' + scope.$index + '.' + 'method'"
+              :rules="formRules.method ? formRules.method : ''"
+            >
+                <el-select
+                  v-model="scope.row.method"
+                  v-if="editId.indexOf(scope.row.id) !== -1"
+                  clearable
+                  :placeholder="language('QINGSHURU', '请输入')"
+                  @change="choiseGZ(scope, $event)"
+                >
+                  <el-option
+                    v-for="item in methodList"
+                    :key="item.code"
+                    :label="item.message"
+                    :value="item.code"
+                  >
+                  </el-option>
+                </el-select>
+              <span v-else>{{ scope.row.method == '1' ? language('一次性补差','一次性补差') : scope.row.method == '2' ? language('变价单补差','变价单补差') : '' }}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
+        <el-table-column
           prop="sapCode"
           align="center"
           :label="language('GONGYINGSHANGBIANHAOMINGCHENG', '供应商编号/名称')"
@@ -922,6 +953,7 @@ import {
 
 import { deepClone } from './util'
 import { getToken } from '@/utils'
+import { methodList } from "./data";
 
 export default {
   name: 'Search',
@@ -960,6 +992,7 @@ export default {
       }
     }
     return {
+      methodList,
       formRules: {
         assemblyPartnum: [
           { required: true, message: '请选择', trigger: 'blur' }

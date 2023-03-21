@@ -361,6 +361,7 @@ export const tableTitleHistory = [
     key: 'ECJYYCJBL'
   },
   { width: 130, props: 'ruleNo', name: '规则编号', key: 'GUIZEBIANHAO' },
+  { width: 130, props: 'method', name: '补差方式', key: '补差方式' },
   {
     width: 120,
     props: 'materialCode',
@@ -482,4 +483,15 @@ export const partNumberTitle = [
   { props: 'partNum', name: '零件号', key: 'LINGJIANHAO' },
   { props: 'partNameZh', name: '零件名（中）', key: 'LK_LINGJIANMINGZHONG' },
   { props: 'partNameDe', name: '零件名（德）', key: 'LK_LINGJIANMINGDE' }
+]
+
+export const methodList = [
+    {
+    code: '1',
+    message: '一次性补差',
+    },
+    {
+    code: '2',
+    message: '变价单补差'
+    }
 ]
