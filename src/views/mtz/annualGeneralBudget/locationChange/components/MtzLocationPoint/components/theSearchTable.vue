@@ -221,7 +221,7 @@
           <iButton @click="mtzDel" v-permission="PORTAL_MTZ_POINT_SHANCHU">{{
             language('SHANCHU', '删除')
           }}</iButton>
-          <buttonTableSetting @click="edittableHeader" />
+          <buttonTableSetting :hiddenCount="hiddenCount" @click="edittableHeader" />
         </div>
       </div>
       <!-- <tableList
@@ -279,10 +279,14 @@
         permissionKey="MTZLOCATIONPOINT_HOME"
         :index="true"
         border
+        @setHiddenCount="setHiddenCount"
         @handleClickFsupplierName="handleClickFsupplierName"
         @handle-selection-change="handleSelectionChange"
       />
       <iPagination
+        :showBtn="true"
+        :tableData="tableListData"
+        :tableTitle="tableTitle1"
         class="footer-pagination"
         @size-change="handleSizeChange($event, getTableList)"
         @current-change="handleCurrentChange($event, getTableList)"
@@ -414,7 +418,6 @@ export default {
       getCurrentCopy: []
     }
   },
-
   created() {
     // console.log(new Date("2999-12-31"));
     this.init()
