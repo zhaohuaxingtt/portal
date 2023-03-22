@@ -68,6 +68,7 @@
     </div>
     <div class="table">
       <el-table
+      v-loading="tableLoading"
         :cell-class-name="cellClassName"
         style="width: 100%"
         :data="tbodyData"
@@ -104,8 +105,8 @@
     </div>
     <iPagination
       v-update
-      @size-change="handleSizeChange($event, getTableList)"
-      @current-change="handleCurrentChange($event, getTableList)"
+      @size-change="handleSizeChange($event, getTableInfo)"
+      @current-change="handleCurrentChange($event, getTableInfo)"
       background
       :page-sizes="page.pageSizes"
       :page-size="page.pageSize"
@@ -176,6 +177,7 @@ export default {
   },
   data() {
     return {
+      tableLoading:false,
       tbodyDataCopy: [],
       loadingFile: false,
       viewProgressIs: false,
@@ -195,11 +197,7 @@ export default {
   },
   created() {
     this.init()
-    if (this.isShow) {
-      this.getTableList2()
-    } else {
-      this.getTableList()
-    }
+    this.getTableInfo()
   },
   methods: {
     closeDiolog() {
@@ -209,6 +207,14 @@ export default {
       getAllModelTree(this.$route.query.modelId).then((res) => {
         this.isAll = res.data
       })
+    },
+    getTableInfo(){
+      this.tableLoading=true
+      if (this.isShow) {
+        this.getTableList2()
+      } else {
+        this.getTableList()
+      }
     },
     getTableList() {
       let id = ''
@@ -278,7 +284,7 @@ export default {
         editionId: this.$route.query.editionId
       }
       getSupplierPerforManceScorePage(req).then((res) => {
-     
+        this.tableLoading=false
         this.tbodyData = JSON.parse(JSON.stringify(res.data))
         this.tbodyData.map((val) => {
           val.score.forEach((item, i) => {
@@ -360,6 +366,8 @@ export default {
         editionId: this.$route.query.editionId
       }
       getAllSupplierPerforManceScorePage(req).then((res) => {
+        this.tableLoading=false
+
         this.tbodyData = JSON.parse(JSON.stringify(res.data))
         this.tbodyData.map((val) => {
           val.score.forEach((item,i) => {
