@@ -2,7 +2,7 @@
  * @Author: 余继鹏 917955345@qq.com
  * @Date: 2023-02-08 15:45:59
  * @LastEditors: YoHo && 917955345@qq.com
- * @LastEditTime: 2023-02-20 16:12:53
+ * @LastEditTime: 2023-03-06 15:41:34
  * @FilePath: \front-portal\src\views\meeting\specialDetails\component\attch.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -34,13 +34,24 @@
     </div>
     <div class="right-preview">
       <img class="preview" v-if="['PNG','JPG','JIF'].includes(detail.type)" :src="detail.attachmentUrl"/>
-      <iframe class="preview" v-else :src="detail.attachmentUrl" frameborder="0"></iframe>
+      <div v-else
+          class="preview" :class="{'full-scroll':isFullScroll}">
+        <iframe
+          class="preview"
+          :src="detail.attachmentUrl"
+          frameborder="0"
+        ></iframe>
+        <div class="full-scroll-btn cursor" @click="isFullScroll=!isFullScroll">
+          <i class="el-icon-full-screen font-size20"></i>
+        </div>
+      </div>
     </div>
     </div>
   </div>
 </template>
 <script>
 import { icon } from "rise";
+import { getFileUrl } from "@/api/file/index";
 
 export default {
   props:{
@@ -52,6 +63,7 @@ export default {
   data() {
     return {
       collapseValue: true,
+      isFullScroll:false,
       active: "",
       detail:{},
       loading:false
@@ -68,13 +80,27 @@ export default {
     collapse() {
       this.collapseValue = !this.collapseValue;
     },
-    changeSrc(item) {
-      let fileObj = JSON.parse(JSON.stringify(item))
-      let arr = item.attachmentName.split('.')
-      fileObj.type = arr[arr.length-1].toUpperCase()
-      this.detail = fileObj
+    async changeSrc(item) {
+      if (!item) return;
+      let fileObj = JSON.parse(JSON.stringify(item));
+      let arr = item.attachmentName.split(".");
+      fileObj.type = arr[arr.length - 1].toUpperCase();
+      if(['PNG', 'JPG', 'JIF'].includes(fileObj.type)){
+        this.detail = fileObj;
+      }else{
+        let res = await getFileUrl(fileObj.attachmentId,fileObj.attachmentName)
+        fileObj.filePath = res?.data || fileObj.filePath
+        this.detail = fileObj;
+      }
       this.active = item.attachmentId;
     },
+    // changeSrc(item) {
+    //   let fileObj = JSON.parse(JSON.stringify(item))
+    //   let arr = item.attachmentName.split('.')
+    //   fileObj.type = arr[arr.length-1].toUpperCase()
+    //   this.detail = fileObj
+    //   this.active = item.attachmentId;
+    // },
   },
 };
 </script>
@@ -137,6 +163,28 @@ export default {
       width: 100%;
       height: 100%;
     }
+  }
+}
+.full-scroll{
+  position: fixed;
+  z-index: 9;
+  top: 0;
+  left: 0;
+}
+.full-scroll-btn{
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  padding: 10px;
+  background: #aaa;
+  border-radius: 50%;
+  display: flex;
+  opacity: 0.3;
+  &:hover{
+    opacity: 0.8;
+  }
+  .font-size20{
+    font-size: 20px;
   }
 }
 </style>
