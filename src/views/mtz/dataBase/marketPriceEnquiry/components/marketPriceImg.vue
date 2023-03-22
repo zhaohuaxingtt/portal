@@ -1,56 +1,71 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-09-23 16:23:09
- * @LastEditTime: 2023-03-08 18:13:01
+ * @LastEditTime: 2023-03-21 16:13:00
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\dataBase\marketPriceEnquiry\components\marketPriceImg.vue
 -->
 <template>
   <div>
-    <iSearch @sure="sure"
-             @reset="reset"
-             icon="false">
+    <iSearch @sure="sure" @reset="reset" icon="false">
       <el-form :model="formData">
-        <el-form-item style="width: 250px;"
-                      :label="language('CAILIAOZHONGLEI','材料中类')">
+        <el-form-item
+          style="width: 250px"
+          :label="language('CAILIAOZHONGLEI', '材料中类')"
+        >
           <iSelect
             v-model="formData['materialNos']"
             filterable
             multiple
-            collapse-tags>
-            <el-option v-for="(item, index) in categoryDorpDownList" :key="index" :value="item.code" :label="item.code + '-' + item.message"></el-option>
+            collapse-tags
+          >
+            <el-option
+              v-for="(item, index) in categoryDorpDownList"
+              :key="index"
+              :value="item.code"
+              :label="item.code + '-' + item.message"
+            ></el-option>
           </iSelect>
         </el-form-item>
-        <el-form-item style="width: 200px;" :label="language('YUANCAILIAOPAIHAO','原材料牌号')">
-          <iSelect
-            v-model="formData['materialNos']"
-            filterable
-            multiple
-            collapse-tags>
-            <el-option v-for="(item, index) in []" :key="index" :value="item.code" :label="item.code + '-' + item.message"></el-option>
+        <el-form-item
+          style="width: 200px"
+          :label="language('YUANCAILIAOPAIHAO', '原材料牌号')"
+          prop="materialCode"
+        >
+          <iSelect key="materialCode" v-model="formData['materialCode']" clearable @change="changeMaterialCode">
+            <el-option
+              v-for="(item, index) in materialCodeList"
+              :key="index"
+              :value="item.code"
+              :label="item.code + '-' + item.message"
+            ></el-option>
           </iSelect>
         </el-form-item>
-        <el-form-item :label="language('YUEDUQI','月度起')">
-          <iDatePicker v-model="formData.periodStart"
-                      :picker-options="startPickerOptions" 
-                       format="yyyy-MM"
-                       type="month"
-                       />
+        <el-form-item :label="language('YUEDUQI', '月度起')">
+          <iDatePicker
+            v-model="formData.periodStart"
+            :picker-options="startPickerOptions"
+            format="yyyy-MM"
+            type="month"
+          />
         </el-form-item>
-        <el-form-item :label="language('YUEDUZHI','月度止')">
-          <iDatePicker v-model="formData.periodEnd"
-                      :picker-options="endPickerOptions"
-                      format="yyyy-MM"
-                       type="month"
-                       />
+        <el-form-item :label="language('YUEDUZHI', '月度止')">
+          <iDatePicker
+            v-model="formData.periodEnd"
+            :picker-options="endPickerOptions"
+            format="yyyy-MM"
+            type="month"
+          />
         </el-form-item>
-        <el-form-item :label="language('SHICHANGJIALEIBIE','市场价类别')">
-          <iSelect
-          v-model="formData['marketTypes']"
-          multiple
-          collapse-tags>
-            <el-option v-for="(item, index) in marketTypeDorpDownList" :key="index" :value="item.code" :label="item.message"></el-option>
+        <el-form-item :label="language('SHICHANGJIALEIBIE', '市场价类别')">
+          <iSelect v-model="formData['marketTypes']" multiple collapse-tags>
+            <el-option
+              v-for="(item, index) in marketTypeDorpDownList"
+              :key="index"
+              :value="item.code"
+              :label="item.message"
+            ></el-option>
           </iSelect>
           <!-- <custom-select class="cateGorySelect"
                          multiple
@@ -66,9 +81,22 @@
     </iSearch>
     <iCard class="margin-top20 echartCard">
       <div class="cateGoryBox">
-        <p style="fontSize: 16px;">{{language('XIANSHIYINCANGCAILIAO', '显示/隐藏材料：')}}</p>
-        <iSelect class="cateGorySelect" v-model="selectionCategoryData" multiple collapse-tags @change="handleChangeShowOrHide">
-          <el-option v-for="(item, index) in allCategoryDorpDownList" :key="index" :value="item.materialNo" :label="item.name"></el-option>
+        <p style="fontsize: 16px">
+          {{ language('XIANSHIYINCANGCAILIAO', '显示/隐藏材料：') }}
+        </p>
+        <iSelect
+          class="cateGorySelect"
+          v-model="selectionCategoryData"
+          multiple
+          collapse-tags
+          @change="handleChangeShowOrHide"
+        >
+          <el-option
+            v-for="(item, index) in allCategoryDorpDownList"
+            :key="index"
+            :value="item.materialNo"
+            :label="item.name"
+          ></el-option>
         </iSelect>
         <!-- <custom-select class="cateGorySelect"
                        multiple
@@ -81,13 +109,24 @@
                        value-key="materialNo"
                        @change="handleChangeShowOrHide" /> -->
       </div>
-      <chart v-if="chartData.length > 0 && timeData.length > 0"
-             :chartData="chartData"
-             :selectedChartData="selectionCategoryData"
-             :timeData="timeData"
-             :TFlag="TFlag"
-             :ounceFlag="ounceFlag"
-             @handleChangeLegend="handleChangeLegend" />
+      <chart
+        v-if="chartData.length > 0 && timeData.length > 0 && chart == 1"
+        :chartData="chartData"
+        :selectedChartData="selectionCategoryData"
+        :timeData="timeData"
+        :TFlag="TFlag"
+        :ounceFlag="ounceFlag"
+        @handleChangeLegend="handleChangeLegend"
+      />
+      <chartMaterialCode
+        v-if="chartData.length > 0 && timeData.length > 0 && chart == 2"
+        :chartData="mainData"
+        :selectedChartData="selectionCategoryData"
+        :timeData="timeData"
+        :TFlag="TFlag"
+        :ounceFlag="ounceFlag"
+        @handleChangeLegend="handleChangeLegend"
+      />
     </iCard>
   </div>
 </template>
@@ -95,26 +134,38 @@
 <script>
 let that
 import { iSelect, iDatePicker, iSearch, iCard, iMessage } from 'rise'
-import { getMtzMarketTypeList, getMtzCategory, mtzPriceQuery } from '@/api/mtz/database/marketPriceEnquiry'
+import {
+  getMtzMarketTypeList,
+  getMtzCategory,
+  mtzPriceQuery,
+  marketPriceChart
+} from '@/api/mtz/database/marketPriceEnquiry'
+import {
+  getRawMaterial //原材料牌号下拉选择
+} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import chart from './chart'
+import chartMaterialCode from './chartMaterialCode'
+import { mock } from "./data";
 export default {
   components: {
     iSearch,
     iSelect,
     iDatePicker,
     iCard,
-    chart
+    chart,
+    chartMaterialCode
   },
-  data () {
+  data() {
     return {
+      materialCodeList: [],
       // search data
       formData: {},
       // start date disabled option
       startPickerOptions: {
-        disabledDate (startTime) {
+        disabledDate(startTime) {
           let res = false //启用
           // 明年
-          const nextYearDate = (new Date().getFullYear() + 1) + '/12/31 00:00:00'
+          const nextYearDate = new Date().getFullYear() + 1 + '/12/31 00:00:00'
           if (startTime.getTime() > new Date(nextYearDate).getTime()) {
             res = true
           }
@@ -122,8 +173,12 @@ export default {
           // 距离月度止时间段不能大于1年
           if (that.formData && that.formData.periodEnd) {
             const endTime = new Date(that.formData.periodEnd)
-            let beforeYearDate = window._.cloneDeep(endTime).setFullYear(endTime.getFullYear() - 1)
-            beforeYearDate = new Date(beforeYearDate).setMonth(endTime.getMonth() + 1)
+            let beforeYearDate = window._.cloneDeep(endTime).setFullYear(
+              endTime.getFullYear() - 1
+            )
+            beforeYearDate = new Date(beforeYearDate).setMonth(
+              endTime.getMonth() + 1
+            )
             if (startTime.getTime() > endTime.getTime()) {
               res = true
             }
@@ -136,10 +191,10 @@ export default {
       },
       // end date disabled option
       endPickerOptions: {
-        disabledDate (endTime) {
+        disabledDate(endTime) {
           let res = false //启用
           // 明年
-          const nextYearDate = (new Date().getFullYear() + 1) + '/12/31 00:00:00'
+          const nextYearDate = new Date().getFullYear() + 1 + '/12/31 00:00:00'
           if (endTime.getTime() > new Date(nextYearDate).getTime()) {
             res = true
           }
@@ -147,8 +202,12 @@ export default {
           // 距离月度止时间段不能大于1年
           if (that.formData && that.formData.periodStart) {
             const startTime = new Date(that.formData.periodStart)
-            let beforeYearDate = window._.cloneDeep(startTime).setFullYear(startTime.getFullYear() + 1)
-            beforeYearDate = new Date(beforeYearDate).setMonth(startTime.getMonth() - 1)
+            let beforeYearDate = window._.cloneDeep(startTime).setFullYear(
+              startTime.getFullYear() + 1
+            )
+            beforeYearDate = new Date(beforeYearDate).setMonth(
+              startTime.getMonth() - 1
+            )
             if (startTime.getTime() > endTime.getTime()) {
               res = true
             }
@@ -176,101 +235,138 @@ export default {
       // 是否开启普通金属Y轴
       TFlag: false,
       // 是否开启贵金属Y轴
-      ounceFlag: false
+      ounceFlag: false,
+      chart: 1
     }
   },
-  beforeCreate () {
+  beforeCreate() {
     that = this
   },
-  computed: {
-
-  },
-  created () {
+  computed: {},
+  created() {
     this.initSearch()
     this.getCategoryDorpDownList()
+    this.getRawMaterial()
     this.getMarketTypeDorpDownList()
-    this.$nextTick(_ => {
+    this.$nextTick((_) => {
       this.getChartData()
     })
   },
   methods: {
     // 初始化检索条件
-    initSearch () {
+    initSearch() {
       // const defaultMaterialList = ['M01006002', 'M01006001', 'M01006003', '01002', '01001', '01005']
       const defaultMaterialList = []
       // const defaultMarketTypeList = ['E', 'F']
       const defaultMarketTypeList = []
-      
-      const dateYear = new Date();
-      const year = dateYear.getFullYear();
+
+      const dateYear = new Date()
+      const year = dateYear.getFullYear()
       this.formData = {
         ...this.formData,
         materialNos: defaultMaterialList,
-        periodStart: year+'-01-01 00:00:00',
-        periodEnd: year+'-12-31 00:00:00',
+        periodStart: year + '-01-01 00:00:00',
+        periodEnd: year + '-12-31 00:00:00',
         marketTypes: defaultMarketTypeList,
+        materialCode: '',
       }
     },
-    adasa(e){
+    adasa(e) {
       console.log(e)
     },
     // 获取材料中类下拉框数据
-    getCategoryDorpDownList () {
-      getMtzCategory({ includeRawMaterial: true }).then(res => {
+    getCategoryDorpDownList() {
+      getMtzCategory({ includeRawMaterial: true }).then((res) => {
         if (res && res.code == 200) {
           this.categoryDorpDownList = res.data
         } else iMessage.error(res.desZh)
       })
     },
+    // 获取原材料牌号下拉
+    getRawMaterial() {
+      getRawMaterial({}).then((res) => {
+        this.materialCodeList = res.data
+      })
+    },
     // 获取市场价类别下拉框数据
-    getMarketTypeDorpDownList () {
-      getMtzMarketTypeList().then(res => {
+    getMarketTypeDorpDownList() {
+      getMtzMarketTypeList().then((res) => {
         if (res && res.code == 200) {
           this.marketTypeDorpDownList = res.data
         } else iMessage.error(res.desZh)
       })
     },
     // 获取chart数据
-    getChartData () {
+    getChartData() {
       let formData = _.cloneDeep(this.formData)
-      if(formData.periodStart){
-        formData.periodStart = formData.periodStart.split('-')[0]+formData.periodStart.split('-')[1]
-      }else{
-        formData.periodStart = ""
+      if (formData.periodStart) {
+        formData.periodStart =
+          formData.periodStart.split('-')[0] +
+          formData.periodStart.split('-')[1]
+      } else {
+        formData.periodStart = ''
       }
-      if(formData.periodEnd){
-        formData.periodEnd = formData.periodEnd.split('-')[0]+formData.periodEnd.split('-')[1]
-      }else{
-        formData.periodEnd = ""
+      if (formData.periodEnd) {
+        formData.periodEnd =
+          formData.periodEnd.split('-')[0] + formData.periodEnd.split('-')[1]
+      } else {
+        formData.periodEnd = ''
       }
-      mtzPriceQuery(formData).then(res => {
-        if (res && res.code == 200) {
-          const data = window._.cloneDeep(res.data)
-          this.mainData = data
-          // 高亮材料下拉
-          if (data.length > 0) {
-            this.allCategoryDorpDownList = []
-            this.selectionCategoryData = []
-            data.forEach(item => {
-              const obj = {
-                name: item.name,
-                materialNo: item.materialNo
-              }
-              this.allCategoryDorpDownList.push(obj)
-              this.selectionCategoryData.push(obj.materialNo)
-            })
-          }
-          this.handleTimeChange()
-          this.handleGetChartData(this.mainData)
-        } else iMessage.error(res.desZh)
-      })
+      if (formData.materialCode) {
+        // let res = mock
+        marketPriceChart(formData).then((res) => {
+          if (res && res.code == 200) {
+            const data = window._.cloneDeep(res.data)
+            this.mainData = data
+            // 高亮材料下拉
+            if (data.length > 0) {
+              this.allCategoryDorpDownList = []
+              this.selectionCategoryData = []
+              data.forEach((item) => {
+                const obj = {
+                  name: item.title,
+                  materialNo: item.ruleNo
+                }
+                this.allCategoryDorpDownList.push(obj)
+                this.selectionCategoryData.push(obj.materialNo)
+              })
+            }
+            this.handleTimeChange()
+            // this.handleGetChartData(this.mainData)
+          } else iMessage.error(res.desZh)
+          this.chart = 2
+        })
+      } else {
+        this.chart = 1
+        mtzPriceQuery(formData).then((res) => {
+          if (res && res.code == 200) {
+            const data = window._.cloneDeep(res.data)
+            this.mainData = data
+            // 高亮材料下拉
+            if (data.length > 0) {
+              this.allCategoryDorpDownList = []
+              this.selectionCategoryData = []
+              data.forEach((item) => {
+                const obj = {
+                  name: item.name,
+                  materialNo: item.materialNo
+                }
+                this.allCategoryDorpDownList.push(obj)
+                this.selectionCategoryData.push(obj.materialNo)
+              })
+            }
+            this.handleTimeChange()
+            this.handleGetChartData(this.mainData)
+          } else iMessage.error(res.desZh)
+        })
+      }
     },
-    // 处理得到chart所需格式数据 
-    handleGetChartData (data) {
+    // 处理得到chart所需格式数据
+    handleGetChartData(data) {
       this.chartData = []
       this.TFlag = false
       this.ounceFlag = false
-      data.map(item => {
+      data.map((item) => {
         // 判断是否被选中
         if (item && this.selectionCategoryData.indexOf(item.materialNo) > -1) {
           // 被选中的数据，检测属于普通金属还是贵金属
@@ -285,7 +381,7 @@ export default {
           }
         }
       })
-      data.map(item => {
+      data.map((item) => {
         const resObj = {
           name: item.name,
           materialName: null,
@@ -298,7 +394,7 @@ export default {
         // 判断是否被选中
         if (item && this.selectionCategoryData.indexOf(item.materialNo) > -1) {
           if (item.list && item.list.length > 0) {
-            item.list.forEach(childItem => {
+            item.list.forEach((childItem) => {
               resObj.isRareMetals = childItem.isRareMetals
               resObj.materialName = childItem.name
               // 当普通金属和贵金属坐标轴都存在时，且本材料也属于贵金属坐标时，该材料数据需与贵金属坐标轴对应
@@ -306,7 +402,16 @@ export default {
                 resObj.yAxisIndex = 1
               }
               resObj.data.push({
-                value: [childItem.period.slice(0, 4) + '/' + childItem.period.slice(4), childItem.eprice, childItem.name, childItem.eprice, childItem.marketType, childItem.source]
+                value: [
+                  childItem.period.slice(0, 4) +
+                    '/' +
+                    childItem.period.slice(4),
+                  childItem.eprice,
+                  childItem.name,
+                  childItem.eprice,
+                  childItem.marketType,
+                  childItem.source
+                ]
               })
             })
             this.chartData.push(resObj)
@@ -315,15 +420,24 @@ export default {
       })
     },
     // 选中起始时间发生改变，按起始时间处理对应的时间段数据
-    handleTimeChange () {
+    handleTimeChange() {
       this.timeData = []
       if (this.formData.periodStart && this.formData.periodEnd) {
         let startYear = this.formData.periodStart.split('-')[0]
         let startMonth = this.formData.periodStart.split('-')[1]
         const endYear = this.formData.periodEnd.split('-')[0]
         const endMonth = this.formData.periodEnd.split('-')[1]
-        while (startYear < endYear || (startYear == endYear && startMonth <= endMonth)) {
-          this.timeData.push(startYear + '/' + (startMonth < 10 && startMonth.toString().length < 2 ? '0' + startMonth : startMonth))
+        while (
+          startYear < endYear ||
+          (startYear == endYear && startMonth <= endMonth)
+        ) {
+          this.timeData.push(
+            startYear +
+              '/' +
+              (startMonth < 10 && startMonth.toString().length < 2
+                ? '0' + startMonth
+                : startMonth)
+          )
           if (startMonth == 12) {
             startYear++
             startMonth = 1
@@ -332,26 +446,34 @@ export default {
       }
     },
     // 确认
-    sure () {
+    sure() {
       this.getChartData()
     },
     // 重置
-    reset () {
+    reset() {
       this.initSearch()
       this.getChartData()
     },
     // 改变选中图例事件，将根据当前的图例状态设置下拉框数据的选中
-    handleChangeLegend (legendData) {
+    handleChangeLegend(legendData) {
+        console.log(legendData);
       this.selectionCategoryData = []
+        console.log(this.allCategoryDorpDownList);
       for (const key in legendData) {
         const status = legendData[key]
-        const obj = this.allCategoryDorpDownList.find(item => item.name == key)
+        const obj = this.allCategoryDorpDownList.find(
+          (item) => item.name == key
+        )
         if (status) this.selectionCategoryData.push(obj.materialNo)
       }
+    },
+    // 暂定:选择原材料牌号,清空材料中类
+    changeMaterialCode(val){
+      console.log('val=>',val);
+      this.formData.materialNos = []
     }
   },
-  watch: {
-  }
+  watch: {}
 }
 </script>
 
@@ -369,7 +491,7 @@ export default {
     }
   }
 }
-::v-deep .el-input__suffix-inner{
+::v-deep .el-input__suffix-inner {
   display: none;
 }
 </style>
