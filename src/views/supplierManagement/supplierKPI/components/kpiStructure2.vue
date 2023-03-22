@@ -57,6 +57,9 @@
                   <span v-if="formDataLevel2.childVo.childVo.length >= 1">{{
                     '指标加权汇总'
                   }}</span>
+                  <span v-else-if="!isEdit">{{
+                   formDataLevel2.childVo.name
+                  }}</span>
                   <iSelect
                     v-else
                     :disabled="!isEdit"
@@ -126,6 +129,9 @@
                   <label>等于</label>
                   <span v-if="item.childVo.length >= 1">{{
                     '指标加权汇总'
+                  }}</span>
+                  <span v-else-if="!isEdit">{{
+                    item.name
                   }}</span>
                   <iSelect
                     v-else
@@ -201,7 +207,9 @@
                       <span v-if="lev3.childVo.length >= 1">{{
                         '指标加权汇总'
                       }}</span>
-
+                      <span v-else-if="!isEdit">{{
+                        lev3.name
+                      }}</span>
                       <iSelect
                         v-else
                         :disabled="!isEdit"
@@ -269,7 +277,9 @@
                           <span v-if="lev4.childVo.length >= 1">{{
                             '指标加权汇总'
                           }}</span>
-
+                      <span v-else-if="!isEdit">{{
+                        lev4.name
+                      }}</span>
                           <iSelect
                             v-else
                             :disabled="!isEdit"
@@ -327,7 +337,11 @@
                         </div>
                         <div>
                           <label>等于</label>
+                          <span v-if="!isEdit">{{
+                            lev3.name
+                          }}</span>
                           <iSelect
+                          v-else
                             :disabled="!isEdit"
                             class="kpi-input2"
                             clearable
