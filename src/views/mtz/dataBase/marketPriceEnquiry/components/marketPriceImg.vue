@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-09-23 16:23:09
- * @LastEditTime: 2023-03-14 15:41:46
+ * @LastEditTime: 2023-03-21 16:13:00
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\dataBase\marketPriceEnquiry\components\marketPriceImg.vue
@@ -33,7 +33,7 @@
           :label="language('YUANCAILIAOPAIHAO', '原材料牌号')"
           prop="materialCode"
         >
-          <iSelect key="materialCode" v-model="formData['materialCode']" clearable>
+          <iSelect key="materialCode" v-model="formData['materialCode']" clearable @change="changeMaterialCode">
             <el-option
               v-for="(item, index) in materialCodeList"
               :key="index"
@@ -110,8 +110,17 @@
                        @change="handleChangeShowOrHide" /> -->
       </div>
       <chart
-        v-if="chartData.length > 0 && timeData.length > 0"
+        v-if="chartData.length > 0 && timeData.length > 0 && chart == 1"
         :chartData="chartData"
+        :selectedChartData="selectionCategoryData"
+        :timeData="timeData"
+        :TFlag="TFlag"
+        :ounceFlag="ounceFlag"
+        @handleChangeLegend="handleChangeLegend"
+      />
+      <chartMaterialCode
+        v-if="chartData.length > 0 && timeData.length > 0 && chart == 2"
+        :chartData="mainData"
         :selectedChartData="selectionCategoryData"
         :timeData="timeData"
         :TFlag="TFlag"
@@ -135,13 +144,16 @@ import {
   getRawMaterial //原材料牌号下拉选择
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import chart from './chart'
+import chartMaterialCode from './chartMaterialCode'
+import { mock } from "./data";
 export default {
   components: {
     iSearch,
     iSelect,
     iDatePicker,
     iCard,
-    chart
+    chart,
+    chartMaterialCode
   },
   data() {
     return {
@@ -223,7 +235,8 @@ export default {
       // 是否开启普通金属Y轴
       TFlag: false,
       // 是否开启贵金属Y轴
-      ounceFlag: false
+      ounceFlag: false,
+      chart: 1
     }
   },
   beforeCreate() {
@@ -300,8 +313,31 @@ export default {
         formData.periodEnd = ''
       }
       if (formData.materialCode) {
-        marketPriceChart(formData).then((res) => {})
+        // let res = mock
+        marketPriceChart(formData).then((res) => {
+          if (res && res.code == 200) {
+            const data = window._.cloneDeep(res.data)
+            this.mainData = data
+            // 高亮材料下拉
+            if (data.length > 0) {
+              this.allCategoryDorpDownList = []
+              this.selectionCategoryData = []
+              data.forEach((item) => {
+                const obj = {
+                  name: item.title,
+                  materialNo: item.ruleNo
+                }
+                this.allCategoryDorpDownList.push(obj)
+                this.selectionCategoryData.push(obj.materialNo)
+              })
+            }
+            this.handleTimeChange()
+            // this.handleGetChartData(this.mainData)
+          } else iMessage.error(res.desZh)
+          this.chart = 2
+        })
       } else {
+        this.chart = 1
         mtzPriceQuery(formData).then((res) => {
           if (res && res.code == 200) {
             const data = window._.cloneDeep(res.data)
@@ -420,7 +456,9 @@ export default {
     },
     // 改变选中图例事件，将根据当前的图例状态设置下拉框数据的选中
     handleChangeLegend(legendData) {
+        console.log(legendData);
       this.selectionCategoryData = []
+        console.log(this.allCategoryDorpDownList);
       for (const key in legendData) {
         const status = legendData[key]
         const obj = this.allCategoryDorpDownList.find(
@@ -428,6 +466,11 @@ export default {
         )
         if (status) this.selectionCategoryData.push(obj.materialNo)
       }
+    },
+    // 暂定:选择原材料牌号,清空材料中类
+    changeMaterialCode(val){
+      console.log('val=>',val);
+      this.formData.materialNos = []
     }
   },
   watch: {}
