@@ -816,7 +816,7 @@ export default {
       let tableList = []
       this.pdfItemHeight = this.pageHeight - pageNumHeight
       rowList.forEach((item, i) => {
-        sumHeight += item.clientHeight
+        sumHeight += item.clientHeight*2
         // ruleTableHeader 表头高度
         if (
           sumHeight >
@@ -827,7 +827,7 @@ export default {
             pageNumHeight
         ) {
           tableList.push(arr)
-          sumHeight = item.clientHeight
+          sumHeight = item.clientHeight*2
           arr = [this.ruleTableListData[i]]
         } else {
           arr.push(this.ruleTableListData[i])
@@ -860,7 +860,7 @@ export default {
       let pageNumHeight = this.$refs.pageNum.offsetHeight // 页码高度
       this.pdfItemHeight = this.pageHeight - pageNumHeight
       rowList.forEach((item, i) => {
-        sumHeight += item.clientHeight
+        sumHeight += item.clientHeight*2
         if (
           sumHeight >
           this.pageHeight -
@@ -870,7 +870,7 @@ export default {
             pageNumHeight
         ) {
           tableList.push(arr)
-          sumHeight = item.clientHeight
+          sumHeight = item.clientHeight*2
           arr = [this.partTableListData[i]]
         } else {
           arr.push(this.partTableListData[i])
