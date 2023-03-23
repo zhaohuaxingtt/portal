@@ -87,12 +87,12 @@
         </div>
         <!-- highlight-current-row -->
         <div class="margin-top20 formStyle">
-          <div v-if="RsObject" class="btn ">
+          <!-- <div v-if="RsObject" class="btn ">
             <span type="primary" size="mini" circle @click="isruleTitle1 = !isruleTitle1">{{ isruleTitle1 ? '-' : '+'
             }}</span>
-          </div>
+          </div> -->
           <tableList :tagNum="'1'" ref="moviesTable" :tableData="ruleTableListData"
-            :tableTitle="isruleTitle1 ? ruleTableTitle1_all : ruleTableTitle1_1"
+            :tableTitle="ruleTableTitle1_all"
             @handleClickRow="handleCurrentChangeTable" :tableLoading="loadingRule"
             :header-row-class-name="'ruleTableHeader'" :index="true" :rowClassName="'table-row'" v-if="RsObject"
             :selection="false" border>
@@ -147,7 +147,7 @@
           </tableList>
           <!-- 导出规则表格 -->
           <tableList ref="moviesTable" :tableData="ruleTableListData"
-            :tableTitle="isruleTitle1 ? ruleTableTitle1_all : ruleTableTitle1_1" :tableLoading="loadingRule"
+            :tableTitle="ruleTableTitle1_all" :tableLoading="loadingRule"
             v-if="!RsObject && ruleTableListData.length > 0" :index="true" :rowClassName="'table-row'"
             :header-row-class-name="'ruleTableHeader'" :selection="false" border>
             <template slot-scope="scope" slot="sapCode">
@@ -208,12 +208,12 @@
           </p>
         </div>
         <div class="margin-top20 formStyle">
-          <div v-if="RsObject" class="btn ">
+          <!-- <div v-if="RsObject" class="btn ">
             <span type="primary" size="mini" circle @click="isruleTitle2 = !isruleTitle2">{{ isruleTitle2 ? '-' : '+'
             }}</span>
-          </div>
+          </div> -->
           <tableList :tagNum="'1'" class=" over_flow_y_ture" ref="partTable" :tableData="partTableListData"
-            :tableTitle="isruleTitle2 ? partTableTitle1_all : partTableTitle1_1" :tableLoading="loadingPart"
+            :tableTitle="partTableTitle1_all" :tableLoading="loadingPart"
             v-if="RsObject" :index="true" :rowClassName="'part-table-row'" :header-row-class-name="'partTableHeader'"
             :selection="false" border>
             <template slot-scope="scope" slot="compensationPeriod">

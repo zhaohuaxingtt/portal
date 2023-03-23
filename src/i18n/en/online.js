@@ -2560,6 +2560,7 @@ export default {
   HUOBI: 'Currency',
   HUILV: 'Exch. Rate',
   YUANCAILIAO: 'Raw Material',
+  
   YUANCAILIAOPAIHAO: 'Raw Material Brand',
   GONGYINGSHANGSAPHAO: 'Supplier SAP No.',
   SHICHANGJIALAIYUAN: 'Market Price Source',

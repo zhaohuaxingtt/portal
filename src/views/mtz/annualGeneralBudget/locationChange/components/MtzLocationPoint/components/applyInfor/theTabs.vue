@@ -54,7 +54,7 @@
           </template>
         </el-table-column>
         <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-        <el-table-column prop="method" align="center"  :label="language('补差方式')">
+        <!-- <el-table-column prop="method" align="center"  :label="language('补差方式')">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'method'"
               :rules="formRules.method ? formRules.method : ''">
@@ -63,13 +63,12 @@
                 <el-option v-for="item in methodList" :key="item.code" :label="item.name" :value="item.code">
                 </el-option>
               </el-select>
-              <!-- <iInput v-model="scope.row.ruleNo" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
               <span v-else> {{ scope.row.method=='1'?'一次性补差':scope.row.method=='2'?'变价单补差':'' }}</span>
             </el-form-item>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column width="120" prop="sapCode" align="center" 
-          :label="language('供应商', '供应商')">
+          :label="language('LK_GONGYINGSHANG', '供应商')">
           <template slot-scope="scope">
           <el-form-item  :prop="'tableData.' + scope.$index + '.' + 'sapCode'"
             :rules="formRules.sapCode ? formRules.sapCode : ''">
@@ -92,8 +91,8 @@
           </template>
         </el-table-column>
 
-        <el-table-column width="90" prop="materialCode" align="center" 
-          :label="language('YUANCAILIAOPAIHAO', '原材料牌号')">
+        <el-table-column width="110" prop="materialCode" align="center" 
+          :label="language('YUANCAILIAO', '原材料')">
           <template slot-scope="scope">
           <el-form-item :prop="'tableData.' + scope.$index + '.' + 'materialCode'"
             :rules="formRules.materialCode ? formRules.materialCode : ''">

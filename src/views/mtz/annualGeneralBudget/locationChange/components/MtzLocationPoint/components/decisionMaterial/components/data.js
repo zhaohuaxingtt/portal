@@ -144,8 +144,8 @@ export const ruleTableTitle1_2 = [
   },
   {
     props: 'rhodiumPrice',
-    name: '铑基价Kr Base Price',
-    key: '铑基价Kr Base Price',
+    name: '铑基价',
+    key: '铑基价',
     overlapbottom: 'Kr Base Price',
     overlap: true
   },
@@ -216,23 +216,23 @@ export const ruleTableTitle1_all = [
   {
     props: 'ruleNo',
     name: '规则编号',
-    key: '规则编号',
+    key: 'GUIZEBIANHAO',
     width: 70,
     overlap: true,
     overlapbottom: 'Rule No.'
   },
-  {
-    props: 'method',
-    name: '补差方式',
-    key: '补差方式',
-    width: 70,
-    overlap: true,
-    overlapbottom: 'Rule Type'
-  },
+  // {
+  //   props: 'method',
+  //   name: '补差方式',
+  //   key: '补差方式',
+  //   width: 70,
+  //   overlap: true,
+  //   overlapbottom: 'Rule Type'
+  // },
   {
     props: 'sapCode',
     name: '供应商',
-    key: '供应商',
+    key: 'LK_GONGYINGSHANG',
     minWidth: 80,
     overlap: true,
     overlapbottom: 'Supplier'
@@ -240,7 +240,7 @@ export const ruleTableTitle1_all = [
   {
     props: 'materialCode',
     name: '原材料',
-    key: '原材料',
+    key: 'YUANCAILIAO',
     width: 85,
     overlap: true,
     overlapbottom: 'Material'
@@ -427,8 +427,8 @@ export const ruleTableTitle1_all = [
   },
   {
     props: 'rhodiumPrice',
-    name: '铑基价Kr Base Price',
-    key: '铑基价Kr Base Price',
+    name: '铑基价',
+    key: '铑基价',
     overlapbottom: 'Kr Base Price',
     overlap: true
   },
@@ -499,23 +499,23 @@ export const ruleTableTitle1_1 = [
   {
     props: 'ruleNo',
     name: '规则编号',
-    key: '规则编号',
+    key: 'GUIZEBIANHAO',
     width: 70,
     overlap: true,
     overlapbottom: 'Rule No.'
   },
-  {
-    props: 'method',
-    name: '补差方式',
-    key: '补差方式',
-    width: 70,
-    overlap: true,
-    overlapbottom: 'Rule Type'
-  },
+  // {
+  //   props: 'method',
+  //   name: '补差方式',
+  //   key: '补差方式',
+  //   width: 70,
+  //   overlap: true,
+  //   overlapbottom: 'Rule Type'
+  // },
   {
     props: 'sapCode',
     name: '供应商',
-    key: '供应商',
+    key: 'LK_GONGYINGSHANG',
     minWidth: 80,
     overlap: true,
     overlapbottom: 'Supplier'
@@ -523,7 +523,7 @@ export const ruleTableTitle1_1 = [
   {
     props: 'materialCode',
     name: '原材料',
-    key: '原材料',
+    key: 'YUANCAILIAO',
     width: 85,
     overlap: true,
     overlapbottom: 'Material'
@@ -777,7 +777,8 @@ export const partTableTitle1_3 = [
     name: '铂基价',
     key: '铂基价',
     overlapbottom: 'Pt Base Price',
-    overlap: true
+    overlap: true,
+    width:150
   },
   {
     props: 'platinumDosage',
@@ -803,8 +804,8 @@ export const partTableTitle1_3 = [
   },
   {
     props: 'rhodiumPrice',
-    name: '铑基价Kr Base Price',
-    key: '铑基价Kr Base Price',
+    name: '铑基价',
+    key: '铑基价',
     overlapbottom: 'Kr Base Price',
     overlap: true
   },
@@ -898,7 +899,7 @@ export const partTableTitle1_all = [
     props: 'priceUnit',
     name: '每',
     key: '每 ',
-    minWidth: 30,
+    minWidth: 50,
     overlapbottom: 'Per',
     overlap: true
   },
@@ -907,7 +908,7 @@ export const partTableTitle1_all = [
     props: 'dosage',
     name: '用量',
     key: '用量',
-    minWidth: 50,
+    minWidth: 60,
     iconTextKey: '原材料在单位零件中的重量',
     typeIcon: 'num',
     num: '5',
@@ -949,23 +950,23 @@ export const partTableTitle1_all = [
   {
     props: 'ruleNo',
     name: '规则编号',
-    key: '规则编号',
+    key: 'GUIZEBIANHAO',
     minWidth: 90,
     overlapbottom: 'Rule No.',
     overlap: true
   },
-  {
-    props: 'method',
-    name: '补差方式',
-    key: '补差方式',
-    minWidth: 90,
-    overlapbottom: 'Rule Type',
-    overlap: true
-  },
+  // {
+  //   props: 'method',
+  //   name: '补差方式',
+  //   key: '补差方式',
+  //   minWidth: 90,
+  //   overlapbottom: 'Rule Type',
+  //   overlap: true
+  // },
   {
     props: 'sapCode',
     name: '供应商',
-    key: '供应商',
+    key: 'LK_GONGYINGSHANG',
     minWidth: 80,
     overlapbottom: 'Part No.',
     overlap: true
@@ -973,7 +974,7 @@ export const partTableTitle1_all = [
   {
     props: 'materialCode',
     name: '原材料',
-    key: '原材料',
+    key: 'YUANCAILIAO',
     minWidth: 95,
     overlapbottom: 'Material',
     overlap: true
@@ -1008,7 +1009,9 @@ export const partTableTitle1_all = [
     name: '基价计量单位',
     key: '基价计量单位',
     overlapbottom: 'Base price Unit',
-    overlap: true
+    overlap: true,
+    width: 120,
+
   },
   {
     props: 'threshold',
@@ -1090,7 +1093,7 @@ export const partTableTitle1_all = [
     name: '铂基价',
     key: '铂基价',
     overlapbottom: 'Pt Base Price',
-    overlap: true
+    overlap: true,
   },
   {
     props: 'platinumDosage',
@@ -1116,10 +1119,10 @@ export const partTableTitle1_all = [
   },
   {
     props: 'rhodiumPrice',
-    name: '铑基价Kr Base Price',
-    key: '铑基价Kr Base Price',
+    name: '铑基价',
+    key: '铑基价',
     overlapbottom: 'Kr Base Price',
-    overlap: true
+    overlap: true,
   },
   {
     props: 'rhodiumDosage',
@@ -1263,23 +1266,23 @@ export const partTableTitle1_1 = [
   {
     props: 'ruleNo',
     name: '规则编号',
-    key: '规则编号',
+    key: 'GUIZEBIANHAO',
     minWidth: 90,
     overlapbottom: 'Rule No.',
     overlap: true
   },
-  {
-    props: 'method',
-    name: '补差方式',
-    key: '补差方式',
-    minWidth: 90,
-    overlapbottom: 'Rule Type',
-    overlap: true
-  },
+  // {
+  //   props: 'method',
+  //   name: '补差方式',
+  //   key: '补差方式',
+  //   minWidth: 90,
+  //   overlapbottom: 'Rule Type',
+  //   overlap: true
+  // },
   {
     props: 'sapCode',
     name: '供应商',
-    key: '供应商',
+    key: 'LK_GONGYINGSHANG',
     minWidth: 80,
     overlapbottom: 'Part No.',
     overlap: true
@@ -1287,7 +1290,7 @@ export const partTableTitle1_1 = [
   {
     props: 'materialCode',
     name: '原材料',
-    key: '原材料',
+    key: 'YUANCAILIAO',
     minWidth: 95,
     overlapbottom: 'Material',
     overlap: true

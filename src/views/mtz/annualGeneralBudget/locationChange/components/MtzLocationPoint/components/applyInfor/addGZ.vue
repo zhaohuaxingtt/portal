@@ -91,7 +91,7 @@
             </el-option>
           </i-select>
         </iFormItem>
-        <iFormItem prop="supplierName">
+        <!-- <iFormItem prop="supplierName">
           <iLabel
             :label="language('补差方式', '补差方式')"
             slot="label"
@@ -109,7 +109,7 @@
             >
             </el-option>
           </i-select>
-        </iFormItem>
+        </iFormItem> -->
         <iFormItem prop="materialCode">
           <iLabel
             :label="language('YUANCAILIAOPAIHAO', '原材料牌号')"
