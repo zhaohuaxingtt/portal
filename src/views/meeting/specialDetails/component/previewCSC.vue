@@ -269,8 +269,7 @@ export default {
   }
 }
 .item-list {
-  height: 900px;
-  max-height: calc(100vh - 120px);
+  height: calc(100vh - 148px);
   min-height: 400px;
   overflow: auto;
   padding-right: 20px;
