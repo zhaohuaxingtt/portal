@@ -7,7 +7,10 @@
  * @FilePath: \重庆软维科技\front-portal\src\api\mtz\annualGeneralBudget\annualBudgetEdit.js
  */
 import axios from '@/utils/axios'
+import download from '@/utils/axios.download'
+
 const request = axios(process.env.VUE_APP_MTZ + '/web/mtz')
+const requestDown = download(process.env.VUE_APP_MTZ + '/web/mtz')
 
 // 采购员-分页查询
 export function pageMTZCompOverview(params) {
@@ -17,7 +20,30 @@ export function pageMTZCompOverview(params) {
     data: params
   })
 }
-
+// MTZ发起补差-当前条件补差金额统计
+export function sumAmount(params) {
+  return request({
+    url: '/mtzBalanceDetails/sumAmount',
+    method: 'POST',
+    data: params
+  })
+}
+// MTZ发起补差-导出明细
+export function compdocIExport(params) {
+  return requestDown({
+    url: '/mtzBalanceDetails/compdocIExport',
+    method: 'POST',
+    data: params
+  })
+}
+// MTZ发起补差-已发起凭证列表分页查询
+export function voucherInitiatedPageList(params) {
+  return request({
+    url: '/mtzBalanceDetails/voucherInitiatedPageList',
+    method: 'POST',
+    data: params
+  })
+}
 export function getMtzSupplierList(params) {
   return request({
     url: '/commonDropDown/getSupplierByUser',
