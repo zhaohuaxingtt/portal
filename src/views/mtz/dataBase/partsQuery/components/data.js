@@ -174,6 +174,22 @@ export const tableSetting = [
     width: 150
   },
   {
+    prop: 'offsetMonth',
+    tooltip: true,
+    align: 'center',
+    label: '计算偏移(月)',
+    i18n: '计算偏移(月)',
+    width: 120
+  },
+  {
+    prop: 'avgPeriod',
+    tooltip: true,
+    align: 'center',
+    label: '均值计算周期(月)',
+    i18n: '均值计算周期(月)',
+    width: 140
+  },
+  {
     prop: 'priceCountUnit',
     label: '基价计量单位',
     align: 'center',
