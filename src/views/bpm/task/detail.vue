@@ -316,7 +316,7 @@ export default {
               const data = res.data
               this.form = { ...this.taskDetail, ...data }
               if(res.data.module=='loi_nominate'){
-                getApprovalLoiFile(res.data.flowInstanceId).then(res=>{
+                getApprovalLoiFile(res.data.businessId).then(res=>{
                   console.log(res);
                   if(res?.code==200&&res.data){
                     this.form = {...this.form, ...res.data}

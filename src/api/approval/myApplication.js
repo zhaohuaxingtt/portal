@@ -20,7 +20,7 @@ export function queryWorkflowDetail(params) {
 export function getApprovalLoiFile(loinum) {
   return requst_sourcing({
     url: `/loi/getApprovalLoiFile/${loinum}`,
-    method: 'POST',
+    method: 'GET',
   })
 }
 
