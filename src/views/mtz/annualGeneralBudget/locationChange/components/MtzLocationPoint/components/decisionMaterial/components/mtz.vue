@@ -1328,7 +1328,7 @@ export default {
       let pageNumHeight = this.$refs.pageNum.offsetHeight // 页码高度
       this.pdfItemHeight = this.pageHeight - pageNumHeight
       rowList.forEach((item, i) => {
-        sumHeight += item.clientHeight*2
+        sumHeight += item.clientHeight*3
         if (
           sumHeight >
           this.pageHeight -
@@ -1338,7 +1338,7 @@ export default {
           pageNumHeight
         ) {
           tableList.push(arr)
-          sumHeight = item.clientHeight*2
+          sumHeight = item.clientHeight*3
           arr = [this.partTableListData[i]]
         } else {
           arr.push(this.partTableListData[i])
@@ -1346,6 +1346,8 @@ export default {
       })
       if (arr.length) tableList.push(arr)
       this.partTableList = tableList
+      console.log(this.partTableList)
+
     },
     computedRuleTableHeight() {
       let rowList =
@@ -1473,6 +1475,7 @@ export default {
           this.pdf = new JsPDF('l', 'pt', 'a4', true) //l横向打印，p纵向打印 true=>开启压缩
           for (let i = 0; i < this.pageLength; i++) {
             const el = elList[i]
+            console.log(el)
             await this.getPdfImage({
               dom: el,
               j: i
@@ -1839,8 +1842,8 @@ $tabsInforHeight: 35px;
 .pdfPage-box {
   position: absolute;
   width: 100%;
-  height: 0px;
-  overflow: hidden;
+  // height: 0px;
+  // overflow: hidden;
 
   ::v-deep .card {
     .cardBody {

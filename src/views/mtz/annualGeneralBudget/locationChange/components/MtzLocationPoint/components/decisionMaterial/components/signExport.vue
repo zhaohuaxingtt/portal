@@ -860,7 +860,7 @@ export default {
       let pageNumHeight = this.$refs.pageNum.offsetHeight // 页码高度
       this.pdfItemHeight = this.pageHeight - pageNumHeight
       rowList.forEach((item, i) => {
-        sumHeight += item.clientHeight*2
+        sumHeight += item.clientHeight*3
         if (
           sumHeight >
           this.pageHeight -
@@ -870,7 +870,7 @@ export default {
             pageNumHeight
         ) {
           tableList.push(arr)
-          sumHeight = item.clientHeight*2
+          sumHeight = item.clientHeight*3
           arr = [this.partTableListData[i]]
         } else {
           arr.push(this.partTableListData[i])
