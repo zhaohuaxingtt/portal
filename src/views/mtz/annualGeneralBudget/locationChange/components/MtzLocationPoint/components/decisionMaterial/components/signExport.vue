@@ -789,7 +789,6 @@ export default {
           this.appPage = true
         }
       }
-      console.log(remarkList);
       // this.remarkList = remarkList
       this.remarkList = remarkList.length? remarkList : [[]]
       this.$nextTick(()=>{
@@ -844,6 +843,8 @@ export default {
       let rowList =
         this.$refs['partTable']?.$el.getElementsByClassName('part-table-row') ||
         []
+        console.log(rowList)
+
       let partTableHeader =
         this.$refs['partTable']?.$el.getElementsByClassName(
           'partTableHeader'
@@ -878,6 +879,8 @@ export default {
       })
       if (arr.length) tableList.push(arr)
       this.partTableList = tableList
+      console.log(this.partTableList )
+
       this.$nextTick(()=>{
         this.partLoading = true
       })

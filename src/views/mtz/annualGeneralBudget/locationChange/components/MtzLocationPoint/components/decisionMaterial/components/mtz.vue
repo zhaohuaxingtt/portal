@@ -147,7 +147,7 @@
           </tableList>
           <!-- 导出规则表格 -->
           <tableList ref="moviesTable" :tableData="ruleTableListData"
-            :tableTitle="ruleTableTitle1_all" :tableLoading="loadingRule"
+            :tableTitle="ruleTableTitle1_1" :tableLoading="loadingRule"
             v-if="!RsObject && ruleTableListData.length > 0" :index="true" :rowClassName="'table-row'"
             :header-row-class-name="'ruleTableHeader'" :selection="false" border>
             <template slot-scope="scope" slot="sapCode">
@@ -192,7 +192,7 @@
           </tableList>
           <tableList class="margin-top20 " ref="moviesTable1" :tableData="ruleTableListData"
             :tableTitle="ruleTableTitle1_2" :tableLoading="loadingRule" v-if="!RsObject && ruleTableListData.length > 0&& partTableListData.some((val)=>{if(val.platinumPrice) return true})"
-            :index="true" :rowClassName="'table-row'" :header-row-class-name="'ruleTableHeader'" :selection="false"
+            :index="true"  :selection="false"
             border>
           </tableList>
         </div>
@@ -296,9 +296,9 @@
               <span>{{ scope.row.offsetMonth ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
             </template>
           </tableList>
-          <tableList border class="margin-top20 " ref="partTable" :tableData="partTableListData"
+          <tableList border class="margin-top20 "  :tableData="partTableListData"
             :tableTitle="partTableTitle1_2" :tableLoading="loadingPart" v-if="!RsObject && partTableListData.length > 0"
-            :index="true" :rowClassName="'part-table-row'" :header-row-class-name="'partTableHeader'" :selection="false">
+            :index="true"  :selection="false">
             <template slot-scope="scope" slot="materialDoseSource">
               <span>{{
                 scope.row.materialDoseSource ? materialDoseSourceList.find(val => val.code == scope.row.materialDoseSource).name : ''
@@ -314,8 +314,9 @@
               <span>{{ scope.row.offsetMonth ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
             </template>
           </tableList>
-          <tableList border class="margin-top20 " ref="partTable" :tableData="partTableListData" :tableTitle="partTableTitle1_3"
-              :tableLoading="loadingPart" v-if="!RsObject && partTableListData.length > 0 && partTableListData.some((val)=>{if(val.platinumPrice) return true})" :index="true"
+          <tableList border class="margin-top20 "  :tableData="partTableListData" :tableTitle="partTableTitle1_3"
+
+          :tableLoading="loadingPart" v-if="!RsObject && partTableListData.length > 0 && partTableListData.some((val)=>{if(val.platinumPrice) return true})" :index="true"
               :selection="false">
             </tableList>
         </div>
@@ -1005,13 +1006,34 @@ export default {
         this.$nextTick(() => {
           this.computedRemark()
         })
-    }
+    },
+    // partTableListData:{
+    //   handler(val){
+    //     if(val.length){
+    //       this.$nextTick(() => {
+    //         this.computedPartTableHeight()
+    //       })
+    //     }
+    //   },
+    //   deep:true,
+    //   immediate:true
+    // },
+    // ruleTableListData:{
+    //   handler(val){
+    //     if(val.length){
+    //       this.$nextTick(() => {
+    //         this.computedRuleTableHeight()
+    //       })
+    //     }
+    //   },
+    //   deep:true,
+    //   immediate:true
+    // },
   },
   created() {
     if (this.RsType) {
       this.RsObject = false
     }
-    console.log(this.RsType)
 
     this.initApplayDateData()
     this.getAppFormInfo()
@@ -1019,7 +1041,6 @@ export default {
     this.getPagePartMasterData()
     this.getApprove()
     this.$nextTick(() => {
-      console.log('dom渲染完成')
       // 可以使用回调函数的写法
       // 这个函数中DOM必定渲染完成
       this.exportLoading = false
@@ -1196,7 +1217,6 @@ export default {
         // waterMark: true,
         title: ['#tabsBoxTitle .cardHeader'], //顶部页眉dom节点
         callback: async (pdf, pdfName) => {
-          console.log(pdf)
           try {
             loading.close()
             const filename = pdfName.replaceAll(/\./g, '_') + '.pdf'
@@ -1290,6 +1310,7 @@ export default {
         .then((res) => {
           if (res && res.code == 200) {
             this.partTableListData = res.data
+         
           } else iMessage.error(res.desZh)
         })
         .finally(() => {
@@ -1299,7 +1320,6 @@ export default {
         })
     },
     openPageMarket(row){
-      console.log(row)
       let routeUrl = this.$router.resolve({
         path: '/mtz/dataBase/marketPriceEnquiry',
         query: {
@@ -1310,12 +1330,13 @@ export default {
     },
     computedPartTableHeight() {
       let rowList =
-        this.$refs['partTable']?.$el.getElementsByClassName('part-table-row') ||
-        []
+        [...this.$refs['partTable']?.$el.getElementsByClassName('part-table-row') ||
+        []]
+        console.log(rowList)
       let partTableHeader =
         this.$refs['partTable']?.$el.getElementsByClassName(
           'partTableHeader'
-        )[0].offsetHeight || 0
+        )[0]?.offsetHeight || 0
       let cardTitle =
         this.$refs.tabsBoxTitle.$el.getElementsByClassName('cardHeader')[0]
           .clientHeight
@@ -1332,10 +1353,10 @@ export default {
         if (
           sumHeight >
           this.pageHeight -
-          cardTitle -
-          partTableTitle -
-          partTableHeader -
-          pageNumHeight
+            cardTitle -
+            partTableTitle -
+            partTableHeader -
+            pageNumHeight
         ) {
           tableList.push(arr)
           sumHeight = item.clientHeight*3
@@ -1346,15 +1367,12 @@ export default {
       })
       if (arr.length) tableList.push(arr)
       this.partTableList = tableList
-      console.log(this.partTableList)
-
+      console.log(this.partTableList )
     },
     computedRuleTableHeight() {
       let rowList =
         [...this.$refs['moviesTable']?.$el.getElementsByClassName('table-row') || []
       ]
-        console.log(rowList)
-      
       let pageWidth = this.$refs.tabsBoxTitle?.$el.clientWidth || 0
       let cardTitle =
         this.$refs.tabsBoxTitle.$el.getElementsByClassName('cardHeader')[0]
@@ -1365,21 +1383,14 @@ export default {
         this.$refs['moviesTable']?.$el.getElementsByClassName(
           'ruleTableHeader'
         )[0].offsetHeight || 0
-        console.log(ruleTableHeader)
       let pageNumHeight = this.$refs.pageNum.offsetHeight // 页码高度
       let sumHeight = 0
       let arr = []
       let tableList = []
       let rowHeight=0
       this.pdfItemHeight = this.pageHeight - pageNumHeight
-      console.log(      this.pageHeight -
-          ruleTableTitle -
-          cardTitle -
-          ruleTableHeader -
-          pageNumHeight)
       rowList.forEach((item, i) => {
         rowHeight=item.clientHeight*2
-        console.log(rowHeight)
         sumHeight += rowHeight
 
         // ruleTableHeader 表头高度
@@ -1400,7 +1411,6 @@ export default {
       })
       if (arr.length) tableList.push(arr)
       this.ruleTableList = tableList
-      console.log( this.ruleTableList)
     },
     // 点击保存
     handleClickSave(el) {
