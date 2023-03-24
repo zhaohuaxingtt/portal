@@ -2,35 +2,41 @@
  * @Author: 余继鹏 917955345@qq.com
  * @Date: 2023-02-08 15:45:59
  * @LastEditors: YoHo && 917955345@qq.com
- * @LastEditTime: 2023-03-06 15:41:34
+ * @LastEditTime: 2023-03-22 16:25:07
  * @FilePath: \front-portal\src\views\meeting\specialDetails\component\attch.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
   <div class="designate-attachment" v-loading="loading">
-    <div class="content">
-    <div class="el-card left-list" :class="{ show: collapseValue }">
-      <div class="collapse-transition margin-right5" v-show="!collapseValue">
-          <ul class="file-ul">
-            <li
-              class="file-name cursor"
-              :class="{ 'is-active': file.attachmentId == active }"
-              v-for="file in attachments"
-              :key="file.attachmentId"
-              @click="changeSrc(file)"
-            >
-              {{ file.attachmentName }}
-            </li>
-          </ul>
+<div class="attachment-content">
+    <div
+     class="left-content"
+      :class="{ show: collapseValue, bg_big: !collapseValue }"
+      @click="collapse"
+    >
+      <div class="el-card left-list">
+        <div class="collapse-transition margin-right5" v-show="!collapseValue" @click.stop="">
+            <ul class="file-ul">
+              <li
+                class="file-name cursor"
+                :class="{ 'is-active': file.attachmentId == active }"
+                v-for="file in attachments"
+                :key="file.attachmentId"
+                @click="changeSrc(file)"
+              >
+                {{ file.attachmentName }}
+              </li>
+            </ul>
+        </div>
+        <i class="btn"
+          ><icon
+            symbol
+            name="iconsanjiantou"
+            class="collapse"
+            :class="{ rotate: !collapseValue }"
+          ></icon
+        ></i>
       </div>
-      <i @click="collapse" class="btn"
-        ><icon
-          symbol
-          name="iconsanjiantou"
-          class="collapse"
-          :class="{ rotate: !collapseValue }"
-        ></icon
-      ></i>
     </div>
     <div class="right-preview">
       <img class="preview" v-if="['PNG','JPG','JIF'].includes(detail.type)" :src="detail.attachmentUrl"/>
@@ -46,8 +52,8 @@
         </div>
       </div>
     </div>
-    </div>
   </div>
+</div>
 </template>
 <script>
 import { icon } from "rise";
@@ -85,11 +91,12 @@ export default {
       let fileObj = JSON.parse(JSON.stringify(item));
       let arr = item.attachmentName.split(".");
       fileObj.type = arr[arr.length - 1].toUpperCase();
-      if(['PNG', 'JPG', 'JIF'].includes(fileObj.type)){
+      if(fileObj.type.indexOf('XLS')>-1){
+        let res = await getFileUrl(fileObj.attachmentId,fileObj.attachmentName)
+        console.log(res);
+        fileObj.attachmentUrl = res?.data || fileObj.attachmentUrl
         this.detail = fileObj;
       }else{
-        let res = await getFileUrl(fileObj.attachmentId,fileObj.attachmentName)
-        fileObj.filePath = res?.data || fileObj.filePath
         this.detail = fileObj;
       }
       this.active = item.attachmentId;
@@ -107,13 +114,27 @@ export default {
 <style lang='scss' scope>
 .designate-attachment {
   height: calc(100% - 20px);
-  position: relative;
-  display: flex;
+  // position: relative;
+  // display: flex;
+  overflow: hidden;
   padding:  54px 80px 20px;
-  .content{
+  .attachment-content{
     width: 100%;
     height: 100%;
+    display: flex;
     position: relative;
+  }
+  .show {
+    background: transparent;
+    width: auto;
+  }
+  .bg_big {
+    background: transparent;
+    width: 100%;
+  }
+  .left-content{
+    height: 100%;
+    position: absolute;
   }
   .left-list {
     height: 100%;

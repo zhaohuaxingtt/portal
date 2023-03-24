@@ -358,7 +358,7 @@ export default {
           //   '_blank'
           // )
           window.open(
-              `/portal/#/meeting/previewCSC?route=force&desinateId=${row.fixedPointApplyId}&isPreview=1&type=${row.type}&id=${this.$route.query.id}`,
+              `/portal/#/meeting/previewCSC?route=force&desinateId=${row.fixedPointApplyId}&isPreview=1&type=${row.type}&id=${this.$route.query.id}&rowId=${row.id}`,
               '_blank'
             )
         }
