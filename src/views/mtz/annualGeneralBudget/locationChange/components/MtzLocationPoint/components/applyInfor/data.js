@@ -575,13 +575,3 @@ export const partNumberTitle = [
   { props: 'partNameDe', name: '零件名（德）', key: 'LK_LINGJIANMINGDE' }
 ]
 
-export const methodList = [
-    {
-    code: '1',
-    message: '一次性补差',
-    },
-    {
-    code: '2',
-    message: '变价单补差'
-    }
-]
