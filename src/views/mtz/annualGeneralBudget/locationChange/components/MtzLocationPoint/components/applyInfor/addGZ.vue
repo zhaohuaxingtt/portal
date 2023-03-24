@@ -172,7 +172,7 @@
           >
           </iDatePicker>
         </iFormItem>
-        <iFormItem prop="partBalanceCountType">
+        <!-- <iFormItem prop="partBalanceCountType">
           <iLabel
             :label="language('结算数量来源', '结算数量来源')"
             slot="label"
@@ -190,7 +190,7 @@
             >
             </el-option>
           </i-select>
-        </iFormItem>
+        </iFormItem> -->
         <iFormItem prop="source">
           <iLabel
             :label="language('SHICHANGJIALAIYUAN', '市场价来源')"
@@ -212,7 +212,7 @@
             </el-option>
           </i-select>
         </iFormItem>
-        <iFormItem prop="avgPeriod">
+        <!-- <iFormItem prop="avgPeriod">
           <iLabel
             :label="language('均值计算周期', '均值计算周期')"
             slot="label"
@@ -243,7 +243,7 @@
           <el-option v-for="item in offsetList" :key="item.code" :label="item.name" :value="item.code">
           </el-option>
           </i-select>
-        </iFormItem>
+        </iFormItem> -->
 
         <iFormItem prop="price">
           <iLabel
