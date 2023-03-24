@@ -104,7 +104,8 @@
     </div>
     <deptPbi v-if="activeName==1"></deptPbi>
     <historyPbi v-if="activeName==2"></historyPbi>
-
+    <kpitaskPbi v-if="activeName==3"></kpitaskPbi>
+    <kpiviewPbi v-if="activeName==4"></kpiviewPbi>
   </div>
 </template>
 
@@ -118,11 +119,15 @@ import { pageMixins } from '@/utils/pageMixins'
 import tableList from '@/components/commonTable'
 import historyPbi from './historyPbi'
 import deptPbi from './deptPbi'
+import kpiviewPbi from './kpiviewPbi'
+import kpitaskPbi from './kpitaskPbi'
+
 import { cloneDeep } from 'lodash'
 import { getDictByCode } from '@/api/dictionary'
 import { getPerformanceEdition } from '@/api/supplierManagement/supplierIndexManage/index'
 
 import {
+
   iTabsList,
   iMessage,
   iMessageBox,
@@ -137,11 +142,12 @@ import {
 } from 'rise'
 export default {
   mixins: [pageMixins],
-
   components: {
+    kpiviewPbi,
+    kpitaskPbi,
     iTabsList,
     deptPbi,
-  historyPbi,
+    historyPbi,
     iCard,
     iPagination,
     iSearch,
@@ -174,6 +180,16 @@ export default {
           name: '部门综合评分',
           key: '部门综合评分',
           permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_KPI_BMZHPF'
+        },
+        {
+          name: '供应商kpi概念',
+          key: '供应商kpi概念',
+          permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_KPI_HQGYSKPIGN'
+        },
+        {
+          name: '供应商kpi任务',
+          key: '供应商kpi任务',
+          permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_KPI_HQGYSKPIRW'
         },
       ],
     }
