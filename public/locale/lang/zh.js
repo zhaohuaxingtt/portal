@@ -8,6 +8,8 @@
   'use strict'
   var oldLanguage = {
     FENGXAINXINHAOTIAOZHENGFEN:'风险信号调整分',
+    ZHIBIAOKU:'指标库',
+    ZHIBIAOGUANLI:'指标管理',
     CSQCAIGOUYUAN:'CSQ采购员',
     QUERENRENKESHI:'确认人科室',
     delete: '删除',
