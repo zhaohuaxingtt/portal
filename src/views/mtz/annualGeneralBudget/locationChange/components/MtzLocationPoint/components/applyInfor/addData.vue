@@ -100,14 +100,14 @@
                         <iDatePicker v-model="contractForm.endDate" type="datetime" :disabled="true">
                         </iDatePicker>
                     </iFormItem>
-                    <iFormItem prop="partBalanceCountType">
+                    <!-- <iFormItem prop="partBalanceCountType">
                         <iLabel :label="language('结算数据来源', '结算数据来源')" slot="label" :required="true"></iLabel>
                         <i-select :disabled="true" v-model="contractForm.partBalanceCountType" >
                         <el-option v-for="item in partBalanceCountTypeList" :key="item.code" :label="item.name" :value="item.code">
                             </el-option>
                         </i-select>
 
-                    </iFormItem>
+                    </iFormItem> -->
                     <iFormItem prop="priceSource">
                         <iLabel :label="language('SHICHANGJIALAIYUAN', '市场价来源')" slot="label"></iLabel>
                         <iInput v-model="contractForm.priceSource" type="text" :placeholder="language('QINGSHURU', '请输入')"
