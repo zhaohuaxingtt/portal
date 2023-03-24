@@ -12,6 +12,11 @@
       <span>补差列表</span>
       <div class="opration">
         <iButton
+          @click="transferBtn"
+          v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_FAQIGONGINGSHANG"
+          >{{ $t('LK_ZHUANPAI') }}</iButton
+        >
+        <iButton
           @click="sendSupplier"
           v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_FAQIGONGINGSHANG"
           >{{ language('FASONGGONGYINGSHANG', '发送供应商') }}</iButton
@@ -245,6 +250,30 @@
       </ul>
       <span slot="footer" class="dialog-footer"> </span>
     </el-dialog>
+    <el-dialog
+      :title="$t('LK_ZHUANPAI') "
+      :visible.sync="transferDialog"
+      width="30%"
+      :before-close="handleCloseTransfer"
+    >
+    <span>用户：</span>
+      <iSelect
+      style="width:200px"
+        :placeholder="$t('LK_QINGXUANZE')"
+        v-model="transferUserId"
+        clearable
+      >
+        <el-option
+          :value="item.userId"
+          :label="item.userName"
+          v-for="item in transferUserList"
+          :key="item.userId"
+        />
+      </iSelect>
+      <span slot="footer" class="dialog-footer">
+        <iButton @click="handleConfirmTransfer" >{{ $t('LK_QUEREN') }}</iButton>
+         </span>
+    </el-dialog>
   </iCard>
 </template>
 
@@ -255,14 +284,17 @@ import {
   recall,
   payBalanceSubmit,
   approvalStatus,
-  exportFile
+  exportFile,
+  transferBalance
 } from '@/api/mtz/annualGeneralBudget/supplementaryList'
-import { iCard, iButton, iPagination, iMessage } from 'rise'
+import { getTransferUsers } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/approve'
+import { iCard, iButton, iPagination, iMessage ,iSelect } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import processVertical from './processVertical'
 import editDetailDialog from '@/views/mtz/annualGeneralBudget/replenishmentManagement/components/mtzReplenishmentOverview/components/balancePaymentDialogEdit'
 export default {
   components: {
+    iSelect,
     iCard,
     iButton,
     iPagination,
@@ -272,9 +304,13 @@ export default {
   mixins: [pageMixins],
   data() {
     return {
+      transferUserId:'',
+      transferUserList:[],
+      transferDialog: false,
       totalPrice: [],
       searchForm: {},
       tableData: [],
+      transferUserList:[],
       muiltSelectList: [],
       editModalParams: {
         key: 0,
@@ -354,6 +390,55 @@ export default {
       } else {
         iMessage.error("'草稿、供应商拒绝、审批不通过状态可以提交")
       }
+    },
+    handleConfirmTransfer(){
+      const req={
+        balanceIdList: this.muiltSelectList.map(val=>val.id),
+        userId:this.transferUserId,
+        nameZh:this.transferUserList.find(val=>val.userId==this.transferUserId).userName
+      }
+      transferBalance(req).then(res=>{
+        if(res.code==200){
+            this.init()
+            iMessage.success('转派成功')
+            this.transferDialog = false
+          }else{
+            iMessage.error(res.desZh)
+          }
+      })
+    },
+    handleCloseTransfer(){
+      this.transferUserId=''
+      this.transferDialog=false
+    },
+    transferBtn() {
+      if (this.muiltSelectList.length == 0) {
+        return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
+      }
+      getTransferUsers().then(res=>{
+        if(res.code==200){
+          this.transferUserList=res.data
+          this.muiltSelectList.forEach(val=>{
+            if (
+              val.status === '草稿' ||
+              val.status === '供应商拒绝' ||
+              val.status == '审批不通过' ||
+              val.status == '审批退回' ||
+              val.status == 'RISE审批通过' ||
+              val.status == '供应商确认'
+            ) {
+              this.transferDialog=true
+            } else {
+              return  iMessage.error(
+                "'草稿、供应商已拒绝、审批不通过、审批退回、RISE审批通过、供应商确认状态可以编辑"
+              )
+
+            }
+          })
+          }else{
+              iMessage.error(res.desZh)
+            }
+          })
     },
     handleClickEdit() {
       if (this.muiltSelectList.length == 0) {

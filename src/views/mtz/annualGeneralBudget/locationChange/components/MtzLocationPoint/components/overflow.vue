@@ -517,8 +517,19 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+::v-deep.el-button--default{
+  font-size: 20px!important;
+}
+.font18_b {
+  font-size: 18px;
+  font-weight: bold;
+}
+.font18 {
+  font-size: 18px;
+  font-weight: bold;
+}
 .title_name {
-  font-size: 20px;
+  font-size: 24px;
   font-weight: bold;
 }
 .opration {
@@ -546,7 +557,7 @@ export default {
   align-items: center;
   .stepBox_div {
     text-align: center;
-    width: 14%;
+    width: 20%;
     background: #f8f9fa;
 
     .car_img {
@@ -556,8 +567,9 @@ export default {
       cursor: pointer;
     }
     span {
+      text-align:center;
       display: inline-block;
-      font-size: 18px;
+      font-size: 20px;
       font-weight: bold;
       margin-top: 10px;
       color: #5d5d5d;
@@ -587,4 +599,7 @@ export default {
     width: auto !important;
   }
 }
+</style>
+<style lang='scss'>
+
 </style>
