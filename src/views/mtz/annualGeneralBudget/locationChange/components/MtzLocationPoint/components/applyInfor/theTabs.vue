@@ -418,7 +418,7 @@
             </template>
           </el-table-column>
         <!-- ----------------------------------------------------------------------------------------------------------------------- -->
-      <template v-if="tableData.some((val)=>{if(val.platinumPrice) return true})">
+      <template v-if="tableData.some((val)=>{if(val.materialCode.slice(1,6)=='01006') {return true}})">
 
         <!-- <el-table-column prop="effectFlag" align="center" :label="language('SHIFOUSHENGXIAO', '是否生效')" width="100">
               <template slot-scope="scope">
@@ -730,14 +730,7 @@
               </el-form-item>
             </template>
           </el-table-column>
-          <el-table-column prop="ruleVersion" align="center" width="80" :label="language('版本')">
-            <template slot-scope="scope">
-              <el-form-item :prop="'tableData.' + scope.$index + '.' + 'ruleVersion'"
-                :rules="formRules.ruleVersion ? formRules.ruleVersion : ''">
-                <span>{{ scope.row.ruleVersion }}</span>
-              </el-form-item>
-            </template>
-          </el-table-column>
+
         </template>
 
     </el-table>
@@ -926,6 +919,9 @@ export default {
     }
   },
   created() {
+    console.log('M01006004-PGM'.slice(1,7))
+
+    console.log('M01006004-PGM'.slice(1,7)=='01006')
     this.init()
     // getMtzSupplierList({}).then(res => {
     //   this.supplierList = res.data;
