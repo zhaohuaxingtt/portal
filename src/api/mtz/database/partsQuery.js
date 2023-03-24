@@ -193,3 +193,13 @@ export function uploadPartExcel(data) {
     data: data
   })
 }
+
+// 二次上传
+export function uploadSecPartExcel(data) {
+  return request({
+    url: '/bomInfo/uploadSecPartExcel',
+    method: 'POST',
+    data: data
+  })
+}
+
