@@ -311,17 +311,18 @@ export default {
       if (instanceId) {
         this.loading = true
         queryWorkflowDetail(params)
-          .then((res) => {
+          .then(async (res) => {
             if (res.result) {
               const data = res.data
               this.form = { ...this.taskDetail, ...data }
               if(res.data.module=='loi_nominate'){
-                getApprovalLoiFile(res.data.businessId).then(res=>{
-                  console.log(res);
-                  if(res?.code==200&&res.data){
-                    this.form = {...this.form, ...res.data}
+                await getApprovalLoiFile(res.data.businessId).then(res=>{
+                  if(res?.code==200 && res.data){
+                    this.flowFormUrl = res.data
                   }
                 })
+              }else{
+                this.flowFormUrl = data.formUrl
               }
               const histories = []
 
@@ -338,8 +339,6 @@ export default {
                 })
               }
               this.form.histories = histories
-
-              this.flowFormUrl = data.formUrl
             } else {
               iMessage.error(res.desZh || '获取数据失败')
             }
