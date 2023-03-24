@@ -191,7 +191,7 @@
 
           </tableList>
           <tableList class="margin-top20 " ref="moviesTable1" :tableData="ruleTableListData"
-            :tableTitle="ruleTableTitle1_2" :tableLoading="loadingRule" v-if="!RsObject && ruleTableListData.length > 0&& partTableListData.some((val)=>{if(val.platinumPrice) return true})"
+            :tableTitle="ruleTableTitle1_2" :tableLoading="loadingRule" v-if="!RsObject && ruleTableListData.length > 0&& partTableListData.some((val)=>{if(val.materialCode.slice(1,6)=='01006') {return true}})"
             :index="true"  :selection="false"
             border>
           </tableList>
@@ -316,7 +316,7 @@
           </tableList>
           <tableList border class="margin-top20 "  :tableData="partTableListData" :tableTitle="partTableTitle1_3"
 
-          :tableLoading="loadingPart" v-if="!RsObject && partTableListData.length > 0 && partTableListData.some((val)=>{if(val.platinumPrice) return true})" :index="true"
+          :tableLoading="loadingPart" v-if="!RsObject && partTableListData.length > 0 && partTableListData.some((val)=>{if(val.materialCode.slice(1,6)=='01006') {return true}})" :index="true"
               :selection="false">
             </tableList>
         </div>
@@ -587,7 +587,7 @@
               </template>
             </tableList>
             <tableList class="margin-top20" :tableData="tableData" :tableTitle="ruleTableTitle1_2"
-              :tableLoading="loadingRule" v-if="!RsObject && tableData.length > 0&& partTableListData.some((val)=>{if(val.platinumPrice) return true})" :index="true" :selection="false"
+              :tableLoading="loadingRule" v-if="!RsObject && tableData.length > 0&& tableData.some((val)=>{if(val.materialCode.slice(1,6)=='01006') {return true}})" :index="true" :selection="false"
               border>
             </tableList>
           </iCard>
@@ -748,7 +748,7 @@
             </template>
             </tableList>
             <tableList border class="margin-top20 " :tableData="tableData" :tableTitle="partTableTitle1_3"
-              :tableLoading="loadingPart" v-if="!RsObject && partTableListData.length > 0 && partTableListData.some((val)=>{if(val.platinumPrice) return true})" :index="true"
+              :tableLoading="loadingPart" v-if="!RsObject && partTableListData.length > 0 && tableData.some((val)=>{if(val.materialCode.slice(1,6)=='01006') {return true}})" :index="true"
               :selection="false">
             </tableList>
           </iCard>

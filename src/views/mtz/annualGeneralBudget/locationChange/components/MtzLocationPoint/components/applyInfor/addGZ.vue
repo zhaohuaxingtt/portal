@@ -910,6 +910,42 @@ export default {
       }
       return {
         ...this.rules_init,
+        platinumPrice: this.metalType //载体税率(%)
+          ? [
+              { required: true, message: '请输入', trigger: 'blur' },
+              { validator: validatePass5, trigger: 'blur' }
+            ]
+          : [{ required: false }],
+          platinumDosage: this.metalType //载体税率(%)
+          ? [
+              { required: true, message: '请输入', trigger: 'blur' },
+              { validator: validatePass5, trigger: 'blur' }
+            ]
+          : [{ required: false }],
+          palladiumPrice: this.metalType //载体税率(%)
+          ? [
+              { required: true, message: '请输入', trigger: 'blur' },
+              { validator: validatePass5, trigger: 'blur' }
+            ]
+          : [{ required: false }],
+          palladiumDosage: this.metalType //载体税率(%)
+          ? [
+              { required: true, message: '请输入', trigger: 'blur' },
+              { validator: validatePass5, trigger: 'blur' }
+            ]
+          : [{ required: false }],
+          rhodiumPrice: this.metalType //载体税率(%)
+          ? [
+              { required: true, message: '请输入', trigger: 'blur' },
+              { validator: validatePass5, trigger: 'blur' }
+            ]
+          : [{ required: false }],
+          rhodiumDosage: this.metalType //载体税率(%)
+          ? [
+              { required: true, message: '请输入', trigger: 'blur' },
+              { validator: validatePass5, trigger: 'blur' }
+            ]
+          : [{ required: false }],
         substrateExw: this.metalType // 载体费用
           ? [{ required: true, message: '请输入', trigger: 'blur' }]
           : [{ required: false }],
@@ -1054,9 +1090,9 @@ export default {
             console.log(value, 5555555555)
             this.contractForm.supplierName = e.message
             this.contractForm.sapCode = value
-            getPartBalanceCountType(this.contractForm.sapCode).then(res=>{
-             this.$set(this.contractForm,'partBalanceCountType',res.data)
-            })
+            // getPartBalanceCountType(this.contractForm.sapCode).then(res=>{
+            //  this.$set(this.contractForm,'partBalanceCountType',res.data)
+            // })
 
             setTimeout(() => {
               this.supplierType1 = false
@@ -1087,9 +1123,9 @@ export default {
             console.log(e,2222222)
             this.contractForm.supplierName = value
             this.contractForm.sapCode = e.code
-            getPartBalanceCountType(this.contractForm.sapCode).then(res=>{
-              this.$set(this.contractForm,'partBalanceCountType',res.data)
-            })
+            // getPartBalanceCountType(this.contractForm.sapCode).then(res=>{
+            //   this.$set(this.contractForm,'partBalanceCountType',res.data)
+            // })
             setTimeout(() => {
               this.supplierType2 = false
             }, 100)
