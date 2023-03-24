@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-09-23 16:23:09
- * @LastEditTime: 2023-03-21 16:13:00
+ * @LastEditTime: 2023-03-24 18:12:47
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\dataBase\marketPriceEnquiry\components\marketPriceImg.vue
@@ -19,6 +19,7 @@
             filterable
             multiple
             collapse-tags
+             @change="changematerialNos"
           >
             <el-option
               v-for="(item, index) in categoryDorpDownList"
@@ -119,8 +120,9 @@
         @handleChangeLegend="handleChangeLegend"
       />
       <chartMaterialCode
-        v-if="chartData.length > 0 && timeData.length > 0 && chart == 2"
+        v-if="chart == 2"
         :chartData="mainData"
+        :materialCode="materialCode"
         :selectedChartData="selectionCategoryData"
         :timeData="timeData"
         :TFlag="TFlag"
@@ -271,9 +273,6 @@ export default {
         materialCode: '',
       }
     },
-    adasa(e) {
-      console.log(e)
-    },
     // 获取材料中类下拉框数据
     getCategoryDorpDownList() {
       getMtzCategory({ includeRawMaterial: true }).then((res) => {
@@ -316,6 +315,7 @@ export default {
         // let res = mock
         marketPriceChart(formData).then((res) => {
           if (res && res.code == 200) {
+            this.materialCode = formData.materialCode
             const data = window._.cloneDeep(res.data)
             this.mainData = data
             // 高亮材料下拉
@@ -456,9 +456,7 @@ export default {
     },
     // 改变选中图例事件，将根据当前的图例状态设置下拉框数据的选中
     handleChangeLegend(legendData) {
-        console.log(legendData);
       this.selectionCategoryData = []
-        console.log(this.allCategoryDorpDownList);
       for (const key in legendData) {
         const status = legendData[key]
         const obj = this.allCategoryDorpDownList.find(
@@ -467,10 +465,11 @@ export default {
         if (status) this.selectionCategoryData.push(obj.materialNo)
       }
     },
-    // 暂定:选择原材料牌号,清空材料中类
-    changeMaterialCode(val){
-      console.log('val=>',val);
+    changeMaterialCode(){
       this.formData.materialNos = []
+    },
+    changematerialNos(){
+      this.formData.materialCode = ''
     }
   },
   watch: {}
