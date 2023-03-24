@@ -270,16 +270,16 @@ export const ruleTableTitle1_all = [
     overlap: true,
     overlapbottom: 'Valid To'
   },
-  {
-    width: 110,
-    props: 'partBalanceCountType',
-    name: '结算数量来源',
-    key: '结算数量来源',
-    iconTextKey: '一般供应商：SAP系统读取；特殊供应商（VWPT等）：手工上传',
-    typeIcon: 'num',
-    num: '1',
-    overlapbottom: 'Invoiced Part Source'
-  },
+  // {
+  //   width: 110,
+  //   props: 'partBalanceCountType',
+  //   name: '结算数量来源',
+  //   key: '结算数量来源',
+  //   iconTextKey: '一般供应商：SAP系统读取；特殊供应商（VWPT等）：手工上传',
+  //   typeIcon: 'num',
+  //   num: '1',
+  //   overlapbottom: 'Invoiced Part Source'
+  // },
   {
     width: 90,
     props: 'source',
@@ -290,27 +290,27 @@ export const ruleTableTitle1_all = [
     num: '2',
     overlapbottom: 'source Market'
   },
-  {
-    props: 'avgPeriod',
-    name: '均值计算周期',
-    key: '均值计算周期',
-    width: 100,
-    icon: 'iconxinxitishi',
-    iconTextKey:
-      '全年原材料市场价按均值计算周期等分。例：均值计算周期为3个月时，1-3月市场价均为1-3月的市场价均值',
-    overlapbottom: 'avgPeriod'
-  },
-  {
-    props: 'offsetMonth',
-    name: '计算偏移量',
-    width: 90,
-    key: '计算偏移量',
-    overlap: false,
-    icon: 'iconxinxitishi',
-    iconTextKey:
-      '市场价取值与本月的偏移量，例：计算偏移量为-1，计算3月补差金额时取2月市场价',
-    overlapbottom: 'offsetMonth'
-  },
+  // {
+  //   props: 'avgPeriod',
+  //   name: '均值计算周期',
+  //   key: '均值计算周期',
+  //   width: 100,
+  //   icon: 'iconxinxitishi',
+  //   iconTextKey:
+  //     '全年原材料市场价按均值计算周期等分。例：均值计算周期为3个月时，1-3月市场价均为1-3月的市场价均值',
+  //   overlapbottom: 'avgPeriod'
+  // },
+  // {
+  //   props: 'offsetMonth',
+  //   name: '计算偏移量',
+  //   width: 90,
+  //   key: '计算偏移量',
+  //   overlap: false,
+  //   icon: 'iconxinxitishi',
+  //   iconTextKey:
+  //     '市场价取值与本月的偏移量，例：计算偏移量为-1，计算3月补差金额时取2月市场价',
+  //   overlapbottom: 'offsetMonth'
+  // },
 
   {
     props: 'price',
@@ -553,16 +553,16 @@ export const ruleTableTitle1_1 = [
     overlap: true,
     overlapbottom: 'Valid To'
   },
-  {
-    width: 110,
-    props: 'partBalanceCountType',
-    name: '结算数量来源',
-    key: '结算数量来源',
-    iconTextKey: '一般供应商：SAP系统读取；特殊供应商（VWPT等）：手工上传',
-    typeIcon: 'num',
-    num: '1',
-    overlapbottom: 'Invoiced Part Source'
-  },
+  // {
+  //   width: 110,
+  //   props: 'partBalanceCountType',
+  //   name: '结算数量来源',
+  //   key: '结算数量来源',
+  //   iconTextKey: '一般供应商：SAP系统读取；特殊供应商（VWPT等）：手工上传',
+  //   typeIcon: 'num',
+  //   num: '1',
+  //   overlapbottom: 'Invoiced Part Source'
+  // },
   {
     width: 90,
     props: 'source',
@@ -573,27 +573,27 @@ export const ruleTableTitle1_1 = [
     num: '2',
     overlapbottom: 'source Market'
   },
-  {
-    props: 'avgPeriod',
-    name: '均值计算周期',
-    key: '均值计算周期',
-    width: 100,
-    icon: 'iconxinxitishi',
-    iconTextKey:
-      '全年原材料市场价按均值计算周期等分。例：均值计算周期为3个月时，1-3月市场价均为1-3月的市场价均值',
-    overlapbottom: 'avgPeriod'
-  },
-  {
-    props: 'offsetMonth',
-    name: '计算偏移量',
-    width: 90,
-    key: '计算偏移量',
-    overlap: false,
-    icon: 'iconxinxitishi',
-    iconTextKey:
-      '市场价取值与本月的偏移量，例：计算偏移量为-1，计算3月补差金额时取2月市场价',
-    overlapbottom: 'offsetMonth'
-  },
+  // {
+  //   props: 'avgPeriod',
+  //   name: '均值计算周期',
+  //   key: '均值计算周期',
+  //   width: 100,
+  //   icon: 'iconxinxitishi',
+  //   iconTextKey:
+  //     '全年原材料市场价按均值计算周期等分。例：均值计算周期为3个月时，1-3月市场价均为1-3月的市场价均值',
+  //   overlapbottom: 'avgPeriod'
+  // },
+  // {
+  //   props: 'offsetMonth',
+  //   name: '计算偏移量',
+  //   width: 90,
+  //   key: '计算偏移量',
+  //   overlap: false,
+  //   icon: 'iconxinxitishi',
+  //   iconTextKey:
+  //     '市场价取值与本月的偏移量，例：计算偏移量为-1，计算3月补差金额时取2月市场价',
+  //   overlapbottom: 'offsetMonth'
+  // },
 
   {
     props: 'price',
@@ -732,22 +732,22 @@ export const partTableTitle1_2 = [
     overlapbottom: 'Market',
     overlap: true
   },
-  {
-    props: 'avgPeriod',
-    name: '均值计算周期',
-    key: '均值计算周期',
-    overlapbottom: 'avgPeriod',
-    overlap: true
-    // overlapbottom: 'Market'
-  },
-  {
-    props: 'offsetMonth',
-    name: '计算偏移量',
-    key: '计算偏移量',
-    overlapbottom: 'offsetMonth',
-    overlap: true
-    // overlapbottom: 'Market'
-  },
+  // {
+  //   props: 'avgPeriod',
+  //   name: '均值计算周期',
+  //   key: '均值计算周期',
+  //   overlapbottom: 'avgPeriod',
+  //   overlap: true
+  //   // overlapbottom: 'Market'
+  // },
+  // {
+  //   props: 'offsetMonth',
+  //   name: '计算偏移量',
+  //   key: '计算偏移量',
+  //   overlapbottom: 'offsetMonth',
+  //   overlap: true
+  //   // overlapbottom: 'Market'
+  // },
 
   {
     props: 'compensationPeriod',
@@ -923,14 +923,14 @@ export const partTableTitle1_all = [
     overlapbottom: 'Dosage Unit',
     overlap: true
   },
-  {
-    props: 'materialDoseSource',
-    name: '原材料用量来源',
-    key: '原材料用量来源',
-    width: 150,
-    overlapbottom: 'Raw Material Weight Source',
-    overlap: true
-  },
+  // {
+  //   props: 'materialDoseSource',
+  //   name: '原材料用量来源',
+  //   key: '原材料用量来源',
+  //   width: 150,
+  //   overlapbottom: 'Raw Material Weight Source',
+  //   overlap: true
+  // },
   {
     props: 'startDate',
     name: '有效期起',
@@ -1050,22 +1050,22 @@ export const partTableTitle1_all = [
     overlapbottom: 'Market',
     overlap: true
   },
-  {
-    props: 'avgPeriod',
-    name: '均值计算周期',
-    key: '均值计算周期',
-    overlapbottom: 'avgPeriod',
-    overlap: true
-    // overlapbottom: 'Market'
-  },
-  {
-    props: 'offsetMonth',
-    name: '计算偏移量',
-    key: '计算偏移量',
-    overlapbottom: 'offsetMonth',
-    overlap: true
-    // overlapbottom: 'Market'
-  },
+  // {
+  //   props: 'avgPeriod',
+  //   name: '均值计算周期',
+  //   key: '均值计算周期',
+  //   overlapbottom: 'avgPeriod',
+  //   overlap: true
+  //   // overlapbottom: 'Market'
+  // },
+  // {
+  //   props: 'offsetMonth',
+  //   name: '计算偏移量',
+  //   key: '计算偏移量',
+  //   overlapbottom: 'offsetMonth',
+  //   overlap: true
+  //   // overlapbottom: 'Market'
+  // },
 
   {
     props: 'compensationPeriod',
@@ -1239,14 +1239,14 @@ export const partTableTitle1_1 = [
     overlapbottom: 'Dosage Unit',
     overlap: true
   },
-  {
-    props: 'materialDoseSource',
-    name: '原材料用量来源',
-    key: '原材料用量来源',
-    width: 150,
-    overlapbottom: 'Raw Material Weight Source',
-    overlap: true
-  },
+  // {
+  //   props: 'materialDoseSource',
+  //   name: '原材料用量来源',
+  //   key: '原材料用量来源',
+  //   width: 150,
+  //   overlapbottom: 'Raw Material Weight Source',
+  //   overlap: true
+  // },
   {
     props: 'startDate',
     name: '有效期起',
