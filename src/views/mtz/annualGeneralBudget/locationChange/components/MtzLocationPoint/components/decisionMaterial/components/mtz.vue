@@ -14,49 +14,34 @@
       }}</iButton>
     </div>
     <!-- RsObject?mtz决策资料:导出 -->
-    <div
-      ref="qrCodeDiv"
-      id="qrCodeDiv"
-      @click="rulesClick()"
-      style="position: relative"
-    >
+    <div ref="qrCodeDiv" id="qrCodeDiv" @click="rulesClick()" style="position: relative">
       <!-- 水印 class="content_dialog" -->
-      <div
-        class=""
-        v-if="
-          !RsObject &&
-          (formData.appStatus == '流转完成' || formData.appStatus == '定点')
-        "
-      ></div>
+      <div class="" v-if="
+        !RsObject &&
+        (formData.appStatus == '流转完成' || formData.appStatus == '定点')
+      "></div>
       <iCard class="upload_hr" ref="tabsBoxTitle" id="tabsBoxTitle">
         <!-- <iCard :class="!RsObject?'upload_hr':''"> -->
         <div slot="header" class="headBox">
           <p class="headTitle">{{ title }}</p>
           <span class="buttonBox" style="margin-top: -10px" v-if="!editMode">
-            <iButton
-              v-if="
-                RsObject &&
-                formData.flowTypeName == '流转' &&
-                !(
-                  formData.appStatus == '流转完成' ||
-                  formData.appStatus == '定点' ||
-                  formData.appStatus == '未通过'
-                )
-              "
-              :loading="exportLoading"
-              @click="handleToSignPreview"
-              >{{
-                language('DAOCHUHUIWAILIUZHUANDAN', '导出会外流转单')
-              }}</iButton
-            >
+            <iButton v-if="
+              RsObject &&
+              formData.flowTypeName == '流转' &&
+              !(
+                formData.appStatus == '流转完成' ||
+                formData.appStatus == '定点' ||
+                formData.appStatus == '未通过'
+              )
+            " :loading="exportLoading" @click="handleToSignPreview">{{
+  language('DAOCHUHUIWAILIUZHUANDAN', '导出会外流转单')
+}}</iButton>
           </span>
           <!-- <div class="tabs_box_right"> -->
           <div class="tabs_box_right">
             <template v-if="meetingType">
               <div class="big_text">
-                <span class="samll_val"
-                  >{{ formData.mtzAppId }}-{{ formData.appName }}</span
-                >
+                <span class="samll_val">{{ formData.mtzAppId }}-{{ formData.appName }}</span>
               </div>
               <div class="small_text">
                 <!-- <span>{{language("SHENQINGRIQI","申请日期")}}：</span> -->
@@ -75,223 +60,289 @@
               </div>
             </template>
           </div>
+
         </div>
+
         <div ref="ruleTableTitle">
           <el-divider class="hr_divider" />
-
-          <div class="infor_futitle">
-            <span class="big_font">Regulation:</span>
-            <br />
-            <span class="big_font"
-              >MTZ Payment=(Effective Price-Base Price)*Raw Material
-              Weight*Settle accounts Quantity*Ratio</span
-            >
-            <span class="big_small"
-              >When:effective price > base price *(1+threshold)</span
-            >
+          <div v-if="RsObject" class="centerBox">
+            <p>补差金额=零件结算数量 <iTooltip :txtInfo="tipList[0]" :num="'1'"></iTooltip>
+              *[原材料市场价<iTooltip :txtInfo="tipList[1]" :num="'2'"></iTooltip> -原材料基价<iTooltip :txtInfo="tipList[2]"
+                :num="'3'">
+              </iTooltip> *(1+阈值<iTooltip :txtInfo="tipList[3]" :num="'4'"></iTooltip> )]*原材料用量
+              <iTooltip :txtInfo="tipList[4]" :num="'5'"></iTooltip> *补差系数<iTooltip :txtInfo="tipList[5]" :num="'6'">
+              </iTooltip>
+            </p>
+            <p>MTZ Payment=Settle accounts Quantity*[Effective Price-Base Price(1+threshold)]*Raw Material Weight*Ratio
+            </p>
           </div>
+   
 
-          <p class="tableTitle" v-if="RsObject">
+          <p class="tableTitle font20_b" v-if="RsObject">
             {{ language('GUIZEQINGDAN', '规则清单') }}-Regulation
           </p>
-          <p
-            class="tableTitle"
-            v-if="!RsObject && ruleTableListData.length > 0"
-          >
+          <p class="tableTitle font20_b" v-if="!RsObject && ruleTableListData.length > 0">
             {{ language('GUIZEQINGDAN', '规则清单') }}-Regulation
           </p>
         </div>
         <!-- highlight-current-row -->
-        <tableList
-          class="margin-top20"
-          ref="moviesTable"
-          :tableData="ruleTableListData"
-          :tableTitle="ruleTableTitle1_1"
-          @handleClickRow="handleCurrentChangeTable"
-          :tableLoading="loadingRule"
-          :header-row-class-name="'ruleTableHeader'"
-          :index="true"
-          :rowClassName="'table-row'"
-          v-if="RsObject"
-          :selection="false"
-          border
-        >
-          <template slot-scope="scope" slot="compensationPeriod">
-            <span>{{
-              scope.row.compensationPeriod == 'A'
+        <div class="margin-top20 formStyle">
+          <!-- <div v-if="RsObject" class="btn ">
+            <span type="primary" size="mini" circle @click="isruleTitle1 = !isruleTitle1">{{ isruleTitle1 ? '-' : '+'
+            }}</span>
+          </div> -->
+          <tableList :tagNum="'1'" ref="moviesTable" :tableData="ruleTableListData"
+            :tableTitle="ruleTableTitle1_all"
+            @handleClickRow="handleCurrentChangeTable" :tableLoading="loadingRule"
+            :header-row-class-name="'ruleTableHeader'" :index="true" :rowClassName="'table-row'" v-if="RsObject"
+            :selection="false" border>
+            <template slot-scope="scope" slot="compensationPeriod">
+              <span>{{
+                scope.row.compensationPeriod == 'A'
                 ? '年度'
                 : scope.row.compensationPeriod == 'H'
-                ? '半年度'
-                : scope.row.compensationPeriod == 'Q'
-                ? '季度'
-                : scope.row.compensationPeriod == 'M'
-                ? '月度'
-                : ''
-            }}</span>
-          </template>
-          <template slot-scope="scope" slot="thresholdCompensationLogic">
-            <span>{{
-              scope.row.thresholdCompensationLogic == 'A'
+                  ? '半年度'
+                  : scope.row.compensationPeriod == 'Q'
+                    ? '季度'
+                    : scope.row.compensationPeriod == 'M'
+                      ? '月度'
+                      : ''
+              }}</span>
+            </template>
+            <template slot-scope="scope" slot="thresholdCompensationLogic">
+              <span>{{
+                scope.row.thresholdCompensationLogic == 'A'
                 ? '全额补差'
                 : scope.row.thresholdCompensationLogic == 'B'
-                ? '超额补差'
-                : ''
-            }}</span>
-          </template>
-          <template slot-scope="scope" slot="sapCode">
-            <span>{{ scope.row.sapCode }}</span
-            ><br />
-            <span>{{ scope.row.supplierName }}</span>
-          </template>
-        </tableList>
-        <!-- 导出规则表格 -->
-        <tableList
-          class="margin-top20"
-          ref="moviesTable"
-          :tableData="ruleTableListData"
-          :tableTitle="ruleTableTitle1_1"
-          :tableLoading="loadingRule"
-          v-if="!RsObject && ruleTableListData.length > 0"
-          :index="true"
-          :rowClassName="'table-row'"
-          :header-row-class-name="'ruleTableHeader'"
-          :selection="false"
-          border
-        >
-          <template slot-scope="scope" slot="sapCode">
-            <span>{{ scope.row.sapCode }}</span
-            ><br />
-            <span>{{ scope.row.supplierName }}</span>
-          </template>
-          <template slot-scope="scope" slot="compensationPeriod">
-            <span>{{
-              scope.row.compensationPeriod == 'A'
+                  ? '超额补差'
+                  : ''
+              }}</span>
+            </template>
+            <template slot-scope="scope" slot="sapCode">
+              <span>{{ scope.row.sapCode }}</span><br />
+              <iText>{{ scope.row.supplierName }}</iText>
+            </template>
+            <template slot-scope="scope" slot="materialCode">
+              <span class='link' @click="openPageMarket(scope.row)">{{ scope.row.materialCode }}</span><br />
+              <span class='link' @click="openPageMarket(scope.row)">{{ scope.row.materialName }}</span>
+            </template>
+            <template slot-scope="scope" slot="formalFlag">
+              <span>{{ scope.row.formalFlag == 'Y' ? '否' : '是' }}</span>
+            </template>
+            <template slot-scope="scope" slot="method">
+              <span>{{ scope.row.method == '1' ? '一次性补差' : scope.row.method == '2' ? '变价单补差' : '' }}</span>
+            </template>
+            <template slot-scope="scope" slot="partBalanceCountType">
+              <span>{{
+                scope.row.partBalanceCountType == 'SYSTEM' ? '系统预读' : scope.row.partBalanceCountType == 'HANDWORK' ? '手工上传' : ''
+              }}</span>
+            </template>
+            <template slot-scope="scope" slot="avgPeriod">
+              <span>{{ scope.row.avgPeriod ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+            </template>
+            <template slot-scope="scope" slot="offsetMonth">
+              <span>{{ scope.row.offsetMonth ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
+            </template>
+
+          </tableList>
+          <!-- 导出规则表格 -->
+          <tableList ref="moviesTable" :tableData="ruleTableListData"
+            :tableTitle="ruleTableTitle1_1" :tableLoading="loadingRule"
+            v-if="!RsObject && ruleTableListData.length > 0" :index="true" :rowClassName="'table-row'"
+            :header-row-class-name="'ruleTableHeader'" :selection="false" border>
+            <template slot-scope="scope" slot="sapCode">
+              <span>{{ scope.row.sapCode }}</span><br />
+              <span>{{ scope.row.supplierName }}</span>
+            </template>
+            <template slot-scope="scope" slot="compensationPeriod">
+              <span>{{
+                scope.row.compensationPeriod == 'A'
                 ? '年度'
                 : scope.row.compensationPeriod == 'H'
-                ? '半年度'
-                : scope.row.compensationPeriod == 'Q'
-                ? '季度'
-                : scope.row.compensationPeriod == 'M'
-                ? '月度'
-                : ''
-            }}</span>
-          </template>
-        </tableList>
+                  ? '半年度'
+                  : scope.row.compensationPeriod == 'Q'
+                    ? '季度'
+                    : scope.row.compensationPeriod == 'M'
+                      ? '月度'
+                      : ''
+              }}</span>
+            </template>
+            <template slot-scope="scope" slot="materialCode">
+              <span class='link' @click="openPageMarket(scope.row)">{{ scope.row.materialCode }}</span><br />
+              <span class='link' @click="openPageMarket(scope.row)">{{ scope.row.materialName }}</span>
+            </template>
+            <template slot-scope="scope" slot="formalFlag">
+              <span>{{ scope.row.formalFlag == 'Y' ? '否' : '是' }}</span>
+            </template>
+            <template slot-scope="scope" slot="method">
+              <span>{{ scope.row.method == '1' ? '一次性补差' : scope.row.method == '2' ? '变价单补差' : '' }}</span>
+            </template>
+            <template slot-scope="scope" slot="partBalanceCountType">
+              <span>{{
+                scope.row.partBalanceCountType == 'SYSTEM' ? '系统预读' : scope.row.partBalanceCountType == 'HANDWORK' ? '手工上传' : ''
+              }}</span>
+            </template>
+            <template slot-scope="scope" slot="avgPeriod">
+              <span>{{ scope.row.avgPeriod ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+            </template>
+            <template slot-scope="scope" slot="offsetMonth">
+              <span>{{ scope.row.offsetMonth ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
+            </template>
+
+          </tableList>
+          <tableList class="margin-top20 " ref="moviesTable1" :tableData="ruleTableListData"
+            :tableTitle="ruleTableTitle1_2" :tableLoading="loadingRule" v-if="!RsObject && ruleTableListData.length > 0&& partTableListData.some((val)=>{if(val.platinumPrice) return true})"
+            :index="true"  :selection="false"
+            border>
+          </tableList>
+        </div>
+
         <div ref="partTableTitle">
           <el-divider v-if="RsObject" />
-          <el-divider
-            class="margin-top20"
-            v-if="!RsObject && partTableListData.length > 0"
-          />
-          <p class="tableTitle" v-if="RsObject">
+          <el-divider class="margin-top20" v-if="!RsObject && partTableListData.length > 0" />
+          <p class="tableTitle font20_b" v-if="RsObject">
             {{ language('LJQD', '零件清单') }}-Part List
           </p>
-          <p
-            class="tableTitle"
-            v-if="!RsObject && partTableListData.length > 0"
-          >
+          <p class="tableTitle font20_b" v-if="!RsObject && partTableListData.length > 0">
             {{ language('LJQD', '零件清单') }}-Part List
           </p>
         </div>
-        <tableList
-          class="margin-top20 over_flow_y_ture"
-          ref="partTable"
-          :tableData="partTableListData"
-          :tableTitle="partTableTitle1_1"
-          :tableLoading="loadingPart"
-          v-if="RsObject"
-          :index="true"
-          :rowClassName="'part-table-row'"
-          :header-row-class-name="'partTableHeader'"
-          :selection="false"
-          border
-        >
-          <template slot-scope="scope" slot="compensationPeriod">
-            <span>{{
-              scope.row.compensationPeriod == 'A'
+        <div class="margin-top20 formStyle">
+          <!-- <div v-if="RsObject" class="btn ">
+            <span type="primary" size="mini" circle @click="isruleTitle2 = !isruleTitle2">{{ isruleTitle2 ? '-' : '+'
+            }}</span>
+          </div> -->
+          <tableList :tagNum="'1'" class=" over_flow_y_ture" ref="partTable" :tableData="partTableListData"
+            :tableTitle="partTableTitle1_all" :tableLoading="loadingPart"
+            v-if="RsObject" :index="true" :rowClassName="'part-table-row'" :header-row-class-name="'partTableHeader'"
+            :selection="false" border>
+            <template slot-scope="scope" slot="compensationPeriod">
+              <span>{{
+                scope.row.compensationPeriod == 'A'
                 ? '年度'
                 : scope.row.compensationPeriod == 'H'
-                ? '半年度'
-                : scope.row.compensationPeriod == 'Q'
-                ? '季度'
-                : scope.row.compensationPeriod == 'M'
-                ? '月度'
-                : ''
-            }}</span>
-          </template>
-          <!-- <template slot-scope="scope"
-                    slot="thresholdCompensationLogic">
-            <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
-          </template> -->
-          <template slot-scope="scope" slot="sapCode">
-            <span>{{ scope.row.sapCode }}</span
-            ><br />
-            <span>{{ scope.row.supplierName }}</span>
-          </template>
-        </tableList>
-        <!-- 导出零件表格 -->
-        <tableList
-          class="margin-top20"
-          ref="partTable"
-          :tableData="partTableListData"
-          :tableTitle="partTableTitle1_1"
-          :tableLoading="loadingPart"
-          v-if="!RsObject && partTableListData.length > 0"
-          :index="true"
-          :rowClassName="'part-table-row'"
-          :header-row-class-name="'partTableHeader'"
-          :selection="false"
-        >
-          <template slot-scope="scope" slot="sapCode">
-            <span>{{ scope.row.sapCode }}</span
-            ><br />
-            <span>{{ scope.row.supplierName }}</span>
-          </template>
-          <template slot-scope="scope" slot="compensationPeriod">
-            <span>{{
-              scope.row.compensationPeriod == 'A'
+                  ? '半年度'
+                  : scope.row.compensationPeriod == 'Q'
+                    ? '季度'
+                    : scope.row.compensationPeriod == 'M'
+                      ? '月度'
+                      : ''
+              }}</span>
+            </template>
+            <!-- <template slot-scope="scope"
+                            slot="thresholdCompensationLogic">
+                    <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
+                  </template> -->
+            <template slot-scope="scope" slot="sapCode">
+              <span>{{ scope.row.sapCode }}</span><br />
+              <iText>{{ scope.row.supplierName }}</iText>
+            </template>
+            <template slot-scope="scope" slot="materialCode">
+              <span class='link' @click="openPageMarket(scope.row)">{{ scope.row.materialCode }}</span><br />
+              <span class='link' @click="openPageMarket(scope.row)">{{ scope.row.materialName }}</span>
+            </template>
+            <template slot-scope="scope" slot="materialDoseSource">
+              <span>{{
+                scope.row.materialDoseSource ? materialDoseSourceList.find(val => val.code == scope.row.materialDoseSource).name : ''
+              }}</span>
+            </template>
+            <template slot-scope="scope" slot="method">
+              <span>{{ scope.row.method == '1' ? '一次性补差' : scope.row.method == '2' ? '变价单补差' : '' }}</span>
+            </template>
+            <template slot-scope="scope" slot="avgPeriod">
+              <span>{{ scope.row.avgPeriod ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+            </template>
+            <template slot-scope="scope" slot="offsetMonth">
+              <span>{{ scope.row.offsetMonth ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
+            </template>
+          </tableList>
+          <!-- 导出零件表格 -->
+          <tableList border ref="partTable" :tableData="partTableListData" :tableTitle="partTableTitle1_1"
+            :tableLoading="loadingPart" v-if="!RsObject && partTableListData.length > 0" :index="true"
+            :rowClassName="'part-table-row'" :header-row-class-name="'partTableHeader'" :selection="false">
+            <template slot-scope="scope" slot="sapCode">
+              <span>{{ scope.row.sapCode }}</span><br />
+              <span>{{ scope.row.supplierName }}</span>
+            </template>
+            <template slot-scope="scope" slot="compensationPeriod">
+              <span>{{
+                scope.row.compensationPeriod == 'A'
                 ? '年度'
                 : scope.row.compensationPeriod == 'H'
-                ? '半年度'
-                : scope.row.compensationPeriod == 'Q'
-                ? '季度'
-                : scope.row.compensationPeriod == 'M'
-                ? '月度'
-                : ''
-            }}</span>
-          </template>
-        </tableList>
+                  ? '半年度'
+                  : scope.row.compensationPeriod == 'Q'
+                    ? '季度'
+                    : scope.row.compensationPeriod == 'M'
+                      ? '月度'
+                      : ''
+              }}</span>
+            </template>
+            <template slot-scope="scope" slot="materialCode">
+              <span class='link' @click="openPageMarket(scope.row)">{{ scope.row.materialCode }}</span><br />
+              <span class='link' @click="openPageMarket(scope.row)">{{ scope.row.materialName }}</span>
+            </template>
+            <template slot-scope="scope" slot="materialDoseSource">
+              <span>{{
+                scope.row.materialDoseSource ? materialDoseSourceList.find(val => val.code == scope.row.materialDoseSource).name : ''
+              }}</span>
+            </template>
+            <template slot-scope="scope" slot="method">
+              <span>{{ scope.row.method == '1' ? '一次性补差' : scope.row.method == '2' ? '变价单补差' : '' }}</span>
+            </template>
+            <template slot-scope="scope" slot="avgPeriod">
+              <span>{{ scope.row.avgPeriod ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+            </template>
+            <template slot-scope="scope" slot="offsetMonth">
+              <span>{{ scope.row.offsetMonth ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
+            </template>
+          </tableList>
+          <tableList border class="margin-top20 "  :tableData="partTableListData"
+            :tableTitle="partTableTitle1_2" :tableLoading="loadingPart" v-if="!RsObject && partTableListData.length > 0"
+            :index="true"  :selection="false">
+            <template slot-scope="scope" slot="materialDoseSource">
+              <span>{{
+                scope.row.materialDoseSource ? materialDoseSourceList.find(val => val.code == scope.row.materialDoseSource).name : ''
+              }}</span>
+            </template>
+            <template slot-scope="scope" slot="method">
+              <span>{{ scope.row.method == '1' ? '一次性补差' : scope.row.method == '2' ? '变价单补差' : '' }}</span>
+            </template>
+            <template slot-scope="scope" slot="avgPeriod">
+              <span>{{ scope.row.avgPeriod ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+            </template>
+            <template slot-scope="scope" slot="offsetMonth">
+              <span>{{ scope.row.offsetMonth ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
+            </template>
+          </tableList>
+          <tableList border class="margin-top20 "  :tableData="partTableListData" :tableTitle="partTableTitle1_3"
+
+          :tableLoading="loadingPart" v-if="!RsObject && partTableListData.length > 0 && partTableListData.some((val)=>{if(val.platinumPrice) return true})" :index="true"
+              :selection="false">
+            </tableList>
+        </div>
+
         <div class="padding-bottom30" ref="padding"></div>
       </iCard>
       <iCard class="margin-top20">
         <div slot="header" class="headBox">
           <p class="headTitle">{{ language('BEIZHU', '备注') }}-Remarks</p>
           <span class="buttonBox">
-            <iButton
-              v-if="
+            <iButton        v-if="
                 RsObject &&
                 isEditNew &&
                 meetingNumber == 0
-              "
-              @click="handleClickSave($event)"
-              v-permission="PORTAL_MTZ_POINT_JUECEDATA_BAOCUN"
-              >{{ language('BAOCUN', '保存') }}</iButton
-            >
+              " @click="handleClickSave($event)" v-permission="PORTAL_MTZ_POINT_JUECEDATA_BAOCUN">{{ language('BAOCUN',
+  '保存') }}</iButton>
           </span>
         </div>
-        <iInput
-          v-model="formData.linieMeetingMemo"
-          :disabled="
-            !(
-              isEditNew &&
-              RsObject &&
-              meetingNumber == 0
-            )
-          "
-          class="margin-top10"
-          :rows="8"
-          type="textarea"
-        />
+        <iInput v-model="formData.linieMeetingMemo" :disabled="
+          !(
+            (formData.appStatus == '草稿' ||
+              formData.appStatus == '未通过') &&
+            RsObject &&
+            meetingNumber == 0
+          )
+        " class="margin-top10" :rows="8" type="textarea" />
       </iCard>
       <iCard v-if="isMeeting && applayDateData.length > 0" class="margin-top20">
         <p>
@@ -300,20 +351,12 @@
           }}
         </p>
         <div :class="RsObject ? 'applayDateBox' : 'applayDateBox1'">
-          <div
-            class="applayDateContent"
-            v-for="(item, index) in applayDateData"
-            :key="index"
-          >
-            <img
-              class="margin-left5 applayDateIcon"
-              :src="
-                item.taskStatus === '同意'
-                  ? require('@/assets/images/icon/yes.png')
-                  : require('@/assets/images/icon/no.png')
-              "
-              :fit="fit"
-            />
+          <div class="applayDateContent" v-for="(item, index) in applayDateData" :key="index">
+            <img class="margin-left5 applayDateIcon" :src="
+              item.taskStatus === '同意'
+                ? require('@/assets/images/icon/yes.png')
+                : require('@/assets/images/icon/no.png')
+            " :fit="fit" />
             <div class="applayDateContentItem first_one">
               <span>部门：</span>
               <span class="applayDateDeptTitle">{{ item.deptFullCode }}</span>
@@ -336,34 +379,22 @@
             <div slot="header" ref="remark-title" class="headBox">
               <p class="headTitle">{{ language('BEIZHU', '备注') }}-Remarks</p>
               <span class="buttonBox">
-                <iButton
-                  v-if="
-                    RsObject &&
-                    (formData.appStatus == '草稿' ||
-                      formData.appStatus == '未通过') &&
-                    meetingNumber == 0
-                  "
-                  @click="handleClickSave($event)"
-                  v-permission="PORTAL_MTZ_POINT_JUECEDATA_BAOCUN"
-                  >{{ language('BAOCUN', '保存') }}</iButton
-                >
+                <iButton v-if="
+                  RsObject &&
+                  (formData.appStatus == '草稿' ||
+                    formData.appStatus == '未通过') &&
+                  meetingNumber == 0
+                " @click="handleClickSave($event)" v-permission="PORTAL_MTZ_POINT_JUECEDATA_BAOCUN">{{
+  language('BAOCUN', '保存') }}</iButton>
               </span>
             </div>
             <div class="beizhu-value" ref="remark">
-              <p
-                class="remarkItem"
-                v-for="(item, index) in getRemarkAll"
-                :key="index"
-              >
+              <p class="remarkItem" v-for="(item, index) in getRemarkAll" :key="index">
                 {{ item }}<br />
               </p>
             </div>
           </iCard>
-          <iCard
-            ref="applayDateData"
-            v-if="isMeeting && applayDateData.length > 0"
-            class="margin-top20"
-          >
+          <iCard ref="applayDateData" v-if="isMeeting && applayDateData.length > 0" class="margin-top20">
             <div slot="header" class="headBox">
               <p class="headTitle">
                 {{ language('SHENQINGRIQI', '申请日期') }}:{{
@@ -372,20 +403,12 @@
               </p>
             </div>
             <div :class="RsObject ? 'applayDateBox' : 'applayDateBox1'">
-              <div
-                class="applayDateContent"
-                v-for="(item, index) in applayDateData"
-                :key="index"
-              >
-                <img
-                  class="margin-left5 applayDateIcon"
-                  :src="
-                    item.taskStatus === '同意'
-                      ? require('@/assets/images/icon/yes.png')
-                      : require('@/assets/images/icon/no.png')
-                  "
-                  :fit="fit"
-                />
+              <div class="applayDateContent" v-for="(item, index) in applayDateData" :key="index">
+                <img class="margin-left5 applayDateIcon" :src="
+                  item.taskStatus === '同意'
+                    ? require('@/assets/images/icon/yes.png')
+                    : require('@/assets/images/icon/no.png')
+                " :fit="fit" />
                 <div class="applayDateContentItem first_one">
                   <span>部门：</span>
                   <span class="applayDateDeptTitle">{{
@@ -420,21 +443,18 @@
       <template v-for="(tableData, index) in ruleTableList">
         <div :key="index" class="page-item">
           <!-- class="content_dialog" -->
-          <div
-            v-if="
-              !RsObject &&
-              (formData.appStatus == '流转完成' || formData.appStatus == '定点')
-            "
-          ></div>
-          <iCard class="upload_hr" :style="{ height: pdfItemHeight + 'px' }">
+          <div v-if="
+            !RsObject &&
+            (formData.appStatus == '流转完成' || formData.appStatus == '定点')
+          "></div>
+         
+          <iCard class="upload_hr"  :style="{ height: pdfItemHeight + 'px' }">
             <div slot="header" class="headBox">
               <p class="headTitle">{{ title }}</p>
               <!-- <div class="tabs_box_right"> -->
               <div class="tabs_box_right" v-if="meetingType">
                 <div class="big_text">
-                  <span class="samll_val"
-                    >{{ formData.mtzAppId }}-{{ formData.appName }}</span
-                  >
+                  <span class="samll_val">{{ formData.mtzAppId }}-{{ formData.appName }}</span>
                 </div>
                 <div class="small_text">
                   <!-- <span>{{language("SHENQINGRIQI","申请日期")}}：</span> -->
@@ -455,96 +475,120 @@
             </div>
             <el-divider class="hr_divider" />
 
-            <div class="infor_futitle">
-              <span class="big_font">Regulation:</span>
-              <br />
-              <span class="big_font"
-                >MTZ Payment=(Effective Price-Base Price)*Raw Material
-                Weight*Settle accounts Quantity*Ratio</span
-              >
-              <span class="big_small"
-                >When:effective price > base price *(1+threshold)</span
-              >
+            <div class="centerBox">
+              <p>补差金额=零件结算数量 
+                *[原材料市场价 -原材料基价*(1+阈值 )]*原材料用量
+                 *补差系数
+              </p>
+              <p>MTZ Payment=Settle accounts Quantity*[Effective Price-Base Price(1+threshold)]*Raw Material Weight*Ratio
+              </p>
             </div>
 
-            <p class="tableTitle" v-if="RsObject">
+            <p class="tableTitle font20_b" v-if="RsObject">
               {{ language('GUIZEQINGDAN', '规则清单') }}-Regulation
             </p>
-            <p
-              class="tableTitle"
-              v-if="!RsObject && ruleTableListData.length > 0"
-            >
+            <p class="tableTitle font20_b" v-if="!RsObject && ruleTableListData.length > 0">
               {{ language('GUIZEQINGDAN', '规则清单') }}-Regulation
             </p>
             <!-- highlight-current-row -->
-            <tableList
-              class="margin-top20"
-              :tableData="tableData"
-              :tableTitle="ruleTableTitle1_1"
-              @handleClickRow="handleCurrentChangeTable"
-              :tableLoading="loadingRule"
-              :index="true"
-              v-if="RsObject"
-              :selection="false"
-              border
-            >
+            <tableList class="margin-top20" :tableData="tableData" :tableTitle="ruleTableTitle1_1"
+              @handleClickRow="handleCurrentChangeTable" :tableLoading="loadingRule" :index="true" v-if="RsObject"
+              :selection="false" border>
               <template slot-scope="scope" slot="compensationPeriod">
                 <span>{{
                   scope.row.compensationPeriod == 'A'
-                    ? '年度'
-                    : scope.row.compensationPeriod == 'H'
+                  ? '年度'
+                  : scope.row.compensationPeriod == 'H'
                     ? '半年度'
                     : scope.row.compensationPeriod == 'Q'
-                    ? '季度'
-                    : scope.row.compensationPeriod == 'M'
-                    ? '月度'
-                    : ''
+                      ? '季度'
+                      : scope.row.compensationPeriod == 'M'
+                        ? '月度'
+                        : ''
                 }}</span>
               </template>
               <template slot-scope="scope" slot="thresholdCompensationLogic">
                 <span>{{
                   scope.row.thresholdCompensationLogic == 'A'
-                    ? '全额补差'
-                    : scope.row.thresholdCompensationLogic == 'B'
+                  ? '全额补差'
+                  : scope.row.thresholdCompensationLogic == 'B'
                     ? '超额补差'
                     : ''
                 }}</span>
               </template>
-              <template slot-scope="scope" slot="supplierId">
-                <span>{{ scope.row.supplierId }}</span
-                ><br />
+              <template slot-scope="scope" slot="sapCode">
+                <span>{{ scope.row.sapCode }}</span><br />
                 <span>{{ scope.row.supplierName }}</span>
+              </template>
+              <template slot-scope="scope" slot="materialCode">
+                <span>{{ scope.row.materialCode }}</span><br />
+                <span>{{ scope.row.materialName }}</span>
+              </template>
+              <template slot-scope="scope" slot="formalFlag">
+                <span>{{ scope.row.formalFlag == 'Y' ? '否' : '是' }}</span>
+              </template>
+              <template slot-scope="scope" slot="method">
+                <span>{{ scope.row.method == '1' ? '一次性补差' : scope.row.method == '2' ? '变价单补差' : '' }}</span>
+              </template>
+              <template slot-scope="scope" slot="partBalanceCountType">
+                <span>{{
+                  scope.row.partBalanceCountType == 'SYSTEM' ? '系统预读' : scope.row.partBalanceCountType == 'HANDWORK' ? '手工上传' : ''
+                }}</span>
+              </template>
+              <template slot-scope="scope" slot="avgPeriod">
+                <span>{{ scope.row.avgPeriod ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+              </template>
+              <template slot-scope="scope" slot="offsetMonth">
+                <span>{{ scope.row.offsetMonth ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
               </template>
             </tableList>
             <!-- 导出规则表格 -->
-            <tableList
-              class="margin-top20"
-              :tableData="tableData"
-              :tableTitle="ruleTableTitle1_1"
-              :tableLoading="loadingRule"
-              v-if="!RsObject && tableData.length > 0"
-              :index="true"
-              :selection="false"
-              border
-            >
-              <template slot-scope="scope" slot="supplierId">
-                <span>{{ scope.row.supplierId }}</span
-                ><br />
-                <span>{{ scope.row.supplierName }}</span>
-              </template>
+            <tableList class="margin-top20" :tableData="tableData" :tableTitle="ruleTableTitle1_1"
+              :tableLoading="loadingRule" v-if="!RsObject && tableData.length > 0" :index="true" :selection="false"
+              border>
+            
               <template slot-scope="scope" slot="compensationPeriod">
                 <span>{{
                   scope.row.compensationPeriod == 'A'
-                    ? '年度'
-                    : scope.row.compensationPeriod == 'H'
+                  ? '年度'
+                  : scope.row.compensationPeriod == 'H'
                     ? '半年度'
                     : scope.row.compensationPeriod == 'Q'
-                    ? '季度'
-                    : scope.row.compensationPeriod == 'M'
-                    ? '月度'
-                    : ''
+                      ? '季度'
+                      : scope.row.compensationPeriod == 'M'
+                        ? '月度'
+                        : ''
                 }}</span>
               </template>
+              <template slot-scope="scope" slot="materialCode">
+                <span>{{ scope.row.materialCode }}</span><br />
+                <span>{{ scope.row.materialName }}</span>
+              </template>
+              <template slot-scope="scope" slot="sapCode">
+                <span>{{ scope.row.sapCode }}</span><br />
+                <span>{{ scope.row.supplierName }}</span>
+              </template>
+              <template slot-scope="scope" slot="formalFlag">
+                <span>{{ scope.row.formalFlag == 'Y' ? '否' : '是' }}</span>
+              </template>
+              <template slot-scope="scope" slot="method">
+                <span>{{ scope.row.method == '1' ? '一次性补差' : scope.row.method == '2' ? '变价单补差' : '' }}</span>
+              </template>
+              <template slot-scope="scope" slot="partBalanceCountType">
+                <span>{{
+                  scope.row.partBalanceCountType == 'SYSTEM' ? '系统预读' : scope.row.partBalanceCountType == 'HANDWORK' ? '手工上传' : ''
+                }}</span>
+              </template>
+              <template slot-scope="scope" slot="avgPeriod">
+                <span>{{ scope.row.avgPeriod ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+              </template>
+              <template slot-scope="scope" slot="offsetMonth">
+                <span>{{ scope.row.offsetMonth ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
+              </template>
+            </tableList>
+            <tableList class="margin-top20" :tableData="tableData" :tableTitle="ruleTableTitle1_2"
+              :tableLoading="loadingRule" v-if="!RsObject && tableData.length > 0&& partTableListData.some((val)=>{if(val.platinumPrice) return true})" :index="true" :selection="false"
+              border>
             </tableList>
           </iCard>
           <div class="page-logo">
@@ -561,21 +605,19 @@
       <template v-for="(tableData, index) in partTableList">
         <div :key="index" class="page-item">
           <!-- class="content_dialog" -->
-          <div
-            v-if="
-              !RsObject &&
-              (formData.appStatus == '流转完成' || formData.appStatus == '定点')
-            "
-          ></div>
+          <div v-if="
+            !RsObject &&
+            (formData.appStatus == '流转完成' || formData.appStatus == '定点')
+          "></div>
+          
           <iCard class="upload_hr" :style="{ height: pdfItemHeight + 'px' }">
             <div slot="header" class="headBox">
               <p class="headTitle">{{ title }}</p>
+
               <!-- <div class="tabs_box_right"> -->
               <div class="tabs_box_right" v-if="meetingType">
                 <div class="big_text">
-                  <span class="samll_val"
-                    >{{ formData.mtzAppId }}-{{ formData.appName }}</span
-                  >
+                  <span class="samll_val">{{ formData.mtzAppId }}-{{ formData.appName }}</span>
                 </div>
                 <div class="small_text">
                   <!-- <span>{{language("SHENQINGRIQI","申请日期")}}：</span> -->
@@ -595,99 +637,119 @@
               </div>
             </div>
             <el-divider class="hr_divider" />
-
-            <div class="infor_futitle">
-              <span class="big_font">Regulation:</span>
-              <br />
-              <span class="big_font"
-                >MTZ Payment=(Effective Price-Base Price)*Raw Material
-                Weight*Settle accounts Quantity*Ratio</span
-              >
-              <span class="big_small"
-                >When:effective price > base price *(1+threshold)</span
-              >
+            <div class="centerBox">
+              <p>补差金额=零件结算数量 
+                *[原材料市场价 -原材料基价*(1+阈值 )]*原材料用量
+                 *补差系数
+              </p>
+              <p>MTZ Payment=Settle accounts Quantity*[Effective Price-Base Price(1+threshold)]*Raw Material Weight*Ratio
+              </p>
             </div>
 
-            <p class="tableTitle" v-if="RsObject">
+            <p class="tableTitle font20_b" v-if="RsObject">
               {{ language('LJQD', '零件清单') }}-Part List
             </p>
-            <p
-              class="tableTitle"
-              v-if="!RsObject && partTableListData.length > 0"
-            >
+            <p class="tableTitle font20_b" v-if="!RsObject && partTableListData.length > 0">
               {{ language('LJQD', '零件清单') }}-Part List
             </p>
-            <tableList
-              class="margin-top20 over_flow_y_ture"
-              :tableData="tableData"
-              :tableTitle="partTableTitle1_1"
-              :tableLoading="loadingPart"
-              v-if="RsObject"
-              :index="true"
-              :selection="false"
-              border
-            >
-              <template slot-scope="scope" slot="method">
-                <span>{{
-                  scope.row.method == '1' ? '一次性补差' : scope.row.method == '2' ? '变价单补差' : ''
-                }}</span>
-              </template>
+            <tableList class="margin-top20 over_flow_y_ture" :tableData="tableData" :tableTitle="partTableTitle1_1"
+              :tableLoading="loadingPart" v-if="RsObject" :index="true" :selection="false" border>
               <template slot-scope="scope" slot="compensationPeriod">
                 <span>{{
                   scope.row.compensationPeriod == 'A'
-                    ? '年度'
-                    : scope.row.compensationPeriod == 'H'
+                  ? '年度'
+                  : scope.row.compensationPeriod == 'H'
                     ? '半年度'
                     : scope.row.compensationPeriod == 'Q'
-                    ? '季度'
-                    : scope.row.compensationPeriod == 'M'
-                    ? '月度'
-                    : ''
+                      ? '季度'
+                      : scope.row.compensationPeriod == 'M'
+                        ? '月度'
+                        : ''
                 }}</span>
               </template>
               <!-- <template slot-scope="scope"
-                        slot="thresholdCompensationLogic">
-                <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
-              </template> -->
-              <template slot-scope="scope" slot="supplierId">
-                <span>{{ scope.row.supplierId }}</span
-                ><br />
+                                slot="thresholdCompensationLogic">
+                        <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
+                      </template> -->
+              <template slot-scope="scope" slot="sapCode">
+                <span>{{ scope.row.sapCode }}</span><br />
                 <span>{{ scope.row.supplierName }}</span>
               </template>
+                <template slot-scope="scope" slot="materialDoseSource">
+                  <span>{{
+                    scope.row.materialDoseSource ? materialDoseSourceList.find(val => val.code == scope.row.materialDoseSource).name : ''
+                  }}</span>
+                </template>
+                <template slot-scope="scope" slot="method">
+                  <span>{{ scope.row.method == '1' ? '一次性补差' : scope.row.method == '2' ? '变价单补差' : '' }}</span>
+                </template>
+                <template slot-scope="scope" slot="avgPeriod">
+                  <span>{{ scope.row.avgPeriod ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+                </template>
+                <template slot-scope="scope" slot="offsetMonth">
+                  <span>{{ scope.row.offsetMonth ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
+                </template>
             </tableList>
             <!-- 导出零件表格 -->
-            <tableList
-              class="margin-top20"
-              :tableData="tableData"
-              :tableTitle="partTableTitle1_1"
-              :tableLoading="loadingPart"
-              v-if="!RsObject && partTableListData.length > 0"
-              :index="true"
-              :selection="false"
-            >
-              <template slot-scope="scope" slot="method">
-                <span>{{
-                  scope.row.method == '2' ? '变价单补差' : '一次性补差'
-                }}</span>
-              </template>
-              <template slot-scope="scope" slot="supplierId">
-                <span>{{ scope.row.supplierId }}</span
-                ><br />
-                <span>{{ scope.row.supplierName }}</span>
-              </template>
+            <tableList border class="margin-top20" :tableData="tableData" :tableTitle="partTableTitle1_1"
+              :tableLoading="loadingPart" v-if="!RsObject && partTableListData.length > 0" :index="true"
+              :selection="false">
+          
               <template slot-scope="scope" slot="compensationPeriod">
                 <span>{{
                   scope.row.compensationPeriod == 'A'
-                    ? '年度'
-                    : scope.row.compensationPeriod == 'H'
+                  ? '年度'
+                  : scope.row.compensationPeriod == 'H'
                     ? '半年度'
                     : scope.row.compensationPeriod == 'Q'
-                    ? '季度'
-                    : scope.row.compensationPeriod == 'M'
-                    ? '月度'
-                    : ''
+                      ? '季度'
+                      : scope.row.compensationPeriod == 'M'
+                        ? '月度'
+                        : ''
+                }}</span>
+
+              </template>
+              <template slot-scope="scope" slot="sapCode">
+                <span>{{ scope.row.sapCode }}</span><br />
+                <span>{{ scope.row.supplierName }}</span>
+              </template>
+              <template slot-scope="scope" slot="materialDoseSource">
+                <span>{{
+                  scope.row.materialDoseSource ? materialDoseSourceList.find(val => val.code == scope.row.materialDoseSource).name : ''
                 }}</span>
               </template>
+
+              <template slot-scope="scope" slot="method">
+                <span>{{ scope.row.method == '1' ? '一次性补差' : scope.row.method == '2' ? '变价单补差' : '' }}</span>
+              </template>
+              <template slot-scope="scope" slot="avgPeriod">
+                <span>{{ scope.row.avgPeriod ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+              </template>
+              <template slot-scope="scope" slot="offsetMonth">
+                <span>{{ scope.row.offsetMonth ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
+              </template>
+            </tableList>
+            <tableList border class="margin-top20 " :tableData="tableData" :tableTitle="partTableTitle1_2"
+              :tableLoading="loadingPart" v-if="!RsObject && partTableListData.length > 0" :index="true"
+              :selection="false">
+              <template slot-scope="scope" slot="materialDoseSource">
+              <span>{{
+                scope.row.materialDoseSource ? materialDoseSourceList.find(val => val.code == scope.row.materialDoseSource).name : ''
+              }}</span>
+            </template>
+            <template slot-scope="scope" slot="method">
+              <span>{{ scope.row.method == '1' ? '一次性补差' : scope.row.method == '2' ? '变价单补差' : '' }}</span>
+            </template>
+            <template slot-scope="scope" slot="avgPeriod">
+              <span>{{ scope.row.avgPeriod ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+            </template>
+            <template slot-scope="scope" slot="offsetMonth">
+              <span>{{ scope.row.offsetMonth ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
+            </template>
+            </tableList>
+            <tableList border class="margin-top20 " :tableData="tableData" :tableTitle="partTableTitle1_3"
+              :tableLoading="loadingPart" v-if="!RsObject && partTableListData.length > 0 && partTableListData.some((val)=>{if(val.platinumPrice) return true})" :index="true"
+              :selection="false">
             </tableList>
           </iCard>
           <div class="page-logo">
@@ -704,12 +766,10 @@
       <template v-for="(remark, index) in remarkList">
         <div :key="index" class="page-item remarkCard">
           <!-- class="content_dialog" -->
-          <div
-            v-if="
-              !RsObject &&
-              (formData.appStatus == '流转完成' || formData.appStatus == '定点')
-            "
-          ></div>
+          <div v-if="
+            !RsObject &&
+            (formData.appStatus == '流转完成' || formData.appStatus == '定点')
+          "></div>
           <div :style="{ height: remarkPageHeight + 'px', background: '#fff' }">
             <iCard>
               <div slot="header" class="headBox">
@@ -717,17 +777,13 @@
                   {{ language('BEIZHU', '备注') }}-Remarks
                 </p>
                 <span class="buttonBox">
-                  <iButton
-                    v-if="
-                      RsObject &&
-                      (formData.appStatus == '草稿' ||
-                        formData.appStatus == '未通过') &&
-                      meetingNumber == 0
-                    "
-                    @click="handleClickSave($event)"
-                    v-permission="PORTAL_MTZ_POINT_JUECEDATA_BAOCUN"
-                    >{{ language('BAOCUN', '保存') }}</iButton
-                  >
+                  <iButton v-if="
+                    RsObject &&
+                    (formData.appStatus == '草稿' ||
+                      formData.appStatus == '未通过') &&
+                    meetingNumber == 0
+                  " @click="handleClickSave($event)" v-permission="PORTAL_MTZ_POINT_JUECEDATA_BAOCUN">{{
+  language('BAOCUN', '保存') }}</iButton>
                 </span>
               </div>
               <div class="beizhu-value">
@@ -736,15 +792,12 @@
                 </p>
               </div>
             </iCard>
-            <iCard
-              v-if="
-                isMeeting &&
-                applayDateData.length > 0 &&
-                !appPage &&
-                index == remarkList.length - 1
-              "
-              class="margin-top20"
-            >
+            <iCard v-if="
+              isMeeting &&
+              applayDateData.length > 0 &&
+              !appPage &&
+              index == remarkList.length - 1
+            " class="margin-top20">
               <div slot="header" class="headBox">
                 <p class="headTitle">
                   {{ language('SHENQINGRIQI', '申请日期') }}:{{
@@ -753,20 +806,12 @@
                 </p>
               </div>
               <div :class="RsObject ? 'applayDateBox' : 'applayDateBox1'">
-                <div
-                  class="applayDateContent"
-                  v-for="(item, index) in applayDateData"
-                  :key="index"
-                >
-                  <img
-                    class="margin-left5 applayDateIcon"
-                    :src="
-                      item.taskStatus === '同意'
-                        ? require('@/assets/images/icon/yes.png')
-                        : require('@/assets/images/icon/no.png')
-                    "
-                    :fit="fit"
-                  />
+                <div class="applayDateContent" v-for="(item, index) in applayDateData" :key="index">
+                  <img class="margin-left5 applayDateIcon" :src="
+                    item.taskStatus === '同意'
+                      ? require('@/assets/images/icon/yes.png')
+                      : require('@/assets/images/icon/no.png')
+                  " :fit="fit" />
                   <div class="applayDateContentItem first_one">
                     <span>部门：</span>
                     <span class="applayDateDeptTitle">{{
@@ -798,17 +843,12 @@
       </template>
       <div v-if="appPage" class="page-item remarkCard">
         <!-- class="content_dialog" -->
-        <div
-          v-if="
-            !RsObject &&
-            (formData.appStatus == '流转完成' || formData.appStatus == '定点')
-          "
-        ></div>
+        <div v-if="
+          !RsObject &&
+          (formData.appStatus == '流转完成' || formData.appStatus == '定点')
+        "></div>
         <div :style="{ height: remarkPageHeight + 'px', background: '#fff' }">
-          <iCard
-            v-if="isMeeting && applayDateData.length > 0"
-            class="margin-top20"
-          >
+          <iCard v-if="isMeeting && applayDateData.length > 0" class="margin-top20">
             <div slot="header" class="headBox">
               <p class="headTitle">
                 {{ language('SHENQINGRIQI', '申请日期') }}:{{
@@ -817,20 +857,12 @@
               </p>
             </div>
             <div :class="RsObject ? 'applayDateBox' : 'applayDateBox1'">
-              <div
-                class="applayDateContent"
-                v-for="(item, index) in applayDateData"
-                :key="index"
-              >
-                <img
-                  class="margin-left5 applayDateIcon"
-                  :src="
-                    item.taskStatus === '同意'
-                      ? require('@/assets/images/icon/yes.png')
-                      : require('@/assets/images/icon/no.png')
-                  "
-                  :fit="fit"
-                />
+              <div class="applayDateContent" v-for="(item, index) in applayDateData" :key="index">
+                <img class="margin-left5 applayDateIcon" :src="
+                  item.taskStatus === '同意'
+                    ? require('@/assets/images/icon/yes.png')
+                    : require('@/assets/images/icon/no.png')
+                " :fit="fit" />
                 <div class="applayDateContentItem first_one">
                   <span>部门：</span>
                   <span class="applayDateDeptTitle">{{
@@ -862,13 +894,8 @@
     </div>
     <!-- loading -->
     <div class="percentage-box" id="pdfHide" v-if="loading">
-      <el-progress
-        :percentage="percentage"
-        type="circle"
-        color="#1660f1"
-        :show-text="false"
-        stroke-width="15"
-      ></el-progress>
+      <el-progress :percentage="percentage" type="circle" color="#1660f1" :show-text="false"
+        stroke-width="15"></el-progress>
       <div class="percentage-text">
         {{ percentageText }}{{ point }}{{ percentage }}
       </div>
@@ -877,33 +904,28 @@
     <div class="pdf-containr">
       <div ref="pdf-containr" class="page-item"></div>
     </div>
-    <signExport
-      v-if="
-        RsObject &&
-        formData.flowTypeName == '流转' &&
-        !(
-          formData.appStatus == '流转完成' ||
-          formData.appStatus == '定点' ||
-          formData.appStatus == '未通过'
-        )
-      "
-      :formData="formData"
-      :applayDateData="applayDateDataAll"
-      :ruleTableListData="ruleTableListData"
-      :partTableListData="partTableListData"
-      @changeStatus="changeStatus"
-      ref="signExport"
-      style="overflow: hidden; height: 0"
-    />
+    <signExport v-if="
+      RsObject &&
+      formData.flowTypeName == '流转' &&
+      !(
+        formData.appStatus == '流转完成' ||
+        formData.appStatus == '定点' ||
+        formData.appStatus == '未通过'
+      )
+    " :formData="formData" :applayDateData="applayDateDataAll" :ruleTableListData="ruleTableListData"
+      :partTableListData="partTableListData" @changeStatus="changeStatus" ref="signExport"
+      style="overflow: hidden; height: 0" />
   </div>
 </template>
 
 <script>
-import { iCard, icon, iInput, iButton, iMessage, iPagination } from 'rise'
-import { formList } from './data'
+import { iText,iCard, icon, iInput, iButton, iMessage, iPagination } from 'rise'
+import { formList, avgPeriodList, offsetList, materialDoseSourceList } from './data'
 import signExport from './signExport.vue'
-import tableList from '@/components/commonTable/index.vue'
-import { ruleTableTitle1_1, partTableTitle1_1 } from './data'
+import tableList from './commonTable/index.vue'
+import { partTableTitle1_3,ruleTableTitle1_1, ruleTableTitle1_all, partTableTitle1_1, partTableTitle1_all, ruleTableTitle1_2, partTableTitle1_2 } from './data'
+import iTooltip from "../../applyInfor/iTooltip";
+import { tipList } from '../../applyInfor/data'
 import {
   getAppFormInfo,
   pageAppRule,
@@ -913,12 +935,14 @@ import {
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageApprove } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/approve'
 import { pageMixins } from '@/utils/pageMixins'
-import { downloadPDF, dataURLtoFile, transverseDownloadPDF } from '@/utils/pdf'
+import { downloadPDF , dataURLtoFile, transverseDownloadPDF } from '@/utils/pdf'
 import JsPDF from 'jspdf'
 import html2canvas from 'html2canvas'
 export default {
   mixins: [pageMixins],
   components: {
+    iText,
+    iTooltip,
     iCard,
     icon,
     iInput,
@@ -936,8 +960,19 @@ export default {
   inject: ['pageTitle'],
   data() {
     return {
+      avgPeriodList,
+      offsetList,
+      materialDoseSourceList,
+      isruleTitle2: false,
+      isruleTitle1: false,
+      tipList,
       formData: {},
       formList,
+      partTableTitle1_3,
+      partTableTitle1_2,
+      ruleTableTitle1_2,
+      partTableTitle1_all,
+      ruleTableTitle1_all,
       ruleTableTitle1_1,
       partTableTitle1_1,
       ruleTableListData: [],
@@ -945,7 +980,7 @@ export default {
       loadingRule: false,
       loadingPart: false,
       applayDateData: [],
-      applayDateDataAll:[],
+      applayDateDataAll: [],
       RsObject: true,
       moment: window.moment,
       meetingNumber: Number(this.$route.query.meeting) || 0,
@@ -961,7 +996,7 @@ export default {
       remarkPageHeight: 0,
       percentageText: '下载中，请稍后',
       remarkList: [[]],
-      exportLoading:true
+      exportLoading: true
     }
   },
   watch: {
@@ -973,22 +1008,44 @@ export default {
         this.$nextTick(() => {
           this.computedRemark()
         })
-    }
+    },
+    // partTableListData:{
+    //   handler(val){
+    //     if(val.length){
+    //       this.$nextTick(() => {
+    //         this.computedPartTableHeight()
+    //       })
+    //     }
+    //   },
+    //   deep:true,
+    //   immediate:true
+    // },
+    // ruleTableListData:{
+    //   handler(val){
+    //     if(val.length){
+    //       this.$nextTick(() => {
+    //         this.computedRuleTableHeight()
+    //       })
+    //     }
+    //   },
+    //   deep:true,
+    //   immediate:true
+    // },
   },
   created() {
     if (this.RsType) {
       this.RsObject = false
     }
+
     this.initApplayDateData()
     this.getAppFormInfo()
     this.getPageAppRule()
     this.getPagePartMasterData()
     this.getApprove()
     this.$nextTick(() => {
-      console.log('dom渲染完成')
       // 可以使用回调函数的写法
       // 这个函数中DOM必定渲染完成
-      this.exportLoading=false
+      this.exportLoading = false
     })
   },
   computed: {
@@ -1042,7 +1099,7 @@ export default {
   },
   methods: {
     // 获取审批节点
-    getApprove () {
+    getApprove() {
       let params = {
         isDeptLead: true,
         mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
@@ -1101,7 +1158,7 @@ export default {
     handleCurrentChangeTable(e) {
       this.clickRulesNumber = 1
       this.loadingPart = true
-      this.exportLoading=true
+      this.exportLoading = true
 
       var list = {
         mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
@@ -1114,7 +1171,7 @@ export default {
           this.partTableListData = res.data
           this.clickRulesNumber = 0
           this.loadingPart = false
-          this.exportLoading=false
+          this.exportLoading = false
         } else iMessage.error(res.desZh)
       })
     },
@@ -1133,7 +1190,7 @@ export default {
           if (res && res.code == 200) {
             this.partTableListData = res.data
             this.loadingPart = false
-            this.exportLoading=false
+            this.exportLoading = false
 
           } else iMessage.error(res.desZh)
         })
@@ -1166,7 +1223,6 @@ export default {
         // waterMark: true,
         title: ['#tabsBoxTitle .cardHeader'], //顶部页眉dom节点
         callback: async (pdf, pdfName) => {
-          console.log(pdf)
           try {
             loading.close()
             const filename = pdfName.replaceAll(/\./g, '_') + '.pdf'
@@ -1245,45 +1301,7 @@ export default {
           })
         })
     },
-    computedRuleTableHeight() {
-      let rowList =
-        this.$refs['moviesTable']?.$el.getElementsByClassName('table-row') || []
-      let pageWidth = this.$refs.tabsBoxTitle?.$el.clientWidth || 0
-      let cardTitle =
-        this.$refs.tabsBoxTitle.$el.getElementsByClassName('cardHeader')[0]
-          .clientHeight
-      let ruleTableTitle = this.$refs.ruleTableTitle.offsetHeight
-      this.pageHeight = (pageWidth / 841.89) * 595.28
-      let ruleTableHeader =
-        this.$refs['moviesTable']?.$el.getElementsByClassName(
-          'ruleTableHeader'
-        )[0].offsetHeight || 0
-      let pageNumHeight = this.$refs.pageNum.offsetHeight // 页码高度
-      let sumHeight = 0
-      let arr = []
-      let tableList = []
-      this.pdfItemHeight = this.pageHeight - pageNumHeight
-      rowList.forEach((item, i) => {
-        sumHeight += item.clientHeight
-        // ruleTableHeader 表头高度
-        if (
-          sumHeight >
-          this.pageHeight -
-            ruleTableTitle -
-            cardTitle -
-            ruleTableHeader -
-            pageNumHeight
-        ) {
-          tableList.push(arr)
-          sumHeight = item.clientHeight
-          arr = [this.ruleTableListData[i]]
-        } else {
-          arr.push(this.ruleTableListData[i])
-        }
-      })
-      if (arr.length) tableList.push(arr)
-      this.ruleTableList = tableList
-    },
+
     // 获取零件清单表格数据
     getPagePartMasterData() {
       var list = {}
@@ -1298,6 +1316,7 @@ export default {
         .then((res) => {
           if (res && res.code == 200) {
             this.partTableListData = res.data
+         
           } else iMessage.error(res.desZh)
         })
         .finally(() => {
@@ -1306,15 +1325,24 @@ export default {
           })
         })
     },
-
+    openPageMarket(row){
+      let routeUrl = this.$router.resolve({
+        path: '/mtz/dataBase/marketPriceEnquiry',
+        query: {
+          materialCode: row.materialCode,
+        },
+      })
+      window.open(routeUrl.href, '_blank')
+    },
     computedPartTableHeight() {
       let rowList =
-        this.$refs['partTable']?.$el.getElementsByClassName('part-table-row') ||
-        []
+        [...this.$refs['partTable']?.$el.getElementsByClassName('part-table-row') ||
+        []]
+        console.log(rowList)
       let partTableHeader =
         this.$refs['partTable']?.$el.getElementsByClassName(
           'partTableHeader'
-        )[0].offsetHeight || 0
+        )[0]?.offsetHeight || 0
       let cardTitle =
         this.$refs.tabsBoxTitle.$el.getElementsByClassName('cardHeader')[0]
           .clientHeight
@@ -1327,7 +1355,7 @@ export default {
       let pageNumHeight = this.$refs.pageNum.offsetHeight // 页码高度
       this.pdfItemHeight = this.pageHeight - pageNumHeight
       rowList.forEach((item, i) => {
-        sumHeight += item.clientHeight
+        sumHeight += item.clientHeight*3
         if (
           sumHeight >
           this.pageHeight -
@@ -1337,7 +1365,7 @@ export default {
             pageNumHeight
         ) {
           tableList.push(arr)
-          sumHeight = item.clientHeight
+          sumHeight = item.clientHeight*3
           arr = [this.partTableListData[i]]
         } else {
           arr.push(this.partTableListData[i])
@@ -1345,6 +1373,50 @@ export default {
       })
       if (arr.length) tableList.push(arr)
       this.partTableList = tableList
+      console.log(this.partTableList )
+    },
+    computedRuleTableHeight() {
+      let rowList =
+        [...this.$refs['moviesTable']?.$el.getElementsByClassName('table-row') || []
+      ]
+      let pageWidth = this.$refs.tabsBoxTitle?.$el.clientWidth || 0
+      let cardTitle =
+        this.$refs.tabsBoxTitle.$el.getElementsByClassName('cardHeader')[0]
+          .clientHeight
+      let ruleTableTitle = this.$refs.ruleTableTitle.offsetHeight
+      this.pageHeight = (pageWidth / 841.89) * 595.28
+      let ruleTableHeader =
+        this.$refs['moviesTable']?.$el.getElementsByClassName(
+          'ruleTableHeader'
+        )[0].offsetHeight || 0
+      let pageNumHeight = this.$refs.pageNum.offsetHeight // 页码高度
+      let sumHeight = 0
+      let arr = []
+      let tableList = []
+      let rowHeight=0
+      this.pdfItemHeight = this.pageHeight - pageNumHeight
+      rowList.forEach((item, i) => {
+        rowHeight=item.clientHeight*2
+        sumHeight += rowHeight
+
+        // ruleTableHeader 表头高度
+        if (
+          sumHeight >
+          this.pageHeight -
+          ruleTableTitle -
+          cardTitle -
+          ruleTableHeader -
+          pageNumHeight
+        ) {
+          tableList.push(arr)
+          sumHeight = item.clientHeight*2
+          arr = [this.ruleTableListData[i]]
+        } else {
+          arr.push(this.ruleTableListData[i])
+        }
+      })
+      if (arr.length) tableList.push(arr)
+      this.ruleTableList = tableList
     },
     // 点击保存
     handleClickSave(el) {
@@ -1363,7 +1435,7 @@ export default {
         } else iMessage.error(res.desZh)
       })
     },
-    changeStatus(val){
+    changeStatus(val) {
       // this.exportLoading = val
     },
     // 导出会外流转单
@@ -1380,6 +1452,28 @@ export default {
     // 导出pdf
     handleExportPdf(name) {
       this.loading = true
+      // setTimeout(async () => {
+      //   this.$nextTick(async () => {
+      //     downloadPDF({
+      //     idEle: "pdfPage-box",
+      //     pdfName: name,
+      //     exportPdf: true,
+      //     waterMark: true,
+      //     callback: async (pdf, pdfName) => {
+      //       try {
+      //         loading.close()
+      //         const filename = pdfName.replaceAll(/\./g, '_') + ".pdf";
+      //         const pdfFile = pdf.output("datauristring");
+      //         const blob = dataURLtoFile(pdfFile, filename);
+      //         this.loading = false
+      //       } catch {
+      //         this.loading = false
+      //         // iMessage.error(this.language('SHENGCHENGSHIBAI', '生成失败'));
+      //       }
+      //     },
+      //   });
+      //   })
+      // }, 200)
       console.time('截图')
       this.fileList = []
       let elList = this.$refs['pdfPage-box'].getElementsByClassName('page-item')
@@ -1397,6 +1491,7 @@ export default {
           this.pdf = new JsPDF('l', 'pt', 'a4', true) //l横向打印，p纵向打印 true=>开启压缩
           for (let i = 0; i < this.pageLength; i++) {
             const el = elList[i]
+            console.log(el)
             await this.getPdfImage({
               dom: el,
               j: i
@@ -1415,9 +1510,8 @@ export default {
       const el = this.$refs['pdf-containr']
       console.time(`img${j}`)
       // canvas 不能通过innerHTML渲染
-      dom.getElementsByClassName('pageNum')[0].innerHTML = `page ${j + 1} of ${
-        this.pageLength
-      }`
+      dom.getElementsByClassName('pageNum')[0].innerHTML = `page ${j + 1} of ${this.pageLength
+        }`
       el.innerHTML = dom.innerHTML
       await html2canvas(el, {
         allowTaint: true,
@@ -1444,7 +1538,7 @@ export default {
           var contentHeight = canvas.height //
           var imgWidth = 841.89
           var imgHeight = (841.89 / contentWidth) * contentHeight
-          let pageData = canvas.toDataURL('image/jpeg', 0.5) //压缩倍率
+          let pageData = canvas.toDataURL('image/jpeg', 1) //压缩倍率
           if (j != 0) this.pdf.addPage()
           this.pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight)
           console.timeEnd(`img${j}`)
@@ -1462,16 +1556,66 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.titleHeader{
+  display: flex;
+  flex-wrap: wrap;
+ 
+}
+.itext{
+  background:transparent!important;
+}
+
+::v-deep.el-form .el-table .cell  {
+  // font-size: 18px!important;
+ 
+ 
+}
+::v-deep.el-table td div {
+  line-height: normal !important;
+  // font-size: 18px!important;
+}
+::v-deep.el-form .el-table .cell span{
+  line-height: normal !important;
+  // font-size: 18px!important;
+
+}
+.font18{
+  font-size: 18px;
+}
+.font20_b{
+  font-size: 20px;
+  font-weight: bold;
+}
+.font18_b{
+  font-size: 18px;
+  font-weight: bold;
+}
+::v-deep.el-button--default{
+  font-size: 20px!important;
+}
+.centerBox {
+  margin: 20px 0;
+
+  p {
+    font-size: 18px;
+  }
+}
+
 #tabsBoxTitle,
 .computed {
   ::v-deep .cardBody {
     padding-bottom: 0;
   }
 }
+
 $tabsInforHeight: 35px;
 
 ::v-deep .cardHeader {
   padding: 1.875rem 1.5625rem 0 2.4rem !important;
+}
+
+::v-deep.el-button--mini.is-circle {
+  padding: 3px 4px;
 }
 
 .tableTitle {
@@ -1479,8 +1623,9 @@ $tabsInforHeight: 35px;
   font-family: Arial;
   color: #000000;
   opacity: 1;
-  font-size: 18px;
+  font-size: 20px;
 }
+
 .table_right {
   display: inline-block;
   font-family: Arial;
@@ -1489,11 +1634,13 @@ $tabsInforHeight: 35px;
   width: 100%;
   text-align: end;
 }
+
 .headBox {
   position: relative;
   justify-content: space-between;
   width: 100%;
   display: flex;
+
   .headTitle {
     display: inline-block;
     font-weight: bold;
@@ -1501,28 +1648,33 @@ $tabsInforHeight: 35px;
     color: #000000;
     opacity: 1;
   }
+
   .buttonBox {
     position: absolute;
     right: 13px;
   }
 }
+
 .applayDateBox1 {
   display: flex;
   align-items: center;
   flex-flow: wrap;
   margin-top: 20px;
 }
+
 .applayDateBox {
   overflow-x: scroll;
   margin: 20px 0;
   padding-bottom: 20px;
   white-space: nowrap;
 }
+
 .applayDateIcon {
   width: 33px;
   height: 33px;
   margin-top: 10px;
 }
+
 .applayDateContentItem {
   width: 100%;
   display: flex;
@@ -1530,13 +1682,16 @@ $tabsInforHeight: 35px;
   margin-top: 12px;
   padding: 0 20px;
   font-size: 16px;
+
   .applayDateDeptTitle {
     font-weight: bold;
   }
 }
+
 .first_one {
   margin-top: 30px !important;
 }
+
 .applayDateContent {
   display: inline-block;
   background-color: #cdd4e2;
@@ -1547,11 +1702,33 @@ $tabsInforHeight: 35px;
   text-align: center;
 }
 
+.formStyle {
+  position: relative;
+
+}
+
+.btn{
+  display:inline-block;
+    text-align:center;
+    line-height:20px;
+    width:20px;
+    height:20px;
+    font-size:14px;
+    background-color:#1763f7;
+    color:white;
+    border-radius:50%;
+    position: absolute;
+    right: -10px;
+    top: 10px;
+    z-index: 100;
+  }
+
 .tabsBoxInfor {
   margin-bottom: 10px;
   display: flex;
   flex-flow: wrap;
   justify-content: space-between;
+
   .inforDiv {
     width: 29%;
     display: flex;
@@ -1559,9 +1736,11 @@ $tabsInforHeight: 35px;
     justify-content: space-between;
     margin-top: 0;
     margin-bottom: 20px;
+
     span {
       font-size: 15px;
     }
+
     .inforText {
       font-size: 14px;
       padding: 10px 10px;
@@ -1573,6 +1752,7 @@ $tabsInforHeight: 35px;
     }
   }
 }
+
 .download_btn {
   width: 100%;
   display: flex;
@@ -1580,6 +1760,7 @@ $tabsInforHeight: 35px;
   padding-top: 10px;
   padding-bottom: 20px;
 }
+
 .content_dialog {
   width: 100%;
   height: 100%;
@@ -1604,6 +1785,7 @@ $tabsInforHeight: 35px;
     }
   }
 }
+
 .over_flow_y_ture {
   ::v-deep .el-table__body-wrapper {
     max-height: 300px;
@@ -1615,30 +1797,38 @@ $tabsInforHeight: 35px;
   padding: 0.5rem 0;
   font-size: 15px !important;
   line-height: 25px;
+
   .big_font {
     font-weight: bold;
   }
+
   .big_small {
     padding-left: 15px;
   }
 }
+
 .hr_divider {
   margin: 0 1.5rem 0 0;
 }
+
 .tabs_box_right {
   height: 40px;
+
   .samll_title {
     width: 80px;
   }
+
   div {
     display: flex;
     align-items: flex-start;
     margin-right: 20px;
   }
+
   span {
     display: inline-block;
     font-size: 15px !important;
   }
+
   .small_text {
     float: left;
   }
@@ -1651,28 +1841,33 @@ $tabsInforHeight: 35px;
 }
 
 ::v-deep .el-form-item__content {
-  line-height: 20px !important;
+  line-height: 0px !important;
 }
+
 .pdf-containr {
   width: 100%;
   height: 0;
   overflow: hidden;
   position: absolute;
+
   ::v-deep .cardBody {
     padding-top: 0px !important;
   }
 }
+
 .pdfPage-box {
   position: absolute;
   width: 100%;
-  height: 0px;
-  overflow: hidden;
+  // height: 0px;
+  // overflow: hidden;
+
   ::v-deep .card {
     .cardBody {
       padding: 0 40px;
     }
   }
 }
+
 .page-item {
   width: 100%;
   position: relative;
@@ -1692,6 +1887,7 @@ $tabsInforHeight: 35px;
   z-index: 99999;
   background: rgba(255, 255, 255, 0.8);
 }
+
 .percentage-text {
   margin-top: 10px;
   font-size: 16px;
@@ -1706,12 +1902,13 @@ $tabsInforHeight: 35px;
   align-items: center;
   border-top: 1px solid #666;
 }
+
 .padding-bottom30 {
   padding-bottom: 30px;
 }
+
 .remarkCard {
   ::v-deep .card {
     box-shadow: none;
   }
-}
-</style>
+}</style>

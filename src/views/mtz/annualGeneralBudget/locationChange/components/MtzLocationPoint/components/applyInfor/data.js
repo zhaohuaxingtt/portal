@@ -18,7 +18,65 @@ export const tabsInforList = [
     tooltipStyle: 'bottom'
   }
 ]
-
+export const methodList=[
+  { code: '1', name: '一次性补差',  },
+  { code: '2', name: '变价单补差',  },
+]
+export const partBalanceCountTypeList=[
+  { code: 'SYSTEM', name: '系统预读',  },
+  { code: 'HANDWORK', name: '手工上传',  },
+]
+export const materialDoseSourceList=[
+  { code: 'BLUEPRINT', name: '图纸',  },
+  { code: 'WEIGH', name: '称重',  },
+  { code: 'CONVENTION', name: '约定',  },
+]
+export const avgPeriodList = [
+  { code: '1', name: '一月',  },
+  { code: '2', name: '二月',  },
+  { code: '3', name: '三月',  },
+  { code: '4', name: '四月',  },
+  { code: '6', name: '六月',  },
+  { code: '12', name: '十二月',  },
+  { code: '0', name: '补差时间段内均值',  },
+]
+export const offsetList = [
+  { code: '1', name: '1个月',  },
+  { code: '2', name: '2个月',  },
+  { code: '3', name: '3个月',  },
+  { code: '4', name: '4个月',  },
+  { code: '5', name: '5个月',  },
+  { code: '6', name: '6个月',  },
+  { code: '7', name: '7个月',  },
+  { code: '8', name: '8个月',  },
+  { code: '9', name: '9个月',  },
+  { code: '10', name: '10个月',  },
+  { code: '11', name: '11个月',  },
+  { code: '12', name: '12个月',  },
+  { code: '0', name: '0个月',  },
+  { code: '-1', name: '-1个月',  },
+  { code: '-2', name: '-2个月',  },
+  { code: '-3', name: '-3个月',  },
+  { code: '-4', name: '-4个月',  },
+  { code: '-5', name: '-5个月',  },
+  { code: '-6', name: '-6个月',  },
+  { code: '-7', name: '-7个月',  },
+  { code: '-8', name: '-8个月',  },
+  { code: '-9', name: '-9个月',  },
+  { code: '-10', name: '-10个月',  },
+  { code: '-11', name: '-11个月',  },
+  { code: '-12', name: '-12个月',  },
+]
+export const tipList = [
+  '<div>一般供应商：SAP系统读取</div><div>特殊供应商（VWPT等）：手工上传</div>',
+  '<div>贵金属：点价单</div><div>非贵金属：上海有色金属网</div>',
+  '与供应商约定的原材料基准价格',
+  '当市场价>（1+阈值）*基价或市场价<(1-阈值)*基价时，自动计算出补差结果<div>超额补差：只补超出阈值部分</div><div>全额补差：补市场价超出基价的部分</div>',
+  '原材料在单位零件中的重量',
+  '补差计算中的比例系数',
+  '全年原材料市场价按均值计算周期等分。例：均值计算周期为3个月时，1-3月市场价均为1-3月的市场价均值',
+  '市场价取值与本月的偏移量，例：计算偏移量为-1，计算3月补差金额时取2月市场价'
+]
 export const tableTitle = [
   {
     width: 100,
@@ -166,10 +224,17 @@ export const continueBox = [
   { width: 100, props: 'ruleNo', name: '规则编号', key: 'GUIZEBIANHAO' },
   {
     width: 120,
+    props: 'ruleVersion',
+    name: '版本编号',
+    key: '版本编号'
+  },
+  {
+    width: 120,
     props: 'sapCode',
     name: '供应商编号',
     key: 'GONGYINGSHANGBIANHAO'
   },
+
   {
     width: 160,
     props: 'supplierName',
@@ -424,7 +489,7 @@ export const tableTitleHistory = [
 ]
 
 export const formRulesGZ = {
-  effectFlag: [{ required: true, message: '请选择', trigger: 'blur' }],
+  // effectFlag: [{ required: true, message: '请选择', trigger: 'blur' }],
   materialGroup: [{ required: true, message: '请选择', trigger: 'blur' }], //MTZ-材料组
   carline: [{ required: true, message: '请选择', trigger: 'blur' }], //车型
 
@@ -435,9 +500,9 @@ export const formRulesGZ = {
   // price:[{required: true, message: '请输入', trigger: 'blur'}],//基价
   // priceMeasureUnit:[{required: true, message: '请输入', trigger: 'blur'}],//基价计量单位
 
-  tcCurrence: [{ required: true, message: '请输入', trigger: 'blur' }], //货币
+  // tcCurrence: [{ required: true, message: '请输入', trigger: 'blur' }], //货币
   tcExchangeRate: [{ required: true, message: '请输入', trigger: 'blur' }], //汇率
-  source: [{ required: true, message: '请输入', trigger: 'blur' }], //市场价来源
+  // source: [{ required: true, message: '请输入', trigger: 'blur' }], //市场价来源
   compensationRatio: [
     //补差系数
     { required: true, message: '请输入', trigger: 'blur' },
@@ -452,7 +517,7 @@ export const formRulesGZ = {
       trigger: 'blur'
     }
   ],
-  compensationPeriod: [{ required: true, message: '请选择', trigger: 'blur' }], //补差周期
+  // compensationPeriod: [{ required: true, message: '请选择', trigger: 'blur' }], //补差周期
   threshold: [
     //阈值
     { required: true, message: '请输入', trigger: 'blur' },
@@ -473,10 +538,35 @@ export const formRulesGZ = {
   ],
   thresholdCompensationLogic: [
     { required: true, message: '请选择', trigger: 'blur' }
-  ] //阈值补差逻辑
+  ], //阈值补差逻辑
+  startDate:[{required: true, message: '请选择', trigger: 'blur'}],//有效期起
+  endDate:[{required: true, message: '请选择', trigger: 'blur'}],//有效期止
+  substrateImpDuty: [
+    { required: false, message: '请选择', trigger: 'blur' },
+    { pattern:/^(\-|\+)?\d+(\.\d+)?$/, message: '请输入数字', trigger: 'blur' },
+  ], 
+  substrateHandling: [
+    { required: false, message: '请选择', trigger: 'blur' },
+    { pattern:/^(\-|\+)?\d+(\.\d+)?$/, message: '请输入数字', trigger: 'blur' },
+  ], 
+  pgmHandling: [
+    { required: false, message: '请选择', trigger: 'blur' },
+    { pattern:/^(\-|\+)?\d+(\.\d+)?$/, message: '请输入数字', trigger: 'blur' },
+  ], 
+  manufacture: [
+    { required: false, message: '请选择', trigger: 'blur' },
+    { pattern:/^(\-|\+)?\d+(\.\d+)?$/, message: '请输入数字', trigger: 'blur' },
+  ], 
+  transport: [
+    { required: false, message: '请选择', trigger: 'blur' },
+    { pattern:/^(\-|\+)?\d+(\.\d+)?$/, message: '请输入数字', trigger: 'blur' },
+  ], 
 
-  // startDate:[{required: true, message: '请选择', trigger: 'blur'}],//有效期起
-  // endDate:[{required: true, message: '请选择', trigger: 'blur'}],//有效期止
+  substrateExw: [
+    { required: false, message: '请选择', trigger: 'blur' },
+    { pattern:/^(\-|\+)?\d+(\.\d+)?$/, message: '请输入数字', trigger: 'blur' },
+  ], 
+ 
 }
 
 export const partNumberTitle = [
