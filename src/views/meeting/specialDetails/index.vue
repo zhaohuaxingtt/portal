@@ -1398,16 +1398,21 @@ export default {
     },
     lookThemen(themen) {
       if (themen.type == 'MANUAL') {
-        this.topicInfo = themen
-        this.openAddTopic = true
-        this.openDialog('openTopicLookDialog')
+        // this.topicInfo = themen
+        // this.openAddTopic = true
+        // this.openDialog('openTopicLookDialog')
+        
+        window.open(
+            `/portal/#/meeting/previewCSC?route=force&desinateId=${themen.fixedPointApplyId}&isPreview=1&type=${themen.type}&id=${this.$route.query.id}&rowId=${themen.id}`,
+            '_blank'
+          )
       } else if (!themen.isBreak) {
         this.editOrAdd = 'look'
         this.lookThemenObj = themen
         if (themen.source === '04') {
           if (themen.type === 'FS+MTZ') {
             window.open(
-              `/portal/#/meeting/previewCSC?route=force&desinateId=${themen.fixedPointApplyId}&isPreview=1&type=${themen.type}&id=${this.$route.query.id}`,
+              `/portal/#/meeting/previewCSC?route=force&desinateId=${themen.fixedPointApplyId}&isPreview=1&type=${themen.type}&id=${this.$route.query.id}&rowId=${themen.id}`,
               '_blank'
             )
             // window.open(
@@ -1431,7 +1436,7 @@ export default {
           )
         } else {
             window.open(
-              `/portal/#/meeting/previewCSC?route=force&desinateId=${themen.fixedPointApplyId}&isPreview=1&type=${themen.type}&id=${this.$route.query.id}`,
+              `/portal/#/meeting/previewCSC?route=force&desinateId=${themen.fixedPointApplyId}&isPreview=1&type=${themen.type}&id=${this.$route.query.id}&rowId=${themen.id}`,
               '_blank'
             )
             // window.open(
@@ -2273,9 +2278,6 @@ export default {
     },
     displayShow() {
       let routeUrl = this.$router.resolve({
-        // path:
-        //   this.meetingInfo.meetingTypeName == 'Pre CSC' ||
-        //   this.meetingInfo.meetingTypeName == 'CSC'
         path:
           this.meetingInfo.isPreCSC || this.meetingInfo.isCSC
             ? '/meeting/meetingShow' //新页面

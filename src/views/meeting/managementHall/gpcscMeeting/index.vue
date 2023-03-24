@@ -126,260 +126,6 @@
           @batchAdjustment="batchAdjustment"
         />
         <div class="table-container">
-          <!-- 原来meeting -->
-          <!-- <iTableML
-            :height="'32.125rem'"
-            tooltip-effect="light"
-            @selectionChange="handleSelectionChange"
-            :loading="tableLoading"
-            :data="tableData"
-            @go-detail="handleGoDetail"
-            v-if="!showUpdateTopicButtonList"
-            :rowClassName="tableRowClassName"
-            :currentRow="currentRow"
-            :isSingle="isSingle"
-            ref="hiddenColumnTable"
-          >
-            <el-table-column
-              type="selection"
-              align="center"
-              min-width="40"
-            ></el-table-column>
-            <el-table-column align="center" label="#" width="23">
-              <template slot-scope="scope">
-                <span style="span-index">{{ scope.$index + 1 }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column
-              show-overflow-tooltip
-              align="center"
-              label="Time"
-              min-width="136"
-              prop="time"
-              sortable
-            >
-              <template slot-scope="scope">
-                <span class="open-link-text">{{ scope.row.time }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column
-              show-overflow-tooltip
-              align="center"
-              label="Present Items"
-              min-width="198"
-            >
-              <template slot-scope="scope">
-                <span
-                  class="open-link-text look-themen-click inline"
-                  @click="lookThemen(scope.row)"
-                  >{{ scope.row.topic }}</span
-                >
-              </template>
-            </el-table-column>
-            <el-table-column
-              show-overflow-tooltip
-              align="center"
-              label="Type"
-              min-width="75"
-              prop="type"
-            >
-              <template slot-scope="scope">
-                {{
-                  scope.row.isBreak
-                    ? '-'
-                    : scope.row.type === 'MANUAL'
-                    ? '手工议题'
-                    : scope.row.type
-                }}
-              </template>
-            </el-table-column>
-            <el-table-column
-              show-overflow-tooltip
-              align="center"
-              label="State"
-              min-width="75"
-            >
-              <template slot-scope="scope">
-                {{ stateObj[scope.row.state] }}
-              </template>
-            </el-table-column>
-            <el-table-column
-              show-overflow-tooltip
-              align="center"
-              label="Result"
-              min-width="59"
-            >
-              <template slot-scope="scope">
-                <span>{{
-                  scope.row.isBreak
-                    ? '-'
-                    : themenConclusion[scope.row.conclusionCsc]
-                }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column
-              show-overflow-tooltip
-              align="center"
-              label="EP"
-              min-width="65"
-              prop="ep"
-              sortable
-            >
-              <template slot-scope="scope">
-                <span>{{ scope.row.isBreak ? '-' : scope.row.ep }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column
-              show-overflow-tooltip
-              align="center"
-              label="Sourcing"
-              min-width="115"
-              prop="supporter"
-              sortable
-            >
-              <template slot-scope="scope">
-                <span>{{ scope.row.isBreak ? '-' : scope.row.supporter }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column
-              show-overflow-tooltip
-              align="center"
-              label="Linie"
-              min-width="82"
-              prop="presenter"
-              sortable
-            >
-              <template slot-scope="scope">
-                <span>{{ scope.row.isBreak ? '-' : scope.row.presenter }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column
-              show-overflow-tooltip
-              align="center"
-              label="Commodity"
-              min-width="90"
-              prop="presenterDept"
-            >
-              <template slot-scope="scope">
-                <span>{{
-                  scope.row.isBreak ? '-' : scope.row.presenterDept
-                }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column
-              show-overflow-tooltip
-              align="center"
-              label="Duration"
-              min-width="86"
-              prop="duration"
-            >
-              <template slot-scope="scope">
-                <div
-                  class="open-link-text open-clink-back-text"
-                  @click="recallTheThemen(scope.row)"
-                  v-if="scope.row.state === '04'"
-                >
-                  <div class="open-text-text-choice"></div>
-                </div>
-                <span class="open-link-text" v-else>{{
-                  scope.row.duration
-                }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column
-              show-overflow-tooltip
-              align="center"
-              label="Sourcing No."
-              min-width="119"
-              prop="sourcingNo"
-              label-class-name="can-hideen"
-            >
-              <template slot-scope="scope">
-                <span>{{
-                  scope.row.isBreak ? '-' : scope.row.sourcingNo
-                }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column
-              show-overflow-tooltip
-              align="center"
-              label="TNR"
-              min-width="60"
-              prop="tnr"
-              label-class-name="can-hideen"
-            >
-              <template slot-scope="scope">
-                <span>{{ scope.row.isBreak ? '-' : scope.row.tnr }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column
-              show-overflow-tooltip
-              align="center"
-              label="BEN(CN)"
-              width="89"
-              prop="benCn"
-              label-class-name="can-hideen"
-            >
-              <template slot-scope="scope">
-                <span>{{ scope.row.isBreak ? '-' : scope.row.benCn }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column
-              show-overflow-tooltip
-              align="center"
-              label="BEN(DE)"
-              width="88"
-              prop="benDe"
-              label-class-name="can-hideen"
-            >
-              <template slot-scope="scope">
-                <span>{{ scope.row.isBreak ? '-' : scope.row.benDe }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column
-              show-overflow-tooltip
-              align="center"
-              label="Status"
-              min-width="74"
-            >
-              <template slot-scope="scope">
-                <span v-if="scope.row.isBreak">-</span>
-                <span v-else
-                  >{{ scope.row.cscCount ? scope.row.cscCount : 0 }}/{{
-                    scope.row.preCount ? scope.row.preCount : 0
-                  }}</span
-                >
-              </template>
-            </el-table-column>
-            <el-table-column
-              show-overflow-tooltip
-              align="center"
-              label="Carline"
-              min-width="62"
-              prop="carline"
-              label-class-name="can-hideen"
-            >
-              <template slot-scope="scope">
-                <span>{{ scope.row.isBreak ? '-' : scope.row.carline }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column
-              show-overflow-tooltip
-              align="center"
-              label="Part Type"
-              min-width="110"
-              prop="partType"
-              label-class-name="can-hideen"
-            >
-              <template slot-scope="scope">
-                <span v-if="scope.row.isBreak">-</span>
-                <span class="open-link-text" v-else>{{
-                  scope.row.partType
-                }}</span>
-              </template>
-            </el-table-column>
-          </iTableML> -->
-          <!-- 我的 -->
           <iTableML
             :height="'32.125rem'"
             tooltip-effect="light"
@@ -1144,6 +890,7 @@ import { download } from '@/utils/downloadUtil'
 import enclosure from '@/assets/images/enclosure.svg'
 // import newSummaryDialogNew from '@/views/meeting/home/components/newSummaryDialogNew.vue'
 import newSummaryDialogNew from './component/newSummaryDialogNew.vue'
+import treeVue from '@/views/params/tree.vue'
 
 export default {
   mixins: [pageMixins],
@@ -1610,49 +1357,6 @@ export default {
       this.editNewSummary = true
       this.receiverId = this.meetingInfo?.receiverId
       this.openDialog('openNewSummaryDialogNew')
-    },
-    lookMeetingMinutes() {
-      this.editNewSummary = false
-      this.openDialog('openNewSummaryDialog')
-    },
-    lookThemen(themen) {
-      if (themen.type == 'MANUAL') {
-        this.topicInfo = themen
-        this.openAddTopic = true
-        this.openDialog('openTopicLookDialog')
-      } else if (!themen.isBreak) {
-        this.editOrAdd = 'look'
-        this.lookThemenObj = themen
-        if (themen.source === '04') {
-          if (themen.type === 'FS+MTZ') {
-            window.open(
-              `${this.processUrl}/designate/decisiondata/mtz?desinateId=${themen.fixedPointApplyId}&isPreview=1`,
-              '_blank'
-            )
-          } else if (themen.type === 'MTZ') {
-            window.open(
-              `${this.processUrlPortal}/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/decisionMaterial?meeting=1&currentStep=3&mtzAppId=${themen.fixedPointApplyId}`,
-              '_blank'
-            )
-          }else if (themen.type === 'CSF') {
-          window.open(
-            `${this.processUrlGpPortal}/myCscDetails/${themen.fixedPointApplyId}?current=3`,
-            '_blank'
-          )
-        } else {
-            window.open(
-              `${this.processUrl}/designate/decisiondata/title?desinateId=${themen.fixedPointApplyId}&isPreview=1`,
-              '_blank'
-            )
-          }
-        } else {
-          this.openDialog('openAddTopicNewDialog')
-        }
-      } else {
-        this.editOrAdd = 'look'
-        this.lookThemenObj = themen
-        this.openDialog('openAddRestDialog')
-      }
     },
     closeDialogTopic() {
       this.openAddTopic = false
@@ -2550,147 +2254,25 @@ export default {
     handleDeleteOrNot(curObj) {
       let bol = true
       if (curObj.state === '03') {
-        // //全部置灰
-        // if (curObj.type === "MANUAL" || curObj.type === "FS+MTZ") {
-        //   this.handleButtonDisabled(["protectResult"], false);
-        //   if (curObj.taskCsc) {
-        //     this.handleButtonDisabled(["lookResult"], false);
-        //   }
-        // }
-        // if (curObj.type === "FS+MTZ") {
-        //   this.handleButtonDisabled(
-        //     [
-        //       "bePending",
-        //       "fixedPoint",
-        //       "translateCSC",
-        //       "nextPreCSC",
-        //       "senLol",
-        //       "translateTer",
-        //       "freezeRsBill",
-        //       "closeResult",
-        //       "lookResult",
-        //     ],
-        //     false
-        //   );
-        // }
         bol = true
       } else if (curObj.state === '02') {
-        bol = true
-        // this.handleButtonDisabled(this.handleDisabledButtonName, true);
-        // this.handleStartTopicButtonDisabled(["startTopic"], true);
-        // this.handleButtonDisabled(["overTopic"], false);
-        // this.handleButtonDisabled(["editTopic"], false);
-        //
+        bol = treeVue
       } else {
-        // this.handleButtonDisabled(handleDisabledButtonName, false);
-        // this.handleStartTopicButtonDisabled(["startTopic"], false);
-        // this.handleButtonDisabled(["overTopic"], true);
         if (curObj.isBreak) {
-          // this.handleButtonDisabled(["deleteTopAll"], false);
-          // if (this.meetingType === "03" || this.meetingType === "04") {
-          //   this.handleButtonDisabled(["editTopic"], false);
-          // }
-          // this.handleStartTopicButtonDisabled(["startTopic"], false);
           bol = false
         } else {
           if (curObj.type === 'MANUAL') {
             bol = false
           }
           if (curObj.type === 'FS+MTZ') {
-            // this.handleButtonDisabled(["updateDate", "split"], false);
-          } else {
-            // this.handleButtonDisabled(["updateDate"], false);
           }
-          // this.handleStartTopicButtonDisabled(["startTopic"], false);
           if (!curObj.type) {
-            // this.handleButtonDisabled(["deleteTopAll"], false);
             bol = false
           }
         }
       }
       return bol
     },
-    // // 表格选中值集
-    // handleSelectionChange(val) {
-    //   this.selectedTableData = val;
-    //   const handleDisabledButtonName = this.handleDisabledButtonName;
-    //   if (val.length === 1) {
-    //     if (val[0].state === "03") {
-    //       //全部置灰
-    //       if (val[0].type === "MANUAL" || val[0].type === "FS+MTZ") {
-    //         this.handleButtonDisabled(["protectResult"], false);
-    //         if (val[0].conclusionCsc) {
-    //           this.handleButtonDisabled(["lookResult"], false);
-    //         }
-    //       }
-    //       if (val[0].type === "FS+MTZ") {
-    //         this.handleButtonDisabled(
-    //           [
-    //             "bePending",
-    //             "fixedPoint",
-    //             "translateCSC",
-    //             "nextPreCSC",
-    //             "senLol",
-    //             "translateTer",
-    //             "freezeRsBill",
-    //             "closeResult",
-    //             "lookResult",
-    //           ],
-    //           false
-    //         );
-    //       }
-    //       if (!val[0].isBreak) {
-    //         this.handleButtonDisabled(["protectResult"], false);
-    //       }
-    //     } else if (val[0].state === "02") {
-    //       this.handleButtonDisabled(handleDisabledButtonName, true);
-    //       this.handleStartTopicButtonDisabled(["startTopic"], true);
-    //       this.handleButtonDisabled(["overTopic"], false);
-    //       // this.handleButtonDisabled(["editTopic"], false);
-    //       //
-    //     } else {
-    //       // this.handleButtonDisabled(handleDisabledButtonName, false);
-    //       // this.handleStartTopicButtonDisabled(["startTopic"], false);
-    //       // this.handleButtonDisabled(["overTopic"], true);
-    //       if (val[0].isBreak) {
-    //         this.handleButtonDisabled(["deleteTopAll"], false);
-    //         if (this.meetingType === "03" || this.meetingType === "04") {
-    //           this.handleButtonDisabled(["editTopic"], false);
-    //         }
-    //         this.handleStartTopicButtonDisabled(["startTopic"], false);
-    //       } else {
-    //         if (val[0].type === "MANUAL") {
-    //           this.handleButtonDisabled(handleDisabledButtonName, false);
-    //           this.handleStartTopicButtonDisabled(["startTopic"], false);
-    //           this.handleButtonDisabled(["split"], true);
-    //         }
-    //         if (val[0].type === "FS+MTZ") {
-    //           this.handleButtonDisabled(["updateDate", "split"], false);
-    //         } else {
-    //           this.handleButtonDisabled(["updateDate"], false);
-    //         }
-    //         this.handleStartTopicButtonDisabled(["startTopic"], false);
-    //         if (!val[0].type) {
-    //           this.handleButtonDisabled(["deleteTopAll"], false);
-    //         }
-    //       }
-    //     }
-    //   } else {
-    //     this.handleButtonDisabled(handleDisabledButtonName, true);
-    //     this.handleStartTopicButtonDisabled(["startTopic"], true);
-    //     this.handleButtonDisabled(["overTopic"], true);
-    //     if (val.length > 1) {
-    //       let bol = val.every((item) => {
-    //         // return item.state === "01" && val[0].type !== "FS+MTZ";
-    //         return !this.handleDeleteOrNot(item);
-    //       });
-    //       if (bol) {
-    //         this.handleButtonDisabled(["deleteTopAll"], false);
-    //       }
-    //     }
-    //   }
-    //   this.tableButtonList = this.currentButtonList.tableButtonList;
-    // },
     // 表格选中值集
     handleSelectionChange(val) {
       console.log(val)
@@ -2907,19 +2489,10 @@ export default {
       } else if (row.type == 'MANUAL') {
         iMessage.error('该议题为临时议题')
       } else {
-        let num = null
-        if (row.documentType == '13') {
-          num = 1
-        } else {
-          num = 3
-        }
-        const documentTypeList = ['14', '15']
-        if (documentTypeList.includes(row.documentType)) {
-          window.open(`${process.env.VUE_APP_HOST}/gp-portal/#/auditChangeDetail/${row.fixedPointApplyId}?current=${1}`)
-          } else {
-            window.open(`${process.env.VUE_APP_HOST}/gp-portal/#/myCscDetails/${row.fixedPointApplyId}?current=${num}`)
-
-          }
+        window.open(
+          `/portal/#/meeting/previewCSC?project=GP&documentType=${row.documentType}&fixedPointApplyId=${row.fixedPointApplyId}&id=${this.$route.query.id}&rowId=${row.id}`,
+          '_blank'
+        )
       }
     }
   }

@@ -102,6 +102,13 @@ export function mtzDel(parmars) {
   })
 }
 
+export function getPartBalanceCountType(parmars) {
+  //零件数量类型
+  return request({
+    url: '/mtzAppNomi/getPartBalanceCountType?sapCode='+parmars,
+    method: 'GET',
+  })
+}
 export function getAppFormInfo(parmars) {
   //mtz申请单信息
   return request({
@@ -110,14 +117,22 @@ export function getAppFormInfo(parmars) {
     data: parmars
   })
 }
+export function getFirstRuleByNos(data) {
+  //根据规则编号查询版本为1的规则信息
+  return request({
+    url: '/mtzAppNomi/getFirstRuleByNos',
+    method: 'POST',
+    data
+  })
+}
 
 export function modifyAppFormInfo(parmars) {
   //mtz申请单信息-编辑
-  return request({
+    return request({
     url: '/mtzAppNomi/modifyAppFormInfo',
     method: 'POST',
     data: parmars
-  })
+    })
 }
 
 export function pageAppRule(parmars) {
@@ -301,7 +316,14 @@ export function addBatchAppRule(params) {
     data: params
   })
 }
-
+export function upAppRule(params) {
+  //维护MTZ原材料规则-批量升版
+  return request({
+    url: '/mtzAppNomi/upAppRule',
+    method: 'POST',
+    data: params
+  })
+}
 export function addBatchPartMasterData(params) {
   //维护MTZ零件主数据-新增多条
   return request({
@@ -533,7 +555,14 @@ export function downloadError(params) {//导出错误信息
   })
 }
 
-
+export function transferNomi(parmars) {
+  //mtz转派
+  return request({
+    url: '/mtzNomiList/transferNomi',
+    method: 'POST',
+    data: parmars
+  })
+}
 export function getNominateAppIdList(parmars) {//关联单号下拉
   return request({
     url: '/mtzNomiList/getNominateAppIdList',

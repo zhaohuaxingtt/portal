@@ -196,6 +196,9 @@ export default {
     }
   },
   mounted () {
+    if(this.$route.query.materialCode){
+      this.formData.materialCode=this.$route.query.materialCode
+    }
     this.getMtzPage()
     this.getMtzMarketSourceList()
     this.getMtzMarketTypeList()

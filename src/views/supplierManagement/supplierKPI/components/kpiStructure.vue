@@ -214,6 +214,7 @@ export default {
                     lv3Weight+=Math.floor(100 * 100) / 100
                 }
             })
+            console.log(lv3Weight)
             if(lv1Weight!==100){
                 return this.$message({
                     type:'error',

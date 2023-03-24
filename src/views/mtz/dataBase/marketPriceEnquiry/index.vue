@@ -24,6 +24,11 @@ export default {
         return {
             isShowTabs:true
         }
+    },
+    created(){
+        if(this.$route.query.materialCode){
+            this.isShowTabs=false
+        }
     }
 }
 </script>

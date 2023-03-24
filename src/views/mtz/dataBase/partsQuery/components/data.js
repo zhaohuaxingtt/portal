@@ -413,6 +413,13 @@ export const tableSetting = [
     i18n: '运输费用',
     width: 150
   },
+  {
+    prop: 'scale',
+    label: '二次件供应商比例',
+    align: 'center',
+    i18n: '二次件供应商比例',
+    width: 150
+  },
   
 ]
 
