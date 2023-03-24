@@ -533,7 +533,14 @@ export function downloadError(params) {//导出错误信息
   })
 }
 
-
+export function transferNomi(parmars) {
+  //mtz转派
+  return request({
+    url: '/mtzNomiList/transferNomi',
+    method: 'POST',
+    data: parmars
+  })
+}
 export function getNominateAppIdList(parmars) {//关联单号下拉
   return request({
     url: '/mtzNomiList/getNominateAppIdList',
