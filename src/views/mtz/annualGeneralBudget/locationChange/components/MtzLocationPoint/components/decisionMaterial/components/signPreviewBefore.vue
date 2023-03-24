@@ -38,18 +38,28 @@
           </div>
         </div>
         <el-divider class="hr_divider" />
-        <div class="infor_futitle">
-          <span class="big_font">Regulation:</span>
-          <br />
-          <span class="big_font">MTZ Payment=(Effective Price-Base Price)*Raw Material Weight*Settle accounts Quantity*Ratio</span>
-          <span class="big_small">When:effective price > base price *(1+threshold)</span>
-        </div>
+        <div  class="centerBox">
+            <p>补差金额=零件结算数量 <iTooltip :txtInfo="tipList[0]" :num="'1'"></iTooltip>
+              *[原材料市场价<iTooltip :txtInfo="tipList[1]" :num="'2'"></iTooltip> -原材料基价<iTooltip :txtInfo="tipList[2]"
+                :num="'3'">
+              </iTooltip> *(1+阈值<iTooltip :txtInfo="tipList[3]" :num="'4'"></iTooltip> )]*原材料用量
+              <iTooltip :txtInfo="tipList[4]" :num="'5'"></iTooltip> *补差系数<iTooltip :txtInfo="tipList[5]" :num="'6'">
+              </iTooltip>
+            </p>
+            <p>MTZ Payment=Settle accounts Quantity*[Effective Price-Base Price(1+threshold)]*Raw Material Weight*Ratio
+            </p>
+          </div>
 
         <p class="tableTitle">{{language('GUIZEQINGDAN', '规则清单')}}-Regulation</p>
+        <div class="margin-top20 formStyle">
+          <!-- <div  class="btn ">
+            <span type="primary" size="mini" circle @click="isruleTitle1=!isruleTitle1">{{isruleTitle1?'-':'+'}}</span>
+          </div> -->
           <tableList
+            border
             class="margin-top20"
             :tableData="ruleTableListData"
-            :tableTitle="ruleTableTitle1_1"
+            :tableTitle="ruleTableTitle1_all"
             @handleClickRow="handleCurrentChangeTable"
             :tableLoading="loadingRule"
             :index="true"
@@ -66,13 +76,41 @@
               <span>{{scope.row.sapCode}}</span><br/>
               <span>{{scope.row.supplierName}}</span>
             </template>
+            <template slot-scope="scope" slot="materialCode">
+              <span>{{ scope.row.materialCode }}</span><br />
+              <span>{{ scope.row.materialName }}</span>
+            </template>
+            <template slot-scope="scope" slot="formalFlag">
+              <span>{{ scope.row.formalFlag == 'Y' ? '否' : '是' }}</span>
+            </template>
+            <template slot-scope="scope" slot="method">
+              <span>{{ scope.row.method == '1' ? '一次性补差' : scope.row.method == '2' ? '变价单补差' : '' }}</span>
+            </template>
+            <template slot-scope="scope" slot="partBalanceCountType">
+              <span>{{
+                scope.row.partBalanceCountType == 'SYSTEM' ? '系统预读' : scope.row.partBalanceCountType == 'HANDWORK' ? '手工上传' : ''
+              }}</span>
+            </template>
+            <template slot-scope="scope" slot="avgPeriod">
+              <span>{{ scope.row.avgPeriod ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+            </template>
+            <template slot-scope="scope" slot="offset">
+              <span>{{ scope.row.offset ? offsetList.find(val => val.code == scope.row.offset).name : '' }}</span>
+            </template>
           </tableList>
+        </div>
+
         <el-divider class="margin-top20"/>
         <p class="tableTitle">{{language('LJQD', '零件清单')}}-Part List</p>
+        <div class="margin-top20 formStyle">
+          <!-- <div  class="btn ">
+            <span type="primary" size="mini" circle @click="isruleTitle2=!isruleTitle2">{{isruleTitle2?'-':'+'}}</span>
+          </div> -->
           <tableList
+          border
             class="margin-top20 over_flow_y_ture"
             :tableData="partTableListData"
-            :tableTitle="partTableTitle1_1"
+            :tableTitle="partTableTitle1_all"
             :tableLoading="loadingPart"
             :index="true"
             :selection="false"
@@ -88,7 +126,26 @@
               <span>{{scope.row.sapCode}}</span><br/>
               <span>{{scope.row.supplierName}}</span>
             </template>
+            <template slot-scope="scope" slot="materialCode">
+              <span>{{ scope.row.materialCode }}</span><br />
+              <span>{{ scope.row.materialName }}</span>
+            </template>
+            <template slot-scope="scope" slot="materialDoseSource">
+              <span>{{
+                scope.row.materialDoseSource ? materialDoseSourceList.find(val => val.code == scope.row.materialDoseSource).name : ''
+              }}</span>
+            </template>
+            <template slot-scope="scope" slot="method">
+              <span>{{ scope.row.method == '1' ? '一次性补差' : scope.row.method == '2' ? '变价单补差' : '' }}</span>
+            </template>
+            <template slot-scope="scope" slot="avgPeriod">
+              <span>{{ scope.row.avgPeriod ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+            </template>
+            <template slot-scope="scope" slot="offset">
+              <span>{{ scope.row.offset ? offsetList.find(val => val.code == scope.row.offset).name : '' }}</span>
+            </template>
           </tableList>
+        </div>
       </iCard>
       <iCard class="margin-top20">
         <div slot="header"
@@ -142,15 +199,19 @@
 
 <script>
 import { iCard, icon, iInput, iButton, iMessage, iPagination,iDialog } from 'rise'
-import { formList } from './data'
+import { formList, avgPeriodList, offsetList, materialDoseSourceList } from './data'
 import tableList from '@/components/commonTable/index.vue'
-import { ruleTableTitle1_1,partTableTitle1_1} from './data'
+import { ruleTableTitle1_1,partTableTitle1_1,ruleTableTitle1_all,partTableTitle1_all} from './data'
 import { getAppFormInfo, pageAppRule, pagePartMasterData,approvalList } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
 import signPreview from "./signPreview";
+import iTooltip from "../../applyInfor/iTooltip";
+import { tipList } from '../../applyInfor/data'
+
 export default {
   mixins: [pageMixins],
   components: {
+    iTooltip,
     iCard,
     icon,
     iInput,
@@ -165,8 +226,16 @@ export default {
   },
   data () {
     return {
+      tipList:[],
+      avgPeriodList,
+      offsetList,
+      materialDoseSourceList,
       formData: {},
       formList,
+      partTableTitle1_all,
+      ruleTableTitle1_all,
+      isruleTitle1:false,
+      isruleTitle2:false,
       ruleTableTitle1_1,
       partTableTitle1_1,
       ruleTableListData: [],
@@ -204,6 +273,7 @@ export default {
     this.getPagePartMasterData()
   },
   computed: {
+   
     mtzObject(){
       return this.$store.state.location.mtzObject;
     },
@@ -232,6 +302,13 @@ export default {
     }
   },
   methods: {
+    clickn(){
+      this.$nextTick(()=>{
+        this.isruleTitle1=true
+
+      })
+      console.log(this.isruleTitle1)
+    },
     handleCurrentChangeTable(e){
       this.clickRulesNumber = 1;
       this.loadingPart = true;
@@ -349,6 +426,25 @@ $tabsInforHeight: 35px;
   overflow-y:auto;
   background:white!important;
 }
+.formStyle {
+  position: relative;
+
+}
+.btn{
+  display:inline-block;
+    text-align:center;
+    line-height:20px;
+    width:20px;
+    height:20px;
+    font-size:14px;
+    background-color:#1763f7;
+    color:white;
+    border-radius:50%;
+    position: absolute;
+    right: -10px;
+    top: 10px;
+    z-index: 100;
+  }
 .sign_swap{
   width:100%;
   height:100%;
@@ -388,6 +484,9 @@ $tabsInforHeight: 35px;
   margin-top: 10px;
   width:33px;
   height:33px;
+}
+::v-deep.el-button--mini.is-circle{
+  padding: 3px 4px;
 }
 .applayDateContentItem {
   width: 100%;
@@ -457,7 +556,13 @@ $tabsInforHeight: 35px;
   }
 }
 
+.centerBox {
+  margin: 20px 0;
 
+  p {
+    font-size: 16px;
+  }
+}
 
 .tabs_box_right{
   .samll_title{
