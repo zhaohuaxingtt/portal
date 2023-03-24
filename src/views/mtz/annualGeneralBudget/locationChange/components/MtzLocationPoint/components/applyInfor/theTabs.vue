@@ -32,6 +32,12 @@
           >{{ language('YANYONG', '沿用') }}</iButton
         >
         <iButton
+          @click="upRuleBtn"
+          v-permission="PORTAL_MTZ_POINT_INFOR_GZ_YANYONG"
+          v-if="!editType && isEditNew"
+          >{{ language('升版', '升版') }}</iButton
+        >
+        <iButton
           @click="delecte"
           v-permission="PORTAL_MTZ_POINT_INFOR_DEL"
           v-if="!editType && isEditNew"
