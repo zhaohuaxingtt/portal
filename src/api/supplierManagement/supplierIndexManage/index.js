@@ -12,6 +12,22 @@ export function getHistoryPbi(parmars) {
     data: parmars
   })
 }
+// 获取供应商kpi概念
+export function getPerformanceKpiOverViewPbi(parmars) {
+  return requst({
+    url: '/supplierPerformanceKpi/getPerformanceKpiOverViewPbi',
+    method: 'POST',
+    data: parmars
+  })
+}
+// 获取供应商kpi任务
+export function getPerformanceKpiPbi(parmars) {
+  return requst({
+    url: '/supplierPerformanceKpi/getPerformanceKpiPbi',
+    method: 'POST',
+    data: parmars
+  })
+}
 // 获取历史部门综合评分
 export function getHistoryDeptSynthesisPbi(parmars) {
   return requst({

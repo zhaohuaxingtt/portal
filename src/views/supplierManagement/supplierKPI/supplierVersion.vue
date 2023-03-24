@@ -70,11 +70,11 @@
           }}</span>
         </template>
         <template #status="scope">
-          <!-- <span>{{
+          <span>{{
             scope.row.status != null
               ? statusList.find((val) => val.code == scope.row.status).name
               : ''
-          }}</span> -->
+          }}</span>
         </template>
         <template #caozuo="scope">
           <iButton
@@ -86,7 +86,7 @@
           </iButton>
           <iButton
             v-if="DateDiffer(scope.row.endDate) >= 0"
-            v-permission="SUPPLIER_WORKBENCH_SUPPLIERBERSION_DEL"
+            v-permission="SUPPLIER_WORKBENCH_SUPPLIERBERSION_YANQI"
             type="text"
             @click="longTime(scope.row)"
             >延期
