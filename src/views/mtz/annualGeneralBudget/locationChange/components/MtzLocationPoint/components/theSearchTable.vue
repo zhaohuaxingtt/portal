@@ -177,6 +177,11 @@
         <span class="table-title">详情列表</span>
         <div class="opration">
           <iButton
+            @click="transferBtn"
+            v-permission="PORTAL_MTZ_POINT_DONGJIE"
+            >{{ $t('LK_ZHUANPAI') }}</iButton
+          >
+          <iButton
             @click="handleClickMtzFreeze"
             v-permission="PORTAL_MTZ_POINT_DONGJIE"
             >{{ language('DONGJIE', '冻结') }}</iButton
@@ -310,11 +315,36 @@
         @handleSubmitRecall="handleSubmitRecall"
       ></MtzClose>
     </iDialog>
+    <el-dialog
+      :title="$t('LK_ZHUANPAI') "
+      :visible.sync="transferDialog"
+      width="30%"
+      :before-close="handleCloseTransfer"
+    >
+    <span>用户：</span>
+      <iSelect
+      style="width:200px"
+        :placeholder="$t('LK_QINGXUANZE')"
+        v-model="transferUserId"
+        clearable
+      >
+        <el-option
+          :value="item.userId"
+          :label="item.userName"
+          v-for="item in transferUserList"
+          :key="item.userId"
+        />
+      </iSelect>
+      <span slot="footer" class="dialog-footer">
+        <iButton @click="handleConfirmTransfer" >{{ $t('LK_QUEREN') }}</iButton>
+         </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import {
+  iSelect,
   iInput,
   iSearch,
   iMessage,
@@ -328,13 +358,16 @@ import {
 } from 'rise'
 import buttonTableSetting from 'rise/web/components/buttonTableSetting'
 import { tableSortMixins } from 'rise/web/components/iTableSort/tableSortMixins'
+import { getTransferUsers } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/approve'
+
 import tableList from '@/components/commonTable/index.vue'
 import { tableTitle, tableTitle1 } from './data'
 import MtzClose from './MtzClose'
 import inputCustom from '@/components/inputCustom'
 import {
   getRawMaterialNos,
-  getDeptAndBuyerByMtzNomi
+  getDeptAndBuyerByMtzNomi,
+  
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details'
 import { pageMixins } from '@/utils/pageMixins'
 // import store from "@/store";
@@ -353,12 +386,14 @@ import {
   getDeptLimitLevel,
   getMtzGenericAppId,
   getCurrentUser,
-  getNominateAppIdList
+  getNominateAppIdList,
+  transferNomi
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { page } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/firstDetails'
 export default {
   name: 'theSearchTable',
   components: {
+    iSelect,
     iSearch,
     iInput,
     iDatePicker,
@@ -386,7 +421,9 @@ export default {
       //     }
       //   }]
       // },
-
+      transferUserId:'',
+      transferUserList:[],
+      transferDialog: false,
       mtzReasonShow: false,
       searchForm: {
         mtzAppId: [],
@@ -649,6 +686,58 @@ export default {
     // 选中table数据
     handleSelectionChange(val) {
       this.selection = val
+    },
+    isEditNew (val) {
+      const appStatusArr=['草稿','已提交','未通过','通过','复核未通过','M退回']
+      console.log(val)
+      console.log(appStatusArr.indexOf(val.appStatusDesc))
+      return (val.appStatusDesc== '草稿' || val.appStatusDesc == '未通过')||(((val.flowType=='SIGN'||val.flowType=='FILING')&&val.appStatusDesc=='已提交')||(appStatusArr.indexOf(val.appStatusDesc)>0&&val.flowType=="MEETING"))
+    }, 
+    handleConfirmTransfer(){
+      const req={
+        appIdList: this.selection.map(val=>val.id),
+        userId:this.transferUserId,
+        nameZh:this.transferUserList.find(val=>val.userId==this.transferUserId).userName
+      }
+      transferNomi(req).then(res=>{
+        if(res.code==200){
+            this.init()
+            iMessage.success('转派成功')
+            this.transferDialog = false
+          }else{
+            iMessage.error(res.desZh)
+          }
+      })
+    },
+    handleCloseTransfer(){
+      this.transferUserId=''
+      this.transferDialog=false
+    },
+    transferBtn() {
+      if (this.selection.length == 0) {
+        return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
+      }
+      getTransferUsers().then(res=>{
+         if(res.code==200){
+          this.transferUserList=res.data
+            this.selection.every(val=>{
+              if (
+                this.isEditNew(val)
+              ) {
+                this.transferDialog=true
+              } else {
+                iMessage.error(
+                  "上会：草稿、已提交、未通过、通过、复核未通过、M退回,流转&备案：已提交、草稿未、未通过状态下可转派"
+                )
+                return  false
+              }
+            })
+          }else{
+              iMessage.error(res.desZh)
+        }
+      })
+
+
     },
     // 冻结
     handleClickMtzFreeze() {

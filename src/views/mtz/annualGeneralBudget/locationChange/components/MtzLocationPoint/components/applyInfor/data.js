@@ -574,3 +574,4 @@ export const partNumberTitle = [
   { props: 'partNameZh', name: '零件名（中）', key: 'LK_LINGJIANMINGZHONG' },
   { props: 'partNameDe', name: '零件名（德）', key: 'LK_LINGJIANMINGDE' }
 ]
+

@@ -682,7 +682,7 @@ export default {
       await this.getUserSubPurchaseGroup()
   
       this.$nextTick(() => {
-        this.query()
+        // this.query()
       })
       getMtzSupplierList({}).then((res) => {
         if (res.code === '200') {

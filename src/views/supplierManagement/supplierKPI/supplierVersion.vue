@@ -42,13 +42,12 @@
     </iSearch>
     <iCard style="margin-top: 20px">
       <template #header-control>
-        <!-- <iButton @click="initiate">供应商导入模板下载</iButton> -->
         <!-- <iButton @click="update">CS科室打分权重设置</iButton>
           <iButton @click="exportFile">定时规则设置</iButton> -->
         <iButton
           v-permission="SUPPLIER_WORKBENCH_SUPPLIERBERSION_ADD"
           @click="addVersion"
-          >创建版本</iButton
+          >{{$t('CHUANGJIANBANBEN')}}</iButton
         >
       </template>
       <tableList
@@ -82,15 +81,16 @@
             v-permission="SUPPLIER_WORKBENCH_SUPPLIERBERSION_DEL"
             type="text"
             @click="delRow(scope.row)"
-            >删除
+            >{{$t('delete')}}
           </iButton>
           <iButton
             v-if="DateDiffer(scope.row.endDate) >= 0"
-            v-permission="SUPPLIER_WORKBENCH_SUPPLIERBERSION_DEL"
+            v-permission="SUPPLIER_WORKBENCH_SUPPLIERBERSION_YANQI"
             type="text"
             @click="longTime(scope.row)"
             >延期
           </iButton>
+          <iButton   type="text" @click="edit(scope.row)">{{$t('LK_BIANJI')}}</iButton>
         </template>
       </tableList>
       <iPagination
@@ -103,11 +103,13 @@
         :layout="page.layout"
         :current-page="page.currPage"
         :total="page.totalCount"
+        @handleSelectionChange="handleSelectionChangePage"
       />
     </iCard>
     <iDialog
+    v-if="addVersionDiolog"
       append-to-body
-      :title="$t('创建绩效版本')"
+      :title="form.id?$t('编辑绩效版本'):$t('创建绩效版本')"
       :visible.sync="addVersionDiolog"
       width="60%"
       @close="clearDiolog"
@@ -124,7 +126,7 @@
         :label-position="'left'"
         label-width="120px"
       >
-        <el-form-item v-if="active == 0 || active == 3" :label="$t('标题：')">
+        <el-form-item v-if="active == 0 || active == 3" :label="$t('标题')">
           <i-input
             style="width: 200px"
             :placeholder="$t('partsprocure.PLEENTER')"
@@ -135,7 +137,7 @@
 
         <el-form-item
           v-if="active == 0 || active == 3"
-          :label="$t('数据日期：')"
+          :label="$t('数据日期')"
         >
           <el-date-picker
             style="width: 200px"
@@ -148,7 +150,7 @@
         </el-form-item>
         <el-form-item
           v-if="active == 0 || active == 3"
-          :label="$t('绩效模型版本：')"
+          :label="$t('绩效模型版本')"
         >
           <i-input
             :disabled="true"
@@ -159,7 +161,7 @@
           </i-input>
           {{ '此版本包含手工指标' }}
         </el-form-item>
-        <el-form-item v-if="active == 0 || active == 3" :label="$t('类型：')">
+        <el-form-item v-if="active == 0 || active == 3" :label="$t('MT_LEIXING')">
           <el-radio-group v-model="form.editionType">
             <el-radio v-for="item in typeList" :key="item" :label="item.code">{{
               item.name
@@ -168,7 +170,7 @@
         </el-form-item>
         <el-form-item
           v-if="active == 0 || active == 3"
-          :label="$t('截止时间：')"
+          :label="$t('MT_JIEZHISHIJIAN')"
         >
           <el-date-picker
             style="width: 200px"
@@ -182,12 +184,11 @@
             (还剩{{ DateDiffer(form.endDate) }}天)</span
           >
         </el-form-item>
-        <el-form-item v-if="active == 1" :label="$t('统计周期：')">
+        <el-form-item v-if="active == 1" :label="$t('统计周期')">
           <el-date-picker
-          :disabled="true"
-
+            :disabled="true"
             style="width: 120px"
-            value-format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd hh:mm:ss"
             v-model="form.statisticsStartDate"
             type="month"
             placeholder="选择日期"
@@ -195,23 +196,22 @@
           </el-date-picker>
           -至-
           <el-date-picker
-          :picker-options="endDatePicker"
+            :picker-options="endDatePicker"
             style="width: 120px"
-            value-format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd hh:mm:ss"
             v-model="form.statisticsEndDate"
             type="month"
             placeholder="选择日期"
           >
           </el-date-picker>
-     
         </el-form-item>
       </el-form>
       <div v-if="active == 2">
         <div class="dialogButon">
-          <iButton @click="addSupplier">添加</iButton>
-          <iButton @click="delSupplier">移除</iButton>
-          <iButton @click="exportAll">全部导出</iButton>
-          <iButton @click="exportFile">模板下载</iButton>
+          <iButton @click="addSupplier">{{ $t('LK_TIANJIA') }}</iButton>
+          <iButton @click="delSupplier">{{ $t('delete') }}</iButton>
+          <iButton @click="exportAll">{{ $t('LK_DAOCHU') }}</iButton>
+          <iButton @click="exportFile">{{ $t('SPR_FRM_FRMGL_XZFTQDMB') }}</iButton>
           <el-upload
             style="margin-left: 10px"
             action="1"
@@ -296,7 +296,10 @@ import {
   getTemplate,
   supplierImport,
   delEditionTask,
-  sendPerformanceTask
+  sendPerformanceTask,
+  getPerformanceEdition,
+  updateSupplierPerforManceModel,
+  getSupplierPerforManceModelRelationPage
 } from '@/api/supplierManagement/supplierIndexManage/index'
 import { excelExport } from '@/utils/filedowLoad' //导出
 import { pageMixins } from '@/utils/pageMixins'
@@ -334,6 +337,7 @@ export default {
   },
   data() {
     return {
+      selectTableDataPage: [],
       rowList: {},
       updataTime: '',
       updataTimeDialog: false,
@@ -345,8 +349,8 @@ export default {
       active: 0,
       editionId: '',
       form: {
-        statisticsStartDate:'',
-        statisticsEndDate:''
+        statisticsStartDate: '',
+        statisticsEndDate: ''
       },
       addVersionDiolog: false,
       tableListData2: [],
@@ -357,10 +361,10 @@ export default {
       formData: {},
       selectTableData: [],
       endDatePicker: {
-        disabledDate: time => {
-          let starDateVal = this.form.statisticsStartDate;
+        disabledDate: (time) => {
+          let starDateVal = this.form.statisticsStartDate
           if (starDateVal) {
-            return time.getTime() < new Date(starDateVal).getTime();
+            return time.getTime() < new Date(starDateVal).getTime()
           }
         }
       }
@@ -369,6 +373,11 @@ export default {
   created() {
     this.init()
     this.getTableList()
+    this.$nextTick(()=>{
+      this.form.statisticsStartDate = this.dateYear(-1)
+      this.form.statisticsEndDate = this.dateYear(0)
+    })
+
   },
   methods: {
     dateYear(val) {
@@ -378,13 +387,13 @@ export default {
       var month = date.getMonth() + 1
       var day = date.getDate()
       if (month < 10) {
-          month = "0" + month;
+        month = '0' + month
       }
       if (day < 10) {
-            day = "0" + day;
+        day = '0' + day
       }
-      var enTime = year + val + '-' + month + '-' + '01'
-      return enTime 
+      var enTime = year + val + '-' + month + '-' + '01' + ' ' + '12:00:00'
+      return enTime
     },
     init() {
       getDictByCode('SUPPLIER_PERFORMANCE_MODEL_TYPE')
@@ -489,6 +498,12 @@ export default {
         }
       })
     },
+    edit(row) {
+      getPerformanceEdition(row.id).then((res) => {
+        this.form = res.data
+        this.addVersionDiolog = true
+      })
+    },
     handleSearchReset() {
       this.page.pageSize = 10
       this.page.currPage = 1
@@ -547,32 +562,66 @@ export default {
     submit(v) {
       if (v == 'to' && this.active != 4) {
         if (this.active == 2) {
-          this.form.statisticsStartDate = this.form.statisticsStartDate +' '+'12:00:00'
-          this.form.statisticsEndDate = this.form.statisticsEndDate +' '+'12:00:00'
-          addSupplierPerforManceModel(this.form).then((res) => {
-            if (res.code == '200') {
-              this.active = 3
-              this.editionId = res.data.id
-              this.tableListData2.forEach((val) => {
-                val.editionId = this.editionId
-              })
-              addSupplierPerforManceModelRelation({
-                editionId: this.editionId,
-                relationAddList: this.tableListData2
-              }).then((val) => {
-                if (val.code == '200') {
-                  this.getTableList()
-                } else {
-                  iMessage.error(val.desZh)
-                }
-              })
-            } else {
-              iMessage.error(res.desZh)
-            }
+          // this.form.statisticsStartDate =
+          //   this.form.statisticsStartDate + ' ' + '12:00:00'
+          // this.form.statisticsEndDate =
+          //   this.form.statisticsEndDate + ' ' + '12:00:00'
+          if (this.form.id) {
+            updateSupplierPerforManceModel(this.form).then((res) => {
+              if (res.code == '200') {
+                this.active = 3
+                // this.editionId = res.data.id
+                this.tableListData2.forEach((val) => {
+                  val.editionId = this.form.id
+                })
+                addSupplierPerforManceModelRelation({
+                  editionId: this.form.id,
+                  relationAddList: this.tableListData2
+                }).then((val) => {
+                  if (val.code == '200') {
+                    this.getTableList()
+                  } else {
+                    iMessage.error(val.desZh)
+                  }
+                })
+              } else {
+                iMessage.error(res.desZh)
+              }
+            })
+          } else {
+            addSupplierPerforManceModel(this.form).then((res) => {
+              if (res.code == '200') {
+                this.active = 3
+                this.editionId = res.data.id
+                this.tableListData2.forEach((val) => {
+                  val.editionId = this.editionId
+                })
+                addSupplierPerforManceModelRelation({
+                  editionId: this.editionId,
+                  relationAddList: this.tableListData2
+                }).then((val) => {
+                  if (val.code == '200') {
+                    this.getTableList()
+                  } else {
+                    iMessage.error(val.desZh)
+                  }
+                })
+              } else {
+                iMessage.error(res.desZh)
+              }
+            })
+          }
+        }else if(this.active==1&&this.form.id){
+          const req={
+            pageNo:1,
+            editionId:this.form.id,
+            pageSize:9999
+          }
+          getSupplierPerforManceModelRelationPage(req).then(res=>{
+            this.tableListData2=res.data
+            this.active = 2
           })
         } else {
-          this.form.statisticsStartDate = this.dateYear(0)
-          this.form.statisticsEndDate = this.dateYear(1)
           console.log(this.form)
           this.active = this.active + 1
         }
@@ -625,6 +674,7 @@ export default {
       })
     },
     clearDiolog() {
+      this.tableListData2=[]
       this.selectTableData = []
       this.active = 0
       this.addVersionDiolog = false

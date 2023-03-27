@@ -138,10 +138,7 @@ export default {
     this.meetingInfo = await this.findThemenById(query)
     this.themens = this.meetingInfo?.themens
     this.meetingInfo.themens.forEach((item, index) => {
-      if (
-        item.fixedPointApplyId == (query.desinateId ||
-        query.fixedPointApplyId)
-      ) {
+      if (item.id == query.rowId) {
         this.click(item, index)
       }
     })
@@ -197,6 +194,7 @@ export default {
       }
     },
     click(item, index) {
+      if(!item.type) item.type = 'MANUAL' // CMM类型没有type无法区分类型,全部转为手工议题
       if (index == this.index) return
       if (['MTZ', 'CSF', 'CHIP'].includes(item.type)) return
       this.time = 0

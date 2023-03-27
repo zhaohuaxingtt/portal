@@ -57,6 +57,9 @@
                   <span v-if="formDataLevel2.childVo.childVo.length >= 1">{{
                     '指标加权汇总'
                   }}</span>
+                  <span v-else-if="!isEdit">{{
+                   formDataLevel2.childVo.name
+                  }}</span>
                   <iSelect
                     v-else
                     :disabled="!isEdit"
@@ -126,6 +129,9 @@
                   <label>等于</label>
                   <span v-if="item.childVo.length >= 1">{{
                     '指标加权汇总'
+                  }}</span>
+                  <span v-else-if="!isEdit">{{
+                    item.name
                   }}</span>
                   <iSelect
                     v-else
@@ -201,7 +207,9 @@
                       <span v-if="lev3.childVo.length >= 1">{{
                         '指标加权汇总'
                       }}</span>
-
+                      <span v-else-if="!isEdit">{{
+                        lev3.name
+                      }}</span>
                       <iSelect
                         v-else
                         :disabled="!isEdit"
@@ -269,7 +277,9 @@
                           <span v-if="lev4.childVo.length >= 1">{{
                             '指标加权汇总'
                           }}</span>
-
+                      <span v-else-if="!isEdit">{{
+                        lev4.name
+                      }}</span>
                           <iSelect
                             v-else
                             :disabled="!isEdit"
@@ -327,7 +337,11 @@
                         </div>
                         <div>
                           <label>等于</label>
+                          <span v-if="!isEdit">{{
+                            lev3.name
+                          }}</span>
                           <iSelect
+                          v-else
                             :disabled="!isEdit"
                             class="kpi-input2"
                             clearable
@@ -372,7 +386,8 @@ import {
   addModelTree,
   uploadPerformanceModelFile,
   getSupplierPerforManceModelPage,
-  getIndicatorList
+  getIndicatorList,
+  getIndicatorAllList
 } from '@/api/supplierManagement/supplierIndexManage/index'
 import {
   saveTemplateDetail,
@@ -410,6 +425,7 @@ export default {
   },
   data() {
     return {
+      infoAllList:[],
       formDataLevel2: {},
       form: {},
       modeAll: false,
@@ -443,6 +459,10 @@ export default {
       getIndicatorList().then((res) => {
         this.infoList = res.data
       })
+      getIndicatorAllList().then((res) => {
+        this.infoAllList = res.data
+      })
+      
     },
     edit() {
       this.isEdit = true
@@ -569,30 +589,30 @@ export default {
       let lv4Weight = 0
       let lev4p = true
       let nameIsNull = true
-      this.formDataLevel2.childVo.indicatorType=this.formDataLevel2.childVo.indicatorLibraryId?this.infoList.find(val=>this.formDataLevel2.childVo.indicatorLibraryId==val.id).indicatorType:''
+      this.formDataLevel2.childVo.indicatorType=this.formDataLevel2.childVo.indicatorLibraryId?this.infoAllList.find(val=>this.formDataLevel2.childVo.indicatorLibraryId==val.id).indicatorType:''
 
       if (tableChild.length > 0) {
         tableChild.forEach((x) => {
           if (!x.title || !x.weight) nameIsNull = false
           lv1Weight += Number(x.weight)
-          x.indicatorType=x.indicatorLibraryId?this.infoList.find(val=>x.indicatorLibraryId==val.id).indicatorType:''
+          x.indicatorType=x.indicatorLibraryId?this.infoAllList.find(val=>x.indicatorLibraryId==val.id).indicatorType:''
           if (x.childVo.length > 0) {
             x.childVo.forEach((y) => {
               if (!y.title || !y.weight) nameIsNull = false
               lv2Weight += Number(y.weight)
-              y.indicatorType=y.indicatorLibraryId?this.infoList.find(val=>y.indicatorLibraryId==val.id).indicatorType:''
+              y.indicatorType=y.indicatorLibraryId?this.infoAllList.find(val=>y.indicatorLibraryId==val.id).indicatorType:''
 
               if (y.childVo.length > 0) {
                 y.childVo.forEach((z) => {
                   if (!z.title || !z.weight) nameIsNull = false
                   lv3Weight += Number(z.weight)
-                  z.indicatorType=z.indicatorLibraryId?this.infoList.find(val=>z.indicatorLibraryId==val.id).indicatorType:''
+                  z.indicatorType=z.indicatorLibraryId?this.infoAllList.find(val=>z.indicatorLibraryId==val.id).indicatorType:''
 
                   if (z.childVo.length > 0) {
                     z.childVo.forEach((k) => {
                       if (!z.title || !z.weight) nameIsNull = false
                       lv4Weight += Number(k.weight)
-                      k.indicatorType=k.indicatorLibraryId?this.infoList.find(val=>k.indicatorLibraryId==val.id).indicatorType:''
+                      k.indicatorType=k.indicatorLibraryId?this.infoAllList.find(val=>k.indicatorLibraryId==val.id).indicatorType:''
 
                       lev4p = true
                       console.log(lv4Weight)

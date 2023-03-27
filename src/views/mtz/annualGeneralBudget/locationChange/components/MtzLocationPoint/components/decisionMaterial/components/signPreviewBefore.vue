@@ -52,14 +52,14 @@
 
         <p class="tableTitle">{{language('GUIZEQINGDAN', '规则清单')}}-Regulation</p>
         <div class="margin-top20 formStyle">
-          <div  class="btn ">
+          <!-- <div  class="btn ">
             <span type="primary" size="mini" circle @click="isruleTitle1=!isruleTitle1">{{isruleTitle1?'-':'+'}}</span>
-          </div>
+          </div> -->
           <tableList
             border
             class="margin-top20"
             :tableData="ruleTableListData"
-            :tableTitle="isruleTitle1?ruleTableTitle1_all:ruleTableTitle1_1"
+            :tableTitle="ruleTableTitle1_all"
             @handleClickRow="handleCurrentChangeTable"
             :tableLoading="loadingRule"
             :index="true"
@@ -103,14 +103,14 @@
         <el-divider class="margin-top20"/>
         <p class="tableTitle">{{language('LJQD', '零件清单')}}-Part List</p>
         <div class="margin-top20 formStyle">
-          <div  class="btn ">
+          <!-- <div  class="btn ">
             <span type="primary" size="mini" circle @click="isruleTitle2=!isruleTitle2">{{isruleTitle2?'-':'+'}}</span>
-          </div>
+          </div> -->
           <tableList
           border
             class="margin-top20 over_flow_y_ture"
             :tableData="partTableListData"
-            :tableTitle="isruleTitle2?partTableTitle1_all:partTableTitle1_1"
+            :tableTitle="partTableTitle1_all"
             :tableLoading="loadingPart"
             :index="true"
             :selection="false"

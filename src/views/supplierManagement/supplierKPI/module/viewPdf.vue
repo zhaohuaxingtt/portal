@@ -1,8 +1,8 @@
 <template>
     <iCard class="page-preview">
-        <div style="text-align:right">
+        <p style="text-align:right">
             <iButton  @click="submit">下一步</iButton>
-        </div>
+        </p>
       <iframe :src="src" title="预览" width="100%" height="100%" class="preview-iframe"/>
     </iCard>
   </template>

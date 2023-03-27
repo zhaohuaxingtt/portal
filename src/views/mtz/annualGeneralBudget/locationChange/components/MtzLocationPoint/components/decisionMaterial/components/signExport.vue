@@ -329,7 +329,7 @@
               </template>
             </tableList>
             <tableList class="margin-top20" :tableData="tableData" :tableTitle="ruleTableTitle1_2"
-              :tableLoading="loadingRule" v-if="!RsObject && tableData.length > 0&& partTableListData.some((val)=>{if(val.platinumPrice) return true})" :index="true" :selection="false"
+              :tableLoading="loadingRule" v-if="!RsObject && tableData.length > 0&& tableData.some((val)=>{if(val.materialCode.slice(1,6)=='01006') {return true}})" :index="true" :selection="false"
               border>
             </tableList>
           </iCard>
@@ -451,7 +451,7 @@
             </template>
             </tableList>
             <tableList border class="margin-top20 " :tableData="tableData" :tableTitle="partTableTitle1_3"
-              :tableLoading="loadingPart" v-if="!RsObject && partTableListData.length > 0 && partTableListData.some((val)=>{if(val.platinumPrice) return true})" :index="true"
+              :tableLoading="loadingPart" v-if="!RsObject && partTableListData.length > 0 && tableData.some((val)=>{if(val.materialCode.slice(1,6)=='01006') {return true}})" :index="true"
               :selection="false">
             </tableList>
           </iCard>
@@ -789,7 +789,6 @@ export default {
           this.appPage = true
         }
       }
-      console.log(remarkList);
       // this.remarkList = remarkList
       this.remarkList = remarkList.length? remarkList : [[]]
       this.$nextTick(()=>{
@@ -816,7 +815,7 @@ export default {
       let tableList = []
       this.pdfItemHeight = this.pageHeight - pageNumHeight
       rowList.forEach((item, i) => {
-        sumHeight += item.clientHeight
+        sumHeight += item.clientHeight*2
         // ruleTableHeader 表头高度
         if (
           sumHeight >
@@ -827,7 +826,7 @@ export default {
             pageNumHeight
         ) {
           tableList.push(arr)
-          sumHeight = item.clientHeight
+          sumHeight = item.clientHeight*2
           arr = [this.ruleTableListData[i]]
         } else {
           arr.push(this.ruleTableListData[i])
@@ -844,6 +843,8 @@ export default {
       let rowList =
         this.$refs['partTable']?.$el.getElementsByClassName('part-table-row') ||
         []
+        console.log(rowList)
+
       let partTableHeader =
         this.$refs['partTable']?.$el.getElementsByClassName(
           'partTableHeader'
@@ -860,7 +861,7 @@ export default {
       let pageNumHeight = this.$refs.pageNum.offsetHeight // 页码高度
       this.pdfItemHeight = this.pageHeight - pageNumHeight
       rowList.forEach((item, i) => {
-        sumHeight += item.clientHeight
+        sumHeight += item.clientHeight*3
         if (
           sumHeight >
           this.pageHeight -
@@ -870,7 +871,7 @@ export default {
             pageNumHeight
         ) {
           tableList.push(arr)
-          sumHeight = item.clientHeight
+          sumHeight = item.clientHeight*3
           arr = [this.partTableListData[i]]
         } else {
           arr.push(this.partTableListData[i])
@@ -878,6 +879,8 @@ export default {
       })
       if (arr.length) tableList.push(arr)
       this.partTableList = tableList
+      console.log(this.partTableList )
+
       this.$nextTick(()=>{
         this.partLoading = true
       })
