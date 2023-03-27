@@ -239,7 +239,7 @@
             </el-form-item>
           </template>
         </el-table-column>
-        <!-- <el-table-column
+        <el-table-column
           prop="materialDoseSource"
           align="center"
           :label="language('原材料用量来源', '原材料用量来源')"
@@ -270,7 +270,7 @@
               <span v-else>{{ scope.row.materialDoseSource?materialDoseSourceList.find(val=>val.code==scope.row.materialDoseSource).name:'' }}</span>
             </el-form-item>
           </template>
-        </el-table-column> -->
+        </el-table-column>
         <el-table-column
           prop="startDate"
           align="center"
@@ -558,14 +558,14 @@
             <span>{{ scope.row.compensationRatio }}</span>
           </template>
         </el-table-column>
-        <!-- <el-table-column prop="partBalanceCountType" align="center" width="90" :label="language('结算数量来源', '结算数量来源')">
+        <el-table-column prop="partBalanceCountType" align="center" width="90" :label="language('结算数量来源', '结算数量来源')">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'partBalanceCountType'"
               :rules="formRules.partBalanceCountType ? formRules.partBalanceCountType : ''">
               <span>{{ scope.row.partBalanceCountType=='SYSTEM'?'系统预读':scope.row.partBalanceCountType=='HANDWORK'?'手工上传':'' }}</span>
             </el-form-item>
           </template>
-        </el-table-column> -->
+        </el-table-column>
         
         <el-table-column
           prop="priceSource"
