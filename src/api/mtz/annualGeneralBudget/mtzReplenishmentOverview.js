@@ -1,10 +1,10 @@
 /*
  * @Author: youyuan
  * @Date: 2021-09-09 14:02:54
- * @LastEditTime: 2023-01-16 14:42:07
- * @LastEditors: YoHo && 917955345@qq.com
+ * @LastEditTime: 2021-11-03 11:17:25
+ * @LastEditors: Please set LastEditors
  * @Description: 年度预算编辑
- * @FilePath: \front-portal\src\api\mtz\annualGeneralBudget\mtzReplenishmentOverview.js
+ * @FilePath: \重庆软维科技\front-portal\src\api\mtz\annualGeneralBudget\annualBudgetEdit.js
  */
 import axios from '@/utils/axios'
 import download from '@/utils/axios.download'
