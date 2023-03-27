@@ -173,7 +173,7 @@
           </template>
         </el-table-column>
         <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-        <!-- <el-table-column prop="partBalanceCountType" align="center"  :label="language('结算数量来源', '结算数量来源')">
+        <el-table-column prop="partBalanceCountType" align="center"  :label="language('结算数量来源', '结算数量来源')">
           <template slot="header" slot-scope="scope">
             <span>{{ language('结算数量来源', '结算数量来源') }}<iTooltip :txtInfo="tipList[0]" :num="'1'"></iTooltip></span>
           </template>
@@ -183,7 +183,7 @@
               <span>{{ scope.row.partBalanceCountType=='SYSTEM'?'系统预读':scope.row.partBalanceCountType=='HANDWORK'?'手工上传':'' }}</span>
             </el-form-item>
           </template>
-        </el-table-column> -->
+        </el-table-column>
         <el-table-column prop="source" align="center"  :label="language('SHICHANGJIALAIYUAN', '市场价来源')">
           <template slot="header" slot-scope="scope">
             <span>{{ language('SHICHANGJIALAIYUAN', '市场价来源') }}<iTooltip :txtInfo="tipList[1]" :num="'2'"></iTooltip></span>
@@ -222,7 +222,7 @@
             </el-form-item>
           </template>
         </el-table-column>
-        <!-- <el-table-column prop="avgPeriod" align="center"  :label="language('均值计算周期', '均值计算周期')">
+        <el-table-column prop="avgPeriod" align="center"  :label="language('均值计算周期', '均值计算周期')">
           <template slot="header" slot-scope="scope">
             <span>{{ language('均值计算周期', '均值计算周期') }}<iTooltip :type="'icon'" :txtInfo="tipList[6]" :num="'1'"></iTooltip>
               </span>
@@ -235,7 +235,7 @@
                 <el-option v-for="item in avgPeriodList" :key="item.code" :label="item.name" :value="item.code">
                 </el-option>
               </el-select>
-              <span v-else>{{ scope.row.avgPeriod?avgPeriodList.find(val=>val.code==scope.row.avgPeriod).name:'' }}</span>
+              <span v-else>{{ scope.row.avgPeriod||scope.row.avgPeriod=='0'?avgPeriodList.find(val=>val.code==scope.row.avgPeriod).name:'' }}</span>
             </el-form-item>
           </template>
         </el-table-column>
@@ -252,10 +252,10 @@
                 <el-option v-for="item in offsetList" :key="item.code" :label="item.name" :value="item.code">
                 </el-option>
               </el-select>
-              <span v-else>{{ scope.row.offsetMonth?offsetList.find(val=>val.code==scope.row.offsetMonth).name:'' }}</span>
+              <span v-else>{{ scope.row.offsetMonth||scope.row.offsetMonth=='0'?offsetList.find(val=>val.code==scope.row.offsetMonth).name:'' }}</span>
             </el-form-item>
           </template>
-        </el-table-column> -->
+        </el-table-column>
         <el-table-column prop="price" align="center" width="60" :label="language('JIJIA', '基价')">
           <template slot="header" slot-scope="scope">
             <span>{{ language('JIJIA', '基价') }}<iTooltip :txtInfo="tipList[2]" :num="'3'"></iTooltip></span>

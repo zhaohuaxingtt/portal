@@ -136,10 +136,10 @@
               }}</span>
             </template>
             <template slot-scope="scope" slot="avgPeriod">
-              <span>{{ scope.row.avgPeriod ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+              <span>{{ scope.row.avgPeriod||scope.row.avgPeriod=='0' ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
             </template>
             <template slot-scope="scope" slot="offsetMonth">
-              <span>{{ scope.row.offsetMonth ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
+              <span>{{ scope.row.offsetMonth||scope.row.offsetMonth=='0' ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
             </template>
 
           </tableList>
@@ -181,10 +181,10 @@
               }}</span>
             </template>
             <template slot-scope="scope" slot="avgPeriod">
-              <span>{{ scope.row.avgPeriod ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+              <span>{{ scope.row.avgPeriod||scope.row.avgPeriod=='0' ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
             </template>
             <template slot-scope="scope" slot="offsetMonth">
-              <span>{{ scope.row.offsetMonth ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
+              <span>{{ scope.row.offsetMonth||scope.row.offsetMonth=='0' ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
             </template>
 
           </tableList>
@@ -248,10 +248,10 @@
               <span>{{ scope.row.method == '1' ? '一次性补差' : scope.row.method == '2' ? '变价单补差' : '' }}</span>
             </template>
             <template slot-scope="scope" slot="avgPeriod">
-              <span>{{ scope.row.avgPeriod ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+              <span>{{ scope.row.avgPeriod||scope.row.avgPeriod=='0' ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
             </template>
             <template slot-scope="scope" slot="offsetMonth">
-              <span>{{ scope.row.offsetMonth ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
+              <span>{{ scope.row.offsetMonth||scope.row.offsetMonth=='0' ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
             </template>
           </tableList>
           <!-- 导出零件表格 -->
@@ -288,10 +288,10 @@
               <span>{{ scope.row.method == '1' ? '一次性补差' : scope.row.method == '2' ? '变价单补差' : '' }}</span>
             </template>
             <template slot-scope="scope" slot="avgPeriod">
-              <span>{{ scope.row.avgPeriod ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+              <span>{{ scope.row.avgPeriod||scope.row.avgPeriod=='0' ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
             </template>
             <template slot-scope="scope" slot="offsetMonth">
-              <span>{{ scope.row.offsetMonth ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
+              <span>{{ scope.row.offsetMonth||scope.row.offsetMonth=='0' ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
             </template>
           </tableList>
           <tableList border class="margin-top20 "  :tableData="partTableListData"
@@ -306,10 +306,10 @@
               <span>{{ scope.row.method == '1' ? '一次性补差' : scope.row.method == '2' ? '变价单补差' : '' }}</span>
             </template>
             <template slot-scope="scope" slot="avgPeriod">
-              <span>{{ scope.row.avgPeriod ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+              <span>{{ scope.row.avgPeriod||scope.row.avgPeriod=='0' ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
             </template>
             <template slot-scope="scope" slot="offsetMonth">
-              <span>{{ scope.row.offsetMonth ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
+              <span>{{ scope.row.offsetMonth||scope.row.offsetMonth=='0' ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
             </template>
           </tableList>
           <tableList border class="margin-top20 "  :tableData="partTableListData" :tableTitle="partTableTitle1_3"
@@ -534,10 +534,10 @@
                 }}</span>
               </template>
               <template slot-scope="scope" slot="avgPeriod">
-                <span>{{ scope.row.avgPeriod ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+                <span>{{ scope.row.avgPeriod||scope.row.avgPeriod=='0' ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
               </template>
               <template slot-scope="scope" slot="offsetMonth">
-                <span>{{ scope.row.offsetMonth ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
+                <span>{{ scope.row.offsetMonth||scope.row.offsetMonth=='0' ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
               </template>
             </tableList>
             <!-- 导出规则表格 -->
@@ -578,10 +578,10 @@
                 }}</span>
               </template>
               <template slot-scope="scope" slot="avgPeriod">
-                <span>{{ scope.row.avgPeriod ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+                <span>{{ scope.row.avgPeriod||scope.row.avgPeriod=='0' ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
               </template>
               <template slot-scope="scope" slot="offsetMonth">
-                <span>{{ scope.row.offsetMonth ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
+                <span>{{ scope.row.offsetMonth||scope.row.offsetMonth=='0' ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
               </template>
             </tableList>
             <tableList class="margin-top20" :tableData="tableData" :tableTitle="ruleTableTitle1_2"
@@ -682,10 +682,10 @@
                   <span>{{ scope.row.method == '1' ? '一次性补差' : scope.row.method == '2' ? '变价单补差' : '' }}</span>
                 </template>
                 <template slot-scope="scope" slot="avgPeriod">
-                  <span>{{ scope.row.avgPeriod ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+                  <span>{{ scope.row.avgPeriod||scope.row.avgPeriod=='0' ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
                 </template>
                 <template slot-scope="scope" slot="offsetMonth">
-                  <span>{{ scope.row.offsetMonth ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
+                  <span>{{ scope.row.offsetMonth||scope.row.offsetMonth=='0' ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
                 </template>
             </tableList>
             <!-- 导出零件表格 -->
@@ -721,10 +721,10 @@
                 <span>{{ scope.row.method == '1' ? '一次性补差' : scope.row.method == '2' ? '变价单补差' : '' }}</span>
               </template>
               <template slot-scope="scope" slot="avgPeriod">
-                <span>{{ scope.row.avgPeriod ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+                <span>{{ scope.row.avgPeriod||scope.row.avgPeriod=='0' ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
               </template>
               <template slot-scope="scope" slot="offsetMonth">
-                <span>{{ scope.row.offsetMonth ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
+                <span>{{ scope.row.offsetMonth||scope.row.offsetMonth=='0' ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
               </template>
             </tableList>
             <tableList border class="margin-top20 " :tableData="tableData" :tableTitle="partTableTitle1_2"
@@ -739,10 +739,10 @@
               <span>{{ scope.row.method == '1' ? '一次性补差' : scope.row.method == '2' ? '变价单补差' : '' }}</span>
             </template>
             <template slot-scope="scope" slot="avgPeriod">
-              <span>{{ scope.row.avgPeriod ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+              <span>{{ scope.row.avgPeriod||scope.row.avgPeriod=='0' ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
             </template>
             <template slot-scope="scope" slot="offsetMonth">
-              <span>{{ scope.row.offsetMonth ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
+              <span>{{ scope.row.offsetMonth||scope.row.offsetMonth=='0' ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
             </template>
             </tableList>
             <tableList border class="margin-top20 " :tableData="tableData" :tableTitle="partTableTitle1_3"
