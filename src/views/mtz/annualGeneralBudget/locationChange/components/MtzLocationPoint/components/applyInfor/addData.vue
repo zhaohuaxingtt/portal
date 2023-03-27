@@ -315,7 +315,6 @@ import {
     iDatePicker,
     iDialog,
 } from 'rise'
-import { methodList } from "./data";
 
 import inputCustom from '@/components/inputCustom'
 export default {
