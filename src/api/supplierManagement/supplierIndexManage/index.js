@@ -155,6 +155,14 @@ export function uploadPerformanceModelFile(parmars) {
     data: parmars
   })
 }
+// 获取版本供应商
+export function getSupplierPerforManceModelRelationPage(parmars) {
+  return requst({
+    url: '/supplierPerformanceTask/getSupplierPerforManceModelRelationPage',
+    method: 'POST',
+    data: parmars
+  })
+}
 // 创建绩效版本模型
 export function addSupplierPerforManceModel(parmars) {
   return requst({

@@ -95,8 +95,9 @@
           :key="index" align="center" v-else :render-header="renderHeader"
           :label="items.key ? language(items.key, items.name) : items.name" :prop="items.props" :fixed="items.fixed">
           <!--自定义嵌入-->
+ 
           <template #header>
-            <div v-if="!items.overlap&&tagNum=='1'">
+            <div v-if="!items.overlap">
               <span style="margin-right: 10px" v-html="
                 items.key ? language(items.key, items.name) : items.name
               "></span>
@@ -112,8 +113,8 @@
                 <icon v-else slot="reference" symbol v-if="items.icon" :name="items.icon"
                   class="font-size16 marin-left5" />
               </el-popover>
-              <br />
-              <span style="margin-right: 10px; font-weight: initial">{{
+              <br v-if="tagNum=='1'" />
+              <span v-if="tagNum=='1'"  style="margin-right: 10px; font-weight: initial">{{
                 items.overlapbottom
               }}</span>
             </div>
@@ -126,6 +127,7 @@
                 items.overlapbottom
               }}</span>
             </div>
+         
           </template>
           <template v-if="$scopedSlots[items.props] || $slots[items.props]" v-slot="scope">
             <el-form-item :class="items.tooltip ? 'tipsTableClass' : ''"
