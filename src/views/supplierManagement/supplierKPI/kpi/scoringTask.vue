@@ -182,8 +182,8 @@ export default {
           permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_KPI_BMZHPF'
         },
         {
-          name: '供应商kpi概念',
-          key: '供应商kpi概念',
+          name: '供应商kpi概览',
+          key: '供应商kpi概览',
           permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_KPI_HQGYSKPIGN'
         },
         {
