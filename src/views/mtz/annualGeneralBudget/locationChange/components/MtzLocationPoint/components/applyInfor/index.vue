@@ -65,10 +65,10 @@
         v-model="inforData.linieMeetingMemo"></el-input>
     </iCard>
   
-    <theTabs :avgPeriodList="avgPeriodList" :offsetList="offsetList" ref="theTabs" @handleReset="handleReset" v-if="beforReturn" :appStatus='inforData.appStatus'
+    <theTabs  :meetingStatus="inforData.meetingStatus" :avgPeriodList="avgPeriodList" :offsetList="offsetList" ref="theTabs" @handleReset="handleReset" v-if="beforReturn" :appStatus='inforData.appStatus'
       :flowType="inforData.flowType">
     </theTabs>
-    <theDataTabs    :meetingStatus="inforData.meetingStatus" :avgPeriodList="avgPeriodList" :offsetList="offsetList" ref="theDataTabs" v-if="beforReturn" :appStatus='inforData.appStatus' :flowType="inforData.flowType"
+    <theDataTabs  :meetingStatus="inforData.meetingStatus" :avgPeriodList="avgPeriodList" :offsetList="offsetList" ref="theDataTabs" v-if="beforReturn" :appStatus='inforData.appStatus' :flowType="inforData.flowType"
       :inforData="inforData" :applyNumber="applyNumber">
     </theDataTabs>
 
@@ -197,8 +197,6 @@ export default {
         this.inforData.appStatus = res.data.appStatus
         this.inforData.meetingName = res.data.meetingName
         this.inforData.linieMeetingMemo = res.data.linieMeetingMemo
-        this.inforData.appName = res.data.appName
-        this.inforData.flowType = res.data.flowType
         if (res.data.ttNominateAppId == null) {
           this.applyNumber = "";
         } else {
@@ -220,6 +218,8 @@ export default {
     console.log((this.inforData.flowType=='SIGN'||this.inforData.flowType=='FILING')&&this.inforData.appStatus=='已提交')
     console.log(this.inforData.appStatus!='冻结'&&this.inforData.flowType=="MEETING")
 
+        this.inforData.appName = res.data.appName
+        this.inforData.flowType = res.data.flowType
       }).then(res => {
         this.beforReturn = true;
       })

@@ -34,7 +34,7 @@
         <iButton
           @click="upRuleBtn"
           v-permission="PORTAL_MTZ_POINT_INFOR_GZ_YANYONG"
-          v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
+          v-if="!editType && isEditNew"
           >{{ language('升版', '升版') }}</iButton
         >
         <iButton
@@ -77,7 +77,7 @@
           </template>
         </el-table-column>
         <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-        <el-table-column prop="method" align="center"  :label="language('补差方式')">
+        <!-- <el-table-column prop="method" align="center"  :label="language('补差方式')">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'method'"
               :rules="formRules.method ? formRules.method : ''">
@@ -86,13 +86,12 @@
                 <el-option v-for="item in methodList" :key="item.code" :label="item.name" :value="item.code">
                 </el-option>
               </el-select>
-              <!-- <iInput v-model="scope.row.ruleNo" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
               <span v-else> {{ scope.row.method=='1'?'一次性补差':scope.row.method=='2'?'变价单补差':'' }}</span>
             </el-form-item>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column width="120" prop="sapCode" align="center" 
-          :label="language('供应商', '供应商')">
+          :label="language('LK_GONGYINGSHANG', '供应商')">
           <template slot-scope="scope">
           <el-form-item  :prop="'tableData.' + scope.$index + '.' + 'sapCode'"
             :rules="formRules.sapCode ? formRules.sapCode : ''">
@@ -115,8 +114,8 @@
           </template>
         </el-table-column>
 
-        <el-table-column width="90" prop="materialCode" align="center" 
-          :label="language('YUANCAILIAOPAIHAO', '原材料牌号')">
+        <el-table-column width="110" prop="materialCode" align="center" 
+          :label="language('YUANCAILIAO', '原材料')">
           <template slot-scope="scope">
           <el-form-item :prop="'tableData.' + scope.$index + '.' + 'materialCode'"
             :rules="formRules.materialCode ? formRules.materialCode : ''">
@@ -174,7 +173,7 @@
           </template>
         </el-table-column>
         <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-        <el-table-column prop="partBalanceCountType" align="center"  :label="language('结算数量来源', '结算数量来源')">
+        <!-- <el-table-column prop="partBalanceCountType" align="center"  :label="language('结算数量来源', '结算数量来源')">
           <template slot="header" slot-scope="scope">
             <span>{{ language('结算数量来源', '结算数量来源') }}<iTooltip :txtInfo="tipList[0]" :num="'1'"></iTooltip></span>
           </template>
@@ -184,7 +183,7 @@
               <span>{{ scope.row.partBalanceCountType=='SYSTEM'?'系统预读':scope.row.partBalanceCountType=='HANDWORK'?'手工上传':'' }}</span>
             </el-form-item>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column prop="source" align="center"  :label="language('SHICHANGJIALAIYUAN', '市场价来源')">
           <template slot="header" slot-scope="scope">
             <span>{{ language('SHICHANGJIALAIYUAN', '市场价来源') }}<iTooltip :txtInfo="tipList[1]" :num="'2'"></iTooltip></span>
@@ -223,7 +222,7 @@
             </el-form-item>
           </template>
         </el-table-column>
-        <el-table-column prop="avgPeriod" align="center"  :label="language('均值计算周期', '均值计算周期')">
+        <!-- <el-table-column prop="avgPeriod" align="center"  :label="language('均值计算周期', '均值计算周期')">
           <template slot="header" slot-scope="scope">
             <span>{{ language('均值计算周期', '均值计算周期') }}<iTooltip :type="'icon'" :txtInfo="tipList[6]" :num="'1'"></iTooltip>
               </span>
@@ -256,7 +255,7 @@
               <span v-else>{{ scope.row.offsetMonth?offsetList.find(val=>val.code==scope.row.offsetMonth).name:'' }}</span>
             </el-form-item>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column prop="price" align="center" width="60" :label="language('JIJIA', '基价')">
           <template slot="header" slot-scope="scope">
             <span>{{ language('JIJIA', '基价') }}<iTooltip :txtInfo="tipList[2]" :num="'3'"></iTooltip></span>
@@ -442,7 +441,7 @@
             </template>
           </el-table-column>
         <!-- ----------------------------------------------------------------------------------------------------------------------- -->
-      <template v-if="tableData.some((val)=>{if(val.platinumPrice) return true})">
+      <template v-if="tableData.some((val)=>{if(val.materialCode.slice(1,6)=='01006') {return true}})">
 
         <!-- <el-table-column prop="effectFlag" align="center" :label="language('SHIFOUSHENGXIAO', '是否生效')" width="100">
               <template slot-scope="scope">
@@ -754,14 +753,7 @@
               </el-form-item>
             </template>
           </el-table-column>
-          <el-table-column prop="ruleVersion" align="center" width="80" :label="language('版本')">
-            <template slot-scope="scope">
-              <el-form-item :prop="'tableData.' + scope.$index + '.' + 'ruleVersion'"
-                :rules="formRules.ruleVersion ? formRules.ruleVersion : ''">
-                <span>{{ scope.row.ruleVersion }}</span>
-              </el-form-item>
-            </template>
-          </el-table-column>
+
         </template>
 
     </el-table>
@@ -957,6 +949,9 @@ export default {
     }
   },
   created() {
+    console.log('M01006004-PGM'.slice(1,7))
+
+    console.log('M01006004-PGM'.slice(1,7)=='01006')
     this.init()
     // getMtzSupplierList({}).then(res => {
     //   this.supplierList = res.data;

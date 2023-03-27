@@ -6,12 +6,25 @@
 -->
 <template>
   <div class="page">
-    <iTabsList v-model="activeName" type="card" slot="components" class="margin-top20">
-      <el-tab-pane :label="$t('打分任务')" name="task">      </el-tab-pane>
-      <el-tab-pane :label="$t('历史绩效评分')" name="history">      </el-tab-pane>
-      <el-tab-pane :label="$t('部门综合评分')" name="dept">      </el-tab-pane>
-    </iTabsList>
-    <div v-if="activeName=='task'">
+    <div class="topBar">
+      <div
+        v-for="(item, i) in tabList"
+        :key="item"
+        v-permission="`${item.permissionKey}`"
+        :class="i == activeName ? 'active' : 'dis'"
+        :style="
+          i == 0
+            ? 'border-radius: 6px 0 0 6px'
+            : '' + i == tabList.length - 1 && tabList.length > 1
+            ? 'border-radius: 0px 6px 06px 0px'
+            : ''
+        "
+        @click="changeTab(i)"
+      >
+        {{ $t(item.key) }}
+      </div>
+    </div>
+    <div v-if="activeName==0">
       <p class="title">
       {{ $t('LK_KESHI') }}：{{
         $store.state.permission.userInfo.deptDTO.deptNum.split('-')[0]
@@ -89,9 +102,10 @@
       </div>
     </transition>
     </div>
-    <deptPbi v-if="activeName=='history'"></deptPbi>
-    <historyPbi v-if="activeName=='dept'"></historyPbi>
-
+    <deptPbi v-if="activeName==1"></deptPbi>
+    <historyPbi v-if="activeName==2"></historyPbi>
+    <kpitaskPbi v-if="activeName==3"></kpitaskPbi>
+    <kpiviewPbi v-if="activeName==4"></kpiviewPbi>
   </div>
 </template>
 
@@ -105,11 +119,15 @@ import { pageMixins } from '@/utils/pageMixins'
 import tableList from '@/components/commonTable'
 import historyPbi from './historyPbi'
 import deptPbi from './deptPbi'
+import kpiviewPbi from './kpiviewPbi'
+import kpitaskPbi from './kpitaskPbi'
+
 import { cloneDeep } from 'lodash'
 import { getDictByCode } from '@/api/dictionary'
 import { getPerformanceEdition } from '@/api/supplierManagement/supplierIndexManage/index'
 
 import {
+
   iTabsList,
   iMessage,
   iMessageBox,
@@ -124,11 +142,12 @@ import {
 } from 'rise'
 export default {
   mixins: [pageMixins],
-
   components: {
+    kpiviewPbi,
+    kpitaskPbi,
     iTabsList,
     deptPbi,
-  historyPbi,
+    historyPbi,
     iCard,
     iPagination,
     iSearch,
@@ -145,10 +164,51 @@ export default {
       isPage: true,
       statusList: [],
       infoList: [],
-      infoList2: []
+      infoList2: [],
+      tabList: [
+        {
+          name: '打分任务',
+          key: '打分任务',
+          permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_KPI_DFRW'
+        },
+        {
+          name: '历史绩效评分',
+          key: '历史绩效评分',
+          permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_KPI_LSJXPF'
+        },
+        {
+          name: '部门综合评分',
+          key: '部门综合评分',
+          permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_KPI_BMZHPF'
+        },
+        {
+          name: '供应商kpi概念',
+          key: '供应商kpi概念',
+          permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_KPI_HQGYSKPIGN'
+        },
+        {
+          name: '供应商kpi任务',
+          key: '供应商kpi任务',
+          permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_KPI_HQGYSKPIRW'
+        },
+      ],
+    }
+    
+  },
+  computed: {
+    whiteBtnList() {
+      return this.$store.state.permission.whiteBtnList
     }
   },
   created() {
+    this.activeName = this.tabList.findIndex((val) => {
+      if (this.whiteBtnList[val.permissionKey]) {
+        return (
+          this.whiteBtnList[val.permissionKey].permissionKey ==
+          val.permissionKey
+        )
+      }
+    })
     getDictByCode('SUPPLIER_PERFORMANCE_TASK_EXECUTE_STATUS')
       .then((res) => {
         if (res.data) {
@@ -166,6 +226,9 @@ export default {
     this.init()
   },
   methods: {
+    changeTab(i) {
+      this.activeName = i
+    },
     init() {
       const req = {
         // deptCode:'CSS',
@@ -304,22 +367,32 @@ export default {
     background: #f8f9fa;
   }
 }
-.approvaltitle {
-  margin-bottom: 20px;
+.topBar {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  padding: 10px 0 20px;
 
-  p {
+  > div {
+    padding: 8px 20px;
+    box-shadow: 0 0 1.25rem rgb(0 0 0 / 8%);
+    cursor: pointer;
+    border: none;
     font-weight: bold;
-    font-size: 20px;
+    text-align: center;
   }
-
-  span {
-    font-weight: 400;
-    font-size: 16px;
-    display: inline-block;
-    margin-right: 30px;
+  .active {
+    border-right: 1px solid #f5f6f7;
+    color: #1660f1;
+    background: #fff;
+  }
+  .dis {
+    color: #727272;
+    background-color: #f5f6f7;
+  }
+  .borderleft {
+    border-radius: 6px 0 0 6px;
+  }
+  .borderright {
+    border-radius: 0px 6px 06px 0px;
   }
 }
 .title {

@@ -93,9 +93,9 @@
       ref="contractForm"
       class="formStyle"
     >
-    <div class="btn">
+    <!-- <div class="btn">
         <span type="primary" size="mini" circle @click="isTitle=!isTitle">{{isTitle?'-':'+'}}</span>
-      </div>
+      </div> -->
       <el-table
         :data="tableData"
         ref="moviesTable"
@@ -239,11 +239,11 @@
             </el-form-item>
           </template>
         </el-table-column>
-        <el-table-column
+        <!-- <el-table-column
           prop="materialDoseSource"
           align="center"
           :label="language('原材料用量来源', '原材料用量来源')"
-          
+          :width="'140'"
         >
           <template slot-scope="scope">
             <el-form-item
@@ -267,11 +267,10 @@
                 >
                 </el-option>
               </el-select>
-              <!-- <iInput v-model="scope.row.materialDoseSource" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
               <span v-else>{{ scope.row.materialDoseSource?materialDoseSourceList.find(val=>val.code==scope.row.materialDoseSource).name:'' }}</span>
             </el-form-item>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column
           prop="startDate"
           align="center"
@@ -359,19 +358,19 @@
           </template>
         </el-table-column>
    
-        <el-table-column prop="method" align="center"  width="90" :label="language('补差方式')">
+        <!-- <el-table-column prop="method" align="center"  width="90" :label="language('补差方式')">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'method'"
               :rules="formRules.method ? formRules.method : ''">
               <span>{{ scope.row.method=='1'?'一次性补差':scope.row.method=='2'?'变价单补差':'' }}</span>
             </el-form-item>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column
           prop="sapCode"
           align="center"
-          :label="language('GONGYINGSHANGBIANHAOMINGCHENG', '供应商')"
-
+          :label="language('LK_GONGYINGSHANG', '供应商')"
+          :width="isTitle?'140':'140'"
         >
           <!-- supplierName供应商名称 -->
           <template slot-scope="scope">
@@ -400,8 +399,8 @@
         <el-table-column
           prop="materialCode"
           align="center"
-          :label="language('原材料牌号-名称', '原材料牌号-名称')"
-          :width="isTitle?'140':''"
+          :label="language('YUANCAILIAO', '原材料')"
+          :width="isTitle?'140':'200'"
 
         >
           <template slot-scope="scope">
@@ -448,8 +447,8 @@
 
 <!-- ----------------------------------------------------------------------------------------------------------------------- -->
 
- 
-<template v-if="isTitle">
+<!-- v-if="isTitle" -->
+<template >
         <el-table-column
           prop="tcExchangeRate"
           align="center"
@@ -528,14 +527,14 @@
             <span>{{ scope.row.compensationRatio }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="partBalanceCountType" align="center" width="90" :label="language('结算数量来源', '结算数量来源')">
+        <!-- <el-table-column prop="partBalanceCountType" align="center" width="90" :label="language('结算数量来源', '结算数量来源')">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'partBalanceCountType'"
               :rules="formRules.partBalanceCountType ? formRules.partBalanceCountType : ''">
               <span>{{ scope.row.partBalanceCountType=='SYSTEM'?'系统预读':scope.row.partBalanceCountType=='HANDWORK'?'手工上传':'' }}</span>
             </el-form-item>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         
         <el-table-column
           prop="priceSource"
@@ -1015,7 +1014,7 @@ import {
 import iTooltip from "./iTooltip";
 import { deepClone } from './util'
 import { getToken } from '@/utils'
-import { tipList,offsetList,avgPeriodList,materialDoseSourceList, methodList} from './data'
+import { tipList,offsetList,avgPeriodList,materialDoseSourceList,methodList} from './data'
 export default {
   name: 'Search',
   componentName: 'theDataTabs',

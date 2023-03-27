@@ -12,6 +12,22 @@ export function getHistoryPbi(parmars) {
     data: parmars
   })
 }
+// 获取供应商kpi概念
+export function getPerformanceKpiOverViewPbi(parmars) {
+  return requst({
+    url: '/supplierPerformanceKpi/getPerformanceKpiOverViewPbi',
+    method: 'POST',
+    data: parmars
+  })
+}
+// 获取供应商kpi任务
+export function getPerformanceKpiPbi(parmars) {
+  return requst({
+    url: '/supplierPerformanceKpi/getPerformanceKpiPbi',
+    method: 'POST',
+    data: parmars
+  })
+}
 // 获取历史部门综合评分
 export function getHistoryDeptSynthesisPbi(parmars) {
   return requst({
@@ -23,6 +39,13 @@ export function getHistoryDeptSynthesisPbi(parmars) {
 export function getIndicator(id) {
   return requst({
     url: '/indicatorLibrary/getIndicator/?indicatorId=' + id,
+    method: 'GET',
+  })
+}
+// 获取全部指标集合
+export function getIndicatorAllList() {
+  return requst({
+    url: '/indicatorLibrary/getIndicatorAllList',
     method: 'GET',
   })
 }
@@ -128,6 +151,14 @@ export function getSupplierPerforManceModelPage(parmars) {
 export function uploadPerformanceModelFile(parmars) {
   return requst({
     url: '/supplierPerformanceTask/uploadPerformanceModelFile',
+    method: 'POST',
+    data: parmars
+  })
+}
+// 获取版本供应商
+export function getSupplierPerforManceModelRelationPage(parmars) {
+  return requst({
+    url: '/supplierPerformanceTask/getSupplierPerforManceModelRelationPage',
     method: 'POST',
     data: parmars
   })

@@ -33,7 +33,7 @@
                             :label="item.code"></el-option>
                     </iSelect>
                 </iFormItem>
-                <iFormItem prop="materialDoseSource">
+                <!-- <iFormItem prop="materialDoseSource">
                     <iLabel :label="language('原材料用量来源', '原材料用量来源')" slot="label" :required="true"></iLabel>
                     <iSelect v-model="contractForm.materialDoseSource" clearable filterable
                         :placeholder="language('QINGXUANZE', '请选择')">
@@ -41,7 +41,7 @@
                             :value="item.code">
                         </el-option>
                     </iSelect>
-                </iFormItem>
+                </iFormItem> -->
                 <iFormItem prop="startDate">
                     <iLabel :label="language('YOUXIAOQIQI', '有效期起')" slot="label"></iLabel>
                     <iDatePicker value-format="yyyy-MM-dd" :picker-options="pickerOptionsStar" v-model="contractForm.startDate" type="datetime">
@@ -119,20 +119,20 @@
                         <iDatePicker v-model="contractForm.endDate" type="datetime" :disabled="true">
                         </iDatePicker>
                     </iFormItem>
-                    <iFormItem prop="partBalanceCountType">
+                    <!-- <iFormItem prop="partBalanceCountType">
                         <iLabel :label="language('结算数据来源', '结算数据来源')" slot="label" :required="true"></iLabel>
                         <i-select :disabled="true" v-model="contractForm.partBalanceCountType" >
                         <el-option v-for="item in partBalanceCountTypeList" :key="item.code" :label="item.name" :value="item.code">
                             </el-option>
                         </i-select>
 
-                    </iFormItem>
+                    </iFormItem> -->
                     <iFormItem prop="priceSource">
                         <iLabel :label="language('SHICHANGJIALAIYUAN', '市场价来源')" slot="label"></iLabel>
                         <iInput v-model="contractForm.priceSource" type="text" :placeholder="language('QINGSHURU', '请输入')"
                             :disabled="true" />
                     </iFormItem>
-                    <iFormItem prop="avgPeriod">
+                    <!-- <iFormItem prop="avgPeriod">
                         <iLabel :label="language('均值计算周期', '均值计算周期')" slot="label" :required="true"></iLabel>
                         <i-select :disabled="true" v-model="contractForm.avgPeriod" clearable filterable
                             :placeholder="language('QINGXUANZE', '请选择')">
@@ -147,7 +147,7 @@
                             <el-option v-for="item in offsetList" :key="item.code" :label="item.name" :value="item.code">
                             </el-option>
                         </i-select>
-                    </iFormItem>
+                    </iFormItem> -->
                     <iFormItem prop="price">
                         <iLabel :label="language('JIJIA', '基价')" slot="label"></iLabel>
                         <iInput v-model="contractForm.price" type="text" :placeholder="language('QINGSHURU', '请输入')"
@@ -315,6 +315,7 @@ import {
     iDatePicker,
     iDialog,
 } from 'rise'
+
 import inputCustom from '@/components/inputCustom'
 export default {
     components: {
