@@ -56,6 +56,17 @@ export const offsetList = [
   { code: '-11', name: '-11个月' },
   { code: '-12', name: '-12个月' }
 ]
+export const tipList = [
+  '<div>一般供应商：SAP系统读取</div><div>特殊供应商（VWPT等）：手工上传</div>',
+  '<div>贵金属：点价单</div><div>非贵金属：上海有色金属网</div>',
+  '与供应商约定的原材料基准价格',
+  '当市场价>（1+阈值）*基价或市场价<(1-阈值)*基价时，自动计算出补差结果<div>超额补差：只补超出阈值部分</div><div>全额补差：补市场价超出基价的部分</div>',
+  '<div>全额补差，阈值系数为0</div><div>超额补差，阈值系数为1</div>',
+  '原材料在单位零件中的重量',
+  '补差计算中的比例系数',
+  '全年原材料市场价按均值计算周期等分。例：均值计算周期为3个月时，1-3月市场价均为1-3月的市场价均值',
+  '市场价取值与本月的偏移量，例：计算偏移量为-1，计算3月补差金额时取2月市场价'
+]
 export const tabRouterList = [
   {
     value: 1,
@@ -258,7 +269,7 @@ export const ruleTableTitle1_all = [
     props: 'startDate',
     name: '有效期起',
     key: '有效期起',
-    width: 70,
+    width: 80,
     overlap: true,
     overlapbottom: 'Valid From'
   },
@@ -266,19 +277,19 @@ export const ruleTableTitle1_all = [
     props: 'endDate',
     name: '有效期止',
     key: '有效期止',
-    width: 70,
+    width: 80,
     overlap: true,
     overlapbottom: 'Valid To'
   },
   {
     width: 110,
     props: 'partBalanceCountType',
-    name: '结算数量来源',
-    key: '结算数量来源',
+    name: '结算数据来源',
+    key: '结算数据来源',
     iconTextKey: '一般供应商：SAP系统读取；特殊供应商（VWPT等）：手工上传',
     typeIcon: 'num',
     num: '1',
-    overlapbottom: 'Invoiced Part Source'
+    overlapbottom: 'Settle Accounts Quantity'
   },
   {
     width: 90,
@@ -298,18 +309,18 @@ export const ruleTableTitle1_all = [
     icon: 'iconxinxitishi',
     iconTextKey:
       '全年原材料市场价按均值计算周期等分。例：均值计算周期为3个月时，1-3月市场价均为1-3月的市场价均值',
-    overlapbottom: 'avgPeriod'
+    overlapbottom: 'Avg. Period'
   },
   {
     props: 'offsetMonth',
-    name: '计算偏移量',
+    name: '均值偏移量',
     width: 90,
-    key: '计算偏移量',
+    key: '均值偏移量',
     overlap: false,
     icon: 'iconxinxitishi',
     iconTextKey:
       '市场价取值与本月的偏移量，例：计算偏移量为-1，计算3月补差金额时取2月市场价',
-    overlapbottom: 'offsetMonth'
+    overlapbottom: 'Avg. Offset'
   },
 
   {
@@ -353,32 +364,35 @@ export const ruleTableTitle1_all = [
     props: 'threshold',
     name: '阈值',
     key: '阈值',
-    minWidth: 60,
+    width: 70,
     iconTextKey:
       '当市场价>（1+阈值）*基价或市场价<(1-阈值)*基价时，自动计算出补差结果；超额补差：只补超出阈值部分；全额补差：补市场价超出基价的部分',
     typeIcon: 'num',
     num: '4',
-    overlapbottom: 'Forex'
+    overlapbottom: 'Threshold'
   },
   {
     props: 'thresholdCompensationLogic',
-    name: '阈值补差逻辑',
-    key: '阈值补差逻辑',
+    name: '阈值系数',
+    key: '阈值系数',
+    iconTextKey:
+    '全额补差，阈值系数为0;超额补差，阈值系数为1',
+    typeIcon: 'num',
+    num: '5',
     width: 90,
-    overlapbottom: 'Threhold',
-    overlap: true
+    overlapbottom: 'Coefficient',
   },
 
   {
     props: 'compensationRatio',
-    name: '补差系数',
-    key: '补差系数',
+    name: '补差%',
+    key: '补差%',
     width: 80,
     overlap: false,
     iconTextKey: '补差计算中的比例系数',
     typeIcon: 'num',
-    num: '6',
-    overlapbottom: 'Ratio'
+    num: '7',
+    overlapbottom: 'Compensation%'
   },
   {
     props: 'compensationPeriod',
@@ -541,7 +555,7 @@ export const ruleTableTitle1_1 = [
     props: 'startDate',
     name: '有效期起',
     key: '有效期起',
-    width: 70,
+    width: 80,
     overlap: true,
     overlapbottom: 'Valid From'
   },
@@ -549,19 +563,19 @@ export const ruleTableTitle1_1 = [
     props: 'endDate',
     name: '有效期止',
     key: '有效期止',
-    width: 70,
+    width: 80,
     overlap: true,
     overlapbottom: 'Valid To'
   },
   {
     width: 110,
     props: 'partBalanceCountType',
-    name: '结算数量来源',
-    key: '结算数量来源',
+    name: '结算数据来源',
+    key: '结算数据来源',
     iconTextKey: '一般供应商：SAP系统读取；特殊供应商（VWPT等）：手工上传',
     typeIcon: 'num',
     num: '1',
-    overlapbottom: 'Invoiced Part Source'
+    overlapbottom: 'Settle Accounts Quantity'
   },
   {
     width: 90,
@@ -581,18 +595,18 @@ export const ruleTableTitle1_1 = [
     icon: 'iconxinxitishi',
     iconTextKey:
       '全年原材料市场价按均值计算周期等分。例：均值计算周期为3个月时，1-3月市场价均为1-3月的市场价均值',
-    overlapbottom: 'avgPeriod'
+    overlapbottom: 'Avg. Period'
   },
   {
     props: 'offsetMonth',
-    name: '计算偏移量',
+    name: '均值偏移量',
     width: 90,
-    key: '计算偏移量',
+    key: '均值偏移量',
     overlap: false,
     icon: 'iconxinxitishi',
     iconTextKey:
       '市场价取值与本月的偏移量，例：计算偏移量为-1，计算3月补差金额时取2月市场价',
-    overlapbottom: 'offsetMonth'
+    overlapbottom: 'Avg. Offset'
   },
 
   {
@@ -636,32 +650,35 @@ export const ruleTableTitle1_1 = [
     props: 'threshold',
     name: '阈值',
     key: '阈值',
-    minWidth: 60,
+    width: 70,
     iconTextKey:
       '当市场价>（1+阈值）*基价或市场价<(1-阈值)*基价时，自动计算出补差结果；超额补差：只补超出阈值部分；全额补差：补市场价超出基价的部分',
     typeIcon: 'num',
     num: '4',
-    overlapbottom: 'Forex'
+    overlapbottom: 'Threshold'
   },
   {
     props: 'thresholdCompensationLogic',
-    name: '阈值补差逻辑',
-    key: '阈值补差逻辑',
+    name: '阈值系数',
+    key: '阈值系数',
+    iconTextKey:
+    '全额补差，阈值系数为0;超额补差，阈值系数为1',
+    typeIcon: 'num',
+    num: '5',
     width: 90,
-    overlapbottom: 'Threhold',
-    overlap: true
+    overlapbottom: 'Coefficient',
   },
 
   {
     props: 'compensationRatio',
-    name: '补差系数',
-    key: '补差系数',
+    name: '补差%',
+    key: '补差%',
     width: 80,
     overlap: false,
     iconTextKey: '补差计算中的比例系数',
     typeIcon: 'num',
-    num: '6',
-    overlapbottom: 'Ratio'
+    num: '7',
+    overlapbottom: 'Compensation%'
   },
   {
     props: 'compensationPeriod',
@@ -699,22 +716,23 @@ export const partTableTitle1_2 = [
     props: 'threshold',
     name: '阈值',
     key: '阈值',
-    overlapbottom: 'threshold',
+
+    overlapbottom: 'Threshold',
     overlap: true
   },
   {
     props: 'thresholdCompensationLogic',
-    name: '阈值补差逻辑',
-    key: '阈值补差逻辑',
-    overlapbottom: 'Threhold',
+    name: '阈值系数',
+    key: '阈值系数',
+    overlapbottom: 'Coefficient',
     overlap: true
   },
 
   {
     props: 'compensationRatio',
-    name: '补差系数',
-    key: '补差系数',
-    overlapbottom: 'Ratio',
+    name: '补差%',
+    key: '补差%',
+    overlapbottom: 'Compensation%',
     overlap: true
   },
   {
@@ -736,15 +754,15 @@ export const partTableTitle1_2 = [
     props: 'avgPeriod',
     name: '均值计算周期',
     key: '均值计算周期',
-    overlapbottom: 'avgPeriod',
+    overlapbottom: 'Avg. Period',
     overlap: true
     // overlapbottom: 'Market'
   },
   {
     props: 'offsetMonth',
-    name: '计算偏移量',
-    key: '计算偏移量',
-    overlapbottom: 'offsetMonth',
+    name: '均值偏移量',
+    key: '均值偏移量',
+    overlapbottom: 'Avg. Offset',
     overlap: true
     // overlapbottom: 'Market'
   },
@@ -911,7 +929,7 @@ export const partTableTitle1_all = [
     minWidth: 60,
     iconTextKey: '原材料在单位零件中的重量',
     typeIcon: 'num',
-    num: '5',
+    num: '6',
     overlapbottom: 'Dosage',
 
   },
@@ -935,7 +953,7 @@ export const partTableTitle1_all = [
     props: 'startDate',
     name: '有效期起',
     key: '有效期起',
-    minWidth: 75,
+    width: 80,
     overlapbottom: 'Valid From',
     overlap: true
   },
@@ -943,7 +961,7 @@ export const partTableTitle1_all = [
     props: 'endDate',
     name: '有效期止',
     key: '有效期止',
-    minWidth: 75,
+    width: 80,
     overlapbottom: 'Valid To',
     overlap: true
   },
@@ -1017,22 +1035,22 @@ export const partTableTitle1_all = [
     props: 'threshold',
     name: '阈值',
     key: '阈值',
-    overlapbottom: 'threshold',
+    overlapbottom: 'Threshold',
     overlap: true
   },
   {
     props: 'thresholdCompensationLogic',
-    name: '阈值补差逻辑',
-    key: '阈值补差逻辑',
-    overlapbottom: 'Threhold',
+    name: '阈值系数',
+    key: '阈值系数',
+    overlapbottom: 'Coefficient',
     overlap: true
   },
 
   {
     props: 'compensationRatio',
-    name: '补差系数',
-    key: '补差系数',
-    overlapbottom: 'Ratio',
+    name: '补差%',
+    key: '补差%',
+    overlapbottom: 'Compensation%',
     overlap: true
   },
   {
@@ -1054,15 +1072,15 @@ export const partTableTitle1_all = [
     props: 'avgPeriod',
     name: '均值计算周期',
     key: '均值计算周期',
-    overlapbottom: 'avgPeriod',
+    overlapbottom: 'Avg. Period',
     overlap: true
     // overlapbottom: 'Market'
   },
   {
     props: 'offsetMonth',
-    name: '计算偏移量',
-    key: '计算偏移量',
-    overlapbottom: 'offsetMonth',
+    name: '均值偏移量',
+    key: '均值偏移量',
+    overlapbottom: 'Avg. Offset',
     overlap: true
     // overlapbottom: 'Market'
   },
@@ -1227,7 +1245,7 @@ export const partTableTitle1_1 = [
     minWidth: 50,
     iconTextKey: '原材料在单位零件中的重量',
     typeIcon: 'num',
-    num: '5',
+    num: '6',
     overlapbottom: 'Dosage',
 
   },
@@ -1251,7 +1269,7 @@ export const partTableTitle1_1 = [
     props: 'startDate',
     name: '有效期起',
     key: '有效期起',
-    minWidth: 75,
+    width: 80,
     overlapbottom: 'Valid From',
     overlap: true
   },
@@ -1259,7 +1277,7 @@ export const partTableTitle1_1 = [
     props: 'endDate',
     name: '有效期止',
     key: '有效期止',
-    minWidth: 75,
+    width: 80,
     overlapbottom: 'Valid To',
     overlap: true
   },

@@ -44,11 +44,11 @@
           <el-divider class="hr_divider" />
 
           <div class="centerBox">
-              <p>补差金额=零件结算数量 
-                *[原材料市场价 -原材料基价*(1+阈值 )]*原材料用量
-                 *补差系数
+            <p>补差金额=零件结算数量 
+                *[原材料市场价 -原材料基价*(1+阈值*阈值系数 )]*原材料用量
+                 *补差%
               </p>
-              <p>MTZ Payment=Settle accounts Quantity*[Effective Price-Base Price(1+threshold)]*Raw Material Weight*Ratio
+              <p class="enStyle"><span>MTZ Payment= Settle Accounts Quantity*[Effective Price-Base Price(1+Threshold*Coefficient)]*Raw Material Weight* Compensation%</span><span>When: effective price > base price *(1+threshold)</span></p>
               </p>
             </div>
           <p
@@ -267,10 +267,10 @@
 
             <div class="centerBox">
               <p>补差金额=零件结算数量 
-                *[原材料市场价 -原材料基价*(1+阈值 )]*原材料用量
-                 *补差系数
+                *[原材料市场价 -原材料基价*(1+阈值*阈值系数 )]*原材料用量
+                 *补差%
               </p>
-              <p>MTZ Payment=Settle accounts Quantity*[Effective Price-Base Price(1+threshold)]*Raw Material Weight*Ratio
+              <p class="enStyle"><span>MTZ Payment= Settle Accounts Quantity*[Effective Price-Base Price(1+Threshold*Coefficient)]*Raw Material Weight* Compensation%</span><span>When: effective price > base price *(1+threshold)</span></p>
               </p>
             </div>
             <p
@@ -327,6 +327,9 @@
               <template slot-scope="scope" slot="offsetMonth">
                 <span>{{ scope.row.offsetMonth||scope.row.offsetMonth=='0'  ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
               </template>
+              <template slot-scope="scope" slot="compensationRatio">
+              <span >{{ scope.row.compensationRatio?scope.row.compensationRatio*100+'%':'' }}</span>
+            </template>
             </tableList>
             <tableList class="margin-top20" :tableData="tableData" :tableTitle="ruleTableTitle1_2"
               :tableLoading="loadingRule" v-if="!RsObject && tableData.length > 0&& tableData.some((val)=>{if(val.materialCode.slice(1,6)=='01006') {return true}})" :index="true" :selection="false"
@@ -377,10 +380,10 @@
 
             <div class="centerBox">
               <p>补差金额=零件结算数量 
-                *[原材料市场价 -原材料基价*(1+阈值 )]*原材料用量
-                 *补差系数
+                *[原材料市场价 -原材料基价*(1+阈值*阈值系数 )]*原材料用量
+                 *补差%
               </p>
-              <p>MTZ Payment=Settle accounts Quantity*[Effective Price-Base Price(1+threshold)]*Raw Material Weight*Ratio
+              <p class="enStyle"><span>MTZ Payment= Settle Accounts Quantity*[Effective Price-Base Price(1+Threshold*Coefficient)]*Raw Material Weight* Compensation%</span><span>When: effective price > base price *(1+threshold)</span></p>
               </p>
             </div>
             <p
@@ -448,6 +451,9 @@
             </template>
             <template slot-scope="scope" slot="offsetMonth">
               <span>{{ scope.row.offsetMonth||scope.row.offsetMonth=='0'  ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
+            </template>
+            <template slot-scope="scope" slot="compensationRatio">
+              <span >{{ scope.row.compensationRatio?scope.row.compensationRatio*100+'%':'' }}</span>
             </template>
             </tableList>
             <tableList border class="margin-top20 " :tableData="tableData" :tableTitle="partTableTitle1_3"
@@ -593,7 +599,7 @@
 import { formList, avgPeriodList, offsetList, materialDoseSourceList } from './data'
 
 import { iCard, iInput, iMessage } from 'rise'
-import tableList from './commonTable/index.vue'
+import tableList from '@/components/commonTableFixed/index.vue'
 import { partTableTitle1_3,ruleTableTitle1_1, ruleTableTitle1_all, partTableTitle1_1, partTableTitle1_all, ruleTableTitle1_2, partTableTitle1_2 } from './data'
 import { pageMixins } from '@/utils/pageMixins'
 import JsPDF from 'jspdf'
@@ -1073,6 +1079,10 @@ $tabsInforHeight: 35px;
 
   p {
     font-size: 18px;
+  }
+  .enStyle{
+    display:flex;
+    justify-content:space-between;
   }
 }
 .applayDateContent {

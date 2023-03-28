@@ -174,7 +174,7 @@
         </iFormItem>
         <iFormItem prop="partBalanceCountType">
           <iLabel
-            :label="language('结算数量来源', '结算数量来源')"
+            :label="language('结算数据来源', '结算数据来源')"
             slot="label"
             :required="true"
           ></iLabel>
@@ -230,7 +230,7 @@
         </iFormItem>
         <iFormItem prop="offsetMonth">
           <iLabel
-            :label="language('计算偏移量', '计算偏移量')"
+            :label="language('均值偏移量', '均值偏移量')"
             slot="label"
             :required="true"
           ></iLabel>
@@ -319,7 +319,7 @@
         </iFormItem>
         <iFormItem prop="thresholdCompensationLogic">
           <iLabel
-            :label="language('YUZHIBUCHALUOJI', '阈值补差逻辑')"
+            :label="language('YUZHIXISHU', '阈值系数')"
             slot="label"
             :required="true"
           ></iLabel>
@@ -339,7 +339,7 @@
         </iFormItem>
         <iFormItem prop="compensationRatio">
           <iLabel
-            :label="language('BUCHAXISHU', '补差系数')"
+            :label="language('BUCHABAIFENBI', '补差%')"
             slot="label"
             :required="true"
           ></iLabel>
