@@ -141,7 +141,7 @@
                         </i-select>
                     </iFormItem>
                     <iFormItem prop="offsetMonth">
-                        <iLabel :label="language('计算偏移量', '计算偏移量')" slot="label" :required="true"></iLabel>
+                        <iLabel :label="language('均值偏移量', '均值偏移量')" slot="label" :required="true"></iLabel>
                         <i-select :disabled="true" v-model="contractForm.offsetMonth" clearable filterable
                             :placeholder="language('QINGXUANZE', '请选择')">
                             <el-option v-for="item in offsetList" :key="item.code" :label="item.name" :value="item.code">
@@ -176,7 +176,7 @@
                             :disabled="true" />
                     </iFormItem>
                     <iFormItem prop="thresholdCompensationLogic">
-                        <iLabel :label="language('YUZHIBUCHALUOJI', '阈值补差逻辑')" slot="label"></iLabel>
+                        <iLabel :label="language('YUZHIXISHU', '阈值系数')" slot="label"></iLabel>
                         <iSelect v-model="contractForm.thresholdCompensationLogic" clearable value-key="code"
                             :disabled="true" :placeholder="language('QINGXUANZE', '请选择')">
                             <el-option v-for="item in thresholdCompensationLogic" :key="item.code" :value="item.code"
@@ -184,7 +184,7 @@
                         </iSelect>
                     </iFormItem>
                     <iFormItem prop="compensationRatio">
-                        <iLabel :label="language('BUCHAXISHU', '补差系数')" slot="label"></iLabel>
+                        <iLabel :label="language('BUCHABAIFENBI', '补差%')" slot="label"></iLabel>
                         <iInput v-model="contractForm.compensationRatio" type="text"
                             :placeholder="language('QINGSHURU', '请输入')" :disabled="true" />
                     </iFormItem>
