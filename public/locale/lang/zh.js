@@ -7,6 +7,7 @@
 })(this, function (i18n) {
   'use strict'
   var oldLanguage = {
+    CHUANGJIANBANBEN: '创建版本',
     FENGXAINXINHAOTIAOZHENGFEN:'风险信号调整分',
     ZHIBIAOKU:'指标库',
     ZHIBIAOGUANLI:'指标管理',

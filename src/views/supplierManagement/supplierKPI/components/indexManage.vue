@@ -56,7 +56,7 @@
           <i-input style="width: 200px" :placeholder="$t('partsprocure.PLEENTER')" v-model="form.nameEn">
           </i-input>
         </el-form-item>
-        <el-form-item :label="$t('负责科室')" prop="deptCode">
+        <el-form-item :label="$t('FUZEKESHI')" prop="deptCode">
           <iSelect filterable clearable multiple style="width: 200px" :placeholder="$t('partsprocure.PLEENTER')"
             v-model="form.deptCode">
             <el-option v-for="(item, index) in deptList" :key="index" :value="item.deptNum" :label="item.deptNum">
