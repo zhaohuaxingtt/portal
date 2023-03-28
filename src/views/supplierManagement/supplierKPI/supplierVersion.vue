@@ -90,7 +90,7 @@
             @click="longTime(scope.row)"
             >延期
           </iButton>
-          <iButton   type="text" @click="edit(scope.row)">{{$t('LK_BIANJI')}}</iButton>
+          <iButton  v-if="scope.row.status == 0"  type="text" @click="edit(scope.row)">{{$t('LK_BIANJI')}}</iButton>
         </template>
       </tableList>
       <iPagination
