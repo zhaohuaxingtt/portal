@@ -222,7 +222,7 @@
             :disabled="importLoading"
           >
             <div>
-              <i-button>{{ language('PILIANGDAORU', '批量导入') }} </i-button>
+              <i-button v-loading="importLoading">{{ language('PILIANGDAORU', '批量导入') }} </i-button>
             </div>
           </el-upload>
         </div>
@@ -549,10 +549,11 @@ export default {
             })
           })
           this.tableListData2 = [...this.tableListData2, ...data]
-          console.log(this.tableListData2)
-          this.importDialog = true
           this.$message.success(this.language('DAORUCHENGGONG', '导入成功'))
+          this.importLoading = false
         } else {
+          this.importLoading = false
+
           this.$message.error('导入失败')
         }
       })
