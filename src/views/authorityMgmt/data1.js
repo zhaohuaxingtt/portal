@@ -67,7 +67,7 @@ export const tableSetting = [
     }
   },
   {
-    prop: 'deptList',
+    prop: 'deptNumList',
     label: '所属部门',
     align: 'center',
     i18n: 'staffManagement.DEPARTMENT',
@@ -161,7 +161,7 @@ export const exportTableSetting = [
     }
   },
   {
-    props: 'deptList',
+    props: 'deptNumList',
     name: '所属部门'
   },
   {

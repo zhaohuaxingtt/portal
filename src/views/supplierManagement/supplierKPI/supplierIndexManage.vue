@@ -20,16 +20,16 @@
             <span class="link" @click="dowload(allData.fileId)">{{ allData.fileName }}</span>
             <uploadButton style="margin-right:20px" :accept="'.pdf,.xlsx,.xls,.docx'" uploadClass="uploadButton"
               :beforeUpload="beforeUpload" @success="uploadSuccess" @error="uploadError">
-              <iButton :disabled="!isEdit" :loading="uploadLoading">{{ '上传' }}</iButton>
+              <iButton :disabled="!isEdit" :loading="uploadLoading">{{ $t('LK_SHANGCHUAN') }}</iButton>
             </uploadButton>
-            <iButton :disabled="!isEdit" @click="del">{{ '删除' }}</iButton>
+            <iButton :disabled="!isEdit" @click="del">{{ $t('删除') }}</iButton>
           </div>
         </div>
         <div>
           <iButton v-permission="SUPPLIER_WORKBENCH_JIXIAO_SUPPLIERINDEXMANAGE" @click="edit" v-if="!isEdit">编辑</iButton>
-          <iButton @click="canel" v-if="isEdit">取消</iButton>
+          <iButton @click="canel" v-if="isEdit">{{$t('LK_QUXIAO')}}</iButton>
           <!-- <iButton @click="save">暂存</iButton> -->
-          <iButton @click="save" v-if="isEdit">提交生效</iButton>
+          <iButton @click="save" v-if="isEdit">{{$t('LK_TIJIAO')}}</iButton>
         </div>
       </div>
     </iCard>

@@ -181,16 +181,16 @@ export default {
           key: '部门综合评分',
           permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_KPI_BMZHPF'
         },
-        // {
-        //   name: '供应商kpi概念',
-        //   key: '供应商kpi概念',
-        //   permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_KPI_HQGYSKPIGN'
-        // },
-        // {
-        //   name: '供应商kpi任务',
-        //   key: '供应商kpi任务',
-        //   permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_KPI_HQGYSKPIRW'
-        // },
+        {
+          name: '供应商kpi概览',
+          key: '供应商kpi概览',
+          permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_KPI_HQGYSKPIGN'
+        },
+        {
+          name: '供应商kpi任务',
+          key: '供应商kpi任务',
+          permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_KPI_HQGYSKPIRW'
+        },
       ],
     }
     
