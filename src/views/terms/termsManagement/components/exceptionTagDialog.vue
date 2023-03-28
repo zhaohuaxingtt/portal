@@ -14,7 +14,7 @@
         <div class="search-input">
           <div class="the_font">{{$t('TM_SOUSUO')}}</div>
           <iInput v-model="shortNameZh"></iInput>
-          <iButton @click="getTableList">{{ 'TM_CHAXUN' }}</iButton>
+          <iButton @click="getTableList">{{ $t('TM_CHAXUN') }}</iButton>
         </div>
 
         <div class="tag-box">
