@@ -585,7 +585,7 @@
           <el-form-item :prop="'tableData.' + scope.$index + '.' + 'avgPeriod'"
             :rules="formRules.avgPeriod ? formRules.avgPeriod : ''">
           
-                <span >{{ scope.row.avgPeriod?avgPeriodList.find(val=>val.code==scope.row.avgPeriod).name:'' }}</span>
+                <span >{{ scope.row.avgPeriod||scope.row.avgPeriod=='0'?avgPeriodList.find(val=>val.code==scope.row.avgPeriod).name:'' }}</span>
             </el-form-item>
           </template>
         </el-table-column>
@@ -595,7 +595,7 @@
           <el-form-item :prop="'tableData.' + scope.$index + '.' + 'offsetMonth'"
             :rules="formRules.offsetMonth ? formRules.offsetMonth : ''">
         
-                <span >{{ scope.row.offsetMonth?offsetList.find(val=>val.code==scope.row.offsetMonth).name:'' }}</span>
+                <span >{{ scope.row.offsetMonth||scope.row.offsetMonth=='0'?offsetList.find(val=>val.code==scope.row.offsetMonth).name:'' }}</span>
             </el-form-item>
           </template>
         </el-table-column>
