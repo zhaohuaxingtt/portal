@@ -54,7 +54,6 @@
                 <iFormItem
                   :label="language(itemLabel.number)"
                   prop="partNum"
-                  label-width="80px"
                 >
                   <iInput
                     v-model="itemContent.partNum"
@@ -68,7 +67,7 @@
                 v-else
                 class="numbers"
               >
-                <iFormItem v-model="itemContent.number" label-width="80px">
+                <iFormItem v-model="itemContent.number">
                   <div class="l" slot="label">
                     {{ language('零件号') }}<span style="color: red">*</span>
                   </div>
@@ -178,7 +177,7 @@
             </el-row>
             <el-row gutter="24">
               <el-col :span="6">
-                <iFormItem :label="language('零件状态')" label-width="80px">
+                <iFormItem :label="language('零件状态')">
                   <iInput
                     disabled
                     v-model="itemContent.partStatusDesc"
@@ -238,7 +237,7 @@
             </el-row>
             <el-row gutter="24">
               <el-col :span="6">
-                <iFormItem :label="language('FOP')" label-width="80px">
+                <iFormItem :label="language('FOP')">
                   <!-- <iInput :placeholder='language("请输入")' v-model="itemContent.fop" :disabled='isDisabled>0?true:false'></iInput> -->
                   <iSelectorInput
                     v-model="fop"
@@ -295,7 +294,6 @@
                 <iFormItem
                   :label="language('专业组')"
                   prop="fgId"
-                  label-width="80px"
                 >
                   <iSelect
                     :placeholder="language('请输入/请选择')"
@@ -336,10 +334,9 @@
                 </iFormItem>
               </el-col>
             </el-row>
-            <!-- 暂时未确定要显示 -->
-            <el-row gutter="24" v-if="false">
+            <el-row gutter="24">
               <el-col :span="6">
-                <iFormItem :label="language('配附件采购员')">
+                <iFormItem :label="language('配件采购员')">
                   <iInput disabled v-model="accessoriesUserInfo"></iInput>
                 </iFormItem>
               </el-col>
