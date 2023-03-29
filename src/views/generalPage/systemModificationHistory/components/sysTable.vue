@@ -16,6 +16,9 @@
     </template>
         <!-- v-permission="SUPPLIER_CHANGEHISTORY_TABLE" -->
     <table-list
+        openPageProps="fieldName"
+        :openPageGetRowData="true"
+        @openPage="handleOpenPage"
         :tableData="tableListData"
         :tableTitle="tableTitle"
         :tableLoading="tableLoading"
@@ -34,11 +37,18 @@
         <span v-else>{{scope.row.afterValue}}</span>
       </template>
     </table-list>
+    <processNode     
+    @clearDiolog="clearDiolog"
+      v-if="processNodeDiolog"
+      v-model="processNodeDiolog"
+      :instanceId="rowItem.approvalId"
+      ></processNode>
   </i-card>
 </template>
 
 <script>
 import {iCard, iButton} from "rise";
+import processNode from './processNode'
 import {generalPageMixins} from '@/views/generalPage/commonFunMixins'
 import tableList from '@/components/commonTable'
 import {tableTitle} from './data'
@@ -49,22 +59,32 @@ import {getSupplierEditList} from "../../../../api/supplier360/systemModificatio
 export default {
   mixins: [generalPageMixins],
   components: {
+    processNode,
     iCard,
     iButton,
     tableList
   },
   data() {
     return {
+      processNodeDiolog:false,
       tableListData: [],
       tableTitle: tableTitle,
       tableLoading: false,
-      selectTableData: []
+      selectTableData: [],
+      rowItem:{}
     }
   },
   created() {
     this.getTableList()
   },
   methods: {
+    handleOpenPage(row){
+      this.processNodeDiolog=true
+      this.rowItem=row
+    },
+    clearDiolog(){
+      this.processNodeDiolog=false
+    },
     async upload(val){
       await downloadUdFile(val)
     },
