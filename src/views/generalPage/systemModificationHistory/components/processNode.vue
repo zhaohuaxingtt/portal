@@ -12,7 +12,7 @@
   </template>
   
   <script>
-    import {iDialog} from 'rise'
+    import {iDialog,iMessage} from 'rise'
 
   import { horizontalPanel } from '@/components/approvalNode'
   import { queryWorkflowDetail } from '@/api/approval/myApplication'
@@ -68,10 +68,17 @@
           }
           queryWorkflowDetail(params)
             .then((res) => {
-              const { data } = res
-              this.panorama = data.panorama || []
-              this.stateCode = data.stateCode
-              this.getData()
+              if(res.code==200){
+                const { data } = res
+                this.panorama = data.panorama || []
+                this.stateCode = data.stateCode
+                this.getData()
+              }else{
+                iMessage.error(
+                  `${this.$i18n.locale === 'zh' ? res.desZh : res.desEn}`
+                )
+              }
+
             })
             .catch(() => {
             })

@@ -16,9 +16,6 @@
     </template>
         <!-- v-permission="SUPPLIER_CHANGEHISTORY_TABLE" -->
     <table-list
-        openPageProps="fieldName"
-        :openPageGetRowData="true"
-        @openPage="handleOpenPage"
         :tableData="tableListData"
         :tableTitle="tableTitle"
         :tableLoading="tableLoading"
@@ -26,6 +23,11 @@
         @handleSelectionChange="handleSelectionChange"
         border
     >
+    <template #fieldName="scope">
+        <span class="link" v-if="scope.row.approvalId" @click="handleOpenPage(scope.row)">{{scope.row.fieldName}}</span>
+        <span v-else>{{scope.row.fieldName}}</span>
+
+      </template>
       <!-- 变更前 -->
       <template #beforeValue="scope">
         <span class="value_click" v-if="scope.row.isAttachMent" @click="upload(scope.row.beforeValue)">{{scope.row.beforeFileName}}</span>
@@ -108,6 +110,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.link {
+  color: #1763f7;
+  cursor: pointer;
+}
 .value_click{
   color:#1763F7;
   text-decoration:underline;
