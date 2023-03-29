@@ -1,14 +1,14 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-09-24 11:31:29
- * @LastEditTime: 2023-03-21 16:02:56
+ * @LastEditTime: 2023-03-29 14:30:59
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\dataBase\marketPriceEnquiry\components\chartMaterialCode.vue
 -->
 <template>
   <div>
-    <div style="height: 660px; margin-top: 50px" ref="chart"></div>
+    <div class="chart" style="height: 660px; margin-top: 50px" ref="chart"></div>
   </div>
 </template>
 
@@ -75,7 +75,6 @@ export default {
     }
   },
   created() {
-    console.log(this.chartData)
     this.$nextTick(() => {
       this.initCharts()
     })
@@ -84,7 +83,6 @@ export default {
     // 初始化图表
     initCharts() {
       this.handleColor(this.chartData)
-      console.log(this.chartData)
       this.myChart = echarts().init(this.$refs.chart)
       const option = {
         color: this.chartData.map((item) => item.colorCode),
@@ -94,14 +92,17 @@ export default {
           data: [],
           selected: {},
           orient: 'vertical',
-          width: 240,
-          height: 600,
-          right: 10,
+          right: 0,
+          top: 10,
           itemWidth: 12,
-          itemGap: 20
+          itemGap: 20,
+          textStyle:{
+            width:'350',
+            overflow:'break',
+          },
         },
         grid: {
-          right: 240
+          right: 400
         },
         xAxis: {
           type: 'category',
@@ -115,18 +116,6 @@ export default {
         tooltip: {
           trigger: 'item',
           show: true
-          // formatter: function(params) {
-          //   const name = params.data.value[2]
-          //   const price = params.data.value[3]
-          //   const type = params.data.value[4]
-          //   const source = params.data.value[5]
-          //   let res =
-          //   '<p style="font-weight: bold;color: #000000;">中类名称：'+name+'<p>' +
-          //   '<p style="font-weight: bold;color: #000000;">具体价格：'+price+'<p>' +
-          //   '<p style="font-weight: bold;color: #000000;">市场价类别：'+type+'<p>' +
-          //   '<p style="font-weight: bold;color: #000000;">来源：'+source+'<p>'
-          //   return res
-          // }
         }
       }
       // 所有图例
@@ -152,26 +141,27 @@ export default {
 
       // 绑定切换图例状态事件
       this.myChart.on('legendselectchanged', (e) => {
-        console.log('e===>', e)
         this.$emit('handleChangeLegend', e.selected)
       })
 
       // 鼠标移入事件
       this.myChart.on('mousemove', (params) => {
-        if(params.seriesIndex!=0){
+        // 没有市场价类型
+        if(!params.data[2]){
           let option = this.myChart.getOption();
           option.series.forEach(item=>{
             if(item.name == params.seriesName){
               item.label.show = true
             }
           })
-          console.log('option=>',option);
           this.myChart.setOption(option)
         }
       })
       // 增加监听，mouseout事件（鼠标离开）
       this.myChart.on('mouseout', (params)=>{
-        if(params.seriesIndex!=0){
+        console.log(params);
+        // 没有市场价类型
+        if(!params.data[2]){
           let option = this.myChart.getOption();
           option.series.forEach(item=>{
             if(item.name==params.seriesName){
@@ -194,7 +184,6 @@ export default {
           res[item.title] = false
         }
       })
-      console.log('res=>', res)
       return res
     },
     // 获取当前年月，格式YYYY/MM
@@ -288,7 +277,7 @@ export default {
         show: true
       }
       const yAxis_ounce = {
-        name: 'RMB/ounce',
+        name: 'RMB/T',
         type: 'value',
         textStyle: {
           color: '#7E84A3'
@@ -324,9 +313,8 @@ export default {
     // 处理数据的颜色
     handleColor(data) {
       let colorArray = window._.cloneDeep(this.colors)
-      data.forEach((item) => {
+      data.forEach((item, i) => {
         let colorCode = ''
-        let obj = null
         switch (item.materialName) {
           case '铜':
             colorCode = '#C6D13B'
@@ -347,15 +335,9 @@ export default {
             colorCode = '#D2D5DD'
             break
           default:
-            obj = data.find((x) => x.material == item.material && x.colorCode)
-            if (obj) {
-              colorCode = obj.colorCode
-            } else {
-              //   colorCode = this.getRandomColor(colorArray)
-              let i = 0
-              colorCode = colorArray[i++]
-              window._.remove(colorArray, (x) => x === colorCode)
-            }
+            let len = colorArray.length
+            let index = (i < len) ? i : i % len
+            colorCode = colorArray[index]
             break
         }
         item['colorCode'] = colorCode
@@ -364,30 +346,30 @@ export default {
     // 获取series
     getSeries(data) {
       return data.map((item, i) => {
+        console.log(item);
         return {
           type: 'line',
           name: item.title,
           data: item.monthPriceList.length
-            ? item.monthPriceList.map((item) => [
-                item.month.slice(0, 4) + '/' + item.month.slice(4),
-                item.price
+            ? item.monthPriceList.map((child) => [
+                child.month.slice(0, 4) + '/' + child.month.slice(4),
+                child.price,
+                item.marketPriceType
               ])
             : [0],
-          step: i ? 'end' : false,
+          step: item.marketPriceType ? false : 'end',
           z: 99,
           symbol: 'circle',
           symbolSize: 4,
           yAxisIndex: item.yAxisIndex,
-          // endLabel: {
-          //   show: true,
-          //   distance: 20,
-          //   formatter: '{a}'
-          // },
           labelLayout: {
             moveOverlap: 'shiftY'
           },
           label: {
-            show: i ? false : true
+            show: item.marketPriceType ? true : false,
+            formatter:(params)=>{
+              return VueUtil.formatNumber(params.value[1])
+            }
           },
           triggerLineEvent:false,
           emphasis: {
@@ -434,6 +416,9 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+.chart{
+  letter-spacing: 0;
+}
 .tooltipInfo {
   font-weight: bold;
 }
