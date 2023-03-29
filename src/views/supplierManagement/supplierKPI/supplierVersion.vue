@@ -176,8 +176,10 @@
             style="width: 200px"
             v-model="form.endDate"
             type="datetime"
-            value-format="yyyy-MM-dd hh:mm:ss"
+            value-format="yyyy-MM-dd HH:mm:ss"
+                  format="yyyy-MM-dd HH:mm:ss"
             placeholder="选择日期时间"
+            default-time="23:59:59"
           >
           </el-date-picker>
           <span v-if="form.endDate">
@@ -227,6 +229,7 @@
           </el-upload>
         </div>
         <tableList
+        :height="400"
           :index="true"
           style="margin-top: 20px"
           border
@@ -266,9 +269,12 @@
       <span>截止日期：</span>
       <el-date-picker
         style="width: 200px"
-        value-format="yyyy-MM-dd hh:mm:ss"
+        value-format="yyyy-MM-dd HH:mm:ss"
+        format="yyyy-MM-dd HH:mm:ss"
         v-model="updataTime"
         type="datetime"
+        default-time="23:59:59"
+
         placeholder="选择日期"
       >
       </el-date-picker>
@@ -710,6 +716,7 @@ export default {
           this.tableLoading = false
           this.tableListData = res.data
           this.page.totalCount = res.total
+          console.log(this.DateDiffer(this.tableListData[0].endDate))
         } else {
           this.tableLoading = false
         }
