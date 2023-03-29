@@ -1,13 +1,13 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2023-03-27 11:12:36
+ * @LastEditTime: 2023-03-29 18:03:35
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\overview\index.vue
 -->
 <template>
-  <div>
+  <div v-if="false">
     <search
       @sure="handleSubmitSearch"
       @reset="handleSearchReset"
@@ -30,6 +30,9 @@
             <iCard><barCharts/></iCard>
         </el-col>
     </el-row>
+  </div>
+  <div v-else>
+    overview page
   </div>
 </template>
 
