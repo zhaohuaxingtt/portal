@@ -330,6 +330,15 @@
               <template slot-scope="scope" slot="compensationRatio">
               <span >{{ scope.row.compensationRatio?scope.row.compensationRatio*100+'%':'' }}</span>
             </template>
+            <template slot-scope="scope" slot="thresholdCompensationLogic">
+              <span>{{
+                scope.row.thresholdCompensationLogic == 'A'
+                ? '全额补差'
+                : scope.row.thresholdCompensationLogic == 'B'
+                  ? '超额补差'
+                  : ''
+              }}</span>
+            </template>
             </tableList>
             <tableList class="margin-top20" :tableData="tableData" :tableTitle="ruleTableTitle1_2"
               :tableLoading="loadingRule" v-if="!RsObject && tableData.length > 0&& tableData.some((val)=>{if(val.materialCode.slice(1,6)=='01006') {return true}})" :index="true" :selection="false"
@@ -454,6 +463,15 @@
             </template>
             <template slot-scope="scope" slot="compensationRatio">
               <span >{{ scope.row.compensationRatio?scope.row.compensationRatio*100+'%':'' }}</span>
+            </template>
+            <template slot-scope="scope" slot="thresholdCompensationLogic">
+              <span>{{
+                scope.row.thresholdCompensationLogic == 'A'
+                ? '全额补差'
+                : scope.row.thresholdCompensationLogic == 'B'
+                  ? '超额补差'
+                  : ''
+              }}</span>
             </template>
             </tableList>
             <tableList border class="margin-top20 " :tableData="tableData" :tableTitle="partTableTitle1_3"

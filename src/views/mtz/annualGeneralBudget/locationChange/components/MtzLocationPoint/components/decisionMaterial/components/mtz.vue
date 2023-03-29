@@ -188,6 +188,15 @@
             <template slot-scope="scope" slot="compensationRatio">
               <span >{{ scope.row.compensationRatio?scope.row.compensationRatio*100+'%':'' }}</span>
             </template>
+            <template slot-scope="scope" slot="thresholdCompensationLogic">
+              <span>{{
+                scope.row.thresholdCompensationLogic == 'A'
+                ? '全额补差'
+                : scope.row.thresholdCompensationLogic == 'B'
+                  ? '超额补差'
+                  : ''
+              }}</span>
+            </template>
           </tableList>
           <tableList class="margin-top20 " ref="moviesTable1" :tableData="ruleTableListData"
             :tableTitle="ruleTableTitle1_2" :tableLoading="loadingRule" v-if="!RsObject && ruleTableListData.length > 0&& partTableListData.some((val)=>{if(val.materialCode.slice(1,6)=='01006') {return true}})"
@@ -301,6 +310,15 @@
           <tableList border class="margin-top20 "  :tableData="partTableListData"
             :tableTitle="partTableTitle1_2" :tableLoading="loadingPart" v-if="!RsObject && partTableListData.length > 0"
             :index="true"  :selection="false">
+            <template slot-scope="scope" slot="thresholdCompensationLogic">
+              <span>{{
+                scope.row.thresholdCompensationLogic == 'A'
+                ? '全额补差'
+                : scope.row.thresholdCompensationLogic == 'B'
+                  ? '超额补差'
+                  : ''
+              }}</span>
+            </template>
             <template slot-scope="scope" slot="materialDoseSource">
               <span>{{
                 scope.row.materialDoseSource ? materialDoseSourceList.find(val => val.code == scope.row.materialDoseSource).name : ''
@@ -315,10 +333,12 @@
             <template slot-scope="scope" slot="offsetMonth">
               <span>{{ scope.row.offsetMonth||scope.row.offsetMonth=='0' ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
             </template>
-          </tableList>
-          <template slot-scope="scope" slot="compensationRatio">
+            <template slot-scope="scope" slot="compensationRatio">
               <span >{{ scope.row.compensationRatio?scope.row.compensationRatio*100+'%':'' }}</span>
             </template>
+          </tableList>
+
+
           <tableList border class="margin-top20 "  :tableData="partTableListData" :tableTitle="partTableTitle1_3"
 
           :tableLoading="loadingPart" v-if="!RsObject && partTableListData.length > 0 && partTableListData.some((val)=>{if(val.materialCode.slice(1,6)=='01006') {return true}})" :index="true"
@@ -596,6 +616,15 @@
               <template slot-scope="scope" slot="compensationRatio">
               <span >{{ scope.row.compensationRatio?scope.row.compensationRatio*100+'%':'' }}</span>
             </template>
+            <template slot-scope="scope" slot="thresholdCompensationLogic">
+              <span>{{
+                scope.row.thresholdCompensationLogic == 'A'
+                ? '全额补差'
+                : scope.row.thresholdCompensationLogic == 'B'
+                  ? '超额补差'
+                  : ''
+              }}</span>
+            </template>
             </tableList>
 
             <tableList class="margin-top20" :tableData="tableData" :tableTitle="ruleTableTitle1_2"
@@ -761,8 +790,17 @@
             <template slot-scope="scope" slot="compensationRatio">
               <span >{{ scope.row.compensationRatio?scope.row.compensationRatio*100+'%':'' }}</span>
             </template>
+            <template slot-scope="scope" slot="thresholdCompensationLogic">
+              <span>{{
+                scope.row.thresholdCompensationLogic == 'A'
+                ? '全额补差'
+                : scope.row.thresholdCompensationLogic == 'B'
+                  ? '超额补差'
+                  : ''
+              }}</span>
+            </template>
             </tableList>
-            
+
             <tableList border class="margin-top20 " :tableData="tableData" :tableTitle="partTableTitle1_3"
               :tableLoading="loadingPart" v-if="!RsObject && partTableListData.length > 0 && tableData.some((val)=>{if(val.materialCode.slice(1,6)=='01006') {return true}})" :index="true"
               :selection="false">
