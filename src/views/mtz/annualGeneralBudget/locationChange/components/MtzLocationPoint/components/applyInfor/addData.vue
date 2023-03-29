@@ -52,25 +52,7 @@
                     <iDatePicker value-format="yyyy-MM-dd" :picker-options="pickerOptionsEnd" v-model="contractForm.endDate" type="datetime">
                     </iDatePicker>
                 </iFormItem>
-            <iFormItem prop="method">
-            <iLabel
-                :label="language('补差方式', '补差方式')"
-                slot="label"
-                :required="true"
-            ></iLabel>
-            <i-select
-                v-model="contractForm.method"
-                :placeholder="language('QINGSHURU', '请输入')"
-            >
-                <el-option
-                v-for="item in methodList"
-                :key="item.code"
-                :label="item.message"
-                :value="item.code"
-                >
-                </el-option>
-            </i-select>
-            </iFormItem>
+
                 <iFormItem prop="ruleNo">
                     <iLabel :label="language('GUIZEBIANHAO', '规则编号')" slot="label" :required="true"></iLabel>
                     <iSelect v-model="contractForm.ruleNo" clearable value-key="code" @change="choiseGZ"
