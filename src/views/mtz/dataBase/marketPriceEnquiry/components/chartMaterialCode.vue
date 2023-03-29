@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-09-24 11:31:29
- * @LastEditTime: 2023-03-24 18:30:53
+ * @LastEditTime: 2023-03-29 14:30:59
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\dataBase\marketPriceEnquiry\components\chartMaterialCode.vue
@@ -146,7 +146,8 @@ export default {
 
       // 鼠标移入事件
       this.myChart.on('mousemove', (params) => {
-        if(params.seriesIndex!=0){
+        // 没有市场价类型
+        if(!params.data[2]){
           let option = this.myChart.getOption();
           option.series.forEach(item=>{
             if(item.name == params.seriesName){
@@ -158,7 +159,9 @@ export default {
       })
       // 增加监听，mouseout事件（鼠标离开）
       this.myChart.on('mouseout', (params)=>{
-        if(params.seriesIndex!=0){
+        console.log(params);
+        // 没有市场价类型
+        if(!params.data[2]){
           let option = this.myChart.getOption();
           option.series.forEach(item=>{
             if(item.name==params.seriesName){
@@ -343,16 +346,18 @@ export default {
     // 获取series
     getSeries(data) {
       return data.map((item, i) => {
+        console.log(item);
         return {
           type: 'line',
           name: item.title,
           data: item.monthPriceList.length
-            ? item.monthPriceList.map((item) => [
-                item.month.slice(0, 4) + '/' + item.month.slice(4),
-                item.price
+            ? item.monthPriceList.map((child) => [
+                child.month.slice(0, 4) + '/' + child.month.slice(4),
+                child.price,
+                item.marketPriceType
               ])
             : [0],
-          step: i ? 'end' : false,
+          step: item.marketPriceType ? false : 'end',
           z: 99,
           symbol: 'circle',
           symbolSize: 4,
@@ -361,7 +366,7 @@ export default {
             moveOverlap: 'shiftY'
           },
           label: {
-            show: i ? false : true,
+            show: item.marketPriceType ? true : false,
             formatter:(params)=>{
               return VueUtil.formatNumber(params.value[1])
             }

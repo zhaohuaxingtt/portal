@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-09-23 16:23:09
- * @LastEditTime: 2023-03-24 18:12:47
+ * @LastEditTime: 2023-03-29 15:19:25
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\dataBase\marketPriceEnquiry\components\marketPriceImg.vue
@@ -313,10 +313,10 @@ export default {
       }
       if (formData.materialCode) {
         // let res = mock
-        marketPriceChart(formData).then((res) => {
+        marketPriceChart({...formData,countUnit: 'T'}).then((res) => {
           if (res && res.code == 200) {
             this.materialCode = formData.materialCode
-            const data = window._.cloneDeep(res.data)
+            const data = [...res.data.marketPriceList, ...res.data.rulePriceList]
             this.mainData = data
             // 高亮材料下拉
             if (data.length > 0) {
@@ -332,7 +332,6 @@ export default {
               })
             }
             this.handleTimeChange()
-            // this.handleGetChartData(this.mainData)
           } else iMessage.error(res.desZh)
           this.chart = 2
         })
