@@ -490,8 +490,8 @@ export default {
                             this.contractForm.dosageMeasureUnit = "KG";
                             this.companyType = false;
                         }
-                        this.contractForm.avgPeriod=e.avgPeriod?e.avgPeriod.toString():'';
-                        this.contractForm.offsetMonth=e.offsetMonth?e.offsetMonth.toString():'';
+                        this.contractForm.avgPeriod=e.avgPeriod
+                        this.contractForm.offsetMonth=e.offsetMonth
                         console.log(this.contractForm)
                         this.startDate=this.contractForm.startDate
                         this.endDate=this.contractForm.endDate
