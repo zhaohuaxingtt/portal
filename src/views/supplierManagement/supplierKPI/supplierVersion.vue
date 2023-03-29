@@ -374,8 +374,7 @@ export default {
     this.init()
     this.getTableList()
     this.$nextTick(()=>{
-      this.form.statisticsStartDate = this.dateYear(-1)
-      this.form.statisticsEndDate = this.dateYear(0)
+
     })
 
   },
@@ -563,10 +562,7 @@ export default {
     submit(v) {
       if (v == 'to' && this.active != 4) {
         if (this.active == 2) {
-          // this.form.statisticsStartDate =
-          //   this.form.statisticsStartDate + ' ' + '12:00:00'
-          // this.form.statisticsEndDate =
-          //   this.form.statisticsEndDate + ' ' + '12:00:00'
+
           if (this.form.id) {
             updateSupplierPerforManceModel(this.form).then((res) => {
               if (res.code == '200') {
@@ -622,6 +618,12 @@ export default {
             this.tableListData2=res.data
             this.active = 2
           })
+        }else if(this.active==0){
+          this.active = 1          
+          if(!this.form.id){
+             this.form.statisticsStartDate = this.dateYear(-1)
+             this.form.statisticsEndDate = this.dateYear(0)
+          }
         } else {
           console.log(this.form)
           this.active = this.active + 1
@@ -679,7 +681,10 @@ export default {
       this.selectTableData = []
       this.active = 0
       this.addVersionDiolog = false
-      this.form = {}
+      this.form = {
+        statisticsStartDate: '',
+        statisticsEndDate: ''
+      }
     },
 
     DateDiffer(Date_end) {
