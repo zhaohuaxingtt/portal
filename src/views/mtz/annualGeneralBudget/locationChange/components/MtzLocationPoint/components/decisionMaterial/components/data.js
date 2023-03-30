@@ -65,7 +65,7 @@ export const tipList = [
   '原材料在单位零件中的重量',
   '补差计算中的比例系数',
   '全年原材料市场价按均值计算周期等分。例：均值计算周期为3个月时，1-3月市场价均为1-3月的市场价均值',
-  '市场价取值与本月的偏移量，例：计算偏移量为-1，计算3月补差金额时取2月市场价'
+  '市场价取值与本月的偏移量，例：均值偏移量为-1，计算3月补差金额时取2月市场价'
 ]
 export const tabRouterList = [
   {
@@ -319,7 +319,7 @@ export const ruleTableTitle1_all = [
     overlap: false,
     icon: 'iconxinxitishi',
     iconTextKey:
-      '市场价取值与本月的偏移量，例：计算偏移量为-1，计算3月补差金额时取2月市场价',
+      '市场价取值与本月的偏移量，例：均值偏移量为-1，计算3月补差金额时取2月市场价',
     overlapbottom: 'Avg. Offset'
   },
 
@@ -605,7 +605,7 @@ export const ruleTableTitle1_1 = [
     overlap: false,
     icon: 'iconxinxitishi',
     iconTextKey:
-      '市场价取值与本月的偏移量，例：计算偏移量为-1，计算3月补差金额时取2月市场价',
+      '市场价取值与本月的偏移量，例：均值偏移量为-1，计算3月补差金额时取2月市场价',
     overlapbottom: 'Avg. Offset'
   },
 
