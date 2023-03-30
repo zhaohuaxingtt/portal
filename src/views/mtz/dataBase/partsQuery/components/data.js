@@ -222,6 +222,7 @@ export const tableSetting = [
       return   <span> {scope.row.avgPeriod||scope.row.avgPeriod=='0' ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : ''} </span>
     }
   },
+  
   {
     prop: 'price',
     label: '基价',
@@ -323,6 +324,13 @@ export const tableSetting = [
     align: 'center',
     i18n: '补差周期',
     tooltip: true,
+    width: 150
+  },
+    {
+    prop: 'ruleVersion',
+    label: '版本',
+    align: 'center',
+    i18n: '版本',
     width: 150
   },
   {
