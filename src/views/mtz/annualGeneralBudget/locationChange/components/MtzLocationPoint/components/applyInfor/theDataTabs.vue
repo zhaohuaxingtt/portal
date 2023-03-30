@@ -579,7 +579,7 @@
             <span>{{ scope.row.priceSource }}</span>
           </template>
         </el-table-column>
-        <!-- <el-table-column prop="avgPeriod" align="center" width="80" :label="language('均值计算周期', '均值计算周期')">
+        <el-table-column prop="avgPeriod" align="center" width="80" :label="language('均值计算周期', '均值计算周期')">
      
           <template slot-scope="scope">
           <el-form-item :prop="'tableData.' + scope.$index + '.' + 'avgPeriod'"
@@ -598,7 +598,7 @@
                 <span >{{ scope.row.offsetMonth||scope.row.offsetMonth=='0'?offsetList.find(val=>val.code==scope.row.offsetMonth).name:'' }}</span>
             </el-form-item>
           </template>
-        </el-table-column> -->
+        </el-table-column>
         <el-table-column
           prop="compensationPeriod"
           align="center"
