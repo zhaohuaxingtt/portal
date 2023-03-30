@@ -68,7 +68,7 @@
           }
           queryWorkflowDetail(params)
             .then((res) => {
-              if(res.code==200){
+              if(res.data){
                 const { data } = res
                 this.panorama = data.panorama || []
                 this.stateCode = data.stateCode
@@ -89,7 +89,10 @@
           return []
         }
         this.setItemChildBranchFlag()
-  
+        // this.panorama.forEach(e => {
+        //   // e.branchFlag='sid-A2D5D135-E816-45F4-B76F-2B9D336B9FF8'
+        //   e.status='已审批'
+        // });
         const nodeData = []
         const len = this.panorama.length
         for (let i = 0; i < len; i++) {
@@ -99,10 +102,10 @@
   
           // 检查一下有没有并行节点
           if (
-            panoromaItem.branchFlag.indexOf('branch') === 0 &&
-            panoromaItem.childBranchFlag &&
-            panoromaItem.childBranchFlag.length > 1
-          ) {
+          panoromaItem?.branchFlag?.indexOf('branch') === 0 &&
+          panoromaItem?.childBranchFlag &&
+          panoromaItem?.childBranchFlag.length > 1
+        ) {
             item.children = []
             panoromaItem.childBranchFlag.forEach((flag) => {
               const filterItems = this.panorama.filter(
@@ -118,7 +121,7 @@
               item.children.push(itemChildren)
             })
           }
-  
+          console.log(nodeData)
           if (!item.isUsed) {
             nodeData.push(item)
           }
