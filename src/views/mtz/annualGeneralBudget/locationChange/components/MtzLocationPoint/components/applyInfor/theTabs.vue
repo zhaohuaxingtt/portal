@@ -53,10 +53,10 @@
     <div class="centerBox">
       <p>补差金额=零件结算数量 <iTooltip :txtInfo="tipList[0]" :num="'1'"></iTooltip>
         *[原材料市场价<iTooltip :txtInfo="tipList[1]" :num="'2'"></iTooltip> -原材料基价<iTooltip :txtInfo="tipList[2]" :num="'3'">
-        </iTooltip> *(1+阈值<iTooltip :txtInfo="tipList[3]" :num="'4'"></iTooltip> )]*原材料用量
-        <iTooltip :txtInfo="tipList[4]" :num="'5'"></iTooltip> *补差系数<iTooltip :txtInfo="tipList[5]" :num="'6'"></iTooltip>
+        </iTooltip> *(1+阈值<iTooltip :txtInfo="tipList[3]" :num="'4'"></iTooltip>*阈值系数<iTooltip :txtInfo="tipList[4]" :num="'5'"></iTooltip> )]*原材料用量
+        <iTooltip :txtInfo="tipList[5]" :num="'6'"></iTooltip> *补差%<iTooltip :txtInfo="tipList[6]" :num="'7'"></iTooltip>
       </p>
-      <p>MTZ Payment=Settle accounts Quantity*[Effective Price-Base Price(1+threshold)]*Raw Material Weight*Ratio</p>
+      <p class="enStyle"><span>MTZ Payment= Settle Accounts Quantity*[Effective Price-Base Price(1+Threshold*Coefficient)]*Raw Material Weight* Compensation%</span><span>When: effective price > base price *(1+threshold)</span></p>
     </div>
     <el-form :rules="formRules" :model="{ tableData }" ref="contractForm" class="formStyle">
       <!-- <div class="btn">
@@ -173,9 +173,9 @@
           </template>
         </el-table-column>
         <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-        <!-- <el-table-column prop="partBalanceCountType" align="center"  :label="language('结算数量来源', '结算数量来源')">
+        <el-table-column prop="partBalanceCountType" align="center"  :label="language('结算数据来源', '结算数据来源')">
           <template slot="header" slot-scope="scope">
-            <span>{{ language('结算数量来源', '结算数量来源') }}<iTooltip :txtInfo="tipList[0]" :num="'1'"></iTooltip></span>
+            <span>{{ language('结算数据来源', '结算数据来源') }}<iTooltip :txtInfo="tipList[0]" :num="'1'"></iTooltip></span>
           </template>
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'partBalanceCountType'"
@@ -183,7 +183,7 @@
               <span>{{ scope.row.partBalanceCountType=='SYSTEM'?'系统预读':scope.row.partBalanceCountType=='HANDWORK'?'手工上传':'' }}</span>
             </el-form-item>
           </template>
-        </el-table-column> -->
+        </el-table-column>
         <el-table-column prop="source" align="center"  :label="language('SHICHANGJIALAIYUAN', '市场价来源')">
           <template slot="header" slot-scope="scope">
             <span>{{ language('SHICHANGJIALAIYUAN', '市场价来源') }}<iTooltip :txtInfo="tipList[1]" :num="'2'"></iTooltip></span>
@@ -222,9 +222,9 @@
             </el-form-item>
           </template>
         </el-table-column>
-        <!-- <el-table-column prop="avgPeriod" align="center"  :label="language('均值计算周期', '均值计算周期')">
+        <el-table-column prop="avgPeriod" align="center"  :label="language('均值计算周期', '均值计算周期')">
           <template slot="header" slot-scope="scope">
-            <span>{{ language('均值计算周期', '均值计算周期') }}<iTooltip :type="'icon'" :txtInfo="tipList[6]" :num="'1'"></iTooltip>
+            <span>{{ language('均值计算周期', '均值计算周期') }}<iTooltip :type="'icon'" :txtInfo="tipList[7]" :num="'1'"></iTooltip>
               </span>
           </template>
           <template slot-scope="scope">
@@ -235,13 +235,13 @@
                 <el-option v-for="item in avgPeriodList" :key="item.code" :label="item.name" :value="item.code">
                 </el-option>
               </el-select>
-              <span v-else>{{ scope.row.avgPeriod?avgPeriodList.find(val=>val.code==scope.row.avgPeriod).name:'' }}</span>
+              <span v-else>{{ scope.row.avgPeriod||scope.row.avgPeriod=='0'?avgPeriodList.find(val=>val.code==scope.row.avgPeriod).name:'' }}</span>
             </el-form-item>
           </template>
         </el-table-column>
-        <el-table-column prop="offsetMonth" align="center"  :label="language('计算偏移量', '计算偏移量')">
+        <el-table-column prop="offsetMonth" align="center"  :label="language('均值偏移量', '均值偏移量')">
           <template slot="header" slot-scope="scope">
-            <span>{{ language('计算偏移量', '计算偏移量') }}<iTooltip :type="'icon'" :txtInfo="tipList[7]" :num="'1'"></iTooltip>
+            <span>{{ language('均值偏移量', '均值偏移量') }}<iTooltip :type="'icon'" :txtInfo="tipList[8]" :num="'1'"></iTooltip>
               </span>
           </template>
           <template slot-scope="scope">
@@ -252,10 +252,10 @@
                 <el-option v-for="item in offsetList" :key="item.code" :label="item.name" :value="item.code">
                 </el-option>
               </el-select>
-              <span v-else>{{ scope.row.offsetMonth?offsetList.find(val=>val.code==scope.row.offsetMonth).name:'' }}</span>
+              <span v-else>{{ scope.row.offsetMonth||scope.row.offsetMonth=='0'?offsetList.find(val=>val.code==scope.row.offsetMonth).name:'' }}</span>
             </el-form-item>
           </template>
-        </el-table-column> -->
+        </el-table-column>
         <el-table-column prop="price" align="center" width="60" :label="language('JIJIA', '基价')">
           <template slot="header" slot-scope="scope">
             <span>{{ language('JIJIA', '基价') }}<iTooltip :txtInfo="tipList[2]" :num="'3'"></iTooltip></span>
@@ -359,7 +359,10 @@
           </template>
         </el-table-column>
         <el-table-column prop="thresholdCompensationLogic" align="center" 
-          :label="language('YUZHIBUCHALUOJI', '阈值补差逻辑')">
+          :label="language('YUZHIXISHU', '阈值系数')">
+          <template slot="header" slot-scope="scope">
+            <span>{{ language('YUZHIXISHU', '阈值系数') }}<iTooltip :txtInfo="tipList[4]" :num="'5'"></iTooltip></span>
+          </template>
           <template slot-scope="scope">
             <el-form-item :prop="
               'tableData.' + scope.$index + '.' + 'thresholdCompensationLogic'
@@ -384,9 +387,9 @@
             </el-form-item>
           </template>
         </el-table-column>
-        <el-table-column prop="compensationRatio" align="center"  :label="language('BUCHAXISHU', '补差系数')">
+        <el-table-column prop="compensationRatio" align="center"  :label="language('BUCHABAIFENBI', '补差%')">
           <template slot="header" slot-scope="scope">
-            <span>{{ language('BUCHAXISHU', '补差系数') }}<iTooltip :txtInfo="tipList[5]" :num="'6'"></iTooltip></span>
+            <span>{{ language('BUCHABAIFENBI', '补差%') }}<iTooltip :txtInfo="tipList[6]" :num="'7'"></iTooltip></span>
           </template>
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'compensationRatio'" :rules="
@@ -394,7 +397,7 @@
             ">
               <iInput type="number" @blur="ratioRules(scope)" v-model="scope.row.compensationRatio"
                 v-if="editId.indexOf(scope.row.id) !== -1"></iInput>
-              <span v-else>{{ scope.row.compensationRatio }}</span>
+              <span v-else>{{ scope.row.compensationRatio?scope.row.compensationRatio*100+'%':'' }}</span>
             </el-form-item>
           </template>
         </el-table-column>
@@ -1576,6 +1579,10 @@ export default {
   margin: 20px 0;
   p{
     font-size: 18px;
+  }
+  .enStyle{
+    display:flex;
+    justify-content:space-between;
   }
 }
 </style>
