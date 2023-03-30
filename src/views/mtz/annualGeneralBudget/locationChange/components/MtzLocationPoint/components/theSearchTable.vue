@@ -226,7 +226,7 @@
           <iButton @click="mtzDel" v-permission="PORTAL_MTZ_POINT_SHANCHU">{{
             language('SHANCHU', '删除')
           }}</iButton>
-          <buttonTableSetting :hiddenCount="hiddenCount" @click="edittableHeader" />
+          <buttonTableSetting showBadge :hiddenCount="hiddenCount" @click="edittableHeader" />
         </div>
       </div>
       <!-- <tableList
