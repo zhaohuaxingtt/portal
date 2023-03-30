@@ -224,7 +224,7 @@
         </el-table-column>
         <el-table-column prop="avgPeriod" align="center"  :label="language('均值计算周期', '均值计算周期')">
           <template slot="header" slot-scope="scope">
-            <span>{{ language('均值计算周期', '均值计算周期') }}<iTooltip :type="'icon'" :txtInfo="tipList[6]" :num="'1'"></iTooltip>
+            <span>{{ language('均值计算周期', '均值计算周期') }}<iTooltip :type="'icon'" :txtInfo="tipList[7]" :num="'1'"></iTooltip>
               </span>
           </template>
           <template slot-scope="scope">
@@ -241,7 +241,7 @@
         </el-table-column>
         <el-table-column prop="offsetMonth" align="center"  :label="language('均值偏移量', '均值偏移量')">
           <template slot="header" slot-scope="scope">
-            <span>{{ language('均值偏移量', '均值偏移量') }}<iTooltip :type="'icon'" :txtInfo="tipList[7]" :num="'1'"></iTooltip>
+            <span>{{ language('均值偏移量', '均值偏移量') }}<iTooltip :type="'icon'" :txtInfo="tipList[8]" :num="'1'"></iTooltip>
               </span>
           </template>
           <template slot-scope="scope">
