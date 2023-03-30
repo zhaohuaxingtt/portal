@@ -82,6 +82,22 @@ export const tableSetting = [
     align: 'center',
     width: 150
   },
+  {
+    prop: 'offsetMonth',
+    tooltip: true,
+    align: 'center',
+    label: '计算偏移(月)',
+    i18n: '计算偏移(月)',
+    width: 120
+  },
+  {
+    prop: 'avgPeriod',
+    tooltip: true,
+    align: 'center',
+    label: '均值计算周期(月)',
+    i18n: '均值计算周期(月)',
+    width: 140
+  },
   { prop: 'price', label: '基价', align: 'center', i18n: '基价', width: 150 },
   {
     prop: 'priceMeasureUnit',
