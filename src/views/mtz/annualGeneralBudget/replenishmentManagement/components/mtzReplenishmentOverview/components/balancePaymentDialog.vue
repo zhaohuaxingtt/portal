@@ -158,8 +158,9 @@
           </el-col>
           <el-col :span="3">
             <div class="flex">
+              <!-- v-loading="tableLoading" -->
               <iButton v-if="flag"
-                      v-loading="tableLoading"
+                      
                        class="margin-top45"
                        style="float: right"
                        @click="search">{{ language('CHAXUN', '查询') }}</iButton>
@@ -170,7 +171,7 @@
             </div>
           </el-col>
         </el-row>
-        <el-row style="border-bottom: 1px solid #ccc; width: 100%">
+        <!-- <el-row style="border-bottom: 1px solid #ccc; width: 100%">
           <el-col :span="21">
             <el-form-item label="市场价偏移区间"
                           class="searchFormItem">
@@ -207,18 +208,38 @@
                      style="float: right"
                      @click="calcuLate">{{ language('JISUAN', '计算') }}</iButton>
           </el-col>
-        </el-row>
+        </el-row> -->
       </el-form>
       <div class="table">
-        <div class="header flex">
-          <div class="flex"
+        <div class="header ">
+          <div class="flex headerForm" 
                style="align-items: center">
+            <div class="margin-right20">
+              <label for=""
+                     class="label margin-right10">{{
+                $t('补差金额(结算数量计算结果)')
+              }}</label>
+              <el-input-number v-model="priceList.total"
+                               :precision="2"
+                               :disabled="true"
+                               :controls="false"></el-input-number>
+            </div>
+            <div class="margin-right20">
+              <label for=""
+                     class="label margin-right10">{{
+                $t('已发起凭证')
+              }}</label>
+              <el-input-number v-model="priceList.initiatedSum"
+                               :precision="2"
+                               :disabled="true"
+                               :controls="false"></el-input-number>
+            </div>
             <div class="margin-right20">
               <label for=""
                      class="label margin-right10">{{
                 language('DAIFAQIPINZHENG', '待发起凭证')
               }}</label>
-              <el-input-number v-model="waitCompDocMoney"
+              <el-input-number v-model="priceList.noInitiatedSum"
                                :precision="2"
                                :disabled="true"
                                :controls="false"></el-input-number>
@@ -240,55 +261,66 @@
                                :controls="false"></el-input-number>
             </div>
           </div>
-          <div class="flex">
-            <el-tooltip class="item margin-right10"
-                        effect="light"
-                        :content="
-                language(
-                  'CHEHUIHOUJIANGCONGBUCHASHENQINGZHONGQUXIAORENKEZAIBUCHAZONGLANZHONGCAOZUO',
-                  '撤回后将从补差申请中取消，仍可在补差总览中操作'
-                )
-              "
-                        placement="top">
-              <iButton @click="recall">{{
-                language('CHEHUI', '撤回')
-              }}</iButton>
-            </el-tooltip>
-            <el-tooltip class="item margin-right10"
-                        effect="light"
-                        :content="
-                language(
-                  'CHONGXIAOHOUJIANGCONGBUCHASHENQINGZHONGQUXIAOBUNENGZHIJIEZAIBUCHAZONGLANZHONGCAOZUOXUSHOUGONGCHUANGJIANBUCHAXINXI',
-                  '冲销后将从补差申请中取消，不能直接在补差总览中操作，需手工创建补差信息'
-                )
-              "
-                        placement="top">
-              <iButton @click="offset"
-                       :loading="offsetLoading">{{
-                language('CHONGXIAO', '冲销')
-              }}</iButton>
-            </el-tooltip>
-            <iButton v-if="flag"
-                     @click="submit"
-                     :loading="subLoading">{{
-              language('TIJIAO', '提交')
-            }}</iButton>
-            <iButton v-if="!flag"
-                     @click="submit"
-                     :loading="subLoading">{{
-              language('BAOCUN', '保存')
-            }}</iButton>
-          </div>
+          <iButton @click="calcuLate">{{ language('JISUAN', '计算') }}</iButton>
         </div>
         <div>
+          <div class="headerBtn">
+            <iTabsList  @tab-click="changeNav" v-model="activeName" type="card" slot="components" class="margin-top20">
+              <el-tab-pane :label="$t('待发起凭证')" name="wait"> </el-tab-pane>
+              <el-tab-pane :label="$t('已发起凭证')" name="history"> </el-tab-pane>
+           </iTabsList>
+            <div >
+              <iButton @click="exportFiles"
+                        >{{
+                  language('LK_DAOCHU', '导出')
+                }}</iButton>
+              <el-tooltip class="item margin-right10"
+                          effect="light"
+                          :content="
+                  language(
+                    'CHEHUIHOUJIANGCONGBUCHASHENQINGZHONGQUXIAORENKEZAIBUCHAZONGLANZHONGCAOZUO',
+                    '撤回后将从补差申请中取消，仍可在补差总览中操作'
+                  )
+                "
+                          placement="top">
+                <iButton v-if="activeName=='wait'" @click="recall">{{
+                  language('CHEHUI', '撤回')
+                }}</iButton>
+              </el-tooltip>
+              <el-tooltip class="item margin-right10"
+                          effect="light"
+                          :content="
+                  language(
+                    'CHONGXIAOHOUJIANGCONGBUCHASHENQINGZHONGQUXIAOBUNENGZHIJIEZAIBUCHAZONGLANZHONGCAOZUOXUSHOUGONGCHUANGJIANBUCHAXINXI',
+                    '冲销后将从补差申请中取消，不能直接在补差总览中操作，需手工创建补差信息'
+                  )
+                "
+                          placement="top">
+                <iButton v-if="activeName=='wait'" @click="offset"
+                        :loading="offsetLoading">{{
+                  language('CHONGXIAO', '冲销')
+                }}</iButton>
+              </el-tooltip>
+              <iButton v-if="flag&&activeName=='wait'"
+                      @click="submit"
+                      :loading="subLoading">{{
+                language('TIJIAO', '提交')
+              }}</iButton>
+              <iButton v-if="!flag&&activeName=='wait'"
+                      @click="submit"
+                      :loading="subLoading">{{
+                language('BAOCUN', '保存')
+              }}</iButton>
+            </div>
+          </div>
           <i-table-custom :loading="tableLoading"
-                          :data="tableDataList"
+                          :data="tableData"
                           :columns="tableColumns"
                           min-height="328px"
-                          height="600px"
+                          height="400px"
                           ref="iTable"
                           @handle-selection-change="handleSelectionChange" />
-          <!-- <iPagination v-update
+          <iPagination v-update
                        @size-change="handleSizeChange($event, query)"
                        @current-change="handleCurrentChange($event, query)"
                        background
@@ -296,7 +328,7 @@
                        :page-sizes="page.pageSizes"
                        :page-size="page.pageSize"
                        :layout="page.layout"
-                       :total="page.totalCount" /> -->
+                       :total="page.totalCount" />
         </div>
       </div>
       <div slot="footer"></div>
@@ -306,6 +338,7 @@
 
 <script>
 import {
+  iPagination,
   iCard,
   iButton,
   iMessage,
@@ -314,7 +347,8 @@ import {
   iSelectCustom,
   iInput,
   iDatePicker,
-  iSelect
+  iSelect,
+  iTabsList
 } from 'rise'
 import comboBox from './comboBox'
 import iTableCustom from '@/components/iTableCustom'
@@ -325,7 +359,9 @@ import { NewMessageBox, NewMessageBoxClose } from '@/components/newMessageBox/di
 
 import {
   getMtzSupplierList,
-  balanceCalcuLate
+  balanceCalcuLate,
+  sumAmount,
+  compdocIExport
 } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
 import {
   pageMTZCompByComputer,
@@ -335,7 +371,8 @@ import {
   chargeAgainstMTZComp,
   submitMTZComp,
   fetchQueryComp,
-  fetchSaveComp
+  fetchSaveComp,
+  voucherInitiatedPageList
 } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
 
 import {
@@ -345,6 +382,8 @@ export default {
   name: 'Search',
   mixins: [pageMixins],
   components: {
+    iPagination,
+    iTabsList,
     iCard,
     iButton,
     iDialog,
@@ -432,6 +471,10 @@ export default {
   },
   data () {
     return {
+      delList:[],
+      priceList:{},
+      tableDataList2:[],
+      activeName:'wait',
       searchForm: {
         firstSupplierName: '',
         mtzDocId: '',
@@ -525,6 +568,7 @@ export default {
     }
   },
   created () {
+    this.page.pageSizes = [10, 50, 100, 300, 500, 1000]
     if (this.selectData && this.selectData.length !== 0) {
       if(this.selectData[0].echoShow){
         let obj = JSON.parse(this.selectData[0].params)
@@ -571,6 +615,7 @@ export default {
 
     // return;
     this.init()
+
   },
   mounted () {
     this.$nextTick(() => {
@@ -612,15 +657,34 @@ export default {
 
   },
   methods: {
+    changeNav(){
+        this.query()
+    },
+    getAllPrice(){
+      const req={
+        initiated:this.activeName=='wait'?0:1,
+        recallIdList:this.delList,
+        ...this.searchForm
+      }
+      sumAmount(req).then(res=>{
+        if (res.code === '200') {
+          this.priceList = res.data
+          this.trueCompMoney=res.data.realitySum
+          this.waitCompDocMoney=res.data.noInitiatedSum
+        } else {
+          iMessage.error(res.desZh)
+        }
+      })
+    },
     async init () {
       await this.getMgroups()
 
       await this.getRawMaterialNos()
 
       await this.getUserSubPurchaseGroup()
-
+  
       this.$nextTick(() => {
-        // this.query()
+        this.query()
       })
       getMtzSupplierList({}).then((res) => {
         if (res.code === '200') {
@@ -692,7 +756,6 @@ export default {
     },
     query () {
       if (this.flag) {
-        this.tableLoading = true
         this.actAmtList = []
         if (this.searchFlag) {
           // delete this.searchForm.isEffAvg
@@ -701,23 +764,57 @@ export default {
         }
 
         let params = {
-          pageNo: 1,
-          pageSize: 100000,
+          pageNo: this.page.currPage,
+          pageSize: this.page.pageSize,
+          recallIdList:this.delList,
           ...this.searchForm
         }
+        if(!this.searchForm.compTimeEnd||!this.searchForm.compTimeStart){
+         iMessage.warn('请选择补差时间段和材料中类')
+         return false
+        }
+        console.log(!this.searchForm.materialKindList)
+        if(this.searchForm?.materialKindList.length==0){
+          iMessage.warn('请选择补差时间段和材料中类')
+          return false
+        }
+        console.log(this.searchForm)
+        this.tableLoading = true
+
         console.log(params, "searchForm")
-        pageMTZCompByComputer(params).then((res) => {
+        if(this.activeName=='wait'){
+          pageMTZCompByComputer(params).then((res) => {
           if (res?.code === '200') {
             this.tableData = res.data
             this.tableData.forEach((item) => {
               this.actAmtList.push(item.actAmt)
             })
-            this.waitCompDocMoney = _.sum(this.actAmtList.map(parseFloat))
-            this.trueCompMoney = this.waitCompDocMoney
+            this.getAllPrice()
+            this.page.totalCount = res.total
+            // this.waitCompDocMoney = _.sum(this.actAmtList.map(parseFloat))
+            // this.trueCompMoney = this.waitCompDocMoney
             this.tableLoading = false
             this.searchFlag = false
           }
         })
+        }else{
+          voucherInitiatedPageList(params).then(res=>{
+            if(res.code==200){
+              this.tableData = res.data
+              this.tableData.forEach((item) => {
+                this.actAmtList.push(item.actAmt)
+              })
+              this.getAllPrice()
+              this.page.totalCount = res.total
+
+              // this.waitCompDocMoney = _.sum(this.actAmtList.map(parseFloat))
+              // this.trueCompMoney = this.waitCompDocMoney
+              this.tableLoading = false
+              this.searchFlag = false
+            }else iMessage.error(res.desZh)
+          })
+        }
+  
       } else {
         this.tableLoading = true
         this.actAmtList = []
@@ -732,8 +829,9 @@ export default {
             this.tableData.forEach((item) => {
               this.actAmtList.push(item.actAmt)
             })
-            this.waitCompDocMoney = _.sum(this.actAmtList.map(parseFloat))
-            this.trueCompMoney = this.waitCompDocMoney
+            this.getAllPrice()
+            // this.waitCompDocMoney = _.sum(this.actAmtList.map(parseFloat))
+            // this.trueCompMoney = this.waitCompDocMoney
             this.tableLoading = false
           }
         })
@@ -746,25 +844,31 @@ export default {
     recall () {
       if (this.muiltSelectList.length === 0) {
         iMessage.error(this.language('QINGXUANESHUJU', '请选择数据'))
+        return false
       }
-      this.actAmtList = []
+      // this.actAmtList = []
+      // let delList=[]
       this.muiltSelectList.forEach((val) => {
-        this.tableData.forEach((v, i) => {
-          if (val.id === v.id) {
-            this.tableData.splice(i, 1)
+        this.priceList.noInitiatedIdList.forEach((v, i) => {
+          if (val.id === v) {
+            // this.tableData.splice(i, 1)
+            this.delList.push(val.id)
           }
         })
       })
-      this.tableData.forEach((item) => {
-        this.actAmtList.push(item.actAmt)
-      })
+      console.log(this.delList)
+      // this.tableData.forEach((item) => {
+      //   this.actAmtList.push(item.actAmt)
+      // })
 
       this.$nextTick(() => {
-        this.waitCompDocMoney = _.sum(this.actAmtList.map(parseFloat))
-        this.trueCompMoney = this.waitCompDocMoney
+        this.query()
+
+        // this.waitCompDocMoney = _.sum(this.actAmtList.map(parseFloat))
+        // this.trueCompMoney = this.waitCompDocMoney
       })
 
-      this.$refs.iTable.clearSelection()
+      // this.$refs.iTable.clearSelection()
     },
     offset () {
       if(this.tableData.length > 0){
@@ -864,7 +968,7 @@ export default {
           effPriceTo: this.searchForm.effPriceTo,
           waitCompMoney: this.waitCompDocMoney,
           trueCompMoney: this.trueCompMoney,
-          itemIds: this.tableData.map((item) => item.id)
+          itemIds: this.priceList.noInitiatedIdList
         }
         submitMTZComp(params).then((res) => {
           if (res.code === '200') {
@@ -896,6 +1000,8 @@ export default {
       }
     },
     search () {
+      this.page.currPage = 1
+
       this.searchFlag = true
       this.query()
     },
@@ -956,18 +1062,18 @@ export default {
             if (res.code == '200') {
               this.onLoding = false
               iMessage.success(res.desZh)
-
-              this.tableData = res.data
-              if (this.tableData.length !== 0) {
-                this.tableData.forEach((item) => {
-                  this.actAmtList.push(item.actAmt)
-                })
-                this.waitCompDocMoney = _.sum(this.actAmtList.map(parseFloat))
-                this.trueCompMoney = this.waitCompDocMoney
-              } else {
-                this.waitCompDocMoney = 0
-                this.trueCompMoney = this.waitCompDocMoney
-              }
+              this.query()
+              // this.tableData = res.data
+              // if (this.tableData.length !== 0) {
+              //   this.tableData.forEach((item) => {
+              //     this.actAmtList.push(item.actAmt)
+              //   })
+              //   this.waitCompDocMoney = _.sum(this.actAmtList.map(parseFloat))
+              //   this.trueCompMoney = this.waitCompDocMoney
+              // } else {
+              //   this.waitCompDocMoney = 0
+              //   this.trueCompMoney = this.waitCompDocMoney
+              // }
             } else {
               this.onLoding = false
               iMessage.error(res.desZh)
@@ -987,11 +1093,31 @@ export default {
       if (trueMoney > waitMoney) {
         iMessage.error('实际补差金额要小于待发起凭证金额')
         this.$nextTick(() => {
-          this.trueCompMoney = this.waitCompDocMoney
+          this.getAllPrice()
+          // this.trueCompMoney = this.waitCompDocMoney
         })
       }
+    },
+    exportFiles(){
+    console.log(1111)
+    if(!this.searchForm.compTimeEnd||!this.searchForm.compTimeStart){
+         iMessage.warn('请选择补差时间段和材料中类')
+         return false
+        }
+        if(!this.searchForm.materialKindList){
+          iMessage.warn('请选择补差时间段和材料中类')
+          return false
     }
+    const req={
+      recallIdList:this.delList,
+
+      ...this.searchForm,
+      initiated:this.activeName=='wait'?0:1
+    }
+    compdocIExport(req)
   },
+  },
+
   destroyed () {
     NewMessageBoxClose();
   }
@@ -1007,11 +1133,21 @@ export default {
     margin-right: 40px;
   }
 }
+.headerBtn{
+  display:flex;
+    align-items:center;
+    justify-content: space-between;
+}
 .table {
   margin-top: 20px;
   .header {
+    display:flex;
+    align-items:center;
     justify-content: space-between;
     margin-bottom: 20px;
+    .headerForm{
+      width:70%;
+    }
     label {
       width: 90px;
     }
@@ -1038,4 +1174,23 @@ export default {
 ::v-deep .el-form--label-top .el-form-item__label {
   padding: 0;
 }
+.approvaltitle {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  p {
+    font-weight: bold;
+    font-size: 20px;
+  }
+  span {
+    font-weight: 400;
+    font-size: 16px;
+    display: inline-block;
+    margin-right: 30px;
+  }
+}
+::v-deep.el-tabs--card{
+      background-color:white;
+    }
 </style>

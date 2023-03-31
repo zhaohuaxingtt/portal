@@ -166,28 +166,56 @@
           </el-form-item>
         </el-form>
       </div>
-      <el-divider class="margin-top20"></el-divider>
+      <el-divider ></el-divider>
       <div class="contentBox">
         <div class="tableOptionBox">
           <div class="tableTitle">
-            <span class="margin-right10">只看自己</span>
+            <iTabsList  @tab-click="changeNav" v-model="activeName" type="card" slot="components" class="margin-top20">
+              <el-tab-pane :label="$t('总览')" name="all"> </el-tab-pane>
+              <el-tab-pane :label="$t('已发起凭证')" name="history"> </el-tab-pane>
+          </iTabsList>
+            <div>
+              <iButton @click="handleExportCurrent"
+                      v-permission="MTZ_REPORT_BUCHAGUANLI_MTZBUCHAZONGLAN_DAOCHUDANGYE">{{language('LK_DAOCHU', '导出')}}</iButton>
+              <iButton @click="handleRedeploy"
+              v-if="activeName=='all'"
+                    v-permission="MTZ_REPORT_BUCHAGUANLI_MTZBUCHAZONGLAN_ZHUANPAI">{{language('ZHUANGPAI', '转派')}}</iButton>
+              </div>
+            </div>
+         
+        </div>
+        <div v-show="activeName=='all'">
+          <span  class="margin-right10">只看自己</span>
             <el-switch v-model="searchForm.isSeeMe"
                        @change="lookUs"
                        :active-value="true"
                        :inactive-value="false" />
-          </div>
-          <iButton @click="handleExportCurrent"
-                   v-permission="MTZ_REPORT_BUCHAGUANLI_MTZBUCHAZONGLAN_DAOCHUDANGYE">{{language('DAOCHUDANGYE', '导出当页')}}</iButton>
-          <iButton @click="handleRedeploy"
-                   v-permission="MTZ_REPORT_BUCHAGUANLI_MTZBUCHAZONGLAN_ZHUANPAI">{{language('ZHUANGPAI', '转派')}}</iButton>
         </div>
-        <tableList class="margin-top20"
+        <tableList 
+                 v-show="activeName=='all'"
+                    v-update
+                     class="margin-top20"
                    :tableData="tableListData"
                    :tableTitle="tableTitle"
                    :tableLoading="loading"
                    :index="true"
                    @handleSelectionChange="handleSelectionChange">
+
+                   <template slot-scope="scope" slot="avgPeriod">
+              <span>{{ scope.row.avgPeriod ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+            </template>
+            <template slot-scope="scope" slot="offsetMonth">
+              <span>{{ scope.row.offsetMonth ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
+            </template> 
+
         </tableList>
+        <i-table-custom
+          v-show="activeName=='history'"
+          :loading="loading"
+          :data="tableListData2"  
+          :columns="tableTitle2"
+          ref="iTable"
+          @handle-selection-change="handleSelectionChange" />
         <iPagination v-update
                      @size-change="handleSizeChange($event, handleSubmitSearch)"
                      @current-change="handleCurrentChange($event, getTableData)"
@@ -203,34 +231,42 @@
 </template>
 
 <script>
-import { iMessage, iDialog, iSelect, iButton, iDatePicker, iPagination, iMessageBox } from 'rise'
+import { iTabsList,iMessage, iDialog, iSelect, iButton, iDatePicker, iPagination, iMessageBox } from 'rise'
 import { pageMixins } from '@/utils/pageMixins';
 import tableList from '@/components/commonTable/index.vue'
-import { tableTitle } from './data'
+import { tableTitle,tableTitle2,TABLE_COLUMS,offsetList,avgPeriodList } from './data'
 import { excelExport } from './util'
+import iTableCustom from '@/components/iTableCustom'
+import {
+  voucherInitiatedPageList
+} from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
 import { fetchTableData, fetchOnePartNo, fetchSecondPartNo, fetchSecondSupplier, fetchRawMaterialCode, fetchCurrentUser, pageMtzDetailExport } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzReplenishmentOverview/detail'
 import { queryDeptSectionForCompItem } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
 import { getDeptData } from '@/api/kpiChart/index'
-import { getMtzSupplierList } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
+import { getMtzSupplierList,  compdocIExport} from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
 import { getNowFormatDate } from "./util";
 export default {
   mixins: [pageMixins],
   components: {
+    iTableCustom,
     iDialog,
     iSelect,
     iButton,
     iDatePicker,
     iPagination,
     tableList,
+    iTabsList
   },
   data () {
     return {
+      tableTitle2:TABLE_COLUMS,
+      tableListData2: [],
       searchForm: {},
       tableTitle,
       loading: false,
       tableListData: [],
       selection: [],
-
+      activeName:'all',
       fPartNumDropDownData: [], //一次零件号
       sPartNumDropDownData: [], //二次零件号
       sSupplierDropDownData: [], //二次件供应商编号
@@ -250,6 +286,7 @@ export default {
     },
   },
   created () {
+    this.page.pageSizes = [10, 50, 100, 300, 500, 1000]
     this.$nextTick(_ => {
       this.getDeptList()
       this.getOnePartNo()
@@ -262,6 +299,9 @@ export default {
     })
   },
   methods: {
+    changeNav(){
+        this.getTableData()
+    },
     // getTime () {
     //   var date = new Date();
     //   var year = date.getFullYear();
@@ -287,7 +327,8 @@ export default {
     // 获取列表数据
     getTableData () {
       this.loading = true
-      fetchTableData({
+      if(this.activeName=='all'){
+        fetchTableData({
         ...this.searchForm,
         pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
@@ -302,6 +343,24 @@ export default {
           this.tableListData = res.data
         } else iMessage.error(res.desZh)
       })
+      }else{
+        voucherInitiatedPageList({
+          ...this.searchForm,
+        pageNo: this.page.currPage,
+        pageSize: this.page.pageSize,
+        firstSupplierName:this.params.name || null,
+        firstSupplier: this.params.firstSupplierId || null,
+        compTimeStart: this.searchForm.compDate ? this.searchForm.compDate[0] : null,
+        compTimeEnd: this.searchForm.compDate ? this.searchForm.compDate[1] : null,
+        }).then(res=>{
+            if(res.code==200){
+              this.tableListData2 = res.data
+              this.page.totalCount = res.total
+              this.loading = false
+            }else iMessage.error(res.desZh)
+          })
+      }
+
     },
     // 获取一次件零件号下拉数据
     getOnePartNo () {
@@ -401,10 +460,9 @@ export default {
     },
     // 导出当页
     handleExportCurrent () {
-      pageMtzDetailExport({
+      if(this.activeName=='all'){
+        pageMtzDetailExport({
         ...this.searchForm,
-        pageNo: this.page.currPage,
-        pageSize: this.page.pageSize,
         fsupplier: this.params.firstSupplierId || null,
         compStartDate: this.searchForm.compDate ? this.searchForm.compDate[0] : null,
         compEndDate: this.searchForm.compDate ? this.searchForm.compDate[1] : null,
@@ -420,6 +478,21 @@ export default {
         link.parentNode.removeChild(link);
         iMessage.success("链接成功！")
       })
+      }else{
+        compdocIExport({
+          initiated:1,
+          ...this.searchForm,
+          firstSupplierName:this.params.name || null,
+          firstSupplier: this.params.firstSupplierId || null,
+          compTimeStart: this.searchForm.compDate ? this.searchForm.compDate[0] : null,
+        compTimeEnd: this.searchForm.compDate ? this.searchForm.compDate[1] : null,
+        }).then(res=>{
+          iMessage.success("链接成功！")
+
+        })
+
+      }
+
       // excelExport(this.params.name, this.tableListData, this.tableTitle)
     }
   }
@@ -427,6 +500,22 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+.approvaltitle {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  p {
+    font-weight: bold;
+    font-size: 20px;
+  }
+  span {
+    font-weight: 400;
+    font-size: 16px;
+    display: inline-block;
+    margin-right: 30px;
+  }
+}
 .searchBox {
   position: relative;
   .searchButton {
@@ -437,20 +526,25 @@ export default {
   }
 }
 .contentBox {
-  margin-top: 48px;
   padding-bottom: 30px;
   .tableOptionBox {
+    // display:flex;
     .tableTitle {
-      display: inline;
+     justify-content:space-between;
+      align-items:center;
+      display: flex;
       font-weight: bold;
       font-size: 16px;
       color: #000;
       margin: 0 10px;
     }
+    ::v-deep.el-tabs--card{
+      background-color:white;
+    }
     button {
-      float: right;
-      z-index: 100;
-      margin-bottom: 20px;
+      // float: right;
+      // z-index: 100;
+      // margin-bottom: 20px;
       margin-left: 10px;
     }
   }

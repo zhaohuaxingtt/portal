@@ -188,7 +188,7 @@
           
         >
         <template slot="header" slot-scope="scope">
-            <span>{{language('YONGLIANG', '用量')}}<iTooltip :txtInfo="tipList[4]" :num="'5'"></iTooltip></span>
+            <span>{{language('YONGLIANG', '用量')}}<iTooltip :txtInfo="tipList[5]" :num="'6'"></iTooltip></span>
           </template>
           <template slot-scope="scope">
             <el-form-item
@@ -239,7 +239,7 @@
             </el-form-item>
           </template>
         </el-table-column>
-        <!-- <el-table-column
+        <el-table-column
           prop="materialDoseSource"
           align="center"
           :label="language('原材料用量来源', '原材料用量来源')"
@@ -270,7 +270,7 @@
               <span v-else>{{ scope.row.materialDoseSource?materialDoseSourceList.find(val=>val.code==scope.row.materialDoseSource).name:'' }}</span>
             </el-form-item>
           </template>
-        </el-table-column> -->
+        </el-table-column>
         <el-table-column
           prop="startDate"
           align="center"
@@ -366,7 +366,7 @@
             </el-form-item>
           </template>
         </el-table-column> -->
-        <el-table-column
+        <!-- <el-table-column
           prop="method"
           align="center"
           :label="language('补差方式', '补差方式')"
@@ -396,7 +396,7 @@
               <span v-else>{{ scope.row.method == '1' ? language('一次性补差','一次性补差') : scope.row.method == '2' ? language('变价单补差','变价单补差') : '' }}</span>
             </el-form-item>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column
           prop="sapCode"
           align="center"
@@ -520,7 +520,7 @@
           prop="thresholdCompensationLogic"
           align="center"
           width="130"
-          :label="language('YUZHIBUCHALUOJI', '阈值补差逻辑')"
+          :label="language('YUZHIXISHU', '阈值系数')"
           
         >
           <template slot-scope="scope">
@@ -550,22 +550,22 @@
           prop="compensationRatio"
           align="center"
           width="120"
-          :label="language('BUCHAXISHU', '补差系数')"
+          :label="language('BUCHABAIFENBI', '补差%')"
           
         >
           <template slot-scope="scope">
             <!-- <iInput v-model="scope.row.compensationRatio" :disabled="true" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
-            <span>{{ scope.row.compensationRatio }}</span>
+            <span>{{ scope.row.compensationRatio?scope.row.compensationRatio*100+'%':'' }}</span>
           </template>
         </el-table-column>
-        <!-- <el-table-column prop="partBalanceCountType" align="center" width="90" :label="language('结算数量来源', '结算数量来源')">
+        <el-table-column prop="partBalanceCountType" align="center" width="90" :label="language('结算数据来源', '结算数据来源')">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'partBalanceCountType'"
               :rules="formRules.partBalanceCountType ? formRules.partBalanceCountType : ''">
               <span>{{ scope.row.partBalanceCountType=='SYSTEM'?'系统预读':scope.row.partBalanceCountType=='HANDWORK'?'手工上传':'' }}</span>
             </el-form-item>
           </template>
-        </el-table-column> -->
+        </el-table-column>
         
         <el-table-column
           prop="priceSource"
@@ -579,26 +579,26 @@
             <span>{{ scope.row.priceSource }}</span>
           </template>
         </el-table-column>
-        <!-- <el-table-column prop="avgPeriod" align="center" width="80" :label="language('均值计算周期', '均值计算周期')">
+        <el-table-column prop="avgPeriod" align="center" width="80" :label="language('均值计算周期', '均值计算周期')">
      
           <template slot-scope="scope">
           <el-form-item :prop="'tableData.' + scope.$index + '.' + 'avgPeriod'"
             :rules="formRules.avgPeriod ? formRules.avgPeriod : ''">
           
-                <span >{{ scope.row.avgPeriod?avgPeriodList.find(val=>val.code==scope.row.avgPeriod).name:'' }}</span>
+                <span >{{ scope.row.avgPeriod||scope.row.avgPeriod=='0'?avgPeriodList.find(val=>val.code==scope.row.avgPeriod).name:'' }}</span>
             </el-form-item>
           </template>
         </el-table-column>
-        <el-table-column prop="offsetMonth" align="center" width="80" :label="language('计算偏移量', '计算偏移量')">
+        <el-table-column prop="offsetMonth" align="center" width="80" :label="language('均值偏移量', '均值偏移量')">
  
           <template slot-scope="scope">
           <el-form-item :prop="'tableData.' + scope.$index + '.' + 'offsetMonth'"
             :rules="formRules.offsetMonth ? formRules.offsetMonth : ''">
         
-                <span >{{ scope.row.offsetMonth?offsetList.find(val=>val.code==scope.row.offsetMonth).name:'' }}</span>
+                <span >{{ scope.row.offsetMonth||scope.row.offsetMonth=='0'?offsetList.find(val=>val.code==scope.row.offsetMonth).name:'' }}</span>
             </el-form-item>
           </template>
-        </el-table-column> -->
+        </el-table-column>
         <el-table-column
           prop="compensationPeriod"
           align="center"
@@ -1834,13 +1834,13 @@ font-weight: bold;
   position:static;
   .numIcon{
     position:absolute;
-    bottom:4px;
-    left:0;
+    bottom:0px;
+    left:calc(50% - 10px);
   }
   .logIcon{
     position:absolute;
-    bottom:4px;
-    left:0;
+    bottom:0px;
+    left:calc(50% - 10px);
   }
 }
 </style>
