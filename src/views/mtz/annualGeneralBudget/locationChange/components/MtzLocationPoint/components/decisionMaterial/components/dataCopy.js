@@ -228,7 +228,7 @@ export const methodList = [
       props: 'ruleNo',
       name: '规则编号',
       key: 'GUIZEBIANHAO',
-      width: 100,
+      width: 80,
       overlap: true,
       overlapbottom: 'Rule No.'
     },
@@ -244,7 +244,7 @@ export const methodList = [
       props: 'sapCode',
       name: '供应商',
       key: 'LK_GONGYINGSHANG',
-      minWidth: 120,
+      minWidth: 100,
       overlap: true,
       overlapbottom: 'Supplier'
     },
@@ -252,7 +252,7 @@ export const methodList = [
       props: 'materialCode',
       name: '原材料',
       key: 'YUANCAILIAO',
-      width: 120,
+      width: 100,
       overlap: true,
       overlapbottom: 'Material'
     },
@@ -282,7 +282,7 @@ export const methodList = [
       overlapbottom: 'Valid To'
     },
     {
-      width: 120,
+      width: 100,
       props: 'partBalanceCountType',
       name: '结算数据来源',
       key: '结算数据来源',
@@ -512,7 +512,7 @@ export const methodList = [
         props: 'ruleNo',
         name: '规则编号',
         key: 'GUIZEBIANHAO',
-        width: 100,
+        width: 80,
         overlap: true,
         overlapbottom: 'Rule No.'
       },
@@ -528,7 +528,7 @@ export const methodList = [
         props: 'sapCode',
         name: '供应商',
         key: 'LK_GONGYINGSHANG',
-        minWidth: 120,
+        minWidth: 100,
         overlap: true,
         overlapbottom: 'Supplier'
       },
@@ -536,7 +536,7 @@ export const methodList = [
         props: 'materialCode',
         name: '原材料',
         key: 'YUANCAILIAO',
-        width: 120,
+        width: 100,
         overlap: true,
         overlapbottom: 'Material'
       },
@@ -544,7 +544,7 @@ export const methodList = [
         props: 'formalFlag',
         name: '是否新规则',
         key: '是否新规则',
-        width: 100,
+        width: 80,
         overlap: true,
         overlapbottom: 'New Rule'
       },
@@ -553,7 +553,7 @@ export const methodList = [
         props: 'startDate',
         name: '有效期起',
         key: '有效期起',
-        width: 90,
+        width: 75,
         overlap: true,
         overlapbottom: 'Valid From'
       },
@@ -561,12 +561,12 @@ export const methodList = [
         props: 'endDate',
         name: '有效期止',
         key: '有效期止',
-        width: 90,
+        width: 75,
         overlap: true,
         overlapbottom: 'Valid To'
       },
       {
-        width: 120,
+        width: 110,
         props: 'partBalanceCountType',
         name: '结算数据来源',
         key: '结算数据来源',
@@ -576,7 +576,7 @@ export const methodList = [
         overlapbottom: 'Settle Accounts Quantity'
       },
       {
-        width: 110,
+        width: 90,
         props: 'source',
         name: '市场价来源',
         key: '市场价来源',
@@ -589,7 +589,7 @@ export const methodList = [
         props: 'avgPeriod',
         name: '均值计算周期',
         key: '均值计算周期',
-        width: 110,
+        width: 100,
         icon: 'iconxinxitishi',
         iconTextKey:
           '全年原材料市场价按均值计算周期等分。例：均值计算周期为3个月时，1-3月市场价均为1-3月的市场价均值',
@@ -637,7 +637,7 @@ export const methodList = [
         props: 'priceMeasureUnit',
         name: '基价计量单位',
         key: 'JIJIAJILIANGDANWEI',
-        width: 120,
+        width: 110,
         overlapbottom: 'Base price Unit',
         overlap: true
       },
