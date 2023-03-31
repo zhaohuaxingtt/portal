@@ -296,9 +296,9 @@
           </template>
         </el-table-column>
         <el-table-column prop="tcExchangeRate" align="center" width="60" :label="language('HUILV', '汇率')">
-          <template slot="header" slot-scope="scope">
+          <!-- <template slot="header" slot-scope="scope">
             <span>{{ language('HUILV', '汇率') }}<iTooltip :txtInfo="tipList[2]" :num="'3'"></iTooltip></span>
-          </template>
+          </template> -->
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'tcExchangeRate'"
               :rules="formRules.tcExchangeRate ? formRules.tcExchangeRate : ''">

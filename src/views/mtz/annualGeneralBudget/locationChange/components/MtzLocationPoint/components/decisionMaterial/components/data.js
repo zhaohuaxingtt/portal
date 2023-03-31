@@ -346,10 +346,8 @@ export const ruleTableTitle1_all = [
     name: '汇率',
     key: '汇率',
     width: 70,
-    iconTextKey: '与供应商约定的原材料基准价格',
-    typeIcon: 'num',
-    num: '3',
-    overlapbottom: 'Exchange Rate'
+    overlap: true,
+    overlapbottom: 'Exch. Rate'
   },
   {
     props: 'priceMeasureUnit',
@@ -632,10 +630,8 @@ export const ruleTableTitle1_1 = [
     name: '汇率',
     key: '汇率',
     width: 70,
-    iconTextKey: '与供应商约定的原材料基准价格',
-    typeIcon: 'num',
-    num: '3',
-    overlapbottom: 'Exchange Rate'
+    overlap: true,
+    overlapbottom: 'Exch. Rate'
   },
   {
     props: 'priceMeasureUnit',
