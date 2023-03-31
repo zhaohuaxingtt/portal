@@ -201,6 +201,13 @@
                    :index="true"
                    @handleSelectionChange="handleSelectionChange">
 
+                   <template slot-scope="scope" slot="avgPeriod">
+              <span>{{ scope.row.avgPeriod ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+            </template>
+            <template slot-scope="scope" slot="offsetMonth">
+              <span>{{ scope.row.offsetMonth ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
+            </template> 
+
         </tableList>
         <i-table-custom
           v-show="activeName=='history'"
@@ -227,7 +234,7 @@
 import { iTabsList,iMessage, iDialog, iSelect, iButton, iDatePicker, iPagination, iMessageBox } from 'rise'
 import { pageMixins } from '@/utils/pageMixins';
 import tableList from '@/components/commonTable/index.vue'
-import { tableTitle,tableTitle2,TABLE_COLUMS } from './data'
+import { tableTitle,tableTitle2,TABLE_COLUMS,offsetList,avgPeriodList } from './data'
 import { excelExport } from './util'
 import iTableCustom from '@/components/iTableCustom'
 import {
