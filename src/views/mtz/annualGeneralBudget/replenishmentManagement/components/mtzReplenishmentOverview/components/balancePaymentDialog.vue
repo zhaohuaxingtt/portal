@@ -568,6 +568,7 @@ export default {
     }
   },
   created () {
+    this.page.pageSizes = [10, 50, 100, 300, 500, 1000]
     if (this.selectData && this.selectData.length !== 0) {
       if(this.selectData[0].echoShow){
         let obj = JSON.parse(this.selectData[0].params)
@@ -661,6 +662,7 @@ export default {
     },
     getAllPrice(){
       const req={
+        initiated:this.activeName=='wait'?0:1,
         recallIdList:this.delList,
         ...this.searchForm
       }
@@ -998,6 +1000,8 @@ export default {
       }
     },
     search () {
+      this.page.currPage = 1
+
       this.searchFlag = true
       this.query()
     },
