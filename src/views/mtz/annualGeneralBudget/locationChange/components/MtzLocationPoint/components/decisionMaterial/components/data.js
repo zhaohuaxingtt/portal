@@ -228,7 +228,7 @@ export const ruleTableTitle1_all = [
     props: 'ruleNo',
     name: '规则编号',
     key: 'GUIZEBIANHAO',
-    width: 70,
+    width: 80,
     overlap: true,
     overlapbottom: 'Rule No.'
   },
@@ -244,7 +244,7 @@ export const ruleTableTitle1_all = [
     props: 'sapCode',
     name: '供应商',
     key: 'LK_GONGYINGSHANG',
-    minWidth: 80,
+    minWidth: 100,
     overlap: true,
     overlapbottom: 'Supplier'
   },
@@ -252,7 +252,7 @@ export const ruleTableTitle1_all = [
     props: 'materialCode',
     name: '原材料',
     key: 'YUANCAILIAO',
-    width: 85,
+    width: 100,
     overlap: true,
     overlapbottom: 'Material'
   },
@@ -346,10 +346,8 @@ export const ruleTableTitle1_all = [
     name: '汇率',
     key: '汇率',
     width: 70,
-    iconTextKey: '与供应商约定的原材料基准价格',
-    typeIcon: 'num',
-    num: '3',
-    overlapbottom: 'Exchange Rate'
+    overlap: true,
+    overlapbottom: 'Exch. Rate'
   },
   {
     props: 'priceMeasureUnit',
@@ -514,7 +512,7 @@ export const ruleTableTitle1_1 = [
     props: 'ruleNo',
     name: '规则编号',
     key: 'GUIZEBIANHAO',
-    width: 70,
+    width: 80,
     overlap: true,
     overlapbottom: 'Rule No.'
   },
@@ -530,7 +528,7 @@ export const ruleTableTitle1_1 = [
     props: 'sapCode',
     name: '供应商',
     key: 'LK_GONGYINGSHANG',
-    minWidth: 80,
+    minWidth: 100,
     overlap: true,
     overlapbottom: 'Supplier'
   },
@@ -538,7 +536,7 @@ export const ruleTableTitle1_1 = [
     props: 'materialCode',
     name: '原材料',
     key: 'YUANCAILIAO',
-    width: 85,
+    width: 100,
     overlap: true,
     overlapbottom: 'Material'
   },
@@ -632,10 +630,8 @@ export const ruleTableTitle1_1 = [
     name: '汇率',
     key: '汇率',
     width: 70,
-    iconTextKey: '与供应商约定的原材料基准价格',
-    typeIcon: 'num',
-    num: '3',
-    overlapbottom: 'Exchange Rate'
+    overlap: true,
+    overlapbottom: 'Exch. Rate'
   },
   {
     props: 'priceMeasureUnit',

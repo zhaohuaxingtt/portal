@@ -76,7 +76,7 @@
               :tagNum="'1'"
               class="margin-top20"
               :tableData="ruleTableListData"
-              :tableTitle="ruleTableTitle1_all"
+              :tableTitle="ruleTableListData.some((val)=>{if(val.materialCode.slice(1,6)=='01006') {return true}})?ruleTableTitle1_all:ruleTableTitle1_1"
               @handleClickRow="handleCurrentChangeTable"
               :tableLoading="loadingRule"
               :index="true"
@@ -148,7 +148,7 @@
               <template slot-scope="scope" slot="offsetMonth">
                 <span>{{
                   scope.row.offsetMonth || scope.row.offsetMonth == '0'
-                    ? offsetList.find((val) => val.code == scope.row.offset)
+                    ? offsetList.find((val) => val.code == scope.row.offsetMonth)
                         .name
                     : ''
                 }}</span>
@@ -173,7 +173,7 @@
               border
               class="margin-top20 over_flow_y_ture"
               :tableData="partTableListData"
-              :tableTitle="partTableTitle1_all"
+              :tableTitle="partTableListData.some((val)=>{if(val.materialCode.slice(1,6)=='01006') {return true}})?partTableTitle1_all:[...partTableTitle1_1,...partTableTitle1_2]"
               :tableLoading="loadingPart"
               :index="true"
               :tagNum="'1'"
@@ -242,7 +242,7 @@
               <template slot-scope="scope" slot="offsetMonth">
                 <span>{{
                   scope.row.offsetMonth || scope.row.offsetMonth == '0'
-                    ? offsetList.find((val) => val.code == scope.row.offset)
+                    ? offsetList.find((val) => val.code == scope.row.offsetMonth)
                         .name
                     : ''
                 }}</span>
@@ -345,9 +345,10 @@ import tableList from '@/components/commonTableFixed/index.vue'
 import {
   ruleTableTitle1_1,
   partTableTitle1_1,
+  partTableTitle1_2,
   ruleTableTitle1_all,
   partTableTitle1_all
-} from './data'
+} from './dataCopy'
 import {
   getAppFormInfo,
   pageAppRule,
@@ -387,6 +388,7 @@ export default {
       isruleTitle2: false,
       ruleTableTitle1_1,
       partTableTitle1_1,
+      partTableTitle1_2,
       ruleTableListData: [],
       rulePageParams: {
         totalCount: 0,
@@ -773,6 +775,7 @@ $tabsInforHeight: 35px;
 ::v-deep .el-table {
   border-radius: 0;
   font-size: 18px;
+
   .el-table__header {
     background-color: #364d6e;
     th {
@@ -780,6 +783,11 @@ $tabsInforHeight: 35px;
       .cell {
         color: #fff;
         line-height: 20px;
+          font-size: 18px;
+        span{
+          font-size: 18px;
+
+        }
       }
     }
   }
@@ -787,6 +795,11 @@ $tabsInforHeight: 35px;
     border-color: #d9d9d9;
     .cell {
       line-height: 20px;
+          font-size: 18px;
+      span{
+          font-size: 18px;
+
+        }
     }
     .mtz-box {
       width: 100%;

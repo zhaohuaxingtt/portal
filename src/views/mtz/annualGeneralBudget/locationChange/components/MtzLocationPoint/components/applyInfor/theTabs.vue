@@ -67,7 +67,7 @@
         </el-table-column>
         <el-table-column label="#" fixed type="index" width="40" align="center">
         </el-table-column>
-        <el-table-column prop="ruleNo" align="center"  :label="language('GUIZEBIANHAO', '规则编号')">
+        <el-table-column prop="ruleNo" align="center"  width="100" :label="language('GUIZEBIANHAO', '规则编号')">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'ruleNo'"
               :rules="formRules.ruleNo ? formRules.ruleNo : ''">
@@ -90,7 +90,7 @@
             </el-form-item>
           </template>
         </el-table-column> -->
-        <el-table-column width="120" prop="sapCode" align="center" 
+        <el-table-column width="140" prop="sapCode" align="center" 
           :label="language('LK_GONGYINGSHANG', '供应商')">
           <template slot-scope="scope">
           <el-form-item  :prop="'tableData.' + scope.$index + '.' + 'sapCode'"
@@ -114,7 +114,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column width="110" prop="materialCode" align="center" 
+        <el-table-column width="140" prop="materialCode" align="center" 
           :label="language('YUANCAILIAO', '原材料')">
           <template slot-scope="scope">
           <el-form-item :prop="'tableData.' + scope.$index + '.' + 'materialCode'"
@@ -296,9 +296,9 @@
           </template>
         </el-table-column>
         <el-table-column prop="tcExchangeRate" align="center" width="60" :label="language('HUILV', '汇率')">
-          <template slot="header" slot-scope="scope">
+          <!-- <template slot="header" slot-scope="scope">
             <span>{{ language('HUILV', '汇率') }}<iTooltip :txtInfo="tipList[2]" :num="'3'"></iTooltip></span>
-          </template>
+          </template> -->
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'tcExchangeRate'"
               :rules="formRules.tcExchangeRate ? formRules.tcExchangeRate : ''">
@@ -1518,13 +1518,13 @@ export default {
   position:static;
   .numIcon{
     position:absolute;
-    bottom:4px;
-    left:0;
+    bottom:0px;
+    left:calc(50% - 10px);
   }
   .logIcon{
     position:absolute;
-    bottom:4px;
-    left:0;
+    bottom:0px;
+    left:calc(50% - 10px);
   }
 }
 
