@@ -662,6 +662,7 @@ export default {
     },
     getAllPrice(){
       const req={
+        initiated:this.activeName=='wait'?0:1,
         recallIdList:this.delList,
         ...this.searchForm
       }
