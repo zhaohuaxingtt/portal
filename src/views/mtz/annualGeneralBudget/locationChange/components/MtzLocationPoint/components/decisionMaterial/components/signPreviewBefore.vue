@@ -76,7 +76,7 @@
               :tagNum="'1'"
               class="margin-top20"
               :tableData="ruleTableListData"
-              :tableTitle="ruleTableTitle1_all"
+              :tableTitle="ruleTableListData.some((val)=>{if(val.materialCode.slice(1,6)=='01006') {return true}})?ruleTableTitle1_all:ruleTableTitle1_1"
               @handleClickRow="handleCurrentChangeTable"
               :tableLoading="loadingRule"
               :index="true"
@@ -173,7 +173,7 @@
               border
               class="margin-top20 over_flow_y_ture"
               :tableData="partTableListData"
-              :tableTitle="partTableTitle1_all"
+              :tableTitle="partTableListData.some((val)=>{if(val.materialCode.slice(1,6)=='01006') {return true}})?partTableTitle1_all:[...partTableTitle1_1,...partTableTitle1_2]"
               :tableLoading="loadingPart"
               :index="true"
               :tagNum="'1'"
@@ -345,6 +345,7 @@ import tableList from '@/components/commonTableFixed/index.vue'
 import {
   ruleTableTitle1_1,
   partTableTitle1_1,
+  partTableTitle1_2,
   ruleTableTitle1_all,
   partTableTitle1_all
 } from './data'
@@ -387,6 +388,7 @@ export default {
       isruleTitle2: false,
       ruleTableTitle1_1,
       partTableTitle1_1,
+      partTableTitle1_2,
       ruleTableListData: [],
       rulePageParams: {
         totalCount: 0,
