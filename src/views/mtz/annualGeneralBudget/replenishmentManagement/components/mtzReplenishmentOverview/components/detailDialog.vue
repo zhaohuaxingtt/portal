@@ -286,6 +286,7 @@ export default {
     },
   },
   created () {
+    this.page.pageSizes = [10, 20, 50, 100, 200, 300]
     this.$nextTick(_ => {
       this.getDeptList()
       this.getOnePartNo()

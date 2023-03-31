@@ -568,6 +568,7 @@ export default {
     }
   },
   created () {
+    this.page.pageSizes = [10, 20, 50, 100, 200, 300]
     if (this.selectData && this.selectData.length !== 0) {
       if(this.selectData[0].echoShow){
         let obj = JSON.parse(this.selectData[0].params)
@@ -998,6 +999,8 @@ export default {
       }
     },
     search () {
+      this.page.currPage = 1
+
       this.searchFlag = true
       this.query()
     },
