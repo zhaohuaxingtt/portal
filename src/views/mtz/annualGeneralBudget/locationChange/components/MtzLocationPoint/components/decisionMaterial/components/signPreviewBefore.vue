@@ -148,7 +148,7 @@
               <template slot-scope="scope" slot="offsetMonth">
                 <span>{{
                   scope.row.offsetMonth || scope.row.offsetMonth == '0'
-                    ? offsetList.find((val) => val.code == scope.row.offset)
+                    ? offsetList.find((val) => val.code == scope.row.offsetMonth)
                         .name
                     : ''
                 }}</span>
@@ -242,7 +242,7 @@
               <template slot-scope="scope" slot="offsetMonth">
                 <span>{{
                   scope.row.offsetMonth || scope.row.offsetMonth == '0'
-                    ? offsetList.find((val) => val.code == scope.row.offset)
+                    ? offsetList.find((val) => val.code == scope.row.offsetMonth)
                         .name
                     : ''
                 }}</span>
