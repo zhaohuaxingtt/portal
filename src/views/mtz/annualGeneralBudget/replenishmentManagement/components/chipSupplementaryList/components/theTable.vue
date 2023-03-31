@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-18 18:52:11
- * @LastEditTime: 2023-03-17 17:16:07
+ * @LastEditTime: 2023-03-31 17:17:04
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\theTable.vue
@@ -28,13 +28,17 @@
         </el-radio-group>
       </div>
       <div class="opration">
-        <iButton @click="deleteBalance"
-          v-permission="PROTAL_MTZ_BUCHAGUANLI_CHIPBUCHALIEBIAO_SHANCHU">{{
-          language('SHANCHU', '删除')
-        }}</iButton>
         <iButton
+          @click="deleteBalance"
+          v-permission="PROTAL_MTZ_BUCHAGUANLI_CHIPBUCHALIEBIAO_SHANCHU"
+          >{{ language('SHANCHU', '删除') }}</iButton
+        >
+        <iButton
+          v-if="supplierType != '散件供应商'"
           @click="sendSupplier"
-          v-permission="PROTAL_MTZ_BUCHAGUANLI_CHIPBUCHALIEBIAO_FAQIGONGINGSHANG"
+          v-permission="
+            PROTAL_MTZ_BUCHAGUANLI_CHIPBUCHALIEBIAO_FAQIGONGINGSHANG
+          "
           >{{ language('FASONGGONGYINGSHANG', '发送供应商') }}</iButton
         >
         <iButton
@@ -44,11 +48,13 @@
         >
         <iButton
           @click="submit"
+          v-if="supplierType != '散件供应商'"
           v-permission="PROTAL_MTZ_BUCHAGUANLI_CHIPBUCHALIEBIAO_SUBMIT"
           >{{ language('TIJIAO', '提交') }}</iButton
         >
         <iButton
           @click="recall"
+          v-if="supplierType != '散件供应商'"
           v-permission="PROTAL_MTZ_BUCHAGUANLI_CHIPBUCHALIEBIAO_CHEHUI"
           >{{ language('CHEHUI ', '撤回') }}</iButton
         >
@@ -104,7 +110,6 @@
       <span slot="footer" class="dialog-footer"> </span>
     </el-dialog>
   </iCard>
-  
 </template>
 
 <script>
@@ -154,7 +159,7 @@ export default {
         }
       ],
       isOnlyMyself: false,
-      fileList:[],
+      fileList: []
     }
   },
   created() {
@@ -215,7 +220,7 @@ export default {
           }
         )
       } else {
-        iMessage.error("草稿和撤回状态下才可以删除")
+        iMessage.error('草稿和撤回状态下才可以删除')
       }
     },
     sendSupplier() {
@@ -238,7 +243,7 @@ export default {
           }
         )
       } else {
-        iMessage.error("草稿、供应商拒绝、审批不通过状态可以提交")
+        iMessage.error('草稿、供应商拒绝、审批不通过状态可以提交')
       }
     },
     handleClickEdit() {
@@ -260,7 +265,7 @@ export default {
           window.open(`/portal/#/chipComputed?type=2&balanceId=${balanceId}`)
         }
       } else {
-        iMessage.error("草稿状态才可以编辑")
+        iMessage.error('草稿状态才可以编辑')
       }
     },
     submit() {
@@ -285,7 +290,7 @@ export default {
           }
         })
       } else {
-        iMessage.error("供应商确认、审批退回、RiSE审批通过状态可以提交")
+        iMessage.error('供应商确认、审批退回、RiSE审批通过状态可以提交')
       }
     },
     recall() {
@@ -293,7 +298,13 @@ export default {
         iMessage.error('请选择数据')
       }
       if (
-        ['草稿','待供应商确认','供应商拒绝','审批不通过', 'EPMS审批不通过'].includes(this.muiltSelectList[0].statusName)
+        [
+          '草稿',
+          '待供应商确认',
+          '供应商拒绝',
+          '审批不通过',
+          'EPMS审批不通过'
+        ].includes(this.muiltSelectList[0].statusName)
       ) {
         let params = []
         this.muiltSelectList.forEach((item) => {
@@ -309,7 +320,7 @@ export default {
         })
       } else {
         iMessage.error(
-          "草稿、待供应商确认、供应商拒绝、审批不通过、EPMS审批不通过状态可以撤回"
+          '草稿、待供应商确认、供应商拒绝、审批不通过、EPMS审批不通过状态可以撤回'
         )
       }
     },
@@ -339,7 +350,7 @@ export default {
       })
     },
     openFile(val) {
-      console.log(val);
+      console.log(val)
       this.fileList = val.fileList || []
       this.dialogVisible = true
     },
