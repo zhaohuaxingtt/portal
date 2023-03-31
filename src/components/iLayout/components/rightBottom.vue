@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="btn-button" @click.stop="handleShow">
+      <jiraCollector v-if="showJira"/>
       <img :src="!contentShowFlag ? popurIcon : activePopurIcon" alt="" />
     </div>
     <div class="povper-content" v-show="contentShowFlag">
@@ -18,7 +19,11 @@
 import { popoverList } from './data.js'
 import popurIcon from '../assets/images/popur.svg'
 import activePopurIcon from '../assets/images/active-popur.svg'
+import jiraCollector from "./jiraCollector";
 export default {
+  components:{
+    jiraCollector
+  },
   props: {
     contentShowFlag: {
       type: Boolean,
@@ -31,8 +36,12 @@ export default {
     return {
       popoverList,
       popurIcon,
-      activePopurIcon
+      activePopurIcon,
+      showJira:false
     }
+  },
+  mounted(){
+    this.showJira = true
   },
   methods: {
     handleClick(list) {
