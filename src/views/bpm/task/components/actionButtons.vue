@@ -72,6 +72,9 @@ export default {
   computed: {
     isHideAppendButton() {
       // 生产采购 CSC RS单
+      if(Array.isArray(this.categoryList)){
+        return this.hideAppendButtonList.includes(this.categoryList[0])
+      }
       return this.hideAppendButtonList.includes(this.categoryList)
     },
     isRefuseButton() {
