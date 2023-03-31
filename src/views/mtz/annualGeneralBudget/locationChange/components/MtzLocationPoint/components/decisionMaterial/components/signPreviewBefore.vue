@@ -348,7 +348,7 @@ import {
   partTableTitle1_2,
   ruleTableTitle1_all,
   partTableTitle1_all
-} from './data'
+} from './dataCopy'
 import {
   getAppFormInfo,
   pageAppRule,
@@ -775,6 +775,7 @@ $tabsInforHeight: 35px;
 ::v-deep .el-table {
   border-radius: 0;
   font-size: 18px;
+
   .el-table__header {
     background-color: #364d6e;
     th {
@@ -782,6 +783,11 @@ $tabsInforHeight: 35px;
       .cell {
         color: #fff;
         line-height: 20px;
+          font-size: 18px;
+        span{
+          font-size: 18px;
+
+        }
       }
     }
   }
@@ -789,6 +795,11 @@ $tabsInforHeight: 35px;
     border-color: #d9d9d9;
     .cell {
       line-height: 20px;
+          font-size: 18px;
+      span{
+          font-size: 18px;
+
+        }
     }
     .mtz-box {
       width: 100%;
