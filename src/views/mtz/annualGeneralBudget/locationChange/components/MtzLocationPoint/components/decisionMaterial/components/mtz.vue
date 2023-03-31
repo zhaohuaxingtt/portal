@@ -67,15 +67,12 @@
           <el-divider class="hr_divider" />
           <div v-if="RsObject" class="centerBox">
             <p>补差金额=零件结算数量 <iTooltip :txtInfo="tipList[0]" :num="'1'"></iTooltip>
-              *[原材料市场价<iTooltip :txtInfo="tipList[1]" :num="'2'"></iTooltip> -原材料基价<iTooltip :txtInfo="tipList[2]"
-                :num="'3'">
-              </iTooltip> *(1+阈值<iTooltip :txtInfo="tipList[3]" :num="'4'"></iTooltip> )]*原材料用量
-              <iTooltip :txtInfo="tipList[4]" :num="'5'"></iTooltip> *补差系数<iTooltip :txtInfo="tipList[5]" :num="'6'">
-              </iTooltip>
-            </p>
-            <p>MTZ Payment=Settle accounts Quantity*[Effective Price-Base Price(1+threshold)]*Raw Material Weight*Ratio
-            </p>
-          </div>
+            *[原材料市场价<iTooltip :txtInfo="tipList[1]" :num="'2'"></iTooltip> -原材料基价<iTooltip :txtInfo="tipList[2]" :num="'3'">
+            </iTooltip> *(1+阈值<iTooltip :txtInfo="tipList[3]" :num="'4'"></iTooltip>*阈值系数<iTooltip :txtInfo="tipList[4]" :num="'5'"></iTooltip> )]*原材料用量
+            <iTooltip :txtInfo="tipList[5]" :num="'6'"></iTooltip> *补差%<iTooltip :txtInfo="tipList[6]" :num="'7'"></iTooltip>
+          </p>
+          <p class="enStyle"><span>MTZ Payment= Settle Accounts Quantity*[Effective Price-Base Price(1+Threshold*Coefficient)]*Raw Material Weight* Compensation%</span><span>When: effective price > base price *(1+threshold)</span></p>
+        </div>
    
 
           <p class="tableTitle font20_b" v-if="RsObject">
@@ -92,7 +89,7 @@
             }}</span>
           </div> -->
           <tableList :tagNum="'1'" ref="moviesTable" :tableData="ruleTableListData"
-            :tableTitle="ruleTableTitle1_all"
+          :tableTitle="ruleTableListData.some((val)=>{if(val.materialCode.slice(1,6)=='01006') {return true}})?ruleTableTitle1_all:ruleTableTitle1_1"
             @handleClickRow="handleCurrentChangeTable" :tableLoading="loadingRule"
             :header-row-class-name="'ruleTableHeader'" :index="true" :rowClassName="'table-row'" v-if="RsObject"
             :selection="false" border>
@@ -138,12 +135,14 @@
               }}</span>
             </template>
             <template slot-scope="scope" slot="avgPeriod">
-              <span>{{ scope.row.avgPeriod ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+              <span>{{ scope.row.avgPeriod||scope.row.avgPeriod=='0' ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
             </template>
             <template slot-scope="scope" slot="offsetMonth">
-              <span>{{ scope.row.offsetMonth ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
+              <span>{{ scope.row.offsetMonth||scope.row.offsetMonth=='0' ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
             </template>
-
+            <template slot-scope="scope" slot="compensationRatio">
+              <span >{{ scope.row.compensationRatio?scope.row.compensationRatio*100+'%':'' }}</span>
+            </template>
           </tableList>
           <!-- 导出规则表格 -->
           <tableList ref="moviesTable" :tableData="ruleTableListData"
@@ -183,12 +182,23 @@
               }}</span>
             </template>
             <template slot-scope="scope" slot="avgPeriod">
-              <span>{{ scope.row.avgPeriod ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+              <span>{{ scope.row.avgPeriod||scope.row.avgPeriod=='0' ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
             </template>
             <template slot-scope="scope" slot="offsetMonth">
-              <span>{{ scope.row.offsetMonth ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
+              <span>{{ scope.row.offsetMonth||scope.row.offsetMonth=='0' ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
             </template>
-
+            <template slot-scope="scope" slot="compensationRatio">
+              <span >{{ scope.row.compensationRatio?scope.row.compensationRatio*100+'%':'' }}</span>
+            </template>
+            <template slot-scope="scope" slot="thresholdCompensationLogic">
+              <span>{{
+                scope.row.thresholdCompensationLogic == 'A'
+                ? '全额补差'
+                : scope.row.thresholdCompensationLogic == 'B'
+                  ? '超额补差'
+                  : ''
+              }}</span>
+            </template>
           </tableList>
           <tableList class="margin-top20 " ref="moviesTable1" :tableData="ruleTableListData"
             :tableTitle="ruleTableTitle1_2" :tableLoading="loadingRule" v-if="!RsObject && ruleTableListData.length > 0&& partTableListData.some((val)=>{if(val.materialCode.slice(1,6)=='01006') {return true}})"
@@ -213,7 +223,8 @@
             }}</span>
           </div> -->
           <tableList :tagNum="'1'" class=" over_flow_y_ture" ref="partTable" :tableData="partTableListData"
-            :tableTitle="partTableTitle1_all" :tableLoading="loadingPart"
+          :tableTitle="partTableListData.some((val)=>{if(val.materialCode.slice(1,6)=='01006') {return true}})?partTableTitle1_all:[...partTableTitle1_1,...partTableTitle1_2]"
+ :tableLoading="loadingPart"
             v-if="RsObject" :index="true" :rowClassName="'part-table-row'" :header-row-class-name="'partTableHeader'"
             :selection="false" border>
             <template slot-scope="scope" slot="compensationPeriod">
@@ -250,10 +261,13 @@
               <span>{{ scope.row.method == '1' ? '一次性补差' : scope.row.method == '2' ? '变价单补差' : '' }}</span>
             </template>
             <template slot-scope="scope" slot="avgPeriod">
-              <span>{{ scope.row.avgPeriod ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+              <span>{{ scope.row.avgPeriod||scope.row.avgPeriod=='0' ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
             </template>
             <template slot-scope="scope" slot="offsetMonth">
-              <span>{{ scope.row.offsetMonth ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
+              <span>{{ scope.row.offsetMonth||scope.row.offsetMonth=='0' ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
+            </template>
+            <template slot-scope="scope" slot="compensationRatio">
+              <span >{{ scope.row.compensationRatio?scope.row.compensationRatio*100+'%':'' }}</span>
             </template>
           </tableList>
           <!-- 导出零件表格 -->
@@ -290,15 +304,24 @@
               <span>{{ scope.row.method == '1' ? '一次性补差' : scope.row.method == '2' ? '变价单补差' : '' }}</span>
             </template>
             <template slot-scope="scope" slot="avgPeriod">
-              <span>{{ scope.row.avgPeriod ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+              <span>{{ scope.row.avgPeriod||scope.row.avgPeriod=='0' ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
             </template>
             <template slot-scope="scope" slot="offsetMonth">
-              <span>{{ scope.row.offsetMonth ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
+              <span>{{ scope.row.offsetMonth||scope.row.offsetMonth=='0' ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
             </template>
           </tableList>
           <tableList border class="margin-top20 "  :tableData="partTableListData"
             :tableTitle="partTableTitle1_2" :tableLoading="loadingPart" v-if="!RsObject && partTableListData.length > 0"
             :index="true"  :selection="false">
+            <template slot-scope="scope" slot="thresholdCompensationLogic">
+              <span>{{
+                scope.row.thresholdCompensationLogic == 'A'
+                ? '全额补差'
+                : scope.row.thresholdCompensationLogic == 'B'
+                  ? '超额补差'
+                  : ''
+              }}</span>
+            </template>
             <template slot-scope="scope" slot="materialDoseSource">
               <span>{{
                 scope.row.materialDoseSource ? materialDoseSourceList.find(val => val.code == scope.row.materialDoseSource).name : ''
@@ -308,12 +331,17 @@
               <span>{{ scope.row.method == '1' ? '一次性补差' : scope.row.method == '2' ? '变价单补差' : '' }}</span>
             </template>
             <template slot-scope="scope" slot="avgPeriod">
-              <span>{{ scope.row.avgPeriod ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+              <span>{{ scope.row.avgPeriod||scope.row.avgPeriod=='0' ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
             </template>
             <template slot-scope="scope" slot="offsetMonth">
-              <span>{{ scope.row.offsetMonth ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
+              <span>{{ scope.row.offsetMonth||scope.row.offsetMonth=='0' ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
+            </template>
+            <template slot-scope="scope" slot="compensationRatio">
+              <span >{{ scope.row.compensationRatio?scope.row.compensationRatio*100+'%':'' }}</span>
             </template>
           </tableList>
+
+
           <tableList border class="margin-top20 "  :tableData="partTableListData" :tableTitle="partTableTitle1_3"
 
           :tableLoading="loadingPart" v-if="!RsObject && partTableListData.length > 0 && partTableListData.some((val)=>{if(val.materialCode.slice(1,6)=='01006') {return true}})" :index="true"
@@ -477,10 +505,10 @@
 
             <div class="centerBox">
               <p>补差金额=零件结算数量 
-                *[原材料市场价 -原材料基价*(1+阈值 )]*原材料用量
-                 *补差系数
+                *[原材料市场价 -原材料基价*(1+阈值*阈值系数 )]*原材料用量
+                 *补差%
               </p>
-              <p>MTZ Payment=Settle accounts Quantity*[Effective Price-Base Price(1+threshold)]*Raw Material Weight*Ratio
+              <p class="enStyle"><span>MTZ Payment= Settle Accounts Quantity*[Effective Price-Base Price(1+Threshold*Coefficient)]*Raw Material Weight* Compensation%</span><span>When: effective price > base price *(1+threshold)</span></p>
               </p>
             </div>
 
@@ -536,11 +564,14 @@
                 }}</span>
               </template>
               <template slot-scope="scope" slot="avgPeriod">
-                <span>{{ scope.row.avgPeriod ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+                <span>{{ scope.row.avgPeriod||scope.row.avgPeriod=='0' ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
               </template>
               <template slot-scope="scope" slot="offsetMonth">
-                <span>{{ scope.row.offsetMonth ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
+                <span>{{ scope.row.offsetMonth||scope.row.offsetMonth=='0' ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
               </template>
+              <template slot-scope="scope" slot="compensationRatio">
+              <span >{{ scope.row.compensationRatio?scope.row.compensationRatio*100+'%':'' }}</span>
+            </template>
             </tableList>
             <!-- 导出规则表格 -->
             <tableList class="margin-top20" :tableData="tableData" :tableTitle="ruleTableTitle1_1"
@@ -580,12 +611,25 @@
                 }}</span>
               </template>
               <template slot-scope="scope" slot="avgPeriod">
-                <span>{{ scope.row.avgPeriod ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+                <span>{{ scope.row.avgPeriod||scope.row.avgPeriod=='0' ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
               </template>
               <template slot-scope="scope" slot="offsetMonth">
-                <span>{{ scope.row.offsetMonth ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
+                <span>{{ scope.row.offsetMonth||scope.row.offsetMonth=='0' ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
               </template>
+              <template slot-scope="scope" slot="compensationRatio">
+              <span >{{ scope.row.compensationRatio?scope.row.compensationRatio*100+'%':'' }}</span>
+            </template>
+            <template slot-scope="scope" slot="thresholdCompensationLogic">
+              <span>{{
+                scope.row.thresholdCompensationLogic == 'A'
+                ? '全额补差'
+                : scope.row.thresholdCompensationLogic == 'B'
+                  ? '超额补差'
+                  : ''
+              }}</span>
+            </template>
             </tableList>
+
             <tableList class="margin-top20" :tableData="tableData" :tableTitle="ruleTableTitle1_2"
               :tableLoading="loadingRule" v-if="!RsObject && tableData.length > 0&& tableData.some((val)=>{if(val.materialCode.slice(1,6)=='01006') {return true}})" :index="true" :selection="false"
               border>
@@ -639,10 +683,10 @@
             <el-divider class="hr_divider" />
             <div class="centerBox">
               <p>补差金额=零件结算数量 
-                *[原材料市场价 -原材料基价*(1+阈值 )]*原材料用量
-                 *补差系数
+                *[原材料市场价 -原材料基价*(1+阈值*阈值系数 )]*原材料用量
+                 *补差%
               </p>
-              <p>MTZ Payment=Settle accounts Quantity*[Effective Price-Base Price(1+threshold)]*Raw Material Weight*Ratio
+              <p class="enStyle"><span>MTZ Payment= Settle Accounts Quantity*[Effective Price-Base Price(1+Threshold*Coefficient)]*Raw Material Weight* Compensation%</span><span>When: effective price > base price *(1+threshold)</span></p>
               </p>
             </div>
 
@@ -684,10 +728,10 @@
                   <span>{{ scope.row.method == '1' ? '一次性补差' : scope.row.method == '2' ? '变价单补差' : '' }}</span>
                 </template>
                 <template slot-scope="scope" slot="avgPeriod">
-                  <span>{{ scope.row.avgPeriod ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+                  <span>{{ scope.row.avgPeriod||scope.row.avgPeriod=='0' ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
                 </template>
                 <template slot-scope="scope" slot="offsetMonth">
-                  <span>{{ scope.row.offsetMonth ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
+                  <span>{{ scope.row.offsetMonth||scope.row.offsetMonth=='0' ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
                 </template>
             </tableList>
             <!-- 导出零件表格 -->
@@ -723,10 +767,10 @@
                 <span>{{ scope.row.method == '1' ? '一次性补差' : scope.row.method == '2' ? '变价单补差' : '' }}</span>
               </template>
               <template slot-scope="scope" slot="avgPeriod">
-                <span>{{ scope.row.avgPeriod ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+                <span>{{ scope.row.avgPeriod||scope.row.avgPeriod=='0' ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
               </template>
               <template slot-scope="scope" slot="offsetMonth">
-                <span>{{ scope.row.offsetMonth ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
+                <span>{{ scope.row.offsetMonth||scope.row.offsetMonth=='0' ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
               </template>
             </tableList>
             <tableList border class="margin-top20 " :tableData="tableData" :tableTitle="partTableTitle1_2"
@@ -741,12 +785,25 @@
               <span>{{ scope.row.method == '1' ? '一次性补差' : scope.row.method == '2' ? '变价单补差' : '' }}</span>
             </template>
             <template slot-scope="scope" slot="avgPeriod">
-              <span>{{ scope.row.avgPeriod ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+              <span>{{ scope.row.avgPeriod||scope.row.avgPeriod=='0' ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
             </template>
             <template slot-scope="scope" slot="offsetMonth">
-              <span>{{ scope.row.offsetMonth ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
+              <span>{{ scope.row.offsetMonth||scope.row.offsetMonth=='0' ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
+            </template>
+            <template slot-scope="scope" slot="compensationRatio">
+              <span >{{ scope.row.compensationRatio?scope.row.compensationRatio*100+'%':'' }}</span>
+            </template>
+            <template slot-scope="scope" slot="thresholdCompensationLogic">
+              <span>{{
+                scope.row.thresholdCompensationLogic == 'A'
+                ? '全额补差'
+                : scope.row.thresholdCompensationLogic == 'B'
+                  ? '超额补差'
+                  : ''
+              }}</span>
             </template>
             </tableList>
+
             <tableList border class="margin-top20 " :tableData="tableData" :tableTitle="partTableTitle1_3"
               :tableLoading="loadingPart" v-if="!RsObject && partTableListData.length > 0 && tableData.some((val)=>{if(val.materialCode.slice(1,6)=='01006') {return true}})" :index="true"
               :selection="false">
@@ -922,7 +979,7 @@
 import { iText,iCard, icon, iInput, iButton, iMessage, iPagination } from 'rise'
 import { formList, avgPeriodList, offsetList, materialDoseSourceList } from './data'
 import signExport from './signExport.vue'
-import tableList from './commonTable/index.vue'
+import tableList from '@/components/commonTableFixed/index.vue'
 import { partTableTitle1_3,ruleTableTitle1_1, ruleTableTitle1_all, partTableTitle1_1, partTableTitle1_all, ruleTableTitle1_2, partTableTitle1_2 } from './data'
 import iTooltip from "../../applyInfor/iTooltip";
 import { tipList } from '../../applyInfor/data'
@@ -1598,6 +1655,10 @@ export default {
 
   p {
     font-size: 18px;
+  }
+  .enStyle{
+    display:flex;
+    justify-content:space-between;
   }
 }
 
