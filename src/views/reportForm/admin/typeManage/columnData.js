@@ -203,6 +203,7 @@ const typeColumn = [
     i18n: '操作',
     align: 'center',
     width: 200,
+    prop:'operate',
     customRender: (h, { row }, col, { operate }) => {
       return (
         <span>
