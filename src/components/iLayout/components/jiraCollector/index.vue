@@ -6,12 +6,28 @@
  * @Description: In User Settings Edit
 -->
 <template>
-    <div></div>
+<div>
+    <iButton @click="openJira">jira 收集器</iButton>
+</div>
 </template>
-<script>    
+<script>
+import { iButton } from "rise";
 import './jquery.collector.js'
 export default{
-
+    components:{
+        iButton
+    },
+    computed:{
+    ...Vuex.mapState({
+      userInfo: state => state.permission.userInfo,
+    }),
+    },
+    methods:{
+        openJira(){
+            // &userId=${this.userInfo.id}&url=${encodeURIComponent(window.location.href)}
+            window.open(`http://jira.csvw.com/rest/collectors/1.0/template/form/6079ad15?os_authType=none`)
+        }
+    }
 }
 </script>
 

@@ -139,7 +139,7 @@ window._atl_jic_parameters = "{\"baseUrl\":\"http://jira.csvw.com\",\"collectorI
     var $body = $("body"), that = this, showDialog = function () { that.show(); return false };
     if (!options.baseUrl) { options.baseUrl = baseUrl }
     this.options = options;
-    this.frameUrl = options.baseUrl + "/rest/collectors/1.0/template/form/" + this.options.collectorId + "?preview=true";
+    this.frameUrl = options.baseUrl + "/rest/collectors/1.0/template/form/" + this.options.collectorId + "?os_authType=none";
     $("head").append("<style type='text/css'>" + css + "</style>");
     if (this.options.triggerPosition === "CUSTOM") {
       var oldTriggerFunction;
@@ -219,6 +219,8 @@ window._atl_jic_parameters = "{\"baseUrl\":\"http://jira.csvw.com\",\"collectorI
       $loadingImage.show(); $loadingImage.focus();
       $body.css("overflow", "hidden").keydown(hideDialog);
       window.scroll(0, 0);
+      console.log('window.frames=>',window.frames);
+      window.frames.Cookies.set('atlassian.xsrf.token','TEST')
       var feedbackString = "";
       if (this.options.collectFeedback) {
         var feedbackObject = this.options.collectFeedback();
@@ -358,12 +360,13 @@ window._atl_jic_parameters = "{\"baseUrl\":\"http://jira.csvw.com\",\"collectorI
       }
     } else {
       $.ajax({
-        url: baseUrl + "/rest/collectors/1.0/configuration/trigger/" + collectorId + "?preview=true",
+        url: baseUrl + "/rest/collectors/1.0/configuration/trigger/" + collectorId + "?preview=true&locale=zh_CN",
         dataType: "jsonp",
         crossDomain: true,
         jsonpCallback: "trigger_" + collectorId,
         cache: true,
         success: function (result) {
+          console.log(result);
           showTrigger(result, collectorId)
         }
       })
