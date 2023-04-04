@@ -160,18 +160,18 @@ export default {
       this.allData = val
     },
     submit0() {
-      if (this.infoData.modelId != this.allData.modelId) {
-        this.infoData.modelId = this.allData.modelId
-        updateSupplierPerforManceModel(this.infoData).then(res => {
-          if (res.code == 200) {
-            this.active = 1
-          } else {
-            iMessage.error(`${this.$i18n.locale === "zh" ? res.desZh : res.desEn}`)
-          }
-        })
-      } else {
+      // if (this.infoData.modelId != this.allData.modelId) {
+      //   this.infoData.modelId = this.allData.modelId
+      //   updateSupplierPerforManceModel(this.infoData).then(res => {
+      //     if (res.code == 200) {
+      //       this.active = 1
+      //     } else {
+      //       iMessage.error(`${this.$i18n.locale === "zh" ? res.desZh : res.desEn}`)
+      //     }
+      //   })
+      // } else {
         this.active = 1
-      }
+      // }
 
     },
     submit12() {
