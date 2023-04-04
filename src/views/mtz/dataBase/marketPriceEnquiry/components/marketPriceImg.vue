@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-09-23 16:23:09
- * @LastEditTime: 2023-03-29 15:19:25
+ * @LastEditTime: 2023-04-04 11:28:04
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\dataBase\marketPriceEnquiry\components\marketPriceImg.vue
@@ -10,74 +10,80 @@
   <div>
     <iSearch @sure="sure" @reset="reset" icon="false">
       <el-form :model="formData">
-        <el-form-item
-          style="width: 250px"
-          :label="language('CAILIAOZHONGLEI', '材料中类')"
-        >
-          <iSelect
-            v-model="formData['materialNos']"
-            filterable
-            multiple
-            collapse-tags
-             @change="changematerialNos"
+        <el-row>
+          <el-form-item
+            :label="language('CAILIAOZHONGLEI', '材料中类')"
           >
-            <el-option
-              v-for="(item, index) in categoryDorpDownList"
-              :key="index"
-              :value="item.code"
-              :label="item.code + '-' + item.message"
-            ></el-option>
-          </iSelect>
-        </el-form-item>
-        <el-form-item
-          style="width: 200px"
-          :label="language('YUANCAILIAOPAIHAO', '原材料牌号')"
-          prop="materialCode"
-        >
-          <iSelect key="materialCode" v-model="formData['materialCode']" clearable @change="changeMaterialCode">
-            <el-option
-              v-for="(item, index) in materialCodeList"
-              :key="index"
-              :value="item.code"
-              :label="item.code + '-' + item.message"
-            ></el-option>
-          </iSelect>
-        </el-form-item>
-        <el-form-item :label="language('YUEDUQI', '月度起')">
-          <iDatePicker
-            v-model="formData.periodStart"
-            :picker-options="startPickerOptions"
-            format="yyyy-MM"
-            type="month"
-          />
-        </el-form-item>
-        <el-form-item :label="language('YUEDUZHI', '月度止')">
-          <iDatePicker
-            v-model="formData.periodEnd"
-            :picker-options="endPickerOptions"
-            format="yyyy-MM"
-            type="month"
-          />
-        </el-form-item>
-        <el-form-item :label="language('SHICHANGJIALEIBIE', '市场价类别')">
-          <iSelect v-model="formData['marketTypes']" multiple collapse-tags>
-            <el-option
-              v-for="(item, index) in marketTypeDorpDownList"
-              :key="index"
-              :value="item.code"
-              :label="item.message"
-            ></el-option>
-          </iSelect>
-          <!-- <custom-select class="cateGorySelect"
-                         multiple
-                         collapse-tags
-                         v-model="formData['marketTypes']"
-                         :user-options="marketTypeDorpDownList"
-                         :placeholder="language('QINGXUANZE', '请选择')"
-                         display-member="message"
-                         value-member="code"
-                         value-key="code" /> -->
-        </el-form-item>
+            <iSelect
+              v-model="formData['materialNos']"
+              filterable
+              multiple
+              collapse-tags
+              @change="changematerialNos"
+            >
+              <el-option
+                v-for="(item, index) in categoryDorpDownList"
+                :key="index"
+                :value="item.code"
+                :label="item.code + '-' + item.message"
+              ></el-option>
+            </iSelect>
+          </el-form-item>
+          <el-form-item
+            :label="language('YUANCAILIAOPAIHAO', '原材料牌号')"
+            prop="materialCode"
+          >
+            <iSelect key="materialCode" v-model="formData['materialCode']" clearable @change="changeMaterialCode">
+              <el-option
+                v-for="(item, index) in materialCodeList"
+                :key="index"
+                :value="item.code"
+                :label="item.code + '-' + item.message"
+              ></el-option>
+            </iSelect>
+          </el-form-item>
+          <el-form-item :label="language('YUEDUQI', '月度起')">
+            <iDatePicker
+              v-model="formData.periodStart"
+              :picker-options="startPickerOptions"
+              format="yyyy-MM"
+              type="month"
+            />
+          </el-form-item>
+          <el-form-item :label="language('YUEDUZHI', '月度止')">
+            <iDatePicker
+              v-model="formData.periodEnd"
+              :picker-options="endPickerOptions"
+              format="yyyy-MM"
+              type="month"
+            />
+          </el-form-item>
+          <el-form-item :label="language('SHICHANGJIALEIBIE', '市场价类别')">
+            <iSelect v-model="formData['marketTypes']" multiple collapse-tags>
+              <el-option
+                v-for="(item, index) in marketTypeDorpDownList"
+                :key="index"
+                :value="item.code"
+                :label="item.message"
+              ></el-option>
+            </iSelect>
+          </el-form-item>
+        </el-row>
+        <el-row>
+          <el-form-item :label="language('GONGYINGSHANG', '供应商')">
+            <iSelect v-model="supplier" 
+              filterable
+              multiple
+              collapse-tags>
+              <el-option
+                v-for="(item, index) in supplierList"
+                :key="index"
+                :value="item.code"
+                :label="item.code + '-' + item.message"
+              ></el-option>
+            </iSelect>
+          </el-form-item>
+        </el-row>
       </el-form>
     </iSearch>
     <iCard class="margin-top20 echartCard">
@@ -99,16 +105,6 @@
             :label="item.name"
           ></el-option>
         </iSelect>
-        <!-- <custom-select class="cateGorySelect"
-                       multiple
-                       collapse-tags
-                       v-model="selectionCategoryData"
-                       :user-options="allCategoryDorpDownList"
-                       :placeholder="language('QINGXUANZE', '请选择')"
-                       display-member="name"
-                       value-member="materialNo"
-                       value-key="materialNo"
-                       @change="handleChangeShowOrHide" /> -->
       </div>
       <chart
         v-if="chartData.length > 0 && timeData.length > 0 && chart == 1"
@@ -143,11 +139,11 @@ import {
   marketPriceChart
 } from '@/api/mtz/database/marketPriceEnquiry'
 import {
-  getRawMaterial //原材料牌号下拉选择
+  getRawMaterial, //原材料牌号下拉选择
+  getSupplierByUser
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import chart from './chart'
 import chartMaterialCode from './chartMaterialCode'
-import { mock } from "./data";
 export default {
   components: {
     iSearch,
@@ -159,6 +155,8 @@ export default {
   },
   data() {
     return {
+      supplier:[],
+      supplierList:[],
       materialCodeList: [],
       // search data
       formData: {},
@@ -241,6 +239,16 @@ export default {
       chart: 1
     }
   },
+  watch:{
+    supplier(val){
+      if(!val) return this.formData.spSapCode = ''
+      if(Array.isArray(val)&&val.length){
+        this.formData.spSapCode = val.join(',')
+      }else{
+        this.formData.spSapCode = ''
+      }
+    }
+  },
   beforeCreate() {
     that = this
   },
@@ -250,6 +258,9 @@ export default {
     this.getCategoryDorpDownList()
     this.getRawMaterial()
     this.getMarketTypeDorpDownList()
+    getSupplierByUser({}).then(res=>{
+        this.supplierList = res.data;
+    }),
     this.$nextTick((_) => {
       this.getChartData()
     })
@@ -312,8 +323,7 @@ export default {
         formData.periodEnd = ''
       }
       if (formData.materialCode) {
-        // let res = mock
-        marketPriceChart({...formData,countUnit: 'T'}).then((res) => {
+        marketPriceChart({...formData,countUnit: 'KG'}).then((res) => {
           if (res && res.code == 200) {
             this.materialCode = formData.materialCode
             const data = [...res.data.marketPriceList, ...res.data.rulePriceList]
@@ -471,7 +481,6 @@ export default {
       this.formData.materialCode = ''
     }
   },
-  watch: {}
 }
 </script>
 
