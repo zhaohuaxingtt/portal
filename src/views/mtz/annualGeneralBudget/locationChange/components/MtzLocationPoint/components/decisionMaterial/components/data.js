@@ -210,14 +210,14 @@ export const ruleTableTitle1_2 = [
     props: 'manufacture',
     name: '制造费用',
     key: '制造费用',
-    overlapbottom: 'manufacture',
+    overlapbottom: 'manufacture Exw',
     overlap: true
   },
   {
     props: 'transport',
     name: '运输费用',
     key: '运输费用',
-    overlapbottom: 'transport',
+    overlapbottom: 'transport Exw',
     overlap: true
   }
 ]
@@ -494,14 +494,14 @@ export const ruleTableTitle1_all = [
     props: 'manufacture',
     name: '制造费用',
     key: '制造费用',
-    overlapbottom: 'manufacture',
+    overlapbottom: 'manufacture Exw',
     overlap: true
   },
   {
     props: 'transport',
     name: '运输费用',
     key: '运输费用',
-    overlapbottom: 'transport',
+    overlapbottom: 'transport Exw',
     overlap: true
   }
 ]
@@ -873,14 +873,14 @@ export const partTableTitle1_3 = [
     props: 'manufacture',
     name: '制造费用',
     key: '制造费用',
-    overlapbottom: 'manufacture',
+    overlapbottom: 'manufacture Exw',
     overlap: true
   },
   {
     props: 'transport',
     name: '运输费用',
     key: '运输费用',
-    overlapbottom: 'transport',
+    overlapbottom: 'transport Exw',
     overlap: true
   }
 ]
@@ -1188,14 +1188,14 @@ export const partTableTitle1_all = [
     props: 'manufacture',
     name: '制造费用',
     key: '制造费用',
-    overlapbottom: 'manufacture',
+    overlapbottom: 'manufacture Exw',
     overlap: true
   },
   {
     props: 'transport',
     name: '运输费用',
     key: '运输费用',
-    overlapbottom: 'transport',
+    overlapbottom: 'transport Exw',
     overlap: true
   }
 ]
