@@ -104,8 +104,8 @@
     </div>
     <deptPbi v-if="activeName==1"></deptPbi>
     <historyPbi v-if="activeName==2"></historyPbi>
-    <kpitaskPbi v-if="activeName==3"></kpitaskPbi>
-    <kpiviewPbi v-if="activeName==4"></kpiviewPbi>
+    <!-- <kpitaskPbi v-if="activeName==3"></kpitaskPbi> -->
+    <kpiviewPbi v-if="activeName==3"></kpiviewPbi>
   </div>
 </template>
 
@@ -181,14 +181,14 @@ export default {
           key: '部门综合评分',
           permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_KPI_BMZHPF'
         },
+        // {
+        //   name: '供应商kpi概览',
+        //   key: '供应商kpi概览',
+        //   permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_KPI_HQGYSKPIGN'
+        // },
         {
           name: '供应商kpi概览',
           key: '供应商kpi概览',
-          permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_KPI_HQGYSKPIGN'
-        },
-        {
-          name: '供应商kpi任务',
-          key: '供应商kpi任务',
           permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_KPI_HQGYSKPIRW'
         },
       ],

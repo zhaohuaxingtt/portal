@@ -176,8 +176,10 @@
             style="width: 200px"
             v-model="form.endDate"
             type="datetime"
-            value-format="yyyy-MM-dd hh:mm:ss"
+            value-format="yyyy-MM-dd HH:mm:ss"
+                  format="yyyy-MM-dd HH:mm:ss"
             placeholder="选择日期时间"
+            default-time="23:59:59"
           >
           </el-date-picker>
           <span v-if="form.endDate">
@@ -227,6 +229,7 @@
           </el-upload>
         </div>
         <tableList
+        :height="400"
           :index="true"
           style="margin-top: 20px"
           border
@@ -266,9 +269,12 @@
       <span>截止日期：</span>
       <el-date-picker
         style="width: 200px"
-        value-format="yyyy-MM-dd hh:mm:ss"
+        value-format="yyyy-MM-dd HH:mm:ss"
+        format="yyyy-MM-dd HH:mm:ss"
         v-model="updataTime"
         type="datetime"
+        default-time="23:59:59"
+
         placeholder="选择日期"
       >
       </el-date-picker>
@@ -374,8 +380,7 @@ export default {
     this.init()
     this.getTableList()
     this.$nextTick(()=>{
-      this.form.statisticsStartDate = this.dateYear(-1)
-      this.form.statisticsEndDate = this.dateYear(0)
+
     })
 
   },
@@ -563,10 +568,7 @@ export default {
     submit(v) {
       if (v == 'to' && this.active != 4) {
         if (this.active == 2) {
-          // this.form.statisticsStartDate =
-          //   this.form.statisticsStartDate + ' ' + '12:00:00'
-          // this.form.statisticsEndDate =
-          //   this.form.statisticsEndDate + ' ' + '12:00:00'
+
           if (this.form.id) {
             updateSupplierPerforManceModel(this.form).then((res) => {
               if (res.code == '200') {
@@ -622,6 +624,12 @@ export default {
             this.tableListData2=res.data
             this.active = 2
           })
+        }else if(this.active==0){
+          this.active = 1          
+          if(!this.form.id){
+             this.form.statisticsStartDate = this.dateYear(-1)
+             this.form.statisticsEndDate = this.dateYear(0)
+          }
         } else {
           console.log(this.form)
           this.active = this.active + 1
@@ -679,7 +687,10 @@ export default {
       this.selectTableData = []
       this.active = 0
       this.addVersionDiolog = false
-      this.form = {}
+      this.form = {
+        statisticsStartDate: '',
+        statisticsEndDate: ''
+      }
     },
 
     DateDiffer(Date_end) {
@@ -705,6 +716,7 @@ export default {
           this.tableLoading = false
           this.tableListData = res.data
           this.page.totalCount = res.total
+          console.log(this.DateDiffer(this.tableListData[0].endDate))
         } else {
           this.tableLoading = false
         }
