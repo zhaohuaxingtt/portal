@@ -179,7 +179,7 @@ export const ruleTableTitle1_2 = [
     props: 'substrateExw',
     name: '载体费用',
     key: '载体费用',
-    overlapbottom: 'substrate Exw',
+    overlapbottom: 'Substrate Exw',
     overlap: true
   },
   {
@@ -187,7 +187,7 @@ export const ruleTableTitle1_2 = [
     name: '载体税率(%)',
     key: '载体税率(%)',
     width: 150,
-    overlapbottom: 'substrate ImpDuty',
+    overlapbottom: 'Substrate ImpDuty',
     overlap: true
   },
   {
@@ -195,7 +195,7 @@ export const ruleTableTitle1_2 = [
     name: '载体管理费率(%)',
     key: '载体管理费率(%)',
     width: 150,
-    overlapbottom: 'substrate Handling',
+    overlapbottom: 'Substrate Handling',
     overlap: true
   },
   {
@@ -203,21 +203,21 @@ export const ruleTableTitle1_2 = [
     name: '贵金属管理费率(%)',
     key: '贵金属管理费率(%)',
     width: 150,
-    overlapbottom: 'pgm Handling',
+    overlapbottom: 'Pgm Handling',
     overlap: true
   },
   {
     props: 'manufacture',
     name: '制造费用',
     key: '制造费用',
-    overlapbottom: 'manufacture Exw',
+    overlapbottom: 'Manufacture Exw',
     overlap: true
   },
   {
     props: 'transport',
     name: '运输费用',
     key: '运输费用',
-    overlapbottom: 'transport Exw',
+    overlapbottom: 'Transport Exw',
     overlap: true
   }
 ]
@@ -463,7 +463,7 @@ export const ruleTableTitle1_all = [
     props: 'substrateExw',
     name: '载体费用',
     key: '载体费用',
-    overlapbottom: 'substrate Exw',
+    overlapbottom: 'Substrate Exw',
     overlap: true
   },
   {
@@ -471,7 +471,7 @@ export const ruleTableTitle1_all = [
     name: '载体税率(%)',
     key: '载体税率(%)',
     width: 150,
-    overlapbottom: 'substrate ImpDuty',
+    overlapbottom: 'Substrate ImpDuty',
     overlap: true
   },
   {
@@ -479,7 +479,7 @@ export const ruleTableTitle1_all = [
     name: '载体管理费率(%)',
     key: '载体管理费率(%)',
     width: 150,
-    overlapbottom: 'substrate Handling',
+    overlapbottom: 'Substrate Handling',
     overlap: true
   },
   {
@@ -487,21 +487,21 @@ export const ruleTableTitle1_all = [
     name: '贵金属管理费率(%)',
     key: '贵金属管理费率(%)',
     width: 150,
-    overlapbottom: 'pgm Handling',
+    overlapbottom: 'Pgm Handling',
     overlap: true
   },
   {
     props: 'manufacture',
     name: '制造费用',
     key: '制造费用',
-    overlapbottom: 'manufacture Exw',
+    overlapbottom: 'Manufacture Exw',
     overlap: true
   },
   {
     props: 'transport',
     name: '运输费用',
     key: '运输费用',
-    overlapbottom: 'transport Exw',
+    overlapbottom: 'Transport Exw',
     overlap: true
   }
 ]
@@ -842,7 +842,7 @@ export const partTableTitle1_3 = [
     props: 'substrateExw',
     name: '载体费用',
     key: '载体费用',
-    overlapbottom: 'substrate Exw',
+    overlapbottom: 'Substrate Exw',
     overlap: true
   },
   {
@@ -850,7 +850,7 @@ export const partTableTitle1_3 = [
     name: '载体税率(%)',
     key: '载体税率(%)',
     width: 150,
-    overlapbottom: 'substrate ImpDuty',
+    overlapbottom: 'Substrate ImpDuty',
     overlap: true
   },
   {
@@ -858,7 +858,7 @@ export const partTableTitle1_3 = [
     name: '载体管理费率(%)',
     key: '载体管理费率(%)',
     width: 150,
-    overlapbottom: 'substrate Handling',
+    overlapbottom: 'Substrate Handling',
     overlap: true
   },
   {
@@ -866,21 +866,21 @@ export const partTableTitle1_3 = [
     name: '贵金属管理费率(%)',
     key: '贵金属管理费率(%)',
     width: 150,
-    overlapbottom: 'pgm Handling',
+    overlapbottom: 'Pgm Handling',
     overlap: true
   },
   {
     props: 'manufacture',
     name: '制造费用',
     key: '制造费用',
-    overlapbottom: 'manufacture Exw',
+    overlapbottom: 'Manufacture Exw',
     overlap: true
   },
   {
     props: 'transport',
     name: '运输费用',
     key: '运输费用',
-    overlapbottom: 'transport Exw',
+    overlapbottom: 'Transport Exw',
     overlap: true
   }
 ]
@@ -1157,7 +1157,7 @@ export const partTableTitle1_all = [
     props: 'substrateExw',
     name: '载体费用',
     key: '载体费用',
-    overlapbottom: 'substrate Exw',
+    overlapbottom: 'Substrate Exw',
     overlap: true
   },
   {
@@ -1165,7 +1165,7 @@ export const partTableTitle1_all = [
     name: '载体税率(%)',
     key: '载体税率(%)',
     width: 150,
-    overlapbottom: 'substrate ImpDuty',
+    overlapbottom: 'Substrate ImpDuty',
     overlap: true
   },
   {
@@ -1173,7 +1173,7 @@ export const partTableTitle1_all = [
     name: '载体管理费率(%)',
     key: '载体管理费率(%)',
     width: 150,
-    overlapbottom: 'substrate Handling',
+    overlapbottom: 'Substrate Handling',
     overlap: true
   },
   {
@@ -1181,21 +1181,21 @@ export const partTableTitle1_all = [
     name: '贵金属管理费率(%)',
     key: '贵金属管理费率(%)',
     width: 150,
-    overlapbottom: 'pgm Handling',
+    overlapbottom: 'Pgm Handling',
     overlap: true
   },
   {
     props: 'manufacture',
     name: '制造费用',
     key: '制造费用',
-    overlapbottom: 'manufacture Exw',
+    overlapbottom: 'Manufacture Exw',
     overlap: true
   },
   {
     props: 'transport',
     name: '运输费用',
     key: '运输费用',
-    overlapbottom: 'transport Exw',
+    overlapbottom: 'Transport Exw',
     overlap: true
   }
 ]
