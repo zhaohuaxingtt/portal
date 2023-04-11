@@ -114,13 +114,13 @@ export const tableSetting = [
     i18n: 'KESHI',
     width: 100
   }, {
-    prop: 'partNameSec',
+    prop: 'partNumSec',
     label: '二次零件号',
     i18n: '二次零件号',
     align: 'center',
     width: 150
   }, {
-    prop: 'partNumSec',
+    prop: 'partNameSec',
     label: '二次零件名称',
     i18n: '二次零件名称',
     align: 'center',
