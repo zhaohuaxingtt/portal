@@ -1,6 +1,6 @@
 <!-- mtz定点 -->
 <template>
-  <div>
+  <div class="search-table">
     <iSearch @sure="sure" @reset="reset">
       <el-form class="searchForm">
         <el-form-item
@@ -19,10 +19,19 @@
             value-key="code"
           >
           </custom-select>
-          <!-- <input-custom v-model="searchForm.mtzAppId"
-                        :editPlaceholder="language('QINGSHURU','请输入')"
-                        :placeholder="language('QINGSHURU','请输入')">
-          </input-custom> -->
+        </el-form-item>
+        <el-form-item :label="language('GUANLIANDANHAO', '关联单号')">
+          <custom-select
+            v-model="searchForm.ttNominateAppId"
+            :user-options="ttNominateAppId"
+            multiple
+            clearable
+            :placeholder="language('QINGXUANZE', '请选择')"
+            display-member="message"
+            value-member="code"
+            value-key="code"
+          >
+          </custom-select>
         </el-form-item>
         <el-form-item :label="language('LIUCHENGLEIXING', '流程类型')">
           <custom-select
@@ -50,26 +59,30 @@
           >
           </custom-select>
         </el-form-item>
-        <el-form-item :label="language('YUANCAILIAOPAIHAO', '原材料牌号')">
+        <el-form-item :label="language('GONGYINGSHANG', '供应商')">
           <custom-select
-            v-model="searchForm.materialCode"
-            :user-options="materialCode"
+            v-model="searchForm.supplier"
+            :user-options="supplierList||[]"
             multiple
             clearable
-            :placeholder="language('QINGXUANZE', '请选择')"
-            display-member="codeMessage"
+            :placeholder="language('QINGSHURU', '请输入')"
+            display-member="message"
             value-member="code"
             value-key="code"
           >
           </custom-select>
         </el-form-item>
-        <el-form-item :label="language('LINGJIANHAO', '零件号')">
-          <input-custom
-            v-model="searchForm.assemblyPartnum"
-            :editPlaceholder="language('QINGSHURU', '请输入')"
-            :placeholder="language('QINGSHURU', '请输入')"
+        <el-form-item :label="language('DINGDIANSHIJIAN', '定点时间')">
+          <iDatePicker
+            style="width: 220px"
+            v-model="value1"
+            @change="handleChange1"
+            type="daterange"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
           >
-          </input-custom>
+          </iDatePicker>
         </el-form-item>
         <el-form-item :label="language('KESHI', '科室')">
           <custom-select
@@ -99,18 +112,22 @@
           >
           </custom-select>
         </el-form-item>
-        <el-form-item :label="language('GUANLIANDANHAO', '关联单号')">
-          <!-- <input-custom v-model="searchForm.ttNominateAppId"
-                        :editPlaceholder="language('QINGSHURU','请输入')"
-                        :placeholder="language('QINGSHURU','请输入')">
-          </input-custom> -->
+        <el-form-item :label="language('LINGJIANHAO', '零件号')">
+          <input-custom
+            v-model="searchForm.assemblyPartnum"
+            :editPlaceholder="language('QINGSHURU', '请输入')"
+            :placeholder="language('QINGSHURU', '请输入')"
+          >
+          </input-custom>
+        </el-form-item>
+        <el-form-item :label="language('YUANCAILIAOPAIHAO', '原材料牌号')">
           <custom-select
-            v-model="searchForm.ttNominateAppId"
-            :user-options="ttNominateAppId"
+            v-model="searchForm.materialCode"
+            :user-options="materialCode"
             multiple
             clearable
             :placeholder="language('QINGXUANZE', '请选择')"
-            display-member="message"
+            display-member="codeMessage"
             value-member="code"
             value-key="code"
           >
@@ -136,18 +153,6 @@
                        end-placeholder="结束日期">
           </iDatePicker>
         </el-form-item> -->
-        <el-form-item :label="language('DINGDIANSHIJIAN', '定点时间')">
-          <iDatePicker
-            style="width: 220px"
-            v-model="value1"
-            @change="handleChange1"
-            type="daterange"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-          >
-          </iDatePicker>
-        </el-form-item>
 
         <!-- 测试 -->
         <!-- <el-form-item :label="language('DINGDIANSHIJIAN','定点时间')">
@@ -167,9 +172,9 @@
       </el-form>
     </iSearch>
 
-    <iCard class="margin-top20">
+    <iCard class="table-card margin-top20">
       <div slot="header" class="flex-between-center" style="width: 100%">
-        <span>详情列表</span>
+        <span class="table-title">详情列表</span>
         <div class="opration">
           <iButton
             @click="transferBtn"
@@ -221,10 +226,11 @@
           <iButton @click="mtzDel" v-permission="PORTAL_MTZ_POINT_SHANCHU">{{
             language('SHANCHU', '删除')
           }}</iButton>
+          <buttonTableSetting showBadge :hiddenCount="hiddenCount" @click="edittableHeader" />
         </div>
       </div>
-      <tableList
-        class="margin-top20"
+      <!-- <tableList
+        height="100%"
         :tableData="tableListData"
         :tableTitle="tableTitle"
         :tableLoading="tableLoading"
@@ -267,8 +273,26 @@
             }}
           </p>
         </template>
-      </tableList>
+      </tableList> -->
+      <iTableCustom
+        ref="tableList"
+        class="table-box"
+        height="100%"
+        :data="tableListData"
+        :columns="tableTitle1"
+        :loading="tableLoading"
+        permissionKey="MTZLOCATIONPOINT_HOME"
+        :index="true"
+        border
+        @setHiddenCount="setHiddenCount"
+        @handleClickFsupplierName="handleClickFsupplierName"
+        @handle-selection-change="handleSelectionChange"
+      />
       <iPagination
+        :showBtn="true"
+        :tableData="tableListData"
+        :tableTitle="tableTitle1"
+        class="footer-pagination"
         @size-change="handleSizeChange($event, getTableList)"
         @current-change="handleCurrentChange($event, getTableList)"
         :page-sizes="page.pageSizes"
@@ -329,12 +353,13 @@ import {
   iCard,
   iButton,
   iPagination,
-  iDialog
+  iDialog,
+  iTableCustom
 } from 'rise'
-import { getTransferUsers } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/approve'
-
+import buttonTableSetting from 'rise/web/components/buttonTableSetting'
+import { tableSortMixins } from 'rise/web/components/iTableSort/tableSortMixins'
 import tableList from '@/components/commonTable/index.vue'
-import { tableTitle } from './data'
+import { tableTitle, tableTitle1 } from './data'
 import MtzClose from './MtzClose'
 import inputCustom from '@/components/inputCustom'
 import {
@@ -373,14 +398,17 @@ export default {
     iCard,
     iButton,
     iPagination,
+    iTableCustom,
+    buttonTableSetting,
     tableList,
     inputCustom,
     iDialog,
     MtzClose
   },
-  mixins: [pageMixins],
+  mixins: [pageMixins, tableSortMixins],
   data() {
     return {
+      tableTitle1,
       // pickerOptions: {
       //   shortcuts: [{
       //     text: '现在到2999年',
@@ -425,7 +453,6 @@ export default {
       getCurrentCopy: []
     }
   },
-
   created() {
     // console.log(new Date("2999-12-31"));
     this.init()
@@ -638,6 +665,7 @@ export default {
       })
     },
     handleClickFsupplierName(val) {
+      if (!val.viewDetailsFlag) return
       let routeData = this.$router.resolve({
         path: `/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow`,
         query: {
@@ -1213,6 +1241,73 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.search-table {
+  height: calc(100vh - 190px);
+  display: flex;
+  flex-flow: column;
+  // mtz 页面演示使用样式
+    ::v-deep .el-form {
+      .el-form-item__label {
+        font-size: 18px !important;
+      }
+      .el-form-item__content {
+        font-size: 18px !important;
+      }
+      .el-range-separator{
+        width: auto;
+        height: auto;
+      }
+      .el-range-input, .el-input__inner, .el-range-separator{
+        font-size: 18px !important;
+      }
+    }
+    ::v-deep .el-button{
+      span{
+        font-size: 20px !important;
+        font-weight: 700 !important;
+      }
+    }
+  .table-card {
+    flex: 1;
+    overflow: hidden;
+    .table-title{
+        font-size: 20px !important;
+        font-weight: 700 !important;
+    }
+    ::v-deep .card-body-box {
+      height: calc(100% - 98px);
+      .table-box {
+        height: calc(100% - 50px);
+        .el-table{
+          .el-table__header-wrapper{
+            th{
+              .cell{
+                font-size: 18px;
+              }
+            }
+          }
+          
+          .el-table__body-wrapper{
+            td{
+              .cell{
+                font-size: 18px;
+              }
+            }
+          }
+        }
+      }
+      .footer-pagination{
+        .page-info{
+          font-size: 16px;
+        }
+        .number, .el-input__inner, .el-pagination__jump{
+          font-size: 16px !important;
+        }
+        
+      }
+    }
+  }
+}
 .openPage {
   position: relative;
   color: $color-blue;
