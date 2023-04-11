@@ -1,10 +1,10 @@
 /*
  * @Author: your name
  * @Date: 2021-09-17 13:56:42
- * @LastEditTime: 2021-10-29 16:51:27
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-03-20 16:24:15
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
- * @FilePath: \重庆软维科技\front-portal\src\views\mtz\dataBase\marketPriceEnquiry\components\data.js
+ * @FilePath: \front-portal\src\views\mtz\dataBase\marketPriceEnquiry\components\data.js
  */
 // 员工列表Table配置
 export const tableSetting = [
@@ -126,3 +126,260 @@ export const uploadInfoTableTitle = [
   { props: 'exchangeRate', name: '汇率', key: 'MTZHUILV', width: 120 },
   { props: 'source', name: '来源', key: 'LAIYUAN', width: 120 }
 ]
+
+export const mock = {
+  "result": true,
+  "code": "200",
+  "desEn": "success",
+  "desZh": "操作成功",
+  "data": [
+      {
+          "spSapCode": null,
+          "spName": null,
+          "ruleNo": null,
+          "title": "AL市场价",
+          "monthPriceList": [
+            {
+              "month": "202302",
+              "price": "8740.00"
+            },{
+              "month": "202303",
+              "price": "7740.00"
+            },{
+              "month": "202305",
+              "price": "6740.00"
+            },{
+              "month": "202306",
+              "price": "7740.00"
+            },{
+              "month": "202309",
+              "price": "8740.00"
+            },
+          ]
+      },
+      {
+          "spSapCode": "10097",
+          "spName": "上海汇众汽车制造有限公司",
+          "ruleNo": "MTZ-19-00433",
+          "title": "10097-上海汇众汽车制造有限公司 MTZ-19-00433",
+          "monthPriceList": [
+              {
+                  "month": "202301",
+                  "price": "8740.00"
+              },
+              {
+                  "month": "202302",
+                  "price": "14740.00"
+              },
+              {
+                  "month": "202303",
+                  "price": "10740.00"
+              },
+              {
+                  "month": "202304",
+                  "price": "10740.00"
+              },
+              {
+                  "month": "202305",
+                  "price": "12740.00"
+              },
+              {
+                  "month": "202306",
+                  "price": "13740.00"
+              },
+              {
+                  "month": "202307",
+                  "price": "6740.00"
+              },
+              {
+                  "month": "202308",
+                  "price": "9740.00"
+              },
+              {
+                  "month": "202309",
+                  "price": "21740.00"
+              },
+              {
+                  "month": "202310",
+                  "price": "21740.00"
+              },
+              {
+                  "month": "202311",
+                  "price": "22740.00"
+              },
+              {
+                  "month": "202312",
+                  "price": "22740.00"
+              }
+          ]
+      },
+      {
+          "spSapCode": "10097",
+          "spName": "上海汇众汽车制造有限公司",
+          "ruleNo": "MTZ-19-00434",
+          "title": "10097-上海汇众汽车制造有限公司 MTZ-19-00434",
+          "monthPriceList": [
+              {
+                  "month": "202301",
+                  "price": "21550.00"
+              },
+              {
+                  "month": "202302",
+                  "price": "21550.00"
+              },
+              {
+                  "month": "202303",
+                  "price": "21550.00"
+              },
+              {
+                  "month": "202304",
+                  "price": "21550.00"
+              },
+              {
+                  "month": "202305",
+                  "price": "21550.00"
+              },
+              {
+                  "month": "202306",
+                  "price": "21550.00"
+              },
+              {
+                  "month": "202307",
+                  "price": "21550.00"
+              },
+              {
+                  "month": "202308",
+                  "price": "21550.00"
+              },
+              {
+                  "month": "202309",
+                  "price": "21550.00"
+              },
+              {
+                  "month": "202310",
+                  "price": "21550.00"
+              },
+              {
+                  "month": "202311",
+                  "price": "21550.00"
+              },
+              {
+                  "month": "202312",
+                  "price": "21550.00"
+              }
+          ]
+      },
+      {
+          "spSapCode": "11069",
+          "spName": "布雷博（南京）制动系统有限公司",
+          "ruleNo": "MTZ-19-00435",
+          "title": "11069-布雷博（南京）制动系统有限公司 MTZ-19-00435",
+          "monthPriceList": [
+              {
+                  "month": "202301",
+                  "price": "21550.00"
+              },
+              {
+                  "month": "202302",
+                  "price": "21550.00"
+              },
+              {
+                  "month": "202303",
+                  "price": "21550.00"
+              },
+              {
+                  "month": "202304",
+                  "price": "21550.00"
+              },
+              {
+                  "month": "202305",
+                  "price": "21550.00"
+              },
+              {
+                  "month": "202306",
+                  "price": "21550.00"
+              },
+              {
+                  "month": "202307",
+                  "price": "21550.00"
+              },
+              {
+                  "month": "202308",
+                  "price": "21550.00"
+              },
+              {
+                  "month": "202309",
+                  "price": "21550.00"
+              },
+              {
+                  "month": "202310",
+                  "price": "21550.00"
+              },
+              {
+                  "month": "202311",
+                  "price": "21550.00"
+              },
+              {
+                  "month": "202312",
+                  "price": "21550.00"
+              }
+          ]
+      },
+      {
+          "spSapCode": "11430",
+          "spName": "广州阿雷斯提汽车配件有限公司",
+          "ruleNo": "MTZ-19-00436",
+          "title": "11430-广州阿雷斯提汽车配件有限公司 MTZ-19-00436",
+          "monthPriceList": [
+              {
+                  "month": "202301",
+                  "price": "10740.00"
+              },
+              {
+                  "month": "202302",
+                  "price": "10740.00"
+              },
+              {
+                  "month": "202303",
+                  "price": "10740.00"
+              },
+              {
+                  "month": "202304",
+                  "price": "10740.00"
+              },
+              {
+                  "month": "202305",
+                  "price": "10740.00"
+              },
+              {
+                  "month": "202306",
+                  "price": "10740.00"
+              },
+              {
+                  "month": "202307",
+                  "price": "10740.00"
+              },
+              {
+                  "month": "202308",
+                  "price": "10740.00"
+              },
+              {
+                  "month": "202309",
+                  "price": "10740.00"
+              },
+              {
+                  "month": "202310",
+                  "price": "10740.00"
+              },
+              {
+                  "month": "202311",
+                  "price": "10740.00"
+              },
+              {
+                  "month": "202312",
+                  "price": "10740.00"
+              }
+          ]
+      }
+  ]
+}
