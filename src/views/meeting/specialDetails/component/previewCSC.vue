@@ -297,7 +297,8 @@ export default {
   }
 }
 .item-list {
-  height: 450px;
+  height: calc(100vh - 148px);
+  min-height: 400px;
   overflow: auto;
   padding-right: 20px;
   padding: 0;

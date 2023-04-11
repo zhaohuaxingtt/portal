@@ -1,10 +1,10 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-09-24 11:31:29
- * @LastEditTime: 2022-01-07 16:53:16
- * @LastEditors: caopeng
+ * @LastEditTime: 2023-03-08 18:42:58
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
- * @FilePath: \front-portal-new\src\views\mtz\dataBase\marketPriceEnquiry\components\chart.vue
+ * @FilePath: \front-portal\src\views\mtz\dataBase\marketPriceEnquiry\components\chart.vue
 -->
 <template>
   <div>
@@ -68,11 +68,15 @@ export default {
             icon: 'circle',
             data: [],
             selected: {},
-            orient: 'horizontal', 
-            width: 1200,
-            right: 90,
+            orient: 'vertical', 
+            width: 240,
+            height: 600,
+            right: 10,
             itemWidth: 12,
             itemGap: 20
+          },
+          grid:{
+            right: 240
           },
           xAxis: {
             type: 'category',
@@ -294,6 +298,7 @@ export default {
           type: 'line',
           name: item.name,
           data: item.data,
+          step: 'end',
           z: 99,
           symbol: 'circle',
           symbolSize: 4,

@@ -410,9 +410,8 @@ export default {
       findThemenById(this.$route.query).then((res) => {
         this.result = res
         this.data = res.themens
-        this.dataTable = res.themens.slice(0, 1 * this.pageSize)
+        this.currentChangePage(this.data, this.pageNum)
          this.handlePage(res.themens)
-        this.handleCurrentChange(1)
          this.meetingInfo = res
          this.generateTime()
       })

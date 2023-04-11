@@ -1,10 +1,10 @@
 /*
  * @Author: your name
  * @Date: 2021-09-17 13:56:41
- * @LastEditTime: 2021-09-24 10:49:45
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-03-14 15:11:50
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
- * @FilePath: \重庆软维科技\front-portal\src\api\mtz\database\marketPriceEnquiry.js
+ * @FilePath: \front-portal\src\api\mtz\database\marketPriceEnquiry.js
  */
 
 import axios from '@/utils/axios'
@@ -21,10 +21,19 @@ export function getMtzMarketTypeList() {
   })
 }
 
-//MTZ市场价格查询-市场价图
+//MTZ市场价格查询-市场价图 不含原材料牌号
 export function mtzPriceQuery(data) {
   return request({
     url: '/mtzMarketPrice/mtzPriceQuery',
+    method: 'POST',
+    data: data
+  })
+}
+
+//MTZ市场价格查询-市场价图 含原材料牌号
+export function marketPriceChart(data) {
+  return request({
+    url: '/mtzMarketPrice/marketPriceChart',
     method: 'POST',
     data: data
   })
