@@ -1867,7 +1867,7 @@ export default {
     close(str) {
       if (str !== 'still') {
         const warnData = this.resThemeData.filter((item) => {
-          return !item.isFrozenRs // 调整RS单冻结状态取值字段
+          return !item.isFixedFrozenRs // 调整RS单冻结状态取值字段
         })
         if (warnData.length > 0) {
           this.handleAlert(warnData)
