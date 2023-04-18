@@ -347,11 +347,11 @@ export default {
             `${this.processUrlPortal}/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/decisionMaterial?currentStep=3&mtzAppId=${row.fixedPointApplyId}`,
             '_blank'
           )
-        }else if (row.type === 'CSF') {
-          window.open(
-            `${this.processUrlGpPortal}/myCscDetails/${row.fixedPointApplyId}?current=3`,
-            '_blank'
-          )
+        // }else if (row.type === 'CSF') {
+        //   window.open(
+        //     `${this.processUrlGpPortal}/myCscDetails/${row.fixedPointApplyId}?current=3`,
+        //     '_blank'
+        //   )
         } else {
           // window.open(
           //   `${this.processUrl}/designate/decisiondata/title?desinateId=${row.fixedPointApplyId}&isPreview=1`,
