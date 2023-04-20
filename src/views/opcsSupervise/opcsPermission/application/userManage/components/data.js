@@ -1,8 +1,8 @@
 /*
  * @Date: 2021-11-29 14:22:03
- * @LastEditors: caopeng
- * @LastEditTime: 2022-01-20 15:18:44
- * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\data.js
+ * @LastEditors: YoHo && 917955345@qq.com
+ * @LastEditTime: 2023-04-17 12:25:32
+ * @FilePath: \front-portal\src\views\opcsSupervise\opcsPermission\application\userManage\components\data.js
  */
 export function codeFun(rule, value, callback) {
  
@@ -200,7 +200,8 @@ export const tableTitleEdit = [{
         required: true,
         rule: [{
             required: true,
-            pattern: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+            // pattern: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+            pattern: /^[\S]+@[a-zA-Z0-9_-]+(.[a-zA-Z0-9_-]+)+$/,
             message: '请输入正确的电子邮件',
             trigger: 'blur'
         }]

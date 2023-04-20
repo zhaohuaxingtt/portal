@@ -30,7 +30,11 @@ export default {
     }
   },
   // 监听属性 类似于data概念
-  computed: {},
+  computed: {
+    whiteBtnList() {
+      return this.$store.state.permission.whiteBtnList
+    }
+  },
   // 监控data中的数据变化
   watch: {},
   // 方法集合
@@ -39,12 +43,46 @@ export default {
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
   created() {
-
+  this.checkHasEnterMenu()
   },
   // 生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {
-
+    
   },
+  methods:{
+    checkHasEnterMenu() {
+      const { path } = this.$route
+      const menuList = [...this.categoryManagementAssistantList] //获取当前菜单
+      const menuItem = menuList.find((e) => e.url === path) //获取当前所在路由地址对象
+      if (menuItem) {
+        //有地址时
+        const permissionKey = menuItem.permissionKey //获取到该地址的key
+        console.log(
+          'this.whiteBtnList[permissionKey]',
+          this.whiteBtnList[permissionKey] //key的值存在于权限名单中
+        )
+        // 入口url不在授权列表
+        if (!this.whiteBtnList[permissionKey]) {
+          //若当前地址不在权限名单中
+          let redirectUrl = ''
+          for (let i = 0; i < menuList.length; i++) {
+            //循环当前菜单
+            const menu = menuList[i]
+            if (this.whiteBtnList[menu.permissionKey]) {
+              //找到当前菜单哪个菜单存在于权限中
+              redirectUrl = menu.url //顺位第一个的菜单地址
+              break //找到后即关闭方法
+            }
+          }
+          console.log('redirectUrl', redirectUrl)
+          if (redirectUrl) {
+            //使用找到的菜单并拥有权限的当作首页面重定向路由
+            this.$router.push({ path: redirectUrl ,query:this.$route.query})
+          }
+        }
+      }
+    }
+  }
 }
 </script>
 <style lang='scss' scoped>

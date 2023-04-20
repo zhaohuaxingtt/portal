@@ -2490,7 +2490,7 @@ export default {
         iMessage.error('该议题为临时议题')
       } else {
         window.open(
-          `/portal/#/meeting/previewCSC?project=GP&documentType=${row.documentType}&fixedPointApplyId=${row.fixedPointApplyId}&id=${this.$route.query.id}`,
+          `/portal/#/meeting/previewCSC?project=GP&documentType=${row.documentType}&fixedPointApplyId=${row.fixedPointApplyId}&id=${this.$route.query.id}&rowId=${row.id}`,
           '_blank'
         )
       }

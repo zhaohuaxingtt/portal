@@ -138,10 +138,7 @@ export default {
     this.meetingInfo = await this.findThemenById(query)
     this.themens = this.meetingInfo?.themens
     this.meetingInfo.themens.forEach((item, index) => {
-      if (
-        item.fixedPointApplyId == (query.desinateId ||
-        query.fixedPointApplyId)
-      ) {
+      if (item.id == query.rowId) {
         this.click(item, index)
       }
     })
@@ -197,8 +194,9 @@ export default {
       }
     },
     click(item, index) {
+      if(!item.type) item.type = 'MANUAL' // CMM类型没有type无法区分类型,全部转为手工议题
       if (index == this.index) return
-      if (['MTZ', 'CSF', 'CHIP'].includes(item.type)) return
+      if (['MTZ', 'CHIP'].includes(item.type)) return
       this.time = 0
       this.detail = item
       this.index = index
@@ -217,7 +215,11 @@ export default {
           local || process.env.VUE_APP_HOST
         }/gp-portal/#/previewCSC/${item.fixedPointApplyId}?current=${num}`
       } else if (item.source == '04') {
-        if (item.type === 'FS+MTZ') {
+        if (['CSF', 'GP'].includes(item.type)) {
+          this.src = `${
+            local || process.env.VUE_APP_HOST
+          }/gp-portal/#/previewCSC/${item.fixedPointApplyId}?current=1`
+        } else if (item.type === 'FS+MTZ') {
           this.src =
             (local || process.env.VUE_APP_POINT) +
             `/previewCSC/mtz?route=force&desinateId=${item.fixedPointApplyId}&isPreview=1`
@@ -299,7 +301,8 @@ export default {
   }
 }
 .item-list {
-  height: 450px;
+  height: calc(100vh - 148px);
+  min-height: 400px;
   overflow: auto;
   padding-right: 20px;
   padding: 0;

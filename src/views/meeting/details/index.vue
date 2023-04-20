@@ -795,11 +795,18 @@ export default {
       this.openDialog('openNewSummaryDialog')
     },
     lookThemen(themen) {
+      console.log(themen);
+      // if (themen.type == 'MANUAL') {
+      // } else 
       if (!themen.isBreak) {
-        this.editOrAdd = 'look'
-        this.lookThemenObj = themen
-        this.openDialog('openAddTopicDialog')
-      } else {
+        window.open(
+            `/portal/#/meeting/previewCSC?route=force&desinateId=${themen.fixedPointApplyId}&isPreview=1&type=${themen.type}&id=${this.$route.query.id}&rowId=${themen.id}`,
+            '_blank'
+          )
+        // this.editOrAdd = 'look'
+        // this.lookThemenObj = themen
+        // this.openDialog('openAddTopicDialog')
+      } else {  // 休息
         this.editOrAdd = 'look'
         this.lookThemenObj = themen
         this.openDialog('openAddRestDialog')

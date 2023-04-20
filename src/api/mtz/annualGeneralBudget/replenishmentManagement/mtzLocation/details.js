@@ -102,6 +102,13 @@ export function mtzDel(parmars) {
   })
 }
 
+export function getPartBalanceCountType(parmars) {
+  //零件数量类型
+  return request({
+    url: '/mtzAppNomi/getPartBalanceCountType?sapCode='+parmars,
+    method: 'GET',
+  })
+}
 export function getAppFormInfo(parmars) {
   //mtz申请单信息
   return request({
@@ -121,10 +128,11 @@ export function getFirstRuleByNos(data) {
 
 export function modifyAppFormInfo(parmars) {
   //mtz申请单信息-编辑
-  return request({
-    url: '/mtzAppNomi/modifyAppFormInfo/'+parmars,
+    return request({
+    url: '/mtzAppNomi/modifyAppFormInfo',
     method: 'POST',
-  })
+    data: parmars
+    })
 }
 
 export function pageAppRule(parmars) {
@@ -547,7 +555,14 @@ export function downloadError(params) {//导出错误信息
   })
 }
 
-
+export function transferNomi(parmars) {
+  //mtz转派
+  return request({
+    url: '/mtzNomiList/transferNomi',
+    method: 'POST',
+    data: parmars
+  })
+}
 export function getNominateAppIdList(parmars) {//关联单号下拉
   return request({
     url: '/mtzNomiList/getNominateAppIdList',

@@ -6,15 +6,34 @@
 -->
 <template>
   <div class="page">
-    <p class="title">
+    <div class="topBar">
+      <div
+        v-for="(item, i) in tabList"
+        :key="item"
+        v-permission="`${item.permissionKey}`"
+        :class="i == activeName ? 'active' : 'dis'"
+        :style="
+          i == 0
+            ? 'border-radius: 6px 0 0 6px'
+            : '' + i == tabList.length - 1 && tabList.length > 1
+            ? 'border-radius: 0px 6px 06px 0px'
+            : ''
+        "
+        @click="changeTab(i)"
+      >
+        {{ $t(item.key) }}
+      </div>
+    </div>
+    <div v-if="activeName==0">
+      <p class="title">
       {{ $t('LK_KESHI') }}：{{
-        $store.state.permission.userInfo.deptDTO.deptNum
+        $store.state.permission.userInfo.deptDTO.deptNum.split('-')[0]
       }}
     </p>
     <div class="cardbox">
-      <div v-if="infoList.length==0"  class="noInfo" >
+      <p v-if="infoList.length==0"  class="noInfo" >
           <span>暂无数据~~~</span>
-        </div>
+      </p>
       <div class="card" v-for="(item, index) in infoList">
         <div class="div1">
           <span class="cardtitle">{{ item.nameZh }}</span>
@@ -34,14 +53,13 @@
           <span class="label">截至时间</span>
           <div>
             <p>{{ item.endDate }}</p>
-            <p>(距离截止日期还有{{ DateDiffer(item.endDate) }}天）</p>
+            <p v-if="item.endDate&&DateDiffer(item.endDate)<0">(已截止)</p>
+            <p v-else>(距离截止日期还有{{ DateDiffer(item.endDate) }}天）</p>
           </div>
         </div>
         <div class="div4">
-          <el-button v-if="item.executeStatus != 0" @click="goDetail(item, 'see')" icon="el-icon-view" type="text">{{
-            $t('LK_CHAKAN')
-          }}</el-button>
-          <el-button v-if="item.executeStatus == 0" @click="goDetail(item, 'edit')" icon="el-icon-edit-outline"
+        
+          <el-button  @click="goDetail(item, 'edit')" icon="el-icon-edit-outline"
             type="text">{{ $t('LK_BIANJI') }}</el-button>
         </div>
       </div>
@@ -71,33 +89,46 @@
             <span class="label">截至时间</span>
             <div>
               <p>{{ item.endDate }}</p>
-              <p>(距离截止日期还有{{ DateDiffer(item.endDate) }}天）</p>
+              <p v-if="item.endDate&&DateDiffer(item.endDate)<0">(已截止)</p>
+            <p v-else>(距离截止日期还有{{ DateDiffer(item.endDate) }}天）</p>
             </div>
           </div>
           <div class="div4">
-            <el-button type="text" icon="el-icon-view" @click="goDetail(item, 'add')">{{ $t('LK_CHAKAN') }}</el-button>
-            <!-- <el-button type="text" iocn="el-icon-download" @click="exportFile(item)">{{ '导出明细' }}</el-button> -->
+            <el-button type="text" icon="el-icon-view" @click="goDetail(item, 'see')">{{ $t('LK_CHAKAN') }}</el-button>
+            <el-button type="text" iocn="el-icon-download" @click="exportFile(item)">{{ '导出明细' }}</el-button>
 
           </div>
         </div>
       </div>
     </transition>
-
+    </div>
+    <deptPbi v-if="activeName==1"></deptPbi>
+    <historyPbi v-if="activeName==2"></historyPbi>
+    <!-- <kpitaskPbi v-if="activeName==3"></kpitaskPbi> -->
+    <kpiviewPbi v-if="activeName==3"></kpiviewPbi>
   </div>
 </template>
 
 <script>
 import {
   getSupplierPerforManceScorePage,
-  getSupplierPerforManceTaskList
+  getSupplierPerforManceTaskList,
+  exportSupplierPerforManceScoreExcel
 } from '@/api/supplierManagement/supplierIndexManage/index'
 import { pageMixins } from '@/utils/pageMixins'
 import tableList from '@/components/commonTable'
+import historyPbi from './historyPbi'
+import deptPbi from './deptPbi'
+import kpiviewPbi from './kpiviewPbi'
+import kpitaskPbi from './kpitaskPbi'
+
 import { cloneDeep } from 'lodash'
 import { getDictByCode } from '@/api/dictionary'
 import { getPerformanceEdition } from '@/api/supplierManagement/supplierIndexManage/index'
 
 import {
+
+  iTabsList,
   iMessage,
   iMessageBox,
   iPagination,
@@ -111,8 +142,12 @@ import {
 } from 'rise'
 export default {
   mixins: [pageMixins],
-
   components: {
+    kpiviewPbi,
+    kpitaskPbi,
+    iTabsList,
+    deptPbi,
+    historyPbi,
     iCard,
     iPagination,
     iSearch,
@@ -125,13 +160,55 @@ export default {
   },
   data() {
     return {
+    activeName:'task',
       isPage: true,
       statusList: [],
       infoList: [],
-      infoList2: []
+      infoList2: [],
+      tabList: [
+        {
+          name: '打分任务',
+          key: '打分任务',
+          permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_KPI_DFRW'
+        },
+        {
+          name: '历史绩效评分',
+          key: '历史绩效评分',
+          permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_KPI_LSJXPF'
+        },
+        {
+          name: '部门综合评分',
+          key: '部门综合评分',
+          permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_KPI_BMZHPF'
+        },
+        // {
+        //   name: '供应商kpi概览',
+        //   key: '供应商kpi概览',
+        //   permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_KPI_HQGYSKPIGN'
+        // },
+        {
+          name: '供应商kpi概览',
+          key: '供应商kpi概览',
+          permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_KPI_HQGYSKPIRW'
+        },
+      ],
+    }
+    
+  },
+  computed: {
+    whiteBtnList() {
+      return this.$store.state.permission.whiteBtnList
     }
   },
   created() {
+    this.activeName = this.tabList.findIndex((val) => {
+      if (this.whiteBtnList[val.permissionKey]) {
+        return (
+          this.whiteBtnList[val.permissionKey].permissionKey ==
+          val.permissionKey
+        )
+      }
+    })
     getDictByCode('SUPPLIER_PERFORMANCE_TASK_EXECUTE_STATUS')
       .then((res) => {
         if (res.data) {
@@ -139,21 +216,32 @@ export default {
         }
       })
       .catch(() => { })
+      getDictByCode('SUPPLIER_PERFORMANCE_TASK_STATUS')
+      .then((res) => {
+        if (res.data) {
+          // this.statusList = res?.data[0]?.subDictResultVo
+        }
+      })
+      .catch(() => { })
     this.init()
   },
   methods: {
+    changeTab(i) {
+      this.activeName = i
+    },
     init() {
       const req = {
         // deptCode:'CSS',
-        deptCode: this.$store.state.permission.userInfo.deptDTO.deptNum
+        deptCode: this.$store.state.permission.userInfo.deptDTO.deptNum.split('-')[0]
       }
       getSupplierPerforManceTaskList(req).then((res) => {
         this.infoList = res.data.filter(val => {
-          return val.status == 0
+          return val.status ==0
         })
         this.infoList2 = res.data.filter(val => {
-          return val.status == 1
+          return val.status ==1
         })
+        console.log( this.infoList2)
       })
     },
     DateDiffer(Date_end) {
@@ -167,10 +255,14 @@ export default {
       const diffDate = diff / (24 * 60 * 60 * 1000);  //计算当前时间与结束时间之间相差天数
       return diffDate
     },
+    exportFile(item){
+      exportSupplierPerforManceScoreExcel({ editionId:item.editionId })
+    },
     goDetail(item,type) {
       let routeUrl = this.$router.resolve({
         path: '/supplier/spiIndex/supplierVersionUp',
         query: {
+          id:item.id,
           modelId: item.modelId,
           editionId: item.editionId,
           type
@@ -185,10 +277,14 @@ export default {
 <style lang="scss" scoped>
 .cardbox {
   margin: 20px 0;
-  display: flex;
-  justify-content: flex-start;
+  >div{
+    display: inline-block;
+    margin-top: 20px;
+  }
 .noInfo{
-  margin-top: 40px;
+  text-align: center;
+  margin: 40px 0;
+  font-size: 16px;
   width: 100%;
   span{
     display: inline-block;
@@ -271,10 +367,38 @@ export default {
     background: #f8f9fa;
   }
 }
+.topBar {
+  display: flex;
+  padding: 10px 0 20px;
 
+  > div {
+    padding: 8px 20px;
+    box-shadow: 0 0 1.25rem rgb(0 0 0 / 8%);
+    cursor: pointer;
+    border: none;
+    font-weight: bold;
+    text-align: center;
+  }
+  .active {
+    border-right: 1px solid #f5f6f7;
+    color: #1660f1;
+    background: #fff;
+  }
+  .dis {
+    color: #727272;
+    background-color: #f5f6f7;
+  }
+  .borderleft {
+    border-radius: 6px 0 0 6px;
+  }
+  .borderright {
+    border-radius: 0px 6px 06px 0px;
+  }
+}
 .title {
   font-size: 18px;
   font-weight: 600;
+  margin-top: 40px;
   color: #555;
 }
 

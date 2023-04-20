@@ -17,7 +17,7 @@
           </el-form-item>
         </el-form>
       </iSearch>
-      <tableList    :tableLoading="tableLoading" ref="table" @handleSelectionChange="handleSelectionChange" style="margin: 20px 0" border :tableData="tableListData" :tableTitle="tableTitle"> </tableList>
+      <tableList  :tableLoading="tableLoading" ref="table" @handleSelectionChange="handleSelectionChange" style="margin: 20px 0" border :tableData="tableListData" :tableTitle="tableTitle"> </tableList>
       <iPagination v-update @size-change="handleSizeChange($event, getTableList)" @current-change="handleCurrentChange($event, getTableList)" background :page-sizes="page.pageSizes" :page-size="page.pageSize" :layout="page.layout" :current-page="page.currPage" :total="page.totalCount" />
   
       <div class="footer" style="padding: 20px 0">
@@ -76,9 +76,15 @@
         this.tableLoading = true
   
         const req = {
+          relatedToMe:false,
           pageNo: this.page.currPage,
           pageSize: this.page.pageSize,
           ...this.formData,
+          sortColumn: 'string',
+        sortType: 'ASC',
+        stepCode: 'string',
+        // tagNameList: ["正式供应商"],
+          supplierType:'PP',
         }
         getBasicList(req).then((res) => {
           if (res.code == '200') {

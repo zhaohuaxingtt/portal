@@ -54,7 +54,7 @@
         </span>
       </div>
       <tableList
-        class="margin-top20"
+        class="margin-top20 formStyle"
         :tableData="tableListData"
         :tableTitle="uploadTableTitle"
         :tableLoading="loading"
@@ -124,8 +124,9 @@ export default {
       return this.$store.state.location.mtzObject
     },
     isEditNew: function () {
-      return (this.appStatus == '草稿' || this.appStatus == '未通过')||(((this.flowType=='SIGN'||this.flowType=='FILING')||(['02','03',null,'01'].includes(this.meetingStatus)&&this.flowType=='MEETING'))&&this.appStatus=='已提交')
-    }
+      const appStatusArr=['草稿','已提交','未通过','通过','复核未通过','M退回']
+      return (this.appStatus == '草稿' || this.appStatus == '未通过')||(((this.flowType=='SIGN'||this.flowType=='FILING')&&this.appStatus=='已提交')||(appStatusArr.indexOf(this.appStatus)>0&&this.flowType=="MEETING"))
+    },
   },
   watch: {
     mtzObject(newVlue, oldValue) {}
@@ -267,6 +268,16 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+::v-deep.el-button--default{
+  font-size: 20px!important;
+}
+::v-deep.el-table th > .cell  {
+  font-size: 18px!important;
+}
+ ::v-deep.el-form-item__content {
+  line-height: normal !important;
+  font-size: 18px;
+}
 .headBox {
   position: relative;
   justify-content: space-between;

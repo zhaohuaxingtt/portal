@@ -152,20 +152,20 @@ export const tableTitleCp = [
 export const topImgList = [
   {
     id: 1,
-    name: 'MTZ申请单详情',
-    key: 'MTZSHENGQINGDANXIANGQING',
+    name: '维护MTZ申请单',
+    key: 'WEIHUMTZSHENGQINGDANXIANGQING',
     url: '/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/applyInfor'
   },
   {
     id: 2,
-    name: '审批人&审批记录',
-    key: 'SHENGPIRENSHENGPIJILU',
+    name: '关联定点申请与确认审批人列表',
+    key: 'GUANLIANSHENGPIRENSHENGPIJILU',
     url: '/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/approverRecord'
   },
   {
     id: 3,
-    name: '决策资料',
-    key: 'JUECEZILIAO',
+    name: '生成决策资料',
+    key: 'SHENGCHENGJUECEZILIAO',
     url: '/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/decisionMaterial'
   }
 ]

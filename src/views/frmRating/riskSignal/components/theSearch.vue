@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-05-21 10:18:28
- * @LastEditors: zbin
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Descripttion: your project
 -->
 <template>
@@ -164,7 +164,7 @@ export default {
     },
     handleSubmitTime(e) {
       this.form.submitDateStart = e[0]
-      this.form.submitDateEnd = e[1]
+      this.form.submitDateEnd = e[1]?`${e[1].split(' ')[0]} 23:59:59`:''
     },
     handleSearchReset() {
       this.form = {

@@ -4,12 +4,12 @@
     <!-- :rules="metalType?rules1:rules2" -->
     <div class="form-wrapper">
       <iFormGroup
-        :row="2"
+        :row="4"
         :model="contractForm"
         :rules="rules"
         ref="contractForm"
       >
-        <iFormItem prop="effectFlag">
+        <!-- <iFormItem prop="effectFlag">
           <iLabel
             :label="language('SHIFOUSHENGXIAO', '是否生效')"
             slot="label"
@@ -28,8 +28,8 @@
             >
             </el-option>
           </i-select>
-        </iFormItem>
-        <iFormItem prop="materialGroup">
+        </iFormItem> -->
+        <!-- <iFormItem prop="materialGroup">
           <iLabel
             :label="language('MTZCAILIAOZU', 'MTZ-材料组')"
             slot="label"
@@ -49,8 +49,8 @@
             >
             </el-option>
           </i-select>
-        </iFormItem>
-        <iFormItem prop="carline">
+        </iFormItem> -->
+        <!-- <iFormItem prop="carline">
           <iLabel
             :label="language('CHEXING', '车型')"
             slot="label"
@@ -68,7 +68,7 @@
             value-key="modelNameZh"
           >
           </custom-select>
-        </iFormItem>
+        </iFormItem> -->
         <iFormItem prop="sapCode">
           <iLabel
             :label="language('GONGYINGSHANGBIANHAO', '供应商编号')"
@@ -91,28 +91,25 @@
             </el-option>
           </i-select>
         </iFormItem>
-        <iFormItem prop="supplierName">
+        <!-- <iFormItem prop="supplierName">
           <iLabel
-            :label="language('GONGYINGSHANGMINGCHENG', '供应商名称')"
+            :label="language('补差方式', '补差方式')"
             slot="label"
             :required="true"
           ></iLabel>
           <i-select
-            v-model="contractForm.supplierName"
-            clearable
-            filterable
+            v-model="contractForm.method"
             :placeholder="language('QINGSHURU', '请输入')"
-            @change="supplierNC"
           >
             <el-option
-              v-for="item in supplierList"
-              :key="item.message"
-              :label="item.message"
-              :value="item.message"
+              v-for="item in methodList"
+              :key="item.code"
+              :label="item.name"
+              :value="item.code"
             >
             </el-option>
           </i-select>
-        </iFormItem>
+        </iFormItem> -->
         <iFormItem prop="materialCode">
           <iLabel
             :label="language('YUANCAILIAOPAIHAO', '原材料牌号')"
@@ -149,6 +146,105 @@
           />
         </iFormItem>
         <!-- :disabled="metalType" -->
+        <iFormItem prop="startDate">
+          <iLabel
+            :label="language('YOUXIAOQIQI', '有效期起')"
+            slot="label"
+            :required="true"
+          ></iLabel>
+          <iDatePicker
+            v-model="contractForm.startDate"
+            type="date"
+            value-format="yyyy-MM-dd"
+          >
+          </iDatePicker>
+        </iFormItem>
+        <iFormItem prop="endDate">
+          <iLabel
+            :label="language('YOUXIAOQIZHI', '有效期止')"
+            slot="label"
+            :required="true"
+          ></iLabel>
+          <iDatePicker
+            v-model="contractForm.endDate"
+            type="date"
+            value-format="yyyy-MM-dd"
+          >
+          </iDatePicker>
+        </iFormItem>
+        <iFormItem prop="partBalanceCountType">
+          <iLabel
+            :label="language('结算数据来源', '结算数据来源')"
+            slot="label"
+            :required="true"
+          ></iLabel>
+          <i-select
+           :disabled="true"
+            v-model="contractForm.partBalanceCountType"
+          >
+            <el-option
+              v-for="item in partBalanceCountTypeList"
+              :key="item.code"
+              :label="item.name"
+              :value="item.code"
+            >
+            </el-option>
+          </i-select>
+        </iFormItem>
+        <iFormItem prop="source">
+          <iLabel
+            :label="language('SHICHANGJIALAIYUAN', '市场价来源')"
+            slot="label"
+            :required="true"
+          ></iLabel>
+          <i-select
+            v-model="contractForm.source"
+            clearable
+            filterable
+            :placeholder="language('QINGXUANZE', '请选择')"
+          >
+            <el-option
+              v-for="item in getMtzMarketSourceList"
+              :key="item.code"
+              :label="item.message"
+              :value="item.code"
+            >
+            </el-option>
+          </i-select>
+        </iFormItem>
+        <iFormItem prop="avgPeriod">
+          <iLabel
+            :label="language('均值计算周期', '均值计算周期')"
+            slot="label"
+            :required="true"
+          ></iLabel>
+          <i-select
+            v-model="contractForm.avgPeriod"
+            clearable
+            filterable
+            :placeholder="language('QINGXUANZE', '请选择')"
+          >
+          <el-option v-for="item in avgPeriodList" :key="item.code" :label="item.name" :value="item.code">
+            </el-option>
+          </i-select>
+        </iFormItem>
+        <iFormItem prop="offsetMonth">
+          <iLabel
+            :label="language('均值偏移量', '均值偏移量')"
+            slot="label"
+            :required="true"
+          ></iLabel>
+          <i-select
+            v-model="contractForm.offsetMonth"
+            clearable
+            filterable
+            :placeholder="language('QINGXUANZE', '请选择')"
+          >
+          <el-option v-for="item in offsetList" :key="item.code" :label="item.name" :value="item.code">
+          </el-option>
+          </i-select>
+        </iFormItem>
+
         <iFormItem prop="price">
           <iLabel
             :label="language('JIJIA', '基价')"
@@ -161,19 +257,7 @@
             placeholder="请输入基价"
           />
         </iFormItem>
-        <iFormItem prop="priceMeasureUnit">
-          <iLabel
-            :label="language('JIJIAJILIANGDANWEI', '基价计量单位')"
-            slot="label"
-            :required="true"
-          ></iLabel>
-          <el-input
-            v-model="contractForm.priceMeasureUnit"
-            type="text"
-            placeholder="请输入"
-            :disabled="true"
-          />
-        </iFormItem>
+
         <iFormItem prop="tcCurrence">
           <iLabel
             :label="language('HUOBI', '货币')"
@@ -207,20 +291,45 @@
             :disabled="disabled"
           />
         </iFormItem>
-        <iFormItem prop="source">
+        <iFormItem prop="priceMeasureUnit">
           <iLabel
-            :label="language('SHICHANGJIALAIYUAN', '市场价来源')"
+            :label="language('JIJIAJILIANGDANWEI', '基价计量单位')"
+            slot="label"
+            :required="true"
+          ></iLabel>
+          <el-input
+            v-model="contractForm.priceMeasureUnit"
+            type="text"
+            placeholder="请输入"
+            :disabled="true"
+          />
+        </iFormItem>
+        <iFormItem prop="threshold">
+          <iLabel
+            :label="language('YUZHI', '阈值')"
+            slot="label"
+            :required="true"
+          ></iLabel>
+          <iInput
+            v-model="contractForm.threshold"
+            type="number"
+            placeholder="请输入阈值"
+            :disabled="disabled"
+          />
+        </iFormItem>
+        <iFormItem prop="thresholdCompensationLogic">
+          <iLabel
+            :label="language('YUZHIXISHU', '阈值系数')"
             slot="label"
             :required="true"
           ></iLabel>
           <i-select
-            v-model="contractForm.source"
+            v-model="contractForm.thresholdCompensationLogic"
             clearable
-            filterable
             :placeholder="language('QINGXUANZE', '请选择')"
           >
             <el-option
-              v-for="item in getMtzMarketSourceList"
+              v-for="item in thresholdCompensationLogic"
               :key="item.code"
               :label="item.message"
               :value="item.code"
@@ -230,7 +339,7 @@
         </iFormItem>
         <iFormItem prop="compensationRatio">
           <iLabel
-            :label="language('BUCHAXISHU', '补差系数')"
+            :label="language('BUCHABAIFENBI', '补差%')"
             slot="label"
             :required="true"
           ></iLabel>
@@ -241,7 +350,7 @@
             :disabled="disabled"
           />
         </iFormItem>
-        <iFormItem prop="compensationPeriod">
+         <iFormItem prop="compensationPeriod">
           <iLabel
             :label="language('BUCHAZHOUQI', '补差周期')"
             slot="label"
@@ -272,247 +381,206 @@
             </el-option>
           </i-select>
         </iFormItem>
-        <iFormItem prop="threshold">
+        <!-- <iFormItem class="box">
           <iLabel
-            :label="language('YUZHI', '阈值')"
-            slot="label"
-            :required="true"
-          ></iLabel>
-          <iInput
-            v-model="contractForm.threshold"
-            type="number"
-            placeholder="请输入阈值"
-            :disabled="disabled"
-          />
-        </iFormItem>
-        <iFormItem prop="thresholdCompensationLogic">
-          <iLabel
-            :label="language('YUZHIBUCHALUOJI', '阈值补差逻辑')"
-            slot="label"
-            :required="true"
-          ></iLabel>
-          <i-select
-            v-model="contractForm.thresholdCompensationLogic"
-            clearable
-            :placeholder="language('QINGXUANZE', '请选择')"
-          >
-            <el-option
-              v-for="item in thresholdCompensationLogic"
-              :key="item.code"
-              :label="item.message"
-              :value="item.code"
+              :label="''"
+            ></iLabel>
+            <div></div>
+          </iFormItem>
+          <iFormItem class="box">
+            <iLabel
+              :label="''"
             >
-            </el-option>
-          </i-select>
-        </iFormItem>
-        <iFormItem prop="startDate">
-          <iLabel
-            :label="language('YOUXIAOQIQI', '有效期起')"
-            slot="label"
-            :required="true"
-          ></iLabel>
-          <iDatePicker
-            v-model="contractForm.startDate"
-            type="date"
-            value-format="yyyy-MM-dd"
-          >
-          </iDatePicker>
-        </iFormItem>
-        <iFormItem prop="endDate">
-          <iLabel
-            :label="language('YOUXIAOQIZHI', '有效期止')"
-            slot="label"
-            :required="true"
-          ></iLabel>
-          <iDatePicker
-            v-model="contractForm.endDate"
-            type="date"
-            value-format="yyyy-MM-dd"
-          >
-          </iDatePicker>
-        </iFormItem>
+            <div></div>
+          </iLabel>
+          </iFormItem> -->
+          <span class="tip">*以下为贵金属原材料必填字段</span>
+        <div class="box">
+          <iFormItem prop="platinumPrice">
+            <iLabel
+              :label="language('BOJIJIA', '铂基价')"
+              slot="label"
+              icons="iconxinxitishi"
+              tip="M01006002-Pt"
+            ></iLabel>
+            <iInput
+              v-model="contractForm.platinumPrice"
+              type="number"
+              placeholder="请输入铂基价"
+              :disabled="!metalType"
+              @change="jijiaCompute"
+            />
+          </iFormItem>
+          <iFormItem prop="platinumDosage">
+            <iLabel
+              :label="language('BOYONGLIANG', '铂用量')"
+              slot="label"
+              icons="iconxinxitishi"
+              tip="M01006002-Pt"
+            ></iLabel>
+            <iInput
+              v-model="contractForm.platinumDosage"
+              type="number"
+              placeholder="请输入铂用量"
+              :disabled="!metalType"
+              @change="jijiaCompute"
+            />
+          </iFormItem>
+          <iFormItem prop="palladiumPrice">
+            <iLabel
+              :label="language('BAJIJIA', '钯基价')"
+              slot="label"
+              icons="iconxinxitishi"
+              tip="M01006002-Pd"
+            ></iLabel>
+            <iInput
+              v-model="contractForm.palladiumPrice"
+              type="number"
+              placeholder="请输入钯基价"
+              :disabled="!metalType"
+              @change="jijiaCompute"
+            />
+          </iFormItem>
+          <iFormItem prop="palladiumDosage">
+            <iLabel
+              :label="language('BAYONGLIANG', '钯用量')"
+              slot="label"
+              icons="iconxinxitishi"
+              tip="M01006002-Pd"
+            ></iLabel>
+            <iInput
+              v-model="contractForm.palladiumDosage"
+              type="number"
+              placeholder="请输入钯用量"
+              :disabled="!metalType"
+              @change="jijiaCompute"
+            />
+          </iFormItem>
+          <iFormItem prop="rhodiumPrice">
+            <iLabel
+              :label="language('LAOJIJIA', '铑基价')"
+              slot="label"
+              icons="iconxinxitishi"
+              tip="M01006002-Rh"
+            ></iLabel>
+            <iInput
+              v-model="contractForm.rhodiumPrice"
+              type="number"
+              placeholder="请输入铑基价"
+              :disabled="!metalType"
+              @change="jijiaCompute"
+            />
+          </iFormItem>
+          <iFormItem prop="rhodiumDosage">
+            <iLabel
+              :label="language('LAOYONGLIANG', '铑用量')"
+              slot="label"
+              icons="iconxinxitishi"
+              tip="M01006002-Rh"
+            ></iLabel>
+            <iInput
+              v-model="contractForm.rhodiumDosage"
+              type="number"
+              placeholder="请输入铑用量"
+              :disabled="!metalType"
+              @change="jijiaCompute"
+            />
+          </iFormItem>
 
-        <iFormItem prop="platinumPrice">
-          <iLabel
-            :label="language('BOJIJIA', '铂基价')"
-            slot="label"
-            icons="iconxinxitishi"
-            tip="M01006002-Pt"
-          ></iLabel>
-          <iInput
-            v-model="contractForm.platinumPrice"
-            type="number"
-            placeholder="请输入铂基价"
-            :disabled="!metalType"
-            @change="jijiaCompute"
-          />
-        </iFormItem>
-        <iFormItem prop="platinumDosage">
-          <iLabel
-            :label="language('BOYONGLIANG', '铂用量')"
-            slot="label"
-            icons="iconxinxitishi"
-            tip="M01006002-Pt"
-          ></iLabel>
-          <iInput
-            v-model="contractForm.platinumDosage"
-            type="number"
-            placeholder="请输入铂用量"
-            :disabled="!metalType"
-            @change="jijiaCompute"
-          />
-        </iFormItem>
-        <iFormItem prop="palladiumPrice">
-          <iLabel
-            :label="language('BAJIJIA', '钯基价')"
-            slot="label"
-            icons="iconxinxitishi"
-            tip="M01006002-Pd"
-          ></iLabel>
-          <iInput
-            v-model="contractForm.palladiumPrice"
-            type="number"
-            placeholder="请输入钯基价"
-            :disabled="!metalType"
-            @change="jijiaCompute"
-          />
-        </iFormItem>
-        <iFormItem prop="palladiumDosage">
-          <iLabel
-            :label="language('BAYONGLIANG', '钯用量')"
-            slot="label"
-            icons="iconxinxitishi"
-            tip="M01006002-Pd"
-          ></iLabel>
-          <iInput
-            v-model="contractForm.palladiumDosage"
-            type="number"
-            placeholder="请输入钯用量"
-            :disabled="!metalType"
-            @change="jijiaCompute"
-          />
-        </iFormItem>
-        <iFormItem prop="rhodiumPrice">
-          <iLabel
-            :label="language('LAOJIJIA', '铑基价')"
-            slot="label"
-            icons="iconxinxitishi"
-            tip="M01006002-Rh"
-          ></iLabel>
-          <iInput
-            v-model="contractForm.rhodiumPrice"
-            type="number"
-            placeholder="请输入铑基价"
-            :disabled="!metalType"
-            @change="jijiaCompute"
-          />
-        </iFormItem>
-        <iFormItem prop="rhodiumDosage">
-          <iLabel
-            :label="language('LAOYONGLIANG', '铑用量')"
-            slot="label"
-            icons="iconxinxitishi"
-            tip="M01006002-Rh"
-          ></iLabel>
-          <iInput
-            v-model="contractForm.rhodiumDosage"
-            type="number"
-            placeholder="请输入铑用量"
-            :disabled="!metalType"
-            @change="jijiaCompute"
-          />
-        </iFormItem>
-
-        <iFormItem prop="preciousMetalDosageUnit" v-if="metalType">
-          <iLabel
-            :label="
-              language('GUIJINSHUYONGLIANGJIJIADANWEI', '贵金属用量&基价单位')
-            "
-            slot="label"
-            :required="true"
-          ></iLabel>
-          <i-select
-            v-model="contractForm.preciousMetalDosageUnit"
-            clearable
-            :placeholder="language('QINGXUANZE', '请选择')"
-          >
-            <el-option
-              v-for="item in getPreciousMetalDosageUnit"
-              :key="item.code"
-              :label="item.code"
-              :value="item.code"
+          <iFormItem prop="preciousMetalDosageUnit" v-if="metalType">
+            <iLabel
+              :label="
+                language('GUIJINSHUYONGLIANGJIJIADANWEI', '贵金属用量&基价单位')
+              "
+              slot="label"
+              :required="true"
+            ></iLabel>
+            <i-select
+              v-model="contractForm.preciousMetalDosageUnit"
+              clearable
+              :placeholder="language('QINGXUANZE', '请选择')"
             >
-            </el-option>
-          </i-select>
-        </iFormItem>
+              <el-option
+                v-for="item in getPreciousMetalDosageUnit"
+                :key="item.code"
+                :label="item.code"
+                :value="item.code"
+              >
+              </el-option>
+            </i-select>
+          </iFormItem>
 
-        <!-- 载体费用 -->
-        <iFormItem prop="substrateExw">
-          <iLabel :label="$t('载体费用')" slot="label"></iLabel>
-          <iInput
-            v-model="contractForm.substrateExw"
-            type="number"
-            placeholder="请输入载体费用"
-            :disabled="!metalType"
-            @change="jijiaCompute"
-          />
-        </iFormItem>
-        <!-- 载体税率 -->
-        <iFormItem prop="substrateImpDuty">
-          <iLabel :label="$t('载体税率(%)')" slot="label"></iLabel>
-          <iInput
-            v-model="contractForm.substrateImpDuty"
-            type="number"
-            placeholder="请输入载体税率(%)"
-            :disabled="!metalType"
-            @change="jijiaCompute"
-          />
-        </iFormItem>
-        <!-- 载体管理费率 -->
-        <iFormItem prop="substrateHandling">
-          <iLabel :label="$t('载体管理费率(%)')" slot="label"></iLabel>
-          <iInput
-            v-model="contractForm.substrateHandling"
-            type="number"
-            placeholder="请输入载体管理费率(%)"
-            :disabled="!metalType"
-            @change="jijiaCompute"
-          />
-        </iFormItem>
-        <!-- 贵金属管理费率 -->
-        <iFormItem prop="pgmHandling">
-          <iLabel :label="$t('贵金属管理费率(%)')" slot="label"></iLabel>
-          <iInput
-            v-model="contractForm.pgmHandling"
-            type="number"
-            placeholder="请输入贵金属管理费率(%)"
-            :disabled="!metalType"
-            @change="jijiaCompute"
-          />
-        </iFormItem>
-        <!-- 制造费用 -->
-        <iFormItem prop="manufacture">
-          <iLabel :label="$t('制造费用')" slot="label"></iLabel>
-          <iInput
-            v-model="contractForm.manufacture"
-            type="number"
-            placeholder="请输入制造费用"
-            :disabled="!metalType"
-            @change="jijiaCompute"
-          />
-        </iFormItem>
-        <!-- 运输费用 -->
-        <iFormItem prop="transport">
-          <iLabel :label="$t('运输费用')" slot="label"></iLabel>
-          <iInput
-            v-model="contractForm.transport"
-            type="number"
-            placeholder="请输入运输费用"
-            :disabled="!metalType"
-            @change="jijiaCompute"
-          />
-        </iFormItem>
+          <!-- 载体费用 -->
+          <iFormItem prop="substrateExw">
+            <iLabel :label="$t('载体费用')" slot="label"></iLabel>
+            <iInput
+              v-model="contractForm.substrateExw"
+              type="number"
+              placeholder="请输入载体费用"
+              :disabled="!metalType"
+              @change="jijiaCompute"
+            />
+          </iFormItem>
+          <!-- 载体税率 -->
+          <iFormItem prop="substrateImpDuty">
+            <iLabel :label="$t('载体税率(%)')" slot="label"></iLabel>
+            <iInput
+              v-model="contractForm.substrateImpDuty"
+              type="number"
+              placeholder="请输入载体税率(%)"
+              :disabled="!metalType"
+              @change="jijiaCompute"
+            />
+          </iFormItem>
+          <!-- 载体管理费率 -->
+          <iFormItem prop="substrateHandling">
+            <iLabel :label="$t('载体管理费率(%)')" slot="label"></iLabel>
+            <iInput
+              v-model="contractForm.substrateHandling"
+              type="number"
+              placeholder="请输入载体管理费率(%)"
+              :disabled="!metalType"
+              @change="jijiaCompute"
+            />
+          </iFormItem>
+          <!-- 贵金属管理费率 -->
+          <iFormItem prop="pgmHandling">
+            <iLabel :label="$t('贵金属管理费率(%)')" slot="label"></iLabel>
+            <iInput
+              v-model="contractForm.pgmHandling"
+              type="number"
+              placeholder="请输入贵金属管理费率(%)"
+              :disabled="!metalType"
+              @change="jijiaCompute"
+            />
+          </iFormItem>
+          <!-- 制造费用 -->
+          <iFormItem prop="manufacture">
+            <iLabel :label="$t('制造费用')" slot="label"></iLabel>
+            <iInput
+              v-model="contractForm.manufacture"
+              type="number"
+              placeholder="请输入制造费用"
+              :disabled="!metalType"
+              @change="jijiaCompute"
+            />
+          </iFormItem>
+          <!-- 运输费用 -->
+          <iFormItem prop="transport">
+            <iLabel :label="$t('运输费用')" slot="label"></iLabel>
+            <iInput
+              v-model="contractForm.transport"
+              type="number"
+              placeholder="请输入运输费用"
+              :disabled="!metalType"
+              @change="jijiaCompute"
+            />
+          </iFormItem>
+        </div>
+       
+
       </iFormGroup>
+      
     </div>
     <span slot="footer" class="dialog-footer">
       <!-- <span class="time_color" v-if="timeShow">重叠时间段为：{{startTime}}&nbsp;&nbsp;~&nbsp;&nbsp;{{endTime}}</span> -->
@@ -536,12 +604,15 @@ import {
   checkPreciousMetal,
   queryMaterialList,
   getMtzMarketSourceList,
-  getPreciousMetalDosageUnit
+  getPreciousMetalDosageUnit,
+  getPartBalanceCountType
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { getRawMaterialNos } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details'
 import {
   fetchRemoteMtzMaterial //查询MTZ材料组
 } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
+import { partBalanceCountTypeList,methodList } from "./data";
+
 import {
   isNumber,
   timeCoincide,
@@ -586,7 +657,9 @@ export default {
     },
     resetNum: {
       type: Boolean
-    }
+    },
+    avgPeriodList: { type: Array, default: () => [] },
+    offsetList: { type: Array, default: () => [] },
     // dataObject:{
     //     type: Object,
     //     default: () => {
@@ -672,6 +745,7 @@ export default {
           message: '月度'
         }
       ],
+      methodList,
       tcCurrence: [],
       supplierList: [], //供应商
       carline: [], //车型
@@ -703,6 +777,7 @@ export default {
         transport: ''
       },
       carlineNumber: [],
+      partBalanceCountTypeList,
       rules_init: {
         effectFlag: [{ required: true, message: '请选择', trigger: 'change' }],
         materialGroup: [
@@ -835,6 +910,42 @@ export default {
       }
       return {
         ...this.rules_init,
+        platinumPrice: this.metalType //载体税率(%)
+          ? [
+              { required: true, message: '请输入', trigger: 'blur' },
+              { validator: validatePass5, trigger: 'blur' }
+            ]
+          : [{ required: false }],
+          platinumDosage: this.metalType //载体税率(%)
+          ? [
+              { required: true, message: '请输入', trigger: 'blur' },
+              { validator: validatePass5, trigger: 'blur' }
+            ]
+          : [{ required: false }],
+          palladiumPrice: this.metalType //载体税率(%)
+          ? [
+              { required: true, message: '请输入', trigger: 'blur' },
+              { validator: validatePass5, trigger: 'blur' }
+            ]
+          : [{ required: false }],
+          palladiumDosage: this.metalType //载体税率(%)
+          ? [
+              { required: true, message: '请输入', trigger: 'blur' },
+              { validator: validatePass5, trigger: 'blur' }
+            ]
+          : [{ required: false }],
+          rhodiumPrice: this.metalType //载体税率(%)
+          ? [
+              { required: true, message: '请输入', trigger: 'blur' },
+              { validator: validatePass5, trigger: 'blur' }
+            ]
+          : [{ required: false }],
+          rhodiumDosage: this.metalType //载体税率(%)
+          ? [
+              { required: true, message: '请输入', trigger: 'blur' },
+              { validator: validatePass5, trigger: 'blur' }
+            ]
+          : [{ required: false }],
         substrateExw: this.metalType // 载体费用
           ? [{ required: true, message: '请输入', trigger: 'blur' }]
           : [{ required: false }],
@@ -966,6 +1077,8 @@ export default {
       if (value == '') {
         this.contractForm.supplierName = ''
         this.contractForm.sapCode = ''
+        this.contractForm.partBalanceCountType =''
+
         setTimeout(() => {
           this.supplierType1 = false
         }, 100)
@@ -977,6 +1090,10 @@ export default {
             console.log(value, 5555555555)
             this.contractForm.supplierName = e.message
             this.contractForm.sapCode = value
+            getPartBalanceCountType(this.contractForm.sapCode).then(res=>{
+             this.$set(this.contractForm,'partBalanceCountType',res.data)
+            })
+
             setTimeout(() => {
               this.supplierType1 = false
             }, 100)
@@ -993,6 +1110,8 @@ export default {
       if (value == '') {
         this.contractForm.supplierName = ''
         this.contractForm.sapCode = ''
+        this.contractForm.partBalanceCountType =''
+
         setTimeout(() => {
           this.supplierType2 = false
         }, 100)
@@ -1001,9 +1120,12 @@ export default {
         this.supplierList.forEach((e) => {
           if (e.message == value) {
             // console.log(e.code,2222222)
-            // console.log(value,2222222)
+            console.log(e,2222222)
             this.contractForm.supplierName = value
             this.contractForm.sapCode = e.code
+            getPartBalanceCountType(this.contractForm.sapCode).then(res=>{
+              this.$set(this.contractForm,'partBalanceCountType',res.data)
+            })
             setTimeout(() => {
               this.supplierType2 = false
             }, 100)
@@ -1082,6 +1204,22 @@ export default {
 </script>
 
 <style style="scss" scoped>
+::v-deep.row4{
+    margin-bottom:0!important;
+}
+.row4{
+ display: inline-block!important;
+ float: none;
+}
+.box{
+
+}
+.tip{
+  display: block;
+  margin: 10px 0;
+  color: red;
+  font-size: 14px;
+}
 ::v-deep .dialog-footer {
   display: flex;
   justify-content: flex-end;
@@ -1102,3 +1240,4 @@ export default {
   width: 13.5rem !important;
 }
 </style>
+

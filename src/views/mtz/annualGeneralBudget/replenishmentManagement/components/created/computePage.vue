@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-14 14:44:54
- * @LastEditTime: 2023-03-17 17:10:32
+ * @LastEditTime: 2023-03-31 17:11:30
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\created\computePage.vue
@@ -32,6 +32,7 @@
       <iTableCustom
         :data="ruleTableData"
         :columns="tableTitleRule"
+        @gotoSource="gotoSource"
       />
       <iPagination
         @size-change="handleSizeChange($event, getTableList)"
@@ -294,6 +295,11 @@ export default {
       this.saveBalancePage.currPage = val
     },
 
+    // 跳转补差来源
+    gotoSource(row){
+      window.open(`${window.location.origin}/portal/#/mtz/annualGeneralBudget/locationChange/chipLocationPoint/overflow/decisionMaterial?appId=${row.sourceId}`)
+
+    },
 
     // 获取数据
     findBalanceById() {

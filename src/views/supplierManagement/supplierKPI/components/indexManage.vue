@@ -56,7 +56,7 @@
           <i-input style="width: 200px" :placeholder="$t('partsprocure.PLEENTER')" v-model="form.nameEn">
           </i-input>
         </el-form-item>
-        <el-form-item :label="$t('负责科室')" prop="deptCode">
+        <el-form-item :label="$t('FUZEKESHI')" prop="deptCode">
           <iSelect filterable clearable multiple style="width: 200px" :placeholder="$t('partsprocure.PLEENTER')"
             v-model="form.deptCode">
             <el-option v-for="(item, index) in deptList" :key="index" :value="item.deptNum" :label="item.deptNum">
@@ -140,12 +140,26 @@ export default {
       this.deptList = res.data
     },
     del(item) {
-      delIndicator({ ids: [item.id] }).then((res) => {
-        if (res.code == '200') {
-          this.getInfo()
-          iMessage.success(res.desZh || '删除成功')
-        } else iMessage.error(res.desZh)
-      })
+      this.$confirm('是否确认删除', '删除', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+
+      }).then(() => {
+        delIndicator({ ids: [item.id] }).then((res) => {
+          if (res.code == '200') {
+            this.getInfo()
+            this.$emit('updata')
+            iMessage.success('删除成功')
+          } else iMessage.error(res.desZh)
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+
     },
     edit(item) {
       this.typeDialog = '2'
@@ -180,15 +194,18 @@ export default {
               if (res.code == '200') {
                 this.getInfo()
                 this.canel()
-                iMessage.success(res.desZh || '更新成功')
+                this.$emit('updata')
+
+                iMessage.success('编辑成功')
               } else iMessage.error(res.desZh)
             })
           } else {
             addIndicator(this.form).then((res) => {
               if (res.code == '200') {
                 this.getInfo()
+                this.$emit('updata')
                 this.canel()
-                iMessage.success(res.desZh || '新增成功')
+                iMessage.success('新增成功')
               } else iMessage.error(res.desZh)
             })
           }
@@ -265,14 +282,16 @@ export default {
   }
 
   .infocard {
-    height: 400px;
+    max-height: 200px;
     overflow: auto !important;
 
-    
+
   }
+
   ::-webkit-scrollbar {
-      width: 8px;
-    }
+    width: 8px;
+  }
+
   .infolist {
 
     display: flex;

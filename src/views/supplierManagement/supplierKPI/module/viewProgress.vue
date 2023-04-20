@@ -1,5 +1,6 @@
 <template>
-    <iDialog append-to-body :title="$t('查看进度')" :visible.sync="value" width="40%" @close="clearDiolog">
+    <iDialog   append-to-body :title="$t('查看进度')" :visible.sync="value" width="40%" @close="clearDiolog">
+        <div class="box">
 
         <el-timeline >
             <el-timeline-item v-for="(activity, index) in activities" :key="index" :icon="activity.icon"
@@ -15,6 +16,8 @@
                 </div>
             </el-timeline-item>
         </el-timeline>
+    </div>
+
     </iDialog>
 </template>
 
@@ -22,6 +25,8 @@
 import {
     iDialog
 } from 'rise'
+import { getDictByCode } from '@/api/dictionary'
+
 import {
     getSupplierPerforManceProcess
 } from '@/api/supplierManagement/supplierIndexManage/index'
@@ -42,17 +47,26 @@ export default {
     },
     methods: {
         init(){
-            getSupplierPerforManceProcess({editionId:this.$route.query.editionId}).then(res=>{
+            getDictByCode('SUPPLIER_PERFORMANCE_TASK_EXECUTE_STATUS')
+            .then((res) => {
+                if (res.data) {
+                this.statusList = res?.data[0]?.subDictResultVo
+                getSupplierPerforManceProcess({editionId:this.$route.query.editionId}).then(res=>{
                 if(res.data){
                     res.data.forEach(val=>{
                         this.activities.push({
-                            content:`<div>${val.createName} &nbsp;&nbsp;&nbsp;&nbsp; <span style="color: #000000">${val.deptCode}</span></div>`,
+                            content:`<div>${val.deptCode} &nbsp;&nbsp;&nbsp;&nbsp; <span style="color: #000000">${val.executeStatus?this.statusList.find(item=>item.code==val.executeStatus).name:''}</span></div>`,
                             timestamp:val.updateDate,
                             color: val.executeStatus==1?'#0bbd87':"#666"
                         })
                     })
                 }
             })
+                }
+            })
+            .catch(() => { })
+         
+        
         },
         clearDiolog() {
             this.$emit('closeDiolog')
@@ -64,3 +78,13 @@ export default {
 
 }
 </script>
+<style lang="scss" scoped>
+.box{
+    padding-left: 100px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+    height: 600px;
+    overflow: auto;
+}
+</style>
