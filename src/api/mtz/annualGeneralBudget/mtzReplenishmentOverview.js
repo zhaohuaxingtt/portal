@@ -1,10 +1,10 @@
 /*
  * @Author: youyuan
  * @Date: 2021-09-09 14:02:54
- * @LastEditTime: 2021-11-03 11:17:25
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-04-19 16:10:55
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 年度预算编辑
- * @FilePath: \重庆软维科技\front-portal\src\api\mtz\annualGeneralBudget\annualBudgetEdit.js
+ * @FilePath: \front-portal\src\api\mtz\annualGeneralBudget\mtzReplenishmentOverview.js
  */
 import axios from '@/utils/axios'
 import download from '@/utils/axios.download'
@@ -55,6 +55,14 @@ export function getMtzSupplierList(params) {
 export function pageMTZCompByComputer(params) {
   return request({
     url: '/mtzBalanceDetails/pageMTZCompByComputer',
+    method: 'POST',
+    data: params
+  })
+}
+// MTZ 计算异常提示 TAB页
+export function calculateWarn(params) {
+  return request({
+    url: '/calculation/calculateWarn',
     method: 'POST',
     data: params
   })

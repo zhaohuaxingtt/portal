@@ -1,10 +1,10 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2022-12-06 14:59:24
- * @LastEditors: 余继鹏 917955345@qq.com
+ * @LastEditTime: 2023-04-19 18:26:37
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
- * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
+ * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\balancePaymentDialog.vue
 -->
 <template>
   <div>
@@ -20,14 +20,17 @@
              width="90%">
       <!-- <iSearch>
       </iSearch> -->
+      
+  <div class="search" :class="{ hidden: hidens }" style="border-bottom: 1px solid #ccc">
+    <div class="search-content">
       <el-form :inline="true"
                ref="formList"
                :rules="rules"
                :model="searchForm"
                label-position="top"
                class="searchForm">
-        <el-row style="border-bottom: 1px solid #ccc">
-          <el-col :span="21">
+        <el-row>
+          <el-col :span="24">
             <el-form-item label="一次件供应商"
                           class="searchFormItem">
               <iInput v-model="searchForm.firstSupplierName"
@@ -58,15 +61,6 @@
                       :value="item.code">
                   </el-option>
               </iSelect>
-              <!-- <custom-select v-model="searchForm.secondSupplierList"
-                             :user-options="ssupplierList"
-                             multiple
-                             clearable
-                             :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                             display-member="codeMessage"
-                             value-member="code"
-                             value-key="code">
-              </custom-select> -->
             </el-form-item>
             <el-form-item label="材料中类"
                           class="searchFormItem"
@@ -79,15 +73,6 @@
                       :value="item.code">
                   </el-option>
               </iSelect>
-              <!-- <custom-select v-model="searchForm.materialKindList"
-                             :user-options="Mgroups"
-                             multiple
-                             clearable
-                             :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                             display-member="message"
-                             value-member="code"
-                             value-key="code">
-              </custom-select> -->
             </el-form-item>
             <el-form-item label="SAP订单号"
                           class="searchFormItem">
@@ -107,16 +92,6 @@
                       :value="item.code">
                   </el-option>
               </iSelect>
-              <!-- <custom-select v-model="searchForm.materialCode"
-                             :user-options="RawMaterialNos"
-                             multiple
-                             clearable
-                             @change="handleMaterialCode"
-                             :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                             display-member="codeMessage"
-                             value-member="code"
-                             value-key="code">
-              </custom-select> -->
             </el-form-item>
 
             <el-form-item label="采购组"
@@ -129,16 +104,6 @@
                       :value="item.code">
                   </el-option>
               </iSelect>
-              <!-- <custom-select v-model="searchForm.ekGroupList"
-                             :user-options="UserSubPurchaseGroup"
-                             multiple
-                             clearable
-                             @change="handleMaterialCode"
-                             :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                             display-member="message"
-                             value-member="code"
-                             value-key="code">
-              </custom-select> -->
             </el-form-item>
             <el-form-item label="一次零件号"
                           prop="fpartNo"
@@ -156,60 +121,24 @@
               </comboBox>
             </el-form-item>
           </el-col>
-          <el-col :span="3">
-            <div class="flex">
-              <!-- v-loading="tableLoading" -->
-              <iButton v-if="flag"
-                      
-                       class="margin-top45"
-                       style="float: right"
-                       @click="search">{{ language('CHAXUN', '查询') }}</iButton>
-              <iButton v-if="flag"
-                       class="margin-top45"
-                       style="float: right"
-                       @click="reset">{{ language('CHONGZHI', '重置') }}</iButton>
-            </div>
-          </el-col>
+          <e-col span=3>
+            
+          </e-col>
         </el-row>
-        <!-- <el-row style="border-bottom: 1px solid #ccc; width: 100%">
-          <el-col :span="21">
-            <el-form-item label="市场价偏移区间"
-                          class="searchFormItem">
-              <iDatePicker v-model="value1"
-                           :disabled="editDisabled"
-                           @change="handleChangeDate"
-                           @focus="handleFocus"
-                           :picker-options="pickerOptions"
-                           type="monthrange"
-                           style="width: 100%"
-                           format="yyyy-MM"
-                           value-format="yyyy-MM-dd"
-                           range-separator="至"
-                           start-placeholder="开始日期"
-                           end-placeholder="结束日期">
-              </iDatePicker>
-            </el-form-item>
-            <el-form-item label="是否取市场价均值"
-                          class="searchFormItem">
-              <iSelect v-model="searchForm.isEffAvg"
-                       :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                       @change="handleMaterialCode"
-                       class="operate-select">
-                <el-option :value="item.value"
-                           :label="item.label"
-                           v-for="(item, index) in isEffAvgList"
-                           :key="index"></el-option>
-              </iSelect>
-            </el-form-item>
-          </el-col>
-          <el-col v-if="flag"
-                  :span="3">
-            <iButton class="margin-top45"
-                     style="float: right"
-                     @click="calcuLate">{{ language('JISUAN', '计算') }}</iButton>
-          </el-col>
-        </el-row> -->
       </el-form>
+      <div class="operation">
+        <div v-if="flag">
+          <iButton @click="search">{{ language('CHAXUN', '查询') }}</iButton>
+          <iButton @click="reset">{{ language('CHONGZHI', '重置') }}</iButton>
+        </div>
+        <i
+          @click="toggle"
+          class="el-icon-arrow-up icon margin-left20 cursor"
+          :class="{ rotate: hidens }"
+        ></i>
+      </div>
+    </div>
+  </div>
       <div class="table">
         <div class="header ">
           <div class="flex headerForm" 
@@ -268,6 +197,7 @@
             <iTabsList  @tab-click="changeNav" v-model="activeName" type="card" slot="components" class="margin-top20">
               <el-tab-pane :label="$t('待发起凭证')" name="wait"> </el-tab-pane>
               <el-tab-pane :label="$t('已发起凭证')" name="history"> </el-tab-pane>
+              <el-tab-pane :label="$t('计算异常提示')" name="tips"> </el-tab-pane>
            </iTabsList>
             <div >
               <iButton @click="exportFiles"
@@ -353,16 +283,10 @@ import {
 import comboBox from './comboBox'
 import iTableCustom from '@/components/iTableCustom'
 import { pageMixins } from '@/utils/pageMixins'
-import { TABLE_COLUMS } from './data'
+import { TABLE_COLUMS, TABLE_COLUMS_TIPS } from './data'
 
 import { NewMessageBox, NewMessageBoxClose } from '@/components/newMessageBox/dialogReset.js'
 
-import {
-  getMtzSupplierList,
-  balanceCalcuLate,
-  sumAmount,
-  compdocIExport
-} from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
 import {
   pageMTZCompByComputer,
   getMtzGroups,
@@ -372,7 +296,12 @@ import {
   submitMTZComp,
   fetchQueryComp,
   fetchSaveComp,
-  voucherInitiatedPageList
+  voucherInitiatedPageList,
+  getMtzSupplierList,
+  balanceCalcuLate,
+  sumAmount,
+  compdocIExport,
+  calculateWarn
 } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
 
 import {
@@ -471,6 +400,7 @@ export default {
   },
   data () {
     return {
+      hidens:false,
       delList:[],
       priceList:{},
       tableDataList2:[],
@@ -507,7 +437,6 @@ export default {
       name: '默认空，“计算”后显示',
       tableLoading: false,
       subLoading: false,
-      tableColumns: TABLE_COLUMS,
       tableData: [],
       combobox: [],
       value1: [],
@@ -565,6 +494,9 @@ export default {
       let endTime = new Date(endTME.replace(/-/g, '/'))
       let diffTime = endTime.getTime() - stratTime.getTime()
       return diffTime
+    },
+    tableColumns(){
+      return this.activeName == 'tips' ? TABLE_COLUMS_TIPS : TABLE_COLUMS
     }
   },
   created () {
@@ -657,6 +589,10 @@ export default {
 
   },
   methods: {
+    toggle() {
+      this.hidens = !this.hidens
+      this.$emit('toggle', this.hidens)
+    },
     changeNav(){
         this.query()
     },
@@ -797,7 +733,7 @@ export default {
             this.searchFlag = false
           }
         })
-        }else{
+        }else if(this.activeName=='history') {
           voucherInitiatedPageList(params).then(res=>{
             if(res.code==200){
               this.tableData = res.data
@@ -812,6 +748,16 @@ export default {
               this.tableLoading = false
               this.searchFlag = false
             }else iMessage.error(res.desZh)
+          })
+        }else{
+          calculateWarn(params).then(res=>{
+            if(res.code==200){
+              this.tableData = res.data
+              this.page.totalCount = res.total
+            }else iMessage.error(res.desZh)
+          }).finally(()=>{
+              this.tableLoading = false
+              this.searchFlag = false
           })
         }
   
@@ -1099,7 +1045,6 @@ export default {
       }
     },
     exportFiles(){
-    console.log(1111)
     if(!this.searchForm.compTimeEnd||!this.searchForm.compTimeStart){
          iMessage.warn('请选择补差时间段和材料中类')
          return false
@@ -1108,13 +1053,17 @@ export default {
           iMessage.warn('请选择补差时间段和材料中类')
           return false
     }
-    const req={
-      recallIdList:this.delList,
+    if(this.activeName=='tips'){
+      console.log('导出EXCEL');
+    }else{
+      const req={
+        recallIdList:this.delList,
 
-      ...this.searchForm,
-      initiated:this.activeName=='wait'?0:1
+        ...this.searchForm,
+        initiated:this.activeName=='wait'?0:1
+      }
+      compdocIExport(req)
     }
-    compdocIExport(req)
   },
   },
 
@@ -1125,6 +1074,66 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.search {
+  transition: max-height 0.5s;
+  max-height: 500px;
+  overflow: hidden;
+  &.hidden {
+    max-height: 85px;
+  }
+  .search-content {
+    display: inline-flex;
+    width: 100%;
+    ::v-deep .el-form {
+      flex: 1;
+    }
+    ::v-deep .el-form-item {
+      margin-bottom: 2px;
+      width: 220px;
+      // float: left;
+      margin-right: 50px;
+      padding-left: 2px;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      flex-direction: column;
+
+      .el-form-item__label {
+        font-size: 14px;
+        color: $color-black;
+        font-weight: 400;
+        line-height: 14px;
+        margin-bottom: 8px;
+      }
+
+      .el-form-item__content {
+        line-height: inherit;
+      }
+    }
+    .operation {
+      margin-top: 22px;
+      position: relative;
+      flex: 0 0 auto;
+      .icon {
+        font-size: 20px;
+        color: #d3d3db;
+        position: absolute;
+        top: -26px;
+        right: 0px;
+      }
+      .rotate {
+        transform: rotate(180deg);
+        top: -16px;
+      }
+      button {
+        margin-top: 5px;
+      }
+      .el-icon-arrow-up {
+        transition: all 0.5s;
+        height: 15px;
+      }
+    }
+  }
+}
 .searchForm {
   display: flex;
   flex-wrap: wrap;
