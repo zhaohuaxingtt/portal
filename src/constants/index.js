@@ -40,7 +40,7 @@ export const BPM_HIDE_REFUSE_BUTTON_LIST = [
 ]
 
 // 审批列表隐藏补充材料
-export const BPM_HIDE_APPEND_BUTTON_LIST = ['meeting_recheck_m_sign']
+export const BPM_HIDE_APPEND_BUTTON_LIST = ['meeting_recheck_m_sign','delPr']
 
 // 'officialPricing'
 // 审批有异议、无异议判断

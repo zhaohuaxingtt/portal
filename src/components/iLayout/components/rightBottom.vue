@@ -1,7 +1,16 @@
 <template>
   <div>
-    <div class="btn-button" @click.stop="handleShow">
-      <img :src="!contentShowFlag ? popurIcon : activePopurIcon" alt="" />
+    <div class="btn-button">
+      <div v-permission="'HOME_JIRA_IMG'" @click.stop="openJira" class="jira-edit margin-bottom10">
+        <img :src="jiraEdit" alt="" />
+        <p>{{language('我要提问','我要提问')}}</p>
+      </div>
+      <img
+        class="img"
+        @click.stop="handleShow"
+        :src="!contentShowFlag ? popurIcon : activePopurIcon"
+        alt=""
+      />
     </div>
     <div class="povper-content" v-show="contentShowFlag">
       <div v-for="(list, index) in popoverList" :key="index">
@@ -18,6 +27,7 @@
 import { popoverList } from './data.js'
 import popurIcon from '../assets/images/popur.svg'
 import activePopurIcon from '../assets/images/active-popur.svg'
+import jiraEdit from '@/assets/images/icon/jira_edit.png'
 export default {
   props: {
     contentShowFlag: {
@@ -31,7 +41,8 @@ export default {
     return {
       popoverList,
       popurIcon,
-      activePopurIcon
+      activePopurIcon,
+      jiraEdit
     }
   },
   methods: {
@@ -40,6 +51,11 @@ export default {
     },
     handleShow() {
       this.$emit('handleShow', this.contentShowFlag)
+    },
+    openJira() {
+      window.open(
+        `http://jira.csvw.com/rest/collectors/1.0/template/form/20772e47?os_authType=none`
+      )
     }
   }
 }
@@ -51,7 +67,11 @@ export default {
   bottom: 40px;
   right: 50px;
   z-index: 999;
-  img {
+  .jira-edit {
+    text-align: center;
+    cursor: pointer;
+  }
+  .img {
     height: 60px;
     width: 60px;
   }
@@ -66,23 +86,22 @@ export default {
   box-shadow: 10px 10px 5px #e0e4ec;
   display: flex;
   flex-direction: column;
-    .item-content {
-      display: flex;
-      flex-direction: row;
-      padding: 20px;  
-      cursor: pointer;
-      .img {
-        width: 40px;
-        height: 40px;
-      }
-      .text {
-        font-size: 16px;
-        color: #5F6F8F;
-        margin-left: 20px;
-        height: 40px;
-        line-height: 40px;
-      }
+  .item-content {
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+    cursor: pointer;
+    .img {
+      width: 40px;
+      height: 40px;
+    }
+    .text {
+      font-size: 16px;
+      color: #5f6f8f;
+      margin-left: 20px;
+      height: 40px;
+      line-height: 40px;
     }
   }
-
+}
 </style>

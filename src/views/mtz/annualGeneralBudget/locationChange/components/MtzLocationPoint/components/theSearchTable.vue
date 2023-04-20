@@ -359,7 +359,6 @@ import {
 import buttonTableSetting from 'rise/web/components/buttonTableSetting'
 import { tableSortMixins } from 'rise/web/components/iTableSort/tableSortMixins'
 import { getTransferUsers } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/approve'
-
 import tableList from '@/components/commonTable/index.vue'
 import { tableTitle, tableTitle1 } from './data'
 import MtzClose from './MtzClose'

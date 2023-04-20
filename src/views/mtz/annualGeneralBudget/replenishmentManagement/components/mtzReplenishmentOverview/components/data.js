@@ -1,11 +1,14 @@
 /*
  * @Author: your name
  * @Date: 2021-10-09 15:06:29
- * @LastEditTime: 2022-05-07 11:10:38
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-04-19 17:53:13
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\data.js
  */
+import language from "@/utils/language";
+import tooltip from "./tooltip";
+import tableTooltip from "./tableTooltip";
 export const avgPeriodList = [
   { code: '1', name: '一月' },
   { code: '2', name: '二月' },
@@ -208,6 +211,116 @@ export const TABLE_COLUMS = [
     label: '一二次件比例',
     minWidth: 120
   }
+]
+
+export const TABLE_COLUMS_TIPS = [
+  {
+    type: 'selection',
+    width: '60px'
+  },
+  {
+    type: 'index',
+    width: '60px',
+    label: '#'
+  },
+  {
+    prop: 'fPartNo',
+    label: '一次件零件号',
+    minWidth: 100
+  },
+  {
+    prop: 'fSupplierName',
+    label: '一次件供应商',
+    minWidth: 140,
+    customRender: (h, scope) => {
+      return <tableTooltip content={(scope.row.fSupplierSapNo||'')+'-'+(scope.row.fSupplierName||'') }></tableTooltip>
+    }
+  },
+  {
+    prop: 'sPartNo',
+    label: '二次件零件号',
+    minWidth: 100,
+    customRender: (h, scope) => {
+      return (
+        <span>
+          {scope.row.sPartNo || '-' }
+        </span>
+      )
+    }
+  },
+  {
+    prop: 'sSupplierName',
+    label: '二次件供应商',
+    minWidth: 140,
+    customRender: (h, scope) => {
+      return <tableTooltip content={(scope.row.sSupplierSapNo||'')+'-'+(scope.row.sSupplierName||'') }></tableTooltip>
+    }
+  },
+  {
+    prop: 'materialCode',
+    label: '原材料编号',
+    width: 100
+  },
+  {
+    prop: 'mtzDocMonth',
+    label: '年月',
+    width: 100
+  },
+  {
+    prop: 'receiveNum',
+    label: '收货数量',
+    width: 120,
+    headerRender: (h) => {
+      return <tooltip effect="light" placement="top" content={language('收货数量', '收货数量')} tip={language(
+        '“0”：没有收获数量，请确认收货数量',
+        '“0”：没有收获数量，请确认收货数量'
+      )}></tooltip>
+    },
+  },
+  {
+    prop: 'invoiceNum',
+    label: '发票数量',
+    width: 120,
+    headerRender: (h) => {
+      return <tooltip effect="light" placement="top" content={language('发票数量', '发票数量')} tip={language(
+        '“0”：没有发票数量，请确认发票数量',
+        '“0”：没有发票数量，请确认发票数量'
+      )}></tooltip>
+    },
+  },
+  {
+    prop: 'hasBasePrice',
+    label: '基价状态',
+    width: 110,
+    headerRender: (h) => {
+      return <tooltip effect="light" placement="top" content={language('基价状态', '基价状态')} tip={language(
+        '“无”：输入的零件号无基价，“失效”：此零件号基价全部“失效”，请确认零件号和基价的生效状态',
+        '“无”：输入的零件号无基价，“失效”：此零件号基价全部“失效”，请确认零件号和基价的生效状态'
+      )}></tooltip>
+    },
+  },
+  {
+    prop: 'hasEffPrice',
+    label: '市场价状态',
+    width: 120,
+    headerRender: (h) => {
+      return <tooltip effect="light" placement="top" content={language('市场价状态', '市场价状态')} tip={language(
+        '“无”：原材料无市场价（贵金属无点价单），请确认市场价',
+        '“无”：原材料无市场价（贵金属无点价单），请确认市场价'
+      )}></tooltip>
+    },
+  },
+  {
+    prop: 'hasOutCond',
+    label: '是否超过阈值',
+    width: 140,
+    headerRender: (h) => {
+      return <tooltip effect="light" placement="top" content={language('是否超过阈值', '是否超过阈值')} tip={language(
+        '“未超过”：I市场价-基价I＜I基价*阈值I，不计算补差',
+        '“未超过”：I市场价-基价I＜I基价*阈值I，不计算补差'
+      )}></tooltip>
+    },
+  },
 ]
 
 export const tableTitle = [

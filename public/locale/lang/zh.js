@@ -7,13 +7,11 @@
 })(this, function (i18n) {
   'use strict'
   var oldLanguage = {
-    ZHIBIAOKU:'指标库',
-    ZHIBIAOGUANLI:'指标管理',
-    FENGXAINXINHAOTIAOZHENGFEN:'风险信号调整分',
     CHUANGJIANBANBEN: '创建版本',
     FENGXAINXINHAOTIAOZHENGFEN:'风险信号调整分',
     ZHIBIAOKU:'指标库',
     ZHIBIAOGUANLI:'指标管理',
+    FENGXAINXINHAOTIAOZHENGFEN:'风险信号调整分',
     CSQCAIGOUYUAN:'CSQ采购员',
     QUERENRENKESHI:'确认人科室',
     delete: '删除',

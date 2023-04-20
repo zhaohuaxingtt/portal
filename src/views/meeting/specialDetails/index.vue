@@ -1398,7 +1398,7 @@ export default {
     },
     lookThemen(themen) {
       if (themen.type == 'MANUAL') {
-        // this.topicInfo = themen
+       // this.topicInfo = themen
         // this.openAddTopic = true
         // this.openDialog('openTopicLookDialog')
         
@@ -1424,11 +1424,11 @@ export default {
               `${this.processUrlPortal}/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/decisionMaterial?meeting=1&currentStep=3&mtzAppId=${themen.fixedPointApplyId}`,
               '_blank'
             )
-          }else if (themen.type === 'CSF') {
-          window.open(
-            `${this.processUrlGpPortal}/myCscDetails/${themen.fixedPointApplyId}?current=3`,
-            '_blank'
-          )
+          // }else if (themen.type === 'CSF') {
+          // window.open(
+          //   `${this.processUrlGpPortal}/myCscDetails/${themen.fixedPointApplyId}?current=3`,
+          //   '_blank'
+          // )
         } else if (themen.type === 'CHIP') {
           window.open(
             `${this.processUrlPortal}/mtz/annualGeneralBudget/locationChange/ChipLocationPoint/overflow/decisionMaterial?meeting=1&appId=${themen.fixedPointApplyId}`,
@@ -1867,7 +1867,7 @@ export default {
     close(str) {
       if (str !== 'still') {
         const warnData = this.resThemeData.filter((item) => {
-          return !item.isFixedFrozenRs
+          return !item.isFixedFrozenRs // 调整RS单冻结状态取值字段
         })
         if (warnData.length > 0) {
           this.handleAlert(warnData)

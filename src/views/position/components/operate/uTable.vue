@@ -50,7 +50,7 @@ export default {
           tooltip: false
         },
         {
-          prop: 'department',
+          prop: 'deptNum',
           label: '所属部门',
           i18n:'所属部门',
           align: 'center',
@@ -99,7 +99,7 @@ export default {
           tooltip: false
         },
         {
-          prop: 'department',
+          prop: 'deptNum',
           label: '所属部门',
           i18n: '所属部门',
           align: 'center',

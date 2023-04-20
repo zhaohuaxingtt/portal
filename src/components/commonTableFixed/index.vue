@@ -299,13 +299,13 @@ export default {
   position:static;
   .numIcon{
     position:absolute;
-    bottom:6px;
-    left:0;
+    bottom:0px;
+    left:calc(50% - 10px);
   }
   .logIcon{
     position:absolute;
-    bottom:6px;
-    left:0;
+    bottom:0px;
+    left:calc(50% - 10px);
   }
 }
 .openLinkText {
