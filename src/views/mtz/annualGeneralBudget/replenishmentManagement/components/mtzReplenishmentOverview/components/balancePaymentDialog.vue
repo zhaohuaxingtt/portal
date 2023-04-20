@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2023-04-19 18:26:37
+ * @LastEditTime: 2023-04-20 15:41:59
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\balancePaymentDialog.vue
@@ -301,7 +301,8 @@ import {
   balanceCalcuLate,
   sumAmount,
   compdocIExport,
-  calculateWarn
+  calculateWarn,
+  calculateWarnExport
 } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
 
 import {
@@ -1054,7 +1055,13 @@ export default {
           return false
     }
     if(this.activeName=='tips'){
-      console.log('导出EXCEL');
+        let params = {
+          pageNo: this.page.currPage,
+          pageSize: this.page.pageSize,
+          recallIdList:this.delList,
+          ...this.searchForm
+        }
+      calculateWarnExport(params)
     }else{
       const req={
         recallIdList:this.delList,
