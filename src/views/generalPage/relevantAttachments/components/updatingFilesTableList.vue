@@ -1,8 +1,8 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditTime: 2022-03-18 17:12:17
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-04-14 17:36:50
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 附件上传表格
 -->
 <template>
@@ -113,6 +113,8 @@
             >
             <uploadButton
               :showText="true"
+              :check="scope.row.templateName==='农民工工资专用账户申请表'||scope.row.templateName==='信息维护申请表'?true:false"
+              :accept="scope.row.templateName==='农民工工资专用账户申请表'||scope.row.templateName==='信息维护申请表'?'.pdf':'.xlsx,.pdf,.docx'"
               @uploadedCallback="handleUploadedCallback($event, scope.row)"
               button-text="LK_SHANGCHUAN"
               v-else

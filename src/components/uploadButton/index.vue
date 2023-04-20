@@ -11,6 +11,7 @@
              name="multipartFile"
              with-credentials
              :http-request="myUpload"
+             :before-upload="beforeUpload"
              :accept="accept"
              ref="upload">
     <template v-if="!hideButton">
@@ -38,6 +39,7 @@ export default {
   props: {
     buttonText: { type: String, default: 'LK_SHANGCHUANFUJIAN' },
     repeatClick: Boolean,
+    check: Boolean,
     uploadButtonLoading: { type: Boolean, default: false },
     showText: { type: Boolean, default: false },
     showTextUnderLine: { type: Boolean, default: false },
@@ -50,6 +52,21 @@ export default {
     return {};
   },
   methods: {
+    beforeUpload(file){
+      if(this.check){
+        let arr = this.accept.split(',')
+        let nameArr = file.name.split('.')
+        let fileType = '.'+nameArr[nameArr.length-1]
+        if(arr.includes(fileType)){
+          return true
+        }else{
+          iMessage.warn(`请上传${this.accept}类型文件`)
+          return false
+        }
+      }else{
+        return true
+      }
+    },
     async myUpload (content) {
       if (this.uploadByBusiness) {
         this.$emit('uploadedCallback', content);
