@@ -372,7 +372,7 @@
           )
         " class="margin-top10" :rows="8" type="textarea" />
       </iCard>
-      <iCard  v-if="isMeeting && applayDateData.length > 0" class="margin-top20">
+      <iCard v-if="isMeeting && applayDateData.length > 0" class="margin-top20">
         <p>
           {{ language('SHENQINGRIQI', '申请日期') }}:{{
             moment(new Date()).format('YYYY-MM-DD')
@@ -634,41 +634,6 @@
               :tableLoading="loadingRule" v-if="!RsObject && tableData.length > 0&& tableData.some((val)=>{if(val.materialCode.slice(1,6)=='01006') {return true}})" :index="true" :selection="false"
               border>
             </tableList>
-            <iCard v-if="
-              isMeeting &&
-              applayDateData.length > 0
-            " class="margin-top10">
-              <div slot="header" class="headBox">
-                <p class="headTitle">
-                  {{ language('SHENQINGRIQI', '申请日期') }}:{{
-                    moment(new Date()).format('YYYY-MM-DD')
-                  }}
-                </p>
-              </div>
-              <div :class="RsObject ? 'applayDateBox' : 'applayDateBox1'">
-                <div class="applayDateContent" v-for="(item, index) in applayDateData" :key="index">
-                  <img class="margin-left5 applayDateIcon" :src="
-                    item.taskStatus === '同意'
-                      ? require('@/assets/images/icon/yes.png')
-                      : require('@/assets/images/icon/no.png')
-                  " :fit="fit" />
-                  <div class="applayDateContentItem first_one">
-                    <span>部门：</span>
-                    <span class="applayDateDeptTitle">{{
-                      item.deptFullCode
-                    }}</span>
-                  </div>
-                  <div class="applayDateContentItem">
-                    <span>审批人：</span>
-                    <span>{{ item.nameZh }}</span>
-                  </div>
-                  <div class="applayDateContentItem">
-                    <span>日期：</span>
-                    <span>{{ item.endTime }}</span>
-                  </div>
-                </div>
-              </div>
-            </iCard>
           </iCard>
           <div class="page-logo">
             <div>
@@ -838,45 +803,11 @@
               }}</span>
             </template>
             </tableList>
+
             <tableList border class="margin-top20 " :tableData="tableData" :tableTitle="partTableTitle1_3"
               :tableLoading="loadingPart" v-if="!RsObject && partTableListData.length > 0 && tableData.some((val)=>{if(val.materialCode.slice(1,6)=='01006') {return true}})" :index="true"
               :selection="false">
             </tableList>
-            <iCard v-if="
-              isMeeting &&
-              applayDateData.length > 0 
-            " class="margin-top20">
-              <div slot="header" class="headBox">
-                <p class="headTitle">
-                  {{ language('SHENQINGRIQI', '申请日期') }}:{{
-                    moment(new Date()).format('YYYY-MM-DD')
-                  }}
-                </p>
-              </div>
-              <div :class="RsObject ? 'applayDateBox' : 'applayDateBox1'">
-                <div class="applayDateContent" v-for="(item, index) in applayDateData" :key="index">
-                  <img class="margin-left5 applayDateIcon" :src="
-                    item.taskStatus === '同意'
-                      ? require('@/assets/images/icon/yes.png')
-                      : require('@/assets/images/icon/no.png')
-                  " :fit="fit" />
-                  <div class="applayDateContentItem first_one">
-                    <span>部门：</span>
-                    <span class="applayDateDeptTitle">{{
-                      item.deptFullCode
-                    }}</span>
-                  </div>
-                  <div class="applayDateContentItem">
-                    <span>审批人：</span>
-                    <span>{{ item.nameZh }}</span>
-                  </div>
-                  <div class="applayDateContentItem">
-                    <span>日期：</span>
-                    <span>{{ item.endTime }}</span>
-                  </div>
-                </div>
-              </div>
-            </iCard>
           </iCard>
           <div class="page-logo">
             <div>
@@ -920,7 +851,9 @@
             </iCard>
             <iCard v-if="
               isMeeting &&
-              applayDateData.length > 0
+              applayDateData.length > 0 &&
+              !appPage &&
+              index == remarkList.length - 1
             " class="margin-top20">
               <div slot="header" class="headBox">
                 <p class="headTitle">
@@ -1232,7 +1165,8 @@ export default {
       }
       pageApprove(params).then(res => {
         if (res?.code === '200') {
-          this.applayDateDataAll = res.data || []
+          let datass=[{approvalDepartment:'第一个部门'},{approvalDepartment:'第二个部门'},{approvalDepartment:'第三个部门'},{approvalDepartment:'第4个个部门'}]
+          this.applayDateDataAll = datass||res.data || []
         } else {
           iMessage.error(res.desZh)
         }
@@ -1364,7 +1298,7 @@ export default {
       }).then((res) => {
         if (res?.code === '200') {
           let data = res.data
-          this.applayDateData =data
+          this.applayDateData = data
           this.$nextTick(() => {
             this.computedRemark()
           })
@@ -1440,6 +1374,7 @@ export default {
         .then((res) => {
           if (res && res.code == 200) {
             this.partTableListData = res.data
+         
           } else iMessage.error(res.desZh)
         })
         .finally(() => {
@@ -1471,7 +1406,6 @@ export default {
           .clientHeight
       let partTableTitle = this.$refs.ruleTableTitle.offsetHeight // 此处故意使用ruleTableTitle
       let pageWidth = this.$refs.qrCodeDiv?.clientWidth || 0
-      let applayDateData = this.$refs['applayDateData']?.$el.offsetHeight || 200
       this.pageHeight = (pageWidth / 841.89) * 595.28
       let sumHeight = 0
       let arr = []
@@ -1486,7 +1420,7 @@ export default {
             cardTitle -
             partTableTitle -
             partTableHeader -
-            pageNumHeight-applayDateData
+            pageNumHeight
         ) {
           tableList.push(arr)
           sumHeight = item.clientHeight*3
@@ -1503,11 +1437,7 @@ export default {
       let rowList =
         [...this.$refs['moviesTable']?.$el.getElementsByClassName('table-row') || []
       ]
-      console.log(rowList,'rowListrowListrowListrowList')
-      
       let pageWidth = this.$refs.tabsBoxTitle?.$el.clientWidth || 0
-      console.log(pageWidth,'pageWidthpageWidthpageWidthpageWidth')
-
       let cardTitle =
         this.$refs.tabsBoxTitle.$el.getElementsByClassName('cardHeader')[0]
           .clientHeight
@@ -1517,10 +1447,7 @@ export default {
         this.$refs['moviesTable']?.$el.getElementsByClassName(
           'ruleTableHeader'
         )[0].offsetHeight || 0
-        let applayDateData = this.$refs['applayDateData']?.$el.offsetHeight ||310
-        console.log(applayDateData,'ssssssssssssssssssssssss高度ssssssssssssssssssssss')
       let pageNumHeight = this.$refs.pageNum.offsetHeight // 页码高度
-      console.log(pageNumHeight,'pageNumHeightpageNumHeightpageNumHeight')
       let sumHeight = 0
       let arr = []
       let tableList = []
@@ -1537,7 +1464,7 @@ export default {
           ruleTableTitle -
           cardTitle -
           ruleTableHeader -
-          pageNumHeight-applayDateData
+          pageNumHeight
         ) {
           tableList.push(arr)
           sumHeight = item.clientHeight*2
@@ -1830,16 +1757,18 @@ $tabsInforHeight: 35px;
 .applayDateContent {
   display: inline-block;
   background-color: #cdd4e2;
-  height: 190px;
+  height: 178px;
   width: 16%;
   margin: 10px 0.3% 0;
   border-radius: 15px;
   text-align: center;
 }
+
 .formStyle {
   position: relative;
 
 }
+
 .btn{
   display:inline-block;
     text-align:center;
