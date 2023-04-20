@@ -199,7 +199,14 @@ export default {
       // 	return
       // }
       let params = _.cloneDeep(this.info)
-      if ((this.info.deepCommentRatingResults == "" || this.info.deepCommentRatingResults == null) && (this.info.trackFrequencyAgain == "" || this.info.trackFrequencyAgain == null)) {
+      console.log(this.info)
+      console.log(this.info.deepCommentRatingResults == "" || this.info.deepCommentRatingResults == null)
+      console.log(this.info.trackFrequencyAgain == "" || this.info.trackFrequencyAgain == null)
+      if (this.info.deepCommentRatingResults == "" || this.info.deepCommentRatingResults == null) {
+        iMessage.warn('请填写状态与后续跟踪频率')
+        return false
+      }
+      if (this.info.trackFrequencyAgain == "" || this.info.trackFrequencyAgain == null) {
         iMessage.warn('请填写状态与后续跟踪频率')
         return false
       }

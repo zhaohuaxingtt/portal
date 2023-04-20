@@ -6,243 +6,132 @@
  * @Description: 通用表格
 -->
 <template>
-  <el-form
-    :model="{ tableData }"
-    status-icon
-    :rules="rules"
-    ref="commonTableForm"
-    class="commonTable"
-    :class="{ formStyle: ruleLength === 0, 'table-border-visible': border }"
-  >
-    <el-table
-      :highlight-current-row="highlightCurrentRow"
-      :height="height"
-      :max-height="maxHeight"
-      :span-method="handleMerge"
-      tooltip-effect="light"
-      :data="tableData"
-      :empty-text="language('暂无数据')"
-      v-loading="tableLoading"
-      @current-change="handleCurrentChange"
-      @selection-change="handleSelectionChange"
-      @row-click="handleClickRow"
-      :row-class-name="handleTableRow"
-      v-bind="$attrs"
-      :border="border"
-    >
-      <el-table-column
-        v-if="selection"
-        type="selection"
-        width="50"
-        align="center"
-        :fixed="fixed"
-      ></el-table-column>
-      <el-table-column
-        v-if="index"
-        type="index"
-        width="50"
-        align="center"
-        :fixed="fixed"
-        :label="indexLabel"
-      ></el-table-column>
+  <el-form :model="{ tableData }" status-icon :rules="rules" ref="commonTableForm" class="commonTable"
+    :class="{ formStyle: ruleLength === 0, 'table-border-visible': border }">
+    <el-table :highlight-current-row="highlightCurrentRow" :height="height" :max-height="maxHeight"
+      :span-method="handleMerge" tooltip-effect="light" :data="tableData" :empty-text="language('暂无数据')"
+      v-loading="tableLoading" @current-change="handleCurrentChange" @selection-change="handleSelectionChange"
+      @row-click="handleClickRow" :row-class-name="handleTableRow" v-bind="$attrs" :border="border">
+      <el-table-column v-if="selection" type="selection" width="50" align="center" :fixed="fixed"></el-table-column>
+      <el-table-column v-if="index" type="index" width="50" align="center" :fixed="fixed"
+        :label="indexLabel"></el-table-column>
       <template v-for="(items, index) in tableTitle">
         <!-- 点击事件-->
-        <el-table-column
-          :key="index"
-          align="center"
-          :width="items.width"
-          :show-overflow-tooltip="items.tooltip"
-          v-if="items.props === openPageProps"
-          :prop="items.props"
-          :label="items.key ? language(items.key, items.name) : items.name"
-          :fixed="items.fixed"
-        >
+        <el-table-column :key="index" align="center" :width="items.width" :show-overflow-tooltip="items.tooltip"
+          v-if="items.props === openPageProps" :prop="items.props"
+          :label="items.key ? language(items.key, items.name) : items.name" :fixed="items.fixed">
           <template slot-scope="scope">
             <el-form-item>
-              <span
-                class="openLinkText cursor linkEllipsis"
-                @click="
-                  openPage(
-                    openPageGetRowData ? scope.row : scope.row[items.props]
-                  )
-                "
-                >{{
-                  customOpenPageWord
-                    ? customOpenPageWord
-                    : scope.row[openPageProps]
-                }}</span
-              >
+              <span class="openLinkText cursor linkEllipsis" @click="
+                openPage(
+                  openPageGetRowData ? scope.row : scope.row[items.props]
+                )
+              ">{{
+  customOpenPageWord
+  ? customOpenPageWord
+  : scope.row[openPageProps]
+}}</span>
             </el-form-item>
           </template>
         </el-table-column>
         <!--输入框-->
-        <el-table-column
-          :width="items.width"
-          :min-width="items.minWidth"
-          :show-overflow-tooltip="items.tooltip"
-          :key="index"
-          align="center"
-          v-else-if="inputProps.includes(items.props)"
-          :prop="items.props"
-          :label="items.key ? language(items.key, items.name) : items.name"
-        >
+        <el-table-column :width="items.width" :min-width="items.minWidth" :show-overflow-tooltip="items.tooltip"
+          :key="index" align="center" v-else-if="inputProps.includes(items.props)" :prop="items.props"
+          :label="items.key ? language(items.key, items.name) : items.name">
           <template #header>
             {{ items.key ? language(items.key, items.name) : items.name }}
             <span class="required" v-if="items.required">*</span>
-            <el-popover
-              trigger="hover"
-              :content="
-                items.iconTextKey
-                  ? language(items.iconTextKey, items.iconText)
-                  : items.iconText
-              "
-              placement="top-start"
-            >
-              <icon
-                slot="reference"
-                symbol
-                v-if="items.icon"
-                :name="items.icon"
-                class="font-size16 marin-left5"
-              />
+            <el-popover trigger="hover" :content="
+              items.iconTextKey
+                ? language(items.iconTextKey, items.iconText)
+                : items.iconText
+            " placement="top-start">
+              <icon slot="reference" symbol v-if="items.icon" :name="items.icon" class="font-size16 marin-left5" />
             </el-popover>
           </template>
           <template slot-scope="scope">
-            <el-form-item
-              :prop="'tableData.' + scope.$index + '.' + items.props"
-              :rules="items.rule ? items.rule : ''"
-            >
-              <i-input
-                v-model="scope.row[items.props]"
-                v-if="inputType"
-                :type="inputType"
-                :placeholder="language('QINGSHURU', '请输入')"
-                :maxlength="items.maxlength ? items.maxlength : 300"
-              />
-              <i-input
-                v-model="scope.row[items.props]"
-                v-else
-                :placeholder="language('QINGSHURU', '请输入')"
-                :maxlength="items.maxlength ? items.maxlength : 300"
-              />
+            <el-form-item :prop="'tableData.' + scope.$index + '.' + items.props" :rules="items.rule ? items.rule : ''">
+              <i-input v-model="scope.row[items.props]" v-if="inputType" :type="inputType"
+                :placeholder="language('QINGSHURU', '请输入')" :maxlength="items.maxlength ? items.maxlength : 300" />
+              <i-input v-model="scope.row[items.props]" v-else :placeholder="language('QINGSHURU', '请输入')"
+                :maxlength="items.maxlength ? items.maxlength : 300" />
             </el-form-item>
           </template>
         </el-table-column>
         <!--普通下拉框-->
-        <el-table-column
-          :width="items.width"
-          :show-overflow-tooltip="items.tooltip"
-          :key="index"
-          align="center"
-          v-else-if="selectProps.includes(items.props)"
-          :prop="items.props"
-          :label="items.key ? language(items.key, items.name) : items.name"
-        >
+        <el-table-column :width="items.width" :show-overflow-tooltip="items.tooltip" :key="index" align="center"
+          v-else-if="selectProps.includes(items.props)" :prop="items.props"
+          :label="items.key ? language(items.key, items.name) : items.name">
           <template slot-scope="scope">
-            <el-form-item
-              :prop="'tableData.' + scope.$index + '.' + items.props"
-              :rules="items.rule ? items.rule : ''"
-            >
+            <el-form-item :prop="'tableData.' + scope.$index + '.' + items.props" :rules="items.rule ? items.rule : ''">
               <i-select v-model="scope.row[items.props]">
-                <el-option
-                  v-for="items in selectPropsOptionsObject[items.props]"
-                  :key="items.code"
-                  :value="
-                    customSelectValueKey
-                      ? items[customSelectValueKey]
-                      : items.code
-                  "
-                  :label="
-                    items.key ? language(items.key, items.name) : items.name
-                  "
-                />
+                <el-option v-for="items in selectPropsOptionsObject[items.props]" :key="items.code" :value="
+                  customSelectValueKey
+                    ? items[customSelectValueKey]
+                    : items.code
+                " :label="
+  items.key ? language(items.key, items.name) : items.name
+" />
               </i-select>
             </el-form-item>
           </template>
         </el-table-column>
         <!--文件大小-->
-        <el-table-column
-          :width="items.width"
-          :show-overflow-tooltip="items.tooltip"
-          :key="index"
-          align="center"
-          v-else-if="items.props === fileSizeProps"
-          :prop="items.props"
-          :label="items.key ? language(items.key, items.name) : items.name"
-        >
+        <el-table-column :width="items.width" :show-overflow-tooltip="items.tooltip" :key="index" align="center"
+          v-else-if="items.props === fileSizeProps" :prop="items.props"
+          :label="items.key ? language(items.key, items.name) : items.name">
           <template slot-scope="scope">
             <el-form-item>
               {{
                 scope.row[items.props]
-                  ? (scope.row[items.props] / 1024 / 1024).toFixed(2)
-                  : 0
+                ? (scope.row[items.props] / 1024 / 1024).toFixed(2)
+                : 0
               }}
             </el-form-item>
           </template>
         </el-table-column>
         <!--纯展示-->
-        <el-table-column
-          :width="items.width"
-          :min-width="items.minWidth"
-          :show-overflow-tooltip="items.tooltip"
-          :key="index"
-          align="center"
-          v-else
-          :render-header="renderHeader"
-          :label="items.key ? language(items.key, items.name) : items.name"
-          :prop="items.props"
-          :fixed="items.fixed"
-        >
+        <el-table-column :width="items.width" :min-width="items.minWidth" :show-overflow-tooltip="items.tooltip"
+          :key="index" align="center" v-else :render-header="renderHeader"
+          :label="items.key ? language(items.key, items.name) : items.name" :prop="items.props" :fixed="items.fixed">
           <!--自定义嵌入-->
+ 
           <template #header>
             <div v-if="!items.overlap">
-              <span
-                style="margin-right: 10px"
-                v-html="
-                  items.key ? language(items.key, items.name) : items.name
-                "
-              ></span>
+              <span style="margin-right: 10px" v-html="
+                items.key ? language(items.key, items.name) : items.name
+              "></span>
               <span class="required" v-if="items.required">*</span>
-              <el-popover
-                trigger="hover"
-                :content="
-                  items.iconTextKey
-                    ? language(items.iconTextKey)
-                    : items.iconText
-                "
-                placement="top-start"
-              >
-                <icon
-                  slot="reference"
-                  symbol
-                  v-if="items.icon"
-                  :name="items.icon"
-                  class="font-size16 marin-left5"
-                />
+
+              <el-popover trigger="hover" :content="
+                items.iconTextKey
+                  ? language(items.iconTextKey)
+                  : items.iconText
+              " placement="top-start">
+                <el-button v-if="items.typeIcon == 'num'" slot="reference" size="mini" circle type="primary">{{ items.num
+                }}</el-button>
+                <icon v-else slot="reference" symbol v-if="items.icon" :name="items.icon"
+                  class="font-size16 marin-left5" />
               </el-popover>
+              <br v-if="tagNum=='1'" />
+              <span v-if="tagNum=='1'"  style="margin-right: 10px; font-weight: initial">{{
+                items.overlapbottom
+              }}</span>
             </div>
             <div v-else>
-              <span
-                style="margin-right: 10px"
-                v-html="
-                  items.key ? language(items.key, items.name) : items.name
-                "
-              ></span>
+              <span style="margin-right: 10px" v-html="
+                items.key ? language(items.key, items.name) : items.name
+              "></span>
               <br />
               <span style="margin-right: 10px; font-weight: initial">{{
                 items.overlapbottom
               }}</span>
             </div>
+         
           </template>
-          <template
-            v-if="$scopedSlots[items.props] || $slots[items.props]"
-            v-slot="scope"
-          >
-            <el-form-item
-              :class="items.tooltip?'tipsTableClass':''"
-              :prop="'tableData.' + scope.$index + '.' + items.props"
-              :rules="items.rule ? items.rule : ''"
-            >
+          <template v-if="$scopedSlots[items.props] || $slots[items.props]" v-slot="scope">
+            <el-form-item :class="items.tooltip ? 'tipsTableClass' : ''"
+              :prop="'tableData.' + scope.$index + '.' + items.props" :rules="items.rule ? items.rule : ''">
               <slot :name="items.props" :row="scope.row"></slot>
             </el-form-item>
           </template>
@@ -256,6 +145,8 @@ import { iInput, iSelect, icon } from 'rise'
 
 export default {
   props: {
+    tagNum: { type: String,default: '0'},
+    RsObject: { type: Boolean,default: true},
     tableData: { type: Array },
     tableTitle: { type: Array },
     tableLoading: { type: Boolean, default: false },
@@ -294,8 +185,8 @@ export default {
       type: Function
     },
     border: { type: Boolean, default: false },
-    indexLabel:{type: String, default: '#' },
-    rowClassName:{type: String, default: '' },
+    indexLabel: { type: String, default: '#' },
+    rowClassName: { type: String, default: '' },
   },
   components: {
     iInput,
@@ -315,7 +206,7 @@ export default {
       rules: []
     }
   },
-  created() {},
+  created() { },
   methods: {
     handleMerge({ row, column, rowIndex, columnIndex }) {
       // 判断需不需要合并
@@ -386,12 +277,14 @@ export default {
 .el-select {
   margin: 2px 0;
 }
+
 .commonTable {
   ::v-deep .el-table__row {
     .el-form-item {
       margin-top: 0;
       margin-bottom: 0;
     }
+
     .el-input {
       height: 35px !important;
       width: 100% !important;
@@ -431,10 +324,13 @@ export default {
   }
 }
 
+::v-deep.el-button--mini.is-circle {
+  padding: 3px 4px;
+}
 
-.tipsTableClass{
-  ::v-deep .el-form-item__content{
-    span{
+.tipsTableClass {
+  ::v-deep .el-form-item__content {
+    span {
       white-space: nowrap;
       text-overflow: ellipsis;
       display: block;

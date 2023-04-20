@@ -43,17 +43,14 @@
         <div ref="ruleTableTitle">
           <el-divider class="hr_divider" />
 
-          <div class="infor_futitle">
-            <span class="big_font">Regulation:</span>
-            <br />
-            <span class="big_font"
-              >MTZ Payment=(Effective Price-Base Price)*Raw Material
-              Weight*Settle accounts Quantity*Ratio</span
-            >
-            <span class="big_small"
-              >When:effective price > base price *(1+threshold)</span
-            >
-          </div>
+          <div class="centerBox">
+            <p>补差金额=零件结算数量 
+                *[原材料市场价 -原材料基价*(1+阈值*阈值系数 )]*原材料用量
+                 *补差%
+              </p>
+              <p class="enStyle"><span>MTZ Payment= Settle Accounts Quantity*[Effective Price-Base Price(1+Threshold*Coefficient)]*Raw Material Weight* Compensation%</span><span>When: effective price > base price *(1+threshold)</span></p>
+              </p>
+            </div>
           <p
             class="tableTitle"
             v-if="ruleTableListData.length > 0"
@@ -268,16 +265,13 @@
             </div>
             <el-divider class="hr_divider" />
 
-            <div class="infor_futitle">
-              <span class="big_font">Regulation:</span>
-              <br />
-              <span class="big_font"
-                >MTZ Payment=(Effective Price-Base Price)*Raw Material
-                Weight*Settle accounts Quantity*Ratio</span
-              >
-              <span class="big_small"
-                >When:effective price > base price *(1+threshold)</span
-              >
+            <div class="centerBox">
+              <p>补差金额=零件结算数量 
+                *[原材料市场价 -原材料基价*(1+阈值*阈值系数 )]*原材料用量
+                 *补差%
+              </p>
+              <p class="enStyle"><span>MTZ Payment= Settle Accounts Quantity*[Effective Price-Base Price(1+Threshold*Coefficient)]*Raw Material Weight* Compensation%</span><span>When: effective price > base price *(1+threshold)</span></p>
+              </p>
             </div>
             <p
               class="tableTitle"
@@ -295,24 +289,60 @@
               :selection="false"
               border
             >
-              <template slot-scope="scope" slot="supplierId">
-                <span>{{ scope.row.supplierId }}</span
-                ><br />
-                <span>{{ scope.row.supplierName }}</span>
-              </template>
-              <template slot-scope="scope" slot="compensationPeriod">
+            <template slot-scope="scope" slot="compensationPeriod">
                 <span>{{
                   scope.row.compensationPeriod == 'A'
-                    ? '年度'
-                    : scope.row.compensationPeriod == 'H'
+                  ? '年度'
+                  : scope.row.compensationPeriod == 'H'
                     ? '半年度'
                     : scope.row.compensationPeriod == 'Q'
-                    ? '季度'
-                    : scope.row.compensationPeriod == 'M'
-                    ? '月度'
-                    : ''
+                      ? '季度'
+                      : scope.row.compensationPeriod == 'M'
+                        ? '月度'
+                        : ''
                 }}</span>
               </template>
+              <template slot-scope="scope" slot="materialCode">
+                <span>{{ scope.row.materialCode }}</span><br />
+                <span>{{ scope.row.materialName }}</span>
+              </template>
+              <template slot-scope="scope" slot="sapCode">
+                <span>{{ scope.row.sapCode }}</span><br />
+                <span>{{ scope.row.supplierName }}</span>
+              </template>
+              <template slot-scope="scope" slot="formalFlag">
+                <span>{{ scope.row.formalFlag == 'Y' ? '否' : '是' }}</span>
+              </template>
+              <template slot-scope="scope" slot="method">
+                <span>{{ scope.row.method == '1' ? '一次性补差' : scope.row.method == '2' ? '变价单补差' : '' }}</span>
+              </template>
+              <template slot-scope="scope" slot="partBalanceCountType">
+                <span>{{
+                  scope.row.partBalanceCountType == 'SYSTEM' ? '系统预读' : scope.row.partBalanceCountType == 'HANDWORK' ? '手工上传' : ''
+                }}</span>
+              </template>
+              <template slot-scope="scope" slot="avgPeriod">
+                <span>{{ scope.row.avgPeriod||scope.row.avgPeriod=='0' ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+              </template>
+              <template slot-scope="scope" slot="offsetMonth">
+                <span>{{ scope.row.offsetMonth||scope.row.offsetMonth=='0'  ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
+              </template>
+              <template slot-scope="scope" slot="compensationRatio">
+              <span >{{ scope.row.compensationRatio?scope.row.compensationRatio*100+'%':'' }}</span>
+            </template>
+            <template slot-scope="scope" slot="thresholdCompensationLogic">
+              <span>{{
+                scope.row.thresholdCompensationLogic == 'A'
+                ? '全额补差'
+                : scope.row.thresholdCompensationLogic == 'B'
+                  ? '超额补差'
+                  : ''
+              }}</span>
+            </template>
+            </tableList>
+            <tableList class="margin-top20" :tableData="tableData" :tableTitle="ruleTableTitle1_2"
+              :tableLoading="loadingRule" v-if="!RsObject && tableData.length > 0&& tableData.some((val)=>{if(val.materialCode.slice(1,6)=='01006') {return true}})" :index="true" :selection="false"
+              border>
             </tableList>
           </iCard>
           <div class="page-logo">
@@ -357,16 +387,13 @@
             </div>
             <el-divider class="hr_divider" />
 
-            <div class="infor_futitle">
-              <span class="big_font">Regulation:</span>
-              <br />
-              <span class="big_font"
-                >MTZ Payment=(Effective Price-Base Price)*Raw Material
-                Weight*Settle accounts Quantity*Ratio</span
-              >
-              <span class="big_small"
-                >When:effective price > base price *(1+threshold)</span
-              >
+            <div class="centerBox">
+              <p>补差金额=零件结算数量 
+                *[原材料市场价 -原材料基价*(1+阈值*阈值系数 )]*原材料用量
+                 *补差%
+              </p>
+              <p class="enStyle"><span>MTZ Payment= Settle Accounts Quantity*[Effective Price-Base Price(1+Threshold*Coefficient)]*Raw Material Weight* Compensation%</span><span>When: effective price > base price *(1+threshold)</span></p>
+              </p>
             </div>
             <p
               class="tableTitle"
@@ -383,24 +410,73 @@
               :index="true"
               :selection="false"
             >
-              <template slot-scope="scope" slot="supplierId">
-                <span>{{ scope.row.supplierId }}</span
-                ><br />
-                <span>{{ scope.row.supplierName }}</span>
-              </template>
-              <template slot-scope="scope" slot="compensationPeriod">
+            <template slot-scope="scope" slot="compensationPeriod">
                 <span>{{
                   scope.row.compensationPeriod == 'A'
-                    ? '年度'
-                    : scope.row.compensationPeriod == 'H'
+                  ? '年度'
+                  : scope.row.compensationPeriod == 'H'
                     ? '半年度'
                     : scope.row.compensationPeriod == 'Q'
-                    ? '季度'
-                    : scope.row.compensationPeriod == 'M'
-                    ? '月度'
-                    : ''
+                      ? '季度'
+                      : scope.row.compensationPeriod == 'M'
+                        ? '月度'
+                        : ''
+                }}</span>
+
+              </template>
+              <template slot-scope="scope" slot="sapCode">
+                <span>{{ scope.row.sapCode }}</span><br />
+                <span>{{ scope.row.supplierName }}</span>
+              </template>
+              <template slot-scope="scope" slot="materialDoseSource">
+                <span>{{
+                  scope.row.materialDoseSource ? materialDoseSourceList.find(val => val.code == scope.row.materialDoseSource).name : ''
                 }}</span>
               </template>
+
+              <template slot-scope="scope" slot="method">
+                <span>{{ scope.row.method == '1' ? '一次性补差' : scope.row.method == '2' ? '变价单补差' : '' }}</span>
+              </template>
+              <template slot-scope="scope" slot="avgPeriod">
+                <span>{{ scope.row.avgPeriod||scope.row.avgPeriod=='0' ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+              </template>
+              <template slot-scope="scope" slot="offsetMonth">
+                <span>{{ scope.row.offsetMonth||scope.row.offsetMonth=='0'  ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
+              </template>
+            </tableList>
+            <tableList border class="margin-top20 " :tableData="tableData" :tableTitle="partTableTitle1_2"
+              :tableLoading="loadingPart" v-if="!RsObject && partTableListData.length > 0" :index="true"
+              :selection="false">
+              <template slot-scope="scope" slot="materialDoseSource">
+              <span>{{
+                scope.row.materialDoseSource ? materialDoseSourceList.find(val => val.code == scope.row.materialDoseSource).name : ''
+              }}</span>
+            </template>
+            <template slot-scope="scope" slot="method">
+              <span>{{ scope.row.method == '1' ? '一次性补差' : scope.row.method == '2' ? '变价单补差' : '' }}</span>
+            </template>
+            <template slot-scope="scope" slot="avgPeriod">
+              <span>{{ scope.row.avgPeriod||scope.row.avgPeriod=='0'  ? avgPeriodList.find(val => val.code == scope.row.avgPeriod).name : '' }}</span>
+            </template>
+            <template slot-scope="scope" slot="offsetMonth">
+              <span>{{ scope.row.offsetMonth||scope.row.offsetMonth=='0'  ? offsetList.find(val => val.code == scope.row.offsetMonth).name : '' }}</span>
+            </template>
+            <template slot-scope="scope" slot="compensationRatio">
+              <span >{{ scope.row.compensationRatio?scope.row.compensationRatio*100+'%':'' }}</span>
+            </template>
+            <template slot-scope="scope" slot="thresholdCompensationLogic">
+              <span>{{
+                scope.row.thresholdCompensationLogic == 'A'
+                ? '全额补差'
+                : scope.row.thresholdCompensationLogic == 'B'
+                  ? '超额补差'
+                  : ''
+              }}</span>
+            </template>
+            </tableList>
+            <tableList border class="margin-top20 " :tableData="tableData" :tableTitle="partTableTitle1_3"
+              :tableLoading="loadingPart" v-if="!RsObject && partTableListData.length > 0 && tableData.some((val)=>{if(val.materialCode.slice(1,6)=='01006') {return true}})" :index="true"
+              :selection="false">
             </tableList>
           </iCard>
           <div class="page-logo">
@@ -538,11 +614,15 @@
 </template>
 
 <script>
+import { formList, avgPeriodList, offsetList, materialDoseSourceList } from './data'
+
 import { iCard, iInput, iMessage } from 'rise'
-import tableList from '@/components/commonTable/index.vue'
-import { ruleTableTitle1_1, partTableTitle1_1 } from './data'
+import tableList from '@/components/commonTableFixed/index.vue'
+import { partTableTitle1_3,ruleTableTitle1_1, ruleTableTitle1_all, partTableTitle1_1, partTableTitle1_all, ruleTableTitle1_2, partTableTitle1_2 } from './data'
 import { pageMixins } from '@/utils/pageMixins'
 import JsPDF from 'jspdf'
+import { tipList } from '../../applyInfor/data'
+
 import html2canvas from 'html2canvas'
 export default {
   mixins: [pageMixins],
@@ -560,6 +640,16 @@ export default {
   inject: ['pageTitle'],
   data() {
     return {
+      avgPeriodList,
+      offsetList,
+      materialDoseSourceList,
+      tipList,
+      formList,
+      partTableTitle1_3,
+      partTableTitle1_2,
+      ruleTableTitle1_2,
+      partTableTitle1_all,
+      ruleTableTitle1_all,
       ruleTableTitle1_1,
       partTableTitle1_1,
       moment: window.moment,
@@ -723,7 +813,6 @@ export default {
           this.appPage = true
         }
       }
-      console.log(remarkList);
       // this.remarkList = remarkList
       this.remarkList = remarkList.length? remarkList : [[]]
       this.$nextTick(()=>{
@@ -750,7 +839,7 @@ export default {
       let tableList = []
       this.pdfItemHeight = this.pageHeight - pageNumHeight
       rowList.forEach((item, i) => {
-        sumHeight += item.clientHeight
+        sumHeight += item.clientHeight*2
         // ruleTableHeader 表头高度
         if (
           sumHeight >
@@ -761,7 +850,7 @@ export default {
             pageNumHeight
         ) {
           tableList.push(arr)
-          sumHeight = item.clientHeight
+          sumHeight = item.clientHeight*2
           arr = [this.ruleTableListData[i]]
         } else {
           arr.push(this.ruleTableListData[i])
@@ -778,6 +867,8 @@ export default {
       let rowList =
         this.$refs['partTable']?.$el.getElementsByClassName('part-table-row') ||
         []
+        console.log(rowList)
+
       let partTableHeader =
         this.$refs['partTable']?.$el.getElementsByClassName(
           'partTableHeader'
@@ -794,7 +885,7 @@ export default {
       let pageNumHeight = this.$refs.pageNum.offsetHeight // 页码高度
       this.pdfItemHeight = this.pageHeight - pageNumHeight
       rowList.forEach((item, i) => {
-        sumHeight += item.clientHeight
+        sumHeight += item.clientHeight*3
         if (
           sumHeight >
           this.pageHeight -
@@ -804,7 +895,7 @@ export default {
             pageNumHeight
         ) {
           tableList.push(arr)
-          sumHeight = item.clientHeight
+          sumHeight = item.clientHeight*3
           arr = [this.partTableListData[i]]
         } else {
           arr.push(this.partTableListData[i])
@@ -812,6 +903,8 @@ export default {
       })
       if (arr.length) tableList.push(arr)
       this.partTableList = tableList
+      console.log(this.partTableList )
+
       this.$nextTick(()=>{
         this.partLoading = true
       })
@@ -896,6 +989,40 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.titleHeader{
+  display: flex;
+  flex-wrap: wrap;
+ 
+}
+.itext{
+  background:transparent!important;
+}
+
+::v-deep.el-form .el-table .cell  {
+  // font-size: 18px!important;
+ 
+ 
+}
+::v-deep.el-table td div {
+  line-height: normal !important;
+  // font-size: 18px!important;
+}
+::v-deep.el-form .el-table .cell span{
+  line-height: normal !important;
+  // font-size: 18px!important;
+
+}
+.font18{
+  font-size: 18px;
+}
+.font20_b{
+  font-size: 20px;
+  font-weight: bold;
+}
+.font18_b{
+  font-size: 18px;
+  font-weight: bold;
+}
 #tabsBoxTitle,
 .computed {
   ::v-deep .cardBody {
@@ -964,6 +1091,17 @@ $tabsInforHeight: 35px;
 }
 .first_one {
   margin-top: 30px !important;
+}
+.centerBox {
+  margin: 20px 0;
+
+  p {
+    font-size: 18px;
+  }
+  .enStyle{
+    display:flex;
+    justify-content:space-between;
+  }
 }
 .applayDateContent {
   display: inline-block;

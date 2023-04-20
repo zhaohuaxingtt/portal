@@ -45,6 +45,9 @@ export default {
 .open-link-text {
   color: $color-blue;
   text-decoration: underline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   &:hover {
     text-decoration: underline;
   }
@@ -54,7 +57,9 @@ export default {
   margin-right: 5px;
 }
 .attachs {
+  width: calc(100% - 50px);
   li {
+    width: 100%;
     display: flex;
     align-items: center;
 

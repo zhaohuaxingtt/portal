@@ -59,12 +59,21 @@ export function sendSupplier(params) {
     data: params
   })
 }
+
 // 获取审批状态
 export function approvalStatus(params) {
   return request({
     url: '/mtzBalance/getApprovalStatus',
     method: 'POST',
     data: params
+  })
+}
+export function transferBalance(parmars) {
+  //转派
+  return request({
+    url: '/mtzBalance/transferBalance',
+    method: 'POST',
+    data: parmars
   })
 }
 

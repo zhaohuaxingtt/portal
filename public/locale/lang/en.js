@@ -7,6 +7,8 @@
 })(this, function (i18n) {
   'use strict'
   var oldLanguage = {
+    CHUANGJIANBANBEN: 'Create Version',
+    FENGXAINXINHAOTIAOZHENGFEN:'Adjustment points',
     ZHIBIAOKU:'指标库',
     ZHIBIAOGUANLI:'ZHIBIAOGUANLI',
     FENGXAINXINHAOTIAOZHENGFEN:'Adjustment points',

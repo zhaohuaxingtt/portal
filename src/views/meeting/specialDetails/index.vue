@@ -1398,16 +1398,21 @@ export default {
     },
     lookThemen(themen) {
       if (themen.type == 'MANUAL') {
-        this.topicInfo = themen
-        this.openAddTopic = true
-        this.openDialog('openTopicLookDialog')
+       // this.topicInfo = themen
+        // this.openAddTopic = true
+        // this.openDialog('openTopicLookDialog')
+        
+        window.open(
+            `/portal/#/meeting/previewCSC?route=force&desinateId=${themen.fixedPointApplyId}&isPreview=1&type=${themen.type}&id=${this.$route.query.id}&rowId=${themen.id}`,
+            '_blank'
+          )
       } else if (!themen.isBreak) {
         this.editOrAdd = 'look'
         this.lookThemenObj = themen
         if (themen.source === '04') {
           if (themen.type === 'FS+MTZ') {
             window.open(
-              `/portal/#/meeting/previewCSC?route=force&desinateId=${themen.fixedPointApplyId}&isPreview=1&type=${themen.type}&id=${this.$route.query.id}`,
+              `/portal/#/meeting/previewCSC?route=force&desinateId=${themen.fixedPointApplyId}&isPreview=1&type=${themen.type}&id=${this.$route.query.id}&rowId=${themen.id}`,
               '_blank'
             )
             // window.open(
@@ -1419,11 +1424,11 @@ export default {
               `${this.processUrlPortal}/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/decisionMaterial?meeting=1&currentStep=3&mtzAppId=${themen.fixedPointApplyId}`,
               '_blank'
             )
-          }else if (themen.type === 'CSF') {
-          window.open(
-            `${this.processUrlGpPortal}/myCscDetails/${themen.fixedPointApplyId}?current=3`,
-            '_blank'
-          )
+          // }else if (themen.type === 'CSF') {
+          // window.open(
+          //   `${this.processUrlGpPortal}/myCscDetails/${themen.fixedPointApplyId}?current=3`,
+          //   '_blank'
+          // )
         } else if (themen.type === 'CHIP') {
           window.open(
             `${this.processUrlPortal}/mtz/annualGeneralBudget/locationChange/ChipLocationPoint/overflow/decisionMaterial?meeting=1&appId=${themen.fixedPointApplyId}`,
@@ -1431,7 +1436,7 @@ export default {
           )
         } else {
             window.open(
-              `/portal/#/meeting/previewCSC?route=force&desinateId=${themen.fixedPointApplyId}&isPreview=1&type=${themen.type}&id=${this.$route.query.id}`,
+              `/portal/#/meeting/previewCSC?route=force&desinateId=${themen.fixedPointApplyId}&isPreview=1&type=${themen.type}&id=${this.$route.query.id}&rowId=${themen.id}`,
               '_blank'
             )
             // window.open(
@@ -1862,7 +1867,7 @@ export default {
     close(str) {
       if (str !== 'still') {
         const warnData = this.resThemeData.filter((item) => {
-          return !item.isFixedFrozenRs
+          return !item.isFixedFrozenRs // 调整RS单冻结状态取值字段
         })
         if (warnData.length > 0) {
           this.handleAlert(warnData)
@@ -2273,9 +2278,6 @@ export default {
     },
     displayShow() {
       let routeUrl = this.$router.resolve({
-        // path:
-        //   this.meetingInfo.meetingTypeName == 'Pre CSC' ||
-        //   this.meetingInfo.meetingTypeName == 'CSC'
         path:
           this.meetingInfo.isPreCSC || this.meetingInfo.isCSC
             ? '/meeting/meetingShow' //新页面

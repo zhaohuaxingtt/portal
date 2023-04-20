@@ -8,11 +8,13 @@
           </el-form-item>
         </el-form>
         <div>
-          <iButton v-if="!isEdit" @click="edit">编辑</iButton>
+          <!-- <iButton v-if="!isEdit && $route.query.type == 'edit'" @click="edit"
+            >编辑</iButton
+          > -->
           <iButton v-if="isEdit" @click="canel">取消</iButton>
           <iButton v-if="isEdit" @click="save">保存</iButton>
-          <iButton v-if="!isEdit" @click="submit">下一步</iButton>
           <!-- <iButton v-if="!isEdit" @click="back">上一步</iButton> -->
+          <iButton v-if="!isEdit" @click="submit">下一步</iButton>
         </div>
       </div>
       <div class="scoll-y">
@@ -20,208 +22,349 @@
           <div class="tab1">
             <!-- <div class="head">总体</div> -->
             <div class="cell">
-              <div :class="
-                formDataLevel2.childVo.childVo.length > 0
-                  ? 'total first-cloum-after'
-                  : 'total'
-              ">
+              <div
+                :style="
+                  formDataLevel2.childVo.isShow ? ' ' : ' visibility: hidden'
+                "
+                :class="
+                  formDataLevel2.childVo.childVo.length > 0 &&
+                  formDataLevel2.childVo.isShow
+                    ? 'total first-cloum-after '
+                    : 'total '
+                "
+              >
                 <div class="titleCard">
-                  <span>总分</span>
+                  <span v-if="!isEdit">{{ formDataLevel2.childVo.title }}</span>
+                  <iInput
+                    v-else
+                    class="kpi-input2 kpi-input3"
+                    v-model="formDataLevel2.childVo.title"
+                  ></iInput>
                 </div>
                 <div class="line">
                   <label>权重</label>
-                  <span v-if="!isEdit">{{ formDataLevel2.childVo.weight }}</span>
-                  <iInput v-else class="kpi-input2" v-model="formDataLevel2.childVo.weight"></iInput>
+                  <span v-if="!isEdit">{{
+                    formDataLevel2.childVo.weight
+                  }}</span>
+                  <iInput
+                    v-else
+                    class="kpi-input2"
+                    v-model="formDataLevel2.childVo.weight"
+                  ></iInput>
                 </div>
                 <div>
                   <label>等于</label>
-                  <span v-if="formDataLevel2.childVo.childVo.length >= 1">{{ '指标加权汇总' }}</span>
-                  <iSelect v-else :disabled="!isEdit" class="kpi-input2" clearable
-                    :placeholder="$t('partsprocure.PLEENTER')" v-model="formDataLevel2.childVo.indicatorLibraryId">
-                    <el-option v-for="(j, index) in infoList" :key="index" :value="j.id" :label="j.nameZh">
+                  <span v-if="formDataLevel2.childVo.childVo.length >= 1">{{
+                    '指标加权汇总'
+                  }}</span>
+                  <span v-else-if="!isEdit">{{
+                   formDataLevel2.childVo.name
+                  }}</span>
+                  <iSelect
+                    v-else
+                    :disabled="!isEdit"
+                    class="kpi-input2"
+                    clearable
+                    :placeholder="$t('partsprocure.PLEENTER')"
+                    v-model="formDataLevel2.childVo.indicatorLibraryId"
+                  >
+                    <el-option
+                      v-for="(j, index) in infoList"
+                      :key="index"
+                      :value="j.id"
+                      :label="j.nameZh"
+                    >
                     </el-option>
                   </iSelect>
                 </div>
-                <!-- <div class="line bottomcard">
-                  <div style="border-right: 1px solid #909091">
-                    <iButton
-                      v-if="!modeAll"
-                      @click="deleteTemplate"
-                      icon="el-icon-delete"
-                      >删除</iButton
-                    >
-                    <iButton v-else @click="canelAll" icon="el-icon-delete"
-                      >取消</iButton
-                    >
-                  </div>
-                  <div>
-                    <iButton
-                      v-if="!modeAll"
-                      @click="modeAll = true"
-                      icon="el-icon-edit-outline"
-                      >编辑</iButton
-                    >
-                    <iButton
-                      v-else
-                      @click="modeAll = false"
-                      icon="el-icon-edit-outline"
-                      >提交</iButton
-                    >
-                  </div>
-                </div> -->
-                <i v-if="isEdit" class="el-icon-circle-plus-outline iconbtn" @click="addCell"></i>
+
+                <i
+                  v-if="isEdit"
+                  class="el-icon-circle-plus-outline iconbtn"
+                  @click="addCell"
+                ></i>
               </div>
             </div>
           </div>
-          <!-- <div class="tab2">
-            <div class="head">
-              <p class="border-class">指标1</p>
-            </div>
-          </div>
-          <div class="tab3">
-            <div class="head">
-              <p class="border-class">指标2</p>
-            </div>
-          </div>
-          <div class="tab4">
-            <div class="head">
-              <p class="border-class">指标3</p>
-            </div>
-          </div>
-          <div class="tab5">
-            <div class="head">
-              <p class="border-class">指标4</p>
-            </div>
-          </div> -->
         </div>
         <div class="list2">
-          <div class="list" v-for="(item, index) in formDataLevel2.childVo.childVo" :key="index" :class="
-            index < formDataLevel2.childVo.childVo.length - 1
-              ? 'second-cloum-before'
-              : ''
-          ">
+          <div
+            class="list"
+            v-for="(item, index) in formDataLevel2.childVo.childVo"
+            :key="index"
+            :class="
+              index < formDataLevel2.childVo.childVo.length - 1&&formDataLevel2.childVo.isShow
+                ? 'second-cloum-before'
+                : ''
+            "
+          >
             <div class="cell">
-              <div :class="
-                item.childVo.length > 0
-                  ? 'content kpi-module second-before second-after'
-                  : 'content kpi-module second-before'
-              ">
+              <div
+                v-show="item.isShow"
+                :class="
+                  item.childVo.length > 0
+                    ? 'content kpi-module second-before second-after'
+                    : 'content kpi-module second-before'
+                "
+              >
                 <div class="titleCard">
                   <!-- <label>标题</label> -->
                   <span v-if="!isEdit">{{ item.title }}</span>
-                  <iInput v-else class="kpi-input2 kpi-input3" v-model="item.title"></iInput>
+                  <iInput
+                    v-else
+                    class="kpi-input2 kpi-input3"
+                    v-model="item.title"
+                  ></iInput>
                 </div>
                 <div class="line">
                   <label>权重</label>
                   <span v-if="!isEdit">{{ item.weight }}</span>
-                  <iInput v-else class="kpi-input2" v-model="item.weight"></iInput>
+                  <iInput
+                    v-else
+                    class="kpi-input2"
+                    v-model="item.weight"
+                  ></iInput>
                 </div>
                 <div>
                   <label>等于</label>
-                  <span v-if="item.childVo.length >= 1">{{ '指标加权汇总' }}</span>
-                  <iSelect v-else :disabled="!isEdit" class="kpi-input2" clearable
-                    :placeholder="$t('partsprocure.PLEENTER')" v-model="item.indicatorLibraryId">
-                    <el-option v-for="(j, index) in infoList" :key="index" :value="j.id" :label="j.nameZh">
+                  <span v-if="item.childVo.length >= 1">{{
+                    '指标加权汇总'
+                  }}</span>
+                  <span v-else-if="!isEdit">{{
+                    item.name
+                  }}</span>
+                  <iSelect
+                    v-else
+                    :disabled="!isEdit"
+                    class="kpi-input2"
+                    clearable
+                    value-key="id"
+                    :placeholder="$t('partsprocure.PLEENTER')"
+                    v-model="item.indicatorLibraryId"
+                  >
+                    <el-option
+                      v-for="(j, index) in infoList"
+                      :key="j.id"
+                      :value="j.id"
+                      :label="j.nameZh"
+                    >
                     </el-option>
                   </iSelect>
                 </div>
 
-                <i v-if="isEdit" class="add el-icon-circle-plus-outline" @click="handleAdd(index, '', '2')"></i>
-                <i v-if="isEdit" class="less el-icon-remove-outline" @click="handleLess(index, '', '', '2')"></i>
+                <i
+                  v-if="isEdit"
+                  class="add el-icon-circle-plus-outline"
+                  @click="handleAdd(index, '', '2')"
+                ></i>
+                <i
+                  v-if="isEdit"
+                  class="less el-icon-remove-outline"
+                  @click="handleLess(index, '', '', '2')"
+                ></i>
               </div>
             </div>
             <div class="part2">
-              <div class="itemList" v-for="(lev3, index3) in item.childVo" :key="index3">
-                <div class="cell third-cell" :class="
-                  index3 < item.childVo.length - 1 ? 'cloum-before' : ''
-                ">
-                  <div :class="
-                    lev3.childVo.length > 0
-                      ? 'content kpi-module third-border-before third-border-after'
-                      : 'content kpi-module third-border-before'
-                  ">
+              <div
+                class="itemList"
+                v-for="(lev3, index3) in item.childVo"
+                :key="index3"
+              >
+                <div
+                v-show="lev3.isShow"
+                  class="cell third-cell"
+                  :class="
+                    index3 < item.childVo.length - 1&&lev3.isShow ? 'cloum-before' : ''
+                  "
+                >
+                  <div
+                    :class="
+                      lev3.childVo.length > 0
+                        ? 'content kpi-module third-border-before third-border-after'
+                        : 'content kpi-module third-border-before'
+                    "
+                  >
                     <div class="titleCard">
                       <!-- <span v-if="!modeAll">总分</span> -->
                       <span v-if="!isEdit">{{ lev3.title }}</span>
-                      <iInput v-else class="kpi-input2 kpi-input3" v-model="lev3.title"></iInput>
+                      <iInput
+                        v-else
+                        class="kpi-input2 kpi-input3"
+                        v-model="lev3.title"
+                      ></iInput>
                     </div>
                     <div class="line">
                       <label>权重</label>
                       <span v-if="!isEdit">{{ lev3.weight }}</span>
-                      <iInput v-else class="kpi-input2" v-model="lev3.weight"></iInput>
+                      <iInput
+                        v-else
+                        class="kpi-input2"
+                        v-model="lev3.weight"
+                      ></iInput>
                     </div>
                     <div>
                       <label>等于</label>
-                      <span v-if="lev3.childVo.length >= 1">{{ '指标加权汇总' }}</span>
-
-                      <iSelect v-else :disabled="!isEdit" class="kpi-input2" clearable
-                        :placeholder="$t('partsprocure.PLEENTER')" v-model="lev3.indicatorLibraryId">
-                        <el-option v-for="(j, index) in infoList" :key="index" :value="j.id" :label="j.nameZh">
+                      <span v-if="lev3.childVo.length >= 1">{{
+                        '指标加权汇总'
+                      }}</span>
+                      <span v-else-if="!isEdit">{{
+                        lev3.name
+                      }}</span>
+                      <iSelect
+                        v-else
+                        :disabled="!isEdit"
+                        class="kpi-input2"
+                        clearable
+                        :placeholder="$t('partsprocure.PLEENTER')"
+                        v-model="lev3.indicatorLibraryId"
+                      >
+                        <el-option
+                          v-for="(j, index) in infoList"
+                          :key="index"
+                          :value="j.id"
+                          :label="j.nameZh"
+                        >
                         </el-option>
                       </iSelect>
                     </div>
 
-                    <i v-if="isEdit" class="add el-icon-circle-plus-outline" @click="handleAdd(index, index3, '3')"></i>
-                    <i v-if="isEdit" class="less el-icon-remove-outline"
-                      @click="handleLess(index, index3, '', '3')"></i>
+                    <i
+                      v-if="isEdit"
+                      class="add el-icon-circle-plus-outline"
+                      @click="handleAdd(index, index3, '3')"
+                    ></i>
+                    <i
+                      v-if="isEdit"
+                      class="less el-icon-remove-outline"
+                      @click="handleLess(index, index3, '', '3')"
+                    ></i>
                   </div>
                 </div>
-                <div class="cell cell2 third-cell cente-cell" :class="
-                  index3 < lev3.childVo.length - 1 ? 'cloum-before1' : ''
-                " :key="index3 + 'lev3'">
-                  <div v-for="(lev4, index4) in lev3.childVo" :key="index4 + 'lev4'" class="box2">
-                    <div :class="index4 < lev4.childVo.length ? 'lev4 ' : ' '">
+                <div
+                  class="cell cell2 third-cell cente-cell"
+                  :class="
+                    index3 < lev3.childVo.length - 1 ? 'cloum-before1' : ''
+                  "
+                  :key="index3 + 'lev3'"
+                >
+                  <div
+                  v-show="lev4.isShow"
+                    v-for="(lev4, index4) in lev3.childVo"
+                    :key="index4 + 'lev4'"
+                    class="box2"
+                  >
+                    <div   :class="index4 < lev4.childVo.length&&lev4.isShow ? 'lev4 ' : ' '">
                       <div class="content kpi-module kpi-module1 last-border">
                         <div class="titleCard">
                           <span v-if="!isEdit">{{ lev4.title }}</span>
-                          <iInput v-else class="kpi-input2 kpi-input3" v-model="lev4.title"></iInput>
+                          <iInput
+                            v-else
+                            class="kpi-input2 kpi-input3"
+                            v-model="lev4.title"
+                          ></iInput>
                         </div>
                         <div class="line">
                           <label>权重</label>
                           <span v-if="!isEdit">{{ lev4.weight }}</span>
-                          <iInput v-else class="kpi-input2" v-model="lev4.weight"></iInput>
+                          <iInput
+                            v-else
+                            class="kpi-input2"
+                            v-model="lev4.weight"
+                          ></iInput>
                         </div>
                         <div>
                           <label>等于</label>
-                          <span v-if="lev4.childVo.length >= 1">{{ '指标加权汇总' }}</span>
-
-                          <iSelect v-else :disabled="!isEdit" class="kpi-input2" clearable
-                            :placeholder="$t('partsprocure.PLEENTER')" v-model="lev4.indicatorLibraryId">
-                            <el-option v-for="(j, index) in infoList" :key="index" :value="j.id" :label="j.nameZh">
+                          <span v-if="lev4.childVo.length >= 1">{{
+                            '指标加权汇总'
+                          }}</span>
+                      <span v-else-if="!isEdit">{{
+                        lev4.name
+                      }}</span>
+                          <iSelect
+                            v-else
+                            :disabled="!isEdit"
+                            class="kpi-input2"
+                            clearable
+                            :placeholder="$t('partsprocure.PLEENTER')"
+                            v-model="lev4.indicatorLibraryId"
+                          >
+                            <el-option
+                              v-for="(j, index) in infoList"
+                              :key="index"
+                              :value="j.id"
+                              :label="j.nameZh"
+                            >
                             </el-option>
                           </iSelect>
                         </div>
 
-                        <i v-if="isEdit" class="add el-icon-circle-plus-outline"
-                          @click="handleAdd(index, index3, '4', index4)"></i>
-                        <i v-if="isEdit" class="less el-icon-remove-outline"
-                          @click="handleLess(index, index3, '', '4', index4)"></i>
+                        <i
+                          v-if="isEdit"
+                          class="add el-icon-circle-plus-outline"
+                          @click="handleAdd(index, index3, '4', index4)"
+                        ></i>
+                        <i
+                          v-if="isEdit"
+                          class="less el-icon-remove-outline"
+                          @click="handleLess(index, index3, index4, '4')"
+                        ></i>
                       </div>
                     </div>
                     <div :key="index4 + 'lev4'" class="lev5brfore">
-                      <div class="content kpi-module kpi-module2 last-border" v-for="(lev5, index5) in lev4.childVo"
-                        :key="index5 + 'lev5'">
+                      <div
+                        class="content kpi-module kpi-module2 last-border"
+                        v-for="(lev5, index5) in lev4.childVo"
+                        :key="index5 + 'lev5'"
+                        v-show="lev5.isShow"
+                      >
                         <div class="titleCard">
                           <!-- <span v-if="!modeAll">总分</span> -->
                           <span v-if="!isEdit">{{ lev5.title }}</span>
-                          <iInput v-else class="kpi-input2 kpi-input3" v-model="lev5.title"></iInput>
+                          <iInput
+                            v-else
+                            class="kpi-input2 kpi-input3"
+                            v-model="lev5.title"
+                          ></iInput>
                         </div>
                         <div class="line">
                           <label>权重</label>
                           <span v-if="!isEdit">{{ lev5.weight }}</span>
-                          <iInput v-else class="kpi-input2" v-model="lev5.weight"></iInput>
+                          <iInput
+                            v-else
+                            class="kpi-input2"
+                            v-model="lev5.weight"
+                          ></iInput>
                         </div>
                         <div>
                           <label>等于</label>
-                          <iSelect :disabled="!isEdit" class="kpi-input2" clearable
-                            :placeholder="$t('partsprocure.PLEENTER')" v-model="lev5.indicatorLibraryId">
-                            <el-option v-for="(j, index) in infoList" :key="index" :value="j.id" :label="j.nameZh">
+                          <span v-if="!isEdit">{{
+                            lev3.name
+                          }}</span>
+                          <iSelect
+                          v-else
+                            :disabled="!isEdit"
+                            class="kpi-input2"
+                            clearable
+                            :placeholder="$t('partsprocure.PLEENTER')"
+                            v-model="lev5.indicatorLibraryId"
+                          >
+                            <el-option
+                              v-for="(j, index) in infoList"
+                              :key="index"
+                              :value="j.id"
+                              :label="j.nameZh"
+                            >
                             </el-option>
                           </iSelect>
                         </div>
 
-                        <i v-if="isEdit" class="less el-icon-remove-outline"
-                          @click="handleLess(index, index4, index, '5', index5)"></i>
+                        <i
+                          v-if="isEdit"
+                          class="less el-icon-remove-outline"
+                          @click="
+                            handleLess(index, index3, index4, '5', index5)
+                          "
+                        ></i>
                       </div>
                     </div>
                   </div>
@@ -238,11 +381,13 @@
 <script>
 import { iCard, iInput, iButton, iSelect } from 'rise'
 import {
+  getAllModelTree,
   getModelTree,
   addModelTree,
   uploadPerformanceModelFile,
   getSupplierPerforManceModelPage,
-  getIndicatorList
+  getIndicatorList,
+  getIndicatorAllList
 } from '@/api/supplierManagement/supplierIndexManage/index'
 import {
   saveTemplateDetail,
@@ -253,7 +398,10 @@ export default {
   props: {
     isShow: { type: Boolean, default: true },
     treeData: {
-      type: Array
+      type: Object
+    },
+    modelId: {
+      type: String
     },
     temId: {
       type: String
@@ -262,7 +410,8 @@ export default {
       type: String
     },
     isEdit: {
-      type: Boolean, default: false
+      type: Boolean,
+      default: false
     },
     infoData: {
       type: Object
@@ -276,15 +425,25 @@ export default {
   },
   data() {
     return {
+      infoAllList:[],
       formDataLevel2: {},
       form: {},
       modeAll: false,
-      infoList: []
+      infoList: [],
+      isAll: true,
+      modelId: ''
     }
   },
   mounted() {
     this.getInfo()
     this.formDataLevel2 = this.treeData
+    console.log(this.formDataLevel2)
+    setTimeout(() => {
+      console.log(this.treeData.modelId)
+      getAllModelTree(this.treeData.modelId).then((res) => {
+        this.isAll = res.data
+      })
+    }, 3000)
   },
   watch: {
     treeData: {
@@ -296,11 +455,14 @@ export default {
     }
   },
   methods: {
-    getInfo() {
+    async getInfo() {
       getIndicatorList().then((res) => {
         this.infoList = res.data
-        console.log(this.infoList)
       })
+      getIndicatorAllList().then((res) => {
+        this.infoAllList = res.data
+      })
+      
     },
     edit() {
       this.isEdit = true
@@ -327,19 +489,21 @@ export default {
           showClose: true
         })
       tableChild.push({
+        isShow:true,
         indicatorLibraryId: '',
         title: '',
         weight: '',
         childVo: []
       })
       if (tableChild.length >= 1) {
-        this.formDataLevel2.childVo.indicatorLibraryId = ''
+        // this.formDataLevel2.childVo.indicatorLibraryId = ''
       }
     },
     handleAdd(index, idx3, str, idx4) {
       const tableChild = this.formDataLevel2.childVo.childVo
 
       if (str === '2') {
+        console.log(tableChild)
         if (tableChild[index].childVo.length == 5)
           return this.$message({
             type: 'error',
@@ -348,19 +512,17 @@ export default {
             showClose: true
           })
         tableChild[index].childVo.push({
+          isShow:true,
           indicatorLibraryId: '',
           title: '',
           weight: '',
           childVo: []
         })
         if (tableChild[index].childVo.length >= 1) {
-          tableChild[index].indicatorLibraryId = ''
+          // tableChild[index].indicatorLibraryId = ''
         }
       } else if (str === '3') {
-        if (
-          tableChild[index].childVo[idx3].childVo
-            .length == 5
-        )
+        if (tableChild[index].childVo[idx3].childVo.length == 5)
           return this.$message({
             type: 'error',
             message: '每层最多5个分支',
@@ -368,57 +530,55 @@ export default {
             showClose: true
           })
         tableChild[index].childVo[idx3].childVo.push({
+          isShow:true,
+
           indicatorLibraryId: '',
           title: '',
           weight: '',
           childVo: []
         })
         if (tableChild[index].childVo[idx3].childVo.length >= 1) {
-          tableChild[index].childVo[idx3].indicatorLibraryId = ''
+          // tableChild[index].childVo[idx3].indicatorLibraryId = ''
         }
       } else if (str === '4') {
-        if (
-          tableChild[index].childVo[idx3].childVo[idx4]
-            .childVo.length == 5
-        )
+        if (tableChild[index].childVo[idx3].childVo[idx4].childVo.length == 5)
           return this.$message({
             type: 'error',
             message: '每层最多5个分支',
             duration: 10000, // error 错误提示显示10秒
             showClose: true
           })
-        tableChild[index].childVo[idx3].childVo[
-          idx4
-        ].childVo.push({
+        tableChild[index].childVo[idx3].childVo[idx4].childVo.push({
+          isShow:true,
+
           indicatorLibraryId: '',
           title: '',
           weight: '',
           childVo: []
         })
-        if (tableChild[index].childVo[idx3].childVo[
-          idx4
-        ].childVo.length >= 1) {
-          tableChild[index].childVo[idx3].childVo[
-            idx4
-          ].indicatorLibraryId = ''
+        if (tableChild[index].childVo[idx3].childVo[idx4].childVo.length >= 1) {
+          // tableChild[index].childVo[idx3].childVo[idx4].indicatorLibraryId = ''
         }
       }
     },
     handleLess(index, index3, index4, str, index5) {
       const tableChild = this.formDataLevel2.childVo.childVo
+      console.log(index)
+      console.log(index3)
+      console.log(index4)
+      console.log(index5)
 
       if (str === '2') {
         tableChild.splice(index, 1)
       } else if (str === '3') {
         tableChild[index].childVo.splice(index3, 1)
       } else if (str === '4') {
-        tableChild[index].childVo[
-          index3
-        ].childVo.splice(index4, 1)
+        tableChild[index].childVo[index3].childVo.splice(index4, 1)
       } else {
-        tableChild[index].childVo[index4].childVo[
-          index4
-        ].childVo.splice(index5, 1)
+        tableChild[index].childVo[index3].childVo[index4].childVo.splice(
+          index5,
+          1
+        )
       }
     },
     save() {
@@ -427,51 +587,74 @@ export default {
       let lv2Weight = 0
       let lv3Weight = 0
       let lv4Weight = 0
+      let lev4p = true
       let nameIsNull = true
-      tableChild.forEach((x) => {
-        if (!x.title || !x.weight) nameIsNull = false
-        lv1Weight += Number(x.weight)
-        if (x.childVo.length > 0) {
-          x.childVo.forEach((y) => {
-            if (!y.title || !y.weight) nameIsNull = false
-            lv2Weight += Number(y.weight)
-            if (y.childVo.length > 0) {
-              y.childVo.forEach((z) => {
-                if (!z.title || !z.weight) nameIsNull = false
-                lv3Weight += Number(z.weight)
-                if(z.childVo.length > 0){
-                  z.childVo.forEach((k) => {
-                    if (!z.title || !z.weight) nameIsNull = false
-                    lv4Weight += Number(k.weight)
-                    console.log(lv4Weight)
-                  })
-                }else{
+      this.formDataLevel2.childVo.indicatorType=this.formDataLevel2.childVo.indicatorLibraryId?this.infoAllList.find(val=>this.formDataLevel2.childVo.indicatorLibraryId==val.id).indicatorType:''
+
+      if (tableChild.length > 0) {
+        tableChild.forEach((x) => {
+          if (!x.title || !x.weight) nameIsNull = false
+          lv1Weight += Number(x.weight)
+          x.indicatorType=x.indicatorLibraryId?this.infoAllList.find(val=>x.indicatorLibraryId==val.id).indicatorType:''
+          if (x.childVo.length > 0) {
+            x.childVo.forEach((y) => {
+              if (!y.title || !y.weight) nameIsNull = false
+              lv2Weight += Number(y.weight)
+              y.indicatorType=y.indicatorLibraryId?this.infoAllList.find(val=>y.indicatorLibraryId==val.id).indicatorType:''
+
+              if (y.childVo.length > 0) {
+                y.childVo.forEach((z) => {
+                  if (!z.title || !z.weight) nameIsNull = false
+                  lv3Weight += Number(z.weight)
+                  z.indicatorType=z.indicatorLibraryId?this.infoAllList.find(val=>z.indicatorLibraryId==val.id).indicatorType:''
+
+                  if (z.childVo.length > 0) {
+                    z.childVo.forEach((k) => {
+                      if (!z.title || !z.weight) nameIsNull = false
+                      lv4Weight += Number(k.weight)
+                      k.indicatorType=k.indicatorLibraryId?this.infoAllList.find(val=>k.indicatorLibraryId==val.id).indicatorType:''
+
+                      lev4p = true
+                      console.log(lv4Weight)
+                    })
+                  } else {
                     lv4Weight += Math.floor(100 * 100) / 100
-                }
-              })
-            } else {
-              lv3Weight += Math.floor(100 * 100) / 100
-            }
-          })
-        } else {
-          lv2Weight += Math.floor(100 * 100) / 100
-          lv3Weight += Math.floor(100 * 100) / 100
-        }
-      })
+                  }
+                })
+              } else {
+                lv4Weight += Math.floor(100 * 100) / 100
+                lv3Weight += Math.floor(100 * 100) / 100
+              }
+            })
+          } else {
+            lv2Weight += Math.floor(100 * 100) / 100
+            lv3Weight += Math.floor(100 * 100) / 100
+            lv4Weight += Math.floor(100 * 100) / 100
+            lev4p = false
+            console.log(+1)
+          }
+        })
+      } else {
+        lv2Weight += Math.floor(100 * 100) / 100
+        lv3Weight += Math.floor(100 * 100) / 100
+        lv4Weight += Math.floor(100 * 100) / 100
+        lv1Weight += Math.floor(100 * 100) / 100
+      }
+
       if (lv1Weight !== 100) {
         return this.$message({
           type: 'error',
-          message: '指标1的比重错误',
+          message: '第二列的权重错误',
           duration: 10000, // error 错误提示显示10秒
           showClose: true
         })
       }
-      console.log()
+      console.log(lv4Weight)
       if (lv2Weight !== 100) {
         if (lv2Weight / tableChild.length !== 100) {
           return this.$message({
             type: 'error',
-            message: '指标2的比重错误',
+            message: '第三列的权重错误',
             duration: 10000, // error 错误提示显示10秒
             showClose: true
           })
@@ -489,29 +672,29 @@ export default {
         if (lv3Weight / num !== 100) {
           return this.$message({
             type: 'error',
-            message: '指标3的比重错误',
+            message: '第四列的权重错误',
             duration: 10000, // error 错误提示显示10秒
             showClose: true
           })
         }
       }
-      if (lv4Weight !== 100) {
+      if (lv4Weight !== 100 && lev4p) {
         let num = 0
         tableChild.forEach((x) => {
-          x.childVo.forEach(l=>{
-            if (x.childVo.length < 1) {
-            num += 1
-          } else {
-            num += x.childVo.length
-          }
+          x.childVo.forEach((l) => {
+            if (l.childVo.length < 1) {
+              num += 1
+            } else {
+              console.log(l.childVo)
+              num += l.childVo.length
+            }
           })
-         
         })
         console.log(num, lv4Weight, tableChild)
         if (lv4Weight / num !== 100) {
           return this.$message({
             type: 'error',
-            message: '指标4的比重错误',
+            message: '第五列的权重错误',
             duration: 10000, // error 错误提示显示10秒
             showClose: true
           })
@@ -521,27 +704,27 @@ export default {
       if (!nameIsNull) {
         return this.$message({
           type: 'error',
-          message: '名称和比重不能为空',
+          message: '名称和权重不能为空',
           duration: 10000, // error 错误提示显示10秒
           showClose: true
         })
       }
       let isNullWeight = true
-      tableChild.filter(x=>{
-          if(!x.weight){
-              isNullWeight = false
+      tableChild.filter((x) => {
+        if (!x.weight) {
+          isNullWeight = false
+        }
+        return x.childVo.filter((y) => {
+          if (!y.weight) {
+            isNullWeight = false
           }
-          return x.childVo.filter(y=>{
-              if(!y.weight){
-                  isNullWeight = false
-              }
-              return y.childVo.filter(z=>{
-                  if(!z.weight){
-                      isNullWeight = false
-                  }
-                  return
-              })
+          return y.childVo.filter((z) => {
+            if (!z.weight) {
+              isNullWeight = false
+            }
+            return
           })
+        })
       })
 
       // 保存执行
@@ -556,10 +739,8 @@ export default {
             if (this.isShow) {
               this.$emit('init')
             } else {
-
               this.$emit('init', 'updata')
             }
-
           } else {
             this.$message.error(res.desZh)
           }
@@ -617,6 +798,9 @@ export default {
   color: #e30d0d;
 }
 
+.isHidden {
+  visibility: hidden;
+}
 .blue {
   color: #1763f7;
 }
@@ -655,7 +839,7 @@ export default {
       padding-bottom: 50px;
 
       .total {
-        >div {
+        > div {
           height: 30px;
           font-size: 16px;
           margin: 0 20px;
@@ -686,7 +870,7 @@ export default {
         .bottomcard {
           height: 40px;
 
-          >div {
+          > div {
             height: 34px;
             width: 50%;
           }
@@ -715,8 +899,8 @@ export default {
           position: absolute;
           border-top: 1px solid #2297f3;
           top: 34px;
-          right: -65px;
-          width: 60px;
+          right: -30px;
+          width: 30px;
           height: 1px;
         }
 
@@ -840,7 +1024,7 @@ export default {
       border: 1px solid #1a75d1;
       position: relative;
 
-      >div {
+      > div {
         height: 30px;
         font-size: 16px;
         margin: 0 20px;
@@ -871,7 +1055,7 @@ export default {
       .bottomcard {
         height: 40px;
 
-        >div {
+        > div {
           height: 34px;
           width: 50%;
         }
@@ -901,8 +1085,8 @@ export default {
     position: absolute;
     border-top: 1px solid #2297f3;
     top: 34px;
-    left: -43px;
-    width: 43px;
+    left: -20px;
+    width: 20px;
     height: 1px;
   }
 
@@ -911,8 +1095,8 @@ export default {
     position: absolute;
     border-top: 1px solid #2297f3;
     top: 30px;
-    right: -78px;
-    width: 78px;
+    right: -30px;
+    width: 30px;
     height: 1px;
   }
 }
@@ -927,7 +1111,7 @@ export default {
   left: 50%;
   transform: translateX(-50%);
 
-  >div {
+  > div {
     height: 30px;
     font-size: 16px;
     margin: 0 20px;
@@ -958,7 +1142,7 @@ export default {
   .bottomcard {
     height: 40px;
 
-    >div {
+    > div {
       height: 34px;
       width: 50%;
     }
@@ -1045,7 +1229,7 @@ export default {
         width: 100%;
         display: flex;
 
-        >div {
+        > div {
           width: 50%;
         }
       }
@@ -1064,7 +1248,8 @@ export default {
         transform: translateX(10%);
       }
 
-      .lev4 {}
+      .lev4 {
+      }
     }
 
     .cloum-before::before {
@@ -1120,13 +1305,13 @@ export default {
       height: calc(100% - 160px);
     }
 
-    .lev4::after {
+    .lev4::before {
       content: '';
       position: absolute;
       border-top: 1px solid #2297f3;
       top: 31px;
-      left: 304px;
-      width: 78px;
+      left: 312px;
+      width: 28px;
       height: 1px;
     }
 
@@ -1144,8 +1329,8 @@ export default {
       position: absolute;
       border-top: 1px solid #2297f3;
       top: 29px;
-      left: -54px;
-      width: 54px;
+      left: -26px;
+      width: 26px;
       height: 1px;
     }
 
@@ -1154,8 +1339,8 @@ export default {
       position: absolute;
       border-top: 1px solid #2297f3;
       top: 30px;
-      left: -54px;
-      width: 54px;
+      left: -24px;
+      width: 24px;
       height: 1px;
     }
 
@@ -1164,8 +1349,8 @@ export default {
       position: absolute;
       border-top: 1px solid #2297f3;
       top: 29px;
-      right: -78px;
-      width: 78px;
+      right: -36px;
+      width: 36px;
       height: 1px;
     }
   }

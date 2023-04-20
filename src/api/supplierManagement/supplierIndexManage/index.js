@@ -4,10 +4,48 @@ import axiosDownload from '@/utils/axios.download'
 
 const requst = axios(process.env.VUE_APP_SUPPLIER + '/web')
 const requestDownload = axiosDownload(process.env.VUE_APP_SUPPLIER+ '/web')
-
+// 获取历史评分
+export function getHistoryPbi(parmars) {
+  return requst({
+    url: '/supplierPerformanceKpi/getHistoryPbi',
+    method: 'POST',
+    data: parmars
+  })
+}
+// 获取供应商kpi概念
+export function getPerformanceKpiOverViewPbi(parmars) {
+  return requst({
+    url: '/supplierPerformanceKpi/getPerformanceKpiOverViewPbi',
+    method: 'POST',
+    data: parmars
+  })
+}
+// 获取供应商kpi任务
+export function getPerformanceKpiPbi(parmars) {
+  return requst({
+    url: '/supplierPerformanceKpi/getPerformanceKpiPbi',
+    method: 'POST',
+    data: parmars
+  })
+}
+// 获取历史部门综合评分
+export function getHistoryDeptSynthesisPbi(parmars) {
+  return requst({
+    url: '/supplierPerformanceKpi/getHistoryDeptSynthesisPbi',
+    method: 'POST',
+    data: parmars
+  })
+}
 export function getIndicator(id) {
   return requst({
     url: '/indicatorLibrary/getIndicator/?indicatorId=' + id,
+    method: 'GET',
+  })
+}
+// 获取全部指标集合
+export function getIndicatorAllList() {
+  return requst({
+    url: '/indicatorLibrary/getIndicatorAllList',
     method: 'GET',
   })
 }
@@ -42,10 +80,39 @@ export function updateIndicator(parmars) {
     data: parmars
   })
 }
+// 是否展示所有的节点
+export function getAllModelTree(id) {
+  return requst({
+    url: '/performanceModel/getAllModelTree?modelId=' + id,
+    method: 'GET',
+  })
+}
+// 根据模板id获取指标树所有节点
+export function getAllModelTreeData(id) {
+  return requst({
+    url: '/performanceModel/getAllModelTreeData?modelId=' + id,
+    method: 'GET',
+  })
+}
+// 是否展示所有的节点
+export function getAllSupplierPerforManceScorePage(parmars) {
+  return requst({
+    url: '/supplierPerformanceScore/getAllSupplierPerforManceScorePage',
+    method: 'POST',
+    data: parmars
+  })
+}
 // 根据模板id获取指标树
 export function getModelTree(id) {
   return requst({
     url: '/performanceModel/getModelTree?modelId=' + id,
+    method: 'GET',
+  })
+}
+// 根据模板id获取指标树
+export function getModelTreeTitle(id) {
+  return requst({
+    url: '/performanceModel/getModelTreeTitle?modelId=' + id,
     method: 'GET',
   })
 }
@@ -64,6 +131,14 @@ export function modelList(status) {
     method: 'GET',
   })
 }
+// 延期绩效版本
+export function delayEdition(parmars) {
+  return requst({
+    url: '/supplierPerformanceTask/delayEdition',
+    method: 'POST',
+    data: parmars
+  })
+}
 // 绩效版本列表
 export function getSupplierPerforManceModelPage(parmars) {
   return requst({
@@ -76,6 +151,14 @@ export function getSupplierPerforManceModelPage(parmars) {
 export function uploadPerformanceModelFile(parmars) {
   return requst({
     url: '/supplierPerformanceTask/uploadPerformanceModelFile',
+    method: 'POST',
+    data: parmars
+  })
+}
+// 获取版本供应商
+export function getSupplierPerforManceModelRelationPage(parmars) {
+  return requst({
+    url: '/supplierPerformanceTask/getSupplierPerforManceModelRelationPage',
     method: 'POST',
     data: parmars
   })
@@ -156,6 +239,24 @@ export function updateSupplierPerforManceModel(parmars) {
     method: 'POST',
     data: parmars
 
+  }) 
+}
+//  提交打分任务
+export function submitPerformanceTask(parmars) {
+  return requst({
+    url: '/supplierPerformanceScore/submitPerformanceTask',
+    method: 'POST',
+    data: parmars
+
+  }) 
+}
+//  导出明细excel
+export function exportSupplierPerforManceScoreExcel(parmars) {
+  return requestDownload({
+    url: '/supplierPerformanceScore/exportSupplierPerforManceScoreExcel',
+    method: 'POST',
+    data: parmars
+
   })
 }
 //  导出手工指标excel
@@ -194,6 +295,14 @@ export function saveManualPerformance(parmars) {
 
   })
 }
+//  导chu绩效打分excel
+export function exportSupplierPerforManceAllScoreExcel(parmars) {
+  return requestDownload({
+    url: '/supplierPerformanceScore/exportSupplierPerforManceAllScoreExcel',
+    method: 'POST',
+    data: parmars
+  })
+}
 //  查看进度
 export function getSupplierPerforManceProcess(parmars) {
   return requst({
@@ -206,7 +315,7 @@ export function getSupplierPerforManceProcess(parmars) {
 //  R2科室
 export function getIndicatorR2Dept(parmars) {
   return requst({
-    url: '/indicatorLibrary/getIndicatorR2Dept',
+    url: '/indicatorLibrary/getIndicatorR2AndR1Dept',
     method: 'GET',
   })
 }

@@ -162,7 +162,7 @@ export default {
       }
     }
     .attachments {
-      width: 45%;
+      width: 100%;
       font-weight: inherit;
     }
   }

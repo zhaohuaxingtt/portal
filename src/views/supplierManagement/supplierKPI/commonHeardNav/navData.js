@@ -60,14 +60,14 @@ export const categoryManagementAssistantList = [
     key: 'ZONGLAN',
     permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_ZONGLAN'
   },
-  {
-    value: 2,
-    name: '供应商绩效',
-    url: '/supplier/supplierPowerBi',
-    activePath: '/supplier/supplierPowerBi',
-    key: 'GONGYINGSHANGJIXIAO',
-    permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_GONGYINGSHANGJIXIAO'
-  },
+  // {
+  //   value: 2,
+  //   name: '供应商绩效',
+  //   url: '/supplier/supplierPowerBi',
+  //   activePath: '/supplier/supplierPowerBi',
+  //   key: 'GONGYINGSHANGJIXIAO',
+  //   permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_GONGYINGSHANGJIXIAO'
+  // },
   {
     value: 3,
     name: '年度重点追踪',
@@ -107,6 +107,14 @@ export const categoryManagementAssistantList = [
     activePath: '/supplier/spiIndex/kpi',
     key: 'KPI',
     permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_KPI'
+  },
+  {
+    value: 7,
+    name: '设置',
+    url: '/supplier/spiIndex/system',
+    activePath: '/supplier/spiIndex/system',
+    key: '设置',
+    permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_SYSTEM'
   }
 ]
 
