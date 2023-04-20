@@ -120,6 +120,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+// .lines {
+//   border-bottom: 1px #e1e2ed solid;
+//   padding-bottom: 10px;
+// }
 .navBox {
   position: relative;
   display: flex;

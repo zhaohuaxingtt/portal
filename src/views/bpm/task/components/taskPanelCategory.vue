@@ -187,8 +187,12 @@
         }
       },
       onToggleActiveClick(index) {
-        this.activeIndex = index
-        this.$emit('toggle-active-click', index, this.activeData)
+        if(this.activeData[index]?.cardUrl){
+          window.open(this.activeData[index].cardUrl)
+        }else{
+          this.activeIndex = index
+          this.$emit('toggle-active-click', index, this.activeData)
+        }
       },
       onItemTypeListClick(newValue) {
         this.$emit('item-type-list-Click', newValue, this.activeData)
@@ -256,7 +260,8 @@
           })
         }
         if(findDataByTypeName) {
-          this.activeData = findDataByTypeName.wfCategoryList
+          // !e.cardUrl  // 排除那些有独立审批页面的tab
+          this.activeData = findDataByTypeName.wfCategoryList.filter(item=>!item.cardUrl)
         } else {
           this.activeData = activeData
         }
@@ -281,7 +286,8 @@
             return foundBySubTypeName
           })
           if(findDataByTypeName) {
-            activeData = findDataByTypeName.wfCategoryList
+            // !e.cardUrl  // 排除那些有独立审批页面的tab
+            activeData = findDataByTypeName.wfCategoryList.filter(item=>!item.cardUrl)
           }
         }
         this.activeData = activeData

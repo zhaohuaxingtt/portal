@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-09-24 11:31:29
- * @LastEditTime: 2023-03-29 14:30:59
+ * @LastEditTime: 2023-04-10 16:54:40
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\dataBase\marketPriceEnquiry\components\chartMaterialCode.vue
@@ -269,7 +269,7 @@ export default {
     getyAxis(data) {
       const yAxisArray = []
       const yAxis_T = {
-        name: 'RMB/T',
+        name: 'RMB/KG',
         type: 'value',
         textStyle: {
           color: '#7E84A3'
@@ -277,7 +277,7 @@ export default {
         show: true
       }
       const yAxis_ounce = {
-        name: 'RMB/T',
+        name: 'RMB/KG',
         type: 'value',
         textStyle: {
           color: '#7E84A3'

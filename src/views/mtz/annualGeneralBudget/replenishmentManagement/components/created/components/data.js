@@ -172,7 +172,7 @@ export const tableTitle = [
     align: 'center',
     i18n: '补差来源',
     width: 150,
-    emit: 'go-detail',
+    emit: 'gotoSource',
     customRender: (h, scope) => {
       if (scope.row.sourceCode == "初始化") {
         return <span>{scope.row?.sourceCode}</span>
@@ -364,7 +364,7 @@ export const continueBox = [
     align: 'center',
     key: '补差来源',
     width: 150,
-    emit: 'go-detail',
+    emit: 'gotoSource',
     customRender: (h, scope) => {
       if (scope.row.sourceCode == "初始化") {
         return <span>{scope.row?.sourceCode}</span>

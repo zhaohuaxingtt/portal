@@ -77,6 +77,7 @@
         :loading="tableLoading"
         :data="tableData"
         :columns="tableTitle"
+        @gotoSource="gotoSource"
       />
       <iPagination
         @size-change="handleSizeChange($event, getTableList)"
@@ -240,6 +241,10 @@ export default {
           iMessage.error(res.desZh)
         }
       })
+    },
+    // 跳转补差来源
+    gotoSource(row){
+      window.open(`${window.location.origin}/portal/#/mtz/annualGeneralBudget/locationChange/chipLocationPoint/overflow/decisionMaterial?appId=${row.sourceId}`)
     },
     // 计算,先保存再计算
     computedData() {

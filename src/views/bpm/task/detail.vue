@@ -34,7 +34,7 @@
               </iButton>
               <!-- 补充材料 -->
               <iButton
-                v-if="!finished && (buttons.补充材料 || buttons.有异议)"
+                v-if="!finished && (buttons.补充材料 || buttons.有异议) && !isHideAppendButton"
                 :disabled="canApprove"
                 :loading="loading"
                 @click="
@@ -132,8 +132,8 @@ import {
 } from './components'
 import { excelExport } from '@/utils/filedowLoad'
 import iTableCustom from '@/components/iTableCustom'
-import { MAP_APPROVAL_TYPE, BPM_CATEGORY_RENAME_YIYI_LIST, QUERY_DRAWER_TYPES } from '@/constants'
-import { queryWorkflowDetail } from '@/api/approval/myApplication'
+import { MAP_APPROVAL_TYPE, BPM_CATEGORY_RENAME_YIYI_LIST, QUERY_DRAWER_TYPES, BPM_HIDE_APPEND_BUTTON_LIST } from '@/constants'
+import { queryWorkflowDetail, getApprovalLoiFile } from '@/api/approval/myApplication'
 import {
   completeApproval,
   stageCompleteApproval
@@ -281,7 +281,11 @@ export default {
     // 已审批的数据不再显示审批按钮
     canApprove() {
       return ['同意', '拒绝', '补充材料'].includes(this.form.stateMsg)
-    }
+    },
+    // 隐藏补充材料
+    isHideAppendButton() {
+      return BPM_HIDE_APPEND_BUTTON_LIST.includes(this.form.procDefKey)
+    },
   },
   created() {
     this.pageType = this.$route.params.pageType
@@ -311,11 +315,19 @@ export default {
       if (instanceId) {
         this.loading = true
         queryWorkflowDetail(params)
-          .then((res) => {
+          .then(async (res) => {
             if (res.result) {
               const data = res.data
               this.form = { ...this.taskDetail, ...data }
-
+              if(res.data.module=='loi_nominate'){
+                await getApprovalLoiFile(res.data.businessId).then(res=>{
+                  if(res?.code==200 && res.data){
+                    this.flowFormUrl = res.data
+                  }
+                })
+              }else{
+                this.flowFormUrl = data.formUrl
+              }
               const histories = []
 
               if (data && data.historicVOList) {
@@ -331,8 +343,6 @@ export default {
                 })
               }
               this.form.histories = histories
-
-              this.flowFormUrl = data.formUrl
             } else {
               iMessage.error(res.desZh || '获取数据失败')
             }

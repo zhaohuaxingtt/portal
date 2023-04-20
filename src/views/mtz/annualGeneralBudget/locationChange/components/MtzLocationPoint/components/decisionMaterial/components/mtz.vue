@@ -87,7 +87,7 @@
             }}</span>
           </div> -->
           <tableList :tagNum="'1'" ref="moviesTable" :tableData="ruleTableListData"
-            :tableTitle="ruleTableTitle1_all"
+          :tableTitle="ruleTableListData.some((val)=>{if(val.materialCode.slice(1,6)=='01006') {return true}})?ruleTableTitle1_all:ruleTableTitle1_1"
             @handleClickRow="handleCurrentChangeTable" :tableLoading="loadingRule"
             :header-row-class-name="'ruleTableHeader'" :index="true" :rowClassName="'table-row'" v-if="RsObject"
             :selection="false" border>
@@ -221,7 +221,8 @@
             }}</span>
           </div> -->
           <tableList :tagNum="'1'" class=" over_flow_y_ture" ref="partTable" :tableData="partTableListData"
-            :tableTitle="partTableTitle1_all" :tableLoading="loadingPart"
+          :tableTitle="partTableListData.some((val)=>{if(val.materialCode.slice(1,6)=='01006') {return true}})?partTableTitle1_all:[...partTableTitle1_1,...partTableTitle1_2]"
+ :tableLoading="loadingPart"
             v-if="RsObject" :index="true" :rowClassName="'part-table-row'" :header-row-class-name="'partTableHeader'"
             :selection="false" border>
             <template slot-scope="scope" slot="compensationPeriod">
