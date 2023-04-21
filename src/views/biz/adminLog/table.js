@@ -63,6 +63,7 @@ export const TABLE = [
             title=""
             width="500"
             trigger="hover"
+            popper-class="biz-popper"
             content={row.content}>
             
             <div slot="reference" style="width: 100%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{row.content}</div>

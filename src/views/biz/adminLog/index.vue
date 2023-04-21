@@ -287,3 +287,9 @@ export default {
 	box-shadow: 0 0 0.1875rem rgb(0 38 98 / 15%)
 }
 </style>
+<style>
+.biz-popper{
+	max-height: 600px;
+	overflow: auto;
+}
+</style>
