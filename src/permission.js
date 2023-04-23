@@ -1,19 +1,21 @@
 /*
  * @Author: yuszhou
  * @Date: 2021-02-19 14:29:06
- * @LastEditTime: 2023-02-03 18:12:56
+ * @LastEditTime: 2023-04-23 09:54:48
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 项目中登录时候获取整个项目的权限以及token.
  * @FilePath: \front-portal\src\permission.js
  */
 import router from './router'
 import store from '@/store'
-import { getToken, removeToken } from '@/utils'
+import { getToken, removeToken, treeToArray } from '@/utils'
 import { MessageBox } from 'element-ui'
+import { fetchResource } from "@/api/role";
 // eslint-disable-next-line no-unused-vars
 const whiteList = ['/login', '/ui', '/superLogin']
-
-router.beforeEach((to, from, next) => {
+let allUrl = []
+let hasUrl = []
+router.beforeEach(async(to, from, next) => {
   store.commit('setToPath', to)
 
   const token = getToken()
@@ -69,10 +71,45 @@ router.beforeEach((to, from, next) => {
             next('/login')
           })
       } else {
-        next()
+        if(Array.isArray(allUrl)&&!allUrl.length){
+          let res = await fetchResource({type:3})
+          let menuList = treeToArray(res?.data[0].menuList,'menuList',[])
+          allUrl = menuList.filter(item=>{return item.url&&item.url}).map(item=>{
+            let arr = item.url.split('#')
+            let url = arr[arr.length-1]
+            return url
+          })
+        }
+        if(Array.isArray(hasUrl)&&!hasUrl.length){
+          let menuList = treeToArray(store.state.permission.menuList,'menuList',[])
+          hasUrl = menuList.filter(item=>{return item.url&&item.url}).map(item=>{
+            let arr = item.url.split('#')
+            let url = arr[arr.length-1]
+            return url
+          })
+          hasUrl.push('/404')
+        }
+        // console.log('allUrl=>',allUrl);
+        // console.log('hasUrl=>',hasUrl);
+        // console.log('to.path=>',to.path);
+        let flag = false
+        if(allUrl.includes(to.path)){
+          if(hasUrl.includes(to.path)){
+            flag = true
+          }
+        }else{
+          flag = true
+        }
+        if(!flag){
+          next('/404')
+        }else{
+          next()
+        }
       }
     }
   } else {
+    allUrl = []
+    hasUrl = []
     if (whiteList.indexOf(to.path) !== -1) {
       //当前没token，并且路由满足白名单，则按照当前路由来控制。
       next()
