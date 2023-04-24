@@ -1165,8 +1165,7 @@ export default {
       }
       pageApprove(params).then(res => {
         if (res?.code === '200') {
-          let datass=[{approvalDepartment:'第一个部门'},{approvalDepartment:'第二个部门'},{approvalDepartment:'第三个部门'},{approvalDepartment:'第4个个部门'}]
-          this.applayDateDataAll = datass||res.data || []
+          this.applayDateDataAll =res.data || []
         } else {
           iMessage.error(res.desZh)
         }
