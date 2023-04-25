@@ -232,6 +232,8 @@ export default {
 
 <style lang="scss" scoped>
 .horizontal-panel {
+  width: 100%;
+  overflow: auto;
   position: relative;
   background: #fff;
 
