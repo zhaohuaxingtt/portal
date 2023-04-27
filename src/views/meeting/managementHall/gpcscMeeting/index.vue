@@ -2715,6 +2715,11 @@ export default {
     }
   }
 }
+::v-deep .active-row {
+  .font-bj{
+    color:#fff;
+  }
+}
 
 ::v-deep .el-table--enable-row-hover .el-table__body .active-row:hover > td {
   background: #1660f1;
