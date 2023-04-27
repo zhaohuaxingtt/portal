@@ -133,7 +133,7 @@
             }}</span>
           </template>
         </tableList>
-        <div class="padding-bottom30" ref="padding"></div>
+        <div class="padding-bottom40" ref="padding"></div>
       </iCard>
       <iCard class="margin-top20">
         <div slot="header" class="headBox">
@@ -344,6 +344,32 @@
               :tableLoading="loadingRule" v-if="!RsObject && tableData.length > 0&& tableData.some((val)=>{if(val.materialCode.slice(1,6)=='01006') {return true}})" :index="true" :selection="false"
               border>
             </tableList>
+            <iCard v-if="applayDateData.length > 0" class="margin-top20">
+              <p>
+                {{ language('SHENQINGRIQI', '申请日期') }}:{{
+                  moment(new Date()).format('YYYY-MM-DD')
+                }}
+              </p>
+              <div class="applayDateBox1">
+                <div
+                  class="applayDateContent"
+                  v-for="(item, index) in applayDateData"
+                  :key="index"
+                >
+                  <div class="applayDateContentItem first_one">
+                    <span class="name">部门：</span>
+                    <span class="applayDateDeptTitle">{{ item.approvalDepartment }}</span>
+                  </div>
+                  <div class="applayDateContentItem">
+                    <span class="name">审批人：</span>
+                  </div>
+                  <div class="applayDateContentItem">
+                    <span class="name">日期：</span>
+                    <span class="line"></span>
+                  </div>
+                </div>
+              </div>
+      </iCard>
           </iCard>
           <div class="page-logo">
             <div>
@@ -478,6 +504,37 @@
               :tableLoading="loadingPart" v-if="!RsObject && partTableListData.length > 0 && tableData.some((val)=>{if(val.materialCode.slice(1,6)=='01006') {return true}})" :index="true"
               :selection="false">
             </tableList>
+            <iCard
+            ref="applayDateData"
+            v-if="applayDateData.length > 0"
+          >
+            <div slot="header" class="headBox">
+              <p class="headTitle">
+                {{ language('SHENQINGRIQI', '申请日期') }}:{{
+                  moment(new Date()).format('YYYY-MM-DD')
+                }}
+              </p>
+            </div>
+            <div class="applayDateBox1">
+              <div
+                class="applayDateContent"
+                v-for="(item, index) in applayDateData"
+                :key="index"
+              >
+                <div class="applayDateContentItem first_one">
+                  <span class="name">部门：</span>
+                  <span class="applayDateDeptTitle">{{ item.approvalDepartment }}</span>
+                </div>
+                <div class="applayDateContentItem">
+                  <span class="name">审批人：</span>
+                </div>
+                <div class="applayDateContentItem">
+                  <span class="name">日期：</span>
+                  <span class="line"></span>
+                </div>
+              </div>
+            </div>
+          </iCard>
           </iCard>
           <div class="page-logo">
             <div>
@@ -847,7 +904,7 @@ export default {
             ruleTableTitle -
             cardTitle -
             ruleTableHeader -
-            pageNumHeight
+            pageNumHeight-240
         ) {
           tableList.push(arr)
           sumHeight = item.clientHeight*2
@@ -892,7 +949,7 @@ export default {
             cardTitle -
             partTableTitle -
             partTableHeader -
-            pageNumHeight
+            pageNumHeight-240
         ) {
           tableList.push(arr)
           sumHeight = item.clientHeight*3
@@ -1272,8 +1329,8 @@ $tabsInforHeight: 35px;
   align-items: center;
   border-top: 1px solid #666;
 }
-.padding-bottom30 {
-  padding-bottom: 30px;
+.padding-bottom40 {
+  padding-bottom: 40px;
 }
 .remarkCard {
   ::v-deep .card {

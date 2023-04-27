@@ -1165,7 +1165,7 @@ export default {
       }
       pageApprove(params).then(res => {
         if (res?.code === '200') {
-          this.applayDateDataAll = res.data || []
+          this.applayDateDataAll =res.data || []
         } else {
           iMessage.error(res.desZh)
         }
