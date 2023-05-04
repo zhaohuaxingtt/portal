@@ -24,7 +24,7 @@
         tooltip-effect="light"
         :data="tableListData"
         :tableLoading="tableLoading"
-        @selectionChange="handleChoose"
+        @selection-change="handleChoose"
       >
         <el-table-column
           type="selection"
