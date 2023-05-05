@@ -1,7 +1,7 @@
 /*
  * @Author: yuszhou
  * @Date: 2021-02-19 14:29:06
- * @LastEditTime: 2023-04-23 09:54:48
+ * @LastEditTime: 2023-05-05 18:35:41
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 项目中登录时候获取整个项目的权限以及token.
  * @FilePath: \front-portal\src\permission.js
@@ -15,7 +15,8 @@ import { fetchResource } from "@/api/role";
 const whiteList = ['/login', '/ui', '/superLogin']
 let allUrl = []
 let hasUrl = []
-router.beforeEach(async(to, from, next) => {
+let urlObj = {}
+router.beforeEach(async (to, from, next) => {
   store.commit('setToPath', to)
 
   const token = getToken()
@@ -71,40 +72,7 @@ router.beforeEach(async(to, from, next) => {
             next('/login')
           })
       } else {
-        if(Array.isArray(allUrl)&&!allUrl.length){
-          let res = await fetchResource({type:3})
-          let menuList = treeToArray(res?.data[0].menuList,'menuList',[])
-          allUrl = menuList.filter(item=>{return item.url&&item.url}).map(item=>{
-            let arr = item.url.split('#')
-            let url = arr[arr.length-1]
-            return url
-          })
-        }
-        if(Array.isArray(hasUrl)&&!hasUrl.length){
-          let menuList = treeToArray(store.state.permission.menuList,'menuList',[])
-          hasUrl = menuList.filter(item=>{return item.url&&item.url}).map(item=>{
-            let arr = item.url.split('#')
-            let url = arr[arr.length-1]
-            return url
-          })
-          hasUrl.push('/404')
-        }
-        // console.log('allUrl=>',allUrl);
-        // console.log('hasUrl=>',hasUrl);
-        // console.log('to.path=>',to.path);
-        let flag = false
-        if(allUrl.includes(to.path)){
-          if(hasUrl.includes(to.path)){
-            flag = true
-          }
-        }else{
-          flag = true
-        }
-        if(!flag){
-          next('/404')
-        }else{
-          next()
-        }
+        next()
       }
     }
   } else {
@@ -114,7 +82,60 @@ router.beforeEach(async(to, from, next) => {
       //当前没token，并且路由满足白名单，则按照当前路由来控制。
       next()
     } else {
-      next('/login'+`?state=${encodeURIComponent(window.location.href)}`)
+      next('/login' + `?state=${encodeURIComponent(window.location.href)}`)
     }
+  }
+})
+
+function getUrlObj(urlTree, menuKey, obj = {}) {
+  for (let index = 0; index < urlTree[menuKey].length; index++) {
+    const element = urlTree[menuKey][index];
+    if (element.url) obj[element.url] = element
+    if (element[menuKey]) {
+      getUrlObj(element, menuKey, obj)
+    }
+  }
+  return obj
+}
+router.beforeResolve(async (to, from, next) => {
+  if (Array.isArray(allUrl) && !allUrl.length) {
+    let res = await fetchResource({ type: 3 })
+    let menuList = treeToArray(res?.data[0].menuList, 'menuList', [])
+    allUrl = menuList.filter(item => { return item.url && item.url }).map(item => {
+      return item.url
+    })
+  }
+  if (Array.isArray(hasUrl) && !hasUrl.length) {
+    let menuList = treeToArray(store.state.permission.menuList, 'menuList', [])
+    if (!Object.keys(urlObj).length)
+      urlObj = getUrlObj(store.state.permission, 'menuList')
+    hasUrl = menuList.filter(item => { return item.url && item.url }).map(item => {
+      return item.url
+    })
+    hasUrl.push('/404')
+  }
+  let flag = false
+  if (allUrl.includes('/portal/#' + to.path)) {
+    if (hasUrl.includes('/portal/#' + to.path)) {
+      flag = true
+    }
+  } else {
+    flag = true
+  }
+  if (!flag) {
+    if (to.redirectedFrom) {
+      let item = urlObj['/portal/#' + to.redirectedFrom].menuList[0]
+      if (item?.url) {
+        let arr = item.url.split('#')
+        let url = arr[arr.length - 1]
+        next(url)
+      } else {
+        next('/404')
+      }
+    } else {
+      next('/404')
+    }
+  } else {
+    next()
   }
 })
