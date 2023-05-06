@@ -66,7 +66,7 @@
             multiple
             clearable
             :placeholder="language('QINGSHURU', '请输入')"
-            display-member="message"
+            display-member="codeMessage"
             value-member="code"
             value-key="code"
           >
