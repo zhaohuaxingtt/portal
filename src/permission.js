@@ -1,7 +1,7 @@
 /*
  * @Author: yuszhou
  * @Date: 2021-02-19 14:29:06
- * @LastEditTime: 2023-05-06 14:13:12
+ * @LastEditTime: 2023-05-06 14:57:11
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 项目中登录时候获取整个项目的权限以及token.
  * @FilePath: \front-portal\src\permission.js
@@ -96,17 +96,15 @@ router.beforeEach(async (to, from, next) => {
         }
         console.log('hasUrl=>',hasUrl)
         let flag = false
-        if (allUrl.includes('/portal/#' + to.path)) {
-          if (hasUrl.includes('/portal/#' + to.path)) {
+        console.log('allUrl.includes(to.path)=>',allUrl.includes('/portal/#' + to.path));
+        // 有些权限配置加了工程名，有些没加
+        if (allUrl.includes('/portal/#' + to.path) || allUrl.includes(to.path)) {
+          if (hasUrl.includes('/portal/#' + to.path) || hasUrl.includes(to.path)) {
             flag = true
           }
         } else {
           flag = true
         }
-        console.log('urlObj=>',urlObj)
-        console.log('to.path=>',to.path)
-        console.log('flag=>',flag)
-        console.log('beforeResolve:end');
         if (!flag) {
           if (to.redirectedFrom) {
             let item = urlObj['/portal/#' + to.redirectedFrom].menuList[0]
