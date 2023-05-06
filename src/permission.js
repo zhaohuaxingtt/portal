@@ -1,7 +1,7 @@
 /*
  * @Author: yuszhou
  * @Date: 2021-02-19 14:29:06
- * @LastEditTime: 2023-05-05 18:35:41
+ * @LastEditTime: 2023-05-06 14:13:12
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 项目中登录时候获取整个项目的权限以及token.
  * @FilePath: \front-portal\src\permission.js
@@ -72,12 +72,63 @@ router.beforeEach(async (to, from, next) => {
             next('/login')
           })
       } else {
-        next()
+        
+        console.log('beforeResolve:enter');
+        console.log('store.state.permission.menuList:enter',JSON.stringify(store.state.permission.menuList));
+        
+        if (Array.isArray(allUrl) && !allUrl.length) {
+          let res = await fetchResource({ type: 3 })
+          let menuList = treeToArray(res?.data[0].menuList, 'menuList', [])
+          allUrl = menuList.filter(item => { return item.url && item.url }).map(item => {
+            return item.url
+          })
+        }
+        console.log('allUrl=>',allUrl)
+        if (Array.isArray(hasUrl) && !hasUrl.length) {
+          let menuList = treeToArray(store.state.permission.menuList, 'menuList', [])
+          if (!Object.keys(urlObj).length){
+            urlObj = getUrlObj(store.state.permission, 'menuList')
+          }
+          hasUrl = menuList.filter(item => { return item.url && item.url }).map(item => {
+            return item.url
+          })
+          hasUrl.push('/404')
+        }
+        console.log('hasUrl=>',hasUrl)
+        let flag = false
+        if (allUrl.includes('/portal/#' + to.path)) {
+          if (hasUrl.includes('/portal/#' + to.path)) {
+            flag = true
+          }
+        } else {
+          flag = true
+        }
+        console.log('urlObj=>',urlObj)
+        console.log('to.path=>',to.path)
+        console.log('flag=>',flag)
+        console.log('beforeResolve:end');
+        if (!flag) {
+          if (to.redirectedFrom) {
+            let item = urlObj['/portal/#' + to.redirectedFrom].menuList[0]
+            if (item?.url) {
+              let arr = item.url.split('#')
+              let url = arr[arr.length - 1]
+              next(url)
+            } else {
+              next('/404')
+            }
+          } else {
+            next('/404')
+          }
+        } else {
+          next()
+        }
       }
     }
   } else {
     allUrl = []
     hasUrl = []
+    urlObj = {}
     if (whiteList.indexOf(to.path) !== -1) {
       //当前没token，并且路由满足白名单，则按照当前路由来控制。
       next()
@@ -97,45 +148,54 @@ function getUrlObj(urlTree, menuKey, obj = {}) {
   }
   return obj
 }
-router.beforeResolve(async (to, from, next) => {
-  if (Array.isArray(allUrl) && !allUrl.length) {
-    let res = await fetchResource({ type: 3 })
-    let menuList = treeToArray(res?.data[0].menuList, 'menuList', [])
-    allUrl = menuList.filter(item => { return item.url && item.url }).map(item => {
-      return item.url
-    })
-  }
-  if (Array.isArray(hasUrl) && !hasUrl.length) {
-    let menuList = treeToArray(store.state.permission.menuList, 'menuList', [])
-    if (!Object.keys(urlObj).length)
-      urlObj = getUrlObj(store.state.permission, 'menuList')
-    hasUrl = menuList.filter(item => { return item.url && item.url }).map(item => {
-      return item.url
-    })
-    hasUrl.push('/404')
-  }
-  let flag = false
-  if (allUrl.includes('/portal/#' + to.path)) {
-    if (hasUrl.includes('/portal/#' + to.path)) {
-      flag = true
-    }
-  } else {
-    flag = true
-  }
-  if (!flag) {
-    if (to.redirectedFrom) {
-      let item = urlObj['/portal/#' + to.redirectedFrom].menuList[0]
-      if (item?.url) {
-        let arr = item.url.split('#')
-        let url = arr[arr.length - 1]
-        next(url)
-      } else {
-        next('/404')
-      }
-    } else {
-      next('/404')
-    }
-  } else {
-    next()
-  }
-})
+// router.beforeResolve(async (to, from, next) => {
+//   console.log('beforeResolve:enter');
+//   console.log('store.state.permission.menuList:enter',JSON.stringify(store.state.permission.menuList));
+  
+//   if (Array.isArray(allUrl) && !allUrl.length) {
+//     let res = await fetchResource({ type: 3 })
+//     let menuList = treeToArray(res?.data[0].menuList, 'menuList', [])
+//     allUrl = menuList.filter(item => { return item.url && item.url }).map(item => {
+//       return item.url
+//     })
+//   }
+//   console.log('allUrl=>',allUrl)
+//   if (Array.isArray(hasUrl) && !hasUrl.length) {
+//     let menuList = treeToArray(store.state.permission.menuList, 'menuList', [])
+//     if (!Object.keys(urlObj).length){
+//       urlObj = getUrlObj(store.state.permission, 'menuList')
+//     }
+//     hasUrl = menuList.filter(item => { return item.url && item.url }).map(item => {
+//       return item.url
+//     })
+//     hasUrl.push('/404')
+//   }
+//   console.log('hasUrl=>',hasUrl)
+//   let flag = false
+//   if (allUrl.includes('/portal/#' + to.path)) {
+//     if (hasUrl.includes('/portal/#' + to.path)) {
+//       flag = true
+//     }
+//   } else {
+//     flag = true
+//   }
+//   console.log('urlObj=>',urlObj)
+//   console.log('to.path=>',to.path)
+//   console.log('beforeResolve:end');
+//   if (!flag) {
+//     if (to.redirectedFrom) {
+//       let item = urlObj['/portal/#' + to.redirectedFrom].menuList[0]
+//       if (item?.url) {
+//         let arr = item.url.split('#')
+//         let url = arr[arr.length - 1]
+//         next(url)
+//       } else {
+//         next('/404')
+//       }
+//     } else {
+//       next('/404')
+//     }
+//   } else {
+//     next()
+//   }
+// })
