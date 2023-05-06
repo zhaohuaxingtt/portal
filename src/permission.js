@@ -1,7 +1,7 @@
 /*
  * @Author: yuszhou
  * @Date: 2021-02-19 14:29:06
- * @LastEditTime: 2023-05-06 14:57:11
+ * @LastEditTime: 2023-05-06 15:04:52
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 项目中登录时候获取整个项目的权限以及token.
  * @FilePath: \front-portal\src\permission.js
@@ -96,7 +96,8 @@ router.beforeEach(async (to, from, next) => {
         }
         console.log('hasUrl=>',hasUrl)
         let flag = false
-        console.log('allUrl.includes(to.path)=>',allUrl.includes('/portal/#' + to.path));
+        console.log('allUrl.includes(to.path)=>',allUrl.includes('/portal/#' + to.path) || allUrl.includes(to.path));
+        console.log('hasUrl.includes(to.path)=>',hasUrl.includes('/portal/#' + to.path) || hasUrl.includes(to.path));
         // 有些权限配置加了工程名，有些没加
         if (allUrl.includes('/portal/#' + to.path) || allUrl.includes(to.path)) {
           if (hasUrl.includes('/portal/#' + to.path) || hasUrl.includes(to.path)) {
