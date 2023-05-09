@@ -680,15 +680,15 @@ export default {
       }
       console.log(params);
       endCscThemen(params).then((res) => {
-        if (res.code) {
-           this.loading=false
+        if (res?.code=='200') {
+          this.loading=false
           iMessage.success('结束议题成功！')
           this.$emit('flushTable')
           this.$emit('close')
           this.close()
         }else{
-             this.loading=false
-          iMessage.success('结束会议失败！')
+          this.loading=false
+          iMessage.error('结束会议失败！')
         }
       })
         .catch((err)=>{

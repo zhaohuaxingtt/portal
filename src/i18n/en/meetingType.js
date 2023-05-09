@@ -7,5 +7,6 @@ export default {
     管理大厅:'Administration Hall',
     会议列表:'Meeting List',
     与会人列表:'Participants List',
-    会议信息:'Meeting Info.'
+    会议信息:'Meeting Info.',
+    GP_PROMPT: '温馨提示',
 }
