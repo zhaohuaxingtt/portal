@@ -296,14 +296,13 @@ export default {
               }
               const data = res.data
               this.form = { ...this.taskDetail, ...data }
+              this.flowFormUrl = data.formUrl
               if(res.data.module=='loi_nominate'){
                 await getApprovalLoiFile(res.data.businessId).then(res=>{
                   if(res?.code==200 && res.data){
                     this.flowFormUrl = res.data
                   }
                 })
-              }else{
-                this.flowFormUrl = data.formUrl
               }
               const histories = []
 
