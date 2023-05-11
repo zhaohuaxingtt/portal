@@ -108,7 +108,7 @@ import {
 import { excelExport } from '@/utils/filedowLoad'
 import iTableCustom from '@/components/iTableCustom'
 import { MAP_APPROVAL_TYPE, QUERY_DRAWER_TYPES } from '@/constants'
-import { queryWorkflowDetail } from '@/api/approval/myApplication'
+import { queryWorkflowDetail, getApprovalLoiFile } from '@/api/approval/myApplication'
 import { baseForm, lastNode, appentAttachment } from './component'
 import { reloadOpener } from '@/utils'
 export default {
@@ -289,13 +289,22 @@ export default {
       }
       if (instanceId) {
         queryWorkflowDetail(params)
-          .then((res) => {
+          .then(async (res) => {
             if (res.result) {
               if(res.data.modelId){
                 this.modelId = res.data.modelId;
               }
               const data = res.data
               this.form = { ...this.taskDetail, ...data }
+              if(res.data.module=='loi_nominate'){
+                await getApprovalLoiFile(res.data.businessId).then(res=>{
+                  if(res?.code==200 && res.data){
+                    this.flowFormUrl = res.data
+                  }
+                })
+              }else{
+                this.flowFormUrl = data.formUrl
+              }
               const histories = []
 
               if (data && data.historicVOList) {
@@ -310,9 +319,7 @@ export default {
                   histories.push({ ...e, time, oprateTime })
                 })
               }
-              console.log('histories', histories)
               this.form.histories = histories
-              this.flowFormUrl = data.formUrl
             } else {
               iMessage.error(res.desZh || '获取数据失败')
             }
