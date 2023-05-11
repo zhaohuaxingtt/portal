@@ -841,7 +841,8 @@ export default {
         endDate: [
           { required: true, message: '请选择', trigger: 'blur' },
           { validator: validatePass4, trigger: 'blur' }
-        ]
+        ],
+        partBalanceCountType: [{ required: true, message: '结算数据来源不能为空', trigger: 'change' }],
       },
       effectFlag: [
         {
@@ -1091,7 +1092,11 @@ export default {
             this.contractForm.supplierName = e.message
             this.contractForm.sapCode = value
             getPartBalanceCountType(this.contractForm.sapCode).then(res=>{
-             this.$set(this.contractForm,'partBalanceCountType',res.data)
+              if(res?.code==200 && res.data){
+                this.$set(this.contractForm,'partBalanceCountType',res.data)
+              }else{
+                iMessage.error(language('获取结算数据来源失败', '获取结算数据来源失败'))
+              }
             })
 
             setTimeout(() => {
@@ -1124,7 +1129,11 @@ export default {
             this.contractForm.supplierName = value
             this.contractForm.sapCode = e.code
             getPartBalanceCountType(this.contractForm.sapCode).then(res=>{
-              this.$set(this.contractForm,'partBalanceCountType',res.data)
+              if(res?.code==200 && res.data){
+                this.$set(this.contractForm,'partBalanceCountType',res.data)
+              }else{
+                iMessage.error(language('获取结算数据来源失败', '获取结算数据来源失败'))
+              }
             })
             setTimeout(() => {
               this.supplierType2 = false

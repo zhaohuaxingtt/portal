@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-02-07 10:34:32
- * @LastEditTime: 2023-03-07 22:48:15
+ * @LastEditTime: 2023-05-06 17:51:11
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\data.js
@@ -96,9 +96,13 @@ export const tableTitle1 = [
     prop: 'supplier',
     name: '供应商',
     i18n: 'GONGYINGSHANG',
-    width: 100,
-    customRender: (h, scope, c, extraData) => {
-      return <span>{scope.row.supplierSap}-{scope.row.supplier}</span>
+    minWidth: 200,
+    customRender: (h, scope) => {
+      let supplierList = scope.row.supplier?.split(',') || []
+      let result = supplierList.map(item=>{
+        return (<p>{item}</p>)
+      })
+      return result
     }
   },
   {
