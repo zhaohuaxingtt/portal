@@ -346,7 +346,7 @@
           <iInput
             v-model="contractForm.compensationRatio"
             type="number"
-            placeholder="请输入补差系数"
+            placeholder="请输入补差系数(%)"
             :disabled="disabled"
           />
         </iFormItem>
@@ -753,7 +753,7 @@ export default {
         thresholdCompensationLogic: 'A',
         effectFlag: 0,
         tcExchangeRate: 1,
-        compensationRatio: 1,
+        compensationRatio: 100,
         tcCurrence: 'RMB',
         materialName: '',
         threshold: 0,
@@ -1134,6 +1134,7 @@ export default {
           // console.log("验证成功")
           addAppRule({
             ...this.contractForm,
+            compensationRatio: this.contractForm / 100,
             ttMtzAppId:
               this.$route.query.mtzAppId ||
               JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
@@ -1160,7 +1161,7 @@ export default {
         thresholdCompensationLogic: 'A',
         effectFlag: 0,
         tcExchangeRate: 1,
-        compensationRatio: 1,
+        compensationRatio: 100,
         materialName: '',
         threshold: 0,
         endDate: '2999-12-31',
