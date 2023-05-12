@@ -397,7 +397,7 @@
             ">
               <iInput type="number" @blur="ratioRules(scope)" v-model="scope.row.compensationRatio"
                 v-if="editId.indexOf(scope.row.id) !== -1"></iInput>
-              <span v-else>{{ scope.row.compensationRatio?scope.row.compensationRatio*100+'%':'' }}</span>
+              <span v-else>{{ scope.row.compensationRatio?scope.row.compensationRatio+'%':'' }}</span>
             </el-form-item>
           </template>
         </el-table-column>
@@ -1085,10 +1085,12 @@ export default {
     },
 
     save() {
+      let newDataList = JSON.parse(JSON.stringify(this.newDataList))
+      let selectList = JSON.parse(JSON.stringify(this.selectList))
       //保存
       if (this.dialogEditType) {
         //新增
-        this.newDataList.forEach((item) => {
+        newDataList.forEach((item) => {
           item.carline = item.carlineList.toString()
           // item.startDate = item.startDate + " 00:00:00";
           // item.endDate = item.endDate + " 00:00:00";
@@ -1109,11 +1111,12 @@ export default {
             )
               .then((res) => {
                 if (this.mtzAddShowNum == '1') {
-                  this.newDataList.forEach(val => {
+                  newDataList.forEach(val => {
                     val.mtzAppId = this.$route.query.mtzAppId||
                       JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
+                      val.compensationRatio = val.compensationRatio / 100
                   })
-                  upAppRule(this.newDataList).then((res) => {
+                  upAppRule(newDataList).then((res) => {
                     if (res.code == 200) {
                       iMessage.success(this.language(res.desEn, res.desZh))
                       this.editId = ''
@@ -1136,7 +1139,10 @@ export default {
                     mtzAppId:
                       this.$route.query.mtzAppId ||
                       JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
-                    mtzAppNomiAppRuleList: this.newDataList
+                    mtzAppNomiAppRuleList: newDataList.map(val=>{
+                      val.compensationRatio = val.compensationRatio / 100
+                      return val
+                    })
                   }).then((res) => {
                     if (res.code == 200) {
                       iMessage.success(this.language(res.desEn, res.desZh))
@@ -1180,7 +1186,7 @@ export default {
         })
       } else {
         //编辑
-        this.selectList.forEach((item) => {
+        selectList.forEach((item) => {
           item.carline = item.carlineList.toString()
         })
         this.$refs['contractForm'].validate(async (valid) => {
@@ -1200,7 +1206,11 @@ export default {
                 mtzAppId:
                   this.$route.query.mtzAppId ||
                   JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
-                mtzAppNomiAppRuleList: this.selectList
+                mtzAppNomiAppRuleList: selectList.map(val=>{
+                  val.compensationRatio = val.compensationRatio / 100
+                  return val
+                })
+                
               }).then((res) => {
                 if (res.code == 200) {
                   this.editId = ''
@@ -1398,10 +1408,10 @@ export default {
         sortType: 'DESC',
         sortColumn: 'id'
       }).then((res) => {
-        this.tableData = res.data
-        // this.page.currPage = res.pageNum
-        // this.page.pageSize = res.pageSize
-        // this.page.totalCount = res.total
+        this.tableData = res.data.map(item=>{
+          item.compensationRatio = item.compensationRatio * 100
+          return item
+        })
         var num = 0
         res.data.forEach((e) => {
           // if (!e.formalFlag) {
@@ -1481,11 +1491,8 @@ export default {
     // },
     ratioRules(arr) {
       var str = arr.row
-      if (str.compensationRatio < 0) {
-        str.compensationRatio = ''
-        iMessage.error(
-          this.language('BUCHAXISHUBUNENGWEIFUSHU', '补差系数不能为负数')
-        )
+      if (str.compensationRatio < 0 || str.compensationRatio > 100) {
+        iMessage.error('百分比只能大于等于0且小于等于100')
       }
     }
   }

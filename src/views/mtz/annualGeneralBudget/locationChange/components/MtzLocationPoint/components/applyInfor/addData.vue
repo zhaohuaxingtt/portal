@@ -166,7 +166,7 @@
                     </iFormItem>
                     <iFormItem prop="compensationRatio">
                         <iLabel :label="language('BUCHABAIFENBI', '补差%')" slot="label"></iLabel>
-                        <iInput v-model="contractForm.compensationRatio" type="text"
+                        <iInput v-model="contractForm.compensationRatioCopy" type="text"
                             :placeholder="language('QINGSHURU', '请输入')" :disabled="true" />
                     </iFormItem>
                 <!-- <iFormItem prop="compensationPeriod">
@@ -482,6 +482,7 @@ export default {
                         this.contractForm.priceSource = e.source;
            
                         this.contractForm = Object.assign({ ...this.contractForm }, e);
+                        this.contractForm.compensationRatioCopy = this.contractForm.compensationRatio * 100
                         if (e.priceMeasureUnit == "PC") {
                             this.contractForm.dosageMeasureUnit = "PC";
                             this.companyType = true;

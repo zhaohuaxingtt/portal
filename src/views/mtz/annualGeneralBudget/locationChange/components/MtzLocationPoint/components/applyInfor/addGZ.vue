@@ -1134,7 +1134,7 @@ export default {
           // console.log("验证成功")
           addAppRule({
             ...this.contractForm,
-            compensationRatio: this.contractForm / 100,
+            compensationRatio: this.contractForm.compensationRatio / 100,
             ttMtzAppId:
               this.$route.query.mtzAppId ||
               JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
