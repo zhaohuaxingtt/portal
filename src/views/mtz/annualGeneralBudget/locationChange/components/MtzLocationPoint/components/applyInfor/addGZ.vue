@@ -431,7 +431,7 @@
               :label="language('BAJIJIA', '钯基价')"
               slot="label"
               icons="iconxinxitishi"
-              tip="M01006002-Pd"
+              tip="M01006001-Pd"
             ></iLabel>
             <iInput
               v-model="contractForm.palladiumPrice"
@@ -446,7 +446,7 @@
               :label="language('BAYONGLIANG', '钯用量')"
               slot="label"
               icons="iconxinxitishi"
-              tip="M01006002-Pd"
+              tip="M01006001-Pd"
             ></iLabel>
             <iInput
               v-model="contractForm.palladiumDosage"
@@ -461,7 +461,7 @@
               :label="language('LAOJIJIA', '铑基价')"
               slot="label"
               icons="iconxinxitishi"
-              tip="M01006002-Rh"
+              tip="M01006003-Rh"
             ></iLabel>
             <iInput
               v-model="contractForm.rhodiumPrice"
@@ -476,7 +476,7 @@
               :label="language('LAOYONGLIANG', '铑用量')"
               slot="label"
               icons="iconxinxitishi"
-              tip="M01006002-Rh"
+              tip="M01006003-Rh"
             ></iLabel>
             <iInput
               v-model="contractForm.rhodiumDosage"
@@ -670,10 +670,10 @@ export default {
   data() {
     var validatePass1 = (rule, value, callback) => {
       //非负数字
-      if (value < 0) {
-        callback(new Error('不能为负数'))
-      } else {
+      if (value >= 0 && value <= 100) {
         callback()
+      } else {
+        callback(new Error('百分比只能大于等于0且小于等于100'))
       }
     }
     var validatePass2 = (rule, value, callback) => {
@@ -911,41 +911,23 @@ export default {
       }
       return {
         ...this.rules_init,
-        platinumPrice: this.metalType //载体税率(%)
-          ? [
-              { required: true, message: '请输入', trigger: 'blur' },
-              { validator: validatePass5, trigger: 'blur' }
-            ]
+        platinumPrice: this.metalType //铂基价
+          ? [{ required: true, message: '请输入', trigger: 'blur' }]
           : [{ required: false }],
-          platinumDosage: this.metalType //载体税率(%)
-          ? [
-              { required: true, message: '请输入', trigger: 'blur' },
-              { validator: validatePass5, trigger: 'blur' }
-            ]
+        platinumDosage: this.metalType //铂用量
+          ? [{ required: true, message: '请输入', trigger: 'blur' }]
           : [{ required: false }],
-          palladiumPrice: this.metalType //载体税率(%)
-          ? [
-              { required: true, message: '请输入', trigger: 'blur' },
-              { validator: validatePass5, trigger: 'blur' }
-            ]
+        palladiumPrice: this.metalType //钯基价
+          ? [{ required: true, message: '请输入', trigger: 'blur' }]
           : [{ required: false }],
-          palladiumDosage: this.metalType //载体税率(%)
-          ? [
-              { required: true, message: '请输入', trigger: 'blur' },
-              { validator: validatePass5, trigger: 'blur' }
-            ]
+        palladiumDosage: this.metalType //钯用量
+          ? [{ required: true, message: '请输入', trigger: 'blur' }]
           : [{ required: false }],
-          rhodiumPrice: this.metalType //载体税率(%)
-          ? [
-              { required: true, message: '请输入', trigger: 'blur' },
-              { validator: validatePass5, trigger: 'blur' }
-            ]
+        rhodiumPrice: this.metalType //铑基价
+          ? [{ required: true, message: '请输入', trigger: 'blur' }]
           : [{ required: false }],
-          rhodiumDosage: this.metalType //载体税率(%)
-          ? [
-              { required: true, message: '请输入', trigger: 'blur' },
-              { validator: validatePass5, trigger: 'blur' }
-            ]
+        rhodiumDosage: this.metalType //铑用量
+          ? [{ required: true, message: '请输入', trigger: 'blur' }]
           : [{ required: false }],
         substrateExw: this.metalType // 载体费用
           ? [{ required: true, message: '请输入', trigger: 'blur' }]
@@ -956,7 +938,6 @@ export default {
         transport: this.metalType // 运输费用
           ? [{ required: true, message: '请输入', trigger: 'blur' }]
           : [{ required: false }],
-
         substrateImpDuty: this.metalType //载体税率(%)
           ? [
               { required: true, message: '请输入', trigger: 'blur' },
@@ -1212,16 +1193,16 @@ export default {
 }
 </script>
 
-<style style="scss" scoped>
+<style lang='scss' scoped>
 ::v-deep.row4{
     margin-bottom:0!important;
+    .el-form-item__content{
+      clear: both;
+    }
 }
 .row4{
  display: inline-block!important;
  float: none;
-}
-.box{
-
 }
 .tip{
   display: block;
