@@ -1,0 +1,140 @@
+<template>
+  <div>
+    <iSearch @sure="sure" @reset="reset">
+      <el-form>
+        <el-row gutter="24">
+          <el-col :span="6" v-for="(item, index) in searchForm" :key="index">
+            <iFormItem :label="language(item.label)">
+              <iInput
+                :placeholder="language('请输入')"
+                v-model="searchContent[item.prop]"
+              ></iInput>
+            </iFormItem>
+          </el-col>
+        </el-row>
+      </el-form>
+    </iSearch>
+    <iCard class="margin-top20">
+      <div class="btnList">
+        <buttonDownload :download-method="exportExcel">
+          {{ language('导出') }}
+        </buttonDownload>
+      </div>
+      <iTableCustom
+        class="margin-top20"
+        :loading="loading"
+        :data="data"
+        :columns="columns"
+        @goDetail="goDetail"
+      >
+      </iTableCustom>
+      <iPagination
+        v-update
+        @size-change="handleSizeChange($event, getTableList)"
+        @current-change="handleCurrentChange($event, getTableList)"
+        background
+        :current-page="page.currPage"
+        :page-sizes="page.pageSizes"
+        :page-size="page.pageSize"
+        :layout="page.layout"
+        :total="page.totalCount"
+      />
+    </iCard>
+  </div>
+</template>
+
+<script>
+import {
+  iButton,
+  iCard,
+  iSearch,
+  iFormItem,
+  iInput,
+  iSelect,
+  iPagination,
+  iMessage
+} from 'rise'
+import iTableCustom from '@/components/iTableCustom'
+import { columns, searchForm } from './data.js'
+import { pageMixins } from '@/utils/pageMixins'
+import { openUrl } from '@/utils'
+import buttonDownload from '@/components/buttonDownload'
+import {
+  marerielTableList,
+  exprtExcel
+} from '@/api/materiel/materielMainData.js'
+
+export default {
+  components: {
+    iButton,
+    iCard,
+    iSearch,
+    iFormItem,
+    iInput,
+    iSelect,
+    iTableCustom,
+    iPagination,
+    buttonDownload
+  },
+  mixins: [pageMixins],
+  created() {
+    this.getTableList()
+  },
+  methods: {
+    getTableList() {
+      this.loading = true
+      let data = {}
+      data = {
+        ...this.searchContent,
+        current: this.page.currPage,
+        size: this.page.pageSize
+      }
+      marerielTableList(data)
+        .then((val) => {
+          if (val.code == 200) {
+            this.loading = false
+            this.data = val.data
+            this.page.totalCount = val.total
+          }
+        })
+        .catch((err) => {
+          iMessage.error(err.dscZh || '获取数据失败')
+        })
+        .finally(() => {
+          this.loading = false
+        })
+    },
+    sure() {
+      this.page.currPage = 1
+      this.getTableList()
+    },
+    reset() {
+      this.searchContent = {}
+      this.sure()
+    },
+    exportExcel() {
+      return exprtExcel({ ...this.searchContent })
+    },
+    goDetail(val) {
+      let id = val.id
+      openUrl(`/materielData/indirect-item-information/detail?id=${id}`)
+    }
+  },
+  data() {
+    return {
+      loading: false,
+      columns,
+      searchContent: {},
+      searchForm,
+      data: []
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+.btnList {
+  display: flex;
+  justify-content: flex-end;
+}
+</style>

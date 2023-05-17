@@ -71,6 +71,15 @@ export default [
         component: () => import('@/views/mtzDataManage/mtzMaterielGroupInfor')
       },
       {
+        path: 'indirect-item-information',
+        name: 'indirectItemInformation',
+        meta: {
+          title: '间接物料信息',
+          activeMenu: ['RISE_ADMIN', 'ADMIN_MAIN_DATA']
+        },
+        component: () => import('@/views/materielMainData/indirectItemInfor')
+      },
+      {
         path: 'Heavy-Item',
         name: 'HeavyItem',
         meta: {
@@ -163,5 +172,15 @@ export const routerDetailMaterieData = [
       activeMenu: ['RISE_ADMIN', 'ADMIN_MAIN_DATA']
     },
     component: () => import('@/views/materielMainData/mould/detail')
-  }
+  },
+  {
+    path: '/materielData/indirect-item-information/detail',
+    name: 'indirectItemInformationDetail',
+    meta: {
+      title: '间接物料信息详情',
+      activeMenu: ['RISE_ADMIN', 'ADMIN_MAIN_DATA']
+    },
+    component: () => import('@/views/materielMainData/indirectItemInfor/detail')
+  },
+  
 ]
