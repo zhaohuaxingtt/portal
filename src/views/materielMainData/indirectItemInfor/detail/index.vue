@@ -5,28 +5,19 @@
     </pageHeader>
     <div class="basicMessage">
       <iCard :title="language(title.icardMessage)" collapse>
-        <div class="elForm">
-          <el-form
-            label-width="120px"
-            label-position="left"
-            :rules="rules"
-            ref="itemContent"
-            :model="itemContent"
-            class="validate-required-form"
-          >
-            <el-row gutter="24" class="materiel">
-              <el-col :span="6" v-for="(label, prop) in itemLabel" :key="prop">
-                <iFormItem
-                  :label="language(label)"
-                  :prop="prop"
-                  label-width="80px"
-                >
-                  <iInput v-model="itemContent[prop]" disabled></iInput>
-                </iFormItem>
-              </el-col>
-            </el-row>
-          </el-form>
-        </div>
+        <el-form
+          label-width="120px"
+          label-position="right"
+          class="margin-top20"
+        >
+          <el-row gutter="24" class="materiel">
+            <el-col :span="6" v-for="(label, prop) in itemLabel" :key="prop">
+              <iFormItem :label="language(label)" :prop="prop">
+                <iInput v-model="itemContent[prop]" disabled></iInput>
+              </iFormItem>
+            </el-col>
+          </el-row>
+        </el-form>
       </iCard>
     </div>
     <div class="measurement" v-show="searchId">
@@ -139,11 +130,7 @@ import iTableCustom from '@/components/iTableCustom'
 import pageHeader from '@/components/pageHeader'
 import { openUrl } from '@/utils'
 import { getPageListByParams } from '@/api/authorityMgmt/index'
-import {
-  measurementTable,
-  itemLabel,
-  measureEdit,
-} from './data.js'
+import { measurementTable, itemLabel, measureEdit } from './data.js'
 import {
   indirectMaterialDetail,
   materielUnit,
@@ -162,7 +149,7 @@ export default {
     iInput,
     iSelect,
     iDatePicker,
-    iTableCustom,
+    iTableCustom
   },
   methods: {
     changeMaterielUnit() {
@@ -190,13 +177,15 @@ export default {
         type: 'warning'
       })
         .then(() => {
-          unitBindRemove(this.selectedItem.map(item=>item.id)).then(res=>{
-            if(res?.code==200){
-              this.indirectMaterialDetail()
-            }else{
-              iMessage.error(res.desZh)
+          unitBindRemove(this.selectedItem.map((item) => item.id)).then(
+            (res) => {
+              if (res?.code == 200) {
+                this.indirectMaterialDetail()
+              } else {
+                iMessage.error(res.desZh)
+              }
             }
-          })
+          )
           // this.selectedItem.forEach((val) => {
           //   this.measureEditdata = this.measureEditdata.filter((item) => {
           //     if (item.uniqueId !== val.uniqueId) {
@@ -228,8 +217,8 @@ export default {
       indirectMaterialDetail(this.searchId)
         .then((res) => {
           if (res?.code == 200) {
-            this.itemContent = res.data
-            this.pageTitle = `${this.itemContent.partNum} ${this.itemContent.partNameZh}`
+            this.itemContent = res.data || {}
+            this.pageTitle = `${this.itemContent?.partNum} ${this.itemContent?.partNameZh}`
           }
         })
         .catch((err) => {
@@ -314,7 +303,7 @@ export default {
             this.editStatus = true
           })
       }
-    },
+    }
   },
   created() {
     this.searchId = this.$route.query.id
