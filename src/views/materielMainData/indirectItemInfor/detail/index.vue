@@ -145,13 +145,11 @@ import {
   measureEdit,
 } from './data.js'
 import {
-  getMaterielById,
-  searchOptions,
-  materielGroup,
+  indirectMaterialDetail,
   materielUnit,
-  getUnitList,
+  unitBindList,
   saveUnitList,
-  queryPurchasers
+  unitBindRemove
 } from '@/api/materiel/materielMainData.js'
 
 export default {
@@ -192,13 +190,20 @@ export default {
         type: 'warning'
       })
         .then(() => {
-          this.selectedItem.forEach((val) => {
-            this.measureEditdata = this.measureEditdata.filter((item) => {
-              if (item.uniqueId !== val.uniqueId) {
-                return item
-              }
-            })
+          unitBindRemove(this.selectedItem.map(item=>item.id)).then(res=>{
+            if(res?.code==200){
+              this.indirectMaterialDetail()
+            }else{
+              iMessage.error(res.desZh)
+            }
           })
+          // this.selectedItem.forEach((val) => {
+          //   this.measureEditdata = this.measureEditdata.filter((item) => {
+          //     if (item.uniqueId !== val.uniqueId) {
+          //       return item
+          //     }
+          //   })
+          // })
         })
         .catch(() => {
           this.$refs.theCustomTable.clearSelection()
@@ -219,8 +224,8 @@ export default {
     handleSelectionChange(val) {
       this.selectedItem = val
     },
-    getMaterielById() {
-      getMaterielById(this.searchId)
+    indirectMaterialDetail() {
+      indirectMaterialDetail(this.searchId)
         .then((res) => {
           if (res?.code == 200) {
             this.itemContent = res.data
@@ -233,7 +238,7 @@ export default {
     },
     getUnitTableList() {
       this.loading = true
-      getUnitList(this.searchId)
+      unitBindList(this.searchId)
         .then((val) => {
           if (val.code == 200) {
             if (val.data.baseUnitId == null) {
@@ -313,7 +318,7 @@ export default {
   },
   created() {
     this.searchId = this.$route.query.id
-    this.getMaterielById()
+    this.indirectMaterialDetail()
     //零件单位下拉
     materielUnit()
       .then((val) => {

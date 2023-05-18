@@ -3,7 +3,7 @@
     <iSearch @sure="sure" @reset="reset">
       <el-form>
         <el-row gutter="24">
-          <el-col :span="6" v-for="(item, index) in searchForm" :key="index">
+          <el-col :span="6" v-for="(item, index) in searchFormData" :key="index">
             <iFormItem :label="language(item.label)">
               <iInput
                 :placeholder="language('请输入')"
@@ -55,13 +55,13 @@ import {
   iMessage
 } from 'rise'
 import iTableCustom from '@/components/iTableCustom'
-import { columns, searchForm } from './data.js'
+import { columns, searchFormData } from './data.js'
 import { pageMixins } from '@/utils/pageMixins'
 import { openUrl } from '@/utils'
 import buttonDownload from '@/components/buttonDownload'
 import {
-  marerielTableList,
-  exprtExcel
+  indirectMaterialPage,
+  indirectMaterialPageExport
 } from '@/api/materiel/materielMainData.js'
 
 export default {
@@ -89,7 +89,7 @@ export default {
         current: this.page.currPage,
         size: this.page.pageSize
       }
-      marerielTableList(data)
+      indirectMaterialPage(data)
         .then((val) => {
           if (val.code == 200) {
             this.loading = false
@@ -113,7 +113,7 @@ export default {
       this.sure()
     },
     exportExcel() {
-      return exprtExcel({ ...this.searchContent })
+      return indirectMaterialPageExport({ ...this.searchContent })
     },
     goDetail(val) {
       let id = val.id
@@ -125,7 +125,7 @@ export default {
       loading: false,
       columns,
       searchContent: {},
-      searchForm,
+      searchFormData,
       data: []
     }
   }

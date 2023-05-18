@@ -46,7 +46,7 @@ export const columns = [
   }
 ]
 
-export const searchForm = [
+export const searchFormData = [
   { prop: 'materialNo', label: '物料号', key: '物料号' },
   { prop: 'materialNameZh', label: '物料名称中文名', key: '物料名称中文名' },
   { prop: 'materialNameDe', label: '物料名称英文名', key: '物料名称英文名' },
