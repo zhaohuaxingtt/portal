@@ -10,6 +10,7 @@
           class="upload-demo"
           style="display: inline-block; margin-right: 10px"
           multiple
+          :disabled="upLoading"
           :action="uploadUrl"
           :show-file-list="false"
           :on-success="uploadSuccess"
@@ -30,7 +31,7 @@
             placement="top"
             effect="light"
           >
-            <iButton>{{ language('SHANGCHUANFUJIAN', '上传附件') }}</iButton>
+            <iButton :loading="upLoading">{{ language('SHANGCHUANFUJIAN', '上传附件') }}</iButton>
           </el-tooltip>
         </el-upload>
         <iButton
@@ -1115,6 +1116,7 @@ export default {
       editId: '',
       selectList: [],
       loading: false,
+      upLoading:false,
       // materialCode:[],
       thresholdCompensationLogic: [
         {
@@ -1247,6 +1249,7 @@ export default {
       this.cancelNo = false
     },
     uploadSuccess(res, file) {
+      this.upLoading = false
       if (res.code == 200 && res.result) {
         this.getTableList()
       } else {
@@ -1262,6 +1265,8 @@ export default {
       const isLt2M = file.size / 1024 / 1024 < 20
       if (!isLt2M) {
         iMessage.error('上传文件大小不能超过 20MB!')
+      }else{
+        this.upLoading = true
       }
       return isLt2M
     },
