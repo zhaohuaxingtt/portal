@@ -79,6 +79,8 @@ export default {
 
 <style lang="scss" scoped>
 .view-approval-flow {
+  width: 100%;
+  overflow: auto;
   display: inline-block;
   margin-right: 10px;
 }

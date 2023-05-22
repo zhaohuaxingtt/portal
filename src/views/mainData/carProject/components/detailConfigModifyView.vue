@@ -9,6 +9,20 @@
       align="center"
     /> -->
     <el-table-column
+      :label="language('用于的车型项目')"
+      prop="vehicleProjectName"
+      header-align="center"
+      align="center"
+      show-overflow-tooltip
+    >
+      <template slot-scope="scope">
+        {{
+          scope.row.vehicleProjectName
+        
+        }}
+      </template>
+    </el-table-column>
+    <el-table-column
       :label="language('发动机类型')"
       prop="engineId"
       header-align="center"
@@ -127,6 +141,9 @@ export default {
         }
       }
     }
+  },
+  created(){
+    console.log(this.extraData)
   },
   methods: {
     removeRow(index) {

@@ -56,6 +56,11 @@ export const MENUSZh = [
     title: 'MTZ材料组信息',
     url: '/materielData/MTZ-materiel-group',
     permissionKey: 'ADMIN_MATERIEL_DATA_MTZ_MATERIEL_GROUP'
+  },
+  {
+    title: '间接物料信息',
+    url: '/materielData/indirect-item-information',
+    // permissionKey: 'ADMIN_MATERIEL_DATA_INDIRECT_ITEM_INFORMATION'
   }
 ]
 export const MENUSEn = [
