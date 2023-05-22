@@ -159,6 +159,7 @@ export default {
         }
       }
     },
+    // 新增
     add() {
       let propData = ''
       for (let item of this.unitoptions) {
@@ -186,24 +187,19 @@ export default {
               }
             }
           )
-          // this.selectedItem.forEach((val) => {
-          //   this.measureEditdata = this.measureEditdata.filter((item) => {
-          //     if (item.uniqueId !== val.uniqueId) {
-          //       return item
-          //     }
-          //   })
-          // })
         })
         .catch(() => {
           this.$refs.theCustomTable.clearSelection()
         })
     },
+    // 编辑
     measurementEdit() {
       this.editStatus = false
       this.oldMaterielUnit = JSON.stringify(this.materielUnit)
       this.oldData = JSON.stringify(this.data)
       this.oldMeasureEditdata = JSON.stringify(this.measureEditdata)
     },
+    // 取消
     unitTabCancel() {
       this.materielUnit = JSON.parse(this.oldMaterielUnit)
       this.data = JSON.parse(this.oldData)
@@ -213,18 +209,22 @@ export default {
     handleSelectionChange(val) {
       this.selectedItem = val
     },
+    // 查询物料详情
     indirectMaterialDetail() {
       indirectMaterialDetail(this.searchId)
         .then((res) => {
           if (res?.code == 200) {
             this.itemContent = res.data || {}
-            this.pageTitle = `${this.itemContent?.partNum} ${this.itemContent?.partNameZh}`
+            this.itemContent.unitIdName = this.unitoptions.find(item=>item.id==this.itemContent.unitId).name
+            this.pageTitle = `${this.itemContent?.materialNo} ${this.itemContent?.materialNameZh}`
+            this.materielUnit = this.itemContent.unitId
           }
         })
         .catch((err) => {
           iMessage.error(err.desZh || '获取数据失败')
         })
     },
+    // 获取单位列表
     getUnitTableList() {
       this.loading = true
       unitBindList(this.searchId)
@@ -234,9 +234,8 @@ export default {
               this.data = []
               this.measureEditdata = []
               this.loading = false
-              this.materielUnit = ''
             } else {
-              const data = val.data.vos
+              const data = val.data
               if (data) {
                 this.data = data
               } else {
@@ -251,9 +250,8 @@ export default {
               }
               this.extraData.materielUnit = propData
               this.readeExtraData.materielUnit = propData
-              this.materielUnit = val.data.baseUnitId
-              if (val.data.vos) {
-                this.measureEditdata = val.data.vos
+              if (val.data) {
+                this.measureEditdata = val.data
               }
               this.initialValue = JSON.parse(JSON.stringify(val.data))
               this.loading = false
@@ -270,23 +268,19 @@ export default {
           this.loading = false
         })
     },
+    // 保存
     saveUnit() {
       let params = {}
       params.baseUnitId = this.materielUnit //选择零件号id
-      params.partInfoId = this.searchId //保存后返回的id
-      params.vos = []
+      params.materialId = this.searchId //保存后返回的id
+      params.materialUintConverseDtoList = []
       let isFill = this.measureEditdata.filter((item) => {
         return !item.numeratorValue
       })
       if (isFill.length > 0) {
         this.$message.error(this.language('请输入计量单位转换关系数值'))
       } else {
-        this.measureEditdata.map((item) => {
-          params.vos.push({
-            denominatorUnitId: item.denominatorUnitId,
-            numeratorValue: item.numeratorValue
-          })
-        })
+        params.materialUintConverseDtoList = this.measureEditdata
         saveUnitList(params)
           .then((val) => {
             if (val.code == 200) {
@@ -307,7 +301,6 @@ export default {
   },
   created() {
     this.searchId = this.$route.query.id
-    this.indirectMaterialDetail()
     //零件单位下拉
     materielUnit()
       .then((val) => {
@@ -327,6 +320,7 @@ export default {
             this.getUnitTableList()
           }
         }
+        this.indirectMaterialDetail()
       })
       .catch((err) => {
         iMessage.error(err)

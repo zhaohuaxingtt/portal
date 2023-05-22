@@ -3,7 +3,11 @@
     <iSearch @sure="sure" @reset="reset">
       <el-form>
         <el-row gutter="24">
-          <el-col :span="6" v-for="(item, index) in searchFormData" :key="index">
+          <el-col
+            :span="6"
+            v-for="(item, index) in searchFormData"
+            :key="index"
+          >
             <iFormItem :label="language(item.label)">
               <iInput
                 :placeholder="language('请输入')"
@@ -113,7 +117,11 @@ export default {
       this.sure()
     },
     exportExcel() {
-      return indirectMaterialPageExport({ ...this.searchContent })
+      return indirectMaterialPageExport({
+        ...this.searchContent,
+        current: this.page.currPage,
+        size: this.page.pageSize
+      })
     },
     goDetail(val) {
       let id = val.id

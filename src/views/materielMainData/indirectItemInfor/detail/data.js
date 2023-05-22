@@ -48,7 +48,7 @@ export const itemLabel = {
   materialNameDe: '物料名称德文名',
   manufacturer: '制造商',
   model: '规格型号',
-  unitId: '单位',
+  unitIdName: '单位',
   brand: '品牌',
 }
 export const measureEdit = [

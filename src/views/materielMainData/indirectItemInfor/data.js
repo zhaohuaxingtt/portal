@@ -4,43 +4,43 @@ export const columns = [
     width: '50'
   },
   {
-    prop: 'partNum',
+    prop: 'materialNo',
     i18n: '物料号',
     emit: 'goDetail',
     tooltip: true,
     width: '170px',
     customRender: (h, scope) => {
-      return <span class="link-text">{scope.row.partNum}</span>
+      return <span class="link-text">{scope.row.materialNo}</span>
     }
   },
   {
-    prop: 'partNameZh',
+    prop: 'materialNameZh',
     i18n: '物料名称中文名',
     tooltip: true
   },
   {
-    prop: 'partNameDe',
+    prop: 'materialNameDe',
     i18n: '物料名称德文名',
     tooltip: true
   },
   {
-    prop: 'sourceDesc',
+    prop: 'manufacturer',
     i18n: '制造商',
     tooltip: true
   },
   {
-    prop: 'partStatusDesc',
+    prop: 'model',
     i18n: '规格型号',
     tooltip: true,
-    width: 90
   },
   {
-    prop: 'updateDate',
+    prop: 'unitId',
     i18n: '单位',
-    tooltip: true
+    tooltip: true,
+    width: 80
   },
   {
-    prop: 'updateDate',
+    prop: 'brand',
     i18n: '品牌',
     tooltip: true
   }
