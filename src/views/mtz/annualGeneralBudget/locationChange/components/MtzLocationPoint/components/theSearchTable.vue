@@ -61,12 +61,12 @@
         </el-form-item>
         <el-form-item :label="language('GONGYINGSHANG', '供应商')">
           <custom-select
-            v-model="searchForm.supplier"
-            :user-options="supplierList||[]"
+            v-model="searchForm.sapCode"
+            :user-options="supplierList"
             multiple
             clearable
             :placeholder="language('QINGSHURU', '请输入')"
-            display-member="message"
+            display-member="codeMessage"
             value-member="code"
             value-key="code"
           >
@@ -133,42 +133,6 @@
           >
           </custom-select>
         </el-form-item>
-        <!-- <el-form-item label="RS单状态">
-          <custom-select v-model="searchForm.rsFreezed"
-                         :user-options="getRsBillStatusList"
-                         clearable
-                         :placeholder="language('QINGXUANZE', '请选择')"
-                         display-member="message"
-                         value-member="code"
-                         value-key="code">
-          </custom-select>
-        </el-form-item>
-        <el-form-item label="RS冻结时间">
-          <iDatePicker style="width:180px"
-                       v-model="value"
-                       @change="handleChange"
-                       type="daterange"
-                       range-separator="至"
-                       start-placeholder="开始日期"
-                       end-placeholder="结束日期">
-          </iDatePicker>
-        </el-form-item> -->
-
-        <!-- 测试 -->
-        <!-- <el-form-item :label="language('DINGDIANSHIJIAN','定点时间')">
-          <iDatePicker style="width:220px"
-                       v-model="value1"
-                       @change="handleChange_ceshi"
-                       :picker-options="pickerOptions"
-                       format="yyyy-MM-dd"
-                       value-format="yyyy-MM-dd"
-                       unlink-panels
-                       type="daterange"
-                       range-separator="至"
-                       start-placeholder="开始日期"
-                       end-placeholder="结束日期">
-          </iDatePicker>
-        </el-form-item> -->
       </el-form>
     </iSearch>
 
@@ -364,6 +328,9 @@ import { tableTitle, tableTitle1 } from './data'
 import MtzClose from './MtzClose'
 import inputCustom from '@/components/inputCustom'
 import {
+  getMtzSupplierList
+} from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
+import {
   getRawMaterialNos,
   getDeptAndBuyerByMtzNomi,
   
@@ -432,23 +399,21 @@ export default {
         materialCode: [],
         assemblyPartnum: [],
         buyer: [],
-        ttNominateAppId: []
+        ttNominateAppId: [],
+        sapCode:[]
       },
       getFlowTypeList: [],
       getLocationApplyStatus: [],
       ttNominateAppId: [], //关联申请单
       linieDeptId: [], //科室
-      // value: "",
       value1: '',
-      // getRsBillStatusList: [],
-
       tableListData: [],
       tableTitle: tableTitle,
       tableLoading: false,
       selection: [],
       getMtzGenericAppId: [], //申请单号
       getCurrentUser: [], //采购员
-
+      supplierList:[],
       stopLoading: null,
       depBuyerAll: [],
       getCurrentCopy: []
@@ -501,21 +466,14 @@ export default {
       getLocationApplyStatus({}).then((res) => {
         this.getLocationApplyStatus = res.data
       })
-      // getRsBillStatusList({}).then(res => {
-      //   this.getRsBillStatusList = res.data;
-      // })
       getRawMaterialNos({}).then((res) => {
         this.materialCode = res.data
       })
-      // getDeptLimitLevel({}).then(res=>{
-      //   this.linieDeptId = res.data;
-      // })
 
       getDeptAndBuyerByMtzNomi({
         appType: 'MTZ'
       }).then((res) => {
         this.depBuyerAll = res.data
-        // this.linieDeptId = res.data;//科室
         var linieDeptId = []
         var getCurrentUser = []
 
@@ -556,16 +514,15 @@ export default {
 
         this.getCurrentUser = getCurrentNew
         this.getCurrentCopy = getCurrentNew
-        // this.getCurrentUser = res.data;//采购员
       })
 
       getMtzGenericAppId({}).then((res) => {
         this.getMtzGenericAppId = res.data
       })
-      // getCurrentUser({}).then(res=>{
-      //   this.getCurrentUser = res.data;
-      // })
 
+      getMtzSupplierList({}).then(res => {
+          this.supplierList = res.data;
+      })
       this.getTableList()
     },
     getTableList() {
@@ -619,7 +576,7 @@ export default {
       this.getTableList()
     },
     reset() {
-      ;(this.searchForm = {
+      this.searchForm = {
         mtzAppId: [],
         appStatus: [],
         flowType: [],
@@ -627,9 +584,10 @@ export default {
         materialCode: [],
         assemblyPartnum: [],
         buyer: [],
-        ttNominateAppId: []
-      }),
-        (this.value = [])
+        ttNominateAppId: [],
+        sapCode:[],
+      }
+      this.value = []
       this.value1 = []
       this.page.currPage = 1
       this.page.pageSize = 10

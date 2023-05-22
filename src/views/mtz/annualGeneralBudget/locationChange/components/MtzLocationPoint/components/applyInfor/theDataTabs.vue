@@ -1652,6 +1652,7 @@ export default {
           list[index].partUnit = item.unit
           list[index].priceUnit = 1 //每
           list[index].dosageMeasureUnit = 'KG'
+          list[index].materialDoseSource = ''
         }
       })
       this.newDataList = list

@@ -7,7 +7,7 @@
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\mtz.vue
 -->
 <template>
-  <div style="padding-bottom: 30px; position: relative">
+  <div style="padding-bottom: 30px; position: relative" :class="!RsObject ? 'isPreview' : ''">
     <div class="download_btn">
       <iButton v-if="!RsObject" @click="downPdf">{{
         language('DAOCHUPDF', '导出PDF')
@@ -509,7 +509,6 @@
                  *补差%
               </p>
               <p class="enStyle"><span>MTZ Payment= Settle Accounts Quantity*[Effective Price-Base Price(1+Threshold*Coefficient)]*Raw Material Weight* Compensation%</span><span>When: effective price > base price *(1+threshold)</span></p>
-              </p>
             </div>
 
             <p class="tableTitle font20_b" v-if="RsObject">
@@ -687,7 +686,6 @@
                  *补差%
               </p>
               <p class="enStyle"><span>MTZ Payment= Settle Accounts Quantity*[Effective Price-Base Price(1+Threshold*Coefficient)]*Raw Material Weight* Compensation%</span><span>When: effective price > base price *(1+threshold)</span></p>
-              </p>
             </div>
 
             <p class="tableTitle font20_b" v-if="RsObject">
@@ -1165,7 +1163,7 @@ export default {
       }
       pageApprove(params).then(res => {
         if (res?.code === '200') {
-          this.applayDateDataAll = res.data || []
+          this.applayDateDataAll =res.data || []
         } else {
           iMessage.error(res.desZh)
         }
@@ -1622,11 +1620,6 @@ export default {
   background:transparent!important;
 }
 
-::v-deep.el-form .el-table .cell  {
-  // font-size: 18px!important;
- 
- 
-}
 ::v-deep.el-table td div {
   line-height: normal !important;
   // font-size: 18px!important;
@@ -1972,4 +1965,23 @@ $tabsInforHeight: 35px;
   ::v-deep .card {
     box-shadow: none;
   }
-}</style>
+}
+.isPreview {
+  ::v-deep .el-table {
+    border-radius: 0;
+    // font-size: 18px;
+    .el-table__header {
+      background-color: #364d6e;
+      th {
+        border-color: #d9d9d9;
+        .cell {
+          color: #fff;
+        }
+      }
+    }
+    td {
+      border-color: #d9d9d9;
+    }
+  }
+}
+</style>
