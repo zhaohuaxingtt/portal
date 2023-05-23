@@ -1,6 +1,6 @@
 <template>
   <div>
-    <iSelect v-model="row.denominatorUnitId">
+    <iSelect v-model="row.targetUnitId">
       <el-option
         v-for="item in selections"
         :key="item.id"

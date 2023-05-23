@@ -1,5 +1,5 @@
 <template>
-  <div>{{ language(row.numeratorValue) }} {{ language(materielUnit) }}</div>
+  <div>{{ language(row.converseRate) }} {{ language(materielUnit) }}</div>
 </template>
 
 <script>

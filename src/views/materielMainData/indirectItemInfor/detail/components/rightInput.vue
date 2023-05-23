@@ -1,6 +1,6 @@
 <template>
   <div>
-    <iInput placeholder="请输入数字" type="number" v-model="row.numeratorValue">
+    <iInput placeholder="请输入数字" type="number" v-model="row.converseRate">
       <span slot="append" style="color: black">{{
         language(extraData.materielUnit)
       }}</span>
