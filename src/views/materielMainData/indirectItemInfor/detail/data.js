@@ -63,7 +63,7 @@ export const measureEdit = [
     i18n: '序号',
   },
   {
-    prop: 'denominatorUnitId',
+    prop: 'targetUnitId',
     label: '常用计量单位',
     tooltip: true,
     i18n: '常用计量单位',
@@ -77,7 +77,7 @@ export const measureEdit = [
     }
   },
   {
-    prop: 'numeratorValue',
+    prop: 'converseRate',
     label: '计量单位转换关系',
     required: true,
     tooltip: true,

@@ -125,7 +125,7 @@ export default {
     },
     goDetail(val) {
       let id = val.id
-      openUrl(`/materielData/indirect-item-information/detail?id=${id}`)
+      openUrl(`/materielData/indirect-item-information/detail?bizId=${id}`)
     }
   },
   data() {
