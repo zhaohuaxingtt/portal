@@ -20,7 +20,7 @@
         </el-form>
       </iCard>
     </div>
-    <div class="measurement" v-show="searchId">
+    <div class="measurement" v-show="bizId">
       <iCard :title="language(title.icardMeasure)">
         <div slot="header-control">
           <div v-if="editStatus">
@@ -128,14 +128,12 @@ import {
 } from 'rise'
 import iTableCustom from '@/components/iTableCustom'
 import pageHeader from '@/components/pageHeader'
-import { openUrl } from '@/utils'
-import { getPageListByParams } from '@/api/authorityMgmt/index'
 import { measurementTable, itemLabel, measureEdit } from './data.js'
 import {
   indirectMaterialDetail,
   materielUnit,
   unitBindList,
-  saveUnitList,
+  unitBinding,
   unitBindRemove
 } from '@/api/materiel/materielMainData.js'
 
@@ -161,15 +159,18 @@ export default {
     },
     // 新增
     add() {
+      
+      console.log(JSON.parse(JSON.stringify(this.measureEditdata)))
       let propData = ''
       for (let item of this.unitoptions) {
         if (this.materielUnit == item.id) {
           propData = item.name
         }
       }
+      this.num++
       this.extraData.materielUnit = propData
       this.readeExtraData.materielUnit = propData
-      this.measureEditdata.push({})
+      this.measureEditdata.push({num: this.num})
     },
     del() {
       this.$confirm('是否删除已选中选项', '提示', {
@@ -178,17 +179,33 @@ export default {
         type: 'warning'
       })
         .then(() => {
-          unitBindRemove(this.selectedItem.map((item) => item.id)).then(
-            (res) => {
-              if (res?.code == 200) {
-                this.indirectMaterialDetail()
-              } else {
-                iMessage.error(res.desZh)
+          let measureEditdata = JSON.parse(JSON.stringify(this.measureEditdata))
+          let idList = this.selectedItem.map((item) => item.id).filter(item=>item)
+          if(idList.length){ // 需要移除后台数据
+            unitBindRemove({idList}).then(res => {
+                if (res?.code == 200) {
+                  iMessage.success(res.desZh)
+                  // 移除查询出来的数据
+                  let delIds = this.selectedItem.map(item=>item.id)
+                  measureEditdata = measureEditdata.filter(item=>!delIds.includes(item.id))
+                  // 移除页面新增的数据
+                  let delNums = this.selectedItem.map(item=>item.num)
+                  measureEditdata = measureEditdata.filter(item=>!delNums.includes(item.num))
+                  this.measureEditdata = JSON.parse(JSON.stringify(measureEditdata))
+                } else {
+                  iMessage.error(res.desZh)
+                }
               }
-            }
-          )
+            )
+          }else{
+          // 移除页面新增的数据
+          let delNums = this.selectedItem.map(item=>item.num)
+          measureEditdata = measureEditdata.filter(item=>!delNums.includes(item.num))
+          this.measureEditdata = JSON.parse(JSON.stringify(measureEditdata))
+          }
         })
-        .catch(() => {
+        .catch((e) => {
+          console.log(e);
           this.$refs.theCustomTable.clearSelection()
         })
     },
@@ -211,60 +228,48 @@ export default {
     },
     // 查询物料详情
     indirectMaterialDetail() {
-      indirectMaterialDetail(this.searchId)
+      indirectMaterialDetail(this.bizId)
         .then((res) => {
           if (res?.code == 200) {
             this.itemContent = res.data || {}
             this.itemContent.unitIdName = this.unitoptions.find(item=>item.id==this.itemContent.unitId).name
             this.pageTitle = `${this.itemContent?.materialNo} ${this.itemContent?.materialNameZh}`
-            this.materielUnit = this.itemContent.unitId
+            this.materielUnit = this.itemContent.unitId+''
+
+            let propData = ''
+            for (let item of this.unitoptions) {
+              if (this.materielUnit == item.id) {
+                propData = item.name
+              }
+            }
+            this.extraData.materielUnit = propData
+            this.readeExtraData.materielUnit = propData
           }
         })
         .catch((err) => {
+          console.log(err);
           iMessage.error(err.desZh || '获取数据失败')
         })
     },
     // 获取单位列表
     getUnitTableList() {
       this.loading = true
-      unitBindList(this.searchId)
+      unitBindList(this.bizId)
         .then((val) => {
-          if (val.code == 200) {
-            if (val.data.baseUnitId == null) {
-              this.data = []
-              this.measureEditdata = []
-              this.loading = false
-            } else {
-              const data = val.data
-              if (data) {
-                this.data = data
-              } else {
-                this.data = []
-              }
-              let propData = ''
-
-              for (let item of this.unitoptions) {
-                if (val.data.baseUnitId == item.id) {
-                  propData = item.name
-                }
-              }
-              this.extraData.materielUnit = propData
-              this.readeExtraData.materielUnit = propData
-              if (val.data) {
-                this.measureEditdata = val.data
-              }
-              this.initialValue = JSON.parse(JSON.stringify(val.data))
-              this.loading = false
-            }
-          } else if (val.code == 1) {
+          if (val?.code == 200) {
+            this.data = val.data
+            this.measureEditdata = val.data
+          } else {
             this.$message.error(val.desZh)
           }
         })
         .catch((err) => {
+          console.log(err);
           iMessage.error(err.desZh || '获取数据失败')
           this.loading = false
         })
-        .finally(() => {
+        .finally((f) => {
+          console.log(f);
           this.loading = false
         })
     },
@@ -272,16 +277,27 @@ export default {
     saveUnit() {
       let params = {}
       params.baseUnitId = this.materielUnit //选择零件号id
-      params.materialId = this.searchId //保存后返回的id
+      params.materialId = this.bizId //保存后返回的id
       params.materialUintConverseDtoList = []
       let isFill = this.measureEditdata.filter((item) => {
-        return !item.numeratorValue
+        return !item.converseRate
       })
       if (isFill.length > 0) {
         this.$message.error(this.language('请输入计量单位转换关系数值'))
       } else {
-        params.materialUintConverseDtoList = this.measureEditdata
-        saveUnitList(params)
+        params.materialUintConverseDtoList = this.measureEditdata.map(item=>{
+          item.bizId = item.bizId || this.bizId
+
+          return {
+            bizId:item.bizId || this.bizId,
+            currentUnitId: item.currentUnitId || this.materielUnit,
+            converseRate: item.converseRate,
+            id: item.id||'',
+            targetUnitId: item.targetUnitId,
+
+          }
+        })
+        unitBinding(params)
           .then((val) => {
             if (val.code == 200) {
               this.getUnitTableList()
@@ -300,7 +316,7 @@ export default {
     }
   },
   created() {
-    this.searchId = this.$route.query.id
+    this.bizId = this.$route.query.bizId
     //零件单位下拉
     materielUnit()
       .then((val) => {
@@ -316,7 +332,7 @@ export default {
           this.unitoptions = unitoption
           this.extraData.unitoptions = unitoption
           this.readeExtraData.unitoptions = unitoption
-          if (this.searchId) {
+          if (this.bizId) {
             this.getUnitTableList()
           }
         }
@@ -327,7 +343,7 @@ export default {
       })
   },
   watch: {
-    searchId(val) {
+    bizId(val) {
       this.materielUnit = '59'
     }
   },
@@ -344,7 +360,7 @@ export default {
         materielUnit: [{ required: true, message: ' ', trigger: 'blur' }]
       },
       itemContent: {},
-      searchId: '',
+      bizId: '',
       editStatus: true,
       title: {
         icardMessage: '基本信息',
@@ -352,11 +368,11 @@ export default {
         measuretitle: '常用计量单位与基本计量单位转换关系'
       },
       data: [],
+      loading:false,
       measureEditdata: [],
       measureEdit,
       measurementTable,
       pageTitle: '新增零件',
-      isEdit: true,
       itemLabel,
       materielUnit: '',
       placeholderText: '请输入',
@@ -370,16 +386,8 @@ export default {
         materielUnit: '',
         unitoptions: []
       },
-      errorMessage: {
-        inputMessage: '请输入零件号',
-        numberMessage: '零件号重复'
-      },
-      selectedItem: '',
-      initialValue: {
-        baseUnitId: '',
-        vos: []
-      },
-      accessoriesUserInfo: '' // 配附件采购员
+      selectedItem: [],
+      num: 0
     }
   }
 }

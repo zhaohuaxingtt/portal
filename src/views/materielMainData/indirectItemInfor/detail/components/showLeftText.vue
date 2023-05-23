@@ -21,7 +21,7 @@ export default {
   computed: {
     text() {
       return this.selections
-        .filter((item) => this.row.denominatorUnitId == item.id)
+        .filter((item) => this.row.targetUnitId == item.id)
         .map((item) => {
           return item.name
         })
