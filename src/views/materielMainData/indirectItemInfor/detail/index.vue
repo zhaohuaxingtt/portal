@@ -94,7 +94,7 @@
               key="viewTable"
               :loading="loading"
               :data="data"
-              :extra-data="readeExtraData"
+              :extra-data="extraData"
               :columns="measurementTable"
             ></iTableCustom>
           </div>
@@ -159,17 +159,7 @@ export default {
     },
     // 新增
     add() {
-      
-      console.log(JSON.parse(JSON.stringify(this.measureEditdata)))
-      let propData = ''
-      for (let item of this.unitoptions) {
-        if (this.materielUnit == item.id) {
-          propData = item.name
-        }
-      }
       this.num++
-      this.extraData.materielUnit = propData
-      this.readeExtraData.materielUnit = propData
       this.measureEditdata.push({num: this.num})
     },
     del() {
@@ -185,11 +175,9 @@ export default {
             unitBindRemove({idList}).then(res => {
                 if (res?.code == 200) {
                   iMessage.success(res.desZh)
-                  // 移除查询出来的数据
-                  let delIds = this.selectedItem.map(item=>item.id)
-                  measureEditdata = measureEditdata.filter(item=>!delIds.includes(item.id))
+                  measureEditdata = measureEditdata.filter(item=>!idList.includes(item.id))
                   // 移除页面新增的数据
-                  let delNums = this.selectedItem.map(item=>item.num)
+                  let delNums = this.selectedItem.map(item=>item.num).filter(item=>item)
                   measureEditdata = measureEditdata.filter(item=>!delNums.includes(item.num))
                   this.measureEditdata = JSON.parse(JSON.stringify(measureEditdata))
                 } else {
@@ -205,7 +193,6 @@ export default {
           }
         })
         .catch((e) => {
-          console.log(e);
           this.$refs.theCustomTable.clearSelection()
         })
     },
@@ -214,12 +201,14 @@ export default {
       this.editStatus = false
       this.oldMaterielUnit = JSON.stringify(this.materielUnit)
       this.oldData = JSON.stringify(this.data)
+      this.oldExtraData = JSON.stringify(this.extraData)
       this.oldMeasureEditdata = JSON.stringify(this.measureEditdata)
     },
     // 取消
     unitTabCancel() {
       this.materielUnit = JSON.parse(this.oldMaterielUnit)
       this.data = JSON.parse(this.oldData)
+      this.extraData = JSON.parse(this.oldExtraData)
       this.measureEditdata = JSON.parse(this.oldMeasureEditdata)
       this.editStatus = true
     },
@@ -243,11 +232,9 @@ export default {
               }
             }
             this.extraData.materielUnit = propData
-            this.readeExtraData.materielUnit = propData
           }
         })
         .catch((err) => {
-          console.log(err);
           iMessage.error(err.desZh || '获取数据失败')
         })
     },
@@ -264,12 +251,10 @@ export default {
           }
         })
         .catch((err) => {
-          console.log(err);
           iMessage.error(err.desZh || '获取数据失败')
           this.loading = false
         })
         .finally((f) => {
-          console.log(f);
           this.loading = false
         })
     },
@@ -331,10 +316,7 @@ export default {
           }
           this.unitoptions = unitoption
           this.extraData.unitoptions = unitoption
-          this.readeExtraData.unitoptions = unitoption
-          if (this.bizId) {
-            this.getUnitTableList()
-          }
+          this.getUnitTableList()
         }
         this.indirectMaterialDetail()
       })
@@ -378,10 +360,6 @@ export default {
       placeholderText: '请输入',
       selectText: '请输入/请选择',
       unitoptions: [],
-      readeExtraData: {
-        materielUnit: '',
-        unitoptions: []
-      },
       extraData: {
         materielUnit: '',
         unitoptions: []
