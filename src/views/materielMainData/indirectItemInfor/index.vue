@@ -29,6 +29,7 @@
         :loading="loading"
         :data="data"
         :columns="columns"
+        :extraData="{ unitoptions }"
         @goDetail="goDetail"
       >
       </iTableCustom>
@@ -64,6 +65,7 @@ import { pageMixins } from '@/utils/pageMixins'
 import { openUrl } from '@/utils'
 import buttonDownload from '@/components/buttonDownload'
 import {
+  materielUnit,
   indirectMaterialPage,
   indirectMaterialPageExport
 } from '@/api/materiel/materielMainData.js'
@@ -82,6 +84,24 @@ export default {
   },
   mixins: [pageMixins],
   created() {
+    //零件单位下拉
+    materielUnit()
+      .then((val) => {
+        if (val.code == 200) {
+          const unitoption = []
+          for (let item of val.data) {
+            unitoption.push({
+              name: item['nameZh'],
+              value: item['nameZh'],
+              id: item['id']
+            })
+          }
+          this.unitoptions = unitoption
+        }
+      })
+      .catch((err) => {
+        iMessage.error(err)
+      })
     this.getTableList()
   },
   methods: {
@@ -134,7 +154,8 @@ export default {
       columns,
       searchContent: {},
       searchFormData,
-      data: []
+      data: [],
+      unitoptions: {}
     }
   }
 }
