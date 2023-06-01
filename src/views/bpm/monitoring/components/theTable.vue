@@ -1,7 +1,7 @@
 <template>
   <iCard>
     <div class="flex-end-center margin-bottom20">
-      <iButton @click="operate">
+      <iButton @click="operate" v-permission="'ADMIN_MONITORING_OPERATE'">
         {{ language('审批流操作') }}
       </iButton>
       <iButton
