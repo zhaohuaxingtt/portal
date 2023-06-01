@@ -48,7 +48,7 @@ export function listTaskTransfer(data) {
 // 任务转派
 export function transfer({ targetUserId, taskId }) {
   return request({
-    url: `/web/taskInfo/transfer?targetUserId=${targetUserId}&taskId=${taskId}`,
+    url: `/web/taskInfo/transferTask?targetUserId=${targetUserId}&taskId=${taskId}`,
     method: 'PUT',
   })
 }
