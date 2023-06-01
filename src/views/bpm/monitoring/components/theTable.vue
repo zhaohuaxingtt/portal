@@ -111,7 +111,8 @@ export default {
       )
       const tableData = data.records || []
       this.tableData = tableData.map((e) => {
-        return { ...e, checked: false, disabledChecked: e.procStatus !== 30 }
+        // 只有已结算状态不能选中
+        return { ...e, checked: false, disabledChecked: e.procStatus == 20 }
       })
       this.page.totalCount = data.total
     },
