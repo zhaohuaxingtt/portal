@@ -49,7 +49,12 @@ export default {
     }
   },
   created(){
-    if(this.$route.path.indexOf("/supplier/supplierListGP")!=-1 || this.$route.path.indexOf("/supplier/supplierListDis")!=-1){
+    console.log(this.$route.path);
+    if (
+      this.$route.path.indexOf('/supplier/supplierListGP') != -1 ||
+      this.$route.path.indexOf('/supplier/supplierListDis') != -1 ||
+      this.$route.path.indexOf('/supplier/supplierListIndirect') != -1
+    ) {
       this.tabRouter = this.tabRouterListGP
     }else{
       this.tabRouter = this.tabRouterList
