@@ -23,6 +23,7 @@ import RiskSignal from '../views/frmRating/riskSignal/index'
 import Details from '../views/frmRating/riskSignal/details'
 import Supplier360 from '@/views/supplierManagement/supplier360/list/list.vue'
 import Supplier360GP from '@/views/supplierManagement/supplier360/list/listGP.vue'
+import SupplierListIndirectGP from '@/views/supplierManagement/supplierListIndirectGP/index.vue'
 import supplierManagement from '@/views/supplierManagement/index.vue'
 import NTierMap from '@/views/supplierManagement/NTier/supplyChainMap/index.vue'
 import NTierRouter from '@/views/supplierManagement/NTier/router.vue'
@@ -44,6 +45,14 @@ export default [
     component: () =>
       import(
         '@/views/supplierManagement/dispersedSupplier/components/supplierDisDetails'
+      )
+  },
+  {
+    path: '/supplier/supplierListIndirect/details',
+    name: 'supplierDisDetails',
+    component: () =>
+      import(
+        '@/views/supplierManagement/supplierListIndirectGP/details/index.vue'
       )
   },
   {
@@ -320,6 +329,15 @@ export default [
         }
       },
       {
+        path: 'supplierListIndirect',
+        name: 'supplierListIndirect',
+        component: SupplierListIndirectGP,
+        meta: {
+          title: '供应商管理',
+          activeMenu: ['RISE_GP', 'GP_SUPPLIER'] // 一级菜单,二级菜单
+        }
+      },
+      {
         path: 'supplierList/details',
         name: 'suppliersDetails',
         component: SuppliersDetails
@@ -337,6 +355,16 @@ export default [
       {
         path: 'supplierListGP/detailsGP',
         name: 'detailsGP',
+        meta: {
+          title: '供应商管理',
+          activeMenu: ['RISE_GP', 'GP_SUPPLIER'] // 一级菜单,二级菜单
+        },
+        component: () =>
+          import('@/views/supplierManagement/supplier360/detailesGP/index.vue')
+      },
+      {
+        path: 'supplierListIndirect/supplierDetails',
+        name: 'supplierDetails',
         meta: {
           title: '供应商管理',
           activeMenu: ['RISE_GP', 'GP_SUPPLIER'] // 一级菜单,二级菜单
