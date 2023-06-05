@@ -6,6 +6,7 @@
     <div class="basicMessage">
       <iCard :title="language(title.icardMessage)" collapse>
         <el-form
+          v-loading="formLoading"
           label-width="120px"
           label-position="right"
           class="margin-top20"
@@ -217,11 +218,12 @@ export default {
     },
     // 查询物料详情
     indirectMaterialDetail() {
+      this.formLoading = true
       indirectMaterialDetail(this.bizId)
         .then((res) => {
           if (res?.code == 200) {
             this.itemContent = res.data || {}
-            this.itemContent.unitIdName = this.unitoptions.find(item=>item.id==this.itemContent.unitId).name
+            this.itemContent.unitIdName = this.unitoptions.find(item=>item.id==this.itemContent.unitId)?.name || ''
             this.pageTitle = `${this.itemContent?.materialNo} ${this.itemContent?.materialNameZh}`
             this.materielUnit = this.itemContent.unitId+''
 
@@ -235,7 +237,11 @@ export default {
           }
         })
         .catch((err) => {
+          console.log(err)
           iMessage.error(err.desZh || '获取数据失败')
+        })
+        .finally(()=>{
+          this.formLoading = false
         })
     },
     // 获取单位列表
@@ -251,6 +257,7 @@ export default {
           }
         })
         .catch((err) => {
+          console.log(err)
           iMessage.error(err.desZh || '获取数据失败')
           this.loading = false
         })
@@ -286,6 +293,7 @@ export default {
           .then((val) => {
             if (val.code == 200) {
               this.getUnitTableList()
+              this.indirectMaterialDetail()
               this.$message.success('保存成功')
             } else if (val.code == 1) {
               this.$message.error(val.desZh)
@@ -351,6 +359,7 @@ export default {
       },
       data: [],
       loading:false,
+      formLoading:false,
       measureEditdata: [],
       measureEdit,
       measurementTable,
