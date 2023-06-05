@@ -262,28 +262,18 @@ export default {
     confirm() {
       if (this.selectData.length != 1)
         return iMessage.warn('请选择一个转派的人员')
-      console.log('confirm=>',this.row)
-      let params = {
-        taskId: this.row.taskNodeId,
-        assignee: this.selectData[0].id
-      }
-      isAllowedToTransfer(params).then((res) => {
+      transfer({
+        targetUserId: this.selectData[0].id,
+        taskId: this.row.taskNodeId
+      }).then((res) => {
         if (res?.data) {
-          transfer({
-            targetUserId: this.selectData[0].id,
-            taskId: this.row.taskNodeId
-          }).then((res) => {
-            if (res?.data) {
-              iMessage.success('转派成功')
-              this.$emit('getData')
-              this.$emit('update:visible', false)
-            } else {
-              iMessage.error(res?.desZh || '操作失败')
-            }
-          })
+          iMessage.success('转派成功')
+          this.$emit('getData')
+          this.$emit('update:visible', false)
+        } else {
+          iMessage.error(res?.desZh || '操作失败')
         }
       })
-      return
     }
   }
 }
