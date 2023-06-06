@@ -1,7 +1,7 @@
 export const searchFormData = [
-    { props: 'supplierName', name: '供应商名称', key: 'TERMS_GONGYINGSHANGMINGCHENG', type: 'iMultiLineInput', titleKey: 'TERMS_GONGYINGSHANGMINGCHENG' },
-    { props: 'svwCode', name: '正式号', key: 'ZHENGSHIHAO', type: 'iMultiLineInput', titleKey: 'ZHENGSHIHAO' },
-    { props: 'svwTempCode', name: '临时号', key: 'SUPPLIER_LINGSHIHAO', type: 'iMultiLineInput', titleKey: 'SUPPLIER_LINGSHIHAO' },
+    { props: 'supplierName', name: '供应商名称', key: 'TERMS_GONGYINGSHANGMINGCHENG'},
+    { props: 'svwCode', name: '正式号', key: 'ZHENGSHIHAO' },
+    { props: 'svwTempCode', name: '临时号', key: 'SUPPLIER_LINGSHIHAO' },
     { props: 'sapCode', name: 'SAP号', key: 'SUPPLIER_SAPHAO', },
     { props: 'tagNameList', name: '供应商标签', key: 'GONGYINGSHANGBIAOQIAN', type: 'select', selectOption: 'tagdropDownList', multiple: true },
 ]
