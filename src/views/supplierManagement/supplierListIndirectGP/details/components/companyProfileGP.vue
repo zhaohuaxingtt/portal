@@ -327,12 +327,12 @@
 
       <!-- 注册地址 -->
       <iFormItem
-        prop="supplierDTO.address"
+        prop="supplierDTO.companyAddress"
         v-permission="SUPPLIER_BASEINFO_COMPANY_COMPANYADDRESS_GP"
       >
         <iLabel :label="$t('companyAddress')" required slot="label"></iLabel>
         <iInput
-          v-model="supplierData.supplierDTO.address"
+          v-model="supplierData.supplierDTO.companyAddress"
           :placeholder="$t('LK_QINGSHURU') + $t('companyAddress')"
         ></iInput>
       </iFormItem>
@@ -746,15 +746,6 @@ export default {
           ).cityNameCn
         }
       }
-      //   if(this.supplierData.supplierDTO.country){
-      //     this.supplierData.supplierDTO.country = this.country.find((item) => item.sapLocationCode == this.supplierData.supplierDTO.countryCode).cityNameCn
-      //   }
-      //   if(this.supplierData.supplierDTO.province){
-      //     this.supplierData.supplierDTO.province = this.province.find((item) =>item.sapLocationCode == this.supplierData.supplierDTO.provinceCode).cityNameCn
-      //   }
-      //   if(this.supplierData.supplierDTO.city){
-      //     this.supplierData.supplierDTO.city = this.city.find((item) => item.cityIdStr == this.supplierData.supplierDTO.cityCode).cityNameCn
-      //   }
     },
     //查询企业小类
     getEpNatureSubcategorySelect(clear) {
