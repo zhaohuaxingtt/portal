@@ -1,5 +1,5 @@
 <template>
-  <iDialog :visible.sync="visible" width="90%">
+  <iDialog :visible.sync="visible" width="90%" :before-close="close">
     <div class="Main">
       <div class="SearchMenu">
         <div class="SearchOptions">
@@ -196,6 +196,10 @@ export default {
     })
   },
   methods: {
+    // 关闭弹窗
+    close() {
+      this.$emit('update:visible', false)
+    },
     orgFilter(query = '') {
       if (!query) {
         return (this.orgOptions = this.organizationMenu.slice(0, 100))
@@ -269,7 +273,7 @@ export default {
         if (res?.data) {
           iMessage.success('转派成功')
           this.$emit('getData')
-          this.$emit('update:visible', false)
+          this.close()
         } else {
           iMessage.error(res?.desZh || '操作失败')
         }
