@@ -928,6 +928,7 @@ export default {
       this.supplierData.settlementBankDTO.cityCode = ''
       this.bankProvince = []
       this.bankCity = []
+      this.getCityName()
       this.getBankProvince(type)
     },
     // 获取银行省市
