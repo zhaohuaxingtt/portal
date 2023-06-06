@@ -253,91 +253,6 @@ export default {
         }
       })
     },
-    // 获取省份
-    getProvince() {
-      let data = {
-        sapLocationCode: this.supplierComplete.supplierDTO.countryCode
-      }
-      getCityInfo(data).then((res) => {
-        if (res.data) {
-          let req = {
-            parentCityId: res.data[0].cityIdStr
-          }
-          getCityInfo(req)
-            .then((result) => {
-              this.province = result.data
-            })
-            .finally(() => {
-              this.countryDisabled = false
-            })
-        } else {
-          this.countryDisabled = false
-        }
-      })
-    },
-    //获取城市
-    getCity() {
-      let data = {
-        sapLocationCode: this.supplierComplete.supplierDTO.provinceCode
-      }
-      getCityInfo(data).then((res) => {
-        if (res.data) {
-          let req = {
-            parentCityId: res.data[0].cityIdStr
-          }
-          getCityInfo(req)
-            .then((result) => {
-              this.city = result.data
-            })
-            .finally(() => {
-              this.provinceDisabled = false
-            })
-        } else {
-          this.provinceDisabled = false
-        }
-      })
-    },
-    // 国家切换 获取省信息
-    changeCountry(val) {
-      if (this.countryDisabled) return
-      this.countryDisabled = true
-      for (let i = 0; i < this.country.length; i++) {
-        if (this.country[i].sapLocationCode == val) {
-          this.supplierComplete.supplierDTO.country = this.country[i].cityNameCn
-          break
-        }
-      }
-      this.supplierComplete.supplierDTO.provinceCode = ''
-      this.supplierComplete.supplierDTO.cityCode = ''
-
-      this.province = []
-      this.city = []
-      this.getProvince()
-    },
-    // 省市切换 获取市级信息
-    changeProvince(val) {
-      if (this.provinceDisabled) return
-      this.provinceDisabled = true
-      for (let i = 0; i < this.province.length; i++) {
-        if (this.province[i].sapLocationCode == val) {
-          this.supplierComplete.supplierDTO.province =
-            this.province[i].cityNameCn
-          break
-        }
-      }
-      this.supplierComplete.supplierDTO.cityCode = ''
-      this.city = []
-      this.getCity()
-    },
-    changeCity(val) {
-      for (let i = 0; i < this.city.length; i++) {
-        if (this.city[i].cityIdStr == val) {
-          this.supplierComplete.supplierDTO.city = this.city[i].cityNameCn
-          break
-        }
-      }
-    },
-
     // 根据社会信用代码获取供应商信息
     getInfosByCode() {
       if (!this.supplierComplete.supplierDTO.socialcreditNo) return
@@ -646,6 +561,7 @@ export default {
           this.getRule6()
         ]).then((res) => {
           this.loadingType = true
+          this.$refs.companyProfile.getCityName()
           var data = _.cloneDeep(this.supplierComplete)
           data.subBankList.forEach((e) => {
             delete e.bankCity

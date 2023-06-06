@@ -266,23 +266,6 @@
             :key="index"
           ></el-option>
         </iSelect>
-        <iSelect
-          v-model="supplierData.supplierDTO.countryCode"
-          v-show="
-            !(
-              !supplierData.supplierDTO.countryCode ||
-              supplierData.supplierDTO.countryCode.length >= '6'
-            )
-          "
-          @change="changeCountry($event, true)"
-        >
-          <el-option
-            :value="item.sapLocationCode"
-            :label="item.cityNameCn"
-            v-for="(item, index) in country"
-            :key="index"
-          ></el-option>
-        </iSelect>
       </iFormItem>
       <!-- 省份 -->
       <iFormItem
@@ -310,23 +293,6 @@
         >
           <el-option
             :value="item.cityIdStr"
-            :label="item.cityNameCn"
-            v-for="(item, index) in province"
-            :key="index"
-          ></el-option>
-        </iSelect>
-        <iSelect
-          v-model="supplierData.supplierDTO.provinceCode"
-          v-show="
-            !(
-              !supplierData.supplierDTO.provinceCode ||
-              supplierData.supplierDTO.provinceCode.length >= '6'
-            )
-          "
-          @change="changeProvince($event, true)"
-        >
-          <el-option
-            :value="item.sapLocationCode"
             :label="item.cityNameCn"
             v-for="(item, index) in province"
             :key="index"

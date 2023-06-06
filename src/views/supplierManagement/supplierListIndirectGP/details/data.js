@@ -83,6 +83,7 @@ export const baseRules = {
 export const supplierCompleteRe = {
   // 基本信息
   supplierDTO: {
+    isForeignManufacture: 0,
     addressId: "",
     stepCode: "register",//
     legalPerson: "",	//法人
