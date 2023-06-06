@@ -563,6 +563,7 @@ export default {
           this.loadingType = true
           this.$refs.companyProfile.getCityName()
           var data = _.cloneDeep(this.supplierComplete)
+          data.supplierDTO.postCode = data.supplierDTO.post
           data.subBankList.forEach((e) => {
             delete e.bankCity
             delete e.bankProvince
