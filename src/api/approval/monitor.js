@@ -34,3 +34,38 @@ export function retryAssign(data) {
     data
   })
 }
+
+// 获取审批流编辑列表
+export function listTaskTransfer(data) {
+  return request({
+    url: `/web/taskInfo/listTaskTransfer`,
+    method: 'POST',
+    data
+  })
+}
+
+
+// 任务转派
+export function transfer({ targetUserId, taskId }) {
+  return request({
+    url: `/web/taskInfo/transferTask?targetUserId=${targetUserId}&taskId=${taskId}`,
+    method: 'PUT',
+  })
+}
+
+// 是否允许转派
+export function isAllowedToTransfer(data) {
+  return request({
+    url: `/web/taskInfo/isAllowedToTransfer`,
+    method: 'POST',
+    data
+  })
+}
+
+// Skip 跳过节点
+export function skipTask(taskId) {
+  return request({
+    url: `/web/taskInfo/skipTask/${taskId}`,
+    method: 'POST',
+  })
+}

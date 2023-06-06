@@ -1,6 +1,9 @@
 <template>
   <iCard>
     <div class="flex-end-center margin-bottom20">
+      <iButton @click="operate" v-permission="'ADMIN_MONITORING_OPERATE'">
+        {{ language('审批流操作') }}
+      </iButton>
       <iButton
         :disabled="selectedRows.length === 0"
         :loading="retryLoading"
@@ -41,7 +44,7 @@
 <script>
 import iTableCustom from '@/components/iTableCustom'
 import { pageMixins } from '@/utils/pageMixins'
-import { iCard, iPagination, iButton } from 'rise'
+import { iCard, iPagination, iButton, iMessage } from 'rise'
 import { TABLE_COLUMS } from './data'
 import {
   fetchMonitors,
@@ -50,7 +53,6 @@ import {
   retryAssign
 } from '@/api/approval/monitor'
 import { filterEmptyValue } from '@/utils'
-import { iMessage } from 'rise'
 export default {
   name: 'TheBizLogTable',
   mixins: [pageMixins],
@@ -109,12 +111,25 @@ export default {
       )
       const tableData = data.records || []
       this.tableData = tableData.map((e) => {
-        return { ...e, checked: false, disabledChecked: e.procStatus !== 30 }
+        // 只有已结算状态不能选中
+        return { ...e, checked: false, disabledChecked: e.procStatus == 20 }
       })
       this.page.totalCount = data.total
     },
     handleSelectionChange(val) {
       this.selectedRows = val
+    },
+    // approveTheFlowAction
+    operate(){
+      if(this.selectedRows.length!=1) return iMessage.warn('请选择一条数据')
+      let router = this.$router.resolve({
+        path: '/processOperation',
+        query: {
+          businessId: this.selectedRows[0].businessId,
+          processInstanceId: this.selectedRows[0].instanceId,
+        }
+      })
+      window.open(router.href, '_blank')
     },
     retry() {
       const data = this.selectedRows.map((e) => e.instanceId)
