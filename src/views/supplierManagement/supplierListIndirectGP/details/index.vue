@@ -553,14 +553,14 @@ export default {
     save() {
       return new Promise((resolve, reject) => {
         Promise.all([
-          // this.getRule1(),
-          // this.getRule2(),
-          // this.getRule3(),
-          // this.getRule4(),
-          // this.getRule5(),
-          // this.getRule6()
+          this.getRule1(),
+          this.getRule2(),
+          this.getRule3(),
+          this.getRule4(),
+          this.getRule5(),
+          this.getRule6()
         ]).then((res) => {
-          // this.loadingType = true
+          this.loadingType = true
           this.$refs.companyProfile.getCityName()
           var data = _.cloneDeep(this.supplierComplete)
           data.subBankList.forEach((e) => {
@@ -571,8 +571,6 @@ export default {
             data.supplierId = this.$route.query.subSupplierId
           }
           setTimeout(() => {
-            console.log(data);
-            return
             saveOrUpdate(data)
               .then((res) => {
                 if (res.result) {
