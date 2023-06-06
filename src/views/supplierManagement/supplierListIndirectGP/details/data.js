@@ -123,6 +123,17 @@ export const supplierCompleteRe = {
     isListing: "",//是否上市
     supplyProperty: ""//供货属性
   },
+  gpSupplierDetails:[{
+    businessTypeDesc: '间接物料',
+    businessType: '1',
+    businessBuyerEmail: "",
+    businessBuyerName: "",
+    businessBuyerNum: "",
+    businessBuyerDept: "",
+    businessContactEmail: "",
+    businessContactUser: "",
+    industryPosition: "N",
+  }],
   //GP电子银票DTO
   gpSupplierBankNoteDTO: {
     bankNoteName: "",
