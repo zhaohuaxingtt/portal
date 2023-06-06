@@ -3,6 +3,7 @@
     :visible.sync="visible"
     width="50%"
     :show-close="false"
+    :before-close="close"
     title="Skip审批节点"
   >
     <p class="margin-bottom10 title">请确认是否跳过以下审批节点：</p>
@@ -30,7 +31,7 @@
     </el-table>
     <span slot="footer" class="dialog-footer">
       <el-button type="primary" @click="confirm">确认</el-button>
-      <el-button @click="colse">取消</el-button>
+      <el-button @click="close">取消</el-button>
     </span>
   </iDialog>
 </template>
@@ -67,16 +68,16 @@ export default {
   },
   methods: {
     // 关闭弹窗
-    colse() {
+    close() {
       this.$emit('update:visible', false)
     },
     // 确认修改
     confirm() {
-      skipTask(this.row.taskNodeId).then(res=>{
-        if(res?.data){
+      skipTask(this.row.taskNodeId).then((res) => {
+        if (res?.data) {
           this.$emit('getData')
-          this.colse()
-        }else{
+          this.close()
+        } else {
           iMessage.error(res?.desZh || '操作失败')
         }
       })
@@ -86,7 +87,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.title{
+.title {
   font-weight: bold;
 }
 .column-btn {
