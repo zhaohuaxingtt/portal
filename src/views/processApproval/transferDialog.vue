@@ -89,6 +89,7 @@
             </div>
             <div class="OrganizationTable">
               <iTableCustom
+                height='350'
                 ref="userTable"
                 :loading="tableLoading"
                 :data="tableListData"
