@@ -50,11 +50,8 @@
               : ''
           }}</i-button>
         </template>
-        <template slot="yewuType">
-          <span>{{ $t('NEIBUBAOXIAO') }}</span>
-        </template>
-        <template slot="supplierType">
-          <span>{{ $t('YIBANGONGYINGSHANG') }}</span>
+        <template #supplierType="scope">
+          <span>{{scope.row.supplierType==='PP'?'生产供应商':scope.row.supplierType==='GP'?'一般供应商':scope.row.supplierType==='PD'?'共用供应商':''}} </span>
         </template>
       </tableList>
       <iPagination
