@@ -690,10 +690,6 @@ export default {
       type: Object,
       default: () => {}
     },
-    fromGroup: {
-      type: Array,
-      default: () => []
-    },
     country: {
       type: Array,
       default: () => []
