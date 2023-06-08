@@ -99,44 +99,28 @@
         </template>
       </iFormGroup>
     </iCard>
-    <!-- 采购员信息 -->
-    <linie
-      ref="linie"
-      :supplierData="supplierComplete.gpSupplierDetails"
-      class="margin-bottom20"
-    ></linie>
     <!-- 公司概况 -->
     <companyProfileGP
       class="margin-bottom20"
       ref="companyProfile"
       :country="country"
       :supplierData="supplierComplete"
-      :fromGroup="fromGroup"
     >
     </companyProfileGP>
-    <!-- 经营状态 -->
-    <operationStatusGP
-      ref="operationStatus"
-      :supplierData="supplierComplete"
-      :fromGroup="fromGroup"
-    >
-    </operationStatusGP>
+    <!-- 开户银行 -->
     <opneBank
       ref="opneBank"
       class="margin-bottom20"
       :country="country"
       :supplierData="supplierComplete"
-      :fromGroup="fromGroup"
     >
     </opneBank>
-    <!-- 供货状态 -->
-    <supplyStatus
-      ref="supplyStatus"
-      v-if="showSupply"
-      :supplierData="supplierComplete"
-      :fromGroup="fromGroup"
-    >
-    </supplyStatus>
+    <!-- 联系人信息 -->
+    <mailList
+      ref="mailList"
+      :supplierData="supplierComplete.contactsSaveDTO.list||[]"
+      class="margin-bottom20"
+    ></mailList>
   </iPage>
 </template>
 
@@ -156,11 +140,8 @@ import {
 import { baseRules, supplierCompleteRe, baseInfoTitle } from './data'
 import opneBank from './components/opneBank'
 import companyProfileGP from './components/companyProfileGP'
-import linie from './components/linie'
-import operationStatusGP from './components/operationStatusGP'
-import supplyStatus from './components/supplyStatus'
-import { tableData } from './components/data'
-import { selectDictByKeys, getCityInfo } from '@/api/dictionary'
+import mailList from './components/mailList'
+import { getCityInfo } from '@/api/dictionary'
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import { getInfosByCode } from '@/api/register/home'
 import { supplierDetail } from '@/api/register/baseInfo'
@@ -180,42 +161,19 @@ export default {
     iSelect,
     opneBank,
     companyProfileGP,
-    linie,
-    operationStatusGP,
-    supplyStatus
+    mailList,
   },
   data() {
     return {
-      tableData,
       supplierCompleteRe,
       supplierComplete: {},
       baseRules,
-      province: [],
       country: [],
-      city: [],
-      fromGroup: [],
       number: 0,
       onLoading: false,
       loadingType: false,
-      countryDisabled: false,
-      provinceDisabled: false,
       baseInfoTitle,
       options: {
-        // 供应商类型
-        supplierTypeList: [
-          {
-            label: '一般供应商',
-            value: 'GP'
-          },
-          {
-            label: '生产供应商',
-            value: 'PP'
-          },
-          {
-            label: '共用供应商',
-            value: 'PD'
-          }
-        ],
         //是否大陆厂商
         isForeignCountryList: [
           { label: this.language('FOU', '否'), value: 1 },
@@ -224,20 +182,13 @@ export default {
       }
     }
   },
-  computed: {
-    showSupply() {
-      return this.$route.query.subSupplierId
-    }
-  },
   created() {
     this.supplierComplete = _.cloneDeep(this.supplierCompleteRe)
-    this.getAllSelect()
+    this.supplierDetail()
     this.getCityInfo()
   },
   methods: {
     changeFact(val) {
-      // this.$forceUpdate();
-      console.log('-=-', this.baseRules.socialcreditNo)
       this.baseRules.socialcreditNo[0].required = !val
       this.$refs.baseInfoForm.clearValidate()
     },
@@ -292,33 +243,6 @@ export default {
         )
       })
     },
-    // 获取下拉框数据
-    getAllSelect() {
-      let data = [
-        'FINANCIAL',
-        'TREND',
-        'PAYMENT',
-        'OWNMODE',
-        'ENTERPRISESIZE',
-        'FINANCIAL',
-        'SUPPLIER_TRADECODE',
-        'ORGANIZATION_BUSINESS_SCOPE',
-        'MARKADDRESS',
-        'PROPERTIES_SUPPLY',
-        'ENTERPRISE_PROPERTY',
-        'TURE_FALSE',
-        'LEGALSTATUS',
-        'SUPPLY_OF_METERIAL_TYPE'
-      ]
-      let url = 'keys='
-      url = url + data.join('&keys=')
-      selectDictByKeys(url).then((res) => {
-        if (res.data) {
-          this.fromGroup = res.data
-          this.supplierDetail()
-        }
-      })
-    },
     // 获取基本信息
     supplierDetail() {
       if (!this.$route.query.supplierToken) return
@@ -328,42 +252,16 @@ export default {
           if (res.data) {
             //初始数据很多为null 需要重置为“” 不然会触发表单验证
             let supplierDTO = this.reView(res.data)
-            console.log('supplierDTO=>', supplierDTO)
-            supplierDTO.supplierInfoVo.isListing =
-              supplierDTO.supplierInfoVo.isListing.toString()
-            if (supplierDTO.gpSupplierInfoVO)
-              this.supplierComplete.gpSupplierDTO = supplierDTO.gpSupplierInfoVO
-            if (supplierDTO.ppSupplierInfoVo) {
-              supplierDTO.ppSupplierInfoVo.isSign = supplierDTO.ppSupplierInfoVo
-                .isSign
-                ? '1'
-                : '0'
-              this.supplierComplete.ppSupplierDTO = supplierDTO.ppSupplierInfoVo
-            }
-            if (supplierDTO.gpSupplierDetails) {
-              supplierDTO.gpSupplierDetails.forEach((e) => {
-                if (e.isUse) {
-                  e.industryPosition = 'Y'
-                }
-              })
-
-              this.supplierComplete.gpSupplierDetails = _.cloneDeep(
-                supplierDTO.gpSupplierDetails
-              )
-            } else {
-              this.supplierComplete.gpSupplierDetails = _.cloneDeep(
-                this.tableData
-              )
-            }
+            // 银行子账号
             if (supplierDTO.subBankVos) {
               this.supplierComplete.subBankList = supplierDTO.subBankVos
             }
-
+            // GP电子银票DTO
             if (supplierDTO.gpSupplierBankNoteVO) {
               this.supplierComplete.gpSupplierBankNoteDTO =
                 supplierDTO.gpSupplierBankNoteVO
             }
-
+            // 银行
             if (supplierDTO.settlementBankVo) {
               if (
                 !supplierDTO.settlementBankVo.bankTaxCode ||
@@ -375,6 +273,7 @@ export default {
               this.supplierComplete.settlementBankDTO =
                 supplierDTO.settlementBankVo
             }
+            // 基本信息
             if (supplierDTO.supplierInfoVo) {
               this.supplierComplete.supplierDTO = supplierDTO.supplierInfoVo
               this.supplierComplete.supplierDTO.address =
@@ -386,18 +285,16 @@ export default {
                 this.supplierComplete.supplierDTO.svwCode =
                   supplierDTO.gpSupplierInfoVO.svwCode
                 this.supplierComplete.supplierDTO.payHistory =
-                  this.supplierComplete.gpSupplierDTO.payHistory
+                  supplierDTO.gpSupplierDTO.payHistory
               }
             }
-            this.$refs.companyProfile.changeListing()
-            if (this.supplierComplete.supplierDTO.epNatureCategory)
-              this.$refs.companyProfile.getEpNatureSubcategorySelect()
-            if (this.supplierComplete.supplierDTO.countryCode)
+            if (this.supplierComplete.supplierDTO.countryCode){
               if (this.supplierComplete.supplierDTO.countryCode.length >= 6) {
                 this.$refs.companyProfile.getProvince()
               } else {
                 this.$refs.companyProfile.getProvince(true)
               }
+            }
             if (this.supplierComplete.supplierDTO.provinceCode) {
               if (this.supplierComplete.supplierDTO.provinceCode.length >= 6) {
                 this.$refs.companyProfile.getCity()
@@ -454,11 +351,10 @@ export default {
       }
       return data
     },
-
+    // 基本信息校验
     getRule1() {
       return new Promise((resolve, reject) => {
         this.$refs.baseInfoForm.validate((valid, object) => {
-          console.log(valid)
           if (valid) {
             resolve(valid)
           } else {
@@ -467,10 +363,10 @@ export default {
         })
       })
     },
+    // 公司概览校验
     getRule2() {
       return new Promise((resolve, reject) => {
         this.$refs.companyProfile.$refs.formRules.validate((valid, object) => {
-          console.log(valid)
           if (valid) {
             resolve(valid)
           } else {
@@ -484,7 +380,6 @@ export default {
       //bank
       return new Promise((resolve, reject) => {
         this.$refs.opneBank.$refs.bankRules1.validate((valid, object) => {
-          console.log(valid)
           if (valid) {
             resolve(valid)
           } else {
@@ -503,7 +398,6 @@ export default {
           var bankRulesDTO = 'bankRulesDTO' + index
           var rule = that.$refs.opneBank.$refs
           rule[bankRulesDTO][0].validate((valid, object) => {
-            console.log(valid)
             if (valid) {
             } else {
               that.number++
@@ -519,27 +413,12 @@ export default {
         }, 0)
       })
     },
-    // 经营状态
+    // 联系人
     getRule5() {
-      //operationStatus
+      //mailList
       return new Promise((resolve, reject) => {
-        let flag = true
-        this.$refs.operationStatus.$refs.businessRules1.validate((valid) => {
-          flag = flag && valid
-        })
-        this.$refs.operationStatus.$refs.businessRules.validate((valid) => {
-          flag = flag && valid
-        })
-        resolve(flag)
-      })
-    },
-    // linie
-    getRule6() {
-      //linie
-      return new Promise((resolve, reject) => {
-        this.$refs.linie.$refs.commonTable.$refs.commonTableForm.validate(
+        this.$refs.mailList.$refs.commonTable.$refs.commonTableForm.validate(
           (valid, object) => {
-            console.log(valid)
             if (valid) {
               resolve(valid)
             } else {
@@ -557,11 +436,11 @@ export default {
           this.getRule2(),
           this.getRule3(),
           this.getRule4(),
-          this.getRule5(),
-          this.getRule6()
+          this.getRule5()
         ]).then((res) => {
           this.loadingType = true
           this.$refs.companyProfile.getCityName()
+          this.supplierComplete.contactsSaveDTO.list = this.$refs.mailList.tableListData
           var data = _.cloneDeep(this.supplierComplete)
           data.supplierDTO.postCode = data.supplierDTO.post
           data.subBankList.forEach((e) => {
