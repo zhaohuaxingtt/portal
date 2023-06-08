@@ -1306,6 +1306,7 @@ export default {
       //沿用
       console.log(val)
       val.forEach((item) => {
+        item.compensationRatio = item.compensationRatio * 100
         // item.source = item.sourceType;
         this.$set(item, 'source', item.sourceType)
         // if(item.preciousMetalDosageUnit == ""){
