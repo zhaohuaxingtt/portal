@@ -24,6 +24,7 @@
         >
           <iButton :loading="uploading">{{ language('批量上传', '批量上传') }} </iButton>
         </el-upload>
+        <i-button @click="setTagBtn">{{ language('BIAOQIANSHEZHI', '标签设置') }}</i-button>
         <i-button @click="synchro" :loading="sapLoading">{{
           language('TONGBUSAP', '同步SAP')
         }}</i-button>
@@ -53,6 +54,9 @@
         <template #supplierType="scope">
           <span>{{scope.row.supplierType==='PP'?'生产供应商':scope.row.supplierType==='GP'?'一般供应商':scope.row.supplierType==='PD'?'共用供应商':''}} </span>
         </template>
+        <template #gpBusinessType="scope">
+          <span>{{scope.row.gpBusinessType==='4'?'东昌采购':scope.row.gpBusinessTypeArrayStr}} </span>
+        </template>
       </tableList>
       <iPagination
         v-update
@@ -75,6 +79,7 @@
       v-if="isSetTag"
     >
     </setTagdilog>
+    <!-- 展示标签 -->
     <setTagList
       @closeDiolog="closeDiolog"
       v-model="issetTagList"
@@ -204,6 +209,12 @@ export default {
           this.getTableList()
         }
     },
+    //标签设置弹窗
+    setTagBtn () {
+      if (this.listData.length == 0) {
+        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
+      } else this.isSetTag = true
+    },
     // 同步SAP
     synchro() {
       if (this.listData.length === 0) {
@@ -249,7 +260,7 @@ export default {
         path: '/supplier/supplierListIndirect/supplierDetails',
         query: {
           supplierType: 'GP',
-          type: 'LR',
+          type: 'DC',
           subSupplierId: params.subSupplierId || '',
           isShowAll: true
         }

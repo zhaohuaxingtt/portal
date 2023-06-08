@@ -1,10 +1,5 @@
 export const baseInfoTitle = [
-  {
-    key: 'isForeignManufacture',
-    name: 'SHIFOUGUOWAICHANGSHANG',
-    required: true,
-    option: 'isForeignCountryList'
-  },
+  
   {
     key: 'nameZh',
     name: 'SupplierZh',
@@ -16,11 +11,11 @@ export const baseInfoTitle = [
     required: true,
     icons: "iconxinxitishi",
     tip: "SUPPLIER_GONGYINGSHANGJIANCHENZHTIPS",
-  },
-  {
-    key: 'socialcreditNo',
-    name: 'UnifySocialCreditCode',
+  },{
+    key: 'isForeignManufacture',
+    name: 'SHIFOUGUOWAICHANGSHANG',
     required: true,
+    option: 'isForeignCountryList'
   },
   {
     key: 'nameEn',
@@ -35,28 +30,10 @@ export const baseInfoTitle = [
     tip: "SUPPLIER_GONGYINGSHANGJIANCHENGENTIPS",
   },
   {
-    key: 'dunsCode',
-    name: 'DUNS',
-    icons: "iconxinxitishi",
-    tip: "SUPPLIER_DUNSTIPS",
-  },
-  {
-    key: 'sapCode',
-    name: 'SUPPLIER_SAPHAO',
-  },
-  {
-    key: 'svwTempCode',
-    name: 'SUPPLIER_LINGSHIHAO',
-  },
-  {
-    key: 'svwCode',
-    name: 'ZHENGSHIHAO',
-  },
-  {
-    key: 'supplierType',
-    name: 'SUPPLIER_SUPPLIERTYPE',
-    option: 'supplierTypeList'
-  },
+    key: 'socialcreditNo',
+    name: 'UnifySocialCreditCode',
+    required: true,
+  }
 ]
 
 export const baseRules = {
@@ -81,7 +58,7 @@ export const baseRules = {
 }
 
 export const supplierCompleteRe = {
-  // 基本信息
+  // 基本信息, 公司概览
   supplierDTO: {
     isForeignManufacture: 0,
     addressId: "",
@@ -121,20 +98,12 @@ export const supplierCompleteRe = {
     companyWebPage: "",//公司网址
     listingAddress: "",//上市地点
     stockCode: "",//股票代码
-    isListing: "",//是否上市
     supplyProperty: ""//供货属性
   },
-  gpSupplierDetails:[{
-    businessTypeDesc: '间接物料',
-    businessType: '1',
-    businessBuyerEmail: "",
-    businessBuyerName: "",
-    businessBuyerNum: "",
-    businessBuyerDept: "",
-    businessContactEmail: "",
-    businessContactUser: "",
-    industryPosition: "N",
-  }],
+  // 联系人
+  contactsSaveDTO:{
+    list:[]
+  },
   //GP电子银票DTO
   gpSupplierBankNoteDTO: {
     bankNoteName: "",
