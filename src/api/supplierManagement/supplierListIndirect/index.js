@@ -45,3 +45,19 @@ export function synchronizationSap(data) {
         data
     })
 }
+
+// 导出供应商用户信息
+export function exportSupplierUser(supplierId) {
+    return requestDownload({
+        url: `/gpSupplierIndirect/exportSupplierUser/${supplierId}`,
+        method: 'GET',
+    })
+}
+
+// 获取供应商用户信息
+export function listSupplierUser(supplierId) {
+    return request({
+        url: `/gpSupplierIndirect/listSupplierUser/${supplierId}`,
+        method: 'GET',
+    })
+}
