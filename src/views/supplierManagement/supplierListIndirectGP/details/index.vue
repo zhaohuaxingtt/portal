@@ -118,7 +118,7 @@
     <!-- 联系人信息 -->
     <mailList
       ref="mailList"
-      :supplierData="supplierComplete.contactsSaveDTO.list||[]"
+      :supplierData="mailListData"
       class="margin-bottom20"
     ></mailList>
   </iPage>
@@ -145,7 +145,8 @@ import { getCityInfo } from '@/api/dictionary'
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import { getInfosByCode } from '@/api/register/home'
 import { supplierDetail } from '@/api/register/baseInfo'
-import { saveOrUpdate } from '@/api/supplierManagement/supplierListIndirect/index'
+import { saveOrUpdate, listSupplierUser } from '@/api/supplierManagement/supplierListIndirect/index'
+import { updateSupplierUser } from '@/api/mainDataSupplier/list/user'
 
 export default {
   mixins: [generalPageMixins],
@@ -161,7 +162,7 @@ export default {
     iSelect,
     opneBank,
     companyProfileGP,
-    mailList,
+    mailList
   },
   data() {
     return {
@@ -179,7 +180,8 @@ export default {
           { label: this.language('FOU', '否'), value: 1 },
           { label: this.language('SHI', '是'), value: 0 }
         ]
-      }
+      },
+      mailListData:[]
     }
   },
   created() {
@@ -284,11 +286,9 @@ export default {
                   supplierDTO.gpSupplierInfoVO.svwTempCode
                 this.supplierComplete.supplierDTO.svwCode =
                   supplierDTO.gpSupplierInfoVO.svwCode
-                this.supplierComplete.supplierDTO.payHistory =
-                  supplierDTO.gpSupplierDTO.payHistory
               }
             }
-            if (this.supplierComplete.supplierDTO.countryCode){
+            if (this.supplierComplete.supplierDTO.countryCode) {
               if (this.supplierComplete.supplierDTO.countryCode.length >= 6) {
                 this.$refs.companyProfile.getProvince()
               } else {
@@ -325,6 +325,13 @@ export default {
             if (this.supplierComplete.subBankList)
               this.$refs.opneBank.getSubBank()
 
+            listSupplierUser(res.data.supplierInfoVo.id).then(res=>{
+              if(res?.code==200){
+                this.mailListData = res.data
+              }else{
+                iMessage.error('获取供应商联系人信息失败')
+              }
+            })
             setTimeout(() => {
               this.$refs.opneBank.getType()
             }, 100)
@@ -440,7 +447,25 @@ export default {
         ]).then((res) => {
           this.loadingType = true
           this.$refs.companyProfile.getCityName()
-          this.supplierComplete.contactsSaveDTO.list = this.$refs.mailList.tableListData
+          if(!this.$route.query.subSupplierId){
+            this.supplierComplete.contactsSaveDTO.list =
+              this.$refs.mailList.tableListData
+          }else{
+            let data = this.$refs.mailList.tableListData.map(item=>{
+              return {
+                ...item,
+                supplierId: item.supplierId || this.supplierComplete.supplierDTO.id
+              }
+            })
+            // 保存联系人
+            updateSupplierUser(data).then(res=>{
+              if(res?.code==200){
+                iMessage.success(res.desZh || '联系人保存成功')
+              }else{
+                iMessage.error(res.desZh || '联系人保存失败')
+              }
+            })
+          }
           var data = _.cloneDeep(this.supplierComplete)
           data.supplierDTO.postCode = data.supplierDTO.post
           data.subBankList.forEach((e) => {

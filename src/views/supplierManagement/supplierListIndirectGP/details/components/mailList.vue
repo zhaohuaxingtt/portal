@@ -80,7 +80,7 @@
 import { iButton, iCard, iInput, iMessage } from 'rise'
 import { tableTitle } from './data'
 import tableList from '@/components/commonTable'
-import { contactExport } from "@/api/mainDataSupplier/list/contacts.js"
+import { exportSupplierUser } from '@/api/supplierManagement/supplierListIndirect/index'
 
 export default {
   props: {
@@ -133,7 +133,7 @@ export default {
     // 导出
     exportsTable() {
         this.loading = true
-        contactExport(this.$route.query.subSupplierId).then(res=>{
+        exportSupplierUser(this.$route.query.subSupplierId).then(res=>{
 
         }).finally(()=>{
             this.loading = false
