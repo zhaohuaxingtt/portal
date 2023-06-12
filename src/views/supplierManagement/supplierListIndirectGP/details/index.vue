@@ -288,6 +288,8 @@ export default {
                   supplierDTO.gpSupplierInfoVO.svwCode
               }
             }
+            // GP信息
+            this.supplierComplete.gpSupplierDTO = supplierDTO.gpSupplierInfoVO || {}
             if (this.supplierComplete.supplierDTO.countryCode) {
               if (this.supplierComplete.supplierDTO.countryCode.length >= 6) {
                 this.$refs.companyProfile.getProvince()
@@ -325,9 +327,9 @@ export default {
             if (this.supplierComplete.subBankList)
               this.$refs.opneBank.getSubBank()
 
-            listSupplierUser(res.data.supplierInfoVo.id).then(res=>{
+            listSupplierUser(res.data.gpSupplierInfoVO.id).then(res=>{
               if(res?.code==200){
-                this.mailListData = res.data
+                this.mailListData = res.data?.list||[]
               }else{
                 iMessage.error('获取供应商联系人信息失败')
               }
@@ -447,25 +449,26 @@ export default {
         ]).then((res) => {
           this.loadingType = true
           this.$refs.companyProfile.getCityName()
-          if(!this.$route.query.subSupplierId){
+          // if(!this.$route.query.subSupplierId){
             this.supplierComplete.contactsSaveDTO.list =
               this.$refs.mailList.tableListData
-          }else{
-            let data = this.$refs.mailList.tableListData.map(item=>{
-              return {
-                ...item,
-                supplierId: item.supplierId || this.supplierComplete.supplierDTO.id
-              }
-            })
-            // 保存联系人
-            updateSupplierUser(data).then(res=>{
-              if(res?.code==200){
-                iMessage.success(res.desZh || '联系人保存成功')
-              }else{
-                iMessage.error(res.desZh || '联系人保存失败')
-              }
-            })
-          }
+          // }else{
+          //   console.log(this.supplierComplete);
+          //   let data = this.$refs.mailList.tableListData.map(item=>{
+          //     return {
+          //       ...item,
+          //       supplierId: item.supplierId || this.supplierComplete.gpSupplierDTO.id
+          //     }
+          //   })
+          //   // 保存联系人
+          //   updateSupplierUser(data).then(res=>{
+          //     if(res?.code==200){
+          //       iMessage.success(res.desZh || '联系人保存成功')
+          //     }else{
+          //       iMessage.error(res.desZh || '联系人保存失败')
+          //     }
+          //   })
+          // }
           var data = _.cloneDeep(this.supplierComplete)
           data.supplierDTO.postCode = data.supplierDTO.post
           data.subBankList.forEach((e) => {
