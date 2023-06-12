@@ -475,6 +475,8 @@ export default {
             delete e.bankCity
             delete e.bankProvince
           })
+          // 子银行信息放到gpSupplierSubBankListSaveDTO里面
+          data.gpSupplierSubBankListSaveDTO = data.subBankList
           if (this.$route.query.subSupplierId) {
             data.supplierId = this.$route.query.subSupplierId
           }
