@@ -145,7 +145,10 @@ import { getCityInfo } from '@/api/dictionary'
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import { getInfosByCode } from '@/api/register/home'
 import { supplierDetail } from '@/api/register/baseInfo'
-import { saveOrUpdate, listSupplierUser } from '@/api/supplierManagement/supplierListIndirect/index'
+import {
+  saveOrUpdate,
+  listSupplierUser
+} from '@/api/supplierManagement/supplierListIndirect/index'
 import { updateSupplierUser } from '@/api/mainDataSupplier/list/user'
 
 export default {
@@ -181,7 +184,17 @@ export default {
           { label: this.language('SHI', '是'), value: 0 }
         ]
       },
-      mailListData:[]
+      mailListData: [
+        {
+          nameZh: '',
+          designation: '',
+          dept: '',
+          telephoneAreaCode: '',
+          telephone: '',
+          email: '',
+          userName: ''
+        }
+      ]
     }
   },
   created() {
@@ -289,7 +302,8 @@ export default {
               }
             }
             // GP信息
-            this.supplierComplete.gpSupplierDTO = supplierDTO.gpSupplierInfoVO || {}
+            this.supplierComplete.gpSupplierDTO =
+              supplierDTO.gpSupplierInfoVO || {}
             if (this.supplierComplete.supplierDTO.countryCode) {
               if (this.supplierComplete.supplierDTO.countryCode.length >= 6) {
                 this.$refs.companyProfile.getProvince()
@@ -327,10 +341,10 @@ export default {
             if (this.supplierComplete.subBankList)
               this.$refs.opneBank.getSubBank()
 
-            listSupplierUser(res.data.gpSupplierInfoVO.id).then(res=>{
-              if(res?.code==200){
-                this.mailListData = res.data?.list||[]
-              }else{
+            listSupplierUser(res.data.gpSupplierInfoVO.id).then((res) => {
+              if (res?.code == 200) {
+                this.mailListData = res.data?.list || []
+              } else {
                 iMessage.error('获取供应商联系人信息失败')
               }
             })
@@ -450,8 +464,8 @@ export default {
           this.loadingType = true
           this.$refs.companyProfile.getCityName()
           // if(!this.$route.query.subSupplierId){
-            this.supplierComplete.contactsSaveDTO.list =
-              this.$refs.mailList.tableListData
+          this.supplierComplete.contactsSaveDTO.list =
+            this.$refs.mailList.tableListData
           // }else{
           //   console.log(this.supplierComplete);
           //   let data = this.$refs.mailList.tableListData.map(item=>{
@@ -476,7 +490,7 @@ export default {
             delete e.bankProvince
           })
           // 子银行信息放到gpSupplierSubBankListSaveDTO里面
-          data.gpSupplierSubBankListSaveDTO = data.subBankList
+          data.gpSupplierSubBankListSaveDTO = { list: data.subBankList }
           if (this.$route.query.subSupplierId) {
             data.supplierId = this.$route.query.subSupplierId
           }
