@@ -1,12 +1,12 @@
 <template>
   <iCard :title="$t('联系人')">
     <template slot="header-control">
-      <iButton @click="add">
+      <!-- <iButton @click="add">
         {{ $t('新增') }}
-      </iButton>
-      <iButton @click="del">
+      </iButton> -->
+      <!-- <iButton @click="del">
         {{ $t('删除') }}
-      </iButton>
+      </iButton> -->
       <iButton :loading="loading" v-if="this.$route.query.subSupplierId" @click="exportsTable">
         {{ $t('LK_DAOCHU') }}
       </iButton>
