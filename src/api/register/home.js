@@ -25,14 +25,10 @@ export function indexNext(parmars, type) {
   })
 }
 // 根据社会信用代码获取供应商信息
-export function getInfosByCode(parmars, type) {
+export function getInfosByCode(parmars) {
   return requst({
-    url: `/basic/infosByCode/${parmars}`,
-    method: 'GET',
-    baseURL:
-      type < 4
-        ? `${process.env.VUE_APP_SUPPLIER}/web/register`
-        : `${process.env.VUE_APP_SUPPLIER}/web`
+    url: `/register/basic/infosByCode/${parmars.code}/${parmars.type}`,
+    method: 'GET'
   })
 }
 
