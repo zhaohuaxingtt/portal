@@ -62,6 +62,7 @@
               slot="label"
             ></iLabel>
             <iInput
+              :disabled="$route.query.subSupplierId"
               v-model="supplierComplete.supplierDTO[item.key]"
               @change="getInfosByCode"
             ></iInput>
