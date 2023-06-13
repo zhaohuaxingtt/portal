@@ -22,7 +22,7 @@
         }}</span>
       <iButton v-else
                :loading="uploadButtonLoading"
-               :disabled="disabled">{{ $t(buttonText) }}</iButton>
+               :disabled="disabled&&showDisabled">{{ $t(buttonText) }}</iButton>
     </template>
   </el-upload>
 </template>
@@ -46,7 +46,8 @@ export default {
     uploadByBusiness: { type: Boolean, default: false },
     hideButton: { type: Boolean, default: false },
     accept: { type: String, default: ".xlsx,.pdf,.docx" },
-    disabled: { type: Boolean, default: false }
+    disabled: { type: Boolean, default: false },
+    showDisabled: { type: Boolean, default: true }  // 为了兼容其它地方按钮禁用,上传按钮要显示loading时，这个值设为false
   },
   data () {
     return {};
