@@ -224,7 +224,7 @@ export default {
       if (!this.supplierComplete.supplierDTO.socialcreditNo) return
       getInfosByCode({
         code: this.supplierComplete.supplierDTO.socialcreditNo,
-        type: this.supplierType == 3 ? 'bkra' : null
+        type: 'GP'
       }).then((res) => {
         if (res?.data) {
           for (let m in res.data) {
