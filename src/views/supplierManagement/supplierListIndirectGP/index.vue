@@ -202,12 +202,16 @@ export default {
         this.uploading = true
         let formData = new FormData();
         formData.append("file",content.file);
-        let res = await importData(formData);
+        importData(formData).then(res=>{
+          if(res?.code==200){
+            this.$message.success("上传成功")
+            this.getTableList()
+          }else{
+            iMessage.error(res?.desZh || '上传失败')
+          }
+        }).finally(()=>{
         this.uploading = false
-        if(res?.code==200){
-          this.$message.success("上传成功")
-          this.getTableList()
-        }
+        });
     },
     //标签设置弹窗
     setTagBtn () {
