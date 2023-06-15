@@ -23,6 +23,11 @@
         @handleSelectionChange="handleSelectionChange"
         border
     >
+    <template #fieldName="scope">
+        <span class="link" v-if="scope.row.approvalId" @click="handleOpenPage(scope.row)">{{scope.row.fieldName}}</span>
+        <span v-else>{{scope.row.fieldName}}</span>
+
+      </template>
       <!-- 变更前 -->
       <template #beforeValue="scope">
         <span class="value_click" v-if="scope.row.isAttachMent" @click="upload(scope.row.beforeValue)">{{scope.row.beforeFileName}}</span>
@@ -34,11 +39,18 @@
         <span v-else>{{scope.row.afterValue}}</span>
       </template>
     </table-list>
+    <processNode     
+    @clearDiolog="clearDiolog"
+      v-if="processNodeDiolog"
+      v-model="processNodeDiolog"
+      :instanceId="rowItem.approvalId"
+      ></processNode>
   </i-card>
 </template>
 
 <script>
 import {iCard, iButton} from "rise";
+import processNode from './processNode'
 import {generalPageMixins} from '@/views/generalPage/commonFunMixins'
 import tableList from '@/components/commonTable'
 import {tableTitle} from './data'
@@ -49,22 +61,32 @@ import {getSupplierEditList} from "../../../../api/supplier360/systemModificatio
 export default {
   mixins: [generalPageMixins],
   components: {
+    processNode,
     iCard,
     iButton,
     tableList
   },
   data() {
     return {
+      processNodeDiolog:false,
       tableListData: [],
       tableTitle: tableTitle,
       tableLoading: false,
-      selectTableData: []
+      selectTableData: [],
+      rowItem:{}
     }
   },
   created() {
     this.getTableList()
   },
   methods: {
+    handleOpenPage(row){
+      this.processNodeDiolog=true
+      this.rowItem=row
+    },
+    clearDiolog(){
+      this.processNodeDiolog=false
+    },
     async upload(val){
       await downloadUdFile(val)
     },
@@ -88,6 +110,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.link {
+  color: #1763f7;
+  cursor: pointer;
+}
 .value_click{
   color:#1763F7;
   text-decoration:underline;
