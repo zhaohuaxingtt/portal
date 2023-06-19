@@ -1066,6 +1066,7 @@ export default {
     edit() {
       //编辑
       if (this.selectList.length > 0) {
+        this.oldData = JSON.parse(JSON.stringify(this.tableData))
         this.editTypeNo = true
         this.editType = true
         var changeArrayList = []
@@ -1264,9 +1265,10 @@ export default {
           this.editType = false
           this.editTypeNo = false
           if (this.dialogEditType) {
-            this.editId.forEach((e) => {
-              this.tableData.splice(0, 1)
-            })
+            this.tableData = JSON.parse(JSON.stringify(this.oldData))
+            // this.editId.forEach((e) => {
+            //   this.tableData.splice(0, 1)
+            // })
             this.dialogEditType = false
           } else {
             this.getTableList()
@@ -1294,11 +1296,13 @@ export default {
       // }
     },
     continueBtn() {
+      this.oldData = JSON.parse(JSON.stringify(this.tableData))
       //沿用
       this.mtzAddShowNum = '0'
       this.mtzAddShow = true
     },
     upRuleBtn() {
+      this.oldData = JSON.parse(JSON.stringify(this.tableData))
       this.mtzAddShowNum = '1'
       this.mtzAddShow = true
     },
@@ -1343,6 +1347,7 @@ export default {
     },
     delecte() {
       //删除
+      if (!this.selectList.length) return iMessage.warn('请选择需要删除的数据')
       // console.log(this.$parent.$refs)
       iMessageBox(
         this.language('SHIFOUSHANCHU', '是否删除？'),
