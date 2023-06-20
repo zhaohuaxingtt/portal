@@ -11,6 +11,7 @@
       <iNavMvp :lang='true'
                :list="tabRouter"
                class="margin-bottom20"
+               :class="className"
                routerPage
                :lev="1" />
       <logButton class="logButton"
@@ -41,6 +42,7 @@ export default {
       categoryManagementAssistantList,
       isShowKpiMenu: true,
       showDialog: false,
+      className:'',
     }
   },
   computed: {
@@ -55,8 +57,10 @@ export default {
       this.$route.path.indexOf('/supplier/supplierListDis') != -1 ||
       this.$route.path.indexOf('/supplier/supplierListIndirect') != -1
     ) {
+      this.className='tabRouterListGP'
       this.tabRouter = this.tabRouterListGP
     }else{
+      this.className=''
       this.tabRouter = this.tabRouterList
     }
     // console.log(this.$route.path)
@@ -124,12 +128,17 @@ export default {
           top: calc(100% + 5px);
         }
       }
+      &:last-child{
+        max-width: unset !important; // 间接物料供应商不换行
+      }
     }
   }
-}
-
-::v-deep .nav div{
-  max-width: 170px!important;
+  // GP 供应商tab页较少，可以完全展示
+  // .tabRouterListGP{
+  //   div{
+  //     max-width: unset;
+  //   }
+  // }
 }
 
 </style>

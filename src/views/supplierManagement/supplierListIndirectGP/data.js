@@ -53,7 +53,7 @@ export const tableTitle = [
         width: 120,
         key: 'SUPPLIER_SUPPLIERTYPE'
     },
-    { props: 'gpBusinessType', name: '业务类型', width: 120, key: 'YEWULEIXING' },
+    { props: 'gpBusinessTypeArrayStr', name: '业务类型', width: 120, key: 'YEWULEIXING' },
     {
         props: 'createDate',
         name: '创建时间',
