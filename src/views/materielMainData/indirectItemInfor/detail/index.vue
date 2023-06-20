@@ -21,98 +21,110 @@
         </el-form>
       </iCard>
     </div>
-    <div class="measurement" v-show="bizId">
-      <iCard :title="language(title.icardMeasure)">
-        <div slot="header-control">
-          <div v-if="editStatus">
-            <iButton
-              @click="measurementEdit"
-              v-permission="'BUTTON_MATERIEL_DATA_PARTS_MESSAGE_UNIT_MODIFY'"
-              >{{ language('编辑') }}</iButton
-            >
-          </div>
-          <div v-else>
-            <iButton
-              @click="saveUnit"
-              v-permission="'BUTTON_MATERIEL_DATA_PARTS_MESSAGE_UNIT_MODIFY'"
-              >{{ language('保存') }}</iButton
-            >
-            <iButton
-              @click="unitTabCancel"
-              v-permission="'BUTTON_MATERIEL_DATA_PARTS_MESSAGE_UNIT_MODIFY'"
-              >{{ language('取消') }}</iButton
-            >
-          </div>
-        </div>
-        <div class="measureTable">
-          <el-form
-            label-position="left"
-            label-width="120px"
-            :rules="rules"
-            :model="materielUnit"
-            class="validate-required-form unit"
+    <iCard class="margin-top20" :title="language(title.icardMeasure)">
+      <div slot="header-control">
+        <div v-if="editStatus">
+          <iButton
+            @click="measurementEdit"
+            v-permission="'BUTTON_MATERIEL_DATA_PARTS_MESSAGE_UNIT_MODIFY'"
+            >{{ language('编辑') }}</iButton
           >
-            <el-row gutter="24">
-              <el-col :span="6">
-                <iFormItem
-                  :label="language('基本计量单位')"
-                  prop="materielUnit"
-                >
-                  <iSelect
-                    :placeholder="language('请选择')"
-                    :disabled="editStatus"
-                    v-model="materielUnit"
-                    @change="changeMaterielUnit"
-                    class="select"
-                  >
-                    <el-option
-                      v-for="item in unitoptions"
-                      :key="item.id"
-                      :value="item.id"
-                      :label="item.name"
-                    ></el-option>
-                  </iSelect>
-                </iFormItem>
-              </el-col>
-            </el-row>
-          </el-form>
-          <el-divider class="divider"></el-divider>
-          <div class="measure">
-            <div class="measuretitle">
-              {{ language(title.measuretitle) }}
-            </div>
-            <div class="btn" v-if="!editStatus">
-              <iButton @click="add">{{ language('新增') }}</iButton>
-              <iButton
-                @click="del"
-                :disabled="selectedItem.length > 0 ? false : true"
-                >{{ language('删除') }}</iButton
+        </div>
+        <div v-else>
+          <iButton
+            @click="saveUnit"
+            v-permission="'BUTTON_MATERIEL_DATA_PARTS_MESSAGE_UNIT_MODIFY'"
+            >{{ language('保存') }}</iButton
+          >
+          <iButton
+            @click="unitTabCancel"
+            v-permission="'BUTTON_MATERIEL_DATA_PARTS_MESSAGE_UNIT_MODIFY'"
+            >{{ language('取消') }}</iButton
+          >
+        </div>
+      </div>
+      <div class="measureTable">
+        <el-form
+          label-position="left"
+          label-width="120px"
+          :rules="rules"
+          :model="materielUnit"
+          class="validate-required-form unit"
+        >
+          <el-row gutter="24">
+            <el-col :span="6">
+              <iFormItem
+                :label="language('基本计量单位')"
+                prop="materielUnit"
               >
-            </div>
+                <iSelect
+                  :placeholder="language('请选择')"
+                  :disabled="editStatus"
+                  v-model="materielUnit"
+                  @change="changeMaterielUnit"
+                  class="select"
+                >
+                  <el-option
+                    v-for="item in unitoptions"
+                    :key="item.id"
+                    :value="item.id"
+                    :label="item.name"
+                  ></el-option>
+                </iSelect>
+              </iFormItem>
+            </el-col>
+          </el-row>
+        </el-form>
+        <el-divider class="divider"></el-divider>
+        <div class="measure">
+          <div class="measuretitle">
+            {{ language(title.measuretitle) }}
           </div>
-          <div class="tabelList" v-show="editStatus">
-            <iTableCustom
-              key="viewTable"
-              :loading="loading"
-              :data="data"
-              :extra-data="extraData"
-              :columns="measurementTable"
-            ></iTableCustom>
-          </div>
-          <div class="tabelList" v-show="!editStatus">
-            <iTableCustom
-              key="editTable"
-              ref="theCustomTable"
-              :loading="loading"
-              :data="measureEditdata"
-              :columns="measureEdit"
-              :extra-data="extraData"
-              @handle-selection-change="handleSelectionChange"
-            ></iTableCustom>
+          <div class="btn" v-if="!editStatus">
+            <iButton @click="add">{{ language('新增') }}</iButton>
+            <iButton
+              @click="del"
+              :disabled="selectedItem.length > 0 ? false : true"
+              >{{ language('删除') }}</iButton
+            >
           </div>
         </div>
-      </iCard>
-    </div>
+        <div class="tabelList" v-show="editStatus">
+          <iTableCustom
+            key="viewTable"
+            :loading="loading"
+            :data="data"
+            :extra-data="extraData"
+            :columns="measurementTable"
+          ></iTableCustom>
+        </div>
+        <div class="tabelList" v-show="!editStatus">
+          <iTableCustom
+            key="editTable"
+            ref="theCustomTable"
+            :loading="loading"
+            :data="measureEditdata"
+            :columns="measureEdit"
+            :extra-data="extraData"
+            @handle-selection-change="handleSelectionChange"
+          ></iTableCustom>
+        </div>
+      </div>
+    </iCard>
+    <iCard class="margin-top20" title="附件列表">
+      <el-table :data="itemContent.attachments">
+        <el-table-column label="附件名称" prop="fileName">
+          <template slot-scope="scope">
+            <span class="link" @click="downFile(scope.row.fileId)">
+              {{ scope.row.fileName }}
+            </span>
+          </template>
+        </el-table-column>
+        <el-table-column label="文件大小" prop="fileSize"></el-table-column>
+        <el-table-column label="创建人" prop="userName"></el-table-column>
+        <el-table-column label="创建日期" prop="createDate"></el-table-column>
+      </el-table>
+    </iCard>
   </iPage>
 </template>
 
@@ -130,6 +142,7 @@ import {
 import iTableCustom from '@/components/iTableCustom'
 import pageHeader from '@/components/pageHeader'
 import { measurementTable, itemLabel, measureEdit } from './data.js'
+import { downloadUdFile } from '@/api/file';
 import {
   indirectMaterialDetail,
   materielUnit,
@@ -151,6 +164,10 @@ export default {
     iTableCustom
   },
   methods: {
+    // 下载
+    downFile (fileId) {
+      downloadUdFile(fileId)
+    },
     changeMaterielUnit() {
       for (let item of this.unitoptions) {
         if (item.id == this.materielUnit) {
@@ -349,7 +366,9 @@ export default {
         ],
         materielUnit: [{ required: true, message: ' ', trigger: 'blur' }]
       },
-      itemContent: {},
+      itemContent: {
+        attachments:[]
+      },
       bizId: '',
       editStatus: true,
       title: {
@@ -385,7 +404,6 @@ export default {
   display: flex;
   justify-content: flex-end;
 }
-.measurement,
 .tabelList,
 .basicMessage,
 .elForm {

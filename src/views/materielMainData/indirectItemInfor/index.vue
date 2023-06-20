@@ -155,7 +155,7 @@ export default {
       searchContent: {},
       searchFormData,
       data: [],
-      unitoptions: {}
+      unitoptions: []
     }
   }
 }
