@@ -111,7 +111,7 @@
         </div>
       </div>
     </iCard>
-    <iCard class="margin-top20" :title="language(title.icardMeasure)">
+    <iCard class="margin-top20" title="附件列表">
       <el-table :data="itemContent.attachments">
         <el-table-column label="附件名称" prop="fileName">
           <template slot-scope="scope">
