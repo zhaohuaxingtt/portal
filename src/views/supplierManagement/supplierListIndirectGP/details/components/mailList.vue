@@ -20,16 +20,6 @@
       ref="commonTable"
       border
     >
-      <template #contactTypeDesc="scope">
-        <div>
-          {{ scope.row.contactTypeDesc
-          }}<span
-            v-if="scope.row.contactTypeDesc == '商务联系人'"
-            style="color: red"
-            >*</span
-          >
-        </div>
-      </template>
       <template slot="nameZh" slot-scope="scope">
         <iInput
           :placeholder="$t('LK_QINGSHURU')"
