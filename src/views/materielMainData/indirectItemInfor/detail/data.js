@@ -50,6 +50,9 @@ export const itemLabel = {
   model: '规格型号',
   unitIdName: '单位',
   brand: '品牌',
+  isSingle: '单一标识',
+  sMaterialGroupCode: '采购分类',
+  drawingNumber: '图号',
 }
 export const measureEdit = [
   {

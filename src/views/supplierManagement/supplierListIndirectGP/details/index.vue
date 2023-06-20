@@ -341,7 +341,8 @@ export default {
               this.$refs.opneBank.getYP()
             if (this.supplierComplete.subBankList)
               this.$refs.opneBank.getSubBank()
-
+            // 是否大陆厂商 校验必填项
+            this.changeFact(this.supplierComplete.supplierDTO.isForeignManufacture)
             listSupplierUser(res.data.gpSupplierInfoVO.id).then((res) => {
               if (res?.code == 200) {
                 this.mailListData = res.data?.list || []

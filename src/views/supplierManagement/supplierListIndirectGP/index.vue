@@ -54,9 +54,6 @@
         <template #supplierType="scope">
           <span>{{scope.row.supplierType==='PP'?'生产供应商':scope.row.supplierType==='GP'?'一般供应商':scope.row.supplierType==='PD'?'共用供应商':''}} </span>
         </template>
-        <template #gpBusinessType="scope">
-          <span>{{scope.row.gpBusinessType==='4'?'间接物料':scope.row.gpBusinessTypeArrayStr}} </span>
-        </template>
       </tableList>
       <iPagination
         v-update
