@@ -128,11 +128,6 @@ export const bankRulesBank = {
 }
 
 export const tableTitle = [
-	// {
-	// 	props: 'contactTypeDesc',
-	// 	name: '联系人类型',
-	// 	key: 'SUPPLIER_LIANXIRENLEIXING'
-	// },
 	{
 		props: 'nameZh',
 		name: '联系人姓名',
@@ -142,23 +137,23 @@ export const tableTitle = [
 	},
 	{ props: 'designation', name: '职位', key: 'SUPPLIER_ZHIWEI', width: 200 },
 	{ props: 'dept', name: '部门', key: 'SUPPLIER_BUMEN', width: 200 },
-	{ props: 'telephoneAreaCode', name: '区号', key: 'SUPPLIER_QUHAO' },
+	{ props: 'telephoneAreaCode', name: '区号', key: 'SUPPLIER_QUHAO', width: 120 },
 	{
 		props: 'telephone',
 		name: '联系电话',
 		key: 'SUPPLIER_LIANXIDIANHUA',
 		required: true,
 		rule: [
-			{required: true, message: '请输入', trigger: 'blur'},
-			{pattern: /^[0-9]+$/, message: '请输入', trigger: 'blur'},
+			{required: true, message: '请输入手机号码', trigger: 'blur'},
+			{pattern: /^1[3|4|5|6|7|8][0-9]{9}$/, message: '请输入手机号码', trigger: 'blur'},
 		],
-		width: 150
+		width: 180
 	},
 	{
 		props: 'email',
 		name: '电子邮件',
 		key: 'SUPPLIER_DIANZIYOUJIAN',
-		width: 270,
+		width: 300,
 		required: true,
 		rule: [
             {required: true, message: '请输入', trigger: 'blur'},
