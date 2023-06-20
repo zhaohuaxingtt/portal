@@ -1746,6 +1746,7 @@ export default {
           list[index].endDate = item.endDate
           list[index].startDate = item.startDate
           list[index].dosage = item.dosage
+          list[index] = this.setRuleData(list[index], item.ruleNo)
         }
       })
       console.log(list);
@@ -1761,7 +1762,24 @@ export default {
       this.editId = changeArrayList
       this.dialogEditType = true
       this.pageAppRequest()
-    }
+    },
+    // 根据规则号填充对应的数据
+    setRuleData(row, val) {
+      var noList = deepClone(this.ruleNo)
+      try {
+        noList.forEach((e) => {
+          if (e.ruleNo == val) {
+            row.supplierId = e.supplierId.toString() || e.sapCode.toString()
+            row.priceSource = e.source || e.priceSource
+            row = Object.assign(row, e)
+            throw new Error('EndIterative')
+          }
+        })
+      } catch (e) {
+        if (e.message != 'EndIterative') throw e
+      }
+      return row
+    },
   }
 }
 </script>
