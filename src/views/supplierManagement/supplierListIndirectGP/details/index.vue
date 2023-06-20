@@ -496,6 +496,9 @@ export default {
           if (this.$route.query.subSupplierId) {
             data.supplierId = this.$route.query.subSupplierId
           }
+          if(this.supplierComplete.supplierDTO.isForeignManufacture=='0'){
+            this.supplierComplete.settlementBankDTO.bankTaxCode = this.supplierComplete.supplierDTO.socialcreditNo
+          }
           setTimeout(() => {
             saveOrUpdate(data)
               .then((res) => {
