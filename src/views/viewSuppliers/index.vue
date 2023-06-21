@@ -22,7 +22,7 @@
                 @toLogPage="toLog" />
     <supplier360-page v-if="current === 1" />
     <iUserLog :show.sync="showDialog"
-              menuId="WS3203"
+              :menuId="menuId"
               is-page />
   </div>
 </template>
@@ -48,6 +48,15 @@ export default {
       flag: true,
       showDialog: false,
       onLoading: false
+    }
+  },
+  computed: {
+    menuId(){
+      if(this.$route.query.type=='DC'){
+        return 'GP-CONTRACT-111'
+      }else{
+        return 'WS3203'
+      }
     }
   },
   created(){
