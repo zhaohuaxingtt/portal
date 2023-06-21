@@ -240,21 +240,33 @@ export default {
         mtzBalanceDetailsExport({
           mtzDocId: this.mtzDocId
         }).then(res => {
-          if (res.type === 'application/json') {
-            iMessage.error(this.language('LK_ZANWUSHUJU', '暂无数据'))
+          if (res.type == 'application/json') {
+            // 提示信息
+            const data = new FileReader() // 文件API用于读取文件
+            data.readAsText(res, 'utf-8') // 将文件以utf-8编码方式读取，结果为string文本
+            data.onload = () => {
+              // 文件读取完成触发
+              let dataResult = data.result // result为读取后的结果
+              const parseObj = JSON.parse(dataResult) // 将读取后的string文本转为json数据
+              if (parseObj?.code == '200') {
+                iMessage.success(parseObj.data)
+              } else {
+                iMessage.error(parseObj.data)
+              }
+            }
           } else {
-            let blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8" });
-            let objectUrl = URL.createObjectURL(blob);
-            let link = document.createElement("a");
-            link.href = objectUrl;
-            let fname = "MTZ补差单汇总凭证" + this.dataObject.bizNo + ".pdf";
-            link.setAttribute("download", fname);
-            document.body.appendChild(link);
-            link.click();
-            link.parentNode.removeChild(link);
-            iMessage.success("链接成功！")
+            // 下载文件 - 文件流
+            let blob = new Blob([res])
+            let objectUrl = URL.createObjectURL(blob)
+            let link = document.createElement('a')
+            link.href = objectUrl
+            let fname = 'MTZ补差单汇总凭证' + this.dataObject.bizNo + '.pdf'
+            link.setAttribute('download', fname)
+            document.body.appendChild(link)
+            link.click()
+            link.parentNode.removeChild(link)
+            iMessage.success('链接成功！')
           }
-
         })
       }).catch((err) => {
         console.log(err)

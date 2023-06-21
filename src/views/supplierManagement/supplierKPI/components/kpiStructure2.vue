@@ -481,13 +481,13 @@ export default {
     addCell() {
       const tableChild = this.formDataLevel2.childVo.childVo
       console.log(tableChild)
-      if (tableChild.length == 5)
-        return this.$message({
-          type: 'error',
-          message: '每层最多5个分支',
-          duration: 10000, // error 错误提示显示10秒
-          showClose: true
-        })
+      // if (tableChild.length == 5)
+      //   return this.$message({
+      //     type: 'error',
+      //     message: '每层最多5个分支',
+      //     duration: 10000, // error 错误提示显示10秒
+      //     showClose: true
+      //   })
       tableChild.push({
         isShow:true,
         indicatorLibraryId: '',
@@ -504,13 +504,13 @@ export default {
 
       if (str === '2') {
         console.log(tableChild)
-        if (tableChild[index].childVo.length == 5)
-          return this.$message({
-            type: 'error',
-            message: '每层最多5个分支',
-            duration: 10000, // error 错误提示显示10秒
-            showClose: true
-          })
+        // if (tableChild[index].childVo.length == 5)
+        //   return this.$message({
+        //     type: 'error',
+        //     message: '每层最多5个分支',
+        //     duration: 10000, // error 错误提示显示10秒
+        //     showClose: true
+        //   })
         tableChild[index].childVo.push({
           isShow:true,
           indicatorLibraryId: '',
@@ -522,13 +522,13 @@ export default {
           // tableChild[index].indicatorLibraryId = ''
         }
       } else if (str === '3') {
-        if (tableChild[index].childVo[idx3].childVo.length == 5)
-          return this.$message({
-            type: 'error',
-            message: '每层最多5个分支',
-            duration: 10000, // error 错误提示显示10秒
-            showClose: true
-          })
+        // if (tableChild[index].childVo[idx3].childVo.length == 5)
+        //   return this.$message({
+        //     type: 'error',
+        //     message: '每层最多5个分支',
+        //     duration: 10000, // error 错误提示显示10秒
+        //     showClose: true
+        //   })
         tableChild[index].childVo[idx3].childVo.push({
           isShow:true,
 
@@ -541,13 +541,13 @@ export default {
           // tableChild[index].childVo[idx3].indicatorLibraryId = ''
         }
       } else if (str === '4') {
-        if (tableChild[index].childVo[idx3].childVo[idx4].childVo.length == 5)
-          return this.$message({
-            type: 'error',
-            message: '每层最多5个分支',
-            duration: 10000, // error 错误提示显示10秒
-            showClose: true
-          })
+        // if (tableChild[index].childVo[idx3].childVo[idx4].childVo.length == 5)
+        //   return this.$message({
+        //     type: 'error',
+        //     message: '每层最多5个分支',
+        //     duration: 10000, // error 错误提示显示10秒
+        //     showClose: true
+        //   })
         tableChild[index].childVo[idx3].childVo[idx4].childVo.push({
           isShow:true,
 

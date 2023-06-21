@@ -1,5 +1,5 @@
 <template>
-  <iDialog :visible.sync="visible" width="90%" :before-close="close">
+  <iDialog :visible.sync="visible" width="85%" top="7vh" :before-close="close">
     <div class="Main">
       <div class="SearchMenu">
         <div class="SearchOptions">
@@ -89,6 +89,7 @@
             </div>
             <div class="OrganizationTable">
               <iTableCustom
+                height='350'
                 ref="userTable"
                 :loading="tableLoading"
                 :data="tableListData"
