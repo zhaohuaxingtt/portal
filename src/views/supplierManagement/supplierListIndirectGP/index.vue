@@ -14,7 +14,7 @@
         <!-- v-permission="SUPPLIER_DISPERSEDSUPPLIER_ADD_GP" -->
         <i-button @click="exportsTableAdd">{{ $t('LK_XINZENG') }}</i-button>
         <i-button @click="exportsTableEdit">{{ $t('LK_BIANJI') }}</i-button>
-        <el-upload
+        <!-- <el-upload
           class="upload"
           action="1"
           :accept="'.xlsx,.xls'"
@@ -23,7 +23,7 @@
           :disabled="importLoading"
         >
           <iButton :loading="uploading">{{ language('批量上传', '批量上传') }} </iButton>
-        </el-upload>
+        </el-upload> -->
         <i-button @click="setTagBtn">{{ language('BIAOQIANSHEZHI', '标签设置') }}</i-button>
         <i-button @click="synchro" :loading="sapLoading">{{
           language('TONGBUSAP', '同步SAP')
