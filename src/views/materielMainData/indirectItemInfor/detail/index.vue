@@ -113,16 +113,16 @@
     </iCard>
     <iCard class="margin-top20" title="附件列表">
       <el-table :data="itemContent.attachments">
-        <el-table-column label="附件名称" prop="fileName">
+        <el-table-column label="附件名称" prop="fileName" align="center">
           <template slot-scope="scope">
             <span class="link" @click="downFile(scope.row.fileId)">
               {{ scope.row.fileName }}
             </span>
           </template>
         </el-table-column>
-        <el-table-column label="文件大小" prop="fileSize"></el-table-column>
-        <el-table-column label="创建人" prop="userName"></el-table-column>
-        <el-table-column label="创建日期" prop="createDate"></el-table-column>
+        <el-table-column label="文件大小" prop="fileSize" align="center"></el-table-column>
+        <!-- <el-table-column label="创建人" prop="userName"></el-table-column> -->
+        <el-table-column label="创建日期" prop="createDate" align="center"></el-table-column>
       </el-table>
     </iCard>
   </iPage>
