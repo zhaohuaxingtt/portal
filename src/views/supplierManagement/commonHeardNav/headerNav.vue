@@ -17,7 +17,7 @@
       <logButton class="logButton"
                  @toLogPage="toLog" />
       <iUserLog :show.sync="showDialog"
-                menuId="WS3203"
+                :menuId="menuId"
                 is-page />
     </div>
   </div>
@@ -43,15 +43,23 @@ export default {
       isShowKpiMenu: true,
       showDialog: false,
       className:'',
+      // menuId:'WS3203',
     }
   },
   computed: {
     whiteBtnList () {
       return this.$store.state.permission.whiteBtnList
+    },
+    menuId(){
+      console.log(this.$route.path);
+      if(this.$route.path.indexOf('/supplier/supplierListIndirect')!=-1){
+        return 'GP-CONTRACT-111'
+      }else{
+        return 'WS3203'
+      }
     }
   },
   created(){
-    console.log(this.$route.path);
     if (
       this.$route.path.indexOf('/supplier/supplierListGP') != -1 ||
       this.$route.path.indexOf('/supplier/supplierListDis') != -1 ||
