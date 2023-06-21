@@ -70,17 +70,25 @@
         </el-dropdown>
         <uploadButton
           ref="uploadButton"
+          key="1"
           v-permission="PORTAL_DATABASE_SEARCH_PARTSRELATIONSHIP_SHANGCHUAN"
           :buttonText="language('LK_SHANGCHUAN', '上传')"
           :uploadByBusiness="true"
+          :uploadButtonLoading="uploadButtonLoading"
+          :disabled="uploadButtonLoading"
+          :showDisabled="false"
           @uploadedCallback="handleUpload($event)"
           class="margin-left10 margin-right10"
         />
         <uploadButton
           ref="uploadButton"
+          key="2"
           v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_SCYECJLJGX"
           :buttonText="'二次件多点模板上传'"
           :uploadByBusiness="true"
+          :uploadButtonLoading="uploadButtonLoadingTwo"
+          :disabled="uploadButtonLoadingTwo"
+          :showDisabled="false"
           @uploadedCallback="handleUploadTwo($event)"
           class="margin-left10 margin-right10"
         />
@@ -195,6 +203,8 @@ export default {
       bomInfo: {},
       selection: [],
       openorclose:false,
+      uploadButtonLoadingTwo: false,
+      uploadButtonLoading: false
     }
   },
   mounted() {
@@ -220,6 +230,7 @@ export default {
     handleUploadTwo(content) {
       let formdata = new FormData()
       formdata.append('file', content.file)
+      this.uploadButtonLoadingTwo = true
       uploadSecPartExcel(formdata).then((res) => {
         this.files = null
         if(res.data){
@@ -232,11 +243,14 @@ export default {
         }else{
           iMessage.warn(res.desZh)
         }
+      }).finally(()=>{
+        this.uploadButtonLoadingTwo = false
       })
     },
     handleUpload(content) {
       let formdata = new FormData()
       formdata.append('file', content.file)
+      this.uploadButtonLoading = true
       uploadPartExcel(formdata).then((res) => {
         this.files = null
         if (res && res.code == 200) {
@@ -248,6 +262,8 @@ export default {
         } else {
           iMessage.warn(res.desZh)
         }
+      }).finally(()=>{
+        this.uploadButtonLoading = false
       })
     },
     getList() {
