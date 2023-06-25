@@ -38,6 +38,7 @@
               slot="label"
             ></iLabel>
             <iSelect
+              :disabled="$route.query.subSupplierId"
               v-model="supplierComplete.supplierDTO[item.key]"
               @change="changeFact(supplierComplete.supplierDTO[item.key])"
             >
