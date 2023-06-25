@@ -223,7 +223,7 @@ export default {
       }
       if (this.listData.length > 1) {
         return iMessage.error(
-          this.language('ZHINENGXUANZEYITIAO', '只能选择一条')
+          this.language('只能选择一条', '只能选择一条')
         )
       }
       this.sapLoading = true
