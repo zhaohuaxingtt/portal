@@ -5,12 +5,15 @@
     </div>
     <search
       class="margin-top20"
-      @sure="sure"
-      @reset="reset"
       :searchFormData="searchFormData"
       :searchForm="searchForm"
       :options="options"
-    />
+    >
+      <template>
+        <iButton @click="sure">{{ $t('TM_CHAXUN') }}</iButton>
+        <iButton @click="reset">{{ $t('TM_CHONGZHI') }}</iButton>
+      </template>
+    </search>
     <iCard class="margin-top20">
       <div class="flex margin-bottom10">
         <span class="table-title">任务列表</span>
@@ -52,13 +55,13 @@
 </template>
 
 <script>
-import { iPage, iCard, iButton, iTableCustom, iPagination } from 'rise'
+import { iPage, iCard, iButton, iTableCustom, iPagination, iMessage } from 'rise'
 import buttonTableSetting from 'rise/web/components/buttonTableSetting'
 import { tableSortMixins } from 'rise/web/components/iTableSort/tableSortMixins'
 import search from './components/search.vue'
 import transferDialog from './components/transferDialog.vue'
 import { pageMixins } from '@/utils/pageMixins'
-import { findByPage } from '@/api/terms/terms'
+import { taskPage, listTaskStatus, listTaskType } from '@/api/taskManagement/index'
 import { searchFormData, tableTitle } from './data'
 
 export default {
@@ -76,8 +79,15 @@ export default {
   data() {
     return {
       searchFormData,
-      searchForm: {},
-      options: {},
+      searchForm: {
+        processingStatus:''
+      },
+      options: {
+        taskTypeList:[],
+        processingStatus:[],
+        supplierIdList:[],
+        senderIdList:[],
+      },
       tableTitle,
       tableListData: [],
       selected:[],
@@ -87,110 +97,61 @@ export default {
   },
   mounted() {
     this.getData()
+    this.listTaskStatus()
+    this.listTaskType()
   },
   methods: {
-    sure() {},
-    reset() {},
+    listTaskStatus(){
+      listTaskStatus().then(res=>{
+        if(res?.code==200){
+          this.options.processingStatus = res.data.map(item=>{
+            return {
+              value: item.code,
+              label: item.message
+            }
+          })
+        }
+      })
+    },
+    listTaskType(){
+      listTaskType().then(res=>{
+        if(res?.code==200){
+          this.options.taskTypeList = res.data.map(item=>{
+            return {
+              value: item.code,
+              label: item.message
+            }
+          })
+        }
+      })
+    },
+    sure() {
+      this.page.currPage = 1
+      this.getData()
+    },
+    reset() {
+      this.searchForm = {
+        processingStatus:''
+      }
+      this.sure()
+    },
     // 转派
     transferBtn(){
+      if(this.selected.length!=1) return iMessage.warn('请选择一条需要转派的数据')
+      if(this.selected.some(item=>item.processingStatus=='2')) return iMessage.warn('该任务已完成，不可转派')
       this.transferVisiable = true
     },
     handleSelectionChange(val){
       this.selected = val
     },
-    getData(e) {
-      this.searchForm = e
-      this.page.currPage = 1
-      let param = {
-        ...this.searchForm,
-        pageNum: 1,
-        pageSize: this.page.pageSize
-      }
-      this.query(param)
-    },
-    refTabList() {
-      this.page.currPage = 1
-      let param = {
-        ...this.searchForm,
-        pageNum: 1,
-        pageSize: this.page.pageSize
-      }
-      this.query(param)
-    },
-    handleChangePage(e) {
-      this.page.currPage = e
-      let param = {
-        ...this.searchForm,
-        pageNum: this.page.currPage,
-        pageSize: this.page.pageSize
-      }
-      this.query(param)
-    },
-    handleSizeChange(e) {
-      this.page.currPage = 1
-      this.page.pageSize = e
-      let param = {
-        ...this.searchForm,
-        pageNum: this.page.currPage,
-        pageSize: this.page.pageSize
-      }
-      this.query(param)
-    },
-    query(e) {
+    getData() {
       this.tableLoading = true
-      if (typeof e.isPersonalTerms != 'boolean') {
-        delete e.isPersonalTerms
+      let params = {
+        ...this.searchForm,
+        pageNum: this.page.currPage,
+        pageSize: this.page.pageSize
       }
-      if (
-        e.supplierRange == '' ||
-        e.supplierRange == null ||
-        e.supplierRange == undefined
-      ) {
-        delete e.supplierRange
-      } else {
-        let temp = []
-        e.supplierRange.includes('PP') ? temp.push('PP') : ''
-        e.supplierRange.includes('GP') ? temp.push('GP') : ''
-        e.supplierRange.includes('NT') ? temp.push('NT') : ''
-        e.supplierRange = temp
-          .map((i) => {
-            return i
-          })
-          .join(',')
-      }
-      if (
-        e.supplierIdentity == '' ||
-        e.supplierIdentity == null ||
-        e.supplierIdentity == undefined
-      ) {
-        delete e.supplierIdentity
-      } else {
-        e.supplierIdentity = e.supplierIdentity
-          .sort()
-          .map((i) => {
-            return i
-          })
-          .join(',')
-      }
-      if (e.state == '' || e.state == null || e.state == undefined) {
-        delete e.state
-      } else {
-        e.state = e.state
-          .map((i) => {
-            return i
-          })
-          .join(',')
-      }
-      if (e.signNode == '' || e.signNode == null || e.signNode == undefined) {
-        delete e.signNode
-      } else {
-        e.signNode = e.signNode
-          .map((i) => {
-            return i
-          })
-          .join(',')
-      }
-      findByPage(e)
+      taskPage(params)
         .then((res) => {
           this.tableListData = res.data
           this.page.totalCount = res.total

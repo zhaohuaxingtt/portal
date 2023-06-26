@@ -65,8 +65,7 @@
       </iFormItem>
     </iFormGroup>
     <template v-slot:button>
-      <iButton @click="getTableList">{{ $t('TM_CHAXUN') }}</iButton>
-      <iButton @click="handleSearchReset">{{ $t('TM_CHONGZHI') }}</iButton>
+      <slot></slot>
     </template>
   </iSearch>
 </template>

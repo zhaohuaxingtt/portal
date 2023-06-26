@@ -23,12 +23,12 @@
           align="center"
         ></el-table-column>
         <el-table-column
-          prop="email"
+          prop="handler"
           label="原负责人"
           align="center"
         ></el-table-column>
         <el-table-column
-          prop="nameZh"
+          prop="targetUserName"
           label="转派至"
           align="center"
         ></el-table-column>
@@ -55,11 +55,11 @@
 </template>
 
 <script>
-import { iButton, iDialog, iInput, iPagination } from 'rise'
-import { findRoundTerms, excludeBatch } from '@/api/terms/terms'
+import { iButton, iDialog, iInput, iPagination, iMessage } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import iTableML from '@/components/iTableML'
 import Staff from './staff.vue'
+import { taskTransfer } from '@/api/taskManagement/index'
 export default {
   mixins: [pageMixins],
   components: {
@@ -79,20 +79,13 @@ export default {
       tableData: [],
       index:'',
       row: {},
-      tableListData: [],
-      tableLoading: false,
       staffDialogVisible: false,
-      typeObject: {},
-      selectedTableData: [],
-      tags: [],
-      shortNameZh: ''
     }
   },
   watch: {
     visible(val) {
       if (val) {
-        this.tableData = [{}] || JSON.parse(JSON.stringify(this.selected))
-        console.log('val=>', val)
+        this.tableData = JSON.parse(JSON.stringify(this.selected))
       }
     }
   },
@@ -105,159 +98,32 @@ export default {
     // 选择用户后回调
     confirm(userInfo){
       console.log(userInfo);
-      this.row = {...this.row,...userInfo}
+      this.row = {...this.row,targetUserId:userInfo.id, targetUserName: userInfo.nameZh}
       this.staffDialogVisible = false
-      // this.tableData[this.index] = this.row
       this.$set(this.tableData,[this.index],this.row)
 
     },
     // 确认转派
     handleConfirmTransfer(){
-      this.clearDiolog()
-      this.$emit('getData')
-    },
-    toggleSelection(rows) {
-      if (rows) {
-        this.$refs.multipleTable.$children[0].clearSelection()
-        this.$nextTick(() => {
-          this.tableListData.forEach((item, index) => {
-            rows.forEach((row) => {
-              if (
-                (row.userId ? row.userId : row.supplierId) ==
-                (item.userId ? item.userId : item.supplierId)
-              ) {
-                this.$refs.multipleTable.$children[0].toggleRowSelection(
-                  this.tableListData[index],
-                  true
-                )
-              }
-            })
-          })
-        })
-      } else {
-        this.$refs.multipleTable.$children[0].clearSelection()
+      if(!this.tableData[0].originalUserId) return iMessage.warn('请选择转派目标用户')
+      let params = {
+        originalUserId:this.tableData[0].handler,
+        targetUserId:this.tableData[0].targetUserId,
+        taskId:this.tableData[0].taskId,
       }
-    },
-    handleDelAll() {
-      this.tags = []
-      this.toggleSelection()
-    },
-    getTableList() {
-      this.page.currPage = 1
-      this.page.pageSize = 10
-      let param = {
-        termsId: this.id,
-        shortNameZh: this.shortNameZh,
-        pageNum: 1,
-        pageSize: 10
-      }
-      this.query(param)
+      taskTransfer(params).then(res=>{
+        if(res?.code==200){
+          iMessage.success('转派成功')
+          this.clearDiolog()
+          this.$emit('getData')
+        }else{
+          iMessage.error(res.desZh)
+        }
+      })
     },
     clearDiolog() {
       this.$emit('update:visible', false)
     },
-    handleChangePage(e) {
-      this.page.currPage = e
-      let param = {
-        termsId: this.id,
-        shortNameZh: this.shortNameZh,
-        pageNum: this.page.currPage,
-        pageSize: this.page.pageSize
-      }
-      this.query(param)
-    },
-    handleChangeSize(e) {
-      this.page.currPage = 1
-      this.page.pageSize = e
-      let param = {
-        termsId: this.id,
-        shortNameZh: this.shortNameZh,
-        pageNum: this.page.currPage,
-        pageSize: this.page.pageSize
-      }
-      this.query(param)
-    },
-    query(e) {
-      this.tableLoading = true
-      findRoundTerms(e).then((res) => {
-        this.tableListData = res.data
-        this.page.total = res.total
-        this.toggleSelection(this.tags)
-        this.tableLoading = false
-      })
-      // .catch(() => {
-      //   this.tableLoading = false
-      // })
-    },
-    // 表格选中值集
-    handleSelectionChange(val) {
-      this.selectedTableData = val
-    },
-    handleSelectTable(selection, row) {
-      if (selection.includes(row)) {
-        this.tags.push(row)
-      } else {
-        this.tags.forEach((o, index) => {
-          if (
-            (o.userId ? o.userId : o.supplierId) ==
-            (row.userId ? row.userId : row.supplierId)
-          ) {
-            this.tags.splice(index, 1)
-          }
-        })
-      }
-    },
-    handleSelectAll(val) {
-      let indexs = this.tableListData.map((e) => {
-        return e.userId ? e.userId : e.supplierId
-      })
-      this.tags = this.tags.filter((e) => {
-        return !indexs.includes(e.userId ? e.userId : e.supplierId)
-      })
-      if (val.length > 0) {
-        this.tags = this.tags.concat(val)
-      }
-    },
-    handleChecked() {
-      if (this.tags.length > 0) {
-        this.$confirm(
-          this.$t('TM_SHIFOUQUERENBIAOJILIWAI'),
-          this.$t('TM_TISHI'),
-          {
-            confirmButtonText: this.$t('TM_SHI'),
-            cancelButtonText: this.$t('TM_FOU'),
-            type: 'warning'
-          }
-        ).then(() => {
-          let list = this.tags.map((item) => {
-            return { supplierId: item.supplierId, userId: item.userId }
-          })
-          excludeBatch({ termsId: this.id, list })
-            .then((res) => {
-              if (res.code == 200) {
-                this.$message.success(this.$t('TM_CAOZUOCHENGGONG'))
-                this.$emit('closeDialog', false)
-                this.$emit('getTableList', { termsId: this.id })
-              }
-            })
-            .catch(() => {
-              // this.$message.error("删除失败!");
-            })
-        })
-      } else {
-        this.$message.error(
-          this.$t('TM_QINGXUANZEXUYAOJINXINGLIWAIBIAOJIDESHUJU')
-        )
-      }
-    },
-    handleDel(id) {
-      this.tags.forEach((e, index) => {
-        if ((e.userId ? e.userId : e.supplierId) == id) {
-          this.tags.splice(index, 1)
-        }
-      })
-      this.toggleSelection(this.tags)
-    }
   }
 }
 </script>
