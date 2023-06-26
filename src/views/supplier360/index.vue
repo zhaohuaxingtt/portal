@@ -48,7 +48,8 @@ import financialBigNumbers from '@/views/generalPage/financialBigNumbers'
 import financialData from '@/views/generalPage/financialData'
 import supplyCompany from '@/views/generalPage/supplyCompany'
 import clauseSignRecord from '@/views/generalPage/clauseSignRecord'
-import { submitRegularInfo } from '../../api/supplier360/common'
+// import relatedTasks from '@/views/generalPage/relatedTasks'
+import approvalRecords from '@/views/generalPage/approvalRecords'
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 
 export default {
@@ -75,7 +76,9 @@ export default {
     financialData,
     supplyCompany,
     purchaseClassification,
-    clauseSignRecord
+    clauseSignRecord,
+    // relatedTasks,
+    approvalRecords
   },
   data () {
     return {
@@ -240,6 +243,25 @@ export default {
           component: 'clauseSignRecord',
           key: '条款签署记录',
           permission: 'SUPPLIER_SUPPLYCOMPANY'
+          // permission: 'SUPPLIER_CLAUSE_SIGN_RECORD'
+        },
+        // {
+        //   current: '21',
+        //   title: '相关任务',
+        //   ref: 'relatedTasks',
+        //   component: 'relatedTasks',
+        //   key: '相关任务',
+        //   permission: 'SUPPLIER_SUPPLYCOMPANY'
+        //   // permission: 'SUPPLIER_RELATED_TASKS'
+        // },
+        {
+          current: '22',
+          title: '审批记录',
+          ref: 'approvalRecords',
+          component: 'approvalRecords',
+          key: '审批记录',
+          permission: 'SUPPLIER_SUPPLYCOMPANY'
+          // permission: 'SUPPLIER_APPROVAL_RECORDS'
         }
       ],
       listGP: [
@@ -393,7 +415,23 @@ export default {
           ref: 'clauseSignRecord',
           component: 'clauseSignRecord',
           key: '条款签署记录',
-          permission: 'SUPPLIER_SUPPLYCOMPANY'
+          permission: 'SUPPLIER_CLAUSE_SIGN_RECORD'
+        },
+        // {
+        //   current: '20',
+        //   title: '相关任务',
+        //   ref: 'relatedTasks',
+        //   component: 'relatedTasks',
+        //   key: '相关任务',
+        //   permission: 'SUPPLIER_RELATED_TASKS'
+        // },
+        {
+          current: '21',
+          title: '审批记录',
+          ref: 'approvalRecords',
+          component: 'approvalRecords',
+          key: '审批记录',
+          permission: 'SUPPLIER_APPROVAL_RECORDS'
         }
       ],
       refData: [],
