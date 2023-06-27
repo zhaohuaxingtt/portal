@@ -39,7 +39,6 @@
         @handle-selection-change="handleSelectionChange"
       />
       <iPagination
-        class="footer-pagination"
         @size-change="handleSizeChange($event, sure)"
         @current-change="handleCurrentChange($event, getData)"
         :page-sizes="page.pageSizes"
@@ -47,8 +46,7 @@
         :current-page="page.currPage"
         :total="page.totalCount"
         :layout="page.layout"
-      >
-      </iPagination>
+      />
     </iCard>
     <transferDialog :visible.sync="transferVisiable" :selected="selected" @getData="getData"/>
   </iPage>
