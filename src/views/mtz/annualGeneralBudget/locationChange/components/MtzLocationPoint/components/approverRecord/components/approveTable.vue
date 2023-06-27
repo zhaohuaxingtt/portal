@@ -223,7 +223,7 @@ export default {
       riseId: "",
       selectDeptList: [],
       selectSectionList: [],
-      flag: false,
+      flag: true,
       disabled: false,
       rules: {
         approvalDepartment: [
@@ -255,10 +255,10 @@ export default {
     mtzObject () {
       return this.$store.state.location.mtzObject;
     },
-    isEditNew: function () {
-      const appStatusArr=['草稿','已提交','未通过','通过','复核未通过','M退回']
-      return (this.appStatus == '草稿' || this.appStatus == '未通过')||(((this.flowType=='SIGN'||this.flowType=='FILING')&&this.appStatus=='已提交')||(appStatusArr.indexOf(this.appStatus)>0&&this.flowType=="MEETING"))
-    },
+    // isEditNew: function () {
+    //   const appStatusArr=['草稿','已提交','未通过','通过','复核未通过','M退回']
+    //   return (this.appStatus == '草稿' || this.appStatus == '未通过')||(((this.flowType=='SIGN'||this.flowType=='FILING')&&this.appStatus=='已提交')||(appStatusArr.indexOf(this.appStatus)>0&&this.flowType=="MEETING"))
+    // },
   },
   watch: {
     mtzObject (newVlue, oldValue) {
@@ -518,8 +518,10 @@ export default {
         mtzAppId: this.mtzAppId || ''
       }).then(res => {
         if (res?.code === '200') {
-          
-        if (this.isEditNew) {           
+        let appStatus = res.data.appStatus
+        let appStatusArr=['草稿','已提交','未通过','通过','复核未通过','M退回']
+        let flowTypeArr=['SIGN','FILING']
+        if (appStatusArr.includes(appStatus)||(flowTypeArr.includes(res.data.flowType)&&appStatus=='已提交')||(appStatusArr.includes(appStatus)&&res.data.flowType=="MEETING")) {           
            this.flag = false;
           } else {
             this.flag = true;

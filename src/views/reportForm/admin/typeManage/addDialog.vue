@@ -392,6 +392,7 @@ export default {
     },
     handleImageError() {
       let img = document.querySelector('avatar')
+      if(img)
       img.src = this.linkUrl()
     },
     linkUrl() {
@@ -518,9 +519,12 @@ export default {
       })
     },
     initModify(row) {
+      console.log('row=>',row);
       this.form = JSON.parse(JSON.stringify(row))
       this.imageUrl = row.cover
-      this.form.adminUsers = row.adminUsers.map((e) => String(e?.id))
+      if (row.adminUsers?.length > 0) {
+        this.form.adminUsers = row.adminUsers.map((e) => String(e?.id))
+      }
       if (row.organizations.length > 0) {
         this.form.organizations = row.organizations.map((e) => e.id)
       }
