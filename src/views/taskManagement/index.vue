@@ -18,23 +18,15 @@
       <div class="flex margin-bottom10">
         <span class="table-title">任务列表</span>
         <div class="table-btn floatright">
-          <iButton @click="transferBtn" >{{ $t('LK_ZHUANPAI') }}</iButton>
-          <buttonTableSetting
-            showBadge
-            :hiddenCount="hiddenCount"
-            @click="edittableHeader"
-          />
+          <iButton @click="transferBtn">{{ $t('LK_ZHUANPAI') }}</iButton>
         </div>
       </div>
       <iTableCustom
-        ref="tableList"
         :data="tableListData"
         :columns="tableTitle"
         :loading="tableLoading"
-        permissionKey="ADMIN_TASK_MANAGEMENT"
         :index="true"
         border
-        @setHiddenCount="setHiddenCount"
         @handleClickFsupplierName="handleClickFsupplierName"
         @handle-selection-change="handleSelectionChange"
       />
@@ -48,49 +40,63 @@
         :layout="page.layout"
       />
     </iCard>
-    <transferDialog :visible.sync="transferVisiable" :selected="selected" @getData="getData"/>
+    <!-- 选择采购员 -->
+    <iDialog :visible.sync="staffDialogVisible" width="90%" append-to-body>
+      <staff v-if="staffDialogVisible" @confirm="confirm" />
+    </iDialog>
   </iPage>
 </template>
 
 <script>
-import { iPage, iCard, iButton, iTableCustom, iPagination, iMessage } from 'rise'
-import buttonTableSetting from 'rise/web/components/buttonTableSetting'
-import { tableSortMixins } from 'rise/web/components/iTableSort/tableSortMixins'
+import {
+  iPage,
+  iCard,
+  iButton,
+  iTableCustom,
+  iPagination,
+  iDialog,
+  iMessage
+} from 'rise'
 import search from './components/search.vue'
-import transferDialog from './components/transferDialog.vue'
 import { pageMixins } from '@/utils/pageMixins'
-import { taskPage, listTaskStatus, listTaskType } from '@/api/taskManagement/index'
+import staff from './components/staff'
+import {
+  taskPage,
+  listTaskStatus,
+  listTaskType,
+  taskTransfer
+} from '@/api/taskManagement/index'
 import { searchFormData, tableTitle } from './data'
 
 export default {
-  mixins: [pageMixins, tableSortMixins],
+  mixins: [pageMixins],
   components: {
     iPage,
     iCard,
     iButton,
     iTableCustom,
     iPagination,
-    buttonTableSetting,
+    iDialog,
     search,
-    transferDialog,
+    staff
   },
   data() {
     return {
       searchFormData,
       searchForm: {
-        processingStatus:''
+        processingStatus: ''
       },
       options: {
-        taskTypeList:[],
-        processingStatus:[],
-        supplierIdList:[],
-        senderIdList:[],
+        taskTypeList: [],
+        processingStatus: [],
+        supplierIdList: [],
+        senderIdList: []
       },
       tableTitle,
       tableListData: [],
-      selected:[],
+      selected: [],
       tableLoading: false,
-      transferVisiable:false,
+      staffDialogVisible: false
     }
   },
   mounted() {
@@ -99,10 +105,10 @@ export default {
     this.listTaskType()
   },
   methods: {
-    listTaskStatus(){
-      listTaskStatus().then(res=>{
-        if(res?.code==200){
-          this.options.processingStatus = res.data.map(item=>{
+    listTaskStatus() {
+      listTaskStatus().then((res) => {
+        if (res?.code == 200) {
+          this.options.processingStatus = res.data.map((item) => {
             return {
               value: item.code,
               label: item.message
@@ -111,10 +117,10 @@ export default {
         }
       })
     },
-    listTaskType(){
-      listTaskType().then(res=>{
-        if(res?.code==200){
-          this.options.taskTypeList = res.data.map(item=>{
+    listTaskType() {
+      listTaskType().then((res) => {
+        if (res?.code == 200) {
+          this.options.taskTypeList = res.data.map((item) => {
             return {
               value: item.code,
               label: item.message
@@ -129,17 +135,38 @@ export default {
     },
     reset() {
       this.searchForm = {
-        processingStatus:''
+        processingStatus: ''
       }
       this.sure()
     },
     // 转派
-    transferBtn(){
-      if(this.selected.length!=1) return iMessage.warn('请选择一条需要转派的数据')
-      if(this.selected.some(item=>item.processingStatus=='2')) return iMessage.warn('该任务已完成，不可转派')
-      this.transferVisiable = true
+    transferBtn() {
+      if (this.selected.length != 1)
+        return iMessage.warn('请选择一条需要转派的数据')
+      if (this.selected.some((item) => item.processingStatus == '2'))
+        return iMessage.warn('该任务已完成，不可转派')
+      this.staffDialogVisible = true
     },
-    handleSelectionChange(val){
+
+    // 确认转派
+    confirm(userInfo) {
+      if (!userInfo.id) return iMessage.warn('请选择转派目标用户')
+      let params = {
+        originalUserId: this.selected[0].handlerId,
+        targetUserId: userInfo.id,
+        taskId: this.selected[0].taskId
+      }
+      taskTransfer(params).then((res) => {
+        if (res?.code == 200) {
+          iMessage.success('转派成功')
+          this.staffDialogVisible = false
+          this.getData()
+        } else {
+          iMessage.error(res.desZh)
+        }
+      })
+    },
+    handleSelectionChange(val) {
       this.selected = val
     },
     getData() {
