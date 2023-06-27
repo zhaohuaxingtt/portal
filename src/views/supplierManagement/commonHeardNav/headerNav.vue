@@ -14,11 +14,15 @@
                :class="className"
                routerPage
                :lev="1" />
-      <logButton class="logButton"
-                 @toLogPage="toLog" />
-      <iUserLog :show.sync="showDialog"
-                :menuId="menuId"
-                is-page />
+      <iLoger
+        credentials
+        isPage
+        isUser
+        :config="{
+          menuId
+        }"
+        class="margin-left25"
+      />
     </div>
   </div>
 </template>
@@ -28,11 +32,13 @@ import { iNavMvp } from 'rise'
 import { tabRouterList,tabRouterListGP, categoryManagementAssistantList } from './navData'
 import logButton from '@/components/logButton'
 import iUserLog from '@/components/iUserLog'
+import iLoger from 'rise/web/components/iLoger'
 export default {
   components: {
     iNavMvp,
     logButton,
-    iUserLog
+    iUserLog,
+    iLoger
   },
   data () {
     return {
@@ -121,12 +127,10 @@ export default {
 <style scoped lang="scss">
 .navBox {
   position: relative;
-  .logButton {
-    position: absolute;
-    top: 5px;
-    right: 0;
-  }
-
+  display: inline-flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
   ::v-deep .nav {
     align-items: flex-end;
     div {
