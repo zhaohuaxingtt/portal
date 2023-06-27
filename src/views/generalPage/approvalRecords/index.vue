@@ -47,7 +47,7 @@ export default {
     supplierDetail(this.supplierType).then(res=>{
       if(res?.code=='200'){
         this.searchForm.supplier = res.data.supplierInfoVo.nameZh
-        this.searchForm.supplierId = res.data.ppSupplierInfoVo.id
+        this.searchForm.supplierId = res.data.supplierInfoVo.id
         this.getTableList()
       }
     })
