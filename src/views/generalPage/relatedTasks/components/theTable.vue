@@ -70,8 +70,13 @@ export default {
       this.$emit('handleSizeChange', e)
     },
     openPage(row) {
-      // 跳转到 审批中心[我的申请]详情
+      // /bpm/myApply/detail/:instanceId/:finished/:queryData //我的申请任务详情
       console.log('row=>', row)
+      window.open(
+        `/portal/#/bpm/myApply/detail/${row.taskId}/${
+          row.processingStatus === 1 ? 'yes' : 'no'
+        }`
+      )
     }
   }
 }

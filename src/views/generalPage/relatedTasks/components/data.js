@@ -11,7 +11,7 @@ export const tableColumns = [
     label: '#',
     width: 50,
   },
-  { prop: 'taskTypeId', name: '任务ID', i18n: '任务ID', minWidth: 100 },
+  { prop: 'taskTypeId', name: '任务ID', i18n: '任务ID', minWidth: 100, emit:'openPage' },
   { prop: 'taskTypeName', name: '任务类型', i18n: '任务类型', minWidth: 100 },
   { prop: 'taskName', name: '任务名称', i18n: '任务名称' },
   { prop: 'taskName', name: '任务描述', i18n: '任务描述' },
