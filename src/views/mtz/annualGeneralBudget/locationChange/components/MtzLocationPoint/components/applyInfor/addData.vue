@@ -52,6 +52,7 @@
                     <iDatePicker value-format="yyyy-MM-dd" :picker-options="pickerOptionsEnd" v-model="contractForm.endDate" type="datetime">
                     </iDatePicker>
                 </iFormItem>
+
                 <iFormItem prop="ruleNo">
                     <iLabel :label="language('GUIZEBIANHAO', '规则编号')" slot="label" :required="true"></iLabel>
                     <iSelect v-model="contractForm.ruleNo" clearable value-key="code" @change="choiseGZ"
@@ -267,7 +268,7 @@
 </template>
 
 <script>
-import { tipList,offsetList,avgPeriodList,materialDoseSourceList,partBalanceCountTypeList} from './data'
+import { tipList,offsetList,avgPeriodList,materialDoseSourceList,partBalanceCountTypeList, methodList} from './data'
 import partNumber from "./partNumber";
 import { getRawMaterialNos } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details';
 import {
@@ -296,7 +297,6 @@ import {
     iDatePicker,
     iDialog,
 } from 'rise'
-import { methodList } from "./data";
 
 import inputCustom from '@/components/inputCustom'
 export default {
@@ -360,6 +360,7 @@ export default {
       offsetList,
       partBalanceCountTypeList,
       materialDoseSourceList,
+      methodList,
             companyType: false,
             supplierList: [],//供应商编号
             contractForm: {

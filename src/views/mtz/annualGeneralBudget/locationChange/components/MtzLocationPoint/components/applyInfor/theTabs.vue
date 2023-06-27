@@ -848,6 +848,7 @@ export default {
     appStatus:{type: String},
     flowType:{type: String},
     relationType:{type: String},
+    meetingStatus:{type: String},
     avgPeriodList: { type: Array, default: () => [] },
     offsetList: { type: Array, default: () => [] },
   },

@@ -60,9 +60,7 @@
               </div>
             </template>
           </div>
-
         </div>
-
         <div ref="ruleTableTitle">
           <el-divider class="hr_divider" />
           <div v-if="RsObject" class="centerBox">
