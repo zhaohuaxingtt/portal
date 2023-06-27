@@ -50,7 +50,7 @@ export default {
   created() {
     supplierDetail(this.supplierType).then(res=>{
       if(res?.code=='200'){
-        this.searchForm.supplierIdList = [res.data.supplierInfoVo.id]
+        this.searchForm.supplierIdList = [res.data.ppSupplierInfoVo?.id||res.data.gpSupplierInfoVO?.id]
         this.getTableList()
       }
     })
