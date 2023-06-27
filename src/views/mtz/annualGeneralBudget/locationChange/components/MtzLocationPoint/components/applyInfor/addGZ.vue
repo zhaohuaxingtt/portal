@@ -816,6 +816,8 @@ export default {
           { required: true, message: '请输入', trigger: 'blur' }
         ],
         source: [{ required: true, message: '请选择', trigger: 'change' }],
+        avgPeriod: [{ required: true, message: '请选择', trigger: 'change' }],
+        offsetMonth: [{ required: true, message: '请选择', trigger: 'change' }],
         compensationRatio: [
           { required: true, message: '请输入', trigger: 'blur' },
           { validator: validatePass1, trigger: 'blur' }
@@ -1229,6 +1231,17 @@ export default {
 }
 ::v-deep .el-form-item__label {
   width: 13.5rem !important;
+}
+::v-deep .el-form {
+  .el-form-item {
+    &.is-error{
+      .el-input{
+        .el-input__inner{
+          border-color: #EF3737;
+        }
+      }
+    }
+  }
 }
 </style>
 

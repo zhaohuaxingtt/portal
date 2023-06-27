@@ -197,7 +197,11 @@
             <iTabsList  @tab-click="changeNav" v-model="activeName" type="card" slot="components" class="margin-top20">
               <el-tab-pane :label="$t('待发起凭证')" name="wait"> </el-tab-pane>
               <el-tab-pane :label="$t('已发起凭证')" name="history"> </el-tab-pane>
-              <el-tab-pane :label="$t('计算异常提示')" name="tips"> </el-tab-pane>
+              <el-tab-pane :label="$t('计算异常提示')" name="tips">
+                <el-badge v-if="showIcon" value="!" class="badge" slot="label">
+                  <span>{{$t('计算异常提示')}}</span>
+                </el-badge>
+              </el-tab-pane>
            </iTabsList>
             <div >
               <iButton @click="exportFiles"
@@ -438,6 +442,7 @@ export default {
       name: '默认空，“计算”后显示',
       tableLoading: false,
       subLoading: false,
+      showIcon: false,
       tableData: [],
       combobox: [],
       value1: [],
@@ -710,15 +715,12 @@ export default {
          iMessage.warn('请选择补差时间段和材料中类')
          return false
         }
-        console.log(!this.searchForm.materialKindList)
         if(this.searchForm?.materialKindList.length==0){
           iMessage.warn('请选择补差时间段和材料中类')
           return false
         }
-        console.log(this.searchForm)
         this.tableLoading = true
 
-        console.log(params, "searchForm")
         if(this.activeName=='wait'){
           pageMTZCompByComputer(params).then((res) => {
           if (res?.code === '200') {
@@ -750,18 +752,22 @@ export default {
               this.searchFlag = false
             }else iMessage.error(res.desZh)
           })
-        }else{
-          calculateWarn(params).then(res=>{
-            if(res.code==200){
+        }
+        // 每个tab页都会查询，判断是否显示icon
+        calculateWarn(params).then(res=>{
+          if(res.code==200){
+            if(this.activeName=='tips'){
               this.tableData = res.data
               this.page.totalCount = res.total
-            }else iMessage.error(res.desZh)
-          }).finally(()=>{
-              this.tableLoading = false
-              this.searchFlag = false
-          })
-        }
-  
+            }
+            if(res.data.length) this.showIcon = true
+          }else iMessage.error(res.desZh)
+        }).finally(()=>{
+          if(this.activeName=='tips'){
+            this.tableLoading = false
+            this.searchFlag = false
+          }
+        })
       } else {
         this.tableLoading = true
         this.actAmtList = []
@@ -1208,5 +1214,8 @@ export default {
 }
 ::v-deep.el-tabs--card{
       background-color:white;
+      .badge{
+        position: static;
+      }
     }
 </style>
