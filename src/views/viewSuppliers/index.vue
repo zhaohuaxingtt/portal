@@ -18,12 +18,14 @@
                      @handleClick="handleTabClick"
                      :current="current">
     </titleTag>
-    <log-button class="logButton"
-                @toLogPage="toLog" />
+    <iLoger
+        credentials
+        isPage
+        isUser
+        :config="{ menuId }"
+        class="logButton"
+      />
     <supplier360-page v-if="current === 1" />
-    <iUserLog :show.sync="showDialog"
-              :menuId="menuId"
-              is-page />
   </div>
 </template>
 
@@ -33,13 +35,15 @@ import titleTag from './titleTag'
 import logButton from '@/components/logButton'
 import supplier360Page from '../supplier360'
 import iUserLog from '@/components/iUserLog'
+import iLoger from 'rise/web/components/iLoger'
 export default {
   components: {
     supplierViewTab,
     titleTag,
     supplier360Page,
     logButton,
-    iUserLog
+    iUserLog,
+    iLoger
   },
   data () {
     return {
