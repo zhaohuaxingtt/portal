@@ -254,15 +254,15 @@ export default {
           permission: 'SUPPLIER_SUPPLYCOMPANY'
           // permission: 'SUPPLIER_RELATED_TASKS'
         },
-        // {
-        //   current: '22',
-        //   title: '审批记录',
-        //   ref: 'approvalRecords',
-        //   component: 'approvalRecords',
-        //   key: '审批记录',
-        //   permission: 'SUPPLIER_SUPPLYCOMPANY'
-        //   // permission: 'SUPPLIER_APPROVAL_RECORDS'
-        // }
+        {
+          current: '22',
+          title: '审批记录',
+          ref: 'approvalRecords',
+          component: 'approvalRecords',
+          key: '审批记录',
+          permission: 'SUPPLIER_SUPPLYCOMPANY'
+          // permission: 'SUPPLIER_APPROVAL_RECORDS'
+        }
       ],
       listGP: [
         {
@@ -426,14 +426,15 @@ export default {
           permission: 'SUPPLIER_SUPPLYCOMPANY_GP'
           // permission: 'SUPPLIER_RELATED_TASKS'
         },
-        // {
-        //   current: '21',
-        //   title: '审批记录',
-        //   ref: 'approvalRecords',
-        //   component: 'approvalRecords',
-        //   key: '审批记录',
-        //   permission: 'SUPPLIER_APPROVAL_RECORDS'
-        // }
+        {
+          current: '21',
+          title: '审批记录',
+          ref: 'approvalRecords',
+          component: 'approvalRecords',
+          key: '审批记录',
+          permission: 'SUPPLIER_SUPPLYCOMPANY_GP'
+          // permission: 'SUPPLIER_APPROVAL_RECORDS'
+        }
       ],
       refData: [],
 
