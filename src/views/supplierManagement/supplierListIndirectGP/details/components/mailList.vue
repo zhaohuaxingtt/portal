@@ -1,7 +1,7 @@
 <template>
   <iCard :title="$t('联系人')">
     <template slot="header-control">
-      <iButton :loading="loading" v-if="this.$route.query.subSupplierId" @click="exportsTable">
+      <iButton :loading="loading" v-permission="SUPPLIER_INDIRECT_BASEINFO_MAIL_EXPORT" v-if="this.$route.query.subSupplierId" @click="exportsTable">
         {{ $t('LK_DAOCHU') }}
       </iButton>
     </template>

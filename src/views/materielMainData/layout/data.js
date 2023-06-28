@@ -60,7 +60,7 @@ export const MENUSZh = [
   {
     title: '间接物料信息',
     url: '/materielData/indirect-item-information',
-    // permissionKey: 'ADMIN_MATERIEL_DATA_INDIRECT_ITEM_INFORMATION'
+    permissionKey: 'ADMIN_MATERIEL_DATA_INDIRECT_ITEM_INFORMATION'
   }
 ]
 export const MENUSEn = [
@@ -103,5 +103,10 @@ export const MENUSEn = [
     title: 'MTZ Material Group Information',
     url: '/materielData/MTZ-materiel-group',
     permissionKey: 'ADMIN_MATERIEL_DATA_MTZ_MATERIEL_GROUP'
+  },
+  {
+    title: 'Indirect Item Information',
+    url: '/materielData/indirect-item-information',
+    permissionKey: 'ADMIN_MATERIEL_DATA_INDIRECT_ITEM_INFORMATION'
   }
 ]

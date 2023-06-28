@@ -26,21 +26,13 @@
         <div v-if="editStatus">
           <iButton
             @click="measurementEdit"
-            v-permission="'BUTTON_MATERIEL_DATA_PARTS_MESSAGE_UNIT_MODIFY'"
+            v-permission="MATERIEL_DATA_INDIRECT_ITEM_INFOR_DETAIL_EDIT"
             >{{ language('编辑') }}</iButton
           >
         </div>
         <div v-else>
-          <iButton
-            @click="saveUnit"
-            v-permission="'BUTTON_MATERIEL_DATA_PARTS_MESSAGE_UNIT_MODIFY'"
-            >{{ language('保存') }}</iButton
-          >
-          <iButton
-            @click="unitTabCancel"
-            v-permission="'BUTTON_MATERIEL_DATA_PARTS_MESSAGE_UNIT_MODIFY'"
-            >{{ language('取消') }}</iButton
-          >
+          <iButton @click="saveUnit" >{{ language('保存') }}</iButton>
+          <iButton @click="unitTabCancel">{{ language('取消') }}</iButton>
         </div>
       </div>
       <div class="measureTable">

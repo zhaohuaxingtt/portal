@@ -89,7 +89,7 @@ export const tabRouterListGP = [
     url: '/supplier/supplierListIndirect',
     activePath: '/supplierListIndirect',
     key: '间接物料供应商',
-    // permissionKey: 'SUPPLIER_INDIRECT_GP'
+    permissionKey: 'SUPPLIER_INDIRECT_GP'
   },
 ]
 

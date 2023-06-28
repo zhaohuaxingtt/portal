@@ -3,10 +3,10 @@
     <div class="margin-bottom20 clearFloat">
       <span class="font18 font-weight">间接物料供应商</span>
       <div class="floatright">
-        <i-button :loading="loadingType" @click="save">{{
+        <i-button v-permission="SUPPLIER_INDIRECT_BASEINFO_SUBMIT" :loading="loadingType" @click="save">{{
           $t('LK_TIJIAO')
         }}</i-button>
-        <i-button :loading="loadingType" @click="cancle">{{
+        <i-button v-permission="SUPPLIER_INDIRECT_BASEINFO_CANCLE" :loading="loadingType" @click="cancle">{{
           $t('LK_QUXIAO')
         }}</i-button>
       </div>
@@ -221,6 +221,7 @@ export default {
     getInfosByCode() {
       // 国内供应商没有社会信用代码就不查询
       if (!this.supplierComplete.supplierDTO.socialcreditNo) return
+      const socialcreditNo = this.supplierComplete.supplierDTO.socialcreditNo
       getSupplierByNameOrSocialCode({
         isForeignManufacture:
           this.supplierComplete.supplierDTO.isForeignManufacture,
@@ -320,7 +321,9 @@ export default {
           }, 100)
           this.$forceUpdate()
         } else {
-          this.supplierComplete = _.cloneDeep(this.supplierCompleteRe)
+          let supplierComplete = _.cloneDeep(this.supplierCompleteRe)
+          supplierComplete.supplierDTO.socialcreditNo = socialcreditNo
+          this.supplierComplete = supplierComplete
         }
       })
     },

@@ -11,9 +11,8 @@
 
     <iCard class="margin-top20">
       <template slot="header-control">
-        <!-- v-permission="SUPPLIER_DISPERSEDSUPPLIER_ADD_GP" -->
-        <i-button @click="exportsTableAdd">{{ $t('LK_XINZENG') }}</i-button>
-        <i-button @click="exportsTableEdit">{{ $t('LK_BIANJI') }}</i-button>
+        <i-button v-permission="SUPPLIER_INDIRECT_ADD" @click="exportsTableAdd">{{ $t('LK_XINZENG') }}</i-button>
+        <i-button v-permission="SUPPLIER_INDIRECT_EDIT" @click="exportsTableEdit">{{ $t('LK_BIANJI') }}</i-button>
         <!-- <el-upload
           class="upload"
           action="1"
@@ -24,11 +23,9 @@
         >
           <iButton :loading="uploading">{{ language('批量上传', '批量上传') }} </iButton>
         </el-upload> -->
-        <i-button @click="setTagBtn">{{ language('BIAOQIANSHEZHI', '标签设置') }}</i-button>
-        <i-button @click="synchro" :loading="sapLoading">{{
-          language('TONGBUSAP', '同步SAP')
-        }}</i-button>
-        <i-button @click="exportExcel" :loading="exportLoading">{{ language('导出', '导出') }}</i-button>
+        <i-button v-permission="SUPPLIER_INDIRECT_STEP" @click="setTagBtn">{{ language('BIAOQIANSHEZHI', '标签设置') }}</i-button>
+        <i-button v-permission="SUPPLIER_INDIRECT_SAP" @click="synchro" :loading="sapLoading">{{ language('TONGBUSAP', '同步SAP') }}</i-button>
+        <i-button v-permission="SUPPLIER_INDIRECT_EXPORT" @click="exportExcel" :loading="exportLoading">{{ language('导出', '导出') }}</i-button>
       </template>
 
       <tableList
