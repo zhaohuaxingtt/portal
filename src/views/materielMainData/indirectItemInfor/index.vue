@@ -20,7 +20,7 @@
     </iSearch>
     <iCard class="margin-top20">
       <div class="btnList">
-        <buttonDownload :download-method="exportExcel">
+        <buttonDownload v-permission="ADMIN_MATERIEL_DATA_INDIRECT_ITEM_INFORMATION_EXPORT" :download-method="exportExcel">
           {{ language('导出') }}
         </buttonDownload>
       </div>

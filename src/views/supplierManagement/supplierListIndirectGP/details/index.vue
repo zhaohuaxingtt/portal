@@ -3,10 +3,10 @@
     <div class="margin-bottom20 clearFloat">
       <span class="font18 font-weight">间接物料供应商</span>
       <div class="floatright">
-        <i-button :loading="loadingType" @click="save">{{
+        <i-button v-permission="SUPPLIER_INDIRECT_BASEINFO_SUBMIT" :loading="loadingType" @click="save">{{
           $t('LK_TIJIAO')
         }}</i-button>
-        <i-button :loading="loadingType" @click="cancle">{{
+        <i-button v-permission="SUPPLIER_INDIRECT_BASEINFO_CANCLE" :loading="loadingType" @click="cancle">{{
           $t('LK_QUXIAO')
         }}</i-button>
       </div>
