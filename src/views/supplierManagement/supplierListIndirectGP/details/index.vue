@@ -76,15 +76,9 @@
               :tip="$t(item.tip)"
               slot="label"
             ></iLabel>
-            <iText
-              v-if="['sapCode', 'svwTempCode', 'svwCode'].includes(item.key)"
-              >{{ supplierComplete.supplierDTO[item.key] }}</iText
-            >
             <iSelect
               v-model="supplierComplete.supplierDTO[item.key]"
-              v-else-if="
-                ['isForeignManufacture', 'supplierType'].includes(item.key)
-              "
+              v-if="['isForeignManufacture'].includes(item.key)"
             >
               <el-option
                 :value="child.value"
@@ -149,7 +143,8 @@ import { getInfosByCode } from '@/api/register/home'
 import { supplierDetail } from '@/api/register/baseInfo'
 import {
   saveOrUpdate,
-  listSupplierUser
+  listSupplierUser,
+  getSupplierByNameOrSocialCode
 } from '@/api/supplierManagement/supplierListIndirect/index'
 import { updateSupplierUser } from '@/api/mainDataSupplier/list/user'
 
@@ -205,6 +200,7 @@ export default {
     this.getCityInfo()
   },
   methods: {
+    // 切换是否大陆厂商
     changeFact(val) {
       this.baseRules.socialcreditNo[0].required = !val
       this.$refs.baseInfoForm.clearValidate()
@@ -223,41 +219,109 @@ export default {
     },
     // 根据社会信用代码获取供应商信息
     getInfosByCode() {
+      // 国内供应商没有社会信用代码就不查询
       if (!this.supplierComplete.supplierDTO.socialcreditNo) return
-      getInfosByCode({
-        code: this.supplierComplete.supplierDTO.socialcreditNo,
-        type: 'GP'
+      getSupplierByNameOrSocialCode({
+        isForeignManufacture:
+          this.supplierComplete.supplierDTO.isForeignManufacture,
+        nameEn: this.supplierComplete.supplierDTO.nameEn,
+        nameZh: this.supplierComplete.supplierDTO.nameZh,
+        socialcreditNo: this.supplierComplete.supplierDTO.socialcreditNo
       }).then((res) => {
         if (res?.data) {
-          for (let m in res.data) {
-            if (res.data[m]) {
-              this.supplierComplete.supplierDTO[m] = res.data[m]
+          //初始数据很多为null 需要重置为“” 不然会触发表单验证
+          let supplierDTO = this.reView(res.data)
+          // 银行子账号
+          if (supplierDTO.subBankVos) {
+            this.supplierComplete.subBankList = supplierDTO.subBankVos
+          }
+          // GP电子银票DTO
+          if (supplierDTO.gpSupplierBankNoteVO) {
+            this.supplierComplete.gpSupplierBankNoteDTO =
+              supplierDTO.gpSupplierBankNoteVO
+          }
+          // 银行
+          if (supplierDTO.settlementBankVo) {
+            if (
+              !supplierDTO.settlementBankVo.bankTaxCode ||
+              supplierDTO.settlementBankVo.bankTaxCode == ''
+            ) {
+              supplierDTO.settlementBankVo.bankTaxCode =
+                supplierDTO.supplierInfoVo.socialcreditNo
+            }
+            this.supplierComplete.settlementBankDTO =
+              supplierDTO.settlementBankVo
+          }
+          // 基本信息
+          if (supplierDTO.supplierInfoVo) {
+            this.supplierComplete.supplierDTO = supplierDTO.supplierInfoVo
+            this.supplierComplete.supplierDTO.address =
+              supplierDTO.supplierInfoVo.companyAddress
+
+            if (this.$route.query.subSupplierType == 'GP') {
+              this.supplierComplete.supplierDTO.svwTempCode =
+                supplierDTO.gpSupplierInfoVO.svwTempCode
+              this.supplierComplete.supplierDTO.svwCode =
+                supplierDTO.gpSupplierInfoVO.svwCode
             }
           }
-          this.supplierComplete.supplierDTO.supplierType = 'GP'
-          this.$set(
-            this.supplierComplete.supplierDTO,
-            'isForeignManufacture',
-            res.data.isForeignManufacture
-          )
-          if (res.data.supplierToken) {
-            this.$store.dispatch('setValiCode', res.data.supplierToken)
-            this.supplierDetail()
+          // GP信息
+          this.supplierComplete.gpSupplierDTO =
+            supplierDTO.gpSupplierInfoVO || {}
+          if (this.supplierComplete.supplierDTO.countryCode) {
+            if (this.supplierComplete.supplierDTO.countryCode.length >= 6) {
+              this.$refs.companyProfile.getProvince()
+            } else {
+              this.$refs.companyProfile.getProvince(true)
+            }
           }
+          if (this.supplierComplete.supplierDTO.provinceCode) {
+            if (this.supplierComplete.supplierDTO.provinceCode.length >= 6) {
+              this.$refs.companyProfile.getCity()
+            } else {
+              this.$refs.companyProfile.getCity(true)
+            }
+          }
+          if (this.supplierComplete.settlementBankDTO.countryCode) {
+            if (
+              this.supplierComplete.settlementBankDTO.countryCode.length >= 6
+            ) {
+              this.$refs.opneBank.getBankProvince()
+            } else {
+              this.$refs.opneBank.getBankProvince(true)
+            }
+          }
+          if (this.supplierComplete.settlementBankDTO.provinceCode) {
+            if (
+              this.supplierComplete.settlementBankDTO.provinceCode.length >= 6
+            ) {
+              this.$refs.opneBank.getBankCity()
+            } else {
+              this.$refs.opneBank.getBankCity(true)
+            }
+          }
+          if (this.supplierComplete.gpSupplierBankNoteDTO.country)
+            this.$refs.opneBank.getYP()
+          if (this.supplierComplete.subBankList)
+            this.$refs.opneBank.getSubBank()
+          // 是否大陆厂商 校验必填项
+          this.changeFact(
+            this.supplierComplete.supplierDTO.isForeignManufacture
+          )
+          listSupplierUser(res.data.gpSupplierInfoVO.id).then((res) => {
+            if (res?.code == 200) {
+              this.mailListData = res.data?.list || []
+            } else {
+              iMessage.error('获取供应商联系人信息失败')
+            }
+          })
+          setTimeout(() => {
+            this.$refs.opneBank.getType()
+          }, 100)
+          this.$forceUpdate()
         } else {
-          this.supplierComplete.supplierDTO = Object.assign(
-            this.supplierComplete.supplierDTO,
-            {
-              nameZh: '',
-              shortNameZh: '',
-              nameEn: '',
-              shortNameEn: ''
-            }
-          )
+          this.supplierComplete = _.cloneDeep(this.supplierCompleteRe)
         }
-        this.supplierAPIData = JSON.parse(
-          JSON.stringify(this.supplierComplete.supplierDTO)
-        )
       })
     },
     // 获取基本信息
@@ -343,7 +407,9 @@ export default {
             if (this.supplierComplete.subBankList)
               this.$refs.opneBank.getSubBank()
             // 是否大陆厂商 校验必填项
-            this.changeFact(this.supplierComplete.supplierDTO.isForeignManufacture)
+            this.changeFact(
+              this.supplierComplete.supplierDTO.isForeignManufacture
+            )
             listSupplierUser(res.data.gpSupplierInfoVO.id).then((res) => {
               if (res?.code == 200) {
                 this.mailListData = res.data?.list || []
@@ -497,8 +563,9 @@ export default {
           if (this.$route.query.subSupplierId) {
             data.supplierId = this.$route.query.subSupplierId
           }
-          if(this.supplierComplete.supplierDTO.isForeignManufacture=='0'){
-            this.supplierComplete.settlementBankDTO.bankTaxCode = this.supplierComplete.supplierDTO.socialcreditNo
+          if (this.supplierComplete.supplierDTO.isForeignManufacture == '0') {
+            this.supplierComplete.settlementBankDTO.bankTaxCode =
+              this.supplierComplete.supplierDTO.socialcreditNo
           }
           setTimeout(() => {
             saveOrUpdate(data)
