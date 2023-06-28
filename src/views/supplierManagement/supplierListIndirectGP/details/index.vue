@@ -221,6 +221,7 @@ export default {
     getInfosByCode() {
       // 国内供应商没有社会信用代码就不查询
       if (!this.supplierComplete.supplierDTO.socialcreditNo) return
+      const socialcreditNo = this.supplierComplete.supplierDTO.socialcreditNo
       getSupplierByNameOrSocialCode({
         isForeignManufacture:
           this.supplierComplete.supplierDTO.isForeignManufacture,
@@ -320,7 +321,9 @@ export default {
           }, 100)
           this.$forceUpdate()
         } else {
-          this.supplierComplete = _.cloneDeep(this.supplierCompleteRe)
+          let supplierComplete = _.cloneDeep(this.supplierCompleteRe)
+          supplierComplete.supplierDTO.socialcreditNo = socialcreditNo
+          this.supplierComplete = supplierComplete
         }
       })
     },
