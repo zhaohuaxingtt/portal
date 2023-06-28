@@ -61,3 +61,12 @@ export function listSupplierUser(supplierId) {
         method: 'GET',
     })
 }
+
+// 根据社会信用代码获取供应商信息
+export function getSupplierByNameOrSocialCode(data) {
+    return request({
+        url: `/gpSupplierIndirect/getSupplierByNameOrSocialCode`,
+        method: 'POST',
+        data
+    })
+}
