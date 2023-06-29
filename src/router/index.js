@@ -11,7 +11,7 @@ const router = new VueRouter({
   },
   routes: routeConfig.routes
 })
-const List = ['/supplier/supplierListGP','/index']
+const List = ['/supplier/supplierListGP']
 const EXCLUDE = ['/login','/superLogin', '/ui']
 
 router.beforeEach((to,from,next) => {
@@ -20,9 +20,9 @@ router.beforeEach((to,from,next) => {
     var _vds = _vds || [];
     window._vds = _vds;
     _vds.push(["setAccountId", "c9jaGnRybxEMznFF"]);
-    console.log(JSON.parse(sessionStorage.getItem('userInfo')));
     let userId = JSON.parse(sessionStorage.getItem('userInfo'))?.id
     if(userId){
+      console.log('记录行为');
       _vds.push(["setUserId", userId]);
       _vds.push(["setTrackerHost", 'webbehavior.csvw.com/saicio']);
       var vds = document.createElement("script");
@@ -32,6 +32,8 @@ router.beforeEach((to,from,next) => {
       vds.src = ("https:" == document.location.protocol ? "https://" : "http://") + "webbehavior.csvw.com/saicio/js/saic.js";
       var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(vds, s);
+    }else{
+      console.log('未获取到用户id')
     }
   }
   next()
