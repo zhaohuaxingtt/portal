@@ -11,8 +11,34 @@ const router = new VueRouter({
   },
   routes: routeConfig.routes
 })
+const List = ['/supplier/supplierListGP','/index']
+const EXCLUDE = ['/login','/superLogin', '/ui']
+
+router.beforeEach((to,from,next) => {
+  if(List.includes(to.fullPath)){
+  // if(!EXCLUDE.includes(to.fullPath)){
+    var _vds = _vds || [];
+    window._vds = _vds;
+    _vds.push(["setAccountId", "c9jaGnRybxEMznFF"]);
+    console.log(JSON.parse(sessionStorage.getItem('userInfo')));
+    let userId = JSON.parse(sessionStorage.getItem('userInfo'))?.id
+    if(userId){
+      _vds.push(["setUserId", userId]);
+      _vds.push(["setTrackerHost", 'webbehavior.csvw.com/saicio']);
+      var vds = document.createElement("script");
+      vds.id = 'saic'
+      vds.type = "text/javascript";
+      vds.async = true;
+      vds.src = ("https:" == document.location.protocol ? "https://" : "http://") + "webbehavior.csvw.com/saicio/js/saic.js";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(vds, s);
+    }
+  }
+  next()
+})
 
 router.afterEach(() => {
+  document.getElementsByTagName("script")['saic']?.remove();
   // Remove initial loading
   const appLoading = document.getElementById('app-loading')
   if (appLoading) {
