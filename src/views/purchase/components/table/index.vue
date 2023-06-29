@@ -28,29 +28,30 @@
                                  :label="items.key ? $t(items.key) : items.name" :fixed="items.fixed">
                     <template slot-scope="scope">
                         <el-form-item>
-                             <span class="openLinkText cursor linkEllipsis text"
-                                   v-if="items.props=='title'"
-                                   @click="openPage(openPageGetRowData ?  scope.row : scope.row[items.props],$event.target.innerText)">
-                                {{scope.row[items.props]}}
-                             </span>
-                             <div v-else>
-                                 <span v-for="key,i in openPageProps">
-                                      <span v-if="key=='operation'">
-                                          <span class="openLinkText cursor linkEllipsis"
-                                                v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_LIST_CONFIRM')"
-                                                @click="openPage(openPageGetRowData ?  scope.row : scope.row[items.props],$event.target.innerText)">
-                                            {{scope.row[key == items.props ? key : '']}}
-                                          </span>
-                                          <span v-if="scope.row.refresh">
-                                              <span v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_LIST_REFRESH')"
-                                                    class="openLinkText cursor linkEllipsis pl10"
-                                                  @click="openPage(openPageGetRowData ?  scope.row : scope.row[items.props],$event.target.innerText)">
-                                                    {{scope.row.refresh}}
-                                              </span>
-                                          </span>
-                                      </span>
-                                 </span>
-                             </div>
+                            <span class="openLinkText cursor linkEllipsis text"
+                                v-if="items.props=='title'"
+                                @click="openPage(openPageGetRowData ?  scope.row : scope.row[items.props],$event.target.innerText)">
+                            {{scope.row[items.props]}}
+                            </span>
+                            <template v-if="items.props=='operation'">
+                                <span class="openLinkText cursor"
+                                    v-if="scope.row.down"
+                                    @click="openPage(openPageGetRowData ?  scope.row : scope.row[items.props],$event.target.innerText)">
+                                下载
+                                </span>
+                                <span class="openLinkText cursor"
+                                    v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_LIST_CONFIRM')"
+                                    @click="openPage(openPageGetRowData ?  scope.row : scope.row[items.props],$event.target.innerText)">
+                                {{scope.row.operation}}
+                                </span>
+                                <span v-if="scope.row.refresh">
+                                    <span v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_LIST_REFRESH')"
+                                        class="openLinkText cursor pl10"
+                                        @click="openPage(openPageGetRowData ?  scope.row : scope.row[items.props],$event.target.innerText)">
+                                        {{scope.row.refresh}}
+                                    </span>
+                                </span>
+                            </template>
 
                         </el-form-item>
                     </template>
@@ -219,7 +220,7 @@
 
 </template>
 <script>
-    import {iInput, iSelect, icon} from 'rise';
+    import {iInput, iSelect, iButton, icon} from 'rise';
     import {toThousands,delcommafy,unique} from '@/utils'
     import isAuth from '@/utils/isAuth';
     export default {
@@ -262,6 +263,7 @@
         components: {
             iInput,
             iSelect,
+            iButton,
             icon,
         },
         data() {
@@ -493,7 +495,8 @@
     }
 
     .linkEllipsis {
-        display: inline-block;
+        width: 100%;
+        display: inherit;
         overflow: hidden;
         text-overflow: ellipsis;
     }
