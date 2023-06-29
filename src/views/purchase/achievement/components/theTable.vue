@@ -328,7 +328,7 @@ export default {
               item._status = '导入中'
             } else if (item.status == '1') {
               item._status = '导入失败'
-              this.$set(item, 'operation', '下载')
+              this.$set(item, 'down', true)
             } else if (item.status == '2') {
               item._status = '草稿'
               if (item.billType == 1) this.$set(item, 'operation', '发起确认')

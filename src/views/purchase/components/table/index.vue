@@ -35,9 +35,9 @@
                             </span>
                             <template v-if="items.props=='operation'">
                                 <span class="openLinkText cursor"
-                                    v-if="scope.row.operation=='下载'"
+                                    v-if="scope.row.down"
                                     @click="openPage(openPageGetRowData ?  scope.row : scope.row[items.props],$event.target.innerText)">
-                                {{scope.row.operation}}{{scope.row.loading}}
+                                下载
                                 </span>
                                 <span class="openLinkText cursor"
                                     v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_LIST_CONFIRM')"
