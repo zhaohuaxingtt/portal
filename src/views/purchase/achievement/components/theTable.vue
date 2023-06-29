@@ -67,12 +67,6 @@
         >
           {{ $t('LK_JCBMBXZ') }}
         </iButton>
-        <iButton
-          class="ml10"
-          @click="exportExcel"
-        >
-          {{ $t('XIAZAI') }}
-        </iButton>
       </div>
     </div>
     <tableList
@@ -225,6 +219,7 @@ export default {
         .catch(() => {})
     },
     openPage(val) {
+      console.log(val);
       if (val.value == '刷新') {
         this.$alert(
           '此操作不会立即执行,预计每日可查看执行结果，同时该版本将被覆盖 是否继续刷新?',
@@ -253,6 +248,8 @@ export default {
       } else if (val.value == '发起确认') {
         this.commitDialog = true
         this.id = val.id
+      } else if (val.value == '下载') {
+        this.exportExcel(val)
       } else if (val.billType == 1) {
         if (val.status == 0 || val.status == 1) {
           return iMessage.error(
@@ -331,6 +328,7 @@ export default {
               item._status = '导入中'
             } else if (item.status == '1') {
               item._status = '导入失败'
+              this.$set(item, 'operation', '下载')
             } else if (item.status == '2') {
               item._status = '草稿'
               if (item.billType == 1) this.$set(item, 'operation', '发起确认')
@@ -476,9 +474,9 @@ export default {
     spareTempDown() {
       downloadSptemplate().then((res) => {})
     },
-    exportExcel(){
-      if(this.selectTableData.length!=1) return iMessage.warn('请选择一条下载数据')
-      downloadUdFile(this.selectTableData[0].fileId)
+    exportExcel(val){
+      if(!val.fileId) return iMessage.warn('文件id不存在')
+      downloadUdFile(val.fileId)
     }
   }
 }
