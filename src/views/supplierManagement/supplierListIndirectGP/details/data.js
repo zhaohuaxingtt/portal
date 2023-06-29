@@ -98,7 +98,8 @@ export const supplierCompleteRe = {
     companyWebPage: "",//公司网址
     listingAddress: "",//上市地点
     stockCode: "",//股票代码
-    supplyProperty: ""//供货属性
+    supplyProperty: "",//供货属性
+    supplierType:""
   },
   // 联系人
   contactsSaveDTO:{

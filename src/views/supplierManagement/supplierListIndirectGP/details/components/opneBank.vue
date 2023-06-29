@@ -1,6 +1,6 @@
 <template>
   <iCard tabCard collapse :title="$t('KAIHUYINHANG')" class="margin-top20">
-    <iButton class="btn_class"  v-permission="SUPPLIER_INDIRECT_BASEINFO_COMPANY_ADDBANK" @click="addBank">新增子银行账户</iButton>
+    <iButton class="btn_class" :disabled="canNotEdit" v-permission="SUPPLIER_INDIRECT_BASEINFO_COMPANY_ADDBANK" @click="addBank">新增子银行账户</iButton>
     <iFormGroup
       row="3"
       :rules="bankRules"
@@ -15,7 +15,7 @@
             required
             slot="label"
           ></iLabel>
-          <iSelect
+          <iSelect :disabled="canNotEdit"
             v-model="supplierData.settlementBankDTO.countryCode"
             @change="changeCountry($event)"
             v-show="
@@ -30,7 +30,7 @@
               :key="index"
             ></el-option>
           </iSelect>
-          <iSelect
+          <iSelect :disabled="canNotEdit"
             v-model="supplierData.settlementBankDTO.countryCode"
             @change="changeCountry($event, true)"
             v-show="
@@ -55,7 +55,7 @@
             required
             slot="label"
           ></iLabel>
-          <iSelect
+          <iSelect :disabled="canNotEdit"
             v-model="supplierData.settlementBankDTO.provinceCode"
             @change="changeProvince($event)"
             v-show="
@@ -70,7 +70,7 @@
               :key="index"
             ></el-option>
           </iSelect>
-          <iSelect
+          <iSelect :disabled="canNotEdit"
             v-model="supplierData.settlementBankDTO.provinceCode"
             @change="changeProvince($event, true)"
             v-show="
@@ -95,7 +95,7 @@
             required
             slot="label"
           ></iLabel>
-          <iSelect
+          <iSelect :disabled="canNotEdit"
             v-model="supplierData.settlementBankDTO.cityCode"
             @change="changeCity($event)"
           >
@@ -116,7 +116,7 @@
             icons="iconxinxitishi"
             :tip="$t('QDLYBJHJRXKZCXY_YINGHANGMINCHEN')"
           ></iLabel>
-          <iInput
+          <iInput :disabled="canNotEdit"
             v-model="supplierData.settlementBankDTO.bankName"
             :placeholder="$t('LK_QINGSHURU') + $t('YINGHANGMINCHENG')"
           ></iInput>
@@ -130,7 +130,7 @@
             icons="iconxinxitishi"
             :tip="$t('QDLYBJHJRXKZCXY_YINGHANGDAIMA')"
           ></iLabel>
-          <iInput
+          <iInput :disabled="canNotEdit"
             v-model="supplierData.settlementBankDTO.bankCode"
             :placeholder="$t('LK_QINGSHURU') + $t('YINHANGDAIMA')"
           ></iInput>
@@ -142,7 +142,7 @@
             required
             slot="label"
           ></iLabel>
-          <iInput
+          <iInput :disabled="canNotEdit"
             v-model="supplierData.settlementBankDTO.bankAccount"
             :placeholder="$t('LK_QINGSHURU') + $t('YINHANGZHANGHAO')"
           ></iInput>
@@ -161,7 +161,7 @@
       <template v-else>
         <iFormItem>
           <iLabel :label="$t('YINHANGSUOZAIGUOJIA')" slot="label"></iLabel>
-          <iSelect
+          <iSelect :disabled="canNotEdit"
             v-model="supplierData.settlementBankDTO.countryCode"
             @change="changeCountry($event)"
             v-show="
@@ -176,7 +176,7 @@
               :key="index"
             ></el-option>
           </iSelect>
-          <iSelect
+          <iSelect :disabled="canNotEdit"
             v-model="supplierData.settlementBankDTO.countryCode"
             @change="changeCountry($event, true)"
             v-show="
@@ -197,7 +197,7 @@
         <!-- 银行所在省份 -->
         <iFormItem>
           <iLabel :label="$t('YINGHANSUOZAISHENGFEN')" slot="label"></iLabel>
-          <iSelect
+          <iSelect :disabled="canNotEdit"
             v-model="supplierData.settlementBankDTO.provinceCode"
             @change="changeProvince($event)"
             v-show="
@@ -212,7 +212,7 @@
               :key="index"
             ></el-option>
           </iSelect>
-          <iSelect
+          <iSelect :disabled="canNotEdit"
             v-model="supplierData.settlementBankDTO.provinceCode"
             @change="changeProvince($event, true)"
             v-show="
@@ -233,7 +233,7 @@
         <!-- 银行所在城市/区 -->
         <iFormItem>
           <iLabel :label="$t('YINHANGSUOZAICHENGSHI')" slot="label"></iLabel>
-          <iSelect
+          <iSelect :disabled="canNotEdit"
             v-model="supplierData.settlementBankDTO.cityCode"
             @change="changeCity($event)"
           >
@@ -253,7 +253,7 @@
             icons="iconxinxitishi"
             :tip="$t('QDLYBJHJRXKZCXY_YINGHANGMINCHEN')"
           ></iLabel>
-          <iInput
+          <iInput :disabled="canNotEdit"
             v-model="supplierData.settlementBankDTO.bankName"
             :placeholder="$t('LK_QINGSHURU') + $t('YINGHANGMINCHENG')"
           ></iInput>
@@ -266,7 +266,7 @@
             icons="iconxinxitishi"
             :tip="$t('QDLYBJHJRXKZCXY_YINGHANGDAIMA')"
           ></iLabel>
-          <iInput
+          <iInput :disabled="canNotEdit"
             v-model="supplierData.settlementBankDTO.bankCode"
             :placeholder="$t('LK_QINGSHURU') + $t('YINHANGDAIMA')"
           ></iInput>
@@ -274,7 +274,7 @@
         <!-- 银行账号 -->
         <iFormItem>
           <iLabel :label="$t('YINHANGZHANGHAO')" slot="label"></iLabel>
-          <iInput
+          <iInput :disabled="canNotEdit"
             v-model="supplierData.settlementBankDTO.bankAccount"
             :placeholder="$t('LK_QINGSHURU') + $t('YINHANGZHANGHAO')"
           ></iInput>
@@ -294,7 +294,7 @@
         <!-- 电子银票账户银行名称 -->
         <iFormItem prop="gpSupplierBankNoteDTO.bankNoteName">
           <iLabel :label="$t('DZYPZHYHMC')" required slot="label"></iLabel>
-          <iInput
+          <iInput :disabled="canNotEdit"
             :placeholder="$t('LK_QINGSHURU')"
             v-model="supplierData.gpSupplierBankNoteDTO.bankNoteName"
           ></iInput>
@@ -302,7 +302,7 @@
         <!-- 电子银票银行账户行号 -->
         <iFormItem prop="gpSupplierBankNoteDTO.bankNoteAccount" :rules="hanghaoRules(1)">
           <iLabel :label="$t('DZYPYHZHHH')" required slot="label"></iLabel>
-          <iInput
+          <iInput :disabled="canNotEdit"
             :placeholder="$t('LK_QINGSHURU')"
             v-model="supplierData.gpSupplierBankNoteDTO.bankNoteAccount"
           ></iInput>
@@ -310,7 +310,7 @@
         <!-- 电子银票银行所在国家 -->
         <iFormItem prop="gpSupplierBankNoteDTO.country">
           <iLabel :label="$t('DZYPYHSZGJ')" required slot="label"></iLabel>
-          <iSelect
+          <iSelect :disabled="canNotEdit"
             v-model="supplierData.gpSupplierBankNoteDTO.country"
             @change="changeCountryDC()"
           >
@@ -325,7 +325,7 @@
         <!-- 电子银票银行所在省份 -->
         <iFormItem prop="gpSupplierBankNoteDTO.province">
           <iLabel :label="$t('DZYPYHSZSF')" required slot="label"></iLabel>
-          <iSelect
+          <iSelect :disabled="canNotEdit"
             v-model="supplierData.gpSupplierBankNoteDTO.province"
             @change="changeProvinceDC()"
           >
@@ -340,7 +340,7 @@
         <!-- 电子银票银行所在城市 -->
         <iFormItem prop="gpSupplierBankNoteDTO.city">
           <iLabel :label="$t('DZYPYHSZCS')" required slot="label"></iLabel>
-          <iSelect v-model="supplierData.gpSupplierBankNoteDTO.city">
+          <iSelect v-model="supplierData.gpSupplierBankNoteDTO.city" :disabled="canNotEdit">
             <el-option
               :value="item.cityIdStr"
               :label="item.cityNameCn"
@@ -355,7 +355,7 @@
         <!-- 电子银票账户银行名称 -->
         <iFormItem>
           <iLabel :label="$t('DZYPZHYHMC')" slot="label"></iLabel>
-          <iInput
+          <iInput :disabled="canNotEdit"
             :placeholder="$t('LK_QINGSHURU')"
             v-model="supplierData.gpSupplierBankNoteDTO.bankNoteName"
           ></iInput>
@@ -363,7 +363,7 @@
         <!-- 电子银票银行账户行号 -->
         <iFormItem prop="gpSupplierBankNoteDTO.bankNoteAccount" :rules="hanghaoRules(2)">
           <iLabel :label="$t('DZYPYHZHHH')" slot="label"></iLabel>
-          <iInput
+          <iInput :disabled="canNotEdit"
             :placeholder="$t('LK_QINGSHURU')"
             v-model="supplierData.gpSupplierBankNoteDTO.bankNoteAccount"
           ></iInput>
@@ -371,7 +371,7 @@
         <!-- 电子银票银行所在国家 -->
         <iFormItem>
           <iLabel :label="$t('DZYPYHSZGJ')" slot="label"></iLabel>
-          <iSelect
+          <iSelect :disabled="canNotEdit"
             v-model="supplierData.gpSupplierBankNoteDTO.country"
             @change="changeCountryDC()"
           >
@@ -386,7 +386,7 @@
         <!-- 电子银票银行所在省份 -->
         <iFormItem>
           <iLabel :label="$t('DZYPYHSZSF')" slot="label"></iLabel>
-          <iSelect
+          <iSelect :disabled="canNotEdit"
             v-model="supplierData.gpSupplierBankNoteDTO.province"
             @change="changeProvinceDC()"
           >
@@ -401,7 +401,7 @@
         <!-- 电子银票银行所在城市 -->
         <iFormItem>
           <iLabel :label="$t('DZYPYHSZCS')" slot="label"></iLabel>
-          <iSelect v-model="supplierData.gpSupplierBankNoteDTO.city">
+          <iSelect v-model="supplierData.gpSupplierBankNoteDTO.city" :disabled="canNotEdit">
             <el-option
               :value="item.cityIdStr"
               :label="item.cityNameCn"
@@ -420,7 +420,7 @@
       class="smallbank"
     >
       <iButton
-        class="btn"
+        class="btn" :disabled="canNotEdit"
         @click="removeBank(index)"
         v-permission="SUPPLIER_INDIRECT_BASEINFO_COMPANY_DELBANK"
         >删除</iButton
@@ -444,7 +444,7 @@
               required
               slot="label"
             ></iLabel>
-            <iSelect v-model="item.country" @change="changeGJ($event, index)">
+            <iSelect v-model="item.country" @change="changeGJ($event, index)" :disabled="canNotEdit">
               <el-option
                 :value="item.cityIdStr"
                 :label="item.cityNameCn"
@@ -460,7 +460,7 @@
               required
               slot="label"
             ></iLabel>
-            <iSelect
+            <iSelect :disabled="canNotEdit"
               v-model="item.province"
               @change="changeSF($event, index)"
             >
@@ -479,7 +479,7 @@
               required
               slot="label"
             ></iLabel>
-            <iSelect v-model="item.city">
+            <iSelect v-model="item.city" :disabled="canNotEdit">
               <el-option
                 :value="item.cityIdStr"
                 :label="item.cityNameCn"
@@ -497,7 +497,7 @@
               icons="iconxinxitishi"
               :tip="$t('QDLYBJHJRXKZCXY_YINGHANGMINCHEN')"
             ></iLabel>
-            <iInput
+            <iInput :disabled="canNotEdit"
               v-model="item.bankName"
               :placeholder="$t('LK_QINGSHURU') + $t('YINGHANGMINCHENG')"
             ></iInput>
@@ -511,7 +511,7 @@
               icons="iconxinxitishi"
               :tip="$t('QDLYBJHJRXKZCXY_YINGHANGDAIMA')"
             ></iLabel>
-            <iInput
+            <iInput :disabled="canNotEdit"
               v-model="item.bankCode"
               :placeholder="$t('LK_QINGSHURU') + $t('YINHANGDAIMA')"
             ></iInput>
@@ -523,7 +523,7 @@
               required
               slot="label"
             ></iLabel>
-            <iInput
+            <iInput :disabled="canNotEdit"
               v-model="item.bankAccount"
               :placeholder="$t('LK_QINGSHURU')"
             ></iInput>
@@ -535,7 +535,7 @@
               required
               slot="label"
             ></iLabel>
-            <iInput
+            <iInput :disabled="canNotEdit"
               v-model="item.salaryAccount"
               :placeholder="$t('LK_QINGSHURU')"
             ></iInput>
@@ -545,7 +545,7 @@
           <!-- 备注 -->
           <iFormItem :prop="item.remark">
             <iLabel :label="$t('BEIZHU')" slot="label"></iLabel>
-            <iInput
+            <iInput :disabled="canNotEdit"
               v-model="item.remark"
               type="textarea"
               rows="3"
@@ -589,7 +589,11 @@ export default {
     country: {
       type: Array,
       default: () => []
-    }
+    },
+    canNotEdit: {
+      type: Boolean,
+      default: false
+    },
   },
   data() {
     return {

@@ -38,7 +38,7 @@
               slot="label"
             ></iLabel>
             <iSelect
-              :disabled="$route.query.subSupplierId"
+              :disabled="$route.query.subSupplierId && canNotEdit"
               v-model="supplierComplete.supplierDTO[item.key]"
               @change="changeFact(supplierComplete.supplierDTO[item.key])"
             >
@@ -63,7 +63,7 @@
               slot="label"
             ></iLabel>
             <iInput
-              :disabled="$route.query.subSupplierId"
+              :disabled="$route.query.subSupplierId && canNotEdit"
               v-model="supplierComplete.supplierDTO[item.key]"
               @change="getInfosByCode"
             ></iInput>
@@ -89,6 +89,7 @@
             </iSelect>
             <iInput
               v-else
+              :disabled="canNotEdit && !supplierComplete.supplierDTO.isForeignManufacture"
               v-model="supplierComplete.supplierDTO[item.key]"
             ></iInput>
           </iFormItem>
@@ -100,6 +101,7 @@
       class="margin-bottom20"
       ref="companyProfile"
       :country="country"
+      :canNotEdit="canNotEdit"
       :supplierData="supplierComplete"
     >
     </companyProfileGP>
@@ -108,12 +110,14 @@
       ref="opneBank"
       class="margin-bottom20"
       :country="country"
+      :canNotEdit="canNotEdit"
       :supplierData="supplierComplete"
     >
     </opneBank>
     <!-- 联系人信息 -->
     <mailList
       ref="mailList"
+      :canNotEdit="canNotEdit"
       :supplierData="mailListData"
       class="margin-bottom20"
     ></mailList>
@@ -192,6 +196,12 @@ export default {
           userName: ''
         }
       ]
+    }
+  },
+  computed:{
+    canNotEdit(){
+      console.log(this.supplierComplete?.supplierDTO?.supplierType);
+      return !!this.supplierComplete?.supplierDTO?.supplierType
     }
   },
   created() {
@@ -324,6 +334,17 @@ export default {
           let supplierComplete = _.cloneDeep(this.supplierCompleteRe)
           supplierComplete.supplierDTO.socialcreditNo = socialcreditNo
           this.supplierComplete = supplierComplete
+          this.mailListData = [
+            {
+              nameZh: '',
+              designation: '',
+              dept: '',
+              telephoneAreaCode: '',
+              telephone: '',
+              email: '',
+              userName: ''
+            }
+          ]
         }
       })
     },
@@ -453,7 +474,7 @@ export default {
           if (valid) {
             resolve(valid)
           } else {
-            return false
+            return reject(false)
           }
         })
       })
@@ -465,7 +486,7 @@ export default {
           if (valid) {
             resolve(valid)
           } else {
-            return false
+            return reject(false)
           }
         })
       })
@@ -478,7 +499,7 @@ export default {
           if (valid) {
             resolve(valid)
           } else {
-            return false
+            return reject(false)
           }
         })
       })
@@ -503,7 +524,7 @@ export default {
           if (that.number == 0) {
             resolve()
           } else {
-            return false
+            return reject(false)
           }
         }, 0)
       })
@@ -517,7 +538,7 @@ export default {
             if (valid) {
               resolve(valid)
             } else {
-              return false
+              return reject(false)
             }
           }
         )
@@ -533,6 +554,7 @@ export default {
           this.getRule4(),
           this.getRule5()
         ]).then((res) => {
+          console.log(res);
           this.loadingType = true
           this.$refs.companyProfile.getCityName()
           // if(!this.$route.query.subSupplierId){
@@ -585,6 +607,12 @@ export default {
                 this.loadingType = false
               })
           }, 500)
+        }).catch((err)=>{
+          if(this.supplierComplete.supplierDTO.supplierType=='GP'){
+            return iMessage.warn('请在一般采购供应商管理页面完善信息后再提交')
+          }else if(['PP','PD'].includes(this.supplierComplete.supplierDTO.supplierType)) {
+            return iMessage.warn('请在生产采购供应商管理页面完善信息后再提交')
+          }
         })
       })
     },
