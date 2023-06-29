@@ -67,6 +67,12 @@
         >
           {{ $t('LK_JCBMBXZ') }}
         </iButton>
+        <iButton
+          class="ml10"
+          @click="exportExcel"
+        >
+          {{ $t('XIAZAI') }}
+        </iButton>
       </div>
     </div>
     <tableList
@@ -153,6 +159,7 @@ import {
   saveTask,
   downloadSptemplate
 } from '@/api/achievement'
+import { downloadUdFile } from '@/api/file';
 
 export default {
   mixins: [pageMixins, resultMessageMixin],
@@ -468,6 +475,10 @@ export default {
     // 基础表模板下载
     spareTempDown() {
       downloadSptemplate().then((res) => {})
+    },
+    exportExcel(){
+      if(this.selectTableData.length!=1) return iMessage.warn('请选择一条下载数据')
+      downloadUdFile(this.selectTableData[0].fileId)
     }
   }
 }
