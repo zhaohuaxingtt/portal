@@ -313,7 +313,8 @@ export default {
       PartNumberDetailArray: [],
       clickData: {},
       onlySeeMySelf: true,
-      effectFlagDropDown: []
+      effectFlagDropDown: [],
+      tableLoading: false
     }
   },
   mounted() {
@@ -439,6 +440,7 @@ export default {
     },
     // 获取初始化列表
     mtzBasePricePage() {
+      this.tableLoading = true
       mtzBasePricePage({
         pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
@@ -451,6 +453,8 @@ export default {
           this.page.pageSize = res.pageSize
           this.page.totalCount = res.total || 0
         } else iMessage.error(res.desZh)
+      }).finally(()=>{
+        this.tableLoading = false
       })
     },
     sure() {

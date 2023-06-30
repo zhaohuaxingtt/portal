@@ -68,6 +68,13 @@ export const offsetList = [
   { code: -11, name: '-11个月',  },
   { code: -12, name: '-12个月',  },
 ]
+   
+export const materialDoseSourceList=[
+  { code: 'BLUEPRINT', name: '图纸',  },
+  { code: 'WEIGH', name: '称重',  },
+  { code: 'CONVENTION', name: '约定',  },
+]
+
 export const tableSetting = [
   { type: 'selection', width: 50 },
   { type: 'index', label: '#', i18n: '#', width: 50 },
@@ -270,6 +277,17 @@ export const tableSetting = [
     i18n: '用量计量单位',
     tooltip: true,
     width: 150
+  },
+  {
+    prop: 'materialDoseSource',
+    label: '原材料用量来源',
+    align: 'center',
+    i18n: '原材料用量来源',
+    tooltip: true,
+    width: 150,
+    customRender:(h,scope)=>{
+      return <span>{scope.row.materialDoseSource?materialDoseSourceList.find(val=>val.code==scope.row.materialDoseSource).name:''}</span>
+    }
   },
   {
     prop: 'marketSource',
