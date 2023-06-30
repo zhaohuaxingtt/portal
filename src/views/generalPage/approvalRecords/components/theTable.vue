@@ -73,8 +73,31 @@ export default {
     },
     openPage(row) {
       // 跳转到 审批中心[我的申请]详情
-      console.log('row=>', row)
-    }
+      this.goDetail(row, row.taskType, {from:'approvalRecords'})
+    },
+    goDetail(row, taskType, queryData) {
+      if (row.formUrl && row.formUrl.indexOf('vhttp') === 0) {
+        const url = row.formUrl.substring(1, row.formUrl.length)
+        window.location.href = url
+      } else {
+        const { instanceId, taskId } = row
+        const finished = taskType === 1 ? 'yes' : 'no'
+
+        let queryDataStr = ''
+        if(queryData) {
+          queryDataStr = encodeURIComponent(JSON.stringify(queryData))
+        }
+        if (taskType === 1) {
+          window.open(
+            `/portal/#/bpm/finishList/detail/${instanceId}/${taskId}/${finished}/${queryDataStr}`
+          )
+        } else {
+          window.open(
+            `/portal/#/bpm/todoList/detail/${instanceId}/${taskId}/${finished}/${queryDataStr}`
+          )
+        }
+      }
+    },
   }
 }
 </script>

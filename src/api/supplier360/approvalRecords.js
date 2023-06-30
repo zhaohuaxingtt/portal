@@ -2,7 +2,6 @@
 import axios from '@/utils/axios'
 const requst = axios(process.env.VUE_APP_SUPPLIER + '/web')
 const requstApprove = axios(process.env.VUE_APP_APPROVAL)
-import store from '@/store'
 
 // 查询供应商审批记录
 export function approvalRecordPage(data) {
@@ -14,10 +13,9 @@ export function approvalRecordPage(data) {
 }
 
 // 查询供应商流程类型
-export function listSupplierType(data) {
-  return requst({
+export function listSupplierType() {
+  return requstApprove({
     url: '/web/dic/dictionary/listSupplierType',
-    method: 'POST',
-    data
+    method: 'POST'
   })
 }
