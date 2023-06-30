@@ -52,6 +52,11 @@
           :end-placeholder="$t('结束日期')"
         >
         </iDatePicker>
+        <userSelect
+          v-else-if="item.type=='user'"
+          v-model="searchForm[item.props]"
+          :placeholder="language('输入姓名和工号搜索')"
+        />
         <iInput
           v-else
           :disabled="item.disabled"
@@ -73,6 +78,7 @@ import {
   iFormGroup,
   iFormItem
 } from 'rise'
+import { userSelect } from '@/components/remoteSelect'
 export default {
   components: {
     iInput,
@@ -81,7 +87,8 @@ export default {
     iDatePicker,
     iMultiLineInput,
     iFormGroup,
-    iFormItem
+    iFormItem,
+    userSelect
   },
   props: {
     searchFormData: {
