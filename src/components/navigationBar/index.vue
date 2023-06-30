@@ -4,12 +4,12 @@
          v-for="(item, index) of list"
          :key="item.title">
       <div class="text"
-           :class="{ textActive: current === index + 1 }"
-           @click="changeCurrent(index + 1)"
+           :class="{ textActive: current == (item.current || index + 1) }"
+           @click="changeCurrent(item.current || index + 1)"
            v-permission="item.permission">
         {{ item.key ? $t(item.key) : item.title }}
         <span v-if="item.required"
-              :class="{ required: current === index + 1 }">*</span>
+              :class="{ required: current == (item.current || index + 1) }">*</span>
       </div>
       <div class="divider"
            v-if="index !== list.length - 1"
