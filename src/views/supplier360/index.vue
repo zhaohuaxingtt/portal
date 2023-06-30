@@ -433,7 +433,7 @@ export default {
           component: 'approvalRecords',
           key: '审批记录',
           permission: 'SUPPLIER_SUPPLYCOMPANY_GP'
-          // permission: 'SUPPLIER_APPROVAL_RECORDS'
+          // permission: 'SUPPLIER_APPROVAL_RECORDS_GP'
         }
       ],
       refData: [],

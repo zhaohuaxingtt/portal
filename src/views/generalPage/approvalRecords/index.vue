@@ -20,34 +20,40 @@
 </template>
 
 <script>
+import { iMessage } from "rise";
 import search from '../components/search.vue'
 import theTable from './components/theTable.vue'
 import { pageMixins } from '@/utils/pageMixins'
-import { approvalRecordPage, listSupplierType } from '@/api/supplier360/baseInfo'
+import { approvalRecordPage, listSupplierType } from '@/api/supplier360/approvalRecords'
 import { supplierDetail } from '@/api/register/baseInfo'
 import { searchFormData, approvalFlowStatus } from "./components/data";
 export default {
   mixins: [pageMixins],
   components: {
+    iMessage,
     search,
     theTable
   },
   data() {
     return {
       searchFormData,
-      searchForm:{},
+      searchForm:{
+        statusList:['0']
+      },
       options:{
         approvalFlowStatus,
+        approveStatus:[]
       },
       tableLoading: false,
       tableListData: [],
     }
   },
   mounted() {
+    this.listSupplierType()
     supplierDetail(this.supplierType).then(res=>{
       if(res?.code=='200'){
         this.searchForm.supplier = res.data.supplierInfoVo.nameZh
-        this.searchForm.supplierId = res.data.supplierInfoVo.id
+        this.searchForm.supplierId = res.data.ppSupplierInfoVo?.id || res.data.gpSupplierInfoVo?.id
         this.getTableList()
       }
     })
@@ -55,13 +61,21 @@ export default {
   methods: {
     listSupplierType(){
       listSupplierType().then(res=>{
-        if(res?.code==200){
-          this.options.approveStatus = res.data
+        if(res?.result){
+          this.options.approveStatus = res.data.data.map(item=>{
+            return {
+              label: item.value,
+              value:item.name
+            }
+          })
         }
       })
     },
     handleSearchReset() {
-      this.searchForm = {}
+      this.searchForm.approvalItem=''
+      this.searchForm.applyUserIdList=''
+      this.searchForm.categoryList=[]
+      this.searchForm.statusList=['0']
       this.getTableList()
     },
     getTableList() {
@@ -80,17 +94,23 @@ export default {
     query() {
       let param = {
         ...this.searchForm,
+        applyUserIdList: this.searchForm.applyUserIdList?[this.searchForm.applyUserIdList]:[],
         pageNum: this.page.currPage,
         pageSize: this.page.pageSize
       }
       this.tableLoading = true
       approvalRecordPage(param)
         .then((res) => {
-          this.tableListData = res.data
-          this.page.totalCount = res.total
+          if(res?.code==200){
+            this.tableListData = res.data?.records || []
+            this.page.totalCount = res.data?.total || 0
+          }else{
+            iMessage.error(res?.desZh)
+          }
           this.tableLoading = false
         })
-        .catch(() => {
+        .catch((e) => {
+          console.log(e);
           this.tableLoading = false
         })
     },
