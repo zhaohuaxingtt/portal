@@ -14,33 +14,35 @@ const router = new VueRouter({
 const List = ['/supplier/supplierListGP']
 const EXCLUDE = ['/login','/superLogin', '/ui']
 
-router.beforeEach((to,from,next) => {
-  if(List.includes(to.fullPath)){
-  // if(!EXCLUDE.includes(to.fullPath)){
-    var _vds = _vds || [];
-    window._vds = _vds;
-    _vds.push(["setAccountId", "c9jaGnRybxEMznFF"]);
-    let userId = JSON.parse(sessionStorage.getItem('userInfo'))?.id
-    if(userId){
-      console.log('记录行为');
-      _vds.push(["setUserId", userId]);
-      _vds.push(["setTrackerHost", 'webbehavior.csvw.com/saicio']);
-      var vds = document.createElement("script");
-      vds.id = 'saic'
-      vds.type = "text/javascript";
-      vds.async = true;
-      vds.src = ("https:" == document.location.protocol ? "https://" : "http://") + "webbehavior.csvw.com/saicio/js/saic.js";
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(vds, s);
-    }else{
-      console.log('未获取到用户id')
-    }
-  }
-  next()
-})
+// router.beforeEach((to,from,next) => {
+//   if(List.includes(to.fullPath)){
+//   // if(!EXCLUDE.includes(to.fullPath)){
+//     var _vds = _vds || [];
+//     window._vds = _vds;
+//     _vds.push(["setAccountId", "c9jaGnRybxEMznFF"]);
+//     let userNum = JSON.parse(sessionStorage.getItem('userInfo'))?.userNum
+//     if(userNum){
+//       console.log('记录行为');
+//       _vds.push(["setUserId", 66526 || userNum]);
+//       _vds.push(["setTrackerHost", 'webbehavior.csvw.com/saicio']);
+//       console.log('_vds=====>',_vds);
+//       console.log('_vds=====>',window._vds);
+//       document.getElementsByTagName("script")['saic']?.remove();
+//       var vds = document.createElement("script");
+//       vds.id = 'saic'
+//       vds.type = "text/javascript";
+//       vds.async = true;
+//       vds.src = ("https:" == document.location.protocol ? "https://" : "http://") + "webbehavior.csvw.com/saicio/js/saic.js";
+//       var s = document.getElementsByTagName("script")[0];
+//       s.parentNode.insertBefore(vds, s);
+//     }else{
+//       console.log('未获取到员工号')
+//     }
+//   }
+//   next()
+// })
 
 router.afterEach(() => {
-  document.getElementsByTagName("script")['saic']?.remove();
   // Remove initial loading
   const appLoading = document.getElementById('app-loading')
   if (appLoading) {
