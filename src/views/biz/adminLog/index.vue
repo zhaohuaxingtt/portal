@@ -246,6 +246,7 @@ export default {
         exportExcel(){
 			// 用户模糊查询
 			let params = {...this.form,creator_like:this.form.creator}
+			params.success = !params.success
 			delete params.creator
             return exportBizLog({ extendFields: params })
         },
