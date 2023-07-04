@@ -80,6 +80,7 @@
               @handleClickRow="handleCurrentChangeTable"
               :tableLoading="loadingRule"
               :index="true"
+              maxHeight="400px"
               :selection="false"
               @handleSelectionChange="handleSelectionChange"
             >
@@ -177,6 +178,7 @@
               :tableLoading="loadingPart"
               :index="true"
               :tagNum="'1'"
+              maxHeight="400px"
               :selection="false"
               @handleSelectionChange="handleSelectionChange"
             >

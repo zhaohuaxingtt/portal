@@ -57,6 +57,7 @@
                           :loading="tableLoading"
                           :data="tableList"
                           :columns="TABLE_COLUMNS"
+                          max-height="400px"
                           highlight-current-row
                           @handle-selection-change="handleSelectionChange">
             </iTableCustom>
@@ -86,6 +87,7 @@
                           :data="approvalRecordList"
                           :columns="TABLE_COLUMNS1"
                           singleChoice
+                          max-height="400px"
                           highlight-current-row
                           @handle-selection-change="handleSelectionChange1">
             </iTableCustom>

@@ -90,7 +90,7 @@
             </el-form-item>
           </template>
         </el-table-column> -->
-        <el-table-column width="140" prop="sapCode" align="center" 
+        <el-table-column width="135" prop="sapCode" align="center" 
           :label="language('LK_GONGYINGSHANG', '供应商')">
           <template slot-scope="scope">
           <el-form-item  :prop="'tableData.' + scope.$index + '.' + 'sapCode'"
@@ -1514,7 +1514,6 @@ export default {
   font-size: 20px!important;
 }
 ::v-deep.el-table .cell {
-  line-height: 0;
   padding: 0px 4px;
   font-size: 18px;
 }

@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <div class="home">
         <theSearch @getTableList="getTableList" class="margin-bottom20" name="theSearch"/>
-        <theTable ref="theTable"/>
+        <theTable class="table-card" ref="theTable" height="100%"/>
     </div>
 </template>
 
@@ -41,58 +41,25 @@
 </script>
 
 <style scoped lang="scss">
-    .navBox {
-        position: relative;
-
-        .btnRow {
-            position: absolute;
-            right: 0;
-            top: 5px;
-            .btnList {
-                .btngroup {
-                    display: flex;
-                    flex-direction: row;
-                    cursor: pointer;
-
-                    > li {
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        padding-left: 20px;
-                        padding-right: 20px;
-                        height: 16px;
-
-                        &:not(:last-child) {
-                            border-right: 2px solid #909091;
-                        }
-
-                        > span {
-                            font-size: 18px;
-                            font-family: Arial;
-                            font-weight: 400;
-                            line-height: 25px;
-                            color: #00000048;
-                        }
-
-                        .activetest {
-                            font-weight: bold;
-                            color: #1660f1;
-                        }
-                    }
-                }
-
-                > span {
-                    font-size: 20px;
-                    margin-left: 20px;
-
-                    // opacity: 0.5;
-                    .log {
-                        font-size: 16px;
-                        color: #1660f1;
-                        margin-left: 5px;
-                    }
-                }
-            }
-        }
+.home {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+  .table-card {
+    flex: 1;
+    overflow: hidden;
+    min-height: 400px;
+    ::v-deep .card-body-box {
+      height: 100%;
+      .cardBody {
+        display: flex;
+        flex-flow: column;
+      }
+      .table-box {
+        flex: 1;
+        overflow: hidden;
+      }
     }
+  }
+}
 </style>
