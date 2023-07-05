@@ -244,7 +244,11 @@ export default {
             this.$refs.table.query(t)
 		},
         exportExcel(){
-            return exportBizLog({ extendFields: this.form })
+			// 用户模糊查询
+			let params = {...this.form,creator_like:this.form.creator}
+			params.success = !params.success
+			delete params.creator
+            return exportBizLog({ extendFields: params })
         },
 		// 查看详情
         msgDetail(row){

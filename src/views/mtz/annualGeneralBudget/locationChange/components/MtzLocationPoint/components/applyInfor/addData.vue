@@ -33,7 +33,7 @@
                             :label="item.code"></el-option>
                     </iSelect>
                 </iFormItem>
-                <!-- <iFormItem prop="materialDoseSource">
+                <iFormItem prop="materialDoseSource">
                     <iLabel :label="language('原材料用量来源', '原材料用量来源')" slot="label" :required="true"></iLabel>
                     <iSelect v-model="contractForm.materialDoseSource" clearable filterable
                         :placeholder="language('QINGXUANZE', '请选择')">
@@ -41,7 +41,7 @@
                             :value="item.code">
                         </el-option>
                     </iSelect>
-                </iFormItem> -->
+                </iFormItem>
                 <iFormItem prop="startDate">
                     <iLabel :label="language('YOUXIAOQIQI', '有效期起')" slot="label"></iLabel>
                     <iDatePicker value-format="yyyy-MM-dd" :picker-options="pickerOptionsStar" v-model="contractForm.startDate" type="datetime">
@@ -381,6 +381,7 @@ export default {
                 // partUnit:[{ required: true, message: '请输入', trigger: 'blur' }],
                 dosage: [{ required: true, message: '请输入', trigger: 'blur' }],
                 dosageMeasureUnit: [{ required: true, message: '请输入', trigger: 'blur' }],
+                materialDoseSource: [{ required: true, message: '请选择', trigger: ['change','blur']}], //原材料用量来源
                 // mark:[{ required: true, message: '请输入', trigger: 'blur' }],
                 startDate: [
                     { required: true, message: '请选择', trigger: 'blur' },
