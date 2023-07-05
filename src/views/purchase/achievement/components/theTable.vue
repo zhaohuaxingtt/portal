@@ -153,6 +153,7 @@ import {
   saveTask,
   downloadSptemplate
 } from '@/api/achievement'
+import { downloadUdFile } from '@/api/file';
 
 export default {
   mixins: [pageMixins, resultMessageMixin],
@@ -218,6 +219,7 @@ export default {
         .catch(() => {})
     },
     openPage(val) {
+      console.log(val);
       if (val.value == '刷新') {
         this.$alert(
           '此操作不会立即执行,预计每日可查看执行结果，同时该版本将被覆盖 是否继续刷新?',
@@ -246,6 +248,8 @@ export default {
       } else if (val.value == '发起确认') {
         this.commitDialog = true
         this.id = val.id
+      } else if (val.value == '下载') {
+        this.exportExcel(val)
       } else if (val.billType == 1) {
         if (val.status == 0 || val.status == 1) {
           return iMessage.error(
@@ -324,6 +328,7 @@ export default {
               item._status = '导入中'
             } else if (item.status == '1') {
               item._status = '导入失败'
+              this.$set(item, 'down', true)
             } else if (item.status == '2') {
               item._status = '草稿'
               if (item.billType == 1) this.$set(item, 'operation', '发起确认')
@@ -468,6 +473,10 @@ export default {
     // 基础表模板下载
     spareTempDown() {
       downloadSptemplate().then((res) => {})
+    },
+    exportExcel(val){
+      if(!val.fileId) return iMessage.warn('文件id不存在')
+      downloadUdFile(val.fileId)
     }
   }
 }

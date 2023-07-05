@@ -1104,7 +1104,10 @@ export default {
         dosage: [{ required: true, message: '请选择', trigger: 'blur' }], //用量
         dosageMeasureUnit: [
           { required: true, message: '请选择', trigger: 'blur' }
-        ] //用量计量单位
+        ], //用量计量单位
+        materialDoseSource: [
+          { required: true, message: '请选择', trigger: ['change','blur'] }
+        ], //原材料用量来源
       },
       uploadUrl: process.env.VUE_APP_MTZ + '/web/mtz/mtzAppNomi/uploadData',
       uploadData: {},

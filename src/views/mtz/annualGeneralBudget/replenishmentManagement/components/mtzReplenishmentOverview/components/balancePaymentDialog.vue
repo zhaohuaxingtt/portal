@@ -128,8 +128,8 @@
       </el-form>
       <div class="operation">
         <div v-if="flag">
-          <iButton @click="search">{{ language('CHAXUN', '查询') }}</iButton>
-          <iButton @click="reset">{{ language('CHONGZHI', '重置') }}</iButton>
+          <iButton @click="search" :loading="tableLoading">{{ language('CHAXUN', '查询') }}</iButton>
+          <iButton @click="reset" :loading="tableLoading">{{ language('CHONGZHI', '重置') }}</iButton>
         </div>
         <i
           @click="toggle"
