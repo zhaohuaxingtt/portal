@@ -1,5 +1,5 @@
 <template>
-  <iCard>
+  <iCard class="table-card">
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
         <!--分派-->
@@ -29,6 +29,8 @@
     </div>
 
     <iTableCustom
+      class="table-box"
+      height="100%"
       ref="tableListRef"
       :data="tableListData"
       :columns="tableTitle"
@@ -507,5 +509,8 @@ export default {
 ::v-deep .el-form-item {
   margin-top: 0;
   margin-bottom: 0;
+}
+::v-deep .el-table__body-wrapper{
+  overflow: auto;
 }
 </style>

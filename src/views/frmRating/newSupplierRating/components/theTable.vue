@@ -6,7 +6,7 @@
  * @Descripttion: your project
 -->
 <template>
-  <iCard>
+  <iCard class="table-card">
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
         <!-- 导出 -->
@@ -19,6 +19,8 @@
       </div>
     </div>
     <iTableCustom
+      class="table-box"
+      height="100%"
       ref="tableListRef"
       :data="tableListData"
       :columns="tableTitle"
@@ -152,5 +154,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+::v-deep .el-table__body-wrapper{
+  overflow: auto;
+}
 </style>

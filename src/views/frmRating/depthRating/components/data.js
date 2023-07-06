@@ -13,7 +13,8 @@ export const tableTitle = [
     name: '供应商名称',
     key: 'SPR_FRM_DEP_SUPNAME',
     width: 300,
-    tooltip: true
+    tooltip: true,
+    fixed: true
   },
   { props: 'sap', name: 'SAP号', key: 'SUPPLIER_SAPHAO' },
   {

@@ -13,13 +13,15 @@ export const tableTitle = [
   {
     type: 'index',
     width: 60,
-    label: '序号'
+    label: '序号',
+    fixed: true,
   },
   {
     prop: 'sapCode',
     lable: 'SAP号',
     i18n: 'SUPPLIER_SAPHAO',
     tooltip: true,
+    fixed: true,
     width: 120
   },
   {
@@ -27,7 +29,8 @@ export const tableTitle = [
     lable: '供应商名称',
     i18n: 'LK_GONGYINGSHANGMINGCHENG1',
     width: 300,
-    tooltip: true
+    tooltip: true,
+    fixed: true,
   },
   {
     prop: 'isActive',
@@ -35,6 +38,7 @@ export const tableTitle = [
     i18n: 'GONGHUO1',
     width: 100,
     tooltip: true,
+    fixed: true,
     customRender: (h, scope) => {
       return SUPPLIER_STATUS[scope.row.isActive]
     }

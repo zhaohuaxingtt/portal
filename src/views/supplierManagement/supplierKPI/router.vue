@@ -8,7 +8,7 @@
 <template>
   <div>
     <iNavMvp :lang="true" :list="categoryManagementAssistantList" :lev='2' right routerPage class="nav" />
-    <router-view />
+    <router-view class="kpi-content" />
   </div>
 </template>
 
