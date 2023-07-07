@@ -1,6 +1,6 @@
 <!-- 芯片定点 -->
 <template>
-  <div>
+  <div class="page-content">
     <search
       @sure="sure"
       @reset="reset"
@@ -9,7 +9,7 @@
       :options="options"
     />
 
-    <iCard class="margin-top20">
+    <iCard class="margin-top20 table-card">
       <template v-slot:header>
         <span class="headTitle">{{ $t('XIANGQINGLIEBIAO') }}</span>
         <div class="opration">
@@ -63,7 +63,8 @@
         </div>
       </template>
       <tableList
-        class="margin-top20"
+        class="table-box"
+        height="100%"
         :tableData="tableListData"
         :tableTitle="tableTitle"
         :tableLoading="tableLoading"
@@ -652,6 +653,32 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.page-content{
+  flex: 1;
+  display: flex;
+  flex-flow: column;
+  overflow: hidden;
+  ::v-deep .table-card {
+    flex: 1;
+    overflow: hidden;
+    min-height: 400px;
+    display: flex;
+    flex-flow: column;
+    .card-body-box {
+      flex: 1;
+      overflow: hidden;
+      .cardBody {
+        display: flex;
+        flex-flow: column;
+        overflow: hidden;
+        .table-box {
+          flex: 1;
+          overflow: hidden;
+        }
+      }
+    }
+  }
+}
 .openPage {
   position: relative;
   color: $color-blue;

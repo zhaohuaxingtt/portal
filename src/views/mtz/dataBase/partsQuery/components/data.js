@@ -70,12 +70,13 @@ export const offsetList = [
 ]
 export const tableSetting = [
   { type: 'selection', width: 50 },
-  { type: 'index', label: '#', i18n: '#', width: 50 },
+  { type: 'index', label: '#', i18n: '#', width: 50, fixed: true },
   {
     prop: 'assemblyPartnum',
     label: '',
     i18n: '一次件零件号',
     tooltip: true,
+    fixed: true,
     align: 'center',
     width: 150,
     emit: 'go-partNumber',

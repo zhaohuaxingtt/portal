@@ -62,7 +62,8 @@
       <!-- <div class="btn">
         <el-button type="primary" size="mini" circle @click="isTitle = !isTitle">{{ isTitle ? '-' : '+' }}</el-button>
       </div> -->
-      <el-table :data="tableData" ref="moviesTable" border v-loading="loading" @selection-change="handleSelectionChange">
+      <el-table :data="tableData" ref="moviesTable" border v-loading="loading" @selection-change="handleSelectionChange"
+        max-height="400px">
         <el-table-column type="selection" :selectable="selectionType" fixed width="40" align="center">
         </el-table-column>
         <el-table-column label="#" fixed type="index" width="40" align="center">

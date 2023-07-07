@@ -7,8 +7,7 @@
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
 -->
 <template>
-  <div>
-    <iCard>
+    <iCard class="table-card">
       <template v-slot:header>
         <span>
           {{ language('LIEBIAOXIANGQING', '列表详情') }}
@@ -26,6 +25,7 @@
         </div>
       </template>
       <el-table
+        height="100%"
         :data="tableData"
         ref="moviesTable"
         v-loading="loading"
@@ -102,12 +102,11 @@
         :layout="page.layout"
       >
       </iPagination>
+      <new-mtzlocation-change
+        :dialogVisible="dialogVisible"
+        @close="close"
+      ></new-mtzlocation-change>
     </iCard>
-    <new-mtzlocation-change
-      :dialogVisible="dialogVisible"
-      @close="close"
-    ></new-mtzlocation-change>
-  </div>
 </template>
 
 <script>

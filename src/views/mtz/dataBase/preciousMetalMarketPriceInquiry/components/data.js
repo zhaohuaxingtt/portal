@@ -45,6 +45,7 @@ export const tableTitle = [
     name: '零件号',
     key: 'LINGJIANHAO',
     tooltip: true,
+    fixed: true,
     width: 150
   },
   {
@@ -52,6 +53,7 @@ export const tableTitle = [
     name: '批次号',
     key: 'PICIHAO',
     tooltip: true,
+    fixed: true,
     width: 150
   },
   {
@@ -59,6 +61,7 @@ export const tableTitle = [
     name: '贵金属编号',
     key: 'GUIJINSHUBIANHAO',
     tooltip: true,
+    fixed: true,
     width: 150
   },
   {

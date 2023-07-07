@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <iCard v-loading="cardLoading">
+    <iCard v-loading="cardLoading" class="table-card">
       <div class="margin-bottom20 clearFloat">
         <span class="font18 font-weight">{{language('SHICHANGJIAXIANGQING', '市场价详情')}}</span>
         <div class="floatright">
@@ -34,10 +33,11 @@
           </template>
         </div>
       </div>
-      <tableList ref="commonTable"
+      <tableList ref="commonTable" class="table-box" height="100%"
                  :tableData="tableListData"
                  :tableTitle="tableTitle"
                  :index="true"
+                 fixed
                  openPageProps="fileName"
                  :openPageGetRowData="true"
                  @handleSelectionChange="handleSelectionChange"
@@ -64,13 +64,12 @@
                    :layout="page.layout"
                    :current-page='page.currPage'
                    :total="page.totalCount" />
+      <orderDialog v-model="orderDialogParams.visible"
+                  :key="orderDialogParams.key"
+                  :tableTitle="orderInfoTableTitle"
+                  :data="orderDialogParams.data"
+                  @handleCloseDialog="handleCloseDialog" />
     </iCard>
-    <orderDialog v-model="orderDialogParams.visible"
-                 :key="orderDialogParams.key"
-                 :tableTitle="orderInfoTableTitle"
-                 :data="orderDialogParams.data"
-                 @handleCloseDialog="handleCloseDialog" />
-  </div>
 </template>
 
 <script>

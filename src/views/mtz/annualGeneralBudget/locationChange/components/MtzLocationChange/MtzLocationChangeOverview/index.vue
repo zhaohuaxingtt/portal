@@ -8,7 +8,7 @@
 -->
 <!-- MTZ变更分页页面 -->
 <template>
-  <div>
+  <div class="page-content">
     <theSearch ref="theSearch"></theSearch>
     <theTable class="margin-top20"
               ref="theTable"></theTable>
@@ -40,4 +40,30 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.page-content{
+  flex: 1;
+  display: flex;
+  flex-flow: column;
+  overflow: hidden;
+  ::v-deep .table-card {
+    flex: 1;
+    overflow: hidden;
+    min-height: 400px;
+    display: flex;
+    flex-flow: column;
+    .card-body-box {
+      flex: 1;
+      overflow: hidden;
+      .cardBody {
+        display: flex;
+        flex-flow: column;
+        overflow: hidden;
+        .table-box {
+          flex: 1;
+          overflow: hidden;
+        }
+      }
+    }
+  }
+}
 </style>

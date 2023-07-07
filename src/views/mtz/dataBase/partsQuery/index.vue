@@ -1,5 +1,5 @@
 <template>
-  <div class="mtz-select">
+  <div class="mtz-select page-content">
     <i-search @sure="sure" @reset="reset">
       <iFormGroup label-position="top">
         <iFormItem
@@ -116,7 +116,7 @@
       </iFormGroup>
     </i-search>
 
-    <iCard class="OrganizationTable">
+    <iCard class="OrganizationTable table-card">
       <div class="export">
         <div>
           <el-switch
@@ -166,10 +166,10 @@
           ></button-table-setting>
         </div>
       </div>
-      <div>
         <iTableCustom
           ref="testTable"
-          class="customClass"
+          height="100%"
+          class="customClass table-box"
           :loading="tableLoading"
           :data="tableListData"
           :columns="tableSetting"
@@ -192,7 +192,6 @@
           :current-page="page.currPage"
           :total="page.totalCount"
         />
-      </div>
     </iCard>
     <!-- 一/二次件零件号 -->
     <iDialog

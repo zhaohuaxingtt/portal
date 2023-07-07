@@ -102,7 +102,7 @@
         ref="moviesTable"
         v-loading="loading"
         border
-        height="400px"
+        max-height="400px"
         @selection-change="handleSelectionChange"
       >
         <el-table-column

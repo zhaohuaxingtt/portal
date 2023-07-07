@@ -7,8 +7,7 @@
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\ChipLocationChange\ChipLocationChangeOverview\components\theTable.vue
 -->
 <template>
-  <div>
-    <iCard>
+    <iCard class="table-card">
       <template v-slot:header>
         <span class="headTitle">{{ $t('XIANGQINGLIEBIAO') }}</span>
         <div>
@@ -22,6 +21,7 @@
         </div>
       </template>
       <el-table
+        height="100%"
         :data="tableData"
         ref="moviesTable"
         v-loading="loading"
@@ -97,28 +97,27 @@
         :layout="page.layout"
       >
       </iPagination>
+      <new-chipLocation-change
+        :dialogVisible="dialogVisible"
+        @close="close"
+      ></new-chipLocation-change>
+      <iDialog
+        :title="language('CHEHUIYUANYIN', '撤回原因')"
+        :visible.sync="reasonShow"
+        v-if="reasonShow"
+        width="40%"
+      >
+        <div>
+          <div class="tanc_book">
+            <iInput v-model="reason" type="textarea" :rows="10"></iInput>
+          </div>
+          <div slot="footer" class="dialog-footer">
+            <iButton @click="recall">{{ language('QUEREN', '确认') }}</iButton>
+            <iButton @click="cancel">{{ language('QUXIAO', '取消') }}</iButton>
+          </div>
+        </div>
+      </iDialog>
     </iCard>
-    <new-chipLocation-change
-      :dialogVisible="dialogVisible"
-      @close="close"
-    ></new-chipLocation-change>
-    <iDialog
-      :title="language('CHEHUIYUANYIN', '撤回原因')"
-      :visible.sync="reasonShow"
-      v-if="reasonShow"
-      width="40%"
-    >
-      <div>
-        <div class="tanc_book">
-          <iInput v-model="reason" type="textarea" :rows="10"></iInput>
-        </div>
-        <div slot="footer" class="dialog-footer">
-          <iButton @click="recall">{{ language('QUEREN', '确认') }}</iButton>
-          <iButton @click="cancel">{{ language('QUXIAO', '取消') }}</iButton>
-        </div>
-      </div>
-    </iDialog>
-  </div>
 </template>
 
 <script>

@@ -7,7 +7,7 @@
  * @FilePath: \重庆软维科技\front-portal\src\views\mtz\dataBase\preciousMetalMarketPriceInquiry\index.vue
 -->
 <template>
-  <div class="margin-top25">
+  <div class="margin-top25 page-content">
     <theTableSearch
         :tableSearchProps="tableSearchProps"
         @getTableList="getTableList"
