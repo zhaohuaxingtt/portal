@@ -15,12 +15,14 @@
           <i-button @click="deleteItem" v-permission="SUPPLIER_RELATEDACCESSORY_FREEUPLOAD_DELETE">{{$t('SUPPLIER_FUJIANSHANCHU')}}</i-button>
           <upload-button class="margin-left20"
                         @uploadedCallback="handleUploadedCallback"
+                        :uploadButtonLoading="uploadButtonLoading"
                         v-permission="SUPPLIER_RELATEDACCESSORY_FREEUPLOAD_ADD" />
         </div>
         <div class="floatright" v-if="$route.query.subSupplierType=='GP'">
           <i-button @click="deleteItem" v-permission="SUPPLIER_RELATEDACCESSORY_FREEUPLOAD_DELETE_GP">{{$t('SUPPLIER_FUJIANSHANCHU')}}</i-button>
           <upload-button class="margin-left20"
                         @uploadedCallback="handleUploadedCallback"
+                        :uploadButtonLoading="uploadButtonLoading"
                         v-permission="SUPPLIER_RELATEDACCESSORY_FREEUPLOAD_ADD_GP" />
         </div>
       </div>
@@ -77,6 +79,7 @@ export default {
       tableListData: [],
       tableTitle: freeUploadTableTitle,
       tableLoading: false,
+      uploadButtonLoading: false,
       selectTableData: []
     }
   },
@@ -153,7 +156,7 @@ export default {
     async handleUploadedCallback (event) {
       console.log(event)
       this.tableLoading = true
-
+      this.uploadButtonLoading = true
 
       console.log(this.$route.path)
       var req = {};
@@ -192,6 +195,8 @@ export default {
         }else{
           iMessage.success(res.desZh)
         }
+      }).finally(()=>{
+        this.uploadButtonLoading = false
       })
     },
     async saveInfos (step = '', hideMessage = false) {

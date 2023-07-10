@@ -14,6 +14,7 @@
                    :show-file-list="false"
                    name="multipartFile"
                    with-credentials
+                   :disabled="upLoading"
                    :on-success="handleAvatarSuccess"
                    :http-request="myUpload">
           <iButton>{{ $t('LK_SHANGCHUANFUJIAN') }}</iButton>
@@ -72,6 +73,7 @@ export default {
       tableListData: [],
       tableTitle: uploadTitle,
       tableLoading: false,
+      upLoading:false,
       currentSelect: []
     };
   },
@@ -102,17 +104,19 @@ export default {
     //上传
     async myUpload (content) {
       try {
+        this.upLoading=true
         this.tableLoading = true
         const formData = new FormData();
         formData.append('file', content.file);
         formData.append('deepCommentSupplierId', this.deepCommentSupplierId);
         const res = await depAttachmentInfo(formData);
         this.tableLoading = false
+        this.upLoading=false
         this.resultMessage(res, () => {
           this.getTableList()
         })
       } catch (e) {
-        //
+        this.upLoading=false
       }
     },
     // 删除

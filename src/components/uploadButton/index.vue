@@ -4,7 +4,7 @@
 -->
 <template>
   <el-upload class="upload"
-             :disabled="disabled"
+             :disabled="disabled||upLoading"
              action="/fileApi/upload"
              :show-file-list="false"
              :data="{ applicationName: 'rise' }"
@@ -21,7 +21,7 @@
         $t(buttonText)
         }}</span>
       <iButton v-else
-               :loading="uploadButtonLoading"
+               :loading="upLoading"
                :disabled="disabled&&showDisabled">{{ $t(buttonText) }}</iButton>
     </template>
   </el-upload>
@@ -50,7 +50,14 @@ export default {
     showDisabled: { type: Boolean, default: true }  // 为了兼容其它地方按钮禁用,上传按钮要显示loading时，这个值设为false
   },
   data () {
-    return {};
+    return {
+      loading:false
+    };
+  },
+  computed:{
+    upLoading(){
+      return this.loading || this.uploadButtonLoading
+    }
   },
   methods: {
     beforeUpload(file){
@@ -72,6 +79,7 @@ export default {
       if (this.uploadByBusiness) {
         this.$emit('uploadedCallback', content);
       } else {
+        this.loading = true
         const formData = new FormData();
         formData.append('file', content.file);
         formData.append('applicationName', 'rise');
@@ -83,6 +91,7 @@ export default {
         } else {
           this.resultMessage(res);
         }
+        this.loading = false
       }
     },
   },

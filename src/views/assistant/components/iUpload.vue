@@ -7,7 +7,7 @@
             :show-file-list="false"
             :multiple="multiple"
             :http-request="httpUpload"
-            :disabled="disabled || (files.length >= limit)"
+            :disabled="disabled || uploading || (files.length >= limit)"
             :limit="limit"
             :on-exceed="handleExceed"
             v-if="!disabled"

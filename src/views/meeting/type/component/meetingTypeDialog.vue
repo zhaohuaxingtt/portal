@@ -45,6 +45,7 @@
                   :before-upload="beforeAvatarUpload"
                   :show-file-list="false"
                   :http-request="httpUpload"
+                  :disabled="uploadLoading"
                 >
                   <iButton
                     type="button"

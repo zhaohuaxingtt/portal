@@ -365,7 +365,7 @@
                   :http-request="httpUpload"
                   :file-list="fileList"
                   v-show="editOrAdd !== 'look'"
-                  :disabled="ruleForm.state === '02'"
+                  :disabled="uploadLoading || (ruleForm.state === '02')"
                 >
                   <iButton
                     type="button"

@@ -130,10 +130,12 @@
             action="1"
             :show-file-list="false"
             with-credentials
+            :disabled="loading"
             :http-request="importData"
             accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
           >
             <iButton
+              :loading="loading"
               class="importSupplier"
               v-permission="
                 'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_SUPPLIER_IMPORT'
@@ -339,7 +341,8 @@ export default {
       stuffId: '',
       originalData: [],
       categoryId: '',
-      tabelListLength: ''
+      tabelListLength: '',
+      loading: false
     }
   },
   mixins: [pageMixins],
@@ -565,6 +568,7 @@ export default {
       downloadSupplierModel()
     },
     importData(file) {
+      this.loading = true
       let formData = new FormData()
       formData.append('file', file.file)
       formData.append('stuffId', this.stuffId)
@@ -575,6 +579,8 @@ export default {
         } else if (res.code == 1) {
           iMessage.error(res.desZh)
         }
+      }).finally(()=>{
+        this.loading = false
       })
     },
     exportTechnology() {

@@ -40,6 +40,7 @@
                  :selectPropsOptionsObject="selectPropsOptionsObject">
         <template #upload="scope">
           <uploadButton v-if="scope.row.id"
+                        :uploadButtonLoading="uploadButtonLoading"
                         @uploadedCallback="handleUploadedCallback($event,scope.row)"
                         button-text="LK_SHANGCHUAN" />
         </template>
@@ -90,6 +91,7 @@ export default {
       selectTableData: [],
       selectPropsOptionsObject: {},
       saveButtonLoading: false,
+      uploadButtonLoading:false
     };
   },
   methods: {
@@ -118,11 +120,13 @@ export default {
       }
     },
     async handleUploadedCallback (content, row) {
+      this.uploadButtonLoading = true
       const formData = new FormData();
       formData.append('file', content.file);
       formData.append('id', row.id);
       formData.append('modelType', row.modelType);
       const res = await uploadInitialCommentModelExcel(formData);
+      this.uploadButtonLoading = false
       this.resultMessage(res, () => {
         this.saveInitialCommentModel();
       });

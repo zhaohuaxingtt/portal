@@ -48,9 +48,10 @@
                    :show-file-list="false"
                    name="multipartFile"
                    with-credentials
+                   :disabled="upLoading"
                    :on-success="handleAvatarSuccess"
                    :http-request="myUpload">
-          <iButton>{{ $t('DAORU') }}</iButton>
+          <iButton :loading="upLoading">{{ $t('DAORU') }}</iButton>
         </el-upload>
         <iButton @click="downloadAll" :loading="downloadAllLoading" v-permission="PORTAL_SUPPLIER_NAV_YUQINGJIANCE_SETTING_YUQINGSUPPLIERSET_DAOCHUALL">{{ $t('SUPPLIER_DAOCHUQUANBU') }}</iButton><!-- 到处全部 -->
         <iButton @click="delBtn" v-permission="PORTAL_SUPPLIER_NAV_YUQINGJIANCE_SETTING_YUQINGSUPPLIERSET_DEL">{{ $t('MT_SHANCHU') }}</iButton><!-- 删除 -->
@@ -126,6 +127,7 @@ export default {
       addSupplierType:false,
       downloadAllLoading:false,
       loading:false,
+      upLoading: false,
       tableLoading:false,
       tableSetTitle,
       tableListData:[],
@@ -222,9 +224,11 @@ export default {
       const loading = this.$loading({
         lock: true,
       });
+      this.upLoading = true
       const formData = new FormData();
       formData.append('file', content.file);
       const res = await sentimentSupplierImport(formData);
+      this.upLoading = false
       loading.close()
       this.resultMessage(res, () => {
         this.getData();

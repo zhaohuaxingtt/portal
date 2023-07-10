@@ -91,6 +91,7 @@
         <span class='margin-left10 margin-right10' v-permission="PORTAL_SUPPLIER_NAV_YUQINGJIANCE_DAORU">
           <Upload
             hideTip
+            :uploadButtonLoading="uploadButtonLoading"
             :buttonText="language('LK_YQ_DAORU', '导⼊')"
             :onHttpUploaded='onHttpUploaded'
             :accept="'.xlsx,.xls'"
@@ -212,6 +213,7 @@ export default {
 
       },
       tableLoading: false,
+      uploadButtonLoading: false,
       publicOpinionDetectionColumns,
       publicOpinionDetectionDatas: [],
       dialogVisble: false,
@@ -263,6 +265,7 @@ export default {
      this.selectPublicOpinionDetectionDatas=val
     },
     onHttpUploaded(formData, content) {
+      this.uploadButtonLoading = true
       const newFormData = new FormData()
       newFormData.append('file', content.file)
       importOpinionMonitorings(newFormData).then(res=>{
@@ -272,6 +275,7 @@ export default {
           this.$message.error(res.desZh)
         }
       })
+      this.uploadButtonLoading = false
     },
     //维护供应商
     maintenanceSupplier() {

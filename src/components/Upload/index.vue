@@ -16,6 +16,7 @@
     :http-request="onUploaded"
     :accept="accept"
     v-bind="props"
+    :disabled="uploading"
     ref="uploadRef"
   >
 		<iButton :loading="uploading">{{buttonText || language('SHANGCHUANFUJIJAN',"上传附件")}}</iButton>

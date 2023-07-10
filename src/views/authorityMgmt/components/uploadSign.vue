@@ -20,6 +20,7 @@
       accept="image/jpeg,image/png,image/jpg"
       ref="uploadInput"
       class="upanel"
+      :disabled="uploadLoading"
     >
       <iInput
         placeholder="请上传"
