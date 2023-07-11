@@ -166,7 +166,7 @@
           align="center"
           :label="language('MEI', '每')"
           
-          width="50"
+          width="70"
         >
           <template slot-scope="scope">
             <el-form-item
@@ -184,7 +184,7 @@
         <el-table-column
           prop="dosage"
           align="center"
-          width="80"
+          width="120"
           :label="language('YONGLIANG', '用量')"
           
         >
@@ -207,6 +207,7 @@
         <el-table-column
           prop="dosageMeasureUnit"
           align="center"
+          width="100"
           :label="language('YONGLIANGJILIANGDANEWI', '用量计量单位')"
           
         >
@@ -317,7 +318,7 @@
           align="center"
           :label="language('GUIZEBIANHAO', '规则编号')"
           
-          width="110"
+          width="160"
         >
           <template slot-scope="scope">
             <el-form-item
@@ -432,7 +433,7 @@
           prop="materialCode"
           align="center"
           :label="language('YUANCAILIAO', '原材料')"
-          :width="isTitle?'140':'200'"
+          :width="isTitle?'140':'170'"
 
         >
           <template slot-scope="scope">
