@@ -63,7 +63,7 @@
       width="70%">
       <div class="flex-content">
         <span class="remark-title">审批事项备注</span>
-        <iButton @click="submit">提交审批</iButton>
+        <iButton @click="submit" :loading="submitLoading">提交审批</iButton>
       </div>
       <div class="margin-top20">
         <iInput type='textarea' placeholder="请输入" maxlength="200" v-model="remark"></iInput>
@@ -129,6 +129,7 @@ export default {
   data() {
     return {
       loadingFile:false,
+      submitLoading: false,
       show:false,
       baseInfo:{},
       tipInfo:{
@@ -315,6 +316,7 @@ export default {
         termsId: this.baseInfo.id,
         userId: this.userId
       }
+      this.submitLoading = true
       approveTerms(params).then(res=>{
         if(res?.code=='200'){
           this.updataValue = false
@@ -326,6 +328,8 @@ export default {
         }else{
           iMessage.error(this.$i18n.locale === 'zh' ? res.desZh : res.desEn)
         }
+      }).finally(()=>{
+        this.submitLoading = false
       })
     },
     // 上传其它采购条款
