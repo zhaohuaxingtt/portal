@@ -83,6 +83,14 @@ export const tabRouterListGP = [
     key: 'FENSANNEIBUBAOXIAOGONGYINGSHANG',
     permissionKey: 'SUPPLIER_DISPERSEDSUPPLIER_GP'
   },
+  {
+    value:3,
+    name: '间接物料供应商',
+    url: '/supplier/supplierListIndirect',
+    activePath: '/supplierListIndirect',
+    key: '间接物料供应商',
+    permissionKey: 'SUPPLIER_INDIRECT_GP'
+  },
 ]
 
 export const categoryManagementAssistantList = [

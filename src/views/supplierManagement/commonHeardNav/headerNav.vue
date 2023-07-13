@@ -11,13 +11,18 @@
       <iNavMvp :lang='true'
                :list="tabRouter"
                class="margin-bottom20"
+               :class="className"
                routerPage
                :lev="1" />
-      <logButton class="logButton"
-                 @toLogPage="toLog" />
-      <iUserLog :show.sync="showDialog"
-                menuId="WS3203"
-                is-page />
+      <iLoger
+        credentials
+        isPage
+        isUser
+        :config="{
+          menuId
+        }"
+        class="margin-left25"
+      />
     </div>
   </div>
 </template>
@@ -27,11 +32,13 @@ import { iNavMvp } from 'rise'
 import { tabRouterList,tabRouterListGP, categoryManagementAssistantList } from './navData'
 import logButton from '@/components/logButton'
 import iUserLog from '@/components/iUserLog'
+import iLoger from 'rise/web/components/iLoger'
 export default {
   components: {
     iNavMvp,
     logButton,
-    iUserLog
+    iUserLog,
+    iLoger
   },
   data () {
     return {
@@ -41,17 +48,33 @@ export default {
       categoryManagementAssistantList,
       isShowKpiMenu: true,
       showDialog: false,
+      className:'',
+      // menuId:'WS3203',
     }
   },
   computed: {
     whiteBtnList () {
       return this.$store.state.permission.whiteBtnList
+    },
+    menuId(){
+      console.log(this.$route.path);
+      if(this.$route.path.indexOf('/supplier/supplierListIndirect')!=-1){
+        return 'GP-CONTRACT-111'
+      }else{
+        return 'WS3203'
+      }
     }
   },
   created(){
-    if(this.$route.path.indexOf("/supplier/supplierListGP")!=-1 || this.$route.path.indexOf("/supplier/supplierListDis")!=-1){
+    if (
+      this.$route.path.indexOf('/supplier/supplierListGP') != -1 ||
+      this.$route.path.indexOf('/supplier/supplierListDis') != -1 ||
+      this.$route.path.indexOf('/supplier/supplierListIndirect') != -1
+    ) {
+      this.className='tabRouterListGP'
       this.tabRouter = this.tabRouterListGP
     }else{
+      this.className=''
       this.tabRouter = this.tabRouterList
     }
     // console.log(this.$route.path)
@@ -104,12 +127,10 @@ export default {
 <style scoped lang="scss">
 .navBox {
   position: relative;
-  .logButton {
-    position: absolute;
-    top: 5px;
-    right: 0;
-  }
-
+  display: inline-flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
   ::v-deep .nav {
     align-items: flex-end;
     div {
@@ -119,12 +140,17 @@ export default {
           top: calc(100% + 5px);
         }
       }
+      &:last-child{
+        max-width: unset !important; // 间接物料供应商不换行
+      }
     }
   }
-}
-
-::v-deep .nav div{
-  max-width: 170px!important;
+  // GP 供应商tab页较少，可以完全展示
+  // .tabRouterListGP{
+  //   div{
+  //     max-width: unset;
+  //   }
+  // }
 }
 
 </style>

@@ -24,6 +24,11 @@ export default {
       }
     }
   },
+  created(){
+    if(this.$route.query.type=='DC'){
+      this.list = [{title: '间接物料供应商', key: '间接物料供应商'}]
+    }
+  },
   methods: {
     goback(){
       this.$router.go(-1)
