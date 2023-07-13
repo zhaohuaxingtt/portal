@@ -145,3 +145,53 @@ export function queryPurchasers(id) {
     url: `/web/part/${id}`
   })
 }
+
+// 间接物料列表分页查询
+export function indirectMaterialPage(data) {
+  return requst({
+    url: `/web/indirectMaterial/paged`,
+    method: 'POST',
+    data
+  })
+}
+
+// 间接物料数据导出
+export function indirectMaterialPageExport(data) {
+  return requestDownload({
+    url: `/web/indirectMaterial/export`,
+    method: 'POST',
+    data
+  })
+}
+
+// 间接物料信息详情
+export function indirectMaterialDetail(id) {
+  return requst({
+    url: `/web/indirectMaterial/detail/${id}`
+  })
+}
+
+// 间接物料单位换算关系列表
+export function unitBindList(bizId) {
+  return requst({
+    url: `/web/indirectMaterial/unitBindList/${bizId}`
+  })
+}
+
+// 间接物料单位换算关系绑定(新增以及修改)
+export function unitBinding(data) {
+  return requst({
+    url: `/web/indirectMaterial/unitBinding`,
+    method: 'POST',
+    data
+  })
+}
+
+// 间接物料单位换算关系绑定删除
+export function unitBindRemove(data) {
+  return requst({
+    url: `/web/indirectMaterial/unitBindRemove`,
+    method: 'POST',
+    data
+  })
+}
