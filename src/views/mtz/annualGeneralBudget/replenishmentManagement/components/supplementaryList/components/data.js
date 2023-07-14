@@ -251,27 +251,27 @@ export const tableTitle = [
   { props: 'appAmt', name: '补差额（RMB）', key: 'BUCHAE' }
 ]
 export const tableTitle2 = [
-  { props: 'saNo', name: '采购框架', key: 'CAIGOUKUANGJIA', width: 140 },
-  { props: 'saItemNo', name: '项目号', key: 'XIANGMUHAO', width: 70 },
-  { props: 'mtzDocMonth', name: '补差期间', key: 'BUCHAQIJIAN', width: 140 },
-  { props: 'fPartNo', name: '零件号', key: 'LINGJIANHAO', width: 140 },
+  { props: 'saNo', name: '采购框架', key: 'CAIGOUKUANGJIA', width: 140, fixed: true },
+  { props: 'saItemNo', name: '项目号', key: 'XIANGMUHAO', width: 70, fixed: true },
+  { props: 'mtzDocMonth', name: '补差期间', key: 'BUCHAQIJIAN', width: 140, fixed: true },
+  { props: 'fPartNo', name: '零件号', key: 'LINGJIANHAO', width: 140, fixed: true },
   {
     props: 'materialCode',
     name: '原材料牌号',
     key: 'YUANCAILIAOPAIHAO',
-    width: 150
+    width: 150, fixed: true
   },
   {
     props: 'material',
     name: '原材料名称',
     key: 'YUANCAILIAOMINGCHENG',
-    width: 120
+    width: 120, fixed: true
   },
   {
     props: 'categoryName',
     name: '材料中类',
     key: 'CAILIAOZHONGLEI',
-    width: 120
+    width: 120, fixed: true
   },
   {
     props: 'basePrice',
@@ -338,11 +338,11 @@ export const tableTitle2 = [
 ]
 
 export const tableTitle3 = [
-  { props: 'saNo', name: '采购框架', key: 'CAIGOUKUANGJIA', width: 150 },
-  { props: 'saItemNo', name: '项目号', key: 'XIANGMUHAO', width: 150 },
-  { props: 'mtzDocMonth', name: '补差期间', key: 'BUCHAQIJIAN', width: 150 },
-  { props: 'fPartNo', name: '零件号', key: 'LINGJIANHAO', width: 150 },
-  { props: 'batchNo', name: '批次号', key: 'PICIHAO', width: 150 },
+  { props: 'saNo', name: '采购框架', key: 'CAIGOUKUANGJIA', width: 150, fixed: true },
+  { props: 'saItemNo', name: '项目号', key: 'XIANGMUHAO', width: 150, fixed: true },
+  { props: 'mtzDocMonth', name: '补差期间', key: 'BUCHAQIJIAN', width: 150, fixed: true },
+  { props: 'fPartNo', name: '零件号', key: 'LINGJIANHAO', width: 150, fixed: true },
+  { props: 'batchNo', name: '批次号', key: 'PICIHAO', width: 150, fixed: true },
   { props: 'pgmNo', name: '贵金属编号', key: 'GUIJINSHUBIANHAO', width: 150 },
   {
     props: 'pieceSupplierSap',

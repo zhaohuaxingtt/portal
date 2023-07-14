@@ -13,6 +13,7 @@ export const tableSetting = [
     name: '原材料牌号',
     key: 'YUANCAILIAOPAIHAO',
     tooltip: true,
+    fixed: true,
     width: 110
   },
   {
@@ -20,12 +21,14 @@ export const tableSetting = [
     name: '月份期间',
     key: 'YUEFENQIJIAN',
     tooltip: true,
+    fixed: true,
     width: 90
   },
   {
     props: 'marketType',
     name: '市场价类别',
     key: 'SHICHANGJIALEIBIE',
+    fixed: true,
     width: 130
   },
   {

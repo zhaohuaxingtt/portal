@@ -1,5 +1,5 @@
 <template>
-  <iCard>
+  <iCard class="table-card">
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
         <!--VWAG评级-->
@@ -18,6 +18,8 @@
     </div>
 
     <iTableCustom ref="tableListRef"
+                  class="table-box"
+                  height="100%"
                   :data="tableListData"
                   :columns="tableTitle"
                   :loading="tableLoading"
@@ -246,5 +248,8 @@ export default {
 ::v-deep .el-form-item {
   margin-top: 0;
   margin-bottom: 0;
+}
+::v-deep .el-table__body-wrapper{
+  overflow: auto;
 }
 </style>

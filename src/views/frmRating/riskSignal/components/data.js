@@ -13,6 +13,7 @@ export const tableTitle = [
     name: '风险供应商',
     key: 'SPR_FRM_FXXH_FXGYS',
     tooltip: true,
+    fixed: true,
     width: 300
   },
   {
@@ -20,6 +21,7 @@ export const tableTitle = [
     name: '内容',
     key: 'SUPPLIER_NEIRONG',
     tooltip: true,
+    fixed: true,
     width: 60
   },
   {
@@ -27,6 +29,7 @@ export const tableTitle = [
     name: '信号来源',
     key: 'SPR_FRM_FXXH_XHLY',
     tooltip: true,
+    fixed: true,
     width: 90
   },
   {

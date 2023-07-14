@@ -54,7 +54,7 @@
       </el-form>
     </i-search>
 
-    <iCard class="OrganizationTable">
+    <iCard class="OrganizationTable table-card">
       <div class="export">
         <div class="tt">{{language('SHICHANGJIAXIANGQING','市场价详情')}}</div>
         <div>
@@ -82,8 +82,7 @@
           </template>
         </div>
       </div>
-      <div>
-        <tableList ref="commonTable"
+        <tableList ref="commonTable" class="table-box" height="100%" fixed
                    :tableData="pageData"
                    :tableTitle="tableSetting"
                    :index="true"
@@ -108,7 +107,6 @@
                      :layout="page.layout"
                      :current-page='page.currPage'
                      :total="page.totalCount" />
-      </div>
     </iCard>
     <!-- 下载模板 -->
     <downloadDialog :key="key"
@@ -388,9 +386,6 @@ export default {
 }
 .open-link-text {
   text-decoration: underline;
-}
-.mtz-select {
-  margin-top: 25px;
 }
 ::v-deep.customClass {
   .open-link-text {

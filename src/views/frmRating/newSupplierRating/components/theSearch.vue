@@ -8,7 +8,7 @@
 <template>
   <i-search @reset="handleSearchReset"
             @sure="getTableList"
-            :icon="true">
+            :icon="false">
     <el-form>
       <el-form-item :label="$t('LK_GONGYINGSHANGMINGCHENG1')">
         <iInput :placeholder="$t('LK_QINGSHURU')"

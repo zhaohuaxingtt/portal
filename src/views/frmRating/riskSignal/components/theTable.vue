@@ -6,7 +6,7 @@
  * @Descripttion: your project
 -->
 <template>
-  <iCard>
+  <iCard class="table-card">
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
         <!-- 复制-->
@@ -30,6 +30,8 @@
       </div>
     </div>
     <tableList
+       class="table-box"
+       height="100%"
       :openPageProps="'tsPpSupplierName'"
       @openPage="openPage"
       :openPageGetRowData="true"

@@ -6,7 +6,7 @@
  * @Descripttion: your project
 -->
 <template>
-  <i-search @reset="handleSearchReset" @sure="getTableList" :icon="true">
+  <i-search @reset="handleSearchReset" @sure="getTableList" :icon="false">
     <el-form>
       <el-form-item :label="$t('SPR_FRM_FXXH_FXGYS')">
         <iInput :placeholder="$t('LK_QINGSHURU')" v-model="form.tsPpSupplierName"></iInput>

@@ -79,12 +79,13 @@ export const offsetList = [
 // 员工列表Table配置
 export const tableSetting = [
   { type: 'selection', width: 50 },
-  { type: 'index', label: '#', i18n: '#', width: 50 },
+  { type: 'index', label: '#', i18n: '#', width: 50, fixed: true },
   {
     prop: 'ruleNo',
     label: '规则编号',
     i18n: '规则编号',
     align: 'center',
+    fixed: true,
     width: 150
   },
   {
@@ -92,6 +93,7 @@ export const tableSetting = [
     label: '供应商编号',
     i18n: '供应商编号',
     align: 'center',
+    fixed: true,
     width: 150
   },
   {
@@ -100,6 +102,7 @@ export const tableSetting = [
     width: '100px',
     align: 'center',
     i18n: '供应商名称',
+    fixed: true,
     width: 150
   },
   {
@@ -107,6 +110,7 @@ export const tableSetting = [
     label: '原材料牌号',
     align: 'center',
     i18n: '原材料牌号',
+    fixed: true,
     width: 150
   },
   // {prop: 'materialCategory',label: '中类名称',i18n: '中类名称',align: 'center',width: 150},
@@ -115,6 +119,7 @@ export const tableSetting = [
     label: '原材料名称',
     i18n: '原材料名称',
     align: 'center',
+    fixed: true,
     width: 150
   },
   {

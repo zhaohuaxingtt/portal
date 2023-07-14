@@ -1,5 +1,5 @@
 <template>
-  <iPage :class="padding?'padding':''">
+  <iPage class="MTZ" :class="padding?'padding':''">
     <headerNav v-if="$route.meta.showFooter" :class="padding?'nav':''" />
    <router-view />
   </iPage>
@@ -41,6 +41,11 @@ export default {
 </script>
 <style lang='scss' scoped>
 // @import url(); 引入公共css类
+.MTZ{
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
 .padding {
   padding: 1.875rem 0 0 0;
 }

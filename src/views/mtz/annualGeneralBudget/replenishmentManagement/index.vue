@@ -10,12 +10,7 @@
  * @Description: 补差管理
 -->
 <template>
-  <div>
-    <!-- <div class="nav2 flex-align-center">
-      <iNavMvp :lev="2" :list="navList" :lang="true" routerPage />
-    </div> -->
     <router-view></router-view>
-  </div>
 </template>
 
 <script>
