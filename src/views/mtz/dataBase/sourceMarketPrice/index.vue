@@ -1,5 +1,5 @@
 <template>
-  <div class="mtz-select">
+  <div class="mtz-select page-content">
     <i-search @sure="handleSubmitSearch"
               @reset="handleSearchReset">
       <el-form>
@@ -43,7 +43,7 @@
       </el-form>
     </i-search>
 
-    <iCard class="OrganizationTable">
+    <iCard class="OrganizationTable table-card">
       <div class="export">
         <div class="tt">
           {{language('SHICHANGJIALAIYUANXIANGQING','市场价来源详情')}}
@@ -75,8 +75,8 @@
                    @click="handleCancel">{{language('QUXIAO','取消')}}</iButton>
         </div>
       </div>
-      <div>
-        <tableList :tableData="tableListData"
+        <tableList class="table-box" height="100%"
+                   :tableData="tableListData"
                    :tableTitle="tableSetting"
                    :tableLoading="loading"
                    :index="true"
@@ -155,7 +155,6 @@
                      :layout="page.layout"
                      :total="page.totalCount">
         </iPagination>
-      </div>
     </iCard>
   </div>
 </template>

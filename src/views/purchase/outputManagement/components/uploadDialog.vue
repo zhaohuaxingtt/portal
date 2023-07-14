@@ -45,6 +45,7 @@
                         :auto-upload="false"
                         :before-upload="beforeUpload"
                         :on-change="fileChange"
+                        :disabled="uploadLoading"
                         accept=".pdf,.xlsx,.xls,.docx,.cvs">
                     <iButton :loading="uploadLoading">{{ $t('LK_XZWJ') }}</iButton>
                 </el-upload>

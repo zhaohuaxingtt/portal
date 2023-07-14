@@ -37,7 +37,7 @@
           :before-upload="beforeAvatarUpload"
           multiple
           :http-request="httpUpload"
-          :disabled="form.isExclude == false"
+          :disabled="uploadLoading || form.isExclude == false"
         >
           <span
             class="el-icon-upload2"

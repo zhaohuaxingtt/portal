@@ -19,6 +19,7 @@
         </i-button>
         <upload-button class="margin-left20"
                        @uploadedCallback="handleUploadedCallback"
+                       :uploadButtonLoading="uploadButtonLoading"
                        v-permission="SUPPLIER_RELATEDACCESSORY_FREEUPLOAD_ADD" />
       </div>
       <div class="floatright"
@@ -30,6 +31,7 @@
         </i-button>
         <upload-button class="margin-left20"
                        @uploadedCallback="handleUploadedCallback"
+                       :uploadButtonLoading="uploadButtonLoading"
                        v-permission="SUPPLIER_RELATEDACCESSORY_FREEUPLOAD_ADD_GP" />
       </div>
     </div>
@@ -131,6 +133,7 @@ export default {
     async handleUploadedCallback (event) {
       console.log(event)
       this.tableLoading = true
+      this.uploadButtonLoading = true
       const req = {
         list: [
           {
@@ -146,6 +149,7 @@ export default {
       }
       const res = await saveAttachment(req)
       await this.saveInfos('', true)
+      this.uploadButtonLoading = false
       res.moduleName = this.$t('SUPPLIER_ZIYOUSHANGCHUAN')
       this.resultMessage(res, () => {
         this.getTableList()

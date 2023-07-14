@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="page-content">
     <i-search @sure="sure" @reset="reset" class="margin-top20">
       <el-form>
         <el-form-item
@@ -51,7 +51,7 @@
         </el-form-item>
       </el-form>
     </i-search>
-    <iCard class="OrganizationTable">
+    <iCard class="OrganizationTable table-card">
       <div class="export">
         <!-- <iButton @click="handleExportCurrent" v-permission="PORTAL_DATABASE_SEARCH_PARTSRELATIONSHIP_XZMB">下载模板</iButton> -->
         <el-dropdown class="el-dropdownbtn" size="small" @command="dowloadFile">
@@ -101,10 +101,9 @@
           @click="$refs.testTable.openSetting()"
         ></button-table-setting>
       </div>
-      <div>
         <iTableCustom
           ref="testTable"
-          class="customClass"
+          class="customClass table-box" height="100%"
           permissionKey="partsRelationship-database-query"
           :loading="tableLoading"
           :data="tableListData"
@@ -123,7 +122,6 @@
           :current-page="page.currPage"
           :total="page.totalCount"
         />
-      </div>
     </iCard>
 
     <iDialog

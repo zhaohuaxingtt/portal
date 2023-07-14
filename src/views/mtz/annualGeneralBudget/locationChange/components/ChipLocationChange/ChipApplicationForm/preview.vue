@@ -46,6 +46,7 @@
               ref="moviesTable"
               :tableLoading="tableLoading"
               border
+              max-height="400px"
               @selection-change="handleSelectionChange"
             >
               <el-table-column
@@ -71,6 +72,7 @@
                 minWidth="120"
                 :label="language('GUIZEBIANHAO', '规则编号')"
                 sortable
+                fixed
               ></el-table-column>
               <el-table-column
                 prop="formalFlag"
@@ -79,6 +81,7 @@
                 width="140"
                 :label="language('补差方式', '补差方式')"
                 sortable
+                fixed
               >
                 <template slot-scope="scope">
                   <span>{{
@@ -93,6 +96,7 @@
                 show-overflow-tooltip
                 minWidth="160"
                 sortable
+                fixed
               >
               </el-table-column>
               <el-table-column
@@ -194,6 +198,7 @@
               :data="approvalRecordList"
               :columns="TABLE_COLUMNS1"
               singleChoice
+              max-height="400px"
               highlight-current-row
             >
             </iTableCustom>

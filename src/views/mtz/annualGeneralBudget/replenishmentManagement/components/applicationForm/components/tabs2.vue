@@ -26,6 +26,8 @@
                :tableData="tableListData"
                :tableTitle="tableTitle"
                :tableLoading="loading"
+                height="450px"
+                fixed
                :index="true">
       <template slot="pianyiqujian"
                 slot-scope="scope">

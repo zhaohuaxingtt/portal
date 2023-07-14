@@ -13,7 +13,7 @@
                 </div>
             </div>
         </div>
-        <keep-live>
+        <keep-live class="page-container">
             <component :is="currentView" />
         </keep-live>
     </iPage>
@@ -116,5 +116,9 @@
                 }
             }
         }
+    }
+    .page-container{
+        height: calc(100% - 52px);
+        display: block;
     }
 </style>

@@ -451,6 +451,7 @@
                   :on-success="handleAvatarSuccess"
                   :show-file-list="false"
                   :http-request="httpUploadTerms"
+                  :disabled="upLoading"
                   style="display: inline-block"
                   accept=".doc,.docx"
                   ><span
@@ -509,9 +510,11 @@
                 :before-upload="beforeAvatarUpload"
                 :show-file-list="false"
                 :http-request="httpUpload"
+                :disabled="uploadLoading"
                 multiple
               >
                 <iButton
+                  :loading="uploadLoading"
                   v-if="ruleForm.isNewest != false"
                   style="margin-right: 8px"
                   >{{ $t('TM_SHANGCHUANFUJIAN') }}</iButton
@@ -813,6 +816,7 @@ export default {
       ],
       // 条款签署按钮
       signBtnList,
+      upLoading: false,
       uploadLoading: false,
       submitLoading: false,
       openSupplierListDialog: false,
@@ -1004,7 +1008,7 @@ export default {
       })
     },
     async httpUploadTerms(content) {
-      this.uploadLoading = true
+      this.upLoading = true
       this.submitLoading = true
       let formData = new FormData()
       formData.append('file', content.file)
@@ -1021,7 +1025,7 @@ export default {
         .catch(() => {
           // iMessage.error("上传失败");
         })
-      this.uploadLoading = false
+      this.upLoading = false
       this.submitLoading = false
     },
     async httpUpload(content) {

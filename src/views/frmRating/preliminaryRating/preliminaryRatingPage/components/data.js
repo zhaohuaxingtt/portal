@@ -14,15 +14,18 @@ export const tableTitle = [
   {
     type: 'index',
     width: 60,
-    label: '序号'
+    label: '序号',
+    fixed: true,
   },
-  { prop: 'sapCode', label: 'SAP号', li8n: 'SUPPLIER_SAPHAO', tooltip: true },
+  { prop: 'sapCode', label: 'SAP号', li8n: 'SUPPLIER_SAPHAO', tooltip: true,
+  fixed: true, },
   {
     prop: 'nameZh',
     label: '供应商名称',
     li8n: 'LK_GONGYINGSHANGMINGCHENG1',
     width: 300,
     tooltip: true,
+    fixed: true,
     emit: 'go-detail',
     customRender: (h, scope) => {
       return (
@@ -38,6 +41,7 @@ export const tableTitle = [
     li8n: 'GONGHUO1',
     width: 120,
     tooltip: true,
+    fixed: true,
     customRender: (h, scope) => {
       var str = SUPPLIER_STATUS[scope.row.isActive]
       return str

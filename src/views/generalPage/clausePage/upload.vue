@@ -7,7 +7,7 @@
 -->
 <template>
   <el-upload class="upload"
-             :disabled="disabled"
+             :disabled="disabled || uploadButtonLoading"
              action="/fileApi/upload"
              :show-file-list="false"
              :data="{ applicationName: 'rise' }"

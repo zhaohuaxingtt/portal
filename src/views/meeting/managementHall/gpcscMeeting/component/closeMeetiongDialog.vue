@@ -67,6 +67,7 @@
               :show-file-list="true"
               :http-request="httpUpload"
               :on-remove="remove"
+              :disabled="uploadLoading"
             >
               <iButton
                 type="button"

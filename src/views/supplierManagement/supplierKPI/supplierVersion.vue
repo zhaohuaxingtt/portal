@@ -40,7 +40,7 @@
         </el-form-item>
       </el-form>
     </iSearch>
-    <iCard style="margin-top: 20px">
+    <iCard class="margin-top20 table-card">
       <template #header-control>
         <!-- <iButton @click="update">CS科室打分权重设置</iButton>
           <iButton @click="exportFile">定时规则设置</iButton> -->
@@ -51,6 +51,8 @@
         >
       </template>
       <tableList
+        class="table-box"
+        height="100%"
         :selection="false"
         :index="true"
         openPageProps="dataTime"

@@ -25,6 +25,7 @@
         :show-file-list="false"
         with-credentials
         :http-request="importData"
+        :disabled="uploadLoading"
         accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
       >
         <iButton

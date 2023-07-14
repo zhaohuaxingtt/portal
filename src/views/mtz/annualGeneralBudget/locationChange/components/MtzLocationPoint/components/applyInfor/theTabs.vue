@@ -62,7 +62,8 @@
       <!-- <div class="btn">
         <el-button type="primary" size="mini" circle @click="isTitle = !isTitle">{{ isTitle ? '-' : '+' }}</el-button>
       </div> -->
-      <el-table :data="tableData" ref="moviesTable" border v-loading="loading" @selection-change="handleSelectionChange">
+      <el-table :data="tableData" ref="moviesTable" border v-loading="loading" @selection-change="handleSelectionChange"
+        max-height="400px">
         <el-table-column type="selection" :selectable="selectionType" fixed width="40" align="center">
         </el-table-column>
         <el-table-column label="#" fixed type="index" width="40" align="center">
@@ -90,7 +91,7 @@
             </el-form-item>
           </template>
         </el-table-column> -->
-        <el-table-column width="140" prop="sapCode" align="center" 
+        <el-table-column width="135" prop="sapCode" align="center" 
           :label="language('LK_GONGYINGSHANG', '供应商')">
           <template slot-scope="scope">
           <el-form-item  :prop="'tableData.' + scope.$index + '.' + 'sapCode'"
@@ -1514,7 +1515,6 @@ export default {
   font-size: 20px!important;
 }
 ::v-deep.el-table .cell {
-  line-height: 0;
   padding: 0px 4px;
   font-size: 18px;
 }

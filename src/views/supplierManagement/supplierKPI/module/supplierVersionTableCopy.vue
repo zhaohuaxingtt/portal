@@ -30,7 +30,7 @@
         :disabled="importLoading"
       >
         <div>
-          <iButton v-if="active == 1 && $route.query.type == 'edit'"
+          <iButton :loading="importLoading" v-if="active == 1 && $route.query.type == 'edit'"
             >{{ '上传手工指标' }}
           </iButton>
         </div>
@@ -45,7 +45,7 @@
         :disabled="importLoading"
       >
         <div>
-          <iButton v-if="active == 2 && $route.query.type == 'edit'"
+          <iButton :loading="importLoading" v-if="active == 2 && $route.query.type == 'edit'"
             >{{ '上传主观打分' }}
           </iButton>
         </div>

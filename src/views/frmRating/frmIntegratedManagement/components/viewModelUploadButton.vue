@@ -11,6 +11,7 @@
       name="multipartFile"
       with-credentials
       :http-request="myUpload"
+      :disabled="uploadButtonLoading"
       accept=".xlsx"
   >
     <span class="openLinkText cursor underline">{{

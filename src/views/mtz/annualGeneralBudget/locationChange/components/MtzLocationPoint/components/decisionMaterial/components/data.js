@@ -798,13 +798,15 @@ export const partTableTitle1_all = [
     name: '零件号',
     width: 110,
     overlapbottom: 'Part No.',
-    overlap: true
+    overlap: true,
+    fixed: true
   },
   {
     props: 'partName',
     name: '零件名称',
     overlapbottom: 'Part Name.',
-    overlap: true
+    overlap: true,
+    fixed: true
   },
 
   {
@@ -1074,13 +1076,15 @@ export const partTableTitle1_1 = [
     name: '零件号',
     width: 110,
     overlapbottom: 'Part No.',
-    overlap: true
+    overlap: true,
+    fixed: true
   },
   {
     props: 'partName',
     name: '零件名称',
     overlapbottom: 'Part Name.',
-    overlap: true
+    overlap: true,
+    fixed: true
   },
 
   {

@@ -22,12 +22,13 @@
             :before-upload="beforeAvatarUpload"
             :show-file-list="true"
             :http-request="httpUpload"
+            :disabled="uploadLoading"
           >
             <div>
               <iButton
                 type="button"
                 class="upload-button"
-                :uploadLoading="uploadLoading"
+                :loading="uploadLoading"
               >
                 ${{$t('MT_QINGXUANZEWENJIAN')}}<span class="upload-text"
                   ><img :src="uploadIcon"

@@ -199,6 +199,8 @@
                    :tableTitle="tableTitle"
                    :tableLoading="loading"
                    :index="true"
+                   fixed
+                   maxHeight="400px"
                    @handleSelectionChange="handleSelectionChange">
 
                    <template slot-scope="scope" slot="avgPeriod">
@@ -215,6 +217,7 @@
           :data="tableListData2"  
           :columns="tableTitle2"
           ref="iTable"
+          maxHeight="400px"
           @handle-selection-change="handleSelectionChange" />
         <iPagination v-update
                      @size-change="handleSizeChange($event, handleSubmitSearch)"

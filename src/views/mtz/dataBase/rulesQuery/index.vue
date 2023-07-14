@@ -1,5 +1,5 @@
 <template>
-  <div class='mtz-select'>
+  <div class='mtz-select page-content'>
     <i-search @sure="sure"
               @reset="reset">
       <iFormGroup label-position="top">
@@ -110,7 +110,7 @@
       </iFormGroup>
     </i-search>
 
-    <iCard class="OrganizationTable">
+    <iCard class="OrganizationTable table-card">
       <div class="export">
         <div class="export_title">
           <div class="tt">{{language('GUIZHEXIANGQING','规则详情')}}</div>
@@ -132,9 +132,9 @@
           <button-table-setting @click="$refs.testTable.openSetting()"></button-table-setting>
         </div>
       </div>
-      <div>
         <iTableCustom ref="testTable"
-                      class="customClass"
+                      class="customClass table-box"
+                      height="100%"
                       :loading="tableLoading"
                       :data="tableListData"
                       :columns="tableSetting"
@@ -153,7 +153,6 @@
                      :layout="page.layout"
                      :current-page='page.currPage'
                      :total="page.totalCount" />
-      </div>
     </iCard>
   </div>
 </template>

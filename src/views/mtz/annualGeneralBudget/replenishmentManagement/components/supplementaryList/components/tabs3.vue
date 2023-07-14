@@ -26,6 +26,7 @@
                :selection="false"
                :tableData="tableListData"
                :tableTitle="tableTitle"
+               maxHeight="400px"
                :tableLoading="loading"
                :index="true">
       <template #pieceSupplierSap="scope">

@@ -45,6 +45,7 @@
             :tableTitle="ruleTableTitle1_1"
             :tableLoading="loading"
             :index="true"
+            maxHeight="400px"
             :selection="false"
             border
           >
