@@ -183,7 +183,7 @@
                 :show-file-list="false"
                 :http-request="httpUpload"
                 :file-list="fileList"
-                :disabled="editOrAdd === 'look'"
+                :disabled="uploadLoading||(editOrAdd === 'look')"
               >
                 <iButton
                   type="button"

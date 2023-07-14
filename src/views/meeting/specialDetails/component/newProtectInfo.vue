@@ -21,6 +21,7 @@
             :before-upload="beforeAvatarUpload"
             :show-file-list="false"
             :http-request="httpUpload"
+            :disabled="uploadLoading"
             :file-list="fileList"
             class="upload-box"
           >

@@ -17,8 +17,9 @@
             :http-request="httpUpload"
             :on-remove="handleRemove"
             :accept="accept"
+            :disabled="uploadLoading"
           >
-            <iButton type="button" class="upload-button">
+            <iButton type="button" :loading="uploadLoading" class="upload-button">
               {{$t('MT_QINGXUANZEWENJIAN')}}<span class="upload-text"
                 ><img :src="uploadIcon"
               /></span>
@@ -68,6 +69,7 @@ export default {
   data() {
     return {
       loading: false,
+      uploadLoading:false,
       uploadIcon,
       importFiles: [],
       ruleForm: {},

@@ -12,6 +12,7 @@
              :on-success="handleAvatarSuccess"
              :before-upload="beforeUpload"
              :http-request="myUpload"
+             :disabled="upLoading"
              accept=".xlsx,.pdf,.docx">
     <span v-if="showText"
           class="openLinkText cursor"
@@ -19,7 +20,7 @@
         $t(buttonText)
       }}</span>
     <iButton v-else
-             :loading="uploadButtonLoading">{{ $t(buttonText) }}</iButton>
+             :loading="upLoading">{{ $t(buttonText) }}</iButton>
   </el-upload>
 </template>
 <script>
@@ -38,7 +39,14 @@ export default {
     showTextUnderLine: { type: Boolean, default: false },
   },
   data () {
-    return {};
+    return {
+      loading: true
+    };
+  },
+  computed:{
+    upLoading(){
+      return this.loading || this.uploadButtonLoading
+    }
   },
   methods: {
     beforeUpload () {
@@ -46,6 +54,7 @@ export default {
     handleAvatarSuccess () {
     },
     async myUpload (content) {
+      this.loading = true
       const formData = new FormData();
       formData.append('file', content.file);
       formData.append('applicationName', 'rise');
@@ -53,6 +62,7 @@ export default {
       const resData = res.data;
       resData.fileSize = content.file.size;
       this.$emit('uploadedCallback', resData);
+      this.loading = false
     },
   },
 

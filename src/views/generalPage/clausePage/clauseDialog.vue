@@ -82,6 +82,7 @@
           :uploadCheck="uploadCheck"
           :disabled="disabled"
           :accept="'.pdf'"
+          :uploadButtonLoading="uploadButtonLoading"
           :upload="offLineUploadAttach"
            :before-upload="beforeUpload"
         />
@@ -287,6 +288,7 @@ export default {
       updataValue: false,
       loading: false,
       disabled: false,
+      uploadButtonLoading:false
     }
   },
   watch: {
@@ -455,6 +457,7 @@ export default {
 
     // 归档线下签署条款
     offLineUploadAttach(content) {
+      this.uploadButtonLoading = true
       let id = this.selectionArr[0].id
       const formData = new FormData();
       formData.append('file', content.file);
@@ -466,6 +469,8 @@ export default {
         }else{
           iMessage.error(this.$i18n.locale === 'zh' ? res.desZh : res.desEn)
         }
+      }).finally(()=>{
+        this.uploadButtonLoading = false
       })
     },
     // 删除条款

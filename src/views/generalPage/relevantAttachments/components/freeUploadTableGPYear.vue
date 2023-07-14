@@ -17,6 +17,7 @@
           $t('SUPPLIER_FUJIANSHANCHU')
         }}</i-button>
         <upload-button class="margin-left20"
+                      :uploadButtonLoading="uploadButtonLoading"
                        @uploadedCallback="handleUploadedCallback"
                        />
       </div>
@@ -80,6 +81,7 @@ export default {
       oldTableListDataStr: '',
       tableTitle: freeUploadTableTitle,
       tableLoading: false,
+      uploadButtonLoading: false,
       selectTableData: [],
       supplierToken:"",
       isFirst: true,
@@ -140,12 +142,14 @@ export default {
       await downloadUdFileNew(req)
     },
     async handleUploadedCallback (event, row) {
+      this.uploadButtonLoading = true
       const red = {
         fileId:event.id,
         tempCode:this.$route.query.tempCode,
         supplierToken:this.supplierToken,
       }
       const res = await supplierFileReloadSave(red);
+      this.uploadButtonLoading = false
       // TODO先注释代码，重复调用接口attachment/save
       if(res.result){
         iMessage.success(this.$t('SUPPLIER_FUJIANSHANGCHUAN'))

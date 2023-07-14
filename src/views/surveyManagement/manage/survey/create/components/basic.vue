@@ -202,6 +202,7 @@
                 :show-file-list="false"
                 accept="image/png,image/jpeg,image/gif,image/jpg"
                 :http-request="httpUpload"
+                :disabled="upLoading"
               >
                 <div class="image-box">
                   <img
@@ -226,6 +227,7 @@
                   :show-file-list="false"
                   accept="image/png,image/jpeg,image/gif,image/jpg"
                   :http-request="httpUpload"
+                  :disabled="upLoading"
                 >
                   <iButton
                     type="button"
@@ -507,7 +509,8 @@ export default {
       groupList: [],
       groupCheckList: [],
       // 弹框选中的自定义项
-      userGroup: []
+      userGroup: [],
+      upLoading: false
     }
   },
   // watch: {
@@ -668,6 +671,7 @@ export default {
       this.$refs['img'].classList.add('error')
     },
     async httpUpload() {
+      this.upLoading = true
       let formData = new FormData()
       formData.append('file', this.copyFile)
       await uploadFile(formData)
@@ -679,6 +683,7 @@ export default {
         .catch(() => {
           iMessage.error(this.$t('QN_SHANGCHUANSHIBAI'))
         })
+      this.upLoading = false
     },
     handleDeleteAccessory() {
       this.basicRuleForm.surveyCover = ''

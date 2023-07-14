@@ -429,6 +429,7 @@
                   :before-upload="beforeAvatarUpload"
                   :show-file-list="false"
                   :http-request="httpUpload"
+                  :disabled="uploadLoading"
                   :file-list="fileList"
                   v-show="editOrAdd !== 'look'"
                 >

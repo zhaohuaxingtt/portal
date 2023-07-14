@@ -53,7 +53,7 @@
           :on-success="handleAvatarSuccessOne"
           multiple
         >
-          <iButton>{{ language('NEWS_PLSCKVT', '批量上传KV图') }}</iButton>
+          <iButton :loading="uploadLoading">{{ language('NEWS_PLSCKVT', '批量上传KV图') }}</iButton>
         </el-upload>
         <span class="tips">{{language('NEWS_JYSY1390280BLTPBCG10M','建议使用1390*280PX比例图文件，不超过10MB')}}</span>
       </div>

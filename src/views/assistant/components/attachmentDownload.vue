@@ -18,8 +18,9 @@
 					.join(',')
 				"
 				:http-request="httpUpload"
+				:disabled="loading"
 			>
-				<iButton class="ml20">{{ language('添加附件') }}</iButton>
+				<iButton class="ml20" :loading="loading">{{ language('添加附件') }}</iButton>
 			</el-upload>
 			<div v-if="load==='up'" class="text-tip ml20">{{ attachText }}</div>
 		</div>
@@ -80,6 +81,7 @@ export default {
 	},
 	data() {
 		return {
+			loading:false,
 			dialogVisible: false,
 			copyFile: [],
 			fileList: [],
@@ -116,6 +118,7 @@ export default {
 		},
 		async httpUpload() {
 			if (this.copyFile) {
+				this.loading = true
 				let formData = new FormData()
 				formData.append("file", this.copyFile);
 				await uploadFile(formData).then((res) => {
@@ -126,6 +129,7 @@ export default {
 					})
 					this.$emit("getFilesList", this.fileList || [])
 				})
+				this.loading = false
 			}
 		},
 		deleteFile(file) {

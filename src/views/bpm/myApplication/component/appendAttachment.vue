@@ -40,6 +40,7 @@
         :on-remove="handleRemove"
         :on-error="handleError"
         :before-remove="handleBeforeRemove"
+        :disabled="uploadLoading"
         accept="image/jpeg,image/gif,image/png,application/pdf,application/vnd.ms-powerpoint,application/vnd.ms-excel,application/msword,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.presentationml.presentation"
         multiple
         tip=""

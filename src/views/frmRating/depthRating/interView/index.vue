@@ -21,6 +21,7 @@
                    with-credentials
                    :on-success="handleAvatarSuccess"
                    :http-request="myUpload"
+                   :disabled="uploadButtonLoading"
                    accept=".xlsx">
           <iButton :loading="uploadButtonLoading">{{ $t('SPR_FRM_DEP_IMPORT') }}</iButton>
         </el-upload>
@@ -108,10 +109,12 @@ export default {
       const loading = this.$loading({
         lock: true,
       });
+      this.uploadButtonLoading = true
       const formData = new FormData();
       formData.append('file', content.file);
       formData.append('deepCommentSupplierId', this.id);
       const res = await interviewExcel(formData);
+      this.uploadButtonLoading = false
       loading.close()
       this.resultMessage(res, () => {
         this.$refs[this.ref[this.currentNav - 1]].getData()

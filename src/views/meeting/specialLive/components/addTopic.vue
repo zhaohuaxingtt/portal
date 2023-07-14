@@ -430,6 +430,7 @@
                   :show-file-list="false"
                   :http-request="httpUpload"
                   :file-list="fileList"
+                  :disabled="uploadLoading"
                   v-show="editOrAdd !== 'look'"
                 >
                   <iButton

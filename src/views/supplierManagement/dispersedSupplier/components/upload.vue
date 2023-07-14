@@ -4,7 +4,7 @@
             <iButton @click="exportsRemove" v-permission="SUPPLIER_BASEINFO_COMPANY_BASEINFO_DELFUJIAN_GP">
             {{ $t('APPROVAL.REMOVE_ATTACH') }}
             </iButton>
-            <upload-button v-permission="SUPPLIER_BASEINFO_COMPANY_BASEINFO_UPLOAD_GP" class="margin-left20" @uploadedCallback="exportsAdd" />
+            <upload-button v-permission="SUPPLIER_BASEINFO_COMPANY_BASEINFO_UPLOAD_GP" class="margin-left20" :uploadButtonLoading="uploadButtonLoading" @uploadedCallback="exportsAdd" />
         </template>
         <table-list :tableData="supplierData.attachmentList" :tableTitle="tableTitle"
                     :tableLoading="tableLoading" @handleSelectionChange="handleSelectionChange"
@@ -62,6 +62,7 @@ export default {
             selectTableData:[],
             tableTitle:tableTitleUpload,
             tableLoading:false,
+            uploadButtonLoading: false
         }
     },
     created(){
@@ -107,6 +108,7 @@ export default {
         exportsAdd(event){
             console.log(event);
             this.tableLoading = true
+            this.uploadButtonLoading = true
             this.supplierData.attachmentList.push(
                 {
                     fileName: event.name,
@@ -119,6 +121,7 @@ export default {
                 }
             )
             this.tableLoading = false
+            this.uploadButtonLoading = false
             // {
             //         file:{
                         
