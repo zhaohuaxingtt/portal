@@ -167,6 +167,7 @@ export default {
         positionList: ''
       },
       canEdit: true,
+      id:'',
       dialogChoosePositionVisible: false,
       endDateOptions: {
         disabledDate(time) {
@@ -272,6 +273,8 @@ export default {
             .then((value) => {
               if (value.code == 200) {
                 //创建成功
+                this.canEdit = false
+                this.form.id = value.data
                 iMessage.success(value.desZh || '提交成功')
                 if (window.opener) {
                   setTimeout(() => {
@@ -307,6 +310,7 @@ export default {
             .then((value) => {
               if (value.code == 200) {
                 //
+                this.form.id = value.data
                 iMessage.success(value.desZh || '保存成功')
                 if (window.opener) {
                   setTimeout(() => {
