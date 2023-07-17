@@ -658,10 +658,10 @@ export default {
   display: flex;
   flex-flow: column;
   overflow: hidden;
+  min-height: 650px;
   ::v-deep .table-card {
     flex: 1;
     overflow: hidden;
-    min-height: 400px;
     display: flex;
     flex-flow: column;
     .card-body-box {
