@@ -59,6 +59,7 @@ export default {
     flex: 1;
     display: flex;
     flex-flow: column;
+    min-height: 650px;
     overflow: hidden;
     ::v-deep .kpi-content{
       flex: 1;
@@ -70,7 +71,6 @@ export default {
   ::v-deep .table-card {
     flex: 1;
     overflow: hidden;
-    min-height: 400px;
     display: flex;
     flex-flow: column;
     .card-body-box {
