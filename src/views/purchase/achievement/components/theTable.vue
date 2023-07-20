@@ -23,7 +23,7 @@
           class="ml10"
           @click="openOutputManagemen"
           v-if="
-            isAuth(whiteBtnList, 'ACHIEVEMENTMGT_LIST_YIEIDMANAGE') && !state
+            isAuth(whiteBtnList, 'ACHIEVEMENTMGT_LIST_YIEIDMANAGE')
           "
         >
           {{ $t('LK_CLGL') }}
@@ -33,7 +33,7 @@
           class="ml10"
           @click="openAmountAdjustment"
           v-if="
-            isAuth(whiteBtnList, 'ACHIEVEMENTMGT_AMOUNT_ADJUSTMENT') && !state
+            isAuth(whiteBtnList, 'ACHIEVEMENTMGT_AMOUNT_ADJUSTMENT')
           "
         >
           {{ language('LK_YJJETZ','业绩金额调整') }}
