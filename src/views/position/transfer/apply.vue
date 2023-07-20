@@ -310,7 +310,7 @@ export default {
             .then((value) => {
               if (value.code == 200) {
                 //
-                this.form.id = value.data
+                this.form = {...this.form,...value.data}
                 iMessage.success(value.desZh || '保存成功')
                 if (window.opener) {
                   setTimeout(() => {
