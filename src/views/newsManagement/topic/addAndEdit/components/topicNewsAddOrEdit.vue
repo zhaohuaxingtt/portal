@@ -217,6 +217,7 @@
                   :on-change="handleChange"
                   list-type="picture-card"
                   :before-upload="beforeAvatarUpload"
+                  :disabled="uploadLoading"
                   :file-list="picUrl"
                   class="upload--file--div"
                   accept=".JPG, .PNG, .JPEG,.jpg, .png, .jpeg"

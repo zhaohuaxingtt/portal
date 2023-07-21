@@ -39,6 +39,7 @@
             :data="uploadData"
             :before-upload="beforeUpload"
             :on-exceed="handleExceed"
+            :disabled="upLoading"
             :headers="{
               token: getToken()
             }"
@@ -48,7 +49,7 @@
               placement="top"
               effect="light"
             >
-              <iButton>{{ language('SHANGCHUAN', '上传') }}</iButton>
+              <iButton :loading="upLoading">{{ language('SHANGCHUAN', '上传') }}</iButton>
             </el-tooltip>
           </el-upload>
         </span>
@@ -109,6 +110,7 @@ export default {
       tableListData: [],
       uploadTableTitle,
       loading: false,
+      upLoading: false,
       selection: [],
       uploadUrl:
         process.env.VUE_APP_MTZ + '/web/mtz/mtzBasePriceChange/uploadAttach',
@@ -154,6 +156,7 @@ export default {
       iMessage.success('下载成功！')
     },
     uploadSuccess(data) {
+      this.upLoading = false
       if (data.code == '200' && data.result) {
         iMessage.success(data.desZh)
         this.handleSubmitSearch()
@@ -177,6 +180,8 @@ export default {
       const isLt2M = file.size / 1024 / 1024 < 20
       if (!isLt2M) {
         this.$message.error('上传文件大小不能超过 20MB!')
+      }else{
+        this.upLoading = true
       }
       return isLt2M
     },

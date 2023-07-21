@@ -68,11 +68,12 @@
               :show-file-list="true"
               :http-request="httpUpload"
               :on-remove="remove"
+              :disabled="uploadLoading"
             >
               <iButton
                 type="button"
                 class="upload-button"
-                :uploadLoading="uploadLoading"
+                :loading="uploadLoading"
               >
                 {{ $t('请选择文件') }}
                 <span class="upload-text"><img :src="uploadIcon" /></span>

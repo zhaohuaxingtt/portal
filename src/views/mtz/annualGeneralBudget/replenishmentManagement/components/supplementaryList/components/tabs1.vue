@@ -35,6 +35,7 @@
     </div>
     <tableList class="margin-top20"
                :selection="false"
+               maxHeight="400px"
                :tableData="tableListData"
                :tableTitle="tableTitle"
                :tableLoading="loading"

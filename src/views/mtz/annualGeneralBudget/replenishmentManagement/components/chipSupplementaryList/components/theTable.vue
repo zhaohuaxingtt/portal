@@ -7,7 +7,7 @@
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\components\theTable.vue
 -->
 <template>
-  <iCard>
+  <iCard class="table-card">
     <div slot="header" class="flex-between-center" style="width: 100%">
       <div class="showMe">
         <span>{{ language('只看自己 ') }}</span>
@@ -66,6 +66,8 @@
       </div>
     </div>
     <iTableCustom
+      class="table-box"
+      height="100%"
       :loading="loading"
       :data="tableData"
       :columns="tableTitle"

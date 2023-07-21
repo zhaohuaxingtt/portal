@@ -6,10 +6,10 @@
  * @Descripttion: your project
 -->
 <template>
-  <iPage :class="padding?'padding':''"
+  <iPage class="supplierManagement" :class="padding?'padding':''"
          v-loading="pageLoading">
     <headerNav :class="padding?'nav':''" />
-    <router-view />
+    <router-view class="page-content" />
   </iPage>
 </template>
 
@@ -50,6 +50,54 @@ export default {
 </script>
 <style lang='scss' scoped>
 // @import url(); 引入公共css类
+.supplierManagement{
+  position: relative;
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+  .page-content{
+    flex: 1;
+    display: flex;
+    flex-flow: column;
+    min-height: 650px;
+    overflow: hidden;
+    ::v-deep .kpi-content{
+      flex: 1;
+      display: flex;
+      flex-flow: column;
+      overflow: hidden;
+    }
+  }
+  ::v-deep .table-card {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-flow: column;
+    .card-body-box {
+      flex: 1;
+      overflow: hidden;
+      .cardBody {
+        display: flex;
+        flex-flow: column;
+      }
+      .table-box {
+        flex: 1;
+        display: flex;
+        flex-flow: column;
+        overflow: hidden;
+        .i-table-custom{
+          flex: 1;
+          overflow: hidden;
+        }
+      }
+    }
+  }
+  ::v-deep .nav.flex-align-center{
+    > div:first-of-type{
+      margin-left: 0;
+    }
+  }
+}
 .padding {
   padding: 1.875rem 0 0 0;
 }

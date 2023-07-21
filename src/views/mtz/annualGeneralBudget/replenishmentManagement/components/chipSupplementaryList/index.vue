@@ -7,7 +7,7 @@
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipSupplementaryList\index.vue
 -->
 <template>
-  <div>
+  <div class="page-content">
     <theSearch ref="search"></theSearch>
     <theTable class="margin-top20" @getSearch="getSearch"></theTable>
   </div>
@@ -33,5 +33,31 @@ export default {
 }
 </script>
 
-<style lang="scss"  scoped>
+<style lang="scss" scoped>
+.page-content{
+  flex: 1;
+  display: flex;
+  flex-flow: column;
+  overflow: hidden;
+  min-height: 650px;
+  ::v-deep .table-card {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-flow: column;
+    .card-body-box {
+      flex: 1;
+      overflow: hidden;
+      .cardBody {
+        display: flex;
+        flex-flow: column;
+        overflow: hidden;
+        .table-box {
+          flex: 1;
+          overflow: hidden;
+        }
+      }
+    }
+  }
+}
 </style>

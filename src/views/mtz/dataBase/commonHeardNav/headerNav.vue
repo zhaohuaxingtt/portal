@@ -8,6 +8,7 @@
 -->
 
 <template>
+<div class="page-container">
   <div class="navBox">
     <iNavMvp
       lang
@@ -27,7 +28,8 @@
       />
       <slot name="extralButton"></slot>
     </div>
-    <router-view />
+  </div>
+  <router-view />
   </div>
 </template>
 
@@ -95,6 +97,37 @@ export default {
 </script>
 <style lang='scss' scoped>
 // @import url(); 引入公共css类
+.page-container{
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  .page-content{
+    flex: 1;
+    display: flex;
+    flex-flow: column;
+    overflow: hidden;
+    min-height: 650px;
+    ::v-deep .table-card {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      flex-flow: column;
+      .card-body-box {
+        flex: 1;
+        overflow: hidden;
+        .cardBody {
+          display: flex;
+          flex-flow: column;
+          overflow: hidden;
+          .table-box {
+            flex: 1;
+            overflow: hidden;
+          }
+        }
+      }
+    }
+  }
+}
 .navBox {
   position: relative;
   .rightNav {

@@ -1,14 +1,12 @@
 <template>
-    <div>
-        <iPage>
-            <div class="tabs">
-                <div :class="isShowTabs?'current':''" @click="isShowTabs=true">市场价图</div>
-                <div :class="!isShowTabs?'current':''" @click="isShowTabs=false">市场价表</div>
-            </div>
-            
-            <MarketPriceImg v-if="isShowTabs"/>
-            <MarketPriceTable v-if="!isShowTabs"/>
-        </iPage>
+    <div class="page-content">
+        <div class="tabs">
+            <div :class="isShowTabs?'current':''" @click="isShowTabs=true">市场价图</div>
+            <div :class="!isShowTabs?'current':''" @click="isShowTabs=false">市场价表</div>
+        </div>
+        
+        <MarketPriceImg v-if="isShowTabs"/>
+        <MarketPriceTable v-if="!isShowTabs"/>
     </div>
 </template>
 
@@ -34,6 +32,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.page-content{
+    ::v-deep .mtz-select{
+        flex: 1;
+        display: flex;
+        flex-flow: column;
+        overflow: hidden;
+    }
+}
     .tabs{
         width: 208px;
         height: 35px;

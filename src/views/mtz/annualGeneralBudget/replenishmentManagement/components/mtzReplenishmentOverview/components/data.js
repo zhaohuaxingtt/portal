@@ -53,47 +53,56 @@ export const TABLE_COLUMS = [
   {
     type: 'index',
     width: '60px',
-    label: '#'
+    label: '#',
+    fixed: true,
   },
   {
     prop: 'saNo',
     label: '采购框架',
-    minWidth: 120
+    minWidth: 120,
+    fixed: true,
   },
   {
     prop: 'saItemNo',
     label: '项目号',
-    minWidth: 120
+    minWidth: 120,
+    fixed: true,
   },
   {
     prop: 'mtzDocId',
     label: '凭证号',
-    minWidth: 120
+    minWidth: 120,
+    fixed: true,
   },
   {
     prop: 'mtzDocMonth',
     label: '补差期间',
-    minWidth: 120
+    minWidth: 120,
+    fixed: true,
   },
   {
     prop: 'fpartNo',
     label: '零件号',
-    minWidth: 120
+    minWidth: 120,
+    fixed: true,
   },
   {
     prop: 'materialNo',
     label: '原材料牌号',
-    minWidth: 120
+    minWidth: 120,
+    fixed: true,
   },
   {
     prop: 'materialName',
     label: '原材料名称',
-    minWidth: 120
+    minWidth: 120,
+    fixed: true,
   },
   {
     prop: 'materialCategory',
     label: '材料中类',
     minWidth: 200,
+    fixed: true,
     customRender: (h, scope) => {
       return (
         <span>
@@ -324,12 +333,12 @@ export const TABLE_COLUMS_TIPS = [
 ]
 
 export const tableTitle = [
-  { props: 'assemblyPartnum', name: '一次件零件号', key: 'YCJLJH', width: 150 },
+  { props: 'assemblyPartnum', name: '一次件零件号', key: 'YCJLJH', width: 150, fixed: true },
   {
     props: 'assemblyPartName',
     name: '一次件零件名称',
     key: 'YCJLJMC',
-    width: 150
+    width: 150, fixed: true
   },
   { props: 'qty', name: '一次件结算数量', key: 'YCJJSSL', width: 150 },
   { props: 'departmentName', name: '科室', key: 'KESHI', width: 150 },

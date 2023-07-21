@@ -63,7 +63,7 @@
       width="70%">
       <div class="flex-content">
         <span class="remark-title">审批事项备注</span>
-        <iButton @click="submit">提交审批</iButton>
+        <iButton @click="submit" :loading="submitLoading">提交审批</iButton>
       </div>
       <div class="margin-top20">
         <iInput type='textarea' placeholder="请输入" maxlength="200" v-model="remark"></iInput>
@@ -71,7 +71,7 @@
       <div class="flex-content margin-top20">
         <H3>审批附件</H3>
         <div>
-          <uploadButton class="margin-right10" :upload="uploadAttach" />
+          <uploadButton class="margin-right10" :upload="uploadAttach" :uploadButtonLoading="upLoading" />
           <!-- <iButton @click="downloadEnclosure">下载</iButton> -->
           <iButton @click="deleteFile">删除</iButton>
         </div>
@@ -129,6 +129,8 @@ export default {
   data() {
     return {
       loadingFile:false,
+      upLoading:false,
+      submitLoading: false,
       show:false,
       baseInfo:{},
       tipInfo:{
@@ -315,6 +317,7 @@ export default {
         termsId: this.baseInfo.id,
         userId: this.userId
       }
+      this.submitLoading = true
       approveTerms(params).then(res=>{
         if(res?.code=='200'){
           this.updataValue = false
@@ -326,6 +329,8 @@ export default {
         }else{
           iMessage.error(this.$i18n.locale === 'zh' ? res.desZh : res.desEn)
         }
+      }).finally(()=>{
+        this.submitLoading = false
       })
     },
     // 上传其它采购条款
@@ -370,6 +375,7 @@ export default {
     },
     // 上传审批附件
     async uploadAttach (content) {
+      this.upLoading = true
       const formData = new FormData();
       formData.append('file', content.file);
       formData.append('termsId', this.baseInfo.id);
@@ -379,6 +385,8 @@ export default {
         if(res?.code=='200'){
           this.attachList()
         }
+      }).finally(()=>{
+        this.upLoading = false
       })
     },
     // 删除审批附件

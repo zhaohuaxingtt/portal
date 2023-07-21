@@ -62,9 +62,10 @@
                                 :show-file-list="false"
                                 name="multipartFile"
                                 with-credentials
+                                :disabled="upLoading"
                                 :on-success="handleAvatarSuccess"
                                 :http-request="myUpload">
-                        <iButton>{{ $t('DAORU') }}</iButton>
+                        <iButton :loading="upLoading">{{ $t('DAORU') }}</iButton>
                     </el-upload>
                     <iButton @click="exportAll" :loading="exportType" v-permission="PORTAL_SUPPLIER_NAV_YUQINGJIANCE_LIST_DAOCHUALL">{{ $t('SUPPLIER_DAOCHUQUANBU') }}</iButton>
                     <iButton @click="delSupplier" v-permission="PORTAL_SUPPLIER_NAV_YUQINGJIANCE_LIST_DEL">{{ $t('删除') }}</iButton>
@@ -164,6 +165,7 @@ export default {
             selectList:[],
             exportType:false,
             loading:false,
+            upLoading:false
         }
     },
     created(){
@@ -221,9 +223,11 @@ export default {
             const loading = this.$loading({
                 lock: true,
             });
+            this.upLoading = true
             const formData = new FormData();
             formData.append('file', content.file);
             const res = await sentimentMonitoringImport(formData);
+            this.upLoading = false
             loading.close()
             if(res.result){
                 iMessage.success(res.desZh);

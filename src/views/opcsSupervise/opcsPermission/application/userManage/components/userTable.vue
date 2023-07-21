@@ -58,7 +58,7 @@
                    :http-request="httpUpload"
                    :disabled="importLoading">
           <div>
-            <i-button>{{ language('PILIANGDAORU', '批量导入') }}
+            <i-button :loading="importLoading">{{ language('PILIANGDAORU', '批量导入') }}
             </i-button>
           </div>
         </el-upload>

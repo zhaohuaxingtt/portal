@@ -30,8 +30,9 @@
       </div>
     </div>
     <tableList
-      class="basetable"
+      class="basetable table-box"
       :header="true"
+      :height="height"
       :state="state"
       :config="true"
       :monthTitle="monthTitle"
@@ -107,7 +108,7 @@ export default {
       whiteBtnList: this.$store.state.permission.whiteBtnList
     }
   },
-  props: ['formData', 'title'],
+  props: ['formData', 'title', 'height'],
   created() {
     let obj = getRequest()
     this.baseId = obj.id

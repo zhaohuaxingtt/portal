@@ -22,6 +22,7 @@
             :show-file-list="false"
             :http-request="httpUpload"
             :file-list="fileList"
+            :disabled="uploadLoading"
             class="upload-box"
           >
             <iButton

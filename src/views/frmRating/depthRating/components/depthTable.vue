@@ -1,5 +1,5 @@
 <template>
-  <iCard v-loading="loadingFlag">
+  <iCard class="table-card" v-loading="loadingFlag">
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
         <!-- 移除集团 -->
@@ -59,6 +59,8 @@
       </div>
     </div>
     <tableList
+      class="table-box"
+      height="100%"
       :tableData="tableListData"
       :tableTitle="tableTitle"
       :tableLoading="tableLoading"
@@ -778,13 +780,6 @@ export default {
   }
   .is-leaf {
     background-color: rgb(231, 239, 254);
-  }
-  tbody {
-    tr:nth-of-type(even) {
-      .el-table-column--selection {
-        background-color: rgb(231, 239, 254);
-      }
-    }
   }
 }
 </style>

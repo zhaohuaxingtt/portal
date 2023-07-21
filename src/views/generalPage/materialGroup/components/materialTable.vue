@@ -113,7 +113,7 @@
         :model="form"
         ref="formName"
         label-position="left"
-        :inline-message="true"
+        :show-message="false"
       >
       <!-- :label="
         type === 'QQCGY'
@@ -125,7 +125,7 @@
             <el-form-item
               label-width="120px"
               prop="deptId"
-              :rules="{ required: true, message: '请选择' }"
+              :rules="isAcc ? [] : { required: true, message: '请选择' }"
               :label="
                 $t('SUPPLIER_KESHI')
               "
@@ -490,28 +490,34 @@ export default {
       this.show = false
     },
     async sure() {
-      const pms = {
-        stuffBdlId: this.selectTableData[0].id,
-        categoryName: this.selectTableData[0].categoryNameZh,
-        categoryCode: this.selectTableData[0].categoryCode,
-        categoryId: this.selectTableData[0].categoryId,
-        supplierToken: this.$route.query.supplierToken,
-        // supplierId: this.selectTableData[0].supplierId,
-        purchaseId: this.form.linieId
-      }
-      if (this.type === 'QQCGY') {
-        const res = await mbdlCancelAssociated(pms)
-        this.resultMessage(res, () => {
-          this.cancel()
-          this.getTableList()
-        })
-      } else if (this.type === 'LINIE') {
-        const res = await associated(pms)
-        this.resultMessage(res, () => {
-          this.cancel()
-          this.getTableList()
-        })
-      }
+      this.$refs.formName.validate((valid,obj)=>{
+        if(valid){
+          const pms = {
+            stuffBdlId: this.selectTableData[0].id,
+            categoryName: this.selectTableData[0].categoryNameZh,
+            categoryCode: this.selectTableData[0].categoryCode,
+            categoryId: this.selectTableData[0].categoryId,
+            supplierToken: this.$route.query.supplierToken,
+            // supplierId: this.selectTableData[0].supplierId,
+            purchaseId: this.form.linieId
+          }
+          if (this.type === 'QQCGY') {
+            mbdlCancelAssociated(pms).then(res=>{
+              this.resultMessage(res, () => {
+                this.cancel()
+                this.getTableList()
+              })
+            })
+          } else if (this.type === 'LINIE') {
+            associated(pms).then(res=>{
+              this.resultMessage(res, () => {
+                this.cancel()
+                this.getTableList()
+              })
+            })
+          }
+        }
+      })
     }
   }
 }

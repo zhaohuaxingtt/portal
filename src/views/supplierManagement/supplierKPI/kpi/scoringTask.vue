@@ -24,7 +24,7 @@
         {{ $t(item.key) }}
       </div>
     </div>
-    <div v-if="activeName==0">
+    <div v-if="activeName==0" class="content">
       <p class="title">
       {{ $t('LK_KESHI') }}：{{
         $store.state.permission.userInfo.deptDTO.deptNum.split('-')[0]
@@ -407,7 +407,12 @@ export default {
   cursor: pointer;
 }
 
-
+.page{
+  .content{
+    flex: 1;
+    overflow: auto;
+  }
+}
 
 .orgin {
   color: #E6A23C;

@@ -6,7 +6,7 @@
  * @Descripttion: your project
 -->
 <template>
-  <div>
+  <div class="scorll-page">
     <iNavMvp :lang='true' :list="nTierRouterList" :lev='2' right routerPage class="nav" />
     <router-view />
   </div>
@@ -31,7 +31,9 @@ export default {
 }
 </script>
 <style lang='scss' scoped>
-// @import url(); 引入公共css类
+.scorll-page{
+  overflow: unset !important;
+}
 .nav {
   position: absolute;
   top: 1.75rem;

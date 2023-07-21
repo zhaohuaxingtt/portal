@@ -15,43 +15,43 @@
       border
     >
       <template slot="nameZh" slot-scope="scope">
-        <iInput
+        <iInput :disabled="canNotEdit"
           :placeholder="$t('LK_QINGSHURU')"
           v-model="scope.row.nameZh"
         ></iInput>
       </template>
       <template slot="designation" slot-scope="scope">
-        <iInput
+        <iInput :disabled="canNotEdit"
           :placeholder="$t('LK_QINGSHURU')"
           v-model="scope.row.designation"
         ></iInput>
       </template>
       <template slot="dept" slot-scope="scope">
-        <iInput
+        <iInput :disabled="canNotEdit"
           :placeholder="$t('LK_QINGSHURU')"
           v-model="scope.row.dept"
         ></iInput>
       </template>
       <template slot="telephoneAreaCode" slot-scope="scope">
-        <iInput
+        <iInput :disabled="canNotEdit"
           :placeholder="$t('LK_QINGSHURU')"
           v-model="scope.row.telephoneAreaCode"
         ></iInput>
       </template>
       <template slot="telephone" slot-scope="scope">
-        <iInput
+        <iInput :disabled="canNotEdit"
           :placeholder="$t('LK_QINGSHURU')"
           v-model="scope.row.telephone"
         ></iInput>
       </template>
       <template slot="email" slot-scope="scope">
-        <iInput
+        <iInput :disabled="canNotEdit"
           :placeholder="$t('LK_QINGSHURU')"
           v-model="scope.row.email"
         ></iInput>
       </template>
       <template slot="remark" slot-scope="scope">
-        <iInput
+        <iInput :disabled="canNotEdit"
           :placeholder="$t('LK_QINGSHURU')"
           v-model="scope.row.remark"
         ></iInput>
@@ -71,7 +71,11 @@ export default {
     supplierData: {
       type: Object,
       default: () => []
-    }
+    },
+    canNotEdit: {
+      type: Boolean,
+      default: false
+    },
   },
   components: {
     iCard,

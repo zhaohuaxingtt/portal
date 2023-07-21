@@ -232,6 +232,7 @@ export default {
         .then((res) => {
           if (res?.code == 200) {
             this.itemContent = res.data || {}
+            this.itemContent.isSingle = this.itemContent.isSingle ? '是' : '否'
             this.itemContent.unitIdName = this.unitoptions.find(item=>item.id==this.itemContent.unitId)?.name || ''
             this.pageTitle = `${this.itemContent?.materialNo} ${this.itemContent?.materialNameZh}`
             this.materielUnit = this.itemContent.unitId+''

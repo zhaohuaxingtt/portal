@@ -1,5 +1,5 @@
 <template>
-  <iPage>
+  <iPage class="qualitativeScoringPage">
     <headerNav/>
     <theSearch @getTableList="getTableList" class="margin-bottom20" name="theSearch"/>
     <theTable ref="theTable"/>
@@ -31,4 +31,35 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.qualitativeScoringPage{
+  position: relative;
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+  ::v-deep .table-card {
+    flex: 1;
+    overflow: hidden;
+    min-height: 400px;
+    display: flex;
+    flex-flow: column;
+    .card-body-box {
+      flex: 1;
+      overflow: hidden;
+      .cardBody {
+        display: flex;
+        flex-flow: column;
+      }
+      .table-box {
+        flex: 1;
+        display: flex;
+        flex-flow: column;
+        overflow: hidden;
+        .i-table-custom{
+          flex: 1;
+          overflow: hidden;
+        }
+      }
+    }
+  }
+}
 </style>

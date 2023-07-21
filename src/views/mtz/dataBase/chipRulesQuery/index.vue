@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="page-content">
     <search @sure="sure" @reset="reset" :searchFormData="ruleQueryFormData" :searchForm="searchForm"
       :options="options" />
-    <iCard class="OrganizationTable">
+    <iCard class="OrganizationTable table-card">
       <div class="table-header">
         <el-switch v-model="onlySeeMySelf" @change="changeSwitch" :inactive-text="language('ZHIKANZIJI', '只看自己')" />
         <div>
@@ -18,8 +18,7 @@
           <button-table-setting @click="$refs.testTable.openSetting()"></button-table-setting>
         </div>
       </div>
-      <div>
-        <iTableCustom ref="testTable" :loading="tableLoading" :data="tableListData" :columns="tableSetting"
+        <iTableCustom ref="testTable" class="table-box" height="100%" :loading="tableLoading" :data="tableListData" :columns="tableSetting"
           permissionKey="chip-database-query" @go-detail="handlecreatemtz" @go-partNumber="handlePartNumberDetail"
           @go-source="handleSource" @handle-selection-change="handleSelectChange">
         </iTableCustom>
@@ -27,7 +26,6 @@
         <iPagination v-update @size-change="handleSizeChange($event, sure)"
           @current-change="handleCurrentChange($event, getList)" background :page-sizes="page.pageSizes"
           :page-size="page.pageSize" :layout="page.layout" :current-page="page.currPage" :total="page.totalCount" />
-      </div>
     </iCard>
   </div>
 </template>

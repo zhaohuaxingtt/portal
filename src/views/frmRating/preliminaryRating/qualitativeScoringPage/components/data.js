@@ -12,21 +12,25 @@ export const tableTitle = [
   {
     type: 'index',
     width: 60,
-    label: '序号'
+    label: '序号',
+    fixed: true,
   },
-  { prop: 'sapCode', label: 'SAP号', li8n: 'SUPPLIER_SAPHAO' },
+  { prop: 'sapCode', label: 'SAP号', li8n: 'SUPPLIER_SAPHAO',
+  fixed: true, },
   {
     prop: 'nameZh',
     label: '供应商名称',
     li8n: 'LK_GONGYINGSHANGMINGCHENG1',
     width: 300,
-    tooltip: true
+    tooltip: true,
+    fixed: true,
   },
   {
     prop: 'qualitativeScoreStatus',
     label: '状态',
     li8n: 'LK_ZHUANGTAI',
-    tooltip: true
+    tooltip: true,
+    fixed: true,
   },
   { prop: 'versionNum', label: '版本', li8n: 'SPR_FRM_CBPJ_BB', tooltip: true },
   {

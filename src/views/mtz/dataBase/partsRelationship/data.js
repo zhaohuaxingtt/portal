@@ -74,7 +74,8 @@ export const partsRelationshipDetailTableSetting = [
     key: 'LK_LINGJIANMINGDE'
   },
   { props: 'lcOrCkd', name: 'Bezug类型', key: 'BEZUGLEIXING', tooltip: true },
-  { props: 'dosage', name: '用量', tooltip: true, key: 'YONGLIANG' }
+  { props: 'dosage', name: '用量', tooltip: true, key: 'YONGLIANG' },
+  { props: 'scale', name: '比例', key: '比例', tooltip: true },
 ]
 
 // 查看一二次零件-sap号详情

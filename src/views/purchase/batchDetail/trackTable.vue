@@ -1,6 +1,6 @@
 <template>
 
-    <iPage>
+    <iPage class="tarck-table">
         <div class="title"><span v-text="title"></span></div>
         <div class="card1">
             <iCard class="item">
@@ -35,9 +35,7 @@
         <div style="margin-top: 20px;">
             <theSearch ref="theSearch" @getTableList="getTableList" @getForm="getForm" class="margin-bottom20" name="theSearch"/>
         </div>
-        <div style="margin-top: 20px;">
-            <theTable ref="theTable" :formData="formData" :title="title" ></theTable>
-        </div>
+        <theTable ref="theTable" class="table-card" :formData="formData" height="100%" :title="title" ></theTable>
 
     </iPage>
 
@@ -97,6 +95,27 @@
 </script>
 
 <style scoped lang="scss">
+.tarck-table{
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+  .table-card {
+    flex: 1;
+    overflow: hidden;
+    min-height: 320px;
+    ::v-deep .card-body-box {
+      height: 100%;
+      .cardBody {
+        display: flex;
+        flex-flow: column;
+      }
+      .table-box {
+        flex: 1;
+        overflow: hidden;
+      }
+    }
+  }
+}
     .title {
         font-size: 20px;
         font-weight: bold;

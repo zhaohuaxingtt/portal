@@ -60,6 +60,7 @@
             <iTableCustom :ref="'paramsTable'"
                           :loading="tableLoading"
                           :data="tableList"
+                          maxHeight="500px"
                           :columns="TABLE_COLUMNS"
                           @handle-selection-change="handleSelectionChange">
             </iTableCustom>
@@ -87,6 +88,7 @@
             <iTableCustom :ref="'SPTable'"
                           :loading="tableLoading"
                           :data="approvalRecordList"
+                          maxHeight="500px"
                           :columns="TABLE_COLUMNS1"
                           singleChoice
                           highlight-current-row

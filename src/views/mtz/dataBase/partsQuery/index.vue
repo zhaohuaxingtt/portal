@@ -1,5 +1,5 @@
 <template>
-  <div class="mtz-select">
+  <div class="mtz-select page-content">
     <i-search @sure="sure" @reset="reset">
       <iFormGroup label-position="top">
         <iFormItem
@@ -116,7 +116,7 @@
       </iFormGroup>
     </i-search>
 
-    <iCard class="OrganizationTable">
+    <iCard class="OrganizationTable table-card">
       <div class="export">
         <div>
           <el-switch
@@ -166,10 +166,10 @@
           ></button-table-setting>
         </div>
       </div>
-      <div>
         <iTableCustom
           ref="testTable"
-          class="customClass"
+          height="100%"
+          class="customClass table-box"
           :loading="tableLoading"
           :data="tableListData"
           :columns="tableSetting"
@@ -192,7 +192,6 @@
           :current-page="page.currPage"
           :total="page.totalCount"
         />
-      </div>
     </iCard>
     <!-- 一/二次件零件号 -->
     <iDialog
@@ -313,7 +312,8 @@ export default {
       PartNumberDetailArray: [],
       clickData: {},
       onlySeeMySelf: true,
-      effectFlagDropDown: []
+      effectFlagDropDown: [],
+      tableLoading: false
     }
   },
   mounted() {
@@ -439,6 +439,7 @@ export default {
     },
     // 获取初始化列表
     mtzBasePricePage() {
+      this.tableLoading = true
       mtzBasePricePage({
         pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
@@ -451,6 +452,8 @@ export default {
           this.page.pageSize = res.pageSize
           this.page.totalCount = res.total || 0
         } else iMessage.error(res.desZh)
+      }).finally(()=>{
+        this.tableLoading = false
       })
     },
     sure() {
