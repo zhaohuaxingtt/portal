@@ -23,7 +23,7 @@
           class="ml10"
           @click="openOutputManagemen"
           v-if="
-            isAuth(whiteBtnList, 'ACHIEVEMENTMGT_LIST_YIEIDMANAGE') && !state
+            isAuth(whiteBtnList, 'ACHIEVEMENTMGT_LIST_YIEIDMANAGE')
           "
         >
           {{ $t('LK_CLGL') }}
@@ -33,7 +33,7 @@
           class="ml10"
           @click="openAmountAdjustment"
           v-if="
-            isAuth(whiteBtnList, 'ACHIEVEMENTMGT_AMOUNT_ADJUSTMENT') && !state
+            isAuth(whiteBtnList, 'ACHIEVEMENTMGT_AMOUNT_ADJUSTMENT')
           "
         >
           {{ language('LK_YJJETZ','业绩金额调整') }}
@@ -70,7 +70,7 @@
       </div>
     </div>
     <tableList
-      class="basetable"
+      class="basetable table-box"
       :tableData="tableListData"
       :tableTitle="tableTitle"
       :tableLoading="tableLoading"
@@ -78,7 +78,7 @@
       :openPageProps="['title', 'operation']"
       @openPage="openPage"
       @handleSelectionChange="handleSelectionChange"
-      height="380px"
+      :height="height"
     >
     </tableList>
     <iPagination
@@ -168,6 +168,12 @@ export default {
     amountAdjustDialog,
     spareTargetDialog,
     iMessage
+  },
+  props:{
+    height:{
+      type: String,
+      default: '380px'
+    }
   },
   data() {
     return {

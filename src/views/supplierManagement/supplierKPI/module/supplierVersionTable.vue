@@ -68,7 +68,9 @@
     </div>
     <div class="table">
       <el-table
-      v-loading="tableLoading"
+        ref="table"
+        height="100%"
+        v-loading="tableLoading"
         :cell-class-name="cellClassName"
         style="width: 100%"
         :data="tbodyData"
@@ -275,6 +277,11 @@ export default {
           }
 
           this.tittleData = titleCopy
+          this.$nextTick(()=>{
+            setTimeout(()=>{
+              this.$refs.table.doLayout()
+            },0)
+          })
           console.log(titleCopy)
         }
       })
@@ -295,6 +302,11 @@ export default {
 
         console.log(this.tbodyData)
         this.page.totalCount = res.total
+        this.$nextTick(()=>{
+          setTimeout(()=>{
+            this.$refs.table.doLayout()
+          },0)
+        })
       })
     },
     getTableList2() {
@@ -374,8 +386,12 @@ export default {
             val[item.modelLibaryId] = item.score
           })
         })
-
         this.page.totalCount = res.total
+        this.$nextTick(()=>{
+          setTimeout(()=>{
+            this.$refs.table.doLayout()
+          },0)
+        })
       })
     },
     cellClassName(obj) {
@@ -487,6 +503,8 @@ export default {
   }
   .table {
     margin-top: 20px;
+    flex: 1;
+    overflow: hidden;
   }
   .title2 {
     width: 100%;

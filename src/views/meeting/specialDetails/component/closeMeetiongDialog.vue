@@ -67,11 +67,12 @@
               :show-file-list="true"
               :http-request="httpUpload"
               :on-remove="remove"
+              :disabled="uploadLoading"
             >
               <iButton
                 type="button"
                 class="upload-button"
-                :uploadLoading="uploadLoading"
+                :loading="uploadLoading"
               >
                 {{ $t('MT_QINGXUANZEWENJIAN') }}
                 <span class="upload-text"><img :src="uploadIcon" /></span>

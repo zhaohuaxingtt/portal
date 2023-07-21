@@ -19,19 +19,9 @@
               v-model="textarea"></el-input>
     <div class="BtnTitle">
       <span>汇总列表</span>
-      <!-- <div>
-        <iButton @click="bingo"
-                 v-permission="PORTAL_MTZ_FAQIBUCHA"
-                 v-if="dataObject.status == '供应商确认中'">{{language('TIJIAO', '提交')}}</iButton>
-        <iButton @click="refuse"
-                 v-if="dataObject.status == '供应商确认中'">{{language('JUJUE', '拒绝')}}</iButton>
-        <iButton @click="upload">{{language('PINGZHENGDAOCHU', '凭证导出')}}</iButton>
-        <iButton @click="save">{{language('BAOCUNBEIZHU', '保存备注')}}</iButton>
-        <iButton @click="bingo"
-                 v-if="dataObject.status == '供应商确认中'">{{language('GONGYINGSHANGQUEREN', '代供应商确认')}}</iButton>
-      </div> -->
     </div>
     <tableList class="margin-top20"
+                height="400px"
                :tableData="tableListData"
                :tableTitle="tableTitle"
                :tableLoading="loading"

@@ -23,6 +23,8 @@
                :tableData="tableListData"
                :tableTitle="tableTitle"
                :tableLoading="loading"
+                height="450px"
+                fixed
                :index="true">
     </tableList>
     <iPagination v-update

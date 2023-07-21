@@ -13,6 +13,7 @@
       >
         <iLabel :label="$t('SUPPLIER_GUOJIA')" required slot="label"></iLabel>
         <iSelect
+          :disabled="canNotEdit"
           v-model="supplierData.supplierDTO.countryCode"
           v-show="
             !supplierData.supplierDTO.countryCode ||
@@ -45,6 +46,7 @@
           slot="label"
         ></iLabel>
         <iSelect
+          :disabled="canNotEdit"
           v-model="supplierData.supplierDTO.provinceCode"
           v-show="
             !supplierData.supplierDTO.provinceCode ||
@@ -76,7 +78,8 @@
           "
           slot="label"
         ></iLabel>
-        <iSelect v-model="supplierData.supplierDTO.cityCode">
+        <iSelect v-model="supplierData.supplierDTO.cityCode"
+          :disabled="canNotEdit">
           <el-option
             :value="item.cityIdStr"
             :label="item.cityNameCn"
@@ -93,6 +96,7 @@
       >
         <iLabel :label="$t('companyAddress')" required slot="label"></iLabel>
         <iInput
+          :disabled="canNotEdit"
           v-model="supplierData.supplierDTO.companyAddress"
           :placeholder="$t('LK_QINGSHURU') + $t('companyAddress')"
         ></iInput>
@@ -105,6 +109,7 @@
       >
         <iLabel :label="$t('ZHUCEDIZHIYOUBIAN')" required slot="label"></iLabel>
         <iInput
+          :disabled="canNotEdit"
           v-model="supplierData.supplierDTO.post"
           :placeholder="$t('LK_QINGSHURU') + $t('ZHUCEDIZHIYOUBIAN')"
         ></iInput>
@@ -113,6 +118,7 @@
       <iFormItem v-permission="SUPPLIER_BASEINFO_COMPANY_COMPANYWEBSITE_GP">
         <iLabel :label="$t('GONGSHIWANGZHI')" slot="label"></iLabel>
         <iInput
+          :disabled="canNotEdit"
           v-model="supplierData.supplierDTO.companyWebPage"
           :placeholder="$t('LK_QINGSHURU') + $t('GONGSHIWANGZHI')"
         ></iInput>
@@ -152,7 +158,11 @@ export default {
     country: {
       type: Array,
       default: () => []
-    }
+    },
+    canNotEdit: {
+      type: Boolean,
+      default: false
+    },
   },
   data() {
     return {

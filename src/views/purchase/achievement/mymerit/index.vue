@@ -3,7 +3,7 @@
         <div class="navBox">
             <iNavMvp :list="tabRouterList" class="margin-bottom20" routerPage :lev="1"/>
             <div class="btnRow">
-                <div class="dw" :class="btnsgroup1.length?'mr40':''"><span v-text="!show?'单位：百万元':'Unit：Mio'"></span></div>
+                <!-- <div class="dw" :class="btnsgroup1.length?'mr40':''"><span v-text="!show?'单位：百万元':'Unit：Mio'"></span></div> -->
                 <div class="btnList flex-align-center margin-bottom20">
                     <ul class="btngroup">
                         <li v-for="(items, index) in btnsgroup1"

@@ -14,19 +14,22 @@ export const TABLE_COLUMNS = [
   {
     type: 'index',
     width: '60px',
-    label: '#'
+    label: '#',
+    fixed: true
   },
   {
     prop: 'assemblyPartnum',
     label: '零件号',
     minWidth: 120,
-    tooltip: true
+    tooltip: true,
+    fixed: true
   },
   {
     prop: 'supplierCodeName',
     label: '供应商编号-名称',
     minWidth: 160,
-    tooltip: true
+    tooltip: true,
+    fixed: true
   },
   {
     prop: 'spartNum',

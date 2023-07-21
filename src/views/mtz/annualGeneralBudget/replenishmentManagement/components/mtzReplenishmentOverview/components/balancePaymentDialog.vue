@@ -250,8 +250,7 @@
           <i-table-custom :loading="tableLoading"
                           :data="tableData"
                           :columns="tableColumns"
-                          min-height="328px"
-                          height="400px"
+                          maxHeight="400px"
                           ref="iTable"
                           @handle-selection-change="handleSelectionChange" />
           <iPagination v-update

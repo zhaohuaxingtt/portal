@@ -86,7 +86,7 @@
             <span type="primary" size="mini" circle @click="isruleTitle1 = !isruleTitle1">{{ isruleTitle1 ? '-' : '+'
             }}</span>
           </div> -->
-          <tableList :tagNum="'1'" ref="moviesTable" :tableData="ruleTableListData"
+          <tableList :tagNum="'1'" ref="moviesTable" :tableData="ruleTableListData" maxHeight="400px"
           :tableTitle="ruleTableListData.some((val)=>{if(val.materialCode.slice(1,6)=='01006') {return true}})?ruleTableTitle1_all:ruleTableTitle1_1"
             @handleClickRow="handleCurrentChangeTable" :tableLoading="loadingRule"
             :header-row-class-name="'ruleTableHeader'" :index="true" :rowClassName="'table-row'" v-if="RsObject"
@@ -220,10 +220,10 @@
             <span type="primary" size="mini" circle @click="isruleTitle2 = !isruleTitle2">{{ isruleTitle2 ? '-' : '+'
             }}</span>
           </div> -->
-          <tableList :tagNum="'1'" class=" over_flow_y_ture" ref="partTable" :tableData="partTableListData"
+          <tableList :tagNum="'1'" class=" over_flow_y_ture" ref="partTable" :tableData="partTableListData" maxHeight="400px"
           :tableTitle="partTableListData.some((val)=>{if(val.materialCode.slice(1,6)=='01006') {return true}})?partTableTitle1_all:[...partTableTitle1_1,...partTableTitle1_2]"
  :tableLoading="loadingPart"
-            v-if="RsObject" :index="true" :rowClassName="'part-table-row'" :header-row-class-name="'partTableHeader'"
+            v-if="RsObject" :index="true" fixed :rowClassName="'part-table-row'" :header-row-class-name="'partTableHeader'"
             :selection="false" border>
             <template slot-scope="scope" slot="compensationPeriod">
               <span>{{
@@ -1260,32 +1260,6 @@ export default {
         name = this.title
       }
       this.handleExportPdf(name)
-      return
-      const loading = this.$loading({
-        lock: true,
-        text: 'Loading',
-        spinner: 'el-icon-loading',
-        background: 'rgba(0, 0, 0, 0.7)'
-      })
-      // transverseDownloadPDF
-      // downloadPDF
-      transverseDownloadPDF({
-        idEle: 'qrCodeDiv',
-        pdfName: name,
-        exportPdf: true,
-        // waterMark: true,
-        title: ['#tabsBoxTitle .cardHeader'], //顶部页眉dom节点
-        callback: async (pdf, pdfName) => {
-          try {
-            loading.close()
-            const filename = pdfName.replaceAll(/\./g, '_') + '.pdf'
-            const pdfFile = pdf.output('datauristring')
-            const blob = dataURLtoFile(pdfFile, filename)
-          } catch {
-            iMessage.error(this.language('SHENGCHENGSHIBAI', '生成失败'))
-          }
-        }
-      })
     },
     initApplayDateData() {
       approvalList({
@@ -1341,7 +1315,6 @@ export default {
         pageNo: 1,
         pageSize: 99999
       }
-      // }
       pageAppRule(list)
         .then((res) => {
           if (res && res.code == 200) {
@@ -1364,12 +1337,10 @@ export default {
         pageNo: 1,
         pageSize: 99999
       }
-      // }
       pagePartMasterData(list)
         .then((res) => {
           if (res && res.code == 200) {
             this.partTableListData = res.data
-         
           } else iMessage.error(res.desZh)
         })
         .finally(() => {
@@ -1389,9 +1360,8 @@ export default {
     },
     computedPartTableHeight() {
       let rowList =
-        [...this.$refs['partTable']?.$el.getElementsByClassName('part-table-row') ||
+        [...this.$refs['partTable']?.$el.getElementsByClassName('el-table__body-wrapper')[0].getElementsByClassName('part-table-row') ||
         []]
-        console.log(rowList)
       let partTableHeader =
         this.$refs['partTable']?.$el.getElementsByClassName(
           'partTableHeader'
@@ -1426,7 +1396,6 @@ export default {
       })
       if (arr.length) tableList.push(arr)
       this.partTableList = tableList
-      console.log(this.partTableList )
     },
     computedRuleTableHeight() {
       let rowList =
@@ -1544,7 +1513,6 @@ export default {
           this.pdf = new JsPDF('l', 'pt', 'a4', true) //l横向打印，p纵向打印 true=>开启压缩
           for (let i = 0; i < this.pageLength; i++) {
             const el = elList[i]
-            console.log(el)
             await this.getPdfImage({
               dom: el,
               j: i

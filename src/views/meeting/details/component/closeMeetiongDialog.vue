@@ -77,6 +77,7 @@
               :before-upload="beforeAvatarUpload"
               :show-file-list="true"
               :http-request="httpUpload"
+              :disabled="uploadLoading"
               :on-remove="remove"
             >
               <iButton

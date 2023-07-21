@@ -11,6 +11,7 @@
       name="multipartFile"
       with-credentials
       :http-request="myUpload"
+      :disabled="loading"
       accept=".xlsx"
   >
     <iButton :loading="loading">{{ $t(buttonText) }}</iButton>

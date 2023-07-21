@@ -7,8 +7,7 @@
 -->
 <template>
   <div>
-    <iSearch class="margin-bottom20"
-             style="margin-top: 20px"
+    <iSearch
              @sure="getLsitBtn"
              @reset="handleSearchReset"
              :resetKey="PARTSPROCURE_RESET"
@@ -143,7 +142,7 @@
         </el-form-item>
       </el-form>
     </iSearch>
-    <i-card class="margin-top20">
+    <i-card class="margin-top20 table-card">
       <div class="margin-bottom10 clearFloat">
         <div class="floatright btn-box">
           <i-button @click="togoFiling"
@@ -169,7 +168,7 @@
                     v-permission="PORTAL_SUPPLIER_SAP">{{ language('TONGBUSAP', '同步SAP') }}</i-button>
         </div>
       </div>
-      <table-list :tableData="tableListData"
+      <table-list class="table-box" height="100%" :tableData="tableListData"
                   :tableTitle="tableTitle"
                   :tableLoading="tableLoading"
                   @handleCurrentChange="handleClickRow"

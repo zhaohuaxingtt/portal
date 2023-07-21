@@ -176,11 +176,12 @@
               :show-file-list="false"
               :http-request="httpUpload"
               :file-list="fileList"
+              :disabled="uploadLoading"
             >
               <iButton
                 type="button"
                 class="upload-button"
-                :uploadLoading="uploadLoading"
+                :loading="uploadLoading"
               >
                 <span class="upload-text"><img :src="uploadIcon" /></span>
                 <span class="upload-text-content">{{

@@ -102,6 +102,7 @@
         ref="moviesTable"
         v-loading="loading"
         border
+        max-height="400px"
         @selection-change="handleSelectionChange"
       >
         <el-table-column
@@ -117,7 +118,7 @@
         <el-table-column
           prop="assemblyPartnum"
           align="center"
-          
+          fixed
           width="120"
           :label="language('LINGJIANHAO', '零件号')"
         >
@@ -136,7 +137,7 @@
         <el-table-column
           prop="partName"
           align="center"
-          
+          fixed
           :label="language('LINGJIANMINGCHENG', '零件名称')"
           width="90"
         >
@@ -149,7 +150,7 @@
           prop="partUnit"
           align="center"
           :label="language('LINGJIANSHULIANGDANWEI', '零件数量单位')"
-          
+          fixed
         >
           <template slot-scope="scope">
             <el-form-item
@@ -165,8 +166,8 @@
           prop="priceUnit"
           align="center"
           :label="language('MEI', '每')"
-          
-          width="50"
+          fixed
+          width="70"
         >
           <template slot-scope="scope">
             <el-form-item
@@ -184,9 +185,9 @@
         <el-table-column
           prop="dosage"
           align="center"
-          width="80"
+          width="120"
           :label="language('YONGLIANG', '用量')"
-          
+          fixed
         >
         <template slot="header" slot-scope="scope">
             <span>{{language('YONGLIANG', '用量')}}<iTooltip :txtInfo="tipList[5]" :num="'6'"></iTooltip></span>
@@ -207,8 +208,9 @@
         <el-table-column
           prop="dosageMeasureUnit"
           align="center"
+          width="100"
           :label="language('YONGLIANGJILIANGDANEWI', '用量计量单位')"
-          
+          fixed
         >
     
           <template slot-scope="scope">
@@ -245,6 +247,7 @@
           align="center"
           :label="language('原材料用量来源', '原材料用量来源')"
           :width="'140'"
+          fixed
         >
           <template slot-scope="scope">
             <el-form-item
@@ -276,7 +279,7 @@
           prop="startDate"
           align="center"
           :label="language('YOUXIAOQIQI', '有效期起')"
-          
+          fixed
         >
           <template slot-scope="scope">
             <iDatePicker
@@ -296,7 +299,7 @@
           prop="endDate"
           align="center"
           :label="language('YOUXIAOQIZHI', '有效期止')"
-          
+          fixed
         >
           <template slot-scope="scope">
             <iDatePicker 
@@ -316,8 +319,8 @@
           prop="ruleNo"
           align="center"
           :label="language('GUIZEBIANHAO', '规则编号')"
-          
-          width="110"
+          fixed
+          width="160"
         >
           <template slot-scope="scope">
             <el-form-item
@@ -403,6 +406,7 @@
           align="center"
           :label="language('LK_GONGYINGSHANG', '供应商')"
           :width="isTitle?'140':'140'"
+          fixed
         >
           <!-- supplierName供应商名称 -->
           <template slot-scope="scope">
@@ -432,8 +436,8 @@
           prop="materialCode"
           align="center"
           :label="language('YUANCAILIAO', '原材料')"
-          :width="isTitle?'140':'200'"
-
+          :width="isTitle?'140':'170'"
+          fixed
         >
           <template slot-scope="scope">
             <!-- <el-select v-model="scope.row.materialCode"

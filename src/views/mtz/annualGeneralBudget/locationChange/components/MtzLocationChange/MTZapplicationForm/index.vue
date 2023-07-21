@@ -7,7 +7,7 @@
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\index.vue
 -->
 <template>
-  <iPage>
+  <div>
     <formInformation ref="formInformation"
                      :isView="isView"
                      :formData="formData"></formInformation>
@@ -17,11 +17,10 @@
     <dosageDetails ref="dosageDetails"
                    :isView="isView"
                    class="margin-top20"></dosageDetails>
-  </iPage>
+  </div>
 </template>
 
 <script>
-import { iPage } from 'rise'
 import dosageDetails from './components/dosageDetails'
 import enclosureList from './components/enclosureList'
 import formInformation from './components/formInformation'
@@ -38,7 +37,6 @@ export default {
     formInformation,
     enclosureList,
     dosageDetails,
-    iPage
   },
   created () {
     this.mtzAppId = this.$route.query.mtzAppId

@@ -6,7 +6,7 @@
  * @Descripttion: your project
 -->
 <template>
-  <div v-loading="onLoading">
+  <div v-loading="onLoading" class="scroll-y">
     <factoryMap :factoryAddressVOList='factoryAddressVOList'
                 :supplier360ViewVO='supplier360ViewVO'
                 :isShowAll="isShowAll"
@@ -72,5 +72,8 @@ export default {
 .header {
   display: flex;
   justify-content: space-between;
+}
+.scroll-y{
+  overflow-y: auto !important;
 }
 </style>

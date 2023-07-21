@@ -8,38 +8,7 @@
 -->
 <!-- 定点与变更 -->
 <template>
-  <div>
-    <!-- <iTabsList
-      v-if="$route.meta.showFooter"
-      v-model="tabsValue"
-      @tab-click="tableChange"
-      type="card"
-      slot="components"
-      calss="margin-top20 iTabsList"
-    >
-      <el-tab-pane
-        :name="1"
-        path="MtzLocationPoint"
-        :label="language('MTZDINGDIAN', 'MTZ定点')"
-      ></el-tab-pane>
-      <el-tab-pane
-        :name="2"
-        path="MtzLocationChange"
-        :label="language('MTZBIANGENG', 'MTZ变更')"
-      ></el-tab-pane>
-      <el-tab-pane
-        :name="3"
-        path="ChipLocationPoint"
-        :label="language('CHIPDINGDIAN', '芯片定点')"
-      ></el-tab-pane>
-      <el-tab-pane
-        :name="4"
-        path="ChipLocationChange"
-        :label="language('CHIPBIANGENG', '芯片变更')"
-      ></el-tab-pane>
-    </iTabsList> -->
-    <router-view />
-  </div>
+  <router-view />
 </template>
 
 <script>

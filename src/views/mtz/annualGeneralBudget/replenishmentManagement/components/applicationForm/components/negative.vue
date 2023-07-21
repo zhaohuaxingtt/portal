@@ -21,12 +21,13 @@
           :data="uploadData"
           :before-upload="beforeUpload"
           :on-exceed="handleExceed"
+          :disabled="upLoading"
           :headers="{
             token: getToken()
           }"
         >
           <el-tooltip content="文件大小不超过20MB" placement="bottom">
-            <iButton>{{ language('SHANGCHUANFUJIAN', '上传附件') }}</iButton>
+            <iButton :loading="upLoading">{{ language('SHANGCHUANFUJIAN', '上传附件') }}</iButton>
           </el-tooltip>
         </el-upload>
       </div>
@@ -78,6 +79,7 @@ export default {
       tableListData: [],
       tableTitle: tableTitleNegative,
       loading: true,
+      upLoading: false,
       uploadData: {},
       delAray: []
     }
@@ -121,10 +123,13 @@ export default {
       const isLt2M = file.size / 1024 / 1024 < 20
       if (!isLt2M) {
         this.$message.error('上传文件大小不能超过 20MB!')
+      }else{
+        this.upLoading = false
       }
       return isLt2M
     },
     uploadSuccess(res, file) {
+      this.upLoading = false
       this.getData()
     },
     funReturn() {

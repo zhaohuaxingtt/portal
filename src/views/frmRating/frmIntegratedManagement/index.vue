@@ -1,5 +1,5 @@
 <template>
-  <iPage>
+  <iPage class="frmintegratedmanagement">
     <div class="navBox">
       <iNavMvp :list="tabRouterList" class="margin-bottom20" routerPage :lev="1"/>
       <div class="btnRow">
@@ -70,6 +70,37 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.frmintegratedmanagement{
+  position: relative;
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+  ::v-deep .table-card {
+    flex: 1;
+    overflow: hidden;
+    min-height: 400px;
+    display: flex;
+    flex-flow: column;
+    .card-body-box {
+      flex: 1;
+      overflow: hidden;
+      .cardBody {
+        display: flex;
+        flex-flow: column;
+      }
+      .table-box {
+        flex: 1;
+        display: flex;
+        flex-flow: column;
+        overflow: hidden;
+        .i-table-custom{
+          flex: 1;
+          overflow: hidden;
+        }
+      }
+    }
+  }
+}
 .navBox {
   position: relative;
 

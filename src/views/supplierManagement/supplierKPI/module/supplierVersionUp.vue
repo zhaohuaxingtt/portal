@@ -16,7 +16,7 @@
        </div>
       </div>
     </iCard>
-    <iCard style="margin-top: 20px">
+    <iCard class="table-card" style="margin-top: 20px">
       <el-steps finish-status="success" align-center :active="active">
         <el-step title="绩效模型确认"></el-step>
         <el-step title="上传手工指标结果"></el-step>
@@ -28,7 +28,7 @@
       </supplierIndexManage> -->
       <viewPdf @submit0="submit0" v-if="active == 0" :src="protocolUrl" />
 
-      <supplierVersionTable @back="back" :infoData="infoData" @submit12="submit12" :isShow="false"
+      <supplierVersionTable class="table-box" @back="back" :infoData="infoData" @submit12="submit12" :isShow="false"
         v-if="active == 1 || active == 2" :active="active"></supplierVersionTable>
       <Completed @back="back" :infoData="infoData" v-if="active == 3"> </Completed>
     </iCard>

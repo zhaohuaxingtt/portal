@@ -15,7 +15,8 @@ export const tableTitle = [
   {
     type: 'index',
     width: 60,
-    label: '序号'
+    label: '序号',
+    fixed: true,
   },
   {
     prop: 'nameZh',
@@ -23,6 +24,7 @@ export const tableTitle = [
     li8n: 'LK_GONGYINGSHANGMINGCHENG1',
     width: 300,
     tooltip: true,
+    fixed: true,
     emit: 'go-detail',
     customRender: (h, scope) => {
       return (
@@ -37,27 +39,31 @@ export const tableTitle = [
     label: '供应商英文名称',
     li8n: 'SPR_FRM_XGYSPJ_GYSYWMC',
     width: 150,
-    tooltip: true
+    tooltip: true,
+    fixed: true,
   },
   {
     prop: 'socialcreditNo',
     label: '统一社会信用代码',
     li8n: 'UnifySocialCreditCode',
-    width: 200
+    width: 200,
+    fixed: true,
   },
   {
     prop: 'dunsCode',
     label: 'DUNS号',
     li8n: 'SUPPLIER_CAILIAOZU_DUNSHAO',
     width: 150,
-    tooltip: true
+    tooltip: true,
+    fixed: true,
   },
   {
     prop: 'ratingResult',
     label: '评级结果',
     li8n: 'SPR_FRM_XGYSPJ_PJJG',
     width: 120,
-    tooltip: true
+    tooltip: true,
+    fixed: true,
   },
   {
     prop: 'ratingStatus',

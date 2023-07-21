@@ -7,7 +7,7 @@
  * @FilePath: \front-portal\src\views\frmRating\depthRating\index.vue
 -->
 <template>
-  <iPage>
+  <iPage class="depthRating">
     <div class="flex-between-center">
       <iNavMvp
         :list="tabRouterList"
@@ -86,6 +86,37 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.depthRating{
+  position: relative;
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+  ::v-deep .table-card {
+    flex: 1;
+    overflow: hidden;
+    min-height: 400px;
+    display: flex;
+    flex-flow: column;
+    .card-body-box {
+      flex: 1;
+      overflow: hidden;
+      .cardBody {
+        display: flex;
+        flex-flow: column;
+      }
+      .table-box {
+        flex: 1;
+        display: flex;
+        flex-flow: column;
+        overflow: hidden;
+        .i-table-custom{
+          flex: 1;
+          overflow: hidden;
+        }
+      }
+    }
+  }
+}
 ::v-deep .nav>div{
   max-width: 170px!important;
 }

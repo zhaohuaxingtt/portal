@@ -390,6 +390,7 @@ export default {
         approvalName: "",
         startDate: "",
         endDate: "",
+        positionIds:"",
         editRow: true
       }
 

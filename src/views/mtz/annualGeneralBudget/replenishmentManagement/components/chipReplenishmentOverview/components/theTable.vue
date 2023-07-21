@@ -7,8 +7,7 @@
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipReplenishmentOverview\components\theTable.vue
 -->
 <template>
-  <div>
-    <iCard>
+    <iCard class="table-card">
       <template v-slot:header>
         <div class="showMe">
           <span>{{ language('只看自己 ') }}</span>
@@ -47,6 +46,8 @@
       </template>
 
       <iTableCustom
+        class="table-box"
+        height="100%"
         :loading="loading"
         :data="tableData"
         :columns="tableTitle"
@@ -62,14 +63,13 @@
         :layout="page.layout"
       >
       </iPagination>
+      <detailDialog
+        :visible.sync="visible"
+        v-if="visible"
+        :params="row"
+        :supplierType="supplierType"
+      />
     </iCard>
-    <detailDialog
-      :visible.sync="visible"
-      v-if="visible"
-      :params="row"
-      :supplierType="supplierType"
-    />
-  </div>
 </template>
 
 <script>

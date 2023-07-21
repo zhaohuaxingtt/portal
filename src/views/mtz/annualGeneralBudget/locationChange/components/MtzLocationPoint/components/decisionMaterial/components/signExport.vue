@@ -419,7 +419,6 @@
                  *补差%
               </p>
               <p class="enStyle"><span>MTZ Payment= Settle Accounts Quantity*[Effective Price-Base Price(1+Threshold*Coefficient)]*Raw Material Weight* Compensation%</span><span>When: effective price > base price *(1+threshold)</span></p>
-              </p>
             </div>
             <p
               class="tableTitle"
@@ -835,7 +834,7 @@ export default {
       // 考虑边框问题 test（28）.pdf
       let remarkCardHeight = this.$refs['remark-card']?.$el.offsetHeight
       let remarkContentHeight = this.$refs['remark']?.offsetHeight
-      let applayDateData = this.$refs['applayDateData']?.$el.offsetHeight || 0
+      let applayDateData = this.$refs['applayDateData']?.$el?.offsetHeight || 0
       let otherHeight = remarkCardHeight - remarkContentHeight
       let pageNumHeight = this.$refs.pageNum.offsetHeight // 页码高度
       // let remarkTitleHeight = this.$refs.remarkTitle.offsetHeight
@@ -922,7 +921,7 @@ export default {
     // 计算零件表高度
     computedPartTableHeight() {
       let rowList =
-        this.$refs['partTable']?.$el.getElementsByClassName('part-table-row') ||
+        this.$refs['partTable']?.$el.getElementsByClassName('el-table__body-wrapper')[0].getElementsByClassName('part-table-row') ||
         []
         console.log(rowList)
 

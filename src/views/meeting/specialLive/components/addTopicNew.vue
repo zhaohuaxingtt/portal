@@ -207,12 +207,12 @@
               :show-file-list="false"
               :http-request="httpUpload"
               :file-list="fileList"
-              :disabled="editOrAdd === 'look'"
+              :disabled="uploadLoading||(editOrAdd === 'look')"
             >
               <iButton
                 type="button"
                 class="upload-button"
-                :uploadLoading="uploadLoading"
+                :loading="uploadLoading"
                 :disabled="editOrAdd === 'look'"
               >
                 <span class="upload-text"><img :src="uploadIcon" /></span>
