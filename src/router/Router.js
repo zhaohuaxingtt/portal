@@ -60,6 +60,8 @@ import backstagemanagement from './backstagemanagement'
 import capacityManagement from './capacityManagement'
 import RouterSetting from './RouterSetting'
 
+import Settlement from './settlement'
+
 export default {
   routes: [
     {
@@ -292,7 +294,8 @@ export default {
         ...backstagemanagement,
         ...capacityManagement,
         ...RouterSetting,
-        ...purchaseClassification
+        ...purchaseClassification,
+        ...Settlement
       ]
     },
     {
