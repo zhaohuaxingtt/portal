@@ -9,7 +9,7 @@
   <iPage class="supplierManagement" :class="padding?'padding':''"
          v-loading="pageLoading">
     <headerNav :class="padding?'nav':''" />
-    <router-view class="page-content" />
+    <router-view :class="isPPRouter?'page-content':''" />
   </iPage>
 </template>
 
@@ -29,7 +29,19 @@ export default {
     }
   },
   // 监听属性 类似于data概念
-  computed: {},
+  computed: {
+    isPPRouter() {
+      if (
+        this.$route.path.indexOf('/supplier/supplierListGP') != -1 ||
+        this.$route.path.indexOf('/supplier/supplierListDis') != -1 ||
+        this.$route.path.indexOf('/supplier/supplierListIndirect') != -1
+      ) {
+        return false
+      }else{
+        return true
+      }
+    }
+  },
   // 监控data中的数据变化
   watch: {},
   // 方法集合
@@ -43,9 +55,7 @@ export default {
     }
   },
   // 生命周期 - 挂载完成（可以访问DOM元素）
-  mounted () {
-
-  },
+  mounted () {},
 }
 </script>
 <style lang='scss' scoped>

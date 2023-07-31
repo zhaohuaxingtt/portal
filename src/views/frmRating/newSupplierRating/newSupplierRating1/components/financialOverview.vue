@@ -11,13 +11,13 @@
                 :index="true"
                 @handleSelectionChange="handleSelectionChange">
       <template #firstValue="scope">
-        <span>{{scope.row.firstValue?Number(scope.row.firstValue).toFixed(2):""}}</span>
+        <span>{{scope.row.firstValue?Number(scope.row.firstValue).toFixed(2):"" | thousandsFilter}}</span>
       </template>
       <template #secondValue="scope">
-        <span>{{scope.row.secondValue?Number(scope.row.secondValue).toFixed(2):""}}</span>
+        <span>{{scope.row.secondValue?Number(scope.row.secondValue).toFixed(2):"" | thousandsFilter}}</span>
       </template>
       <template #thirdValue="scope">
-        <span>{{scope.row.thirdValue?Number(scope.row.thirdValue).toFixed(2):""}}</span>
+        <span>{{scope.row.thirdValue?Number(scope.row.thirdValue).toFixed(2):"" | thousandsFilter}}</span>
       </template>
     </tableList>
   </iCard>
@@ -27,10 +27,11 @@
 import { iCard } from 'rise';
 import tableList from '@/components/commonTable';
 import { pageMixins } from '@/utils/pageMixins';
+import filters from '@/utils/filters';
 import { financialOverviewTitle } from './data';
 
 export default {
-  mixins: [pageMixins],
+  mixins: [pageMixins, filters],
   components: {
     iCard,
     tableList,

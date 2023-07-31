@@ -176,6 +176,13 @@ export const tableSetting = [
     width: 200
   },
   {
+    prop: 'scale',
+    label: '二次件供应商比例',
+    align: 'center',
+    i18n: '二次件供应商比例',
+    width: 150
+  },
+  {
     prop: 'ruleNo',
     label: '规则编号',
     align: 'center',
@@ -513,14 +520,6 @@ export const tableSetting = [
     i18n: '运输费用',
     width: 150
   },
-  {
-    prop: 'scale',
-    label: '二次件供应商比例',
-    align: 'center',
-    i18n: '二次件供应商比例',
-    width: 150
-  },
-  
 ]
 
 // 一二次零件号

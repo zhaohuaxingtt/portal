@@ -61,6 +61,7 @@ import capacityManagement from './capacityManagement'
 import RouterSetting from './RouterSetting'
 
 import RouterTaskManagement from './RouterTaskManagement'
+import Settlement from './settlement'
 
 export default {
   routes: [
@@ -295,7 +296,8 @@ export default {
         ...capacityManagement,
         ...RouterSetting,
         ...purchaseClassification,
-        ...RouterTaskManagement
+        ...RouterTaskManagement,
+        ...Settlement
       ]
     },
     {
