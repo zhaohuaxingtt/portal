@@ -397,6 +397,20 @@ module.exports = {
           ['^' + process.env.VUE_APP_PRICELEDGER]: '',
         },
       },
+      [process.env.VUE_APP_SETTLEMENT]: {
+        target: `${BASE_IP}/settlement`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_SETTLEMENT]: ''
+        }
+      },
+      [process.env.VUE_APP_GP_RFQ]: {
+        target: `${BASE_IP}/gp-rfq`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_GP_RFQ]: ''
+        }
+      },
     }
   }
 }
