@@ -237,15 +237,13 @@
 import { iTabsList,iMessage, iDialog, iSelect, iButton, iDatePicker, iPagination, iMessageBox } from 'rise'
 import { pageMixins } from '@/utils/pageMixins';
 import tableList from '@/components/commonTable/index.vue'
-import { tableTitle,tableTitle2,TABLE_COLUMS,offsetList,avgPeriodList } from './data'
-import { excelExport } from './util'
+import { tableTitle, TABLE_COLUMS } from './data'
 import iTableCustom from '@/components/iTableCustom'
 import {
   voucherInitiatedPageList
 } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
-import { fetchTableData, fetchOnePartNo, fetchSecondPartNo, fetchSecondSupplier, fetchRawMaterialCode, fetchCurrentUser, pageMtzDetailExport } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzReplenishmentOverview/detail'
+import { fetchTableData, fetchOnePartNo, fetchSecondPartNo, fetchRawMaterialCode, fetchCurrentUser, pageMtzDetailExport } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzReplenishmentOverview/detail'
 import { queryDeptSectionForCompItem } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
-import { getDeptData } from '@/api/kpiChart/index'
 import { getMtzSupplierList,  compdocIExport} from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
 import { getNowFormatDate } from "./util";
 export default {
@@ -393,7 +391,6 @@ export default {
       getMtzSupplierList({}).then(res => {
         if (res && res.code == 200) {
           this.sSupplierDropDownData = res.data
-          // this.sSupplierDropDownData = this.sSupplierDropDownData.filter(item => item)
         } else iMessage.error(res.desZh)
       })
     },
@@ -495,8 +492,6 @@ export default {
         })
 
       }
-
-      // excelExport(this.params.name, this.tableListData, this.tableTitle)
     }
   }
 }
