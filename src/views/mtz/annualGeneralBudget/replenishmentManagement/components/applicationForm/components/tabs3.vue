@@ -61,7 +61,6 @@ export default {
     iButton,
     iPagination
   },
-  // props:["mtzDocId","searchFormList"],
   data () {
     return {
       page: {
@@ -97,25 +96,9 @@ export default {
       BoxLoading: true,
     }
   },
-  watch: {
-    "searchFormList": {
-      handler (x, y) {
-        this.mtzDocId = this.$route.query.mtzDocId
-        this.BoxLoading = true;
-        this.serchList = x;
-        this.page.currPage = 1;
-        this.page.pageSize = 10;
-        this.getData();
-      },
-      immediate: true
-    }
-  },
   created () {
     this.mtzDocId = this.$route.query.mtzDocId
     this.getData();
-    // getDifferenceInfor(this.mtzDocId).then(res => {
-    //   this.inforData = res.data;
-    // })
     compdocMetalDetailSum({
       mtzDocId: this.mtzDocId,
       pgmFlag: 1
