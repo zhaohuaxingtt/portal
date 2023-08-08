@@ -294,7 +294,7 @@
         <!-- 电子银票账户银行名称 -->
         <iFormItem prop="gpSupplierBankNoteDTO.bankNoteName">
           <iLabel :label="$t('DZYPZHYHMC')" required slot="label"></iLabel>
-          <iInput :disabled="canNotEdit"
+          <iInput :disabled="!canEdit"
             :placeholder="$t('LK_QINGSHURU')"
             v-model="supplierData.gpSupplierBankNoteDTO.bankNoteName"
           ></iInput>
@@ -302,7 +302,7 @@
         <!-- 电子银票银行账户行号 -->
         <iFormItem prop="gpSupplierBankNoteDTO.bankNoteAccount" :rules="hanghaoRules(1)">
           <iLabel :label="$t('DZYPYHZHHH')" required slot="label"></iLabel>
-          <iInput :disabled="canNotEdit"
+          <iInput :disabled="!canEdit"
             :placeholder="$t('LK_QINGSHURU')"
             v-model="supplierData.gpSupplierBankNoteDTO.bankNoteAccount"
           ></iInput>
@@ -310,7 +310,7 @@
         <!-- 电子银票银行所在国家 -->
         <iFormItem prop="gpSupplierBankNoteDTO.country">
           <iLabel :label="$t('DZYPYHSZGJ')" required slot="label"></iLabel>
-          <iSelect :disabled="canNotEdit"
+          <iSelect :disabled="!canEdit"
             v-model="supplierData.gpSupplierBankNoteDTO.country"
             @change="changeCountryDC()"
           >
@@ -325,7 +325,7 @@
         <!-- 电子银票银行所在省份 -->
         <iFormItem prop="gpSupplierBankNoteDTO.province">
           <iLabel :label="$t('DZYPYHSZSF')" required slot="label"></iLabel>
-          <iSelect :disabled="canNotEdit"
+          <iSelect :disabled="!canEdit"
             v-model="supplierData.gpSupplierBankNoteDTO.province"
             @change="changeProvinceDC()"
           >
@@ -340,7 +340,7 @@
         <!-- 电子银票银行所在城市 -->
         <iFormItem prop="gpSupplierBankNoteDTO.city">
           <iLabel :label="$t('DZYPYHSZCS')" required slot="label"></iLabel>
-          <iSelect v-model="supplierData.gpSupplierBankNoteDTO.city" :disabled="canNotEdit">
+          <iSelect v-model="supplierData.gpSupplierBankNoteDTO.city" :disabled="!canEdit">
             <el-option
               :value="item.cityIdStr"
               :label="item.cityNameCn"
@@ -355,7 +355,7 @@
         <!-- 电子银票账户银行名称 -->
         <iFormItem>
           <iLabel :label="$t('DZYPZHYHMC')" slot="label"></iLabel>
-          <iInput :disabled="canNotEdit"
+          <iInput :disabled="!canEdit"
             :placeholder="$t('LK_QINGSHURU')"
             v-model="supplierData.gpSupplierBankNoteDTO.bankNoteName"
           ></iInput>
@@ -363,7 +363,7 @@
         <!-- 电子银票银行账户行号 -->
         <iFormItem prop="gpSupplierBankNoteDTO.bankNoteAccount" :rules="hanghaoRules(2)">
           <iLabel :label="$t('DZYPYHZHHH')" slot="label"></iLabel>
-          <iInput :disabled="canNotEdit"
+          <iInput :disabled="!canEdit"
             :placeholder="$t('LK_QINGSHURU')"
             v-model="supplierData.gpSupplierBankNoteDTO.bankNoteAccount"
           ></iInput>
@@ -371,7 +371,7 @@
         <!-- 电子银票银行所在国家 -->
         <iFormItem>
           <iLabel :label="$t('DZYPYHSZGJ')" slot="label"></iLabel>
-          <iSelect :disabled="canNotEdit"
+          <iSelect :disabled="!canEdit"
             v-model="supplierData.gpSupplierBankNoteDTO.country"
             @change="changeCountryDC()"
           >
@@ -386,7 +386,7 @@
         <!-- 电子银票银行所在省份 -->
         <iFormItem>
           <iLabel :label="$t('DZYPYHSZSF')" slot="label"></iLabel>
-          <iSelect :disabled="canNotEdit"
+          <iSelect :disabled="!canEdit"
             v-model="supplierData.gpSupplierBankNoteDTO.province"
             @change="changeProvinceDC()"
           >
@@ -401,7 +401,7 @@
         <!-- 电子银票银行所在城市 -->
         <iFormItem>
           <iLabel :label="$t('DZYPYHSZCS')" slot="label"></iLabel>
-          <iSelect v-model="supplierData.gpSupplierBankNoteDTO.city" :disabled="canNotEdit">
+          <iSelect v-model="supplierData.gpSupplierBankNoteDTO.city" :disabled="!canEdit">
             <el-option
               :value="item.cityIdStr"
               :label="item.cityNameCn"
@@ -618,6 +618,22 @@ export default {
       },
       bingoType: true,
       supplierIDCardType: true
+    }
+  },
+  computed:{
+    // 注册时可以编辑
+    canEdit(){
+      // 注册状态，不是gp供应商时，可以编辑电子银票
+      if(this.$route.query.supplierToken){
+        return !this.canNotEdit
+      }else{
+        console.log('this.supplierData.gpSupplierDetails=>',this.supplierData.gpSupplierDetails);
+        if(this.supplierData.gpSupplierDetails&&this.supplierData.gpSupplierDetails.length){
+          return false
+        }else{
+          return true
+        }
+      }
     }
   },
   methods: {

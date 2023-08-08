@@ -15,43 +15,43 @@
       border
     >
       <template slot="nameZh" slot-scope="scope">
-        <iInput :disabled="canNotEdit"
+        <iInput :disabled="!canEdit"
           :placeholder="$t('LK_QINGSHURU')"
           v-model="scope.row.nameZh"
         ></iInput>
       </template>
       <template slot="designation" slot-scope="scope">
-        <iInput :disabled="canNotEdit"
+        <iInput :disabled="!canEdit"
           :placeholder="$t('LK_QINGSHURU')"
           v-model="scope.row.designation"
         ></iInput>
       </template>
       <template slot="dept" slot-scope="scope">
-        <iInput :disabled="canNotEdit"
+        <iInput :disabled="!canEdit"
           :placeholder="$t('LK_QINGSHURU')"
           v-model="scope.row.dept"
         ></iInput>
       </template>
       <template slot="telephoneAreaCode" slot-scope="scope">
-        <iInput :disabled="canNotEdit"
+        <iInput :disabled="!canEdit"
           :placeholder="$t('LK_QINGSHURU')"
           v-model="scope.row.telephoneAreaCode"
         ></iInput>
       </template>
       <template slot="telephone" slot-scope="scope">
-        <iInput :disabled="canNotEdit"
+        <iInput :disabled="!canEdit"
           :placeholder="$t('LK_QINGSHURU')"
           v-model="scope.row.telephone"
         ></iInput>
       </template>
       <template slot="email" slot-scope="scope">
-        <iInput :disabled="canNotEdit"
+        <iInput :disabled="!canEdit"
           :placeholder="$t('LK_QINGSHURU')"
           v-model="scope.row.email"
         ></iInput>
       </template>
       <template slot="remark" slot-scope="scope">
-        <iInput :disabled="canNotEdit"
+        <iInput :disabled="!canEdit"
           :placeholder="$t('LK_QINGSHURU')"
           v-model="scope.row.remark"
         ></iInput>
@@ -99,6 +99,21 @@ export default {
       },
       deep: true,
       immediate: true
+    }
+  },
+  computed:{
+    // 注册时可以编辑
+    canEdit(){
+      // 注册状态，不是gp供应商时，可以编辑电子银票
+      if(this.$route.query.supplierToken){
+        return !this.canNotEdit
+      }else{
+        if(this.supplierData.gpSupplierDetails&&this.supplierData.gpSupplierDetails.length){
+          return false
+        }else{
+          return true
+        }
+      }
     }
   },
   methods: {

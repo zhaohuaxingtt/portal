@@ -124,6 +124,7 @@ export const supplierCompleteRe = {
     cityCode: "",//	城市
     bankAccount: "",//结算银行账号
     bankTaxCode: ""//税务号
-  }
+  },
+  gpSupplierDetails:[]
 }
 

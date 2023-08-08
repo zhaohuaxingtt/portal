@@ -200,9 +200,13 @@ export default {
   },
   computed:{
     canNotEdit(){
-      console.log(this.supplierComplete?.supplierDTO?.supplierType);
-      return !!this.supplierComplete?.supplierDTO?.supplierType
-    }
+      let onlyDc = false // 只有间接供应商身份时可以编辑
+      // 只有间接供应商一个身份时可以编辑
+      if(this.supplierComplete.gpSupplierDetails&&this.supplierComplete.gpSupplierDetails.length==1 &&this.supplierComplete.gpSupplierDetails[0].businessType==4){
+        onlyDc = true
+      }
+      return !!this.supplierComplete?.supplierDTO?.supplierType && !onlyDc
+    },
   },
   created() {
     this.supplierComplete = _.cloneDeep(this.supplierCompleteRe)
@@ -242,6 +246,8 @@ export default {
         if (res?.data) {
           //初始数据很多为null 需要重置为“” 不然会触发表单验证
           let supplierDTO = this.reView(res.data)
+          // 供应商信息
+          this.supplierComplete.gpSupplierDetails = supplierDTO.gpSupplierDetails || []
           // 银行子账号
           if (supplierDTO.subBankVos) {
             this.supplierComplete.subBankList = supplierDTO.subBankVos
@@ -271,9 +277,9 @@ export default {
 
             if (this.$route.query.subSupplierType == 'GP') {
               this.supplierComplete.supplierDTO.svwTempCode =
-                supplierDTO.gpSupplierInfoVO.svwTempCode
+                supplierDTO.gpSupplierInfoVO?.svwTempCode
               this.supplierComplete.supplierDTO.svwCode =
-                supplierDTO.gpSupplierInfoVO.svwCode
+                supplierDTO.gpSupplierInfoVO?.svwCode
             }
           }
           // GP信息
@@ -319,9 +325,20 @@ export default {
           this.changeFact(
             this.supplierComplete.supplierDTO.isForeignManufacture
           )
+          if(res.data.gpSupplierInfoVO?.id)
           listSupplierUser(res.data.gpSupplierInfoVO.id).then((res) => {
             if (res?.code == 200) {
-              this.mailListData = res.data?.list || []
+              this.mailListData = res.data?.list || [
+                {
+                  nameZh: '',
+                  designation: '',
+                  dept: '',
+                  telephoneAreaCode: '',
+                  telephone: '',
+                  email: '',
+                  userName: ''
+                }
+              ]
             } else {
               iMessage.error('获取供应商联系人信息失败')
             }
@@ -357,6 +374,8 @@ export default {
           if (res.data) {
             //初始数据很多为null 需要重置为“” 不然会触发表单验证
             let supplierDTO = this.reView(res.data)
+            // 供应商信息
+            this.supplierComplete.gpSupplierDetails = supplierDTO.gpSupplierDetails || []
             // 银行子账号
             if (supplierDTO.subBankVos) {
               this.supplierComplete.subBankList = supplierDTO.subBankVos
@@ -436,7 +455,17 @@ export default {
             )
             listSupplierUser(res.data.gpSupplierInfoVO.id).then((res) => {
               if (res?.code == 200) {
-                this.mailListData = res.data?.list || []
+                this.mailListData = res.data?.list || [
+                  {
+                    nameZh: '',
+                    designation: '',
+                    dept: '',
+                    telephoneAreaCode: '',
+                    telephone: '',
+                    email: '',
+                    userName: ''
+                  }
+                ]
               } else {
                 iMessage.error('获取供应商联系人信息失败')
               }
