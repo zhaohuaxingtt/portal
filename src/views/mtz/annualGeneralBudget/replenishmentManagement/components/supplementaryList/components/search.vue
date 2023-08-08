@@ -166,7 +166,6 @@ import { iCard,iSearch, iSelect, iDatePicker, iMessage, iDialog, iButton, iTabs,
 import {
   getOnePartNo,
   getSecondPartNo,
-  getSecondSupplier,
   getGroups,
   getSaNo
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details';
