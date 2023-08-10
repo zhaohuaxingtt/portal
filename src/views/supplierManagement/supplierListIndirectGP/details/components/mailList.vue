@@ -15,43 +15,43 @@
       border
     >
       <template slot="nameZh" slot-scope="scope">
-        <iInput :disabled="canNotEdit"
+        <iInput :disabled="!canEdit"
           :placeholder="$t('LK_QINGSHURU')"
           v-model="scope.row.nameZh"
         ></iInput>
       </template>
       <template slot="designation" slot-scope="scope">
-        <iInput :disabled="canNotEdit"
+        <iInput :disabled="!canEdit"
           :placeholder="$t('LK_QINGSHURU')"
           v-model="scope.row.designation"
         ></iInput>
       </template>
       <template slot="dept" slot-scope="scope">
-        <iInput :disabled="canNotEdit"
+        <iInput :disabled="!canEdit"
           :placeholder="$t('LK_QINGSHURU')"
           v-model="scope.row.dept"
         ></iInput>
       </template>
       <template slot="telephoneAreaCode" slot-scope="scope">
-        <iInput :disabled="canNotEdit"
+        <iInput :disabled="!canEdit"
           :placeholder="$t('LK_QINGSHURU')"
           v-model="scope.row.telephoneAreaCode"
         ></iInput>
       </template>
       <template slot="telephone" slot-scope="scope">
-        <iInput :disabled="canNotEdit"
+        <iInput :disabled="!canEdit"
           :placeholder="$t('LK_QINGSHURU')"
           v-model="scope.row.telephone"
         ></iInput>
       </template>
       <template slot="email" slot-scope="scope">
-        <iInput :disabled="canNotEdit"
+        <iInput :disabled="!canEdit"
           :placeholder="$t('LK_QINGSHURU')"
           v-model="scope.row.email"
         ></iInput>
       </template>
       <template slot="remark" slot-scope="scope">
-        <iInput :disabled="canNotEdit"
+        <iInput :disabled="!canEdit"
           :placeholder="$t('LK_QINGSHURU')"
           v-model="scope.row.remark"
         ></iInput>
@@ -68,9 +68,13 @@ import { exportSupplierUser } from '@/api/supplierManagement/supplierListIndirec
 
 export default {
   props: {
-    supplierData: {
+    mailListData: {
       type: Object,
       default: () => []
+    },
+    supplierData: {
+      type: Object,
+      default: () => {}
     },
     canNotEdit: {
       type: Boolean,
@@ -93,12 +97,33 @@ export default {
     }
   },
   watch: {
-    supplierData: {
+    mailListData: {
       handler(val) {
         this.tableListData = val || []
       },
       deep: true,
       immediate: true
+    }
+  },
+  computed:{
+    // 注册时可以编辑
+    canEdit(){
+      // 注册状态，不是gp供应商时，可以编辑用户信息
+      let hasGpDetails = this.supplierData.gpSupplierDetails && this.supplierData.gpSupplierDetails.length==1
+      if(this.$route.query.supplierToken){
+        let isPD = this.supplierData.supplierDTO.supplierType == 'PD'
+        if(isPD && hasGpDetails && this.supplierData.gpSupplierDetails[0].businessType==4){
+          return true
+        }
+        return !this.canNotEdit
+      }else{
+        let isGP = this.supplierData.supplierDTO.supplierType == 'GP'
+        if(isGP && hasGpDetails){
+          return false
+        }else{
+          return true
+        }
+      }
     }
   },
   methods: {
