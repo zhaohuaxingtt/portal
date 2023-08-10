@@ -68,9 +68,13 @@ import { exportSupplierUser } from '@/api/supplierManagement/supplierListIndirec
 
 export default {
   props: {
-    supplierData: {
+    mailListData: {
       type: Object,
       default: () => []
+    },
+    supplierData: {
+      type: Object,
+      default: () => {}
     },
     canNotEdit: {
       type: Boolean,
@@ -93,7 +97,7 @@ export default {
     }
   },
   watch: {
-    supplierData: {
+    mailListData: {
       handler(val) {
         this.tableListData = val || []
       },
@@ -104,11 +108,17 @@ export default {
   computed:{
     // 注册时可以编辑
     canEdit(){
-      // 注册状态，不是gp供应商时，可以编辑电子银票
+      // 注册状态，不是gp供应商时，可以编辑用户信息
+      let hasGpDetails = this.supplierData.gpSupplierDetails && this.supplierData.gpSupplierDetails.length==1
       if(this.$route.query.supplierToken){
+        let isPD = this.supplierData.supplierDTO.supplierType == 'PD'
+        if(isPD && hasGpDetails && this.supplierData.gpSupplierDetails[0].businessType==4){
+          return true
+        }
         return !this.canNotEdit
       }else{
-        if(this.supplierData.gpSupplierDetails&&this.supplierData.gpSupplierDetails.length){
+        let isGP = this.supplierData.supplierDTO.supplierType == 'GP'
+        if(isGP && hasGpDetails){
           return false
         }else{
           return true

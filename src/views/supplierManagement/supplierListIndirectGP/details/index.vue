@@ -118,7 +118,8 @@
     <mailList
       ref="mailList"
       :canNotEdit="canNotEdit"
-      :supplierData="mailListData"
+      :supplierData="supplierComplete"
+      :mailListData="mailListData"
       class="margin-bottom20"
     ></mailList>
   </iPage>
@@ -200,12 +201,17 @@ export default {
   },
   computed:{
     canNotEdit(){
-      let onlyDc = false // 只有间接供应商身份时可以编辑
-      // 只有间接供应商一个身份时可以编辑
-      if(this.supplierComplete.gpSupplierDetails&&this.supplierComplete.gpSupplierDetails.length==1 &&this.supplierComplete.gpSupplierDetails[0].businessType==4){
+      let onlyDc = false
+      let isGP = this.supplierComplete.supplierDTO?.supplierType == 'GP'
+      let hasGpDetails = this.supplierComplete.gpSupplierDetails&&this.supplierComplete.gpSupplierDetails.length==1
+      if(hasGpDetails && this.supplierComplete.gpSupplierDetails[0].businessType==4){
         onlyDc = true
       }
-      return !!this.supplierComplete?.supplierDTO?.supplierType && !onlyDc
+      if(this.$route.query.supplierToken){  // 编辑时，只有间接供应商一个身份(GP类型，只有一个业务4)时可以编辑
+        return !(onlyDc && isGP)
+      }else{  // 注册时
+        return !!this.supplierComplete?.supplierDTO?.supplierType // 没有注册过，都可以编辑
+      }
     },
   },
   created() {

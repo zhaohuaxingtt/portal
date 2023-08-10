@@ -624,11 +624,16 @@ export default {
     // 注册时可以编辑
     canEdit(){
       // 注册状态，不是gp供应商时，可以编辑电子银票
+      let hasGpDetails = this.supplierData.gpSupplierDetails && this.supplierData.gpSupplierDetails.length==1
       if(this.$route.query.supplierToken){
+        let isPD = this.supplierData.supplierDTO.supplierType == 'PD'
+        if(isPD && hasGpDetails && this.supplierData.gpSupplierDetails[0].businessType==4){
+          return true
+        }
         return !this.canNotEdit
       }else{
-        console.log('this.supplierData.gpSupplierDetails=>',this.supplierData.gpSupplierDetails);
-        if(this.supplierData.gpSupplierDetails&&this.supplierData.gpSupplierDetails.length){
+        let isGP = this.supplierData.supplierDTO.supplierType == 'GP'
+        if(isGP && hasGpDetails){
           return false
         }else{
           return true
