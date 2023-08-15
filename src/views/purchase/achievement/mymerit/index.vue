@@ -120,10 +120,11 @@
           const CGBZ_WF = this.roleList.some(item => item.code == 'CGBZ_WF')
           const ZYCGKZ_WF = this.roleList.some(item => item.code == 'ZYCGKZ_WF')
           const PFJYJGLY = this.roleList.some(item => item.code == 'PFJYJGLY')
-          if(PFJYJGLY) {
-//            this.btnsgroup1 = ['CS(Spare)', 'CSM(Spare)', 'CSEN(Spare)', 'Linie(Spare)']
-//            this.btnsgroup1 = ['CS(Spare)']
-          }else if (Linie) {        // 采购员 采购员视觉
+//           if(PFJYJGLY) {
+// //            this.btnsgroup1 = ['CS(Spare)', 'CSM(Spare)', 'CSEN(Spare)', 'Linie(Spare)']
+// //            this.btnsgroup1 = ['CS(Spare)']
+//           }else 
+          if (Linie) {        // 采购员 采购员视觉
             // this.username = this.$store.state.permission.userInfo.id;
             this.btnsgroup1 = ['Linie', 'Linie(Spare)']
             return 'Linie'
@@ -163,10 +164,11 @@
           const GZ = this.roleList.some(item => item.code == 'WS2ZYCGGZ' || item.code == 'ZYCGGZ') // 股长
           const PFJYJGLY = this.roleList.some(item => item.code == 'PFJYJGLY')
           const CSXTGLY = this.roleList.some(item => item.code == 'CSXTGLY') // cs系统管理员
-          if(PFJYJGLY) {
-//            this.btnsgroup1 = ['CS(Spare)', 'CSM(Spare)', 'CSEN(Spare)', 'Linie(Spare)']
-//            this.btnsgroup1 = ['CS(Spare)']
-          } else if (KZ && Linie) {
+          // if(PFJYJGLY) {
+          // //  this.btnsgroup1 = ['CS(Spare)', 'CSM(Spare)', 'CSEN(Spare)', 'Linie(Spare)']
+          // //  this.btnsgroup1 = ['CS(Spare)']
+          // } else 
+          if (KZ && Linie) {
             // this.username = this.$store.state.permission.userInfo.id;
             this.btnsgroup1 = ['CSM', 'CSM(Spare)']
             return 'KZ&&linie'
@@ -272,7 +274,7 @@
           if (this.role == 'CGBZ_WF') {
             this.currentView = 'wfbmsj'
           } else {
-            this.username = '';
+            this.username = '';  // 为什么要置空？
             this.currentView = 'zfbmsj'
           }
           console.error(item, '===>', this.username, '===>', this.currentView);

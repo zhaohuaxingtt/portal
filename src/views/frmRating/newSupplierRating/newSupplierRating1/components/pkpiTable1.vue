@@ -7,7 +7,7 @@
   <tableList :tableData="tableListData" :tableTitle="tableTitle" :tableLoading="tableLoading" :selection='false' :index="true" @handleSelectionChange="handleSelectionChange">
     <template #value="scope">
       <span v-if="scope.row.index===14">{{scope.row.value+'|'+scope.row.value2}}</span>
-      <span v-else>{{scope.row.value}}</span>
+      <span v-else>{{scope.row.value | thousandsFilter}}</span>
     </template>
   </tableList>
 </template>
@@ -16,11 +16,12 @@
 import { iCard, iButton } from 'rise';
 import tableList from '@/components/commonTable';
 import { pageMixins } from '@/utils/pageMixins';
+import filters from '@/utils/filters';
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import { pkpiTitle1 } from './data';
 
 export default {
-  mixins: [pageMixins, generalPageMixins],
+  mixins: [pageMixins, generalPageMixins, filters],
   components: {
     iCard,
     tableList,

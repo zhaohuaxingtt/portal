@@ -172,20 +172,15 @@ export default {
           permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_KPI_DFRW'
         },
         {
-          name: '历史绩效评分',
-          key: '历史绩效评分',
+          name: '商务历史评分',
+          key: '商务历史评分',
           permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_KPI_LSJXPF'
         },
         {
-          name: '部门综合评分',
-          key: '部门综合评分',
+          name: '部门历史评分',
+          key: '部门历史评分',
           permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_KPI_BMZHPF'
         },
-        // {
-        //   name: '供应商kpi概览',
-        //   key: '供应商kpi概览',
-        //   permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_KPI_HQGYSKPIGN'
-        // },
         {
           name: '供应商kpi概览',
           key: '供应商kpi概览',
