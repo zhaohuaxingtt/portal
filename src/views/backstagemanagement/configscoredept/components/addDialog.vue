@@ -16,7 +16,7 @@
             <el-form-item
                 class="form-item" 
                 v-for="(item,index) in addDialogFrom"
-                :key="'addDialogFrom_'+index"
+                :key="'addDialogFrom_'+form.rateTag+index"
                 :required="item.required"
                 :label="language(item.labelKey, item.label)+':'" 
             >
@@ -65,7 +65,7 @@ import {
     iMessage,
 } from 'rise'
 import iDicoptions from 'rise/web/components/iDicoptions' 
-import { addDialogFrom } from './data'
+import { addDialogFrom, addDialogFromSQE } from './data'
 import { listDepartByTag,listUserByRoleCode,setSysRateDepart,updateSysRateDepart,getParentDeptNum } from "@/api/scoreConfig/configscoredept"
 import { cloneDeep } from "lodash" 
 export default {
@@ -140,6 +140,11 @@ export default {
                     willReviewApproverList:Array.isArray(editForm['willReviewApproverList']) ? editForm['willReviewApproverList'].map((item)=>item.userId) : [],
                     flowApproverList:Array.isArray(editForm['flowApproverList']) ? editForm['flowApproverList'].map((item)=>item.userId) : [],
                 };
+                // SQE 是单选
+                if(editForm['rateTag']=='SQE'){
+                  let coordinator = this.form.coordinatorList[0] || {}
+                  this.form.coordinatorList = coordinator.userId
+                }
             }else{
                this.form = {
                      rateTag:'',
@@ -182,7 +187,7 @@ export default {
         // 开关状态改变
         changeSwitch(value,props){
             if(props == 'isCheck'){
-                let copyAddDialogFrom = cloneDeep(addDialogFrom);
+                let copyAddDialogFrom = cloneDeep(this.addDialogFrom);
                 copyAddDialogFrom.forEach((item)=>{
                     if(item.props == 'coordinatorList') item.required = value ;
                 })
@@ -190,10 +195,40 @@ export default {
             }
         },
         selectChange(value,props,rateDepartNum='',parentRateDepartNum='',raterList=[],coordinatorList=[]){
+            let tagObj = {
+                EP: '38',
+                MQ: '39',
+                SQE: '40'
+            }
             // 选择评分类型的时候动态获取评分股
             if(props == 'rateTag' && value){
+                if(value=='SQE'){
+                    this.addDialogFrom = cloneDeep(addDialogFromSQE);
+                    this.form = {
+                        rateTag:value,
+                        rateDepartNum:'',
+                        parentRateDepartNum:'',
+                        raterList:[],
+                        isCheck:false,
+                        coordinatorList:[],
+                        willReviewApproverList:[],
+                        flowApproverList:[],
+                    }
+                }else{
+                    this.addDialogFrom = cloneDeep(addDialogFrom);
+                    this.form = {
+                        rateTag:value,
+                        rateDepartNum:'',
+                        parentRateDepartNum:'',
+                        raterList:[],
+                        isCheck:false,
+                        coordinatorList:[],
+                        willReviewApproverList:[],
+                        flowApproverList:[],
+                    }
+                }
                 // 获取评分股下拉数据  MQ:39 EP:38
-                listDepartByTag({tagId:value=='MQ' ? '39' : '38'}).then((res)=>{
+                listDepartByTag({tagId:tagObj[value]}).then((res)=>{
                     if(res.code == '200'){
                         const data = Array.isArray(res.data) ? res.data : [];
                         data.map((item)=>{
@@ -206,6 +241,10 @@ export default {
                 })
 
                 const rateTagList = {
+                    '40':[
+                        {key:'raterList',roleCode:'SQEPFR'},// 评分人
+                        {key:'coordinatorList',roleCode:'SQEXTR'},// 协调人
+                    ],
                     '39':[
                         {key:'raterList',roleCode:'ZLPFR'},// 评分人
                         {key:'coordinatorList',roleCode:'ZLPFXTY'},// 协调人
@@ -215,7 +254,7 @@ export default {
                         {key:'coordinatorList',roleCode:'JSPFXTY'},// 协调人
                     ]
                 };
-                rateTagList[value=='MQ' ? '39' : '38'].forEach((item)=>{
+                rateTagList[tagObj[value]].forEach((item)=>{
                 listUserByRoleCode({roleCode:item.roleCode}).then((res)=>{
                     if(res.code == '200'){
                         res.data.map((itemUser)=>{
@@ -289,6 +328,17 @@ export default {
                                 data['parentRateDepartNum'] = form['parentRateDepartNum'] || '';
                             }
                             
+                        }else if(item.props == 'coordinatorList'){
+                            const list = [];
+                            selectOptions[item.selectOption].map((itemSelectOption)=>{
+                                if(form[item.props].includes(itemSelectOption.value)){
+                                    list.push({
+                                        userId:itemSelectOption.value,
+                                        userName:itemSelectOption.label,
+                                    })
+                                }
+                            })
+                            data[item.props] = list;
                         }
                     }
                 }

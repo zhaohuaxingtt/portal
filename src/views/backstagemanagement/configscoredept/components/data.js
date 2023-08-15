@@ -149,3 +149,60 @@ export const addDialogFrom = [
     filterable: true
   }
 ]
+
+export const addDialogFromSQE = [
+  {
+    props: 'rateTag',
+    label: '评分类型',
+    labelKey: 'CONFIGSCOREDEPT_PINGFENLEIXING',
+    type: 'dicoption',
+    optionKey: 'score_dept',
+    required: true
+  },
+  {
+    props: 'rateDepartNum',
+    label: '评分股',
+    labelKey: 'CONFIGSCOREDEPT_PINGFENGU',
+    type: 'select',
+    selectOption: 'rateDepartNumList',
+    required: true,
+    isShow: true.valueOf,
+    filterable: true
+  },
+  {
+    props: 'parentRateDepartNum',
+    label: '所属部门/科室',
+    labelKey: 'CONFIGSCOREDEPT_SUOSHUBUMENHUOZHEKESHI',
+    isBoolean: true,
+    isShow: true
+  },
+  {
+    props: 'raterList',
+    label: '评分人',
+    labelKey: 'CONFIGSCOREDEPT_PINGFENREN',
+    type: 'select',
+    selectOption: 'raterList',
+    required: true,
+    clearable: true,
+    multiple: true,
+    filterable: true
+  },
+  {
+    props: 'isCheck',
+    label: '是否需要审批',
+    labelKey: 'CONFIGSCOREDEPT_SHIFOUXUYAOSHENPI',
+    required: true,
+    type: 'switch',
+    isShow: true
+  },
+  {
+    props: 'coordinatorList',
+    label: '协调人',
+    labelKey: 'CONFIGSCOREDEPT_XIETIAOREN',
+    required: false,
+    type: 'select',
+    selectOption: 'coordinatorList',
+    clearable: true,
+    filterable: true
+  }
+]
