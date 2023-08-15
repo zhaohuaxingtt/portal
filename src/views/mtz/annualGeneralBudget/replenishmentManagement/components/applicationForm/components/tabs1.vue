@@ -72,7 +72,6 @@ export default {
     iDialog,
     negative
   },
-  // props:["mtzDocId","searchFormList","dataObject"],
 
   data () {
     return {
@@ -98,22 +97,6 @@ export default {
     this.mtzDocId = this.$route.query.mtzDocId
     console.log(this.mtzDocId)
     this.getData();
-    // this.getList();
-  },
-  watch: {
-    "searchFormList": {
-      handler (x, y) {
-        this.mtzDocId = this.$route.query.mtzDocId
-        this.BoxLoading = true;
-        this.serchList = x;
-        this.page.currPage = 1;
-        this.page.pageSize = 10;
-        this.getList();
-      },
-      immediate: true
-    }
-  },
-  mounted () {
   },
   methods: {
     tranNumber (val, type) {

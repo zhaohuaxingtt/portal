@@ -70,7 +70,6 @@ export default {
     iButton,
     iPagination
   },
-  // props: ["mtzDocId", "searchFormList"],
   data () {
     return {
       toThousands,
@@ -105,19 +104,6 @@ export default {
       tableListData: [],
       inforData: {},
       BoxLoading: true,
-    }
-  },
-  watch: {
-    "searchFormList": {
-      handler (x, y) {
-        this.mtzDocId = this.$route.query.mtzDocId
-        this.BoxLoading = true;
-        this.serchList = x;
-        this.page.currPage = 1;
-        this.page.pageSize = 10;
-        this.getData();
-      },
-      immediate: true
     }
   },
   created () {
