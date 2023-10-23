@@ -788,10 +788,10 @@ export default {
   background: #fff;
 }
 .el-table .el-table__header {
-  background: #1660f1;
+  background: #67C23A;
 }
 .el-table .success-row {
-  background: #1660f1;
+  background: #67C23A;
   opacity: 0.03;
 }
 ::v-deep .el-table__row {
@@ -951,7 +951,7 @@ export default {
         font-size: 36px;
         text-align: center;
         font-weight: 600;
-        color: #1660f1;
+        color: #67C23A;
         line-height: 50px;
         margin-bottom: 8px;
       }

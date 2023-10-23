@@ -528,7 +528,7 @@
 
                     }
                     > li.active {
-                        color: #1660F1;
+                        color: #67C23A;
                         font-weight: bold;
                         background: #FFFFFF;
                     }

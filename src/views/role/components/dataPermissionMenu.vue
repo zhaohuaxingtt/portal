@@ -105,7 +105,7 @@ export default {
 }
 .data-permission-menu {
   ::v-deep .el-table__body tr.current-row > td:first-child {
-    border-left: 3px solid #1660f1;
+    border-left: 3px solid #67C23A;
   }
 }
 </style>

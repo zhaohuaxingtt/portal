@@ -943,7 +943,7 @@ export default {
     line-height: 35px;
     padding: 0;
     color: #fff;
-    background-color: #1660f1;
+    background-color: #67C23A;
     .upload-text {
       position: absolute;
       left: 13px;
@@ -977,9 +977,9 @@ export default {
     align-items: center;
     .download {
       cursor: pointer;
-      color: #1660f1;
+      color: #67C23A;
       white-space: nowrap;
-      border-bottom: #1660f1 solid 1px;
+      border-bottom: #67C23A solid 1px;
     }
     .delete {
       height: 100%;

@@ -409,7 +409,7 @@ export default {
       align-items: center;
       cursor: pointer;
       .down-load {
-        color: #1660f1;
+        color: #67C23A;
       }
       .img-box {
         margin-right: 5px;

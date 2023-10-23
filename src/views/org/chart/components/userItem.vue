@@ -118,7 +118,7 @@ export default {
   width: calc(25% - 20px);
   height: 200px;
   background: #ffffff;
-  border: 2px solid #1660f1;
+  border: 2px solid #67C23A;
   box-shadow: 0px 6px 8px rgba(45, 97, 213, 0.18);
   margin: 0px 10px 20px 10px;
   box-sizing: border-box;
@@ -175,7 +175,7 @@ export default {
         max-width: 100%;
       }
       .name-zh {
-        color: #1660f1;
+        color: #67C23A;
         font-size: 20px;
         font-weight: 800;
         line-height: 28px;

@@ -158,7 +158,7 @@ export default {
         fontSize: 12
       }
       const normalStyle = {
-        color: '#1660F1',
+        color: '#67C23A',
         fontSize: 12
       }
       const forecastStyle = {

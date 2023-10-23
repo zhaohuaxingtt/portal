@@ -2646,7 +2646,7 @@ export default {
         border-radius: 4px;
         background: #ffffff;
         box-shadow: 0px 0px 3px rgba(0, 38, 98, 0.15);
-        color: #1660f1;
+        color: #67C23A;
         font-size: 14px;
         font-weight: 400;
         padding: 0;
@@ -2708,7 +2708,7 @@ export default {
   }
 }
 ::v-deep .active-row {
-  background-color: #1660f1 !important;
+  background-color: #67C23A !important;
   .cell {
     .open-link-text {
       color: #fff !important;
@@ -2722,11 +2722,11 @@ export default {
 }
 
 ::v-deep .el-table--enable-row-hover .el-table__body .active-row:hover > td {
-  background: #1660f1;
+  background: #67C23A;
   color: #fff;
 }
 ::v-deep .el-table__body tr.active-row > td {
-  background: #1660f1;
+  background: #67C23A;
   color: #fff;
   .open-link-text{
     color: #fff;

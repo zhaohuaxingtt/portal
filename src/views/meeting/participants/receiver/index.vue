@@ -172,7 +172,7 @@ export default {
                   style: {
                     marginRight: '5px',
                     cursor: 'pointer',
-                    color: '#1660f1'
+                    color: '#67C23A'
                   },
                   class: 'open-link-text',
                   on: {
@@ -199,7 +199,7 @@ export default {
                 {
                   style: {
                     cursor: 'pointer',
-                    color: '#1660f1'
+                    color: '#67C23A'
                   },
                   class: 'open-link-text',
                   on: {

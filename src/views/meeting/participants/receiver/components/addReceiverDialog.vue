@@ -265,7 +265,7 @@ export default {
                   class: 'open-link-text',
                   style: {
                     cursor: 'pointer',
-                    color: '#1660f1'
+                    color: '#67C23A'
                   },
                   on: {
                     click: () => {

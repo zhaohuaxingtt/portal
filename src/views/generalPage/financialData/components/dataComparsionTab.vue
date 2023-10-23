@@ -92,7 +92,7 @@ export default {
     font-weight: bold;
     background: #ffffff;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.08);
-    color: #1660f1;
+    color: #67C23A;
   }
 
   .iconStyle {

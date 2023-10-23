@@ -307,10 +307,10 @@ export default {
       font-family: Arial;
       font-weight: 400;
       line-height: 16px;
-      color: #1660f1;
+      color: #67C23A;
       cursor: pointer;
       .el-icon-paperclip {
-        color: #1660f1;
+        color: #67C23A;
       }
     }
   }

@@ -481,7 +481,7 @@ $line-color: #bbc4d6;
     color: #666;
     cursor: pointer;
     &:hover {
-      color: #1660f1;
+      color: #67C23A;
     }
   }
 }
@@ -496,7 +496,7 @@ $line-color: #bbc4d6;
   border-bottom: 1px solid $line-color;
   .tlt {
     font-size: 18px;
-    color: #1660f1;
+    color: #67C23A;
     font-weight: bold;
   }
 }
@@ -530,14 +530,14 @@ $line-color: #bbc4d6;
     border-top: 1px solid $line-color;
     border-bottom: 1px solid $line-color;
     font-weight: bold;
-    color: #1660f1;
+    color: #67C23A;
   }
   .content {
     padding: 10px;
   }
 }
 .video-btn {
-  color: #1660f1;
+  color: #67C23A;
   i {
     font-size: 20px;
   }

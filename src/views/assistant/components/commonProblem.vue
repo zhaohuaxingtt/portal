@@ -190,7 +190,7 @@ export default {
 	}
 
 	.findBgc {
-		background: #1660F1 !important;
+		background: #67C23A !important;
 		color: #FFFFFF !important;
 	}
 </style>

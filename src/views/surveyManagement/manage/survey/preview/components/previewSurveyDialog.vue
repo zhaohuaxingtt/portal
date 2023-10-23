@@ -179,7 +179,7 @@ export default {
     .line {
       width: 180px;
       height: 3px;
-      background: #1660f1;
+      background: #67C23A;
       margin: 0 auto;
     }
   }

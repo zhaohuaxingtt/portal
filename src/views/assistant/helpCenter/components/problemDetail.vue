@@ -484,7 +484,7 @@ export default {
 					font-weight: bold;
 				}
 				.hot-tlt:hover {
-					color: #1660F1;
+					color: #67C23A;
 					text-decoration: underline;
 				}
 			}
@@ -505,7 +505,7 @@ export default {
 				}
 				
 				:hover {
-					color: #1660F1;
+					color: #67C23A;
 					text-decoration: underline;
 				}
 				.activeIdx {
@@ -566,7 +566,7 @@ export default {
 				.label-text {
 					margin-left: 16px;
 					font-size: 16px;
-					color: #1660F1;
+					color: #67C23A;
 					text-decoration: underline;
 				}
 			}
@@ -581,7 +581,7 @@ export default {
 							color: #222222;
 						}
 						:hover {
-							color: #1660F1;
+							color: #67C23A;
 							text-decoration: underline;
 						}
 					}

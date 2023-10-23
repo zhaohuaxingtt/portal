@@ -316,7 +316,7 @@ export default {
               normal: {
                 fontSize: 12,
                 barBorderRadius: [5, 5, 0, 0],
-                color: '#1660F1' //改变折线点的颜色
+                color: '#67C23A' //改变折线点的颜色
               }
             }
           },

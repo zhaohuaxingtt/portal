@@ -720,7 +720,7 @@ export default {
       }
       &.active {
         background-color: #eef2fb;
-        border: 1px solid #1660f1;
+        border: 1px solid #67C23A;
       }
     }
   }

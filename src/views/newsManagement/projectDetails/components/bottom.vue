@@ -141,7 +141,7 @@ export default {
     }
     .active {
       background: rgba(22, 96, 241, 0.1);
-      color: #1660f1;
+      color: #67C23A;
     }
   }
   .bottom-card {
@@ -179,7 +179,7 @@ export default {
             min-width: 60px;
             height: 20px;
             line-height: 20px;
-            background: #1660f1;
+            background: #67C23A;
             border-radius: 10px;
             text-align: center;
             color: #ffffff;

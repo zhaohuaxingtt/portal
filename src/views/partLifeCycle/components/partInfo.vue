@@ -339,7 +339,7 @@ export default {
 
         .part, .price {
           font-weight: bold;
-          color: #1660F1;
+          color: #67C23A;
         }
 
         .roundLine {
@@ -347,7 +347,7 @@ export default {
             background: #C9DCFF;
 
             > div {
-              background: #1660F1;
+              background: #67C23A;
             }
           }
         }

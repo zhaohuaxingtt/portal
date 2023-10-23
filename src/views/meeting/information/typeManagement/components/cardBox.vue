@@ -97,7 +97,7 @@ export default {
   height: 4rem;
 }
 .card-border {
-  border: 1px solid #1660f1;
+  border: 1px solid #67C23A;
   border-radius: 10px;
   width: 28.75rem;
   margin-right: 44px;
@@ -138,7 +138,7 @@ export default {
   font-weight: bold;
   font-size: 36px;
   line-height: 50px;
-  color: #1660f1;
+  color: #67C23A;
 }
 .image {
   width: 100%;

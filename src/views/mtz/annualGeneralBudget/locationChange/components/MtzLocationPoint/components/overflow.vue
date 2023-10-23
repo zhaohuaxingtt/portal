@@ -64,9 +64,9 @@
       <hr width="100%"
           style="border:1px dashed #CDD3E2;height:1px" />
       <hr :width="(locationNow-1)*50 + '%'"
-          style="border:1px dashed #1660F1;height:1px" />
+          style="border:1px dashed #67C23A;height:1px" />
       <hr :width="(locationNow-2)*50 + '%'"
-          style="border:1px solid #1660F1;height:1px" />
+          style="border:1px solid #67C23A;height:1px" />
     </div>
     <iDialog :title="language('XUANZEHUIYI', '选择会议')"
              :visible.sync="mtzAddShow"

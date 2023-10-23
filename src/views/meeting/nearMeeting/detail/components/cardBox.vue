@@ -225,7 +225,7 @@ export default {
   }
 }
 ::v-deep .themen-blue-border {
-  border: solid 1px #1660f1;
+  border: solid 1px #67C23A;
 }
 .content-list {
   .content-item {

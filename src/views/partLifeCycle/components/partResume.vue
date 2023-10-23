@@ -663,7 +663,7 @@
                             border-left: 6px solid transparent;
                             border-right: 6px solid transparent;
                             border-bottom: 6px solid transparent;
-                            border-top: 6px solid #1660F1;
+                            border-top: 6px solid #67C23A;
                             position: absolute;
                             left: -20px;
                             top: 7px;
@@ -673,12 +673,12 @@
                             &::after {
                                 width: 6px;
                                 height: 14px;
-                                background: #1660F1;
+                                background: #67C23A;
                                 bottom: 13px;
                             }
 
                             span {
-                                color: #1660F1;
+                                color: #67C23A;
                             }
 
                         }
@@ -687,7 +687,7 @@
 
                             &.triangle span::before {
                                 border-top: 6px solid transparent;
-                                border-bottom: 6px solid #1660F1;
+                                border-bottom: 6px solid #67C23A;
                                 top: 2px;
                             }
                         }
@@ -704,7 +704,7 @@
                         cursor: pointer;
 
                         &.checked {
-                            color: #1660F1;
+                            color: #67C23A;
                         }
                     }
                 }
@@ -847,12 +847,12 @@
                             background: #C9DCFF;
 
                             > div {
-                                background: #1660F1;
+                                background: #67C23A;
                             }
                         }
 
                         .name {
-                            color: #1660F1;
+                            color: #67C23A;
                         }
                     }
 
@@ -888,13 +888,13 @@
                         display: inline-block;
                         width: 6px;
                         height: 16px;
-                        background: #1660F1;
+                        background: #67C23A;
                         border-radius: 1px;
                         margin-right: 10px;
                     }
 
                     span {
-                        color: #1660F1;
+                        color: #67C23A;
                         text-decoration: underline;
                         cursor: pointer;
                     }

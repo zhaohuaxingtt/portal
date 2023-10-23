@@ -164,7 +164,7 @@ export default {
     .dash-left::after{
         position: absolute;
         content: '';
-        border-top:1px dashed #1660F1;
+        border-top:1px dashed #67C23A;
         width: 200px;
         top: 20%;
         transform: translateY(-50%);
@@ -173,7 +173,7 @@ export default {
     .dash-right::before{
         position: absolute;
         content: '';
-        border-top:1px dashed #1660F1;
+        border-top:1px dashed #67C23A;
         width: 50%;
         height: 1px;
         top: 50%;

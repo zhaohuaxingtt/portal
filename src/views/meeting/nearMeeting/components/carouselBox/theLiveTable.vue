@@ -349,7 +349,7 @@ export default {
     color: #acb8cf;
   }
   ::v-deep .active-row {
-    background: #1660f1 !important;
+    background: #67C23A !important;
     color: #fff;
   }
 

@@ -15,7 +15,7 @@
           v-model="isOnlyMyself"
           class="margin-right10"
           @change="getmakeUpPageList"
-          active-color="#1660F1"
+          active-color="#67C23A"
           inactive-color="#cccccc"
         >
         </el-switch>

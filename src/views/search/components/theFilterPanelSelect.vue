@@ -196,7 +196,7 @@ export default {
         .check-box-border{
             height: 12px;
             margin-top: 2px;
-            // border: 1px solid #1660F1;
+            // border: 1px solid #67C23A;
             background-color: #E1E1E1;
             border-radius: 5px;
             padding:8px  ;
@@ -270,7 +270,7 @@ export default {
         .check-box-border{
             height: 12px;
             margin-top: 5px;
-            border: 1px solid #1660F1;
+            border: 1px solid #67C23A;
             border-radius: 5px;
             padding:8px  ;
             position: relative;
@@ -281,7 +281,7 @@ export default {
                 left: 5px;
                 display: inline-block;
                 position: absolute;
-                border: 1px solid #1660F1;
+                border: 1px solid #67C23A;
                 border-width: 0px 1px 1px 0px;
                 transform: rotate(45deg);
                 vertical-align: baseline;

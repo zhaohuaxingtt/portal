@@ -415,7 +415,7 @@ export default {
   content: '';
   width: 100%;
   top: -25px;
-  border-top: 1px dashed #1660f1;
+  border-top: 1px dashed #67C23A;
   left: 0;
 }
 
@@ -424,7 +424,7 @@ export default {
   content: '';
   width: 100%;
   top: -25px;
-  border-left: 1px dashed #1660f1;
+  border-left: 1px dashed #67C23A;
   height: 40px;
   left: 75px;
 }
@@ -434,7 +434,7 @@ export default {
   content: '';
   width: 75px;
   top: -25px;
-  border-top: 1px dashed #1660f1;
+  border-top: 1px dashed #67C23A;
   left: 0;
 }
 
@@ -443,7 +443,7 @@ export default {
   content: '';
   width: 100%;
   top: -25px;
-  border-left: 1px dashed #1660f1;
+  border-left: 1px dashed #67C23A;
   height: 40px;
   left: 75px;
 }
@@ -578,7 +578,7 @@ export default {
 
   .current {
     background: #fff !important;
-    color: #1660f1 !important;
+    color: #67C23A !important;
     font-weight: bold !important;
   }
 }

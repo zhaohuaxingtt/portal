@@ -187,7 +187,7 @@
         border-bottom: 1px solid #BBC4D6;
         cursor: pointer;
         &:hover{
-            color:#1660F1;
+            color:#67C23A;
         }
     }
 }
@@ -198,7 +198,7 @@
     .tlt{
         font-weight: bold;
         font-size: 18px;
-        color: #1660F1;
+        color: #67C23A;
     }
     .r-content{
         padding: 10px 20px;
@@ -215,6 +215,6 @@
     color: #666;
 }
 .active {
-    color:#1660F1;
+    color:#67C23A;
 }
 </style>

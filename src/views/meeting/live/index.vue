@@ -1120,7 +1120,7 @@ export default {
     height: 10px;
     border-radius: 5px;
     width: 40px;
-    background-color: #1660f1;
+    background-color: #67C23A;
   }
 }
 ::v-deep .el-carousel__arrow {

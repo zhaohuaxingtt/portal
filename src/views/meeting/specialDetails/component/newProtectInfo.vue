@@ -126,7 +126,7 @@ export default {
                   style: {
                     marginRight: '5px',
                     cursor: 'pointer',
-                    color: '#1660f1'
+                    color: '#67C23A'
                   },
                   class: 'el-icon-delete open-link-text',
 
@@ -144,7 +144,7 @@ export default {
                   style: {
                     marginRight: '5px',
                     cursor: 'pointer',
-                    color: '#1660f1'
+                    color: '#67C23A'
                   },
                   class: 'open-link-text'
                 },
@@ -155,7 +155,7 @@ export default {
                 {
                   style: {
                     cursor: 'pointer',
-                    color: '#1660f1'
+                    color: '#67C23A'
                   },
                   class: 'el-icon-download open-link-text',
                   on: {
@@ -301,7 +301,7 @@ export default {
 
 <style scoped lang="scss">
 /* ::v-deep .open-link-text {
-  color: #1660f1;
+  color: #67C23A;
 } */
 .container-content {
   padding-bottom: 40px;
@@ -320,7 +320,7 @@ export default {
         line-height: 35px;
         padding: 0;
         color: #fff;
-        background-color: #1660f1;
+        background-color: #67C23A;
         flex-shrink: 0;
         flex-grow: 1;
         .upload-text1 {

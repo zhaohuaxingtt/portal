@@ -77,7 +77,7 @@ export default {
       background: #ffffff;
       box-shadow: 0px 0px 10px rgba(117, 94, 94, 0.08);
       font-weight: bold;
-      color: #1660f1;
+      color: #67C23A;
     }
   }
 }

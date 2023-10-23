@@ -189,12 +189,12 @@ export default {
     p:nth-of-type(2) {
       > span {
         font-size: 48px;
-        color: #1660f1;
+        color: #67C23A;
       }
     }
 
     p:nth-of-type(4) {
-      color: #1660f1;
+      color: #67C23A;
     }
     .msg-box {
       display: flex;

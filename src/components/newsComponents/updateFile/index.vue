@@ -228,7 +228,7 @@ export default {
         line-height: 35px;
         padding: 0;
         color: #fff;
-        background-color: #1660f1;
+        background-color: #67C23A;
 
         .upload-text {
           position: absolute;

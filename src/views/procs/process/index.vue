@@ -348,7 +348,7 @@ export default {
       border-radius: 4px;
       // transition: all .2s ease;
       &.active {
-        // background-color: #1660F1;
+        // background-color: #67C23A;
         // color: #fff;
       }
     }

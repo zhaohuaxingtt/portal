@@ -106,8 +106,8 @@ export default {
           "data": "M2,2 L10,6 L2,10 L6,6 L2,2"
         },
         "defaultNodeShape": 1,
-        "defaultNodeColor": "#1660F1",
-        "defaultNodeBorderColor": "#1660F1"
+        "defaultNodeColor": "#67C23A",
+        "defaultNodeBorderColor": "#67C23A"
       }
     }
   },

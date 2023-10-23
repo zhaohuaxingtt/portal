@@ -78,7 +78,7 @@ export default {
       .form-right-round {
         width: 10px;
         height: 10px;
-        background: #1660f1;
+        background: #67C23A;
         border-radius: 50%;
         opacity: 1;
       }

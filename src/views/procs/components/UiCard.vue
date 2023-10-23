@@ -91,11 +91,11 @@ export default {
       transition: all 0.2s ease;
       &:hover {
         background-color: rgb(226, 234, 254) !important;
-        color: #1660f1;
+        color: #67C23A;
       }
       &.active {
         background-color: rgb(226, 234, 254) !important;
-        color: #1660f1;
+        color: #67C23A;
       }
 
       &.color:nth-child(odd) {

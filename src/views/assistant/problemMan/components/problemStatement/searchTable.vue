@@ -138,7 +138,7 @@ export default {
   }
 }
 .question-title {
-  color: #1660f1;
+  color: #67C23A;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

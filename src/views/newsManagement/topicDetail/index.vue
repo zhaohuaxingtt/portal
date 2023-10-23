@@ -242,7 +242,7 @@ export default {
       background: #f8f8fa;
       border-radius: 16px;
       text-align: center;
-      color: #1660f1;
+      color: #67C23A;
       font-weight: 500;
       font-family: PingFang SC;
       font-size: 12px;
@@ -309,7 +309,7 @@ export default {
     }
     .el-collapse-item__arrow::before {
       content: '\E6DC';
-      color: #1660f1;
+      color: #67C23A;
       font-size: 1.5rem;
     }
     // 点击后方向

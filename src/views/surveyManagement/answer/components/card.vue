@@ -90,7 +90,7 @@ export default {
     top: 10px;
     width: 100px;
     height: 35px;
-    background: #1660f1;
+    background: #67C23A;
     border-radius: 5px;
     font-size: 16px;
     font-weight: 600;

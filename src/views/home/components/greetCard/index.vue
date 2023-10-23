@@ -16,7 +16,7 @@
       <div class="greeting-pics">
 <!--        <img src="../../../../assets/images/greetings.png" />-->
         <img class="home-rise-icon" :src="require('@/assets/images/home-digital-purchasing.svg')"/>
-        <img class="home-rise-icon" :src="require('@/assets/images/home-rise-icon.svg')"/>
+        <!-- <img class="home-rise-icon" :src="require('@/assets/images/home-rise-icon.svg')"/> -->
       </div>
     </div>
   </el-card>
@@ -33,9 +33,9 @@ export default {
       const name = this.$i18n.locale === "zh" ? this.userInfo.nameZh : this.userInfo.nameEn
       const greetingStr = this.getGreetingStr()
       if(greetingStr) {
-        return greetingStr + ',' + name + ',' + this.language('欢迎登录RiSE')
+        return greetingStr + ',' + name + ',' + this.language('欢迎登录Deloitte')
       } else {
-        return name + ',' + this.language('欢迎登录RiSE')
+        return name + ',' + this.language('欢迎登录Deloitte')
       }
     },
     greetingsInfo() {

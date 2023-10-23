@@ -242,7 +242,7 @@ export default {
                 },
                 props: {
                   value: !!scope.row.state,
-                  activeColor: '#1660f1'
+                  activeColor: '#67C23A'
                 }
               })
             ])

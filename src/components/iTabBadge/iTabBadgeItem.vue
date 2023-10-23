@@ -47,7 +47,7 @@ export default {
   &::after {
     content: '';
     display: block;
-    background: #1660f1;
+    background: #67C23A;
     position: absolute;
     right: -25px;
     top: 50%;
@@ -62,14 +62,14 @@ export default {
     display: block;
     width: 0;
     height: 2px;
-    background: #1660f1;
+    background: #67C23A;
     position: absolute;
     bottom: -6px;
     left: 0;
     transition: all 0.1s ease-in;
   }
   &.active {
-    color: #1660f1;
+    color: #67C23A;
   }
   &.active.active-border {
     &::before {
@@ -77,7 +77,7 @@ export default {
       display: block;
       width: 100%;
       height: 2px;
-      background: #1660f1;
+      background: #67C23A;
       position: absolute;
       bottom: -6px;
       left: 0;

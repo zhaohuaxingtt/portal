@@ -79,7 +79,7 @@
   }
 </script>
 <style lang='scss' scoped>
-  $primaryColor: #1660f1;
+  $primaryColor: #67C23A;
   $borderColor: #cbcbcb;
   .process-horizontal {
     display: flex;

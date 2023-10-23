@@ -1142,7 +1142,7 @@ export default {
 ::v-deep .el-radio__input .el-radio__inner {
   width: 22px;
   height: 22px;
-  border: 1px solid #1660f1;
+  border: 1px solid #67C23A;
   margin: 0 20px;
 }
 ::v-deep .el-checkbox__input .el-checkbox__inner {

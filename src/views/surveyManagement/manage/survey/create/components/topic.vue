@@ -745,7 +745,7 @@ export default {
   .list-group-item {
     margin-top: 1.25rem;
     /* margin-left: 3.6rem; */
-    border: 1px solid #1660f1;
+    border: 1px solid #67C23A;
     border-radius: 1.5625rem;
     width: 7.75rem;
     height: 2.1875rem;

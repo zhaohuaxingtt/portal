@@ -435,7 +435,7 @@ export default {
   color: #acb8cf;
 }
 ::v-deep .active-row {
-  background: #1660f1 !important;
+  background: #67C23A !important;
   color: #fff;
   .open-link-text {
     color: #fff !important;
@@ -443,11 +443,11 @@ export default {
 }
 
 ::v-deep .el-table--enable-row-hover .el-table__body .active-row:hover > td {
-  background: #1660f1;
+  background: #67C23A;
   color: #fff;
 }
 ::v-deep .el-table__body tr.active-row > td {
-  background: #1660f1;
+  background: #67C23A;
   color: #fff;
 }
 </style>

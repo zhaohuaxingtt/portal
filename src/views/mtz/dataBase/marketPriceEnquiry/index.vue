@@ -67,7 +67,7 @@ export default {
         }
         .current{
             background: #fff;
-            color: #1660F1;
+            color: #67C23A;
             font-weight: bold;
         }
     }

@@ -233,7 +233,7 @@ export default {
                 itemStyle: {
                   normal: {
                     barBorderRadius: [5,5,5,5],
-                    color: '#1660F1',
+                    color: '#67C23A',
                     label: {
                       show: false, //自动显示数据
                       position: 'right', //在上方显示

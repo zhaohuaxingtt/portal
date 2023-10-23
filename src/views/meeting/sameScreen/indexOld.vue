@@ -83,7 +83,7 @@
             </li>
             <li class="table-item double-item">
               <span>{{$t('MT_SHIJIAN')}}</span>
-              <span style="color: #1660f1">{{
+              <span style="color: #67C23A">{{
                 item.startTime ? item.startTime.substring(0, 5) : ''
               }}</span>
             </li>
@@ -258,7 +258,7 @@ export default {
       /* height: 457px; */
       color: #000000;
       background: #ffffff;
-      border: 1px solid #1660f1;
+      border: 1px solid #67C23A;
       border-radius: 10px;
       font-size: 16px;
       margin-bottom: 20px;
@@ -272,7 +272,7 @@ export default {
           right: 40px;
           top: 10px;
           font-size: 36px;
-          color: #1660f1;
+          color: #67C23A;
         }
         .right-num-2 {
           position: absolute;
@@ -293,7 +293,7 @@ export default {
         font-weight: bold;
         font-size: 72px;
         line-height: 80px;
-        color: #1660f1;
+        color: #67C23A;
         letter-spacing: 0;
       }
 

@@ -14,13 +14,13 @@
   <g id="单选icon">
     <g id="椭圆形">
       <g clip-path="url(#clip_1)">
-        <use xlink:href="#path_1" fill="none" stroke="#1660F1" stroke-width="2" />
+        <use xlink:href="#path_1" fill="none" stroke="#67C23A" stroke-width="2" />
       </g>
     </g>
     <g id="椭圆形">
-      <use stroke="none" fill="#1660F1" xlink:href="#path_2" />
+      <use stroke="none" fill="#67C23A" xlink:href="#path_2" />
       <g clip-path="url(#clip_2)">
-        <use xlink:href="#path_2" fill="none" stroke="#1660F1" stroke-width="2" />
+        <use xlink:href="#path_2" fill="none" stroke="#67C23A" stroke-width="2" />
       </g>
     </g>
   </g>

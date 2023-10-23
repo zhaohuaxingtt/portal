@@ -114,7 +114,7 @@
         .icon{
             margin-right: 20px;
             font-size: 20px;
-            color: #1660F1;
+            color: #67C23A;
         }
         .avatar{
             margin-right: 10px;

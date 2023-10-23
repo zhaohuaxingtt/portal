@@ -76,7 +76,7 @@
             >{{ language('只看自己 ') }}
             <el-switch
               v-model="searchForm.onlySeeMySelf"
-              active-color="#1660F1"
+              active-color="#67C23A"
               inactive-color="#cccccc"
             ></el-switch>
           </span>

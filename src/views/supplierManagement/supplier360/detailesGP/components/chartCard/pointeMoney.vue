@@ -404,7 +404,7 @@ export default {
                     itemStyle: {
                         normal: {
                             barBorderRadius: 30,
-                            color:"#1660F1",
+                            color:"#67C23A",
                         },
                     },
                     barWidth: 20,

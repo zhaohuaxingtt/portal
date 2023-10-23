@@ -208,7 +208,7 @@ export default {
     font-size: 40px;
     font-family: Arial;
     font-weight: bold;
-    color: #1660f1;
+    color: #67C23A;
     display: inline-block;
   }
 

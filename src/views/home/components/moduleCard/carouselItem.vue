@@ -189,7 +189,7 @@ export default {
       // border-radius: 8px;
       background-color: #fff;
       &:hover {
-        color: #1660f1;
+        color: #67C23A;
         background-color: #f1f5ff;
       }
       &.all {

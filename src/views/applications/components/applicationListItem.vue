@@ -79,7 +79,7 @@ export default {
     .dot {
       width: 6px;
       height: 6px;
-      background: #1660f1;
+      background: #67C23A;
       border-radius: 50%;
       margin-left: 10px;
       margin-right: 15px;

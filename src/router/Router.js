@@ -225,7 +225,7 @@ export default {
       path: '/',
       name: 'home',
       redirect: '/index',
-      component: DefLayout,
+      component: () => import('@/layout/default'),
       children: [
         {
           path: '/index',

@@ -182,7 +182,7 @@ export default {
   font-size: 36px !important;
   line-height: 36px !important;
   font-weight: 400 !important;
-  color: #1660f1;
+  color: #67C23A;
   letter-spacing: 0;
 }
 </style>

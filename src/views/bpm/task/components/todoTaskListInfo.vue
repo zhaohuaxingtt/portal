@@ -81,7 +81,7 @@ export default {
         margin-bottom: 10px;
       }
       .todo-task-list-info-title:hover {
-        color: #1660f1;
+        color: #67C23A;
         text-decoration: underline;
         cursor: pointer;
       }

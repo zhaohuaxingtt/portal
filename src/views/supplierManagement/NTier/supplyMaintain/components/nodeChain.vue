@@ -1215,13 +1215,13 @@ export default {
 
 .node-css:hover {
   cursor: move;
-  border: 2px solid #1660f1;
+  border: 2px solid #67C23A;
   padding: 9px;
 }
 
 .node-css.is-selected {
   cursor: pointer;
-  border: 2px solid #1660f1;
+  border: 2px solid #67C23A;
   padding: 9px;
 }
 
@@ -1383,13 +1383,13 @@ body {
 
 .highlight-node-css:hover {
   cursor: move;
-  border: 2px solid #1660f1;
+  border: 2px solid #67C23A;
   padding: 9px;
 }
 
 .highlight-node-css.is-selected {
   cursor: pointer;
-  border: 2px solid #1660f1;
+  border: 2px solid #67C23A;
   padding: 9px;
 }
 </style>

@@ -179,7 +179,7 @@ export default {
         > .icon {
           font-size: 16px;
           margin-right: 5px;
-          color: #1660f1;
+          color: #67C23A;
         }
       }
     }
@@ -195,7 +195,7 @@ export default {
     .icon {
       font-size: 16px;
       margin-right: 5px;
-      color: #1660f1;
+      color: #67C23A;
     }
     > .news-banner {
       margin-right: 14px;

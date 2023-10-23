@@ -1501,7 +1501,7 @@ export default {
     height: 1.5rem;
     padding: 0;
     color: #fff;
-    background-color: #1660f1;
+    background-color: #67C23A;
     margin: 1rem 0;
     span {
       /* font-size: 1.2rem; */

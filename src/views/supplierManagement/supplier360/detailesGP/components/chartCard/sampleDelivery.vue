@@ -172,8 +172,8 @@ export default {
   }
   .chartLeft {
     p:nth-child(2) {
-      color: #1660f1;
-      border-bottom: 2px solid #1660f1;
+      color: #67C23A;
+      border-bottom: 2px solid #67C23A;
     }
 
     left: 100px;

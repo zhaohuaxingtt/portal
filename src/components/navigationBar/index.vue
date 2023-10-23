@@ -58,7 +58,7 @@ export default {
     }
 
     .textActive {
-      color: #1660f1;
+      color: #67C23A;
       font-weight: bold;
     }
 

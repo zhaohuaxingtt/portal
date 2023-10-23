@@ -167,7 +167,7 @@ $vertical-Icon-Line-Height: 20px; //垂直线高
 $vertical-Icon-Line-Width: 1px; //垂直线宽
 $date-label-height: 60px; //垂直线宽
 $date-label-margin: 30px; //刻度尺的间隙
-$Highlight-Color: #1660f1;
+$Highlight-Color: #67C23A;
 $Highlight-Text-Color: #41434a;
 
 //无Icon

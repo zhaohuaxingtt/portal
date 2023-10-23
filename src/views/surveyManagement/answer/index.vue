@@ -154,7 +154,7 @@ export default {
         box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.14);
       }
       .active {
-        background: #1660f1;
+        background: #67C23A;
         /* box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.14); */
         border-radius: 5px;
         color: #fff;

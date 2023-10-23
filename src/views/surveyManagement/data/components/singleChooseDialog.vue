@@ -408,7 +408,7 @@ export default {
       position: absolute;
       width: 60px;
       height: 60px;
-      background: #1660f1;
+      background: #67C23A;
       border-radius: 50%;
       top: 462.5px;
       left: 10px;

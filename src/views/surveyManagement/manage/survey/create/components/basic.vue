@@ -771,7 +771,7 @@ export default {
       height: 35px;
       padding: 0;
       color: #fff;
-      background-color: #1660f1;
+      background-color: #67C23A;
     }
     .el-upload__tip {
       font-size: 0.75rem;

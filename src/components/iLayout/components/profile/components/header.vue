@@ -9,7 +9,7 @@
       />
     </div>
     <div class="logo">
-      <img src="../../../assets/images/rise.png" alt="RiSE" />
+      <!-- <img src="../../../assets/images/rise.png" alt="RiSE" /> -->
     </div>
   </div>
 </template>

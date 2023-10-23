@@ -78,7 +78,7 @@ export default {
   .current {
     background: #fff !important;
     // font-size: 16px;
-    color: #1660f1 !important;
+    color: #67C23A !important;
     font-weight: bold !important;
   }
 }

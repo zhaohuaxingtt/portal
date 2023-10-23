@@ -405,7 +405,7 @@ export default {
   display: block;
   width: 20px;
   height: 22px;
-  background: #1660f1;
+  background: #67C23A;
   opacity: 1;
   position: relative;
   z-index: 0;
@@ -413,7 +413,7 @@ export default {
     position: absolute;
     display: block;
     content: '';
-    border: solid 10px #1660f1;
+    border: solid 10px #67C23A;
     border-bottom: solid 5px #fff;
     bottom: -2px;
     left: 0;

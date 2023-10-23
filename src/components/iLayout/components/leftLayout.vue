@@ -10,7 +10,7 @@
   <div class="left-layout">
     <div class="leftLayout">
       <div class="content">
-        <img class="logo" src="~@/assets/images/rise.png" alt="" />
+        <!-- <img class="logo" src="~@/assets/images/rise.png" alt="" /> -->
 
         <div :class="iconChangeClass" class="centerBtn">
           <!-- <span

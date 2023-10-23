@@ -58,7 +58,7 @@
           <span>{{ language('只看自己 ') }}</span>
           <el-switch v-model="form['onlySeeMySelf']"
                      @change="showOnlyMyselfData($event)"
-                     active-color="#1660F1"
+                     active-color="#67C23A"
                      inactive-color="#cccccc">
           </el-switch>
         </div>

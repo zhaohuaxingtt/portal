@@ -319,7 +319,7 @@
             }
 
             .link {
-                color: #1660F1;
+                color: #67C23A;
                 cursor: pointer;
                 text-decoration: underline;
             }

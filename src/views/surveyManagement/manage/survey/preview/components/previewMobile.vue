@@ -683,7 +683,7 @@ export default {
     height: 35px;
     padding: 0;
     color: #fff;
-    background-color: #1660f1;
+    background-color: #67C23A;
     margin: 47px 0 20px 0;
     .upload-text {
       position: absolute;

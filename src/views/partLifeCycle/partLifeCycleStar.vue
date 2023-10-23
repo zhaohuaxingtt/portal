@@ -1032,7 +1032,7 @@ export default {
             margin-bottom: 10px;
 
             .link {
-              color: #1660F1;
+              color: #67C23A;
               margin-right: 20px;
             }
 

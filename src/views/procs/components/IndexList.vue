@@ -179,10 +179,10 @@
                 transition: all .2s ease;
                 &:hover{
                     color:#fff !important;
-                    background-color: #1660F1;
+                    background-color: #67C23A;
                 }
                 &.active{
-                    color:#1660F1;
+                    color:#67C23A;
                 }
             }
         }

@@ -115,7 +115,7 @@
             </li>
             <li class="table-item double-item">
               <span>时间</span>
-              <span style="color: #1660F1">{{
+              <span style="color: #67C23A">{{
                 item.startTime ? item.startTime.substring(0, 5) : ""
               }}</span>
             </li> -->

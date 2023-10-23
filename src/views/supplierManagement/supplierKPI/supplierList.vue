@@ -287,7 +287,7 @@ export default {
   }
   .current {
     background-color: #fff !important;
-    color: #1660f1 !important;
+    color: #67C23A !important;
   }
 }
 .supplier-table-tittle {

@@ -1,14 +1,17 @@
 <template>
-  <iPage>
-    <h1>{{language( $route.meta.title )}}</h1>
-  </iPage>
+  <!-- <iLayout :menus="menus" /> -->
+  <iLayout />
 </template>
 
 <script>
-import { iPage } from 'rise'
+import iLayout from 'rise/web/layout/index.vue'
+// import menus from '@/constants/menus'
 export default {
-  name: 'layoutDefault',
-  components: { iPage }
+  name: 'Layout',
+  components: { iLayout },
+  data() {
+    return {  }
+  }
 }
 </script>
 

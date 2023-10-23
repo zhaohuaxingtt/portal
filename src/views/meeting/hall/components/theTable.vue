@@ -202,7 +202,7 @@ export default {
       width: 456px;
       height: 400px;
       cursor: pointer;
-      border: 1px solid #1660f1;
+      border: 1px solid #67C23A;
       margin-right: 20px;
       margin-bottom: 20px;
       padding: 20px;
@@ -215,7 +215,7 @@ export default {
         height: 50px;
         font-size: 36px;
         font-weight: 700;
-        color: #1660f1;
+        color: #67C23A;
         letter-spacing: 0;
       }
       .meeting-time {

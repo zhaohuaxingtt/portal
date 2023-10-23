@@ -556,7 +556,7 @@ export default {
   color: #acb8cf;
 }
 ::v-deep .active-row {
-  background: #1660f1 !important;
+  background: #67C23A !important;
   color: #fff;
 }
 .add-follow {
@@ -567,7 +567,7 @@ export default {
   margin-left: 16px;
 }
 ::v-deep .active-row {
-  background-color: #1660f1 !important;
+  background-color: #67C23A !important;
   .cell {
     .open-link-text {
       color: #fff !important;
@@ -576,11 +576,11 @@ export default {
 }
 
 ::v-deep .el-table--enable-row-hover .el-table__body .active-row:hover > td {
-  background: #1660f1;
+  background: #67C23A;
   color: #fff;
 }
 ::v-deep .el-table__body tr.active-row > td {
-  background: #1660f1;
+  background: #67C23A;
   color: #fff;
 }
 </style>

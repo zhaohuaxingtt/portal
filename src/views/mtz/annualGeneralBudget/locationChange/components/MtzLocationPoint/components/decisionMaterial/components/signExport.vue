@@ -654,7 +654,7 @@
       <el-progress
         :percentage="percentage"
         type="circle"
-        color="#1660f1"
+        color="#67C23A"
         :show-text="false"
         stroke-width="15"
       ></el-progress>
@@ -1318,7 +1318,7 @@ $tabsInforHeight: 35px;
   margin-top: 10px;
   font-size: 16px;
   font-weight: bold;
-  color: #1660f1;
+  color: #67C23A;
 }
 
 .page-logo {

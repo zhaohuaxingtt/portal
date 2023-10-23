@@ -147,7 +147,7 @@
         border-radius: 10px;
 
         .title{
-            color: #1660F1;
+            color: #67C23A;
             font-size: 18px;
             font-weight: bold;
         }window.location

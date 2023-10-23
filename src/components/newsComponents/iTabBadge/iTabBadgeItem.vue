@@ -31,7 +31,7 @@ export default {
   position: relative;
   cursor: pointer;
   &.active {
-    color: #1660f1;
+    color: #67C23A;
   }
   .name {
     font-weight: bold;

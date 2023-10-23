@@ -91,7 +91,7 @@
 <script>
 import {iButton, iCard, iPagination} from "rise";
 import {deleteKV, findKVPage, moveKVPosition, updateKVStatus,} from "@/api/news/KV";
-import rise from "@/assets/images/rise.png";
+// import rise from "@/assets/images/rise.png";
 import down from "@/assets/images/news/down.svg";
 import upWard from "@/assets/images/news/upward.svg";
 import iTableML from "@/components/newsComponents/iTableML";
@@ -106,7 +106,7 @@ export default {
   },
   data() {
     return {
-      rise,
+      // rise,
       down,
       upWard,
       // form: {},

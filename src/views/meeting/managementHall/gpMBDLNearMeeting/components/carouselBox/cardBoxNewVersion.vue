@@ -500,7 +500,7 @@ export default {
     .text {
       font-size: 14px;
       font-weight: 400;
-      color: #1660f1;
+      color: #67C23A;
       cursor: pointer;
       .img-box {
         width: 16px;

@@ -809,7 +809,7 @@ export default {
       font-family: Hiragino Sans GB;
       font-weight: normal;
       // line-height: 27px;
-      color: #1660f1;
+      color: #67C23A;
       text-decoration: underline;
       cursor: pointer;
     }

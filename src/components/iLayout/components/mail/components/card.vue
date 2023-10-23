@@ -349,7 +349,7 @@ export default {
       margin-right: 25px;
     }
     i {
-      color: #1660f1;
+      color: #67C23A;
       margin-right: 5px;
     }
   }

@@ -13,11 +13,11 @@
                   size="small"
                   round
                   class="customNormalTag"
-                  style="color: #1660f1; background-color: rgb(243, 245, 246)"
+                  style="color: #67C23A; background-color: rgb(243, 245, 246)"
                   v-if="item.type == '2'"
                   >{{ item.name }}
                   <span @click.stop="deleteTag(item)">
-                    <!-- <icon symbol name="iconbaojiazhuangtailiebiao_yijujue" style="font-size:12px" color='#1660F1'></icon> -->
+                    <!-- <icon symbol name="iconbaojiazhuangtailiebiao_yijujue" style="font-size:12px" color='#67C23A'></icon> -->
                     <i class="el-icon-close"></i>
                   </span>
                 </el-button>
@@ -35,7 +35,7 @@
                   size="small"
                   round
                   class="sysSelectedTag"
-                  style="background-color: white; color: #1660f1"
+                  style="background-color: white; color: #67C23A"
                   @click="addTag"
                 >
                   <i class=""></i>+{{
@@ -253,13 +253,13 @@ export default {
 }
 
 .sysSelectedTag {
-  color: #1660f1;
+  color: #67C23A;
   background-color: rgba(22, 96, 241, 0.06);
 }
 
 //自定义按钮样式
 .customNormalTag {
-  color: #1660f1;
+  color: #67C23A;
   background-color: rgba(22, 96, 241, 0.06);
 }
 </style>

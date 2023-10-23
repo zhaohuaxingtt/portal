@@ -318,14 +318,14 @@ export default {
       width:16px ;
       height: 16px;
       border-radius: 5px;
-      border: 1px solid #1660F1;
+      border: 1px solid #67C23A;
       position: relative;
       .check-content{
         position: absolute;
         left: 4px;
         height: 10px;
         width: 7px;
-        border: 1px solid #1660F1;
+        border: 1px solid #67C23A;
         border-width: 0px 1px 1px 0px;
         transform: rotate(45deg);
       }

@@ -46,6 +46,6 @@ export default {
   color: #e30b0d;
 }
 .requiredNo {
-  color: #1660f1;
+  color: #67C23A;
 }
 </style>

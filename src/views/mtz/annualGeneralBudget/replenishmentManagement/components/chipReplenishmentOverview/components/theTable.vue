@@ -15,7 +15,7 @@
             v-model="onlySeeMySelf"
             class="margin-right10"
             @change="showOnlyMyselfData($event)"
-            active-color="#1660F1"
+            active-color="#67C23A"
             inactive-color="#cccccc"
           >
           </el-switch>

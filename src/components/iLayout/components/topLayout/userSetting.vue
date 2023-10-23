@@ -277,7 +277,7 @@ export default {
 
         &:hover,
         &.active {
-          border-left: 3px solid #1660f1;
+          border-left: 3px solid #67C23A;
           font-weight: bold;
           background: rgba(22, 96, 241, 0.08);
         }

@@ -22,7 +22,7 @@
           <el-switch
             @change="handleLine"
             v-model="isLine"
-            active-color="#1660F1"
+            active-color="#67C23A"
             inactive-color="#cacccd"
           >
           </el-switch>

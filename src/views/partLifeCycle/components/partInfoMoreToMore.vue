@@ -215,7 +215,7 @@ export default {
     .line {
       width: 293px;
       height: 0;
-      border: 2px solid #1660F1;
+      border: 2px solid #67C23A;
       opacity: 1;
     }
 
@@ -243,7 +243,7 @@ export default {
         background: #C9DCFF;
 
         > div {
-          background: #1660F1;
+          background: #67C23A;
         }
       }
     }

@@ -235,7 +235,7 @@ export default {
 	}
 	.put-ques {
 		height: 44px;
-		background: #1660F1;
+		background: #67C23A;
 		opacity: 1;
 		border-radius: 4px;
 		padding-left: 20px;
